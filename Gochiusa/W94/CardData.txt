@@ -1,0 +1,606 @@
+
+Character: GU/W94-001
+Name Swung around, Syaro
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleur De Lapin
+Trait2 Sing For You
+Auto: OnUseAct
+{
+	GainSoul 1
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an Act, this card gets +1 soul until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		RevealUpTo Deck 4
+		ChooseCardsFromTargets 0 1 IsCharacter && NameContains Syaro|Chiya
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from top of your deck, search for up to 1 character with either "Syaro" or "Chiya" in name, reveal it, put it in your hand, and put the rest in the waiting room.
+EndCard
+
+Character: GU/W94-003
+Name Sing For You, Syaro & Rize
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Fleur De Lapin
+Trait2 Sing For You
+Auto: OnUseAct
+{
+	SetXToNumberOfCharacters Other && NameContains Syaro|Chiya
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an act ability, this card gains +X power until end of turn. X is equal to 500 times the number of your other characters with either "Syaro" or "Chiya" in it's card name.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: GU/W94-004
+Name Sing For You, Syaro
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Fleur De Lapin
+Trait2 Sing For You
+Cont: InHand
+{
+	If StageContains 4 IsCharacter && NameContains Syaro|Chiya
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more characters with either "Syaro" or "Chiya" in it's card name, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	Repeat 2
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets_Optional
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, perform the following action 2 times. "You may choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1."
+EndCard
+
+Character: GU/W94-018
+Name Dress up, Chiya
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Ama Usa An
+Trait2 Sing For You
+Auto: OnUseAct
+{
+	If StageContains 1 Other && IsCharacter && NameContains Syaro|Chiya
+	{
+		GainPower 2000
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an act ability, if you have another characters with either "Syaro" or "Chiya" in it's card name., this card gets +2000 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	TargetOther
+	IfThatCard NameContains Syaro|Chiya
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other characters with either "Syaro" or "Chiya" in it's card name is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: GU/W94-020
+Name Sing For You, Chiya
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Ama Usa An
+Trait2 Sing For You
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+*ClimaxExchange
+EndCard
+
+Character: GU/W94-023
+Name Sing For You, Cocoa & Chiya
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Ama Usa An
+Trait2 Sing For You
+Auto: OnPlay
+{
+	SearchDeck IsCharacter && NameContains Syaro|Chiya
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to one characters with either "Syaro" or "Chiya" in it's card name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	PayCost 2 Discard 2 Any
+	{
+		Burn 2
+	}
+}
+Text Auto: [(2) Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: GU/W94-031
+Name Puku Face, Chiya
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Ama Usa An
+Trait2 Wagashi
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		SearchDeck IsCharacter && NameContains Syaro|Chiya
+	}
+}
+Text Auto: [Put 1 card from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to one characters with either "Syaro" or "Chiya" in it's card name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnReversed
+{
+	TargetLocation OpponentClock
+	If HasTarget
+	{
+		TargetBattleOpponent
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		IfThatCard Compare ThatCardsLevel X OrMore && OnStage
+		{
+			Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+			If Yes
+			{
+				TargetTop OpponentClock 1
+				MoveCard OpponentWaitingRoom
+				TargetBattleOpponent
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: GU/W94-035
+Name Swung around, Rize
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Rabbit House
+Trait2 Sing For You
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Rabbit House
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placded on stage from your hand, reveal the top card of your deck. If that card is a <Rabbit House> character, choose one of your characters and that character gains +2000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 Level 1 or lower character, put it into your hand, and shuffle your deck. 
+EndCard
+
+Character: GU/W94-037
+Name Trick or Treat, Mocha & Chino & Cocoa
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Rabbit House
+Trait2 Dear My Sister
+Cont: InHand
+{
+	If StageContains 4 IsCharacter && HasTrait Rabbit House|Dear My Sister
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more <Rabbit House> or <Dear My Sister> characters, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 3500
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				IfOther Compare ThatCardsLevel 2 OrHigher
+				{
+					PayCost 1
+					{
+						SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+						RevealTargets
+						MoveCard Hand
+					}
+				}
+			}
+			Text Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed, you may pay the cost. If you do, Choose up to 1 characters in your waiting room, return them to your hand.
+		}
+	}
+}
+Text Cont: During your turn, this card gets +3500 power and the following ability. "Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed, you may pay the cost. If you do, choose up to 1 characters from your waiting room, and return it to your hand."
+*StockHealer
+EndCard
+
+Character: GU/W94-038
+Name Dress up, Cocoa
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Rabbit House
+Trait2 Sing For You
+*GainPowerWithEnoughCharacters(3000,2,Rabbit House)
+*Healer
+Auto: OnPlay|OnAttack
+{
+	PayCost Discard 1 IsCharacter && HasTrait Rabbit House
+	{
+		MillOpponent 9
+	}
+}
+Text Auto: [Put 1 <Rabbit House> character from your hand into your waiting room] When this card is placed on the stage from your hand or attacks, you may pay the cost. If you do, your opponent puts the top 9 cards of their deck into their waiting room.
+EndCard
+
+Character: GU/W94-040
+Name Sing For You, Cocoa
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Rabbit House
+Trait2 Sing For You
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 IsCharacter && HasTrait Rabbit House
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		*CheckAndAdd(X)
+	}
+}
+Text Auto: [(1) Put 1 <Rabbit House> character from your hand into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 from among them, show it to your opponent, add it to hand, and send the rest to waiting room. X equals the number of your opponent's characters.
+*OnPlayTradeClimaxForCharacter(Rabbit House)
+EndCard
+
+Character: GU/W94-044
+Name Sing For You, Rize
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Rabbit House
+Trait2 Sing For You
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Rabbit House
+		RevealTargets
+		MoveCard Hand
+		*GiveOtherCharacterPower(1000,Rabbit House)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Rabbit House> character in your waiting room, return it to your hand, choose 1 of your other <Rabbit House> characters, and that character gets +1000 power until end of turn.
+*RedLevel1Bomb
+EndCard
+
+Character: GU/W94-071
+Name Sing For You, Saki
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Rabbit House
+Trait2 Sing For You
+Cont: Memory 
+{
+	If NameEquals Sing For You, Chino
+	{
+		GainPower 500
+	}
+}
+Text Cont: MEMORY If this card is in your memory, All of your other "Sing For You, Chino" get +500 power,
+Act: 1 SendSelf Memory
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Sing For You, Chino
+	RevealTargets
+	MoveCard Hand
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(1) Put this standing character into your memory] Choose 1 "Sing For You, Chino" in your waiting room, and return it to your hand.
+EndCard
+
+Character: GU/W94-072
+Name Sing For You, Chino
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rabbit House
+Trait2 Sing For You
+Combo Sing For You
+*Healer
+Auto: OnAttack
+{
+	If Climax Sing For You &&& LocationContains Memory 2 NameEquals Sing For You, Saki
+	{
+		PayCost 1 Discard 2 Any
+		{
+			TargetLocation Stage
+			NarrowTargets IsCharacter && IsColor Blue || IsCharacter && HasTrait Rabbit House
+			SetXValue TargetCount
+			Message Choose cards to return to your opponent's deck.
+			SearchLocationForTargets OpponentWaitingRoom 0 X Any
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [(1) Put 2 cards from your hand into your waiting room] When this card attacks, if "《Sing For You》" is in your climax area, and 2 and more "Sing For You, Saki" is in your memory, you may pay the cost. If you do, choose up to X cards in your opponent's waiting room, return them to their deck, your opponent shuffles their deck, and you deal 2 damage to your opponent. X is equal to the number of your BLUE or《Rabbit House》characters you have."
+EndCard
+
+Character: GU/W94-073
+Name Sing For You, Chimame Corps
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Rabbit House
+Trait2 Sing For You
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of cards in your hand is five or more, this card gets +2000 power.
+Auto: OnOpponentReverse
+{
+	SearchLocationForTargets WaitingRoom 1 1 IsColor Blue && IsCharacter || IsCharacter && HasTrait Rabbit House
+	RevealTargets
+	MoveCard Hand
+	Discard 1 Any
+}
+Text Auto: When this card's battle opponent becomes reversed, choose 1 BLUE or <Rabbit House> character in your waiting room, return it to your hand, choose 1 card in your hand, and put it in your waiting room.
+EndCard
+
+Character: GU/W94-076
+Name Swung around, Chino
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Rabbit House
+Trait2 Sing For You
+Cont: Assist
+{
+	If IsColor Blue || HasTrait Rabbit House
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST All of your BLUE or <Rabbit House> characters in front of this card get +X power. X is equal to that character's level ×500.
+Auto: OnPlay
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Sing For You, Saki
+		MoveCard Memory
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or less cards in your memory, you may choose 1 "Sing For You, Saki" in your waiting room, and put it into your memory.
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		PayCost Discard 1 Any
+		{
+			*CheckAndAdd(2)
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with gate in its trigger icon, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: GU/W94-077
+Name Relax time, Maya
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Double Tooth
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 4 Other && IsColor Blue && IsCharacter
+	{
+		GainPower 5000
+		GainSpecialEffect NoBackupOnAttack
+		GainSpecialEffect NoEventsOnAttack
+	}
+}
+Text Cont: During your turn, if you have 4 or more other blue characters, this card gets +5000 power and the following ability. "Cont: During this card’s battle, your opponent cannot play event cards and "BACKUP" from hand."
+Auto: OnPlay
+{
+	Peek Deck 3
+	Reorder
+	EndPeek
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets_Optional Choose a character to return to your opponent's hand
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+Character: GU/W94-078
+Name Relax time, Megu
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Ballet
+Cont: InHand
+{
+	If StageContains 4 IsColor Blue
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more BLUE characters, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If Compare Experience 6 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level zone is 6 or more, this gets +1500 power.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 2 IsCharacter && IsColor Blue
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, look at up to 4 cards from the top of your deck, choose up to 2 BLUE characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Climax: GU/W94-098
+Name Sing For You
+*GateClimax
+EndCard
+
+Character: GU/W94-P01
+Name Chino & Cocoa & Chiya & Syaro & Rize
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Rabbit House
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		Bounce
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. Then, choose one of your opponent's characters and return it to their hand.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets ColorIs Blue || HasTrait Rabbit House
+	ChooseCharacterFromTargets
+	GainPower 1500
+}
+Text Auto: When this card attacks, you choose one of your blue or "Rabbit House" characters, and that character gets +1500 power for the duration of the turn.
+EndCard
+
+Character: GU/W94-P02
+Name Dress Up, Chimame Corps
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Rabbit House
+Trait2 Sing For You
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. Then, return all the cards in your waiting room to your deck and shuffle the deck.
+EndCard
