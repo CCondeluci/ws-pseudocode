@@ -1,0 +1,698 @@
+Character: PQ/SE21-01
+Name "Yaso High Group" P4 Protagonist
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Magic
+Trait2 Weapon
+Combo Those Who Challenge the Mystery
+Auto: OnSpecificClimaxPlay Those Who Challenge the Mystery
+{
+	If InLocation CenterStage
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && Compare ThatCardsCost 0 OrLess
+		{
+			Question Put the revealed card on stage?
+			If Yes
+			{
+				PlaceOnStage False True True False
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Those Who Challenge the Mystery" is placed on your climax area, if this card is in the center stage, reveal the top card of your deck. If that card is a cost 0 or lower character, you may put that character in any position on the stage.
+Auto: OnDamageCancel
+{
+	PayCost 1
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1)] When the damage dealt by this card is canceled, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: PQ/SE21-02
+Name "Gekkou High Group" P3 Protagonist
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Headphones
+Combo Those Who Challenge the Mystery
+*Healer
+Auto: OnAttack
+{
+	If Climax Those Who Challenge the Mystery
+	{
+		GainPower 1000
+		GainSoul 1
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				*OptionalBurn(1)
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Those Who Challenge the Mystery" is in your climax area, until the end of turn, this card gets +1000 power, +1 soul, and the following ability. "Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may deal 1 damage to your opponent." 
+EndCard
+
+Character: PQ/SE21-03
+Name "Gekkou High Group" Amada
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Magic
+Trait2 Weapon
+Auto: OnReversed 
+{
+	If MyTurn
+	{
+		TargetBattleOpponent
+		IfTarget Compare ThatCardsLevel 1 OrLess
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+Text Auto: During your turn, when this card becomes reversed, if the level of the battle opponent of this card is 1 or lower, you may reverse that character.
+EndCard
+
+Character: PQ/SE21-04
+Name "Morning" Nanako
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Junes
+Trait2 Television
+*GainPowerWithEnoughCharacters(1000,2,Junes)
+EndCard
+
+Character: PQ/SE21-05
+Name "Yaso High Group" Yosuke
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Junes
+Trait2 Headphones
+Auto: OnUseThisCardsBackup
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Junes
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: When you use this card's BACKUP, reveal the top card of your deck. If it's a «Junes» character, choose 1 of your characters in battle, and that character gets +1000 power until end of turn. 
+Backup 2500
+EndCard
+
+Character: PQ/SE21-06
+Name "Gekkou High Group" Koromaru
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Animal
+Trait2 Weapon
+*OnPlayGainPowerForEach(500,Magic|Weapon)
+EndCard
+
+Event: PQ/SE21-07
+Name Shadow of the Labyrinth
+Color Y
+Level 3
+Cost 9
+Effect: 
+{
+	TargetLocation Stage
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			PayCost 2
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					MoveCard OpponentMemory
+				}
+				TargetLocation Backstage
+				ChooseCharacterFromTargets
+				AddSelfToTargets
+				Exchange
+			}
+		}
+		TimesPerTurn 1
+		Text Auto: [(2)] This ability activates up to once per turn. When this card's battle opponent becomes reverse, you may pay the cost. If you do, send that battle opponent to memory, and exchange this card with 1 of your backstage characters.
+	}
+}
+Text All of your characters gain the following ability until the end of turn. "Auto: [(2)] This ability activates up to once per turn. When this card's battle opponent becomes reverse, you may pay the cost. If you do, send that battle opponent to memory, and exchange this card with 1 of your backstage characters."
+EndCard
+
+Climax: PQ/SE21-08
+Name Those Who Challenge the Mystery
+*WindClimax
+EndCard
+
+Character: PQ/SE21-09
+Name "Gekkou High Group" Fuuka
+Color G
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Magic
+*500Assist
+*Act1Rest2SearchBrainstorm(Magic|Weapon)
+EndCard
+
+Character: PQ/SE21-10
+Name Lost Memories, Zen & Rei
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Hungry
+Trait2 Weapon
+Combo Someone to Protect
+Auto: OnAttack
+{
+	If Climax Someone to Protect
+	{
+		PayCost HandClock NameEquals Mysterious Couple, Rei & Zen
+		{
+			SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+			If HasTarget
+			{
+				RevealTargets
+				MoveCard OpponentMemory
+				TargetSelf
+				GainPower 4000
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Mysterious Couple, Rei & Zen" from hand in clock] When this card attacks, if "Someone to Protect" is in your climax area, you may pay the cost. If you do, choose 1 card in your opponent's waiting room and send it to memory, and this card gets +4000 power until end of turn.
+EndCard
+
+Character: PQ/SE21-11
+Name Mysterious Couple, Rei & Zen
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Hungry
+Trait2 Weapon
+Cont: GiveSelf
+{
+	TargetLocation OpponentMemory
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: MEMORY For each card in your opponent's memory, this card gets +500 power.
+Auto: OnAttack
+{
+	TargetLocation OpponentMemory
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetTop OpponentDeck 1
+		Message Viewing the top card of opponent's deck.
+		View
+		MultipleChoiceQuestion Put it on the top or bottom of your opponent's deck?|Top|Bottom
+		If Answer 0
+		{
+			MoveCard OpponentDeck
+		}
+		If Answer 1
+		{
+			MoveCardToBottom OpponentDeck
+		}
+
+	}
+}
+Text Auto: MEMORY When this card attacks, if there's a climax in your opponent's memory, look at the top card of your opponent's deck and put it either on top or bottom of the deck.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn &&& LocationContains OpponentMemory 1 Any
+	{
+		PayCost 1 Clock
+		{
+			Burn 4
+		}
+	}
+}
+Text Auto: MEMORY [(1) Put the top card of your deck in your clock] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reverse, if there is a card in your opponent's memory, you may pay the cost. If you do, deal 4 damage to your opponent. 
+EndCard
+
+Character: PQ/SE21-12
+Name "Yaso High Group" Chie
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sports
+Trait2 Magic
+*500Assist
+Cont: GiveSelf
+{
+	If LocationContains OpponentMemory 1 Any
+	{
+		GainEffect
+		{
+			*RestGivePower(1000,Any)
+		}
+	}
+}
+Text Cont: MEMORY If there is a card in your opponent's memory, this card gets the following ability. "Act: [Rest this card] Choose 1 of your characters, and that character gets +1000 power until end of turn."
+EndCard
+
+Character: PQ/SE21-13
+Name "Yaso High Group" Aigis
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Mecha
+Trait2 Weapon
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Mecha || NameContains Protagonist
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			GainPower 1500
+		}
+	}
+}
+Text Auto: [Put this card in the waiting room] When your other character with either «Mecha» or "Protagonist" in its card name is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, and that character gets +1500 power until end of turn.
+Act: 1 Discard 1 Any
+{
+	GainPower 6000
+}
+Text Act: [(1) Put 1 card from hand to the waiting room] This gets +6000 power until end of turn.
+EndCard
+
+Character: PQ/SE21-14
+Name "Yaso High Group" Rise
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Music
+Trait2 Television
+Auto: OnReversed
+{
+	Mill 1
+	IfTarget IsCharacter && Compare ThatCardsLevel 0 OrLess
+	{
+		TargetSelf
+		If OnStage
+		{
+			Question Put this card into your stock?
+			If Yes
+			{
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, put the top card of your deck in the waiting room. If it's a level 0 or lower character, you may put this card in stock.
+EndCard
+
+Event: PQ/SE21-15
+Name Time to Rest
+Color G
+Level 2
+Cost 1
+Effect: 
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Weapon
+	ChooseCharacterFromTargets
+	GainPower 4500
+}
+Text Choose 1 of your characters with either «Magic» or «Weapon», and that character gets +4500 power until end of turn.
+EndCard
+
+Climax: PQ/SE21-16
+Name Someone to Protect
+*BarClimax
+EndCard
+
+Character: PQ/SE21-17
+Name "Yaso High Group" Kanji
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Delinquent
+Trait2 Magic
+Auto: OnAttack|OnFrontalAttacked
+{
+	Mill 1
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		TargetSelf
+		GainEffect
+		{
+			*RedCost0Bomb
+		}
+	}
+}
+Text Auto: When this card attacks or is frontal attacked, put the top card of your deck in the waiting room. If that card is level 1 or higher, until the end of turn, this card gets the following ability. "Auto: When this card becomes reversed, if the cost of the battle opponent of this card is 0 or lower, you may reverse that character." 
+EndCard
+
+Character: PQ/SE21-18
+Name "Gekkou High Group" Junpei
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Magic
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	TargetLocation OpponentMemory
+	If HasTarget
+	{
+		TargetMyCharacterInBattle
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: MEMORY When you use this card's BACKUP, if there is a card in your opponent's memory, choose 1 of your characters in battle, and that character gets +1500 power until end of turn.
+Backup 1500
+EndCard
+
+Character: PQ/SE21-19
+Name "Yaso High Group" Yukiko
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Fan
+Trait2 Magic
+*GlobalPower(500,Fan|Yukata)
+Act: RestSelf
+{
+	TargetLocation OpponentStage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets
+	Rest
+}
+Text Act: [Rest this card] Choose 1 of your opponent's standing characters and Rest it.
+EndCard
+
+Character: PQ/SE21-20
+Name "Gekkou High Group" Akihiko
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Magic
+Trait2 Sports
+Auto: OnReverseOpponent
+{
+	PayCost 1
+	{
+		TargetBattleOpponent
+		If OnStage
+		{
+			MoveCard OpponentMemory
+		}
+	}
+}
+Text Auto: [(1)] When this card's battle opponent becomes reverse, you may pay the cost. If you do, send that character to memory.
+*RedLevel1Bomb
+EndCard
+
+Character: PQ/SE21-21
+Name "Gekkou High Group" Shinjiro
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+*GainPowerWhenOtherAttacks(1000,Magic|Weapon)
+*ClockEncore
+EndCard
+
+Character: PQ/SE21-22
+Name "Yaso High Group" Teddie
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Shadow
+Trait2 Animal
+Auto: OnReversed
+{
+	If Not MyTurn
+	{
+		TargetBattleOpponent
+		IfTarget Compare ThatCardsCost 0 OrLess
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+Text Auto: During your opponent's turn, when this card becomes reversed, if the cost of the battle opponent of this card is 0 or lower, you may reverse that character.
+EndCard
+
+Character: PQ/SE21-23
+Name "Yaso High Group" Naoto
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Male Dressing
+Trait2 Detective
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put 1 card from hand to the waiting room] When this card attacks, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: PQ/SE21-24
+Name "Resident of the Velvet Room" Elizabeth
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Magic
+Trait2 Infirmary
+Combo Noisy Dining
+*LevelAssist
+Auto: OnSpecificClimaxPlay Noisy Dining
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 2000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may draw a card.
+	}
+}
+Text Auto: CxCombo [(1)] When "Noisy Dining" is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and until end of turn, that character gets +2000 power and the following ability. "Auto: When this card's battle opponent becomes reverse, you may draw a card."
+EndCard
+
+Character: PQ/SE21-25
+Name "Gekkou High Group" Yukari
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Magic
+Trait2 Weapon
+*GlobalPower(500,Magic|Weapon)
+EndCard
+
+Character: PQ/SE21-26
+Name "Resident of the Velvet Room" Theodore
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Magic
+Trait2 Smithing
+Cont: GiveAll
+{
+	If Not MyTurn
+	{
+		If Other
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: During your opponent's turn, all your other characters get +500 power.
+Act: 1 RestSelf
+{
+	PayCost Send 1 WaitingRoom Other
+	{
+		TargetSentToPayCost
+		SaveTargets
+		SearchDeck SameTraitAsSavedTarget
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your other characters and put it in the waiting room. If you do, search your deck for up to 1 character that shares at least 1 trait as the character put in the waiting room this way, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: PQ/SE21-27
+Name "Gekkou High Group" Mitsuru
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Magic
+Trait2 Student Council
+Cont: GiveSelf
+{
+	If Compare CardsInHand 6 OrMore
+	{
+		GainLevel 1
+		GainPower 1000
+	}
+}
+Text Cont: If there are 6 or more cards in your hand, this card gets +1 level and +1000 power.
+EndCard
+
+Character: PQ/SE21-28
+Name "Resident of the Velvet Room" Marie
+Color B
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Poem
+Trait2 God
+Cont: InHand
+{
+	If LocationContainsOrLess WaitingRoom 1 IsClimax
+	{
+		GainSpecialEffect CannotBePlayed
+	}
+}
+Text Cont: If you have 1 or less climax cards in your waiting room, you cannot play this card from your hand.
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, this card gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: PQ/SE21-29
+Name "Resident of the Velvet Room" Margaret
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Book
+Trait2 Magic
+Combo Noisy Dining
+Auto: OnAttack
+{
+	If Climax Noisy Dining
+	{
+		PayCost Send 1 WaitingRoom Other && InLocation CenterStage
+		{
+			Peek Deck 2
+			Message Choose up to 1 character to put on stage Rested.
+			ChooseCardsFromTargets 1 1 IsCharacter
+			PlaceOnStage True True True False
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Choose 1 of your other center stage characters and put it in the waiting room] When this card attacks, if "Noisy Dining" is in your climax area, you may pay the cost. If you do, look at up to 2 cards from the top of your deck and search for up to 1 character and put it Rested in an open position on the stage, and put the rest into your waiting room.
+EndCard
+
+Climax: PQ/SE21-30
+Name Noisy Dining
+*GateClimax
+EndCard
+
+Character: PQ/SE21-31
+Name "Specialized Extracurricular Execution Squad" P3 Protagonist
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Magic
+Trait2 Headphone
+*GainPowerWithEnoughCharacters(1500,2,Magic|Weapon)
+EndCard
+

@@ -1,0 +1,354 @@
+Character: LSS/WE39-004
+Name "Knowledge Helps the Young" Hanamaru Kunikida
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnTriggerCheckClimax
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Auto: When your character's trigger check reveals a climax card, choose 1 of your characters, and that character gets +2000 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchWaitingRoom IsCharacter && IsColor Yellow
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, choose up to 1 Yellow character in your waiting room and return it to your hand.
+EndCard
+
+Character: LSS/WE39-005
+Name Rain of the Fallen Angel, Yoshiko Tsushima
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnAttackGivePower(500,Any)
+*MillRunner(Music)
+EndCard
+
+Character: LSS/WE39-007
+Name It'd Be Nice if My Wish Comes True, Hanamaru Kunikida
+Color Y
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Cont: GiveAll
+{
+	If MyTurn && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all your other «Music» characters get +1000 power.
+Act: 2 RestSelf
+{
+	*CheckAndAdd(2)
+}
+Text Act: [(2) Rest this card] Look at up to 2 cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LSS/WE39-009
+Name "Ruby's Endorsement" Ruby Kurosawa
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Music
+	MillOpponent X
+}
+Text Auto: When you use this card's BACKUP, your opponent puts the top X cards of their deck in their waiting room. X equals the number of your «Music» characters.
+Backup 3000
+EndCard
+
+Character: LSS/WE39-012
+Name Your Lap Pillow Is Nice, Ruby Kurosawa
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Music
+*GainPowerForEachOther(1000,Music)
+*HandEncore
+EndCard
+
+Character: LSS/WE39-014
+Name "Servant Creating Power" Yoshiko Tsushima
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo MIRAI TICKET
+Auto: OnSpecificClimaxPlay MIRAI TICKET
+{
+	GainPower 2000
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			*OptionalHeal
+		}
+		Text Auto: When this card's battle opponent becomes reverse, you may put the top card of your clock in the waiting room.
+	}
+}
+Quick
+Text Auto: CxCombo When "MIRAI TICKET" is placed on your climax area, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may put the top card of your clock in the waiting room."
+*MusashiEffect
+EndCard
+
+Character: LSS/WE39-026
+Name Full Speed Ahead!!, You Watanabe
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: LSS/WE39-029
+Name "Beeping Melody" Riko Sakurauchi
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+*OnPlayGivePower(1500,Music|Animal)
+*RedLevel1Bomb
+EndCard
+
+Character: LSS/WE39-035
+Name Aiming for Your Heart, Chika Takami
+Color R
+Level 1
+Cost 1
+Power 5000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	TargetLocation Facing
+	If Compare TargetCardsCost 0 OrLess
+	{
+		GainLevel 1
+		GainPower 3500
+	}
+}
+Text Cont: If the cost of the character facing this card is 0 or lower, this card gets +1 level and +3500 power.
+EndCard
+
+Character: LSS/WE39-036
+Name "Sharing Energy" You Watanabe
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Music
+*CannotBeReversedByCost0
+EndCard
+
+Character: LSS/WE39-039
+Name "It's Alive!" Chika Takami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && Compare ThatCardsLevel 0 OrLess
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a level 0 or lower character, put it in your stock. 
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: LSS/WE39-040
+Name Waiting for You, Riko Sakurauchi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*OnPlayGainPowerForEach(500,Music)
+Auto: OnPlay
+{
+	PayCost Rest 1 CardPosition Stand
+	{
+		Message Choose a card to not refresh into your deck
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentScryArea
+		OpponentRefresh
+		TargetLocation OpponentScryArea
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [Rest 1 of your standing characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent chooses a climax in their waiting room, returns all cards in their waiting room except the chosen card to the deck, and shuffles that deck.
+Act: Discard 1 Any
+{
+	*GiveCharacterPower(2500,Music)
+}
+Text Act: [Put 1 card from your hand to the waiting room] Choose 1 of your «Music» characters, and that character gets +2500 power until end of turn.
+EndCard
+
+Character: LSS/WE39-044
+Name "New Feelings" Dia Kurosawa
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*OnPlayCheckTopAddDiscard(Music)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: LSS/WE39-046
+Name Shall We Dance?, Mari Ohara
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 2 or more, you may draw a card. If you do, discard a card from your hand to the waiting room.
+*DropSearch(Music)
+EndCard
+
+Character: LSS/WE39-051
+Name Secret Between the Two, Kanan Matsuura
+Color B
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*BackupBonus1000(Music)
+Backup 1000
+EndCard
+
+Character: LSS/WE39-053
+Name "Let's Chat" Mari Ohara
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+*OnPlayScryToBottom
+*OnAttackGainPowerForEachOther(1000,Music)
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If it's level 2 or higher, you may return this card to your hand. 
+EndCard
+
+Character: LSS/WE39-056
+Name Kissed by Rouge, Dia Kurosawa
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another «Music» character, this card gets +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 HasTrait Music && Other && CardPosition Stand
+		{
+			SearchDeck HasTrait Music && IsCharacter
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other standing «Music» characters] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LSS/WE39-058
+Name "Spring Sea Wind" Kanan Matsuura
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+*Level3Assist
+Act: Rest 2 HasTrait Music
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest 2 of your «Music» characters] Draw a card, and discard a card from your hand to the waiting room.
+EndCard
+

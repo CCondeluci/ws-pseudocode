@@ -1,0 +1,2707 @@
+Character: LOD/S74-001
+Name Faithful Saint, Sandra
+JPName 信仰篤き聖者 サンドラ
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Heal
+Auto: OnPlay
+{
+    PayCost 1 Clock
+    {
+        SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it, put it in your hand, and shuffle your deck.
+Auto: OnAttack
+{
+    Question Put the top card of your deck into waiting room ?
+    If Yes
+    {
+        Mill 1
+        IfTarget IsClimax
+        {
+            DrawCard
+            Discard 1 Any
+        }
+    }
+}
+Text Auto: When this card attacks, you may put the top card of your deck in the waiting room. If it's a climax card, draw a card, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: LOD/S74-002
+Name Invisible Blade, Lycoris
+JPName 見えざる刃 リコリス
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Adventurer
+Trait2 Mystery
+Combo Flower of Death
+Cont: GiveSelf
+{
+    If StageContains 1 HasMarkerWhere Not FaceDown
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have a character with a face up marker underneath, this card gets +2000 power.
+Auto: OnAttack
+{
+    If Climax Flower of Death && StageContains 1 Other && HasTrait Adventurer
+    {
+        RevealUpTo Deck 4
+        ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Adventurer || NameEquals "Item" Knight's Steel Shoes
+        RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Flower of Death" is in your climax area and you have another «Adventurer» character, look at up to the top 4 cards of your deck, choose an «Adventurer» character or an '"Item" Knight's Steel Shoes' among them, reveal it, put it in your hand, and put the rest into waiting room.
+EndCard
+
+Character: LOD/S74-003
+Name Guardian Angel of Aurora, Fel
+JPName アウロラの守護天使 フェル
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Trait2 Angel
+Combo Soul of a Guardian Angel
+*GainPowerWithEnoughCharacters(2000,2,Adventurer)
+*MusashiEffect
+Auto: OnReverseOpponent
+{
+    If Climax Soul of a Guardian Angel
+    {
+        PayCost 2 Discard 1 NameEquals Guardian Angel of Aurora, Fel
+        {
+            Stand
+        }
+    }
+}
+Text Auto: CxCombo [(2) Put a "Guardian Angel of Aurora, Fel" from your hand to the waiting room] This ability activates up to once per turn. When this card's battle opponent becomes reverse, if "Soul of a Guardian Angel" is in your climax area, you may pay the cost. If you do, stand this card.
+EndCard
+
+Character: LOD/S74-004
+Name Ruler of the Town on the Border Between Worlds, Persephone
+JPName 幽明郷を統べる者 ペルセポネー
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Undead
+Auto: OnAttack
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsCharacter && HasTrait Adventurer
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If it's an «Adventurer» character, this card gets +2000 power until end of turn.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: LOD/S74-005
+Name Angel Who Lost her Memory, Fel
+JPName 記憶を失った天使 フェル
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Angel
+*MoveOtherWithTraitToBackstageOnReverse(Adventurer)
+EndCard
+
+Character: LOD/S74-006
+Name Diva of Aurora, Muse
+JPName アウロラの歌姫 ミューズ
+Color Y
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Music
+*BackupBonus1000(Adventurer)
+Backup 1000
+EndCard
+
+Character: LOD/S74-007
+Name Rude Poison-tongued Maid, Charlotte
+JPName 慇懃無礼な毒舌メイド シャルロット
+Color Y
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Maid
+Cont: GiveAll
+{
+    If MyTurn && Other && HasTrait Adventurer
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your turn, all your other «Adventurer» characters get +1000 power.
+Act: Discard 1 NameContains アイテム &&& RestSelf
+{
+    DrawCard
+}
+Text Act: [Put an event with "Item" in the name from hand to the waiting room, rest this card] Draw a card.
+EndCard
+
+Character: LOD/S74-008
+Name King Selected by the Holy Staff, Isabella
+JPName 聖杖に選定されし王 イザベラ
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Heal
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+    SearchWaitingRoom NameEquals Guardian Angel of Aurora, Fel
+    TargetSelf
+    GainPower 3000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 "Guardian Angel of Aurora, Fel" in your waiting room, return it to hand, and this card gets +3000 power until end of turn.
+Auto: OnAttack
+{
+    If StageContains 4 Other && HasTrait Adventurer
+    {
+        *GiveCharacterPower(3000,Any)
+    }
+}
+Text Auto: When this card attacks, if the number of other «Adventurer» characters you have is 4 or more, choose 1 of your characters, and that character gets +3000 power until end of turn.
+EndCard
+
+Character: LOD/S74-009
+Name Proof of Power, Lycoris
+JPName 力の証明 リコリス
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Mystery
+*500Assist
+*Act1SalvageBrainstorm(Adventurer)
+EndCard
+
+Character: LOD/S74-010
+Name Flower Priestess, Violelle
+JPName 花の祭司 ヴィオリール
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Flower
+*OnAttackGiveOtherPower(1000,Adventurer)
+*YellowLevel0Bomb
+EndCard
+
+Character: LOD/S74-011
+Name Technical Advisor to Binan, Schrodinger
+JPName ビナンの技術顧問 シュレディンガー
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Smithing
+*GlobalPower(500,Adventurer)
+Act: 1 SendSelf WaitingRoom
+{
+    SearchWaitingRoom NameEquals "Item" Knight's Steel Shoes
+}
+Text Act: [(1) Put this card in the waiting room] Choose an '"Item" Knight's Steel Shoes' in your waiting room and return it to your hand.
+EndCard
+
+Character: LOD/S74-012
+Name Cecilia. Supreme Archbishop
+JPName 至高の大司教 セシリア
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Adventurer
+Trait2 Heal
+*YellowEarlyPlayBomb
+EndCard
+
+Character: LOD/S74-013
+Name Blood Mist Assassin, Jack
+JPName 血霧の刺客 ジャック
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: LOD/S74-014
+Name Shimmering Sunlight, Yuna
+JPName きらめく陽光 ユナ
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnAttack
+{
+    If LocationContains Marker 1 ColorIs Yellow
+    {
+        *GiveOtherCharacterPower(2000,Adventurer)
+        GainSoul 1
+    }
+}
+Text Auto: When this card attacks, if there is a Yellow marker underneath this card, choose 1 of your other «Adventurer» characters, and until end of turn that character gets +2000 power and +1 soul.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: LOD/S74-015
+Name Ice-Cold Throne of Tendo Shrine, Alicia
+JPName 天道宮の寒氷王座 アリシア
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Ice
+Combo Power of the Six Thrones
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        *GiveCharacterPower(1500,Any)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in your waiting room. If there were at least 1 climax among them, choose 1 of your characters, and that character gets +1500 power until end of turn.
+Auto: OnOtherAttacks
+{
+    If Climax Power of the Six Thrones && InLocation CenterStage
+    {
+        Question Give -1 soul to the attacking character ?
+        If Yes
+        {
+            TargetOther
+            LoseSoul 1
+            GainPower 2000
+        }
+    }
+}
+Text Auto: CxCombo When your character attacks, if "Power of the Six Thrones" is in your climax area and this card is in the center stage, you may give -1 soul until end of turn to the attacking character. If you do, the attacking character gets +2000 power until end of turn.
+EndCard
+
+Character: LOD/S74-016
+Name World Explorer, Marque
+JPName 世界の探索者 マルク
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Auto: OnAttack
+{
+    If StageContains 2 Other && HasTrait Adventurer
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card attacks, if the number of other «Adventurer» characters you have is 2 or more, this card gets +2000 power until end of turn.
+Auto: OnTriggerCheck
+{
+    IfOther HasTrigger Soul
+    {
+        GainSoul 1
+    }
+}
+Quick
+Text Auto: When this card's trigger check reveals a soul icon, this card gets +1 soul until end of turn.
+EndCard
+
+Character: LOD/S74-017
+Name Veteran of Heavy Battle, Bradley
+JPName 百戦錬磨の重装戦士 ブラッドレー
+Color Y
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+*CannotSideAttack
+Auto: OnReversed
+{
+    MoveCardToBottom Deck
+}
+Quick
+Text Auto: When this card becomes reverse in battle, put this card on the bottom of the deck.
+EndCard
+
+Character: LOD/S74-018
+Name Selfish Ice Mage, Katy
+JPName わがまま氷魔道士 カティ
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Adventurer
+Trait2 Ice
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Adventurer
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Adventurer» character, this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+    If PlayedThisTurn
+    {
+        PayCost 1 Resonate Ice-Cold Throne of Tendo Shrine, Alicia
+        {
+            SearchDeck IsCharacter && HasTrait Adventurer
+            *GiveCharacterPower(1000,Any)
+        }
+    }
+}
+Text Auto: RESONATE [(1) Reveal an "Ice-Cold Throne of Tendo Shrine, Alicia" from your hand] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, search your deck for up to 1 «Adventurer» character, reveal it, put it in your hand, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: LOD/S74-019
+Name Lazy Void Mage, Nelfer
+JPName 怠惰な虚無魔道士 ネルファー
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Void
+Auto: OnAttack
+{
+    If StageContains 1 Other && HasTrait Adventurer
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card attacks, if the number of other «Adventurer» characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: LOD/S74-020
+Name Longing for the Sky, Sylphin
+JPName 大空への憧れ シルフィン
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Magic
+*LevelAssist
+*ClimaxExchange
+EndCard
+
+Character: LOD/S74-021
+Name Maid-san with Glasses, Ophelia
+JPName 眼鏡のメイドさん オフィーリア
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Adventurer
+Trait2 Maid
+*OnPlayGivePower(1500,Adventurer)
+*OnAttackGivePower(1500,Adventurer)
+Auto: OnReverseOpponent
+{
+    *GiveCharacterPower(1500,Adventurer)
+}
+Text Auto: When this card becomes reversed in battle, choose 1 of your «Adventurer» characters, and that character gets +1500 power until end of turn.
+EndCard
+
+Event: LOD/S74-022
+Name "Item" Knight's Steel Shoes
+JPName “アイテム”騎士の鋼靴
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+    TargetLocation Stage
+    NarrowTargets Not HasMarker
+    ChooseCharacterFromTargets Choose a character to put this card underneath as a marker.
+    SaveTargets
+    TargetSelf
+    MarkerTargetsUnderSavedTarget_FaceUp
+    Mill 1
+    IfTarget Not Compare TargetCardsLevel 2 OrMore || Not IsCharacter
+    {
+        LoadTargets
+        GainSoul 1
+    }
+}
+Text Choose 1 of your characters without marker underneath, put this card face up underneath that card as a marker and put the top card of your deck into waiting room. If that is not a level 2 or higher character, that character gets +1 soul until end of turn.
+Auto: OnSentFromMarkerToWaitingRoom
+{
+    If StageContains 2 HasTrait Adventurer
+    {
+        MoveCard Memory
+    }
+}
+Quick
+InWaitingRoom
+Text Auto: When this card is placed from marker to waiting room, if the number of «Adventurer» characters you have is 2 or more, put this card into memory.
+Auto: StartMainPhase
+{
+    MoveCard Hand
+}
+Quick
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, return it to your hand.
+EndCard
+
+Event: LOD/S74-023
+Name Championship Match
+JPName 王座決定戦
+Color Y
+Level 2
+Cost 0
+Effect:
+{
+    *GiveCharacterPower(2000,Any)
+    Brainstorm 3
+    TargetBrainstormed
+    NarrowTargets IsCharacter
+    SetXValue TotalPower
+    OpponentBrainstorm 3
+    TargetBrainstormed
+    NarrowTargets IsCharacter
+    If Compare X TotalPower OrMore
+    {
+        SearchWaitingRoom IsCharacter && HasTrait Adventurer
+        SearchWaitingRoom IsCharacter && HasTrait Adventurer
+    }
+}
+Text BRAINSTORM If you do not have «Adventurer» this card cannot be played from hand.\nChoose 1 of your characters, and that character gets +2000 power until end of turn.\nBoth players flip over the top 3 cards of their decks and put those cards in their waiting room. If the total power of characters among the cards you placed into the waiting room by this effect is equal to or greater than the total power of characters among the cards your opponent placed into the waiting room by this card effect, choose up to 2 «Adventurer» characters in your waiting room and return them to hand.
+EndCard
+
+Climax: LOD/S74-024
+Name Flower of Death
+JPName 死の花
+*ChoiceClimax
+EndCard
+
+Climax: LOD/S74-025
+Name Soul of a Guardian Angel
+JPName 魂の守護天使
+*ChoiceClimax
+EndCard
+
+Climax: LOD/S74-026
+Name Power of the Six Thrones
+JPName 六王座の力
+*WindClimax
+EndCard
+
+Character: LOD/S74-027
+Name Moody, Cold, Sleepy, Medusa
+JPName 気分屋・寒がり・眠たがり メデューサ
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Snake
+Auto: OnTriggerCheckClimax
+{
+    *GiveCharacterPower(1000,Any)
+}
+Text Auto: When your character's trigger check reveals a climax card, choose 1 of your characters, and that character gets +1000 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: LOD/S74-028
+Name Constant Smile, Ophelia
+JPName 絶えない微笑み オフィーリア
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Maid
+Auto: OnOtherOpponentReversed
+{
+    TargetLocation InFrontOf
+    SaveTargets
+    IfOther InSavedTargets
+    {
+        If PlayedThisTurn && Not HasMarker
+        {
+            SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Adventurer
+            If HasTarget
+            {
+                Marker_FaceDown
+            }
+        }
+    }
+}
+Text Auto: During the turn this card is placed on the stage from your hand, if the battle opponent of your «Adventurer» character in front of this card becomes reverse, and this card does not have a marker, you may choose an «Adventurer» character in your waiting room and place it face down underneath this card as a marker.
+Auto: StartOpponentEncorePhase
+{
+    If InLocation Backstage
+    {
+        PayCost 1 RestSelf
+        {
+            TargetMarkersUnderTargets
+            MoveCard Hand
+            TargetSelf
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: [(1) Rest this card] At the beginning of your opponent's encore step, If this card in the backstage, you may pay the cost. If you do, return all markers underneath this card and this card to your hand.
+EndCard
+
+Character: LOD/S74-029
+Name Girl Possessed by a Ghost, Pandora
+JPName 亡霊に憑かれた少女 パンドラ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Spirit
+Combo Deadly Grudge
+*Healer
+Auto: OnAttack
+{
+    If Climax Deadly Grudge
+    {
+        PayCost 2 Discard 1 Any
+        {
+            MultipleChoiceQuestion Choose 1 of the following effect to gain.\n1:Auto: At the end of this card's attack, deal 3 damage to your opponent.\n2:Auto: This ability activates up to twice per turn. When your character is placed to the waiting room from stage, deal 1 damage to your opponent.|1|2
+            If Answer 0
+            {
+                UntilEndOfOpponentsTurn
+                GainEffect
+                {
+                    Auto: OnEndOfAttack
+                    {
+                        Burn 3
+                    }
+                    Text Auto: At the end of this card's attack, deal 3 damage to your opponent.
+                }
+            }
+            If Answer 1
+            {
+                UntilEndOfOpponentsTurn
+                GainEffect
+                {
+                    Auto: OnOtherSentFromStageToWaitingRoom
+                    {
+                        Burn 1
+                    }
+                    TimesPerTurn 2
+                    Text Auto: This ability activates up to twice per turn. When your character is placed to the waiting room from stage, deal 1 damage to your opponent.
+                }
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(2) Put 1 card from hand to the waiting room] When this card attacks, if "Deadly Grudge" is in your climax area, you may pay the cost. If you do, choose 1 of the following abilities, and this card gets that ability until the end of your opponent's next turn. "Auto: At the end of this card's attack, deal 3 damage to your opponent." "Auto: This ability activates up to twice per turn. When your character is placed to the waiting room from stage, deal 1 damage to your opponent."
+EndCard
+
+Character: LOD/S74-030
+Name Maiden of the God of Military Arts, Brunhilde
+JPName 武神の乙女 ブリュンヒルデ
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+*500Assist
+*SacrificeToSave(Other && HasTrait Adventurer)
+Text Auto: [Put this card in the waiting room] When your other «Adventurer» character is placed from the stage to the waiting room, if this card is in the backstage, you may pay the cost. If you do, put that character rest in the position it was in.
+EndCard
+
+Character: LOD/S74-031
+Name Poet of Divine Comedy, Dante
+JPName 神曲の詩人 ダンテ
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Music
+Auto: OnPlay
+{
+    PayCost 2
+    {
+        Refresh
+    }
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: LOD/S74-032
+Name Waterside Angel, Sariel
+JPName 水辺の天使 サリエル
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Adventurer
+Trait2 Angel
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchDeck NameEquals "Item" Knight's Ring
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 '"Item" Knight's Ring', reveal it, put it in your hand, and shuffle your deck.
+*OnAttackGivePowerForEachOther(500,Adventurer)
+EndCard
+
+Character: LOD/S74-033
+Name Blooming Talent, Grameen
+JPName 開花した才能 グラミン
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Gun
+Combo One Shot Deadly Sniper
+Auto: OnReverseOpponent
+{
+    If Climax One Shot Deadly Sniper
+    {
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            Auto: OnFrontalAttacked
+            {
+                Question Return this card and another character to your hand ?
+                If Yes
+                {
+                    TargetLocation Stage
+                    NarrowTargets Other
+                    ChooseCharacterFromTargets Choose a character to return to hand.
+                    AddSelfToTargets
+                    Bounce
+                }
+            }
+            Text Auto: When this card is frontal attacked, you may choose 1 of your other characters and this card, and return them to hand.
+        }
+    }
+}
+Text Auto: CxCombo When this card's battle opponent is reversed, if "One Shot Deadly Sniper" is in your climax area, this card gets following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may choose 1 of your other characters and this card, and return them to hand."
+EndCard
+
+Character: LOD/S74-034
+Name Dragon Killer, Siegfried
+JPName 竜殺し ジークフリート
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Dragon
+*OnPlayGainPowerForEach(500,Adventurer)
+EndCard
+
+Character: LOD/S74-035
+Name Patisserie, Alice
+JPName パティシエ アリス
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Sweets
+*BackupBonus1000(Adventurer)
+Backup 2500
+EndCard
+
+Character: LOD/S74-036
+Name Forbidden Librarian, Hina
+JPName 禁書庫の司書 ヒナ
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 3500
+Soul 2
+Trait1 Adventurer
+Trait2 Book
+Combo Relief Without Light
+Cont: GiveAll
+{
+    If Other && NameEquals Girl Possessed by a Ghost, Pandora
+    {
+        GainSoul 1
+    }
+}
+Text Cont: All your other "Girl Possessed by a Ghost, Pandora" get +1 soul.
+*1500Assist
+Auto: OnSpecificClimaxPlay Relief Without Light
+{
+    If StageContains 1 Other && HasTrait Adventurer
+    {
+        *Check4Add1(Adventurer)
+    }
+}
+Text Auto: CxCombo When "Relief Without Light" is placed on your climax area, if you have another «Adventurer» character, look at up to the top 4 cards of your deck, choose up to 1 «Adventurer» character among them, reveal it, put it in your hand, and place the remaining cards in the waiting room.
+EndCard
+
+Character: LOD/S74-037
+Name First Member, Caroline & Yua & Elena
+JPName 最初の団員 キャロライン＆ユア＆エレーナ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Cont: GiveSelf
+{
+    GainSpecialEffect NoBackupInBattle
+}
+Text Cont: During battles involving this card, your opponent cannot play "BACKUP" from hand.
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && HasTrait Adventurer && InLocation Backstage
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Cont: This card gets +1000 powe for each of your other «Adventurer» characters in the backstage.
+*StockHealer
+EndCard
+
+Character: LOD/S74-038
+Name Jet Black True Flame, Fear
+JPName 漆黒の真炎 フィア
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Trait2 Flame
+Combo Black Flame of Destruction
+Cont: InHand
+{
+    If StageContains 2 HasMarkerWhere ColorIs Red
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If you have 2 or more characters with Red markers underneath them, this card is -1 level in your hand.
+*OnPlayGainPowerAndNoBackups(4500)
+Auto: OnAttack
+{
+    If Climax Black Flame of Destruction
+    {
+        *OptionalBurn(1)
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Black Flame of Destruction" is in your climax area, you may deal 1 damage to your opponent.
+EndCard
+
+Character: LOD/S74-039
+Name Modest Girl, Pandora
+JPName 慎ましやかな少女 パンドラ
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Spirit
+*OnPlayScry
+Auto: OnClimaxPlay
+{
+    PayCost SendSelf Hand
+    {
+        UntilEndOfOpponentsTurn
+        *GiveCharacterPower(1000,Any)
+    }
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: LOD/S74-040
+Name Mixed-Race Human Witch, Daisy
+JPName 人魔混血の魔女 デイジー
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Horn
+*GiveNamePower(1000,Girl Possessed by a Ghost\, Pandora)
+Act: Discard 1 NameEquals Girl Possessed by a Ghost, Pandora
+{
+    *Check4Add1(Adventurer)
+}
+Text Act: [Put a "Girl Possessed by a Ghost, Pandora" from your hand to the waiting room] Look at up to the top 4 cards of your deck, choose up to 1 «Adventurer» character among them, reveal it, put it in your hand, and discard the remaining cards to the waiting room.
+EndCard
+
+Character: LOD/S74-041
+Name Holy Knight of Flame, Lancelot
+JPName 炎の聖騎士 ランスロット
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        SearchWaitingRoom IsCharacter && HasTrait Adventurer
+        *GiveOtherCharacterPower(1000,Adventurer)
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Adventurer» character in your waiting room and return it to your hand, choose 1 of your other «Adventurer» characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: LOD/S74-042
+Name Summer Outfit, Grameen
+JPName 夏の装い グラミン
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Adventurer
+Trait2 Yukata
+Cont: GiveSelf
+{
+    If HasMarkerWhere Not FaceDown
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If there is a face up marker under this card, this card gets +3000 power.
+EndCard
+
+Character: LOD/S74-043
+Name Angel of Order, Gabriel
+JPName 秩序の天使 ガブリエル
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Adventurer
+Trait2 Angel
+*GainPowerForEachOther(500,Adventurer)
+EndCard
+
+Character: LOD/S74-044
+Name Abyssal Serpent, Medusa
+JPName 深淵の大蛇 メデューサ
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Snake
+Auto: OnUseThisCardsBackup
+{
+    *ScryToBottom
+}
+Text Auto: When you use this card's "BACKUP", look at the top card of your deck and put it either on top or bottom of the deck.
+Backup 1500
+EndCard
+
+Character: LOD/S74-045
+Name Flame Fist Fighter, Dillon
+JPName 炎拳の闘士 ディロン
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Flame
+Cont: GiveSelf
+{
+    If HasMarkerWhere ColorIs Red
+    {
+        GainPower 4000
+    }
+}
+Text Cont: If there is a Red marker underneath this card, this card gets +4000 power.
+Auto: OnPlay
+{
+    PayCost 1 Discard 2 Any
+    {
+        SearchLocationForTargets WaitingRoom 0 2 IsCharacter && HasTrait Adventurer
+        RevealTargets
+        MoveCard Hand
+        ShuffleLocation Deck
+    }
+}
+Text Auto: [(1) Put 2 cards from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 2 «Adventurer» characters, reveal them, put them in your hand, and shuffle your deck.
+Auto: OnAttack
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        GainSoul 2
+    }
+}
+Text Auto: When this card attacks, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, this card gets +2 soul until end of turn.
+EndCard
+
+Character: LOD/S74-046
+Name Lord of the Fiery Throne, Fear
+JPName 烈火王座の主 フィア
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Adventurer
+Trait2 Flame
+Auto: OnPlay
+{
+    *OptionalDrawDiscard
+}
+Text Auto: When this card is placed on the stage from your hand, you may draw 1 card. If you do, put 1 card from your hand into waiting room.
+Act: SendSelf Memory
+{
+    *Check4Add1(Adventurer)
+}
+Text Act: [Put this card into memory] Look at up to the top 4 cards of your deck, choose up to 1 «Adventurer» character among them, reveal it, put it in your hand, and put the rest into waiting room.
+EndCard
+
+Character: LOD/S74-047
+Name Angel Who Controls the Moon, Sariel
+JPName 月を司る天使 サリエル
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Angel
+*GlobalPower(500,Adventurer)
+*OnPlayScry
+EndCard
+
+Character: LOD/S74-048
+Name Iron-Arm Fist, Taylor
+JPName 鉄腕の拳豪 テイラー
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Muscle
+*GiveNamePower(2000,Exiled Noble Swordsman\, Hayate)
+*RestGivePower(1000,Adventurer)
+EndCard
+
+Character: LOD/S74-049
+Name Red Blade Executioner, Ranaxia
+JPName 赤刃の処刑者 ラナクシア
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+*CharacterFacingThisCannotMove
+*OnPlayGainPower(1500)
+EndCard
+
+Character: LOD/S74-050
+Name Damaged Raven, Airin
+JPName 滅びの渡鴉 アイリン
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Death
+Combo Raven of the Underworld
+Auto: OnAttack
+{
+    If Climax Raven of the Underworld
+    {
+        ChooseNumber 0 2 Choose a number to reveal cards of that level.
+        SearchLocationForTargets Hand 0 50 IsCharacter && Compare ThatCardsLevel Answer Exactly
+        RevealTargets
+        MoveCard Deck
+        SetXValue Answer
+        AddToXValue 1
+        SearchLocationForTargets Deck TargetCount TargetCount IsCharacter && Compare ThatCardsLevel X Exactly
+        RevealTargets
+        MoveCard Hand
+        ShuffleLocation Deck
+        TargetSelf
+        GainLevel 1
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Raven of the Underworld" is in your climax area and you have another «Adventurer» character, choose a number betwwen 0, 1 or 2. Reveal as many characters from your hand as you want whose level is equal to that number, return them to your deck, search your deck for the same amount of characters that are 1 level higher than the chosen number, reveal them, put them in your hand, shuffle your deck, and this card gets +1 level until end of turn.
+EndCard
+
+Character: LOD/S74-051
+Name One Who Breaks the Star, Trifa
+JPName 星を砕く者 トリファ
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+EndCard
+
+Character: LOD/S74-052
+Name Death Knight of the Town on the Border Between Worlds, Abaddon
+JPName 幽明郷の死の騎士 アバドン
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Death
+Auto: OnReverseOpponent
+{
+    PayCost Resonate Damaged Raven, Airin
+    {
+        Question Put this card into memory ?
+        If Yes
+        {
+            MoveCard Memory
+            ScheduleEffect StartDrawPhase
+            {
+                Effect:
+                {
+                    TargetLocation Memory
+                    NarrowTargets NameEquals Death Knight of the Town on the Border Between Worlds, Abaddon
+                    FirstTarget
+                    If HasTarget
+                    {
+                        Message Death Knight of the Town on the Border Between Worlds, Abaddon returns from memory.
+                        PlaceOnStage False True True False
+                        UntilEndOfOpponentsTurn
+                        *GiveCharacterPower(2000,Any)
+                    }
+                }
+                Text At the beginning of your next draw phase, choose a "Death Knight of the Town on the Border Between Worlds, Abaddon" in your memory and put it in any position on the stage.
+            }
+        }
+    }
+}
+Text Auto: RESONATE [Reveal a "Damaged Raven, Airin" from your hand] When this card's battle opponent becomes reverse, you may pay the cost. If you do, you may put this card into memory. If you do, at the beginning of your next draw phase choose a "Death Knight of the Town on the Border Between Worlds, Abaddon" in your memory, place it to any position on your stage, choose 1 of your characters, and that character gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: LOD/S74-053
+Name Exiled Noble Swordsman, Hayate
+JPName 流浪の任侠剣士 ハヤテ
+Color R
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Adventurer
+Trait2 Kenjutsu
+EndCard
+
+Character: LOD/S74-054
+Name Outstanding Alchemist, Ellonde
+JPName 卓越した錬金術師 エルロンド
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Adventurer
+Trait2 Alchemy
+Auto: OnAttack
+{
+    If HasMarkerWhere Not FaceDown
+    {
+        *GiveCharacterPower(3000,Adventurer)
+    }
+}
+Text Auto: When this card attacks, if this card has a face up marker underneath it, choose 1 of your «Adventurer» characters, and that character gets +3000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: LOD/S74-055
+Name Cold King of Winter, William
+JPName 凛冬の王 ウィリアム
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Adventurer
+Trait2 Royalty
+*GainPowerForEachOther(500,Adventurer)
+Auto: OnReverseOpponent
+{
+    PayCost Discard 1 NameEquals One Who Breaks the Star, Trifa
+    {
+        Burn 1
+    }
+}
+Text Auto: [Put a "One Who Breaks the Star, Trifa" from your hand to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: LOD/S74-056
+Name Power of Evil Dragon, Siegfried
+JPName 邪竜の力 ジークフリート
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Adventurer
+Trait2 Dragon
+Auto: OnReversed
+{
+    TargetBattleOpponent
+    IfTarget Compare ThatCardsLevel 3 Exactly && OnStage && Not CardPosition Reverse
+    {
+        Question Reverse the battle opponent?
+        If Yes
+        {
+            Reverse
+        }
+    }
+}
+Quick
+Text Auto: When this card becomes reversed, if this card's battle opponent is level 3, you may reverse that character.
+*HandEncoreTrait(Adventurer)
+EndCard
+
+Event: LOD/S74-057
+Name "Item" Knight's Ring
+JPName “アイテム”騎士のリング
+Color R
+Level 2
+Cost 0
+Effect:
+{
+    TargetLocation Stage
+    NarrowTargets Not HasMarker
+    ChooseCharacterFromTargets Choose a character to put this card underneath as a marker.
+    SaveTargets
+    TargetSelf
+    MarkerTargetsUnderSavedTarget_FaceUp
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give -500 power.
+    LosePower 500
+}
+Text Choose 1 of your characters without marker underneath, put this card face up underneath that card as a marker, Choose up to 2 of your opponent's characters and those characters get -500 power until end of turn.
+Auto: OnSentFromMarkerToWaitingRoom
+{
+    If StageContains 2 HasTrait Adventurer
+    {
+        MoveCard Memory
+    }
+}
+Quick
+InWaitingRoom
+Text Auto: When this card is placed from marker to waiting room, if the number of «Adventurer» characters you have is 2 or more, put this card into memory.
+Auto: StartMainPhase
+{
+    MoveCard Hand
+}
+Quick
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, return it to your hand.
+EndCard
+
+Event: LOD/S74-058
+Name Tavern Dragon of Makura-tei
+JPName 酒場 竜の枕亭
+Color R
+Level 3
+Cost 1
+Requirement StageContains 1 NameContains オフィーリア
+Text If you do not have a character with "Ophelia" in its card name, you cannot play this card from hand.
+Effect:
+{
+    RevealUpTo Deck 10
+    ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Adventurer
+    PlaceOnStage false true true false
+    GainPower 2000
+}
+Text Look at the up to 10 cards from the top of your deck, choose up to 1 «Adventurer» character among them, place it to any slot on the stage, put the remaining card in your waiting room, and that character gets +2000 power until end of turn.
+EndCard
+
+Climax: LOD/S74-059
+Name Deadly Grudge
+JPName 冥府の怨嗟
+*StandbyClimax
+EndCard
+
+Climax: LOD/S74-060
+Name One Shot Deadly Sniper
+JPName 一撃必殺の狙撃
+*StandbyClimax
+EndCard
+
+Climax: LOD/S74-061
+Name Relief Without Light
+JPName 光なき救済
+*DoorClimax
+EndCard
+
+Climax: LOD/S74-062
+Name Black Flame of Destruction
+JPName 滅びの黒炎
+*DoorClimax
+EndCard
+
+Climax: LOD/S74-063
+Name Raven of the Underworld
+JPName 冥界のワタリガラス
+Color R
+Trigger DoubleSoul
+Auto: OnPlay
+{
+    SearchWaitingRoom IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+    TargetLocation Stage
+    ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +1 soul.
+    GainSoul 1
+}
+Text Auto: When this card is placed in your climax area, choose up to 1 character whose level is equal or lower than your level from your waiting room, return it to your hand, choose up to 2 of your characters and those characters get +1 soul until end of turn.
+EndCard
+
+Character: LOD/S74-064
+Name Angel who Controls the Sun, Michael
+JPName 太陽を司る天使 ミカエル
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Angel
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	If Compare TargetCount 1 OrMore
+	{
+		ChooseCardsFromTargets 1 1 HasTrait Adventurer
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 «Adventurer» among them, add it to your hand, put the remaining cards in your waiting room and discard a card.
+EndCard
+
+Character: LOD/S74-065
+Name Holy Knight of the Cathedral, Vivian
+JPName 大聖堂の聖騎士 ヴィヴィアン
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Adventurer
+Trait2 Knight
+Combo Shine of the Holy Sword
+*OnPlayGainPower(1500)
+Auto: OnReverseOpponent
+{
+    If Climax Shine of the Holy Sword
+    {
+        SearchDeck IsCharacter && HasTrait Adventurer
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Shine of the Holy Sword" is in your climax area, search your deck for up to 1 «Adventurer» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LOD/S74-066
+Name Legendary Adventurer, Teresa
+JPName 伝説の冒険者 テレサ
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 3500
+Soul 2
+Trait1 Adventurer
+Trait2 Exploration
+Cont: GiveSelf
+{
+    If HasMarkerWhere ColorIs Blue
+    {
+        GainPower 7000
+    }
+}
+Text Cont: If this card has a Blue marker underneath it, this card gets +7000 power.
+Cont: GiveSelf
+{
+    If HasMarkerWhere ColorIs Yellow
+    {
+        GainSoul 1
+    }
+}
+Text Cont: If this card has a Yellow marker underneath it, this card gets +1 soul.
+Auto: OnPlay
+{
+    SearchLocationForTargets Hand 0 3 IsEvent && NameContains アイテム
+    If HasTarget
+    {
+        RevealTargets
+        Marker_FaceUp
+        Repeat TargetCount
+        {
+            *OptionalDraw
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may reveal up to 3 events with "Item" in its card name and place them face up underneath this card as a marker. For each card placed underneath this card as a marker, draw up to 1 card.
+Auto: OnAttack
+{
+    If HasMarkerWhere ColorIs Red
+    {
+        PayCost Discard 1 Any
+        {
+            Burn 1
+        }
+    }
+}
+Text Auto: [Put 1 card from hand to the waiting room] When this card attacks, if this card has a Red marker under it, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: LOD/S74-067
+Name Witch in the Mirror, Victoria
+JPName 鏡の魔女 ヴィクトリア
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Combo Magic Mirror Mephisto
+Auto: OnPlay
+{
+    SearchWaitingRoom IsCharacter && HasTrait Adventurer || NameEquals "Item" Knight Armor
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+    {
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 «Adventurer» character or '"Item" Knight Armor' in your waiting room, return it to hand, reveal the top card of your deck. If that card is a level 0 or lower character, put it into stock.
+Auto: OnSpecificClimaxPlay Magic Mirror Mephisto
+{
+    If InLocation CenterStage && HasMarkerWhere ColorIs Blue
+    {
+        PayCost 1 Discard 1 Any
+        {
+            Peek OpponentDeck 5
+            Message Choose up to 5 cards to put into waiting room.
+            ChooseCardsFromTargets 0 5 Any
+            MoveCard OpponentWaitingRoom
+            EndPeek
+            ShuffleLocation OpponentDeck
+            TargetSelf
+            GainPower 1000
+        }
+    }
+}
+Text Auto: CxCombo [(1) Put 1 card from hand to the waiting room] When "Magic Mirror Mephisto" is placed to your climax area, this card is in your center stage, and has a Blue marker underneath it, has you may pay the cost. If you do, look at up to the top 5 cards of your opponent's deck, choose up to 5 cards among them, put them in your opponent's waiting room, return the remaining cards to their deck, your opponent shuffles their deck, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: LOD/S74-068
+Name Thunder Princess of Tendo Shrine, Rita
+JPName 天道宮の雷姫 リタ
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Thunder
+Auto: OnPlay
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            GainSpecialEffect CannotBeReversedByAutoEffects
+        }
+        Text Cont: This cannot be reversed by your opponent's Auto: abilities.
+    }
+}
+Text Auto: When this card is placed from the hand to the stage, choose 1 of your characters, and that character gets the following ability until the end of your opponent's next turn. "Cont: This cannot be reversed by your opponent's Auto: abilities."
+*Act1RestSelfSearchBrainstorm(Adventurer)
+EndCard
+
+Character: LOD/S74-069
+Name Demon Embers, Kagiroi
+JPName 魔族の残り火 かぎろい
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Flame
+*GainPowerWithEnoughCharacters(1000,2,Adventurer)
+Auto: StartOpponentDrawPhase
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 1 OrMore
+    {
+        Question Put this card into hand ?
+        If Yes
+        {
+            TargetSelf
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If it's level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: LOD/S74-070
+Name Abandoned Demon King, Lilith
+JPName 放埓なる魔王 リリス
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Horn
+*DropSearch(Adventurer)
+Auto: OnAttack
+{
+    *ScryToBottom
+}
+Text Auto: When this card attacks, look at the top card of your deck, and put it either on top or bottom of the deck.
+EndCard
+
+Character: LOD/S74-071
+Name Silent Funeral, Adreni
+JPName 無音の葬送者 アドレーニ
+Color B
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsCharacter && HasTrait Adventurer
+    {
+        *GiveCharacterPower(2000,Any)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Adventurer» character, choose 1 of your characters, that character gets +2000 power until end of turn.
+*BlueCost0Bomb
+EndCard
+
+Character: LOD/S74-072
+Name Dark Tyrant, Edmond
+JPName 黒き暴君 エドモンド
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Adventurer
+Trait2 Royalty
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Adventurer
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Adventurer» character, this card gets +2000 power until end of turn.
+Auto: OnGainMarker
+{
+    PayCost 1 Discard 1 Any
+    {
+        *CheckAndAdd(3)
+    }
+}
+Text Auto: [(1) Put 1 card from hand to the waiting room] When a face up marker is placed underneath this card, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 card among them, put it in your hand, and put the rest into waiting room.
+EndCard
+
+Character: LOD/S74-073
+Name Genius Girl Mechanic, Artemis
+JPName 機械師の天才少女 アルテミス
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Science
+Auto: OnUseThisCardsBackup
+{
+    PayCost 2 Send 1 WaitingRoom Any
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && EarlyPlay
+        If HasTarget
+        {
+            ChooseCharacterFromTargets Choose 1 of your Opponent's Characters whose Level is higher than your Opponent and put it in the Waiting Room.
+            MoveCard WaitingRoom
+        }
+    }
+}
+Text Auto: [(2) Put 1 character from your stage in the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent and put it in the waiting room.
+Backup 2500
+EndCard
+
+Character: LOD/S74-074
+Name Ryujin, Ophelia
+JPName 竜人 オフィーリア
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Adventurer
+Trait2 Dragon
+Auto: OnClimaxPlay
+{
+    GainPower 1500
+}
+Quick
+Text Auto: When your climax is placed on your climax area, this card gets +1500 power until end of turn.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: LOD/S74-075
+Name Mysterious Sage, Coral
+JPName 奥秘の大賢者 コーラル
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        SetXToNumberOfCharacters Other && HasTrait Adventurer
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +500 power for each of your other «Adventurer» characters
+*Healer
+EndCard
+
+Character: LOD/S74-076
+Name Tendo Shrine President, Solomon
+JPName 天道宮の学長 ソロモン
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Magic
+*500Assist
+*OnClimaxPlayGivePower(1000)
+EndCard
+
+Character: LOD/S74-077
+Name Black-Hearted Villian, Arachel
+JPName 腹黒小悪党 アラシェル
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Rogue
+Auto: OnPlay
+{
+    Question Put the top 3 cards of your deck into waiting room ?
+    If Yes
+    {
+        Mill 3
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck in the waiting room.
+*OnAttackGiveOtherPower(1000,Adventurer)
+EndCard
+
+Character: LOD/S74-078
+Name Fist-Princess of Soten-Ryu, Tsubaki
+JPName 霜天流の拳姫 ツバキ
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Melee
+Cont: GiveSelf
+{
+    If LocationContainsOrLess Stock 2 Any
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If there are 2 or less cards in your stock, this card gets +1500 power.
+EndCard
+
+Character: LOD/S74-079
+Name Green Shortstop, Robert
+JPName 緑の遊撃手 ロバート
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Adventurer
+Trait2 Rogue
+Auto: OnReversed
+{
+    If StageContains 2 HasMarkerWhere Not FaceDown
+    {
+        Question Put this card into stock ?
+        If Yes
+        {
+            MoveCard Stock
+        }
+    }
+}
+Text Auto: When this card becomes reversed, if the number of characters with face up markers underneath them you have is 2 or more, you may put this card into your stock.
+EndCard
+
+Character: LOD/S74-080
+Name Pioneer of the Era, Tesla
+JPName 時代の先駆者 テスラ
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Genius
+Auto: OnUseThisCardsBackup
+{
+    Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your deck in the waiting room.
+Backup 2000
+EndCard
+
+Character: LOD/S74-081
+Name Exploding Firepower, Sunny
+JPName 暴発する火力 サニー
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Flame
+Combo Yearning for Flames
+Cont: GiveSelf
+{
+    If LocationContains Memory 1 NameEquals Lord of the Fiery Throne, Fear
+    {
+        GainPower 4500
+    }
+}
+Text Cont: MEMORY if "Lord of the Fiery Throne, Fear" is in your memory, this card gets +4500 power.
+Auto: OnAttack
+{
+    If Climax Yearning for Flames && LocationContains Memory 1 NameEquals Lord of the Fiery Throne, Fear
+    {
+        *Check4Add1(Adventurer)
+        *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Adventurer)
+    }
+}
+Text Auto: CxCombo MEMORY When this card attacks, if "Yearning for Flames" is in your climax area, and "Lord of the Fiery Throne, Fear" is in your memory, look at up to the top 4 cards of your deck, choose up to 1 «Adventurer» character among them, reveal it, put it in your hand, put the rest into waiting room. choose up to 1 «Adventurer» character in your waiting room and put it into stock.
+EndCard
+
+Character: LOD/S74-082
+Name Sky Explorer, Christopher
+JPName 空の探検家 クリストファ
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Adventurer
+Trait2 Gun
+*Level3Assist
+Auto: OnUseEvent
+{
+    *GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you play an event, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: LOD/S74-083
+Name Future Hero, Vane
+JPName 未来の英雄 ヴェイン
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+*GainPowerForEachOther(1000,Adventurer)
+Auto: OnAttack
+{
+    If HasMarkerWhere ColorIs Blue
+    {
+        PayCost 1
+        {
+            GainSpecialEffect DoubleTrigger
+        }
+    }
+}
+Text Auto: [(1)] When this card attacks, if there is a Blue marker underneath this card, you may pay the cost. If you do, perform trigger check twice during this card attack Step.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: LOD/S74-084
+Name Skewering Professor, Dalwald
+JPName 串刺し教授 ダルヴァルド
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Demon
+Cont: GiveAll
+{
+    If Other && NameEquals Demon Hunter, Argent
+    {
+        GainSoul 1
+    }
+}
+Text Cont: All your other "Demon Hunter, Argent" get +1 soul.
+Auto: OnOtherPlacedOnStageFromHand
+{
+    IfOther NameEquals Demon Hunter, Argent
+    {
+        *OptionalBlindStock
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When your other "Demon Hunter, Argent" is placed on the stage from your hand, you may put the top card of your deck in your stock.
+EndCard
+
+Character: LOD/S74-085
+Name Dreamy Girl, Alice
+JPName 夢境の少女 アリス
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Sweets
+Combo Alice's Tea Party
+*GlobalPower(500,Adventurer)
+Auto: OnAttack
+{
+    If Climax Alice's Tea Party
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget Compare ThatCardsLevel 1 OrMore
+        {
+            MoveCard Stock
+            *GiveCharacterPower(500,Any)
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Alice's Tea Party" is in your climax area, reveal the top card of your deck. If that card is level 1 or higher, put it in your stock, choose 1 of your characters, and that character gets +500 power until end of turn.
+EndCard
+
+Character: LOD/S74-086
+Name Playing by the Waterside, Teresa
+JPName 水辺の戯れ テレサ
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Exploration
+Cont: GiveAll
+{
+    If Not MyTurn && Other && InLocation CenterStage && HasTrait Adventurer
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your turn, your other «Adventurer» character in the middle position of your center stage gets +1000 power.
+Act: 1 RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameEquals Life Alchemist, Irui
+    ChooseCharacterFromTargets Choose a character to give +1000 power and the effect.
+    GainPower 1000
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            SearchDeck IsCharacter && HasTrait Adventurer
+        }
+        Text Auto: When this card's battle opponent becomes reverse, search your deck for up to 1 «Adventurer» character, reveal it, put it in your hand, and shuffle your deck.
+    }
+}
+Text Act: [(1) Rest this card] Choose 1 of your "Life Alchemist, Irui", and that character gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, search your deck for up to 1 «Adventurer» character, reveal it, put it in your hand, and shuffle your deck."
+EndCard
+
+Character: LOD/S74-087
+Name Spear of the Holy King, Elliot
+JPName 聖王の槍 エリオット
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+*GainPowerWhenOtherAttacks(1500,Adventurer)
+EndCard
+
+Character: LOD/S74-088
+Name With War Wolf, Ludovic
+JPName 戦狼と共に ルドヴィック
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Animal
+*OnPlayMill2GainPowerForEachCharacter(1000,Adventurer)
+Auto: OnReverseOpponent
+{
+    *GiveCharacterPower(1000,Any)
+}
+Text Auto: When battle opponent of this card is reversed, choose 1 of your characters, that character gets +1000 power until end of turn.
+EndCard
+
+Character: LOD/S74-089
+Name Life Alchemist, Irui
+JPName 生命の錬金術師 イルリ
+Color B
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Adventurer
+Trait2 Alchemy
+EndCard
+
+Character: LOD/S74-090
+Name Sage of Justice, Imperius
+JPName 正義の大賢者 インペリウス
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Adventurer
+Trait2 Order
+Cont: GiveSelf
+{
+    If HasMarkerWhere Not FaceDown
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If there is a face up marker underneath this card, this card gets +2000 power and +1 soul.
+EndCard
+
+Character: LOD/S74-091
+Name Vice President of the Adventurer's Association, Leon
+JPName 冒険者協会の副会長 レオン
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Cool
+*CannotSideAttack
+*OnPlayGivePower(1500,Adventurer)
+EndCard
+
+Character: LOD/S74-092
+Name Binan-naru, Great Sage of Wisdom
+JPName 知恵の大賢者 ビナンナル
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Smithing
+*LevelAssistTrait(Adventurer)
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        SearchDeck IsEvent && NameContains アイテム
+    }
+}
+Text Auto: [(1) Put 1 card from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 event with "Item" in its card name, reveal it, put it in your hand, and shuffle you deck.
+EndCard
+
+Character: LOD/S74-093
+Name Master of Heroes, Laurent
+JPName 英雄の師 ローラン
+Color B
+Level 1
+Cost 1
+Power 7000
+Soul 1
+Trait1 Adventurer
+Trait2 Knight
+Cont: GiveSelf
+{
+    If StageContainsOrLess 0 Other && HasTrait Adventurer
+    {
+        GainSpecialEffect CannotStand
+    }
+}
+Text Cont: If you have no other «Adventurer» characters, this card does not stand during your stand phase.
+*OnPlayGainPower(1500)
+EndCard
+
+Character: LOD/S74-094
+Name Demon Hunter, Argent
+JPName 魔を狩る者 アルジェント
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Soul 1
+Trait1 Adventurer
+Trait2 Weapon
+EndCard
+
+Event: LOD/S74-095
+Name Time to Patrol!
+JPName いざ巡回！
+Color B
+Level 1
+Cost 1
+Effect:
+{
+    *Check4Add1(Adventurer)
+    TargetSelf
+    MoveCard Memory
+}
+Text Look at up to the top 4 cards of your deck, choose up to 1 «Adventurer» character among them, reveal it, put it in your hand, and place the remaining cards in the waiting room. Put this card into memory.
+Auto: StartMainPhase
+{
+    PayCost SendFromMemoryToWaitingRoom 1 NameEquals Time to Patrol! && Other &&& SendSelf WaitingRoom
+    {
+        *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Adventurer)
+        *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Adventurer)
+        *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Adventurer)
+        TargetTop Stock 3
+        Reorder
+    }
+}
+Text MEMORY [Put another "Time to Patrol!" from memory into your waiting room, put this card in your waiting room] At the beginning of your main phase, if this card is in your memory, you may pay the cost. If you do, select up to 3 «Adventurer» characters in your waiting room and place them to your stock in any order.
+EndCard
+
+Event: LOD/S74-096
+Name "Item" Knight's Armor
+JPName “アイテム”騎士の鎧
+Color B
+Level 2
+Cost 0
+Effect:
+{
+    TargetLocation Stage
+    NarrowTargets Not HasMarker
+    ChooseCharacterFromTargets Choose a character to put this card underneath as a marker.
+    SaveTargets
+    TargetSelf
+    MarkerTargetsUnderSavedTarget_FaceUp
+    If LocationContains WaitingRoom 2 IsClimax
+    {
+        SearchDeck IsCharacter
+        Discard 1 Any
+    }
+}
+Text Choose 1 of your characters without marker underneath, put this card face up underneath that card as a marker. If you have 2 or more climax in waiting room, search your deck for up to 1 character, reveal it, put it in your hand, choose 1 card from your hand, put it into waiting room, and shuffle your deck.
+Auto: OnSentFromMarkerToWaitingRoom
+{
+    If StageContains 2 HasTrait Adventurer
+    {
+        MoveCard Memory
+    }
+}
+Quick
+InWaitingRoom
+Text Auto: When this card is placed from marker to waiting room, if the number of «Adventurer» characters you have is 2 or more, put this card into memory.
+Auto: StartMainPhase
+{
+    MoveCard Hand
+}
+Quick
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, return it to your hand.
+EndCard
+
+Climax: LOD/S74-097
+Name Shine of the Holy Sword
+JPName 聖剣の輝き
+*GateClimax
+EndCard
+
+Climax: LOD/S74-098
+Name Magic Mirror Mephisto
+JPName 魔鏡メフィスト
+*GateClimax
+EndCard
+
+Climax: LOD/S74-099
+Name Yearning for Flames
+JPName 火炎への憧れ
+*BookClimax
+EndCard
+
+Climax: LOD/S74-100
+Name Alice's Tea Party
+JPName アリスのお茶会
+*BlueStockSoul
+EndCard
+
+Character: LOD/S74-101
+Name To Melchior!, Leader
+JPName さあメルキオールへ！ 団長
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Adventurer
+Cont: GiveSelf
+{
+    If MyTurn && AllYourCharacters HasTrait Adventurer
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your turn, if all your characters are «Adventurer», this card gets +2000 power.
+EndCard
+
+Character: LOD/S74-102
+Name To Melchior!, Yua
+JPName さあメルキオールへ！ ユア
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Adventurer
+Trait2 Love
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets Other && HasTrait Adventurer
+    ChooseCharacterFromTargets Choose a character to give power to.
+    SetXValue TargetCardsSoul
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other «Adventurer» characters, and that character gets +X power until end of turn. X equals 1000 times soul of that character.
+EndCard
+
+Character: LOD/S74-103
+Name To Melchior!, Caroline
+JPName さあメルキオールへ！ キャロライン
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Adventurer
+Trait2 Science
+*GainPowerForEachOther(1000,Adventurer)
+*HandEncoreTrait(Adventurer)
+EndCard
+
+Character: LOD/S74-104
+Name To Melchior!, Elena
+JPName さあメルキオールへ！ エレーナ
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Adventurer
+Trait2 Kenjutsu
+*BlueEarlyPlayBomb
+EndCard
+
+Character: LOD/S74-P01
+Name Encounter on the Demon Continent, Daisy & Medusa
+JPName 悪魔大陸の出会い デイジー＆メデューサ
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Queen
+*OnPlayCheckTopAddDiscard(Adventurer)
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetSelf
+        GainPower 3000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there were at least 1 climax among them, this card gets +3000 power until end of turn.
+EndCard
+
+Character: LOD/S74-P02
+Name Friendship Beyond Species, Sandra & Fel
+JPName 種を超えた友情 サンドラ＆フェル
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Adventurer
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        SetXToNumberOfCharacters Other && HasTrait Adventurer
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +500 power for each of your other «Adventurer» characters.
+*OnPlayCheckX(Adventurer)
+EndCard
+
+Character: LOD/S74-P03
+Name Twin Angels, Sarael & Michael
+JPName 双生の天使 サリエル＆ミカエル
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Adventurer
+Trait2 Angel
+*GainPowerWhenOtherAttacks(2000,Adventurer)
+EndCard
+
+Character: LOD/S74-P04
+Name Playing by the Waterfront, Elena
+JPName 水辺の戯れ エレーナ
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Kenjutsu
+Auto: OnUseEvent
+{
+    IfOther NameEquals Item "Knight's Sword"
+    {
+        *GiveCharacterPower(2000,Any)
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use "Item "Knight's Sword"", choose 1 of your characters and that character gets +2000 power until end of turn. 
+EndCard
+
+Character: LOD/S74-T01
+Name Association Maid Chief, Ophelia
+JPName 協会のメイド長 オフィーリア
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Maid
+*500Assist
+Act: 1 SendSelf WaitingRoom
+{
+    *Check4Add1(Adventurer)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to the top 4 cards of your deck, choose up to 1 «Adventurer» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LOD/S74-T02
+Name Friends from the Beginning, Yua
+JPName はじまりの仲間たち ユア
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Adventurer
+Trait2 Love
+*OnPlayTradeClimaxForCharacter(Adventurer)
+Act: 1 SendSelf WaitingRoom
+{
+    SearchWaitingRoom NameEquals Item "Knight's Sword"
+}
+Text Act: [(1) Put this card in the waiting room] Choose an 'Item "Knight's Sword"' in your waiting room and return it to your hand.
+EndCard
+
+Character: LOD/S74-T03
+Name Pretty Boy, Gramin
+JPName 可憐な男の子 グラミン
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Adventurer
+Trait2 Gun
+*GainPowerWithEnoughCharacters(2000,2,Adventurer)
+EndCard
+
+Character: LOD/S74-T04
+Name Young Sniper, Gramin
+JPName 若き狙撃手 グラミン
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Adventurer
+Trait2 Gun
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Adventurer
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Adventurer» character, this card gets +2000 power until end of turn.
+*RedLevel1Bomb
+EndCard
+
+Character: LOD/S74-T05
+Name Yua & Caroline
+JPName ユア＆キャロライン
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Adventurer
+Combo Adventure's Beginning
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        SetXToNumberOfCharacters Other && HasTrait Adventurer
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +500 power for each of your other «Adventurer» characters.
+Auto: OnAttack
+{
+    If Climax Adventure's Beginnin
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget IsCharacter && HasTrait Adventurer || NameEquals Item "Knight's Sword"
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Adventure's Beginning" is in your climax area, reveal the top card of your deck. If it's a «Adventurer» character or 'Item "Knight's Sword"', put it in your hand.
+EndCard
+
+Character: LOD/S74-T06
+Name Twin-winged Priestess, Sandra
+JPName 双翼の祭司 サンドラ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Adventurer
+Trait2 Heal
+*1000Assist
+Act: 2 RestSelf
+{
+    SearchDeck IsCharacter && HasTrait Adventurer
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 «Adventurer» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LOD/S74-T07
+Name Guardian of Messiah, Seigfried
+JPName メサイアの守護者 ジークフリート
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Adventurer
+Trait2 Dragon
+*OnAttackGainPowerForEachOther(1000,Adventurer)
+*HandEncoreTrait(Adventurer)
+EndCard
+
+Character: LOD/S74-T08
+Name Friends From the Beginning, Caroline
+JPName はじまりの仲間たち キャロライン
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Science
+*Healer
+*OnAttackGivePowerForEachOther(500,Adventurer)
+EndCard
+
+Climax: LOD/S74-T09
+Name Adventure's Beginning
+JPName 冒険のはじまり
+*DoorClimax
+EndCard
+
+Character: LOD/S74-T10
+Name Friend of Sandra, Fel
+JPName サンドラの友人 フェル
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Adventurer
+Trait2 Angel
+*GiveNamePower(1000,Friend of Fel\, Sandra)
+*BondClock(Friend of Fel\, Sandra)
+EndCard
+
+Character: LOD/S74-T11
+Name Leader of the New Adventure Team
+JPName 新たなる冒険団 団長
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Adventurer
+*OnPlayCheckTopAddDiscard(Adventurer)
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: LOD/S74-T12
+Name Friends From the Beginning, Elena
+JPName はじまりの仲間たち エレーナ
+Color B
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Adventurer
+Trait2 Kenjutsu
+*CannotSideAttack
+*OnAttackGivePowerForEachOther(500,Adventurer)
+EndCard
+
+Character: LOD/S74-T13
+Name Serious and Straightforward, Vivian
+JPName 真面目で実直 ヴィヴィアン
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Adventurer
+Trait2 Knight
+Cont: GiveSelf
+{
+    If HasMarkerWhere Not FaceDown
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If there is a face up marker underneath this card, this card gets +2000 power.
+*DropSearch(Adventurer)
+EndCard
+
+Character: LOD/S74-T14
+Name Adventure Association President, Theresa
+JPName 冒険者協会会長 テレサ
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Adventurer
+Trait2 Expedition
+Backup 2500
+EndCard
+
+Character: LOD/S74-T15
+Name Friend of Fel, Sandra
+JPName フェルの友人 サンドラ
+Color B
+Level 1
+Cost 1
+Power 7000
+Soul 1
+Trait1 Adventurer
+Trait2 Heal
+EndCard
+
+Character: LOD/S74-T16
+Name Elena & Yua
+JPName エレーナ＆ユア
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Adventurer
+Combo Adventure's Beginning
+Cont: GiveSelf
+{
+    If HasMarkerWhere ColorIs Blue
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If there is a Blue marker underneath this card, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+    If Climax Adventure's Beginning
+    {
+        *OptionalDraw
+        *OptionalBlindStock
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Adventure's Beginning" is in your climax area, draw up to 1 card, and put up to 1 card from the top of your deck in your stock.
+EndCard
+
+Character: LOD/S74-T17
+Name Holy Sword Knight, Vivian
+JPName 聖剣の騎士 ヴィヴィアン
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Knight
+Cont: GiveSelf
+{
+    If HasMarkerWhere ColorIs Blue
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If there is a Blue marker underneath this card, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+    If PlayedThisTurn
+    {
+        PayCost 3 Discard 1 Any
+        {
+            Stand
+        }
+    }
+}
+TimesPerTurn 1
+Text Auto: [(3) Put 1 card from your hand to the waiting room] This ability activates up to once per turn. During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, stand this card.
+EndCard
+
+Event: LOD/S74-T18
+Name Item "Knight's Sword"
+JPName アイテム“騎士の剣”
+Color B
+Level 1
+Cost 0
+Effect:
+{
+    TargetLocation Stage
+    NarrowTargets Not HasMarker
+    ChooseCharacterFromTargets Choose a character to put this card underneath as a marker.
+    SaveTargets
+    TargetSelf
+    MarkerTargetsUnderSavedTarget_FaceUp
+    LoadTargets
+    GainPower 1000
+}
+Text Choose 1 of your characters without marker underneath, put this card face up underneath that card as a marker and that character gets +1000 power until end of turn.
+Auto: OnSentFromMarkerToWaitingRoom
+{
+    If StageContains 2 HasTrait Adventurer
+    {
+        MoveCard Memory
+    }
+}
+Quick
+InWaitingRoom
+Text Auto: When this card is placed from marker to waiting room, if the number of «Adventurer» characters you have is 2 or more, put this card into memory.
+Auto: StartMainPhase
+{
+    MoveCard Hand
+}
+Quick
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, return it to your hand.
+EndCard
+
+Climax: LOD/S74-T19
+Name Adventure Continent Melchior, Land of the Beginning
+JPName はじまりの地 冒険大陸メルキオール
+*BookClimax
+EndCard
+

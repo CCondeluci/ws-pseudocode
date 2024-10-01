@@ -1,0 +1,2616 @@
+
+Character: CCS/W113-001
+Name "Anniversary of Killing Out" Sakura Kinomoto
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Combo Rocket Beat
+*PowerOnMyTurn(4000)
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+Auto: OnAttack
+{
+	If Climax Rocket Beat && StageContains 2 Other && HasTrait Anniversary 
+	{
+		RevealUpTo Deck 4 
+		ChooseCardsFromTargets 0 1 HasTrait Anniversary || IsEvent
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Rocket Beat" is in your climax area, and you have 2 or more other <Anniversary> characters, look at up to 4 cards from the top of your deck, choose up to 1 <Anniversary> character or 1 event from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room.
+EndCard
+
+Character: CCS/W113-002
+Name "Guardian" Kero-chan
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+*EarlyPlay4OrMore(Anniversary)
+*PowerOnMyTurn(3000)
+Auto: OnPlay
+{
+	If LocationContainsWithDifferentNames Level 2 NameEquals Clow Card|Sakura Card|Secure
+	{
+		MultipleChoiceQuestion Choose an effects :\n1: You may put the top card of your clock into the waiting room.\n2: Put the top card of your clock of your declare any number into the waiting room then deal 1 damage to you X times. X is equal to the number you declared.|1|2
+		If Answer 0 
+		{
+			*OptionalHeal
+		}
+		Else 
+		{
+			SetXValue 0
+			ChooseNumber 1 6 Choose the heal value.
+			Repeat Answer
+			{
+				TargetTop Clock 1
+				If HasTarget
+				{
+					MoveCard WaitingRoom
+					AddToXValue 1
+				}
+			}
+			Repeat X
+			{
+				{
+					BurnSelf 1
+				}
+			}
+		}
+	}
+}
+Text Auto: EXPERIENCE When this card is placed on the stage, if your level zone have 2 or more different names between "Clow Card" and "Sakura Card" and "Secure", choose 1 of the following 2 effects and perform it. "You may put the top card of your clock into the waiting room." "Put the top card of your clock of your declare any number into the waiting room then deal 1 damage to you X times. X is equal to the number of the cards send into waiting room by this effect."
+EndCard
+
+Character: CCS/W113-003
+Name "Trajectory Step" Sakura Kinomoto
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Combo Great Power
+*PowerOnMyTurn(2000)
+*Healer
+Auto: OnAttack
+{
+	If Climax Great Power
+	{
+		PayCost 1 Discard 1 Any
+		{
+			If LocationContainsWithDifferentNames Level 2 NameEquals Clow Card|Sakura Card|Secure
+			{
+				Burn 2
+			}
+			If LocationContainsWithDifferentNames Level 3 NameEquals Clow Card|Sakura Card|Secure
+			{
+				SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+				MoveCard OpponentDeck
+				ShuffleLocation OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Discard 1 hand] When this card attacks, if "Great Power" is in your climax, you may pay the cost. If you do, if your level zone have 2 or more different names between "Clow Card" and "Sakura Card" and "Secure", deal 2 damage to your opponent, if there are 3 or more different names between "Sakura Card" and "Clow Card" and "Secure", choose up to 3 cards in your opponent's waitingroom and return them to opponent's deck and opponent shuffle the deck.
+EndCard
+
+Character: CCS/W113-004
+Name "Considerate of Sister" Touya Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Clow Card
+*ClimaxExchange
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+	GainTrait Monster
+}
+Text Auto: At the beginning of your climax phase, choose one of your <Anniversary> characters, and that character gains +1000 power and a trait <Monster> until end of turn.
+EndCard
+
+Character: CCS/W113-005
+Name "Birth of the Card Captor" Sakura Kinomoto
+Color Y
+Level 1
+Cost 0
+Power 500
+Trigger Soul
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && NameEquals "Trajectory Step" Sakura Kinomoto
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Anniversary)
+		}
+	}
+}
+Text Cont: Your other "Trajectory Step Sakura Kinomoto" in the middle position of your center stage gets +1500 power and "Auto: ENCORE [Discard a <Anniversary> character]".
+*500Assist
+Act: RestSelf
+{
+	*ScryToBottom
+}
+Text Act: [Rest its self] Look the top of your deck, place this card on the top or bottom of the deck.
+EndCard
+
+Character: CCS/W113-006
+Name "Open The Door" Sakura Kinomoto
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 1500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Anniversary
+	{
+		TargetTop Deck 2
+		RevealTargets
+		OpponentChooseCardsFromTargets 1 1 IsCharacter || IsEvent
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Discard 1 hand] When this card is placed on the stage, you may pay the cost, if you do, reveal the top 2 cards of your deck, your opponent chooses a character or an event among those cards, put it into your hand, and put the rest into the waiting room.
+*YellowCost0Bomb
+EndCard	
+	
+Character: CCS/W113-007
+Name "Free Wings" Sakura Kinomoto
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Anniversary
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if there is one other <Anniversary> character, this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn && LocationContains Level 1 IsEvent
+	{
+		PayCost 1
+		{
+			SearchDeck HasTrait Anniversary
+		}
+	}
+}
+Text Auto: EXPERIENCE [(1)] During the turn that this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, if there is one event in your level, you may pay the cost. If you do, search your deck for up to 1 <Anniversary> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard	
+	
+Character: CCS/W113-008
+Name "Fresh Breeze Blows" Sakura Kinomoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Auto: OnAttack
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter && Other && HasTrait Anniversary
+	ChooseCharactersFromTargets 0 2 Choose up to 2 character to give +1500 power and the effect.
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Auto:When this card attacks, choose up to 2 of your other <Anniversary> characters, and those characters get +1500 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room" until the end of your opponent's next turn.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: CCS/W113-009
+Name "Great Christmas" Sakura Kinomoto
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary
+	SetXValue TargetCount
+	Peek Deck X
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from top of your deck, choose up to 1 of them and put it into your hand, and put the rest into the waiting room. X is the number of <Anniversary> characters you have.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Anniversary
+	{
+		Question_Obvious Put the top card of your deck into your stock?
+		If Yes
+		{
+			BlindStock
+		}
+		TargetSelf
+		GainPower 4500
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 4 or more other <Anniversary> characters, put up to 1 top of your deck into your stock, and this card gets +4500 power in this turn.
+EndCard
+
+Character: CCS/W113-010
+Name "Kira Kira" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+*OnPlayGivePower(1500, Anniversary)
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, search your waitingroom for up to 1 «Anniversary» character, reveal it to your opponent, return it into your hand.
+EndCard
+
+Character: CCS/W113-011
+Name "High Altitude" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnUseAct
+{
+	*GiveCharacterPower(1000,Anniversary)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an ACT ability, choose 1 of your <Anniversary> characters and that character gains +1000 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetOther
+		IfTarget OnStage && HasTrait Anniversary
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other <Anniversary> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: CCS/W113-012
+Name "Stuffed Animal?" Kero-chan
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+*GainPowerWithEnoughCharacters(1000,2,Anniversary)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost StockClock
+	{
+		Message Choose a character that is equal or lower to your level and has 0 cost
+		SearchLocationForTargets Deck 0 1 HasTrait Anniversary && Compare ThatCardsCost 0 OrLess && Compare ThatCardsLevel MyLevel OrLess
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [Put the top card of your stock into your clock] When this card is placed on stage from your waiting room, you may pay the cost. If you do, search your deck for up to 1 <Anniversary> character that is equal or lower to your level and has 0 cost, put it rested on any position on your stage, and shuffle your deck.
+EndCard
+
+Character: CCS/W113-013
+Name "The Last Sakura Card" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		Repeat X
+		{
+			Question_Obvious Put the top card of your deck into your stock?
+			If Yes
+			{
+				BlindStock
+			}
+			TargetTop Deck 1
+			Reveal
+			IfThatCard HasTrait Anniversary || IsEvent
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed, put up to 1 top of your deck into your stock, reveal the top card of your deck, if it is a <Anniversary> character or an event, add it to your hand.
+EndCard
+
+Character: CCS/W113-014
+Name "Big Brother" Touya Kinomoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Clear Card
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: CCS/W113-015
+Name "Strengthening Power" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+*500Assist
+*SacrificeToSave(HasTrait Anniversary)
+Text Auto: [Put this card into your waiting room] When your other <Anniversary> characters is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, return that character to its previous stage position as resting.
+EndCard
+
+Character: CCS/W113-016
+Name "With the Star Wand" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another position on the stage.
+*OnPlayGainPower(3000)
+EndCard
+
+Character: CCS/W113-017
+Name "Ruler of the Sun" Kero-chan
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Anniversary
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Anniversary> characters, you may draw 1 card,if you do, discard a card.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Anniversary
+	ChooseCharacterFromTargets Choose a character to give +1500 power and "Auto: Encore [Discard a character]"
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Auto: When this card attacks, choose 1 of your other <Anniversary> characters, it gets +1500 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]" until the end of your opponent's next turn.
+EndCard
+
+Character: CCS/W113-018
+Name "What to look at" Sakura Kinomoto
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: GiveSelf
+{
+	If MyTurn && LocationContains Level 1 IsEvent
+	{
+		GainPower 9000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if there is one event in your level, this card gets +9000 power.
+*GainPowerOnPlay(1500)
+EndCard
+
+Character: CCS/W113-019
+Name "Ruler of the Sun" Kero-chan
+Color Y
+Level 2
+Cost 0
+Trigger Soul
+Power 4500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Combo Power of Star
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Anniversary
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If all of your characters are <Kivotos>, this card gets +4000 power.
+Auto: OnAttack
+{
+	If Climax Power of Star
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			AIChoice AddToHand
+			SearchLocationForTargets WaitingRoom 0 2 HasTrait Anniversary
+			RevealTargets
+			Message Choose 1 cards to return to hand, the rest will go to stock
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Hand
+			TargetLocation Revealed
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: CxCombo [Send "Power of Star" from your climax area to waiting room] When this card attacks, you may pay the cost. If you do, choose up to 2 <Anniversary> characters in your waiting room, return 1 cards from among them to your hand, and put the rest into your stock.
+EndCard
+
+Character: CCS/W113-020
+Name Fujitaka Kinomoto & Touya Kinomoto & Sakura Kinomoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+*Level3Assist
+Act: RestSelf
+{
+	TargetTop OpponentDeck 2
+	If Compare TargetCount 1 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Act: [Rest this] Look at up to 2 cards from top of your Opponent's deck and put them on top of the deck in any order.
+EndCard
+
+Event: CCS/W113-021
+Name Sakura Card
+Color Y
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Sakura
+Text Counter: If you have no character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect: 
+{
+		MultipleChoiceQuestion Choose an effect: \n1 If you have <anniversary> character, draw 1 card. \n2 Choose one level 1 or less opponent to be small, and choose one of your character to give +1000 power  this turn. |Effect1|Effect2
+		If Answer 0 
+		{
+			DrawCard
+		}
+		If Answer 1
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 1 OrMore
+			ChooseCharacterFromTargets_Optional Choose up to 1 character to downgrade.
+			Reveal
+			SaveTargets
+			SetXValue TargetCardsLevel
+			RememberSlot
+			PlaceOnRememberedSlot
+			Message Choose a character in waiting room to exchange.
+			OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+			If HasTarget
+			{
+				RememberTargets
+				LoadTargets
+				MoveCard OpponentWaitingRoom
+				TargetRemembered
+				PlaceOnRememberedSlot
+			}
+			TargetLocation Stage
+			ChooseCharacterFromTargets
+			GainPower 1000
+		}
+}
+Text Choose 1 of the following effects and perform it. "If you have <anniversary> character, draw 1 card.""Choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1, and choose one of your character to give +1000 power  this turn.."
+EndCard
+
+Event: CCS/W113-022
+Name Clow Card
+Color Y
+Level 1
+Cost 1
+Requirement StageContains 1 NameContains Sakura
+Text Counter: If you have no character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect: 
+{
+	SearchWaitingRoom IsCharacter
+	If LocationContains Level 1 IsEvent
+	{
+		Question Put the top of the deck into your stock?
+		If Yes
+		{
+			TargetTop Deck 1	
+			MoveCard Stock
+		}
+	}
+}
+Text Choose 1 character in your waiting room, and return it to your hand.
+Text EXPERIENCE If there is one event in your level, you may put the top card of your deck into your stock.
+EndCard
+
+Climax: CCS/W113-023
+Name Rocket Beat
+*ChoiceClimax
+EndCard
+
+Climax: CCS/W113-024
+Name Great Power
+*ChoiceClimax
+EndCard
+
+Climax: CCS/W113-025
+Name Power of Star
+Color Y
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	Message Choose a character to put into your stock.
+	SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 1 OrLower
+	RevealTargets
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Character: CCS/W113-026
+Name "Ready for Battle" Syaoran Li
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Auto: StartClimaxPhase
+{
+	If InLocation CenterStage
+	{
+		ChooseMultipleCharacters 0 2 InLocation Stage && HasTrait Anniversary && Other
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, if this card is in your center stage, choose up to 2 of your other <Anniversary> characters, and that character gains the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+Act: Discard 1 HasTrait Anniversary &&& SendSelf Stock
+{
+	RevealExactly Deck 2
+	OpponentChooseCardsFromTargets 1 1 IsCharacter || IsEvent
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+ActivationRequirement CardPosition Stand
+Text Act: [Discard a <Anniversary> character, Put this standing card into your stock] Reveal the top 2 cards of your deck, your opponent chooses a revealed character or event to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: CCS/W113-027
+Name "Secret Talk" Sakura Kinomoto
+Color G		
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Combo If We Go Together
+*Healer
+Auto: OnAttack
+{
+	If Climax If We Go Together &&& StageContains 1 Other && HasTrait Anniversary
+	{
+		MultipleChoiceQuestion Choose an effect to resolve \n1. Deal 1 damage to your opponent. \n2. [(2)]You may pay the cost, this card gains the following ability until the end of your opponent's turn. "Cont: Character facing this card cannot deal damage to a player."  |1|2
+		If Answer 0
+		{
+			Burn 1
+			TargetLocation Stage
+			ForEachTarget
+			{
+				IfTarget HasTempLabel Fired && Not HasTempLabel Overruled
+				{
+					TempLabel Overruled
+				}
+			}
+			TargetSelf 
+			TempLabel Fired
+			TriggerCustomEvent EvileyeA
+		}
+		If Answer 1
+		{
+			PayCost 2
+			{
+				TargetSelf
+				UntilEndOfOpponentsTurn
+				GainEffect
+				{
+					Cont: GiveFacing
+					{
+						GainSpecialEffect CannotDealDamage
+					}
+					Text Cont: The character facing this card cannot deal damage to players.
+				}
+				TargetLocation Stage
+				ForEachTarget
+				{
+					IfTarget HasTempLabel Fired && Not HasTempLabel Overruled
+					{
+						TempLabel Overruled
+					}
+				}
+				TargetSelf 
+				TempLabel Fired
+				TriggerCustomEvent EvileyeB
+			}
+		}
+	}
+}
+Text Auto: CxCombo If "If We Go Together" is in your climax area, and you have 1 other <Anniversary> character, when this card attacks, choose 1 of the following effects, and perform it. "Deal 1 damage to your opponent." "[(2)]You may pay the cost, this card gains the following ability until the end of your opponent's turn. "Cont: Character facing this card cannot deal damage to a player.""
+Auto: OnCustomEvent RennerA
+{
+	If HasTempLabel Fired && Not HasTempLabel Overruled
+	{
+		PayCost 2
+		{
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					GainSpecialEffect CannotDealDamage
+				}
+				Text Cont: The character facing this card cannot deal damage to players.
+			}
+			TempLabel Overruled
+		}
+	}
+}
+Quick
+Auto: OnCustomEvent RennerB
+{
+	If HasTempLabel Fired && Not HasTempLabel Overruled
+	{
+		Burn 1
+		TargetSelf
+		TempLabel Overruled
+	}
+}
+Quick
+Text Auto: CxCombo If "If We Go Together" is in your climax area, and you have 1 other <Anniversary> character, when this card attacks, choose 1 of the following effects, and perform it. "Deal 1 damage to your opponent." "[(2)]You may pay the cost, this card gains the following ability until the end of your opponent's turn. "Cont: Character facing this card cannot deal damage to a player."" 
+EndCard			
+
+Character: CCS/W113-028
+Name "Feeling of mutual understanding" Syaoran Li & Sakura Kinomoto
+Color G		
+Level 0
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Clear Card	
+Trait3 Magic
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard	
+
+Character: CCS/W113-029
+Name "Harbinger of Storm" Sakura Kinomoto
+Color G		
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Clow Card	
+Trait3 Magic
+Auto: OnPlay 
+{
+	Mill 2 
+	If TargetsContain 1 IsClimax
+	{
+		TargetLocation Stage 
+		ChooseCharacterFromTargets Choose a Character
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax revealed among those cards, choose 1 of your characters, it gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent is reversed, if you have a climax in your climax area, you may put the top card of your deck into stock.
+EndCard
+
+Character: CCS/W113-030
+Name "Brilliant" Sakura Kinomoto
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: CCS/W113-031
+Name "Beautiful Sky" Sakura Kinomoto
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: GiveSelf
+{
+	If MyTurn && LocationContains Level 1 IsEvent
+	{
+		GainPower 6000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if there is one event in your level, this card gets +6000 power.
+Auto: OnPlay
+{
+	PayCost Rest 1 Other && HasTrait Anniversary
+	{
+		If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any,Any)
+		}
+	}
+}
+Text Auto: [Rest 1 of your other <Anniversary> characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 card in your level and 1 card in your waiting room, and exchange them.
+*HandEncoreTrait(Anniversary)
+EndCard
+
+Character: CCS/W113-032
+Name "The Assigned Mission" Sakura Kinomoto
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Anniversary
+	{
+			Peek Deck 3
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			TargetLocation ScryArea
+			Reorder
+			EndPeek
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 2000
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, if there is one other <anniversary> character, look at up to 3 cards from the top of your deck, choose up to 1 card to add to your hand, then put the rest back on top of your deck in any order, until the end of your opponent's turn, this card gets +2000 power.
+EndCard
+
+Character: CCS/W113-033
+Name "New Master" Sakura Kinomoto
+Color G		
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Combo Spread My Wings
+*PowerOnMyTurn(3000)
+Auto: OnSpecificClimaxPlay Spread My Wings
+{
+	If InLocation CenterStage &&& StageContains 2 Other && HasTrait Anniversary
+	{
+		GainPower 1000
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				If MyTurn
+				{
+					TargetLocation Stage
+					NarrowTargets Other && HasTrait Anniversary
+					ChooseCharacterFromTargets Choose a character to rest and move to the backstage.
+					Rest
+					If HasTarget
+					{
+						MoveToOpenPosition False True
+					}
+				}
+			}
+			Text Auto: During your turn, when this card's battle opponent becomes reversed, choose one of your other <Anniversary> characters, rest it, and move it to an open position of your backstage.
+		}
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				Question Return the attack target to your hand?
+				If Yes
+				{
+					TargetSelf
+					MoveCard Hand
+				}
+			}
+			Text Auto: When this card is frontal attacked, you may return this card to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When "Spread My Wings" is placed on your climax area, if this card is in the center stage, and there are 2 other <Anniversary> characters, this card gets +1000 power this turn, and gets the following abilities until the end of your opponent's turn "Auto: During your turn, when this card's battle opponent becomes reversed, choose one of your other <Anniversary> characters, rest it, and move it to an open position of your backstage." "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: CCS/W113-034
+Name "Precious Bear" Syaoran Li
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Auto: At the start of your opponent's attack phase, choose 1 of your <Anniversary> characters and that character gains +500 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Anniversary)
+EndCard
+
+Character: CCS/W113-035
+Name "My Imagine" Sakura Kinomoto
+Color G		
+Level 1
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Sakura Card	
+Trait3 Magic
+*BackupBonus1000(Anniversary)
+Backup 1000
+EndCard
+
+Character: CCS/W113-036
+Name "Overflowing Happiness" Syaoran Li
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Combo Promise
+*GainPowerOnPlay(3000)
+Auto: OnReverseOpponent 
+{
+	If Climax Promise &&& StageContains 1 Other && HasTrait Anniversary
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets WaitingRoom 0 2 HasTrait Anniversary
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo [Discard a card] When this card's battle opponent becomes reversed, if "Promise" is in your climax area, and you have another <Anniversary> character, yau may pay the cost. If you do, choose up to 2 <Anniversary> character in your waiting room, return it to hand.
+EndCard
+
+Character: CCS/W113-037
+Name "Clow Card Collector" Syaoran Li & Sakura Kinomoto
+Color G		
+Level 2
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Auto: OnSentFromStageToElsewhere Memory
+{
+	If Not LocationContains Memory 1 Other && NameEquals "Clow Card Collector" Syaoran Li & Sakura Kinomoto
+	{
+		GainEffect
+		{
+			Cont: MemoryGiveHand
+			{
+				If NameEquals "Secret Talk" Sakura Kinomoto
+				{
+					LoseLevel 1
+				}
+			}
+			Text Cont: MEMORY If this card is in the memory, your ""Secret Talk" Sakura Kinomoto" in your hand lose -1 level.
+		}
+	}
+}
+Text Auto: MEMORY When this card is sent from the stage to the memory, If you don't have another "Clow Card Collector Syaoran Li & Sakura Kinomoto" in your memory, during this turn, this card gets the following ability "Cont: MEMORY If this card is in the memory, your ""Secret Talk" Sakura Kinomoto" in your hand lose -1 level.".
+Act: 3 SendSelf Memory Discard 1 Any
+{
+	*ChangeWaitingRoom("The Hand that Reached Out" Syaoran Li)
+}
+Text Act: [(3) Discard 1 hand and put this card into your memory] Choose 1 ""The Hand that Reached Out" Syaoran Li" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: CCS/W113-038
+Name Like A Family Yuna D. Haidu & Shinomoto Akiho
+Color G		
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Clock
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			TargetSelf
+			GainPower 6000
+			GainSoul 2
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +6000 power and +2 soul until end of turn.
+EndCard
+
+Character: CCS/W113-039
+Name "The Hand that Reached Out" Syaoran Li
+Color G		
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 7500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: GiveHand
+{
+	If NameEquals "Secret Talk" Sakura Kinomoto &&& Not StageContains 1 Other && NameEquals "The Hand that Reached Out" Syaoran Li
+	{
+		ChangeCost -1
+	}
+}
+Text Cont: If you don't have another '"The Hand that Reached Out" Syaoran Li', all of your ""Secret Talk" Sakura Kinomoto" get -1 cost while in your hand.
+*2000Assist
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		GainEffect
+		{
+			Auto: OnCustomEvent EvileyeA
+			{
+				If Not StageContains 1 Other && NameEquals "The Hand that Reached Out" Syaoran Li
+				{
+					Question_Obvious Use the other "Secret Talk" Sakura Kinomoto effect?
+					If Yes
+					{
+						TriggerCustomEvent RennerA
+					}
+				}
+			}
+			Quick 
+			Text Cont: If you don't have another '"The Hand that Reached Out" Syaoran Li', after you perform the chosen effect of CxCombo of your '"Secret Talk" Sakura Kinomoto', you may choose up to 1 of the effect that wasn't chosen and perform it.
+		}
+		GainEffect
+		{
+			Auto: OnCustomEvent EvileyeB
+			{
+				If Not StageContains 1 Other && NameEquals "The Hand that Reached Out" Syaoran Li
+				{
+					Question_Obvious Use the other "Secret Talk" Sakura Kinomoto effect?
+					If Yes
+					{
+						TriggerCustomEvent RennerB
+					}
+				}
+			}
+			Quick
+			Text Cont: If you don't have another '"The Hand that Reached Out" Syaoran Li', after you perform the chosen effect of CxCombo of your '"Secret Talk" Sakura Kinomoto', you may choose up to 1 of the effect that wasn't chosen and perform it.
+		}       
+	}
+}
+Text Auto: [(1) Discard a card] At the start of your climax phase, you may pay the cost. If you do, this card gains the following ability until end of turn. "Cont: If you don't have another '"The Hand that Reached Out" Syaoran Li', after you perform the chosen effect of CxCombo of your '"Secret Talk" Sakura Kinomoto', you may choose up to 1 of the effect that wasn't chosen and perform it."
+EndCard
+
+Character: CCS/W113-040
+Name "Throbbing Heart" Sakura Kinomoto
+Color G		
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+*Level0Assist
+*GreenLevel0Bomb
+EndCard
+
+Character: CCS/W113-041
+Name "Like A Butterfly" Sakura Kinomoto
+Color G		
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrMore
+	}
+}
+Text Auto: [Discard 1 climax] When this is placed on stage from hand or sent from stage to waiting room, you may pay the cost. If you do, choose 1 level 1 or higher character from your waiting room, and add it to hand.
+EndCard
+
+Character: CCS/W113-042
+Name "Gentle Expression" Syaoran Li
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnOtherCharacterAttacks
+{
+	TargetOther
+	If Compare TargetCardsLevel 0 OrLess
+	{
+		TargetSelf
+		GainPower 2500
+	}
+}
+Quick
+Text Auto: When your other level 0 or less character attacks, this card gets +2500 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Anniversary
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose a <Anniversary> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: CCS/W113-043
+Name "A girl who is Energetic" Sakura Kinomoto
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher
+	{
+		TargetSelf
+		Question Return ""A girl who is Energetic" Sakura Kinomoto" to your hand?
+		If Yes && OnStage
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck, if that card is level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: CCS/W113-044
+Name "Sharp Look" Syaoran Li
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+*GivePowerOnPlay(1500,Anniversary)
+*OnAttackGivePower(1500,Anniversary)
+EndCard
+
+Event: CCS/W113-045
+Name Sakura Card
+Color G
+Level 1
+Cost 0
+Counter
+Requirement StageContains 2 NameContains Sakura
+Text Counter: If you have 1 or less character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	TargetTop Deck 1
+	MoveCard Stock
+	Brainstorm 3
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		TargetTop Deck 1
+		MoveCard Stock
+	}
+	If Compare CardsInStock 3 OrMore
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}
+}
+Text BRAINSTORM Put the top card of your deck into your stock. Flip over the top 3 cards of your deck, then send them to waiting room.If there is a climax card among them, put the top card of your deck into stock. 
+Text If you have 3 or more card in your stock, choose one of your characters to get +1000 power in this turn.
+EndCard
+
+Event: CCS/W113-046
+Name A Scene in Cultural Festival
+Color G
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck NameContains Sakura
+	SearchDeck NameContains Syaoran Li
+	Discard 1 Any
+	ShuffleLocation Deck
+}
+Text Search your deck for up to 1 character with "Sakura" in its name and 1 character with "Syaoran Li" in its name, reveal it to your opponent, put it into your hand, discard 1 hand and shuffle your deck.
+EndCard
+
+Climax: CCS/W113-047
+Name If We Go Together
+*BarClimax	
+EndCard
+
+Climax: CCS/W113-048
+Name Spread My Wings
+*BarClimax	
+EndCard
+
+Climax: CCS/W113-049
+Name Promise
+*BarClimax	
+EndCard
+
+Character: CCS/W113-050
+Name "Sakura Dancing In The Air" Sakura Kinomoto
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+*PowerOnMyTurn(2000)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Anniversary
+	}
+}
+Text Auto: [Discard 1 hand] When this card is put into your waiting room from the stage, you may pay the cost, put the top 2 cards of your deck in the waiting room, choose up to 1 level X or lower <Anniversary> character in your waiting room and return it to your hand. X equals the sum of the levels of the cards put in the waiting room by this card effect.
+EndCard
+
+Character: CCS/W113-051
+Name "It's the Best Shot!" Daidouji Tomoyo
+Color R	
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Camera
+Cont: GiveHand
+{
+	If IsEvent
+	{
+		GainSpecialEffect IgnoreColorRequirement
+	}
+}
+Text Cont: Your events can be played from your hand without fulfilling color requirements.
+Auto: OnUseEvent
+{
+	Question Exchange a card in your level with a card in your waiting room?
+	If Yes
+	{
+		*ExchangeCardInLevelWithWaitingRoom(Any,Any)
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you play an event, you may choose 1 card in your level and 1 card in your waiting room, and exchange them.
+*Act1RestSelfSalvageBrainstorm(Anniversary)
+EndCard
+
+Character: CCS/W113-052
+Name "The First Step" Sakura Kinomoto
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Combo With everyone in Tomoeda Town
+*PowerOnMyTurn(4000)
+Auto: OnOpponentReverse
+{
+	If Climax With everyone in Tomoeda Town
+	{
+		Repeat 2
+		{
+			Question Put the top card of your deck into your waiting room?
+			If Yes
+			{
+				Mill 1
+				IfTarget InLocation WaitingRoom && IsEvent || HasTrait Anniversary
+				{
+					MoveCard Hand
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "With everyone in Tomoeda Town" is in your climax area, perform the following action twice. "You may put the top card of your deck into your waiting room. If that card is an <Anniversary> character or an event, return it to your hand.
+EndCard
+
+Character: CCS/W113-053
+Name "On The Other End Of The Sky" Sakura Kinomoto & Daidouji Tomoyo
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Auto: OnPlay
+{
+	If Compare MyLevel 1 OrMore
+	{
+		Question Exchange a card in your level with a card in your waiting room?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any,Any)
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your level and 1 card in your waiting room, and exchange them.
+*OnAttackGivePower(1500,Anniversary)
+EndCard
+
+Character: CCS/W113-054
+Name "Heart pattern costume" Sakura Kinomoto
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+*RestGivePower(1500,Anniversary)
+EndCard
+
+Character: CCS/W113-055
+Name "Flame pattern costume" Sakura Kinomoto
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+*EarlyPlay4OrMore(Anniversary)
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary
+	SetXToNumberOfCharacters HasTrait Anniversary
+	MultiplyXValue 500
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Anniversary> characters, it gets +X power until the end of turn. X is equal to the number of <Anniversary> characters you have x500.
+*StockHealer
+EndCard
+
+Character: CCS/W113-056
+Name "Syaoran's childhood friend" Meiling Li
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Kempo
+Auto: OnPlay
+{
+	Question Yes or No？
+	If Yes
+	{
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentRevealed
+		OpponentRefresh
+		TargetLocation OpponentRevealed
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may perform the following action. "Your opponent chooses a climax from their waiting room and returns every card except the chosen climax back into their deck and shuffles their deck."
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBurn(1)
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent." 
+EndCard
+
+Character: CCS/W113-057
+Name "Catch You Catch Me" Sakura Kinomoto
+Color R		
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Combo Card Captor Start!
+*GlobalPower(1500,Anniversary)
+Auto: OnSpecificClimaxPlay Card Captor Start!
+{
+	If InLocation CenterStage &&& LocationContains Level 1 NameEquals Clow Card &&& LocationContains Level 1 NameEquals Sakura Card &&& LocationContains Level 1 NameEquals Secure &&& LocationContains Stage 1 Other && HasTrait Anniversary
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets 0 1 Any
+		Bounce
+		TargetSelf
+		GainEffect
+		{
+			Auto: OnDirectAttack
+			{
+				PayCost 1
+				{
+					Peek OpponentDeck 3
+        					If HasTarget
+        					{
+        						Message Choose the cards to put back on top.
+        						ChooseCardsFromTargets 0 3 Any
+        						MoveCard OpponentDeck
+        						Reorder
+        						PutTheRestIntoTheWaitingRoom
+        					}
+				}
+			}
+        			Text Auto: [(1)] When this card direct attacks, you may pay the cost. If you do, look at up to 3 cards from the top of your opponent's deck, choose up to 3 of them and put them on top of your opponent's deck in any order, put the rest into the waiting room.
+		}
+	}
+}
+Text Auto: CxCombo When "Card Captor Start!" is placed on your climax area, if this card is in your center stage, and there are 1 "Clow Card" , 1 "Sakura Card" and 1 "Secure" in your level, and you have 2 other <Anniversary> characters, choose up to one of your opponent's character and return it to your opponent's hand, and this card gets the following ability "Auto: [(1)] When this card direct attacks, you may pay the cost. If you do, look at up to 3 cards from the top of your opponent's deck, choose up to 3 of them and put them on top of your opponent's deck in any order, put the rest into the waiting room."
+EndCard
+
+Character: CCS/W113-058
+Name "Magic that Illuminates the Shadows" Sakura Kinomoto
+Color R	
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+*OnPlayGainPower(1500)
+Auto: OnReversed
+{
+	If OnStage
+	{
+		PayCost 1 Clock SendSelf BottomOfDeck
+		{
+			*CheckAndAddAll(2,HasTrait Anniversary || IsEvent)
+		}
+	}
+}
+Text Auto: [(1) Put the top card of your deck to clock, send this to the botton of your deck] When this becomes reversed in battle, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 <Anniversary> characters or events from among them, show them to your opponent, add them to hand, and send the rest to waiting room. 
+EndCard
+
+Character: CCS/W113-059
+Name "The Best Happiness" Sakura Kinomoto
+Color R	
+Level 0
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		SearchWaitingRoom NameEquals Secure|Clow Card|Sakura Card
+		TargetSelf
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Auto: [Put a card from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost, search your waitingroom for up to 1 "Secure" or "Clow Card" or "Sakura Card", and add it to your hand, and this card gets +1 level and +1500 power this turn.
+EndCard
+
+Character: CCS/W113-060
+Name "For my best friend" Daidouji Tomoyo
+Color R		
+Level 2
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Camera
+Combo Friends, Never Part In This Lifetime
+*1000Assist
+Auto: PlacedBy Friends, Never Part In This Lifetime
+{
+	If Phase Climax &&& StageContains 1 Other && HasTrait Anniversary
+	{
+		PayCost 1 SendClimax WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 2 OrLess && HasTrait Anniversary
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo [(1) Send 1 "Friends, Never Part In This Lifetime" from your climax area into your waiting room] During your climax phase, when this is placed on stage from your waiting room by the effect of the "Friends, Never Part In This Lifetime", if there is one other <anniversary> character, you may pay the cost. If you do, choose 1 level 2 or lower character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: CCS/W113-061
+Name "Good friends" Daidouji Tomoyo
+Color R		
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Camera
+Cont: GiveAll
+{
+	If NameEquals "Syaoran's Fiance" Meiling Li
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: All of your other ""Syaoran's Fiance" Meiling Li" gets +1500 power and "Auto: ENCORE [Discard a character]".
+EndCard
+
+Character: CCS/W113-062
+Name "Until now" Sakura Kinomoto & Daidouji Tomoyo
+Color R
+Level 1
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your deck into your waiting room.
+Backup 1500
+EndCard
+
+Character: CCS/W113-063
+Name "Passionate About Photography" Daidouji Tomoyo
+Color R		
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Camera
+*OnAttackGainPowerForEachOther(500,Anniversary)
+Auto: OnAttack
+{
+	If LocationContains Level 1 IsEvent
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Anniversary
+		ChooseCharacterFromTargets Choose a character to give +3000 power.
+		GainPower 3000
+	}
+}
+Text Auto: EXPERIENCE When this card attacks, if there is one event in your level, choose 1 of your <Anniversary> characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: CCS/W113-064
+Name "Battle Transfer Student" Meiling Li
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Kempo
+Auto: OnPlay
+{
+	If StageContains 1 Other HasTrait Anniversary
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Anniversary> character, this card gets +2000 power until end of turn.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: CCS/W113-065
+Name "From Now On" Sakura Kinomoto & Daidouji Tomoyo
+Color R		
+Level 1
+Cost 1
+Power 4500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, this card gets +2000 power.
+Cont: GiveSelf
+{
+	TargetFacing
+	If Compare TargetCardsCost 0 OrLess
+	{
+		GainSpecialEffect CannotBeReversed
+	}
+}
+Text Cont: If the character facing this card is cost 0 or lower, this card cannot become reversed.
+EndCard
+
+Character: CCS/W113-066
+Name "The sky I looked up at" Sakura Kinomoto
+Color R		
+Level 1
+Cost 1
+Power 5500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+*GainPowerWithEnoughCharacters(2000,2,Anniversary)
+*HandEncore
+EndCard
+
+Character: CCS/W113-067
+Name "Syaoran's Fiance" Meiling Li
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Kempo
+Auto: OnAttack
+{
+	ChooseNumber 0 1 2 Choose the soul value.
+	GainSoul Answer
+}
+Quick
+Text Auto: When this card attacks, choose 0 or 1 or 2. This card gets +X soul until end of turn, where X equals the chosen number.
+*RedEarlyPlayBomb
+EndCard
+
+Character: CCS/W113-068
+Name "Water Slide" Sakura Kinomoto
+Color R		
+Level 2
+Cost 2
+Trigger Soul
+Power 5000
+Soul 2
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Anniversary
+	SetXValue TargetCount
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont:This card gets +2000 power for each of your other <Anniversary> characters in the backstage.
+*GlobalPower(500,Anniversary)
+*HandEncore
+EndCard
+
+Event: CCS/W113-069
+Name Secure
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Sakura
+Text Counter: If you do not have character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	DrawCard
+}
+Text Draw 1 card.
+EndCard
+
+Event: CCS/W113-070
+Name Clow Card
+Color R
+Level 1
+Cost 0
+Requirement StageContains 3 NameContains Sakura
+Text If you have 2 or less characters with "Sakura" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	SearchDeck HasTrait Anniversary
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Search your deck and choose one <Anniversary> character and add it into your hand, choose one of your characters to get +1000 power in this turn.
+EndCard
+
+Climax: CCS/W113-071
+Name With everyone in Tomoeda Town
+*DoorClimax
+EndCard
+
+Climax: CCS/W113-072
+Name Card Captor Start!
+*DoorClimax
+EndCard
+
+Climax: CCS/W113-073
+Name Friends, Never Part In This Lifetime
+*StandbyClimax
+EndCard
+
+Character: CCS/W113-074
+Name "Full Moon Night Sky" Sakura Kinomoto
+Color B	
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: CCS/W113-075
+Name "Cheer Activities" Minomoto Sakura
+Color B	
+Level 3
+Cost 2
+Power 9500
+Trigger Soul
+Soul 2
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Combo New Fashion Photography Conference
+Auto: OnPlay
+{
+	If LocationContainsWithDifferentNames Level 2 IsEvent
+	{
+		GainPower 3500
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoBackupOnAttack
+			}
+			Text Cont: During this card's battle, your opponent cannot play "<b>Backup</b>" from hand.
+		}
+	}
+	If LocationContainsWithDifferentNames Level 3 IsEvent
+	{
+		Burn 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your level zone have 2 or more different names between "Clow Card" and "Sakura Card" and "Secure", this card gets +3500 power and the following ability until the end of your opponent's next turn. "Cont: During this card's battle, your opponent cannot play "<b>Backup</b>" from hand." If there are 3 or more different names between  "Sakura Card" and "Clow Card" and "Secure", deal 1 damage to your opponent.
+Auto: OnEndOfAttack
+{
+	If Climax New Fashion Photography Conference
+	{
+		PayCost 1 Discard 3 Any
+		{
+			TargetLocation Stage
+			NarrowTargets Other && NameEquals "Cheer Activities" Minomoto Sakura
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(1) Put 3 card from your hand into your waiting room] This ability activates up to 1 time per turn. At the end of this card's attack, if "New Fashion Photography Conference" is in your climax area, you may pay the cost. If you do, Stand all of your other ""Cheer Activities" Minomoto Sakura".
+EndCard
+
+Character: CCS/W113-076
+Name "Be In The Same Camp" Sakura Kinomoto
+Color B	
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnPlay
+{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		TargetSelf
+		GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this gets +X power until end of turn. X is 1000 times the number of characters opponent has.
+*OnPlayTradeClimaxForCharacter(Anniversary)
+EndCard
+
+Character: CCS/W113-077
+Name "Heavy Rain Advisory" Sakura Kinomoto
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: StartOpponentAttackPhase
+{
+	If AllYourCharacters HasTrait Anniversary
+	{
+		Question Put the top card of your deck into your waiting room?
+		If Yes
+		{
+			Mill 1
+			IfTarget Compare ThatCardsLevel 2 OrLess && IsCharacter
+			{
+				TargetSelf
+				GainEffect
+				{
+					Auto: OnFrontalAttacked
+					{
+						Question Return the attack target to your hand?
+						If Yes
+						{
+							TargetSelf
+							MoveCard Hand
+						}
+					}
+					Text Auto: When this card is frontal attacked, you may return this card to your hand.
+				}
+			}
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, if all of your characters are <Anniversary>, you may put the top card of your deck into your waiting room. If that card is a level 2 or lower character, this card gains the following ability until end of turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Anniversary)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 «Anniversary character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: CCS/W113-078
+Name "Be In The Same Camp" Shinomoto Akiho
+Color B	
+Level 1
+Cost 0
+Power 5500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Clock
+Combo Sweet Cooking
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level while on the stage.
+Auto: OnAttack
+{
+	If Climax Sweet Cooking &&& StageContains 2 Other && HasTrait Anniversary
+	{
+		RevealUpTo Deck 3
+		ChooseCardsFromTargets 0 1 HasTrait Anniversary
+		If HasTarget
+		{
+			SaveTargets
+			TargetLocation ScryArea
+			ChooseCardsFromTargets 0 1 IsEvent
+			AddSavedToCurrentTargets
+			If Compare TargetCount 2 OrMore
+			{
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+				Discard 1 Any
+			}
+			Else
+			{
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+			}
+		}
+		Else
+		{
+			TargetLocation ScryArea
+			ChooseCardsFromTargets 0 1 IsEvent
+			If HasTarget
+			{
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+				Discard 1 Any
+			}
+			Else
+			{
+				PutTheRestIntoTheWaitingRoom
+			}
+		}
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: Combo When this card attacks, if "Sweet Cooking" is in your climax and there are 2 other <Aniversary> characters, look up to 3 top of your deck, choose up to 1 <Anniversary> character and up to 1 event, add them into your hand, and this card gets +1000 power until end of turn, if you add event into your hand, discard 1 hand.
+EndCard
+
+Character: CCS/W113-079
+Name "Charming Teacher" Kaho Mizuki
+Color B	
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: GiveAll
+{
+	If NameEquals Ruby Moon & Spinel Sun & Eriol Hiragizawa
+	{
+		GainPower 3000
+	}
+}
+Text Cont: All of your other "Ruby Moon & Spinel Sun & Eriol Hiragizawa" gets +3000 power.
+*GlobalPower(1000,Anniversary)
+*Act1Rest2SalvageBrainstorm(Anniversary)
+EndCard
+
+Character: CCS/W113-080
+Name Ruby Moon & Spinel Sun & Eriol Hiragizawa
+Color B	
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals "Thoughts entrusted to me" Clow Reed
+	{
+		GainPower 4000
+		GainEffect
+		{
+			*HandEncoreTrait(Anniversary)
+		}
+	}
+}
+Text Cont: MEMORY If there are ""Thoughts entrusted to me" Clow Reed" in your memory, this card gains +4000 power and "Auto: ENCORE [Discard a <Anniversary> character]".
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Anniversary
+	{
+		If LocationContains Clock 1 IsCharacter
+		{
+			SearchLocationForTargets Clock 0 1 IsCharacter
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Anniversary> characters, you may choose 1 character in your clock, and put it into your memory.
+EndCard
+
+Character: CCS/W113-081
+Name "Black Cat Style Costume" Sakura Kinomoto
+Color B	
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+*EarlyPlay4OrMore(Anniversary)
+*PowerOnMyTurn(2000)
+Auto: OnPlay
+{
+	PayCost Discard 2 Any
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 IsEvent || HasTrait Anniversary && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		If Compare CardsInClock 1 OrMore
+		{
+			Question_Obvious Put the top card of your clock into your stock?
+			If Yes
+			{
+				TargetTop Clock 1
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: [Discard 2 cards] When this card is placed on the stage from your hand, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 <Anniversary> character or an event to add to your hand, put the rest into the waiting room, put up to 1 card from the top of your clock into your stock, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: CCS/W113-082
+Name "Thoughts entrusted to me" Clow Reed
+Color B	
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magi
+*GivePowerOnPlay(500,Any)
+Act: 1 SendSelf Memory
+{
+	*Check3Add1(Anniversary)
+}
+Text Act: [(1) Put this card into your memory] Look at up to 3 cards from the top of your deck, choose up to 1 <Anniversary> character, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: CCS/W113-083
+Name "Sheep Advisory" Sakura Kinomoto
+Color B	
+Level 1
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+*GlobalPower(500,Anniversary)
+Act: Rest 2 Any
+{
+	RevealUpTo Deck 3
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsEvent
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		CheckForEmptyDeck
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [Rest 2 of your characters] Look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+Act: RestSelf
+{
+	If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+	{
+		*ExchangeCardInLevelWithWaitingRoom(Any,Any)
+	}
+}
+Text Act: [RestSelf] Choose a card in your level and a card in your waiting room, and exchange them.
+EndCard
+
+Character: CCS/W113-084
+Name "Referee" Yue
+Color B	
+Level 1
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Cont: Assist
+{
+	If LocationContains Level 1 IsEvent
+	{
+		GainPower 500
+		GainEffect
+		{
+			*EncoreStepIfNoneRestedPayToRest
+		}
+	}
+}
+Text Cont: ASSIST EXPERIENCE If there is one event in your level, your characters in front of this card get +500 power and the following ability. "Auto: [(1)] At the beginning of the encore step, if you do not have any other rested characters on your center stage, you may pay the cost, rest this card."
+*RestGivePower(1500,Anniversary)
+EndCard
+
+Character: CCS/W113-085
+Name "Feeling Super Matched" Sakura Kinomoto
+Color B	
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 IsCharacter
+	SaveTargets
+	TargetLocation Hand
+	ChooseCardsFromTargets 0 1 IsEvent || IsClimax
+	AddSavedToCurrentTargets
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character and up to 1 event or 1 climax, reveal it to your opponent, put them into your stock in any order.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: CCS/W113-086
+Name "Good friends" Sakura Kinomoto
+Color B	
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+*GainPowerWithEnoughCharacters(8000,2,Anniversary)
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If OpponentsTurn
+			{
+				GainPower 2000
+			}
+		}
+		Text Cont: During your opponent's turn, this card gains +2000 power.
+	}
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*GreatPerformance
+	}
+}
+Text Auto: When this card is placed on stage from your hand, this card gains the following 2 abilities until the end of your opponent's turn. "Cont: During your opponent's turn, this card gains +2000 power." "Cont: GREAT PERFORMANCE"
+EndCard
+
+Character: CCS/W113-087
+Name "The Cheering Conveyed" Sakura Kinomoto
+Color B
+Level 2
+Cost 1
+Power 3500
+Trigger Soul
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+*LevelAssist
+Act: RestSelf Discard 1 IsEvent
+{
+	Heal
+}
+Text Act: [Discard one event and Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: CCS/W113-088
+Name "Aiming to be Good Friends" Sakura Kinomoto
+Color B	
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Combo Book of Beginnings
+Auto: StartMyEncoreStep
+{
+	If Climax Book of Beginnings &&& StageContains 1 Other &&& HasTrait Anniversary
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: CxCombo At the start of your encore step, if you have "Book of Beginnings" in your climax area, and you have another <Anniversary> characters, you may put the top card of your deck into stock.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: CCS/W113-089
+Name "Soft Smile" Yukito Tsukishiro
+Color B	
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Glasses
+*GlobalPower(500,Anniversary)
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainSoul 1
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: CCS/W113-090
+Name "Tomoeda Middle School" Sakura Kinomoto
+Color B	
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsCost 0 OrLower
+		ChooseCharacterFromTargets_Optional You may choose a character to put into the waiting room.
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, you may choose 1 cost 0 or lower character in your opponent's center stage, and put it into their waiting room.
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		BlindStock
+	}
+}
+Text Auto: [Put the top of your deck into the clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your deck into your stock.
+EndCard
+
+Character: CCS/W113-091
+Name "Clear Wish" Sakura Kinomoto
+Color B	
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Clear Card
+Trait3 Magic
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	If TargetsContain 1 IsEvent
+	{
+		AIChoice AddToHand
+		Message Choose an event to add to your hand
+		ChooseCardsFromTargets 1 1 IsEvent
+		MoveCard Hand
+		PutTheRestInToTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Slow
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+EndCard
+
+Character: CCS/W113-092
+Name "Important person" Yukito Tsukishiro
+Color B	
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Glasses
+Auto: OnPlay
+{
+	If StageContains 1 Other HasTrait Anniversary
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Anniversary> character, this card gets +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If StageContains 1 Other && HasTrait Anniversary
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget Compare ThatCardsLevel 2 OrMore && IsCharacter
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you have another <Anniversary> character, reveal the top card of your deck. If that card is a level 2 or higher character, put it into your hand.
+EndCard
+
+Character: CCS/W113-093
+Name "A Happy Smiling Face" Sakura Kinomoto
+Color B	
+Level 1
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Act_Backup: 0
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetMyCharacterInBattle
+	GainPower X
+}
+Quick
+Requirement LocationContains Level 1 Any
+Text Act: Backup X, Level 1 [Put it into your waitingroom] Your character in battle gets +X power until end of turn.X is the number of <Anniversary> characters you have times 500.
+EndCard
+
+Character: CCS/W113-094
+Name "Excited Mood" Sakura Kinomoto
+Color B	
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Anniversary
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have other <Anniversary> character 2 or more, this card gets +2000 power until end of turn.
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost 1
+		{
+			If OnStage
+			{
+				Rest
+				ScheduleEffectForTargets StartMyEncorePhase
+				{
+					Effect:
+					{
+						TargetSelf
+						MoveCard WaitingRoom
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waitingRoom.
+EndCard
+
+Character: CCS/W113-095
+Name "Ruler of the Moon" Yue
+Color B	
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Put a character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 2500
+EndCard
+
+Character: CCS/W113-096
+Name "Embrace your thoughts" Sakura Kinomoto
+Color B	
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Anniversary
+Trait2 Sakura Card
+Trait3 Magic
+Cont: GiveSelf
+{
+	If StageContains 4 Other && HasTrait Anniversary
+	{
+		GainPower 6000
+	}
+}
+Text Cont: If you have 4 or more other <Anniversary> characters, this card gains +6000 power.
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Anniversary
+	{
+		Question_Obvious Do you want to draw 2 cards?
+		If Yes
+		{
+			DrawCard
+			DrawCard
+			Discard 2 Any
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 2 or more other <Anniversary> characters, you may draw 2 cards. If so, discard 2 cards.
+EndCard
+
+Event: CCS/W113-097
+Name Secure
+Color B
+Level 1
+Cost 0
+Counter
+Requirement StageContains 1 NameContains Sakura
+Text Counter: If you have no character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	RevealUpTo Deck 4
+	ChooseCardsFromTargets 0 1 HasTrait Anniversary || IsEvent
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Counter Look up to 4 top of  your deck, and choose up to 1 <Anniversary> character or 1 event, reveal it to your opponent, put it into your hand, and put the rest into your waitingroom.
+EndCard
+
+Climax: CCS/W113-098
+Name New Fashion Photography Conference
+*GateClimax
+EndCard
+
+Climax: CCS/W113-099
+Name Sweet Cooking
+*GateClimax
+EndCard
+
+Climax: CCS/W113-100
+Name Book of Beginnings
+*GateClimax
+EndCard
+
+Character: CCS/W113-P01
+Name "See you later!" Sakura Kinomoto
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Clow Card
+Trait3 Magic
+Cont: InHand
+{
+	GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: This card can be played from your hand without fulfilling color requirements.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Clow Card|Sakura Card|Secure
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Clow Card" or "Sakura Card" or "Secure" in your waiting room, and return it to your hand.
+EndCard

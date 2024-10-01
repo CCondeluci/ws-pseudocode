@@ -1,0 +1,774 @@
+Character: IAS/S93-003
+Name Autumn-Colored High Five, Yayoi Takatsuki
+JPName 秋色ハイ、ターッチ♪　高槻やよい
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Family
+Combo Deep, Deep Blue
+*GainPowerWithEnoughCharacters(2000,2,Music)
+Auto: OnEndOfAttack
+{
+    If Climax Deep, Deep Blue && StageContains 2 Other && HasTrait Music
+    {
+        PayCost 3 Discard 1 IsCharacter && HasTrait Music
+        {
+            Stand
+            SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+            MoveCard OpponentDeck
+            ShuffleLocation OpponentDeck
+        }
+    }
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(3) Put a «Music» character from your hand to the waiting room] This ability activates up to once per turn. At the end of this card's attack, if "Deep, Deep Blue" is in your climax area and the number of other «Music» characters you have is 2 or more, you may pay the cost. If you do, stand this card, choose up to 3 cards in your opponent's waiting room and return them to the deck, and your opponent shuffles that deck.
+EndCard
+
+Character: IAS/S93-005
+Name Exciting Sweet Time, Mami Futami
+JPName うきうきスイートタイム　双海真美
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Twins
+Auto: OnPlay
+{
+    If StageContains 2 Other && HasTrait Music
+    {
+        *OptionalDrawDiscard
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 2 or more, you may draw a card. If you do, discard a card from your hand to the waiting room.
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 IsCharacter && HasTrait Music
+    {
+        *CheckAndAdd(3)
+    }
+}
+Text Auto: [(1) Put a «Music» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 cards among them and put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: IAS/S93-010
+Name Loving Gaze, Miki Hoshii
+JPName 恋する視線　星井美希
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Nail
+Auto: OnOtherPlacedOnStageFromHand
+{
+    IfOther HasTrait Music
+    {
+        GainPower 1000
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When your other «Music» character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+    IfOther HasTrait Music
+    {
+        PayCost 1 SendSelf WaitingRoom
+        {
+            TargetOther
+            Bounce
+        }
+    }
+}
+Text Auto: [(1) Put this card in the waiting room] When your other «Music» character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: IAS/S93-011
+Name Water Dream, Azusa Miura
+JPName ウォータードリーム　三浦あずさ
+Color Y
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Fortune Reading
+Cont: GiveAll
+{
+    If MyTurn && HasTrait Music && Other
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your turn, all your other «Music» characters get +1000 power.
+Act: 1 Discard 1 Any &&& RestSelf
+{
+    *CheckAndAdd(3)
+}
+Text Act: [(1) Put 1 card from your hand to the waiting room, rest this card] Look at up to the top 3 cards of your deck, choose up to 1 cards among them and put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: IAS/S93-017
+Name Autumn-Tinted Entertainer, Ami Futami
+JPName 秋を彩るエンターテイナー　双海亜美
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Twins
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Music
+    {
+        *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Music)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 4 or more, you may choose a «Music» character in your waiting room and put it in your stock.
+*OnAttackGivePowerForEachOther(1000,Music)
+EndCard
+
+Character: IAS/S93-019
+Name Lost Special Seat, Azusa Miura
+JPName 迷子の特等席　三浦あずさ
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Fortune Reading
+Cont: GiveAll
+{
+    If Other && NameEquals Singing in the Evening Sun, Chihaya Kisaragi
+    {
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                If StageContains 2 Other && HasTrait Music
+                {
+                    PayCost 1
+                    {
+                        SearchWaitingRoom IsCharacter && HasTrait Music
+                    }
+                }
+            }
+            Text Auto: [(1)] When this card attacks, if the number of other «Music» characters you have is 2 or more, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand.
+        }
+    }
+}
+Text Cont: All of your other "Singing in the Evening Sun, Chihaya Kisaragi" get the following ability. "Auto: [(1)] When this card attacks, if the number of other «Music» characters you have is 2 or more, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand."
+*GlobalPower(500,Music)
+Act: 1 RestSelf
+{
+    If StageContains 1 Other && NameEquals Singing in the Evening Sun, Chihaya Kisaragi
+    {
+        *GiveCharacterPower(2000,Any)
+        Repeat 4
+        {
+            Question Put the top 3 card of your deck into waiting room ?
+            If Yes
+            {
+                Mill 3
+            }
+            Else
+            {
+                StopLoop
+            }
+        }
+    }
+}
+Text Act: [(1) Rest this card] If you have another "Singing in the Evening Sun, Chihaya Kisaragi", choose 1 of your characters, that character gets +2000 power until end of turn, and perform the following action 4 times. "You may put the top 3 cards of your deck in your waiting room."
+EndCard
+
+Character: IAS/S93-025
+Name Sprite Illumination, Yayoi Takatsuki
+JPName スプライトイルミネーション　高槻やよい
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Family
+Auto: OnAttack
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        GainPower 1500
+    }
+}
+Quick
+Text Auto: When this card attacks, if you have another «Music» character, this card gets +1500 power until end of turn.
+*MoveOtherWithTraitToBackstageOnReverse(Music)
+EndCard
+
+Character: IAS/S93-026
+Name Haunting Dance Investigation, Miki Hoshii
+JPName 神懸りし舞調べ　星井美希
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Nail
+Auto: OnUseThisCardsBackup
+{
+    PayCost 1 Discard 1 IsCharacter && HasTrait Music
+    {
+        TargetBattleOpponent
+        If CanBeChosen
+        {
+            LoseSoul 1
+        }
+    }
+}
+Text Auto: [(1) Put a «Music» character from your stage in the waiting room] When you use this card's "BACKUP" you may pay the cost. If you do, choose 1 of your opponent's characters, and that character gets -1 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: IAS/S93-028
+Name Heart-Throbbing Investigation, Ami Futami
+JPName ときめきハプニング　双海亜美
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Twins
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        *GiveCharacterPower(1500,Any)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in your waiting room. If there were at least 1 climax among them, choose 1 of your characters, and that character gets +1500 power until end of turn.
+*OnPlayGivePower(1500,Music)
+EndCard
+
+Character: IAS/S93-033
+Name Sandy Gravure Idol, Mami Futami
+JPName 砂浜のグラビアアイドル　双海真美
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Twins
+*ScryBackup(Music)
+Backup 2000
+EndCard
+
+Climax: IAS/S93-038
+Name Deep, Deep Blue
+JPName Deep, Deep Blue
+*ChoiceClimax
+EndCard
+
+Character: IAS/S93-045
+Name Brand New Scenery, Yukiho Hagiwara
+JPName ブランニュー・シーナリー　萩原雪歩
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Tea
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 2 Other && HasTrait Music
+    {
+        GainPower 2000
+        GainEffect
+        {
+            *GainPowerWhenAttackingLevel2(6000)
+        }
+    }
+}
+Text Cont: During your turn, if the number of other «Music» characters you have is 2 or more, this card gets +2000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel 0 OrLess && IsCharacter && HasTrait Music
+        PlaceOnStage false true true false
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a level 0 or lower «Music» character in your waiting room and put it to any position on your stage.
+EndCard
+
+Character: IAS/S93-049
+Name Pink Smile, Makoto Kikuchi
+JPName 桃色スマイル♪　菊地 真
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Karate
+*GiveMiddlePower(1500,Music)
+Act: RestSelf
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsCharacter && HasTrait Music
+    {
+        *GiveCharacterPower(1000,Any)
+    }
+}
+Text Act: [Rest this card] Reveal the top card of your deck. If it is a «Music» character, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: IAS/S93-050
+Name Gently Reminding Footsteps of Spring, Hibiki Gahana
+JPName 優しく告げる春の足音　我那覇 響
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Animal
+*OnPlayGainPower(1500)
+Auto: StartOpponentDrawPhase
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 1 OrMore
+    {
+        Question Return this card to your hand ?
+        If Yes
+        {
+            TargetSelf
+            Bounce
+        }
+    }
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If it's level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: IAS/S93-060
+Name Connected Smile, Haruka Amami
+JPName つながる笑顔　天海春香
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Sweets
+Combo LEADER!!
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Music
+    {
+        GainEffect
+        {
+            *DefensiveScryOnCenterStage
+        }
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If all of your characters are «Music», this card gets the following 2 abilities. "Auto: During your opponent's turn, when damage taken by you isn't canceled, if this card is in the center stage, look at the top card of your deck and put it either on top of the deck or in the waiting room." "Auto: ENCORE [Put a character from your hand into waiting room]"
+Auto: OnAttack
+{
+    If Climax LEADER!! && StageContains 4 Other && HasTrait Music
+    {
+        PayCost 2
+        {
+            Burn 3
+        }
+    }
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "LEADER!!" is in your climax area and the number of other «Music» characters you have is 4 or more, you may pay the cost. If you do, deal 3 damage to your opponent.
+EndCard
+
+Character: IAS/S93-062
+Name Little Snowdrop, Yukiho Hagiwara
+JPName 小さなスノードロップ　萩原雪歩
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Tea
+Combo Rabbit Fur
+Auto: OnSpecificClimaxPlay Rabbit Fur
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget IsCharacter && HasTrait Music
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: CxCombo When "Rabbit Fur" is placed on your climax area, if you have another «Music» character, reveal the top card of your deck. If it's a «Music» character, put it in your hand.
+Act: 1
+{
+    Brainstorm 4
+    Repeat BrainstormedClimax
+    {
+        *CheckAndAdd(3)
+        Discard 1 Any
+    }
+}
+Text Act: BRAINSTORM [(1)] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, perform the following action. "Look at up to the top 3 cards of your deck, choose up to 1 cards among them and put it in your hand, put the rest into your waiting room, and discard a card from your hand to the waiting room."
+EndCard
+
+Character: IAS/S93-064
+Name Beyond the Grand Voyage!, Makoto Kikuchi
+JPName 大航海の、その先へ！　菊地 真
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Karate
+*GainPowerWithEnoughCharacters(2000,2,Music)
+Auto: OnAttack
+{
+    If AllYourCharacters HasTrait Music
+    {
+        Peek Deck 2
+		If HasTarget
+		{
+			Message Choose a card to put back on top. 
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Deck
+			PutTheRestIntoTheWaitingRoom
+		}
+    }
+}
+Text Auto: When this card attacks, if all of your characters are «Music», look at up to the top 2 cards of your deck, choose 1 of them and put it on top of the deck, and put the rest into your waiting room.
+EndCard
+
+Character: IAS/S93-068
+Name Singing Voice Echoing in the Sky, Hibiki Gahana
+JPName 空にこだまする歌声　我那覇 響
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Music
+Trait2 Animal
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && HasTrait Music|Animal && InLocation CenterStage
+    MultiplyXValue 2000
+    GainPower X
+}
+Text Cont: This card gets +2000 power for each of your other characters with either «Music» or «Animal» in the center stage
+*HandEncore
+EndCard
+
+Character: IAS/S93-071
+Name To Those Who Inherit the Legend, Haruka Amami
+JPName 伝説を継ぐ者へ　天海春香
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Auto: OnPlay
+{
+    PayCost ShuffleFromWaitingRoom 2 IsCharacter
+    {
+        DrawCard
+        Discard 1 Any
+    }
+}
+Text Auto: [Return 2 character from your waiting room to your deck, shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw a card, and discard a card from your hand to the waiting room.
+*RedLevel0Bomb
+EndCard
+
+Climax: IAS/S93-081
+Name Leader!!
+JPName LEADER!!
+*StandbyClimax
+EndCard
+
+Climax: IAS/S93-082
+Name Rabbit Fur
+JPName ラビットファー
+*DoorClimax
+EndCard
+
+Character: IAS/S93-084
+Name Snow Fantasy Night, Takane Shijou
+JPName スノーファンタジーナイト　四条貴音
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Noble
+Cont: GiveSelf
+{
+    If HasMarker
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If there is a marker under this card, this card gets +2000 power.
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsCharacter && HasTrait Music
+    {
+        Question Put it face down underneath this card as a marker ?
+        If Yes
+        {
+            Marker_FaceDown
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Music» character, you may put it face down underneath this card as a marker.
+*RunToCenter
+EndCard
+
+Character: IAS/S93-090
+Name Aquamarine Mermaid, Chihaya Kisaragi
+JPName アクアマリンマーメイド　如月千早
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Camera
+Combo LEADER!!
+*OnPlayScryToBottom
+Auto: OnSpecificClimaxPlay LEADER!!
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        PayCost SendSelf Hand
+        {
+            TargetLocation Stage
+            ChooseCharacterFromTargets Choose a character to give the effect.
+            GainEffect
+            {
+                Auto: OnAttack
+                {
+                    GainSpecialEffect DoubleTrigger
+                }
+                Text Auto: When this card attacks, perform the trigger check twice during this attack.
+            }
+        }
+    }
+}
+Text Auto: CxCombo [Return this card to your hand] When "LEADER!!" is placed on your climax area, if you have another «Music» character, you may pay the cost. If you do, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card attacks, perform the trigger check twice during this attack."
+EndCard
+
+Character: IAS/S93-093
+Name Moonlight Fantasia, Iori Minase
+JPName 月光ファンタジア　水瀬伊織
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Stuffed Animal
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait Music
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If the number of other «Music» characters you have is 2 or more, this card gets +1500 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets Other && HasTrait Music
+    ChooseCharacterFromTargets Choose a character to give power to.
+    SetXValue TargetCardsSoul
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other «Music» characters, it gets +X power until end of turn. X is 1000 times that character's soul.
+EndCard
+
+Character: IAS/S93-097
+Name Intelligent Fashionable Daughter, Ritsuko Akizuki
+JPName 知性派ハイカラ娘　秋月律子
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Glasses
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Music
+    {
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                SetXToNumberOfCharacters Other && HasTrait Music && InLocation Backstage
+                MultiplyXValue 2000
+                GainPower X
+            }
+            Text Auto: When this card attacks, this card gets +X power until end of turn. X equals 2000 times the number of your other «Music» characters in the backstage.
+        }
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If all your characters are «Music», this card gets the following 2 abilities. "Auto: When this card attacks, this card gets +X power until end of turn. X equals 2000 times the number of your other «Music» characters in the backstage." "Auto: ENCORE [Put 1 character from your hand into waiting room]"
+*OnOtherAttackedSacrificeToGivePower(3000,Music)
+EndCard
+
+Character: IAS/S93-102
+Name One-Night-Only Magic, Iori Minase
+JPName 一夜限りの魔法　水瀬伊織
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Stuffed Animal
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsCharacter && HasTrait Music
+    {
+        *GiveCharacterPower(1000,Any)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Music» character, choose 1 of your characters, and that character gets +1000 power until end of turn.
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: IAS/S93-109
+Name Trials of Idols, Chihaya Kisaragi
+JPName アイドルの試練　如月千早
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Camera
+Auto: OnClimaxPlay
+{
+    GainPower 1500
+}
+Quick
+Text Auto: When your climax is placed on your climax area, this card gets +1500 power until end of turn.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: IAS/S93-114
+Name Beautiful Eldist, Takane Shijou
+JPName 麗しきエルディスト　四条貴音
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Noble
+Combo Sirius in Your Eyes
+*GainPowerForEachOther(500,Music)
+Auto: OnAttack
+{
+    If Climax Sirius in Your Eyes
+    {
+        *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Music)
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Sirius in Your Eyes" is in your climax area, you may choose a «Music» character in your waiting room and put it in your stock.
+EndCard
+
+Character: IAS/S93-115
+Name Complete Support, Ritsuko Akizuki
+JPName 万全のサポート　秋月律子
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Glasses
+*OnAttackGainPowerForEachOther(500,Music)
+*HandEncore
+EndCard
+
+Climax: IAS/S93-123
+Name Sirius in Your Eyes
+JPName 瞳の中のシリウス
+*GateClimax
+EndCard
+
+Character: IAS/S93-P02
+Name Bunbu Ryodo! Haruka & Chihaya & Miki
+JPName 文舞両道！　春香＆千早＆美希
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+*OnPlayGivePower(1500,Music)
+Auto: OnPlay
+{
+    PayCost Discard 1 IsCharacter && HasTrait Music
+    {
+        DrawCard
+    }
+}
+Text Auto: [Put 1 «Music» character from your hand into waiting room] When this card is placed on the stage from you hand, you may pay the cost. If you do, draw a card.
+EndCard

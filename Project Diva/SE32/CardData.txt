@@ -1,0 +1,1151 @@
+Character: PD/SE32-01
+Name Kagamine Rin "Lyrical Star"
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Element
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Music
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you have another «Music» character, this card gets +3000 power.
+*Healer
+Auto: Encore Discard 1 ColorIs Yellow
+{
+}
+Text Auto: ENCORE [Put a Yellow card from your hand to the waiting room]
+EndCard
+
+Character: PD/SE32-02
+Name Kagamine Len "Underhanded Yellow"
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Hero
+Cont: GiveAll
+{
+    If NameContains 卑怯
+    {
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: All your other characters with "Underhanded" in its card name get "Auto: ENCORE [Put a character from your hand to the waiting room]"
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: PD/SE32-03
+Name Kagamine Rin "Astray"
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo The Lost One's Weeping
+*OnPlayGainPower(1500)
+Auto: OnReverseOpponent
+{
+    If Climax The Lost One's Weeping
+    {
+        RevealExactly Deck 2
+        SaveTargets
+        Reorder
+        MoveCardToBottom Deck
+        SearchWaitingRoom HasTrait Music
+        LoadTargets
+        NarrowTargets IsClimax
+        If HasTarget
+        {
+            DrawCard
+        }
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "The Lost One's Weeping" is in your climax area, reveal the top 2 cards of your deck, put them on the bottom of your deck in any order, choose up to 1 «Music» character in your waiting room and return it to your hand. If at least 1 climax was revealed by this card effect, draw a card.
+EndCard
+
+Character: PD/SE32-04
+Name Kagamine Len "Radical Star"
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 3
+Trait1 Music
+Trait2 Element
+Auto: OnPlay
+{
+    PayCost Discard 1 ColorIs Yellow
+    {
+        TargetLocation Stage
+        NarrowTargets Other && NameEquals Kagamine Rin "Lyrical Star"
+        ChooseCharacterFromTargets Choose a character to give the effect.
+        AddSelfToTargets
+        GainEffect
+        {
+            *OnCancelBurn1
+        }
+    }
+}
+Text Auto: [Put a Yellow card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your other 'Kagamine Rin "Lyrical Star"' and this card, and they get the following ability until end of turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may deal 1 damage to your opponent." 
+EndCard
+
+Character: PD/SE32-05
+Name Kagamine Rin "Underhanded Orange"
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Hero
+Auto: StartClimaxPhase
+{
+    TargetLocation Stage
+    NarrowTargets NameContains 卑怯
+    ChooseCharacterFromTargets Choose a character to give +2000 power.
+    GainPower 2000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters with "Underhanded" in its card name, and that character gets +2000 power until end of turn.
+*RestGivePower(1500,Music)
+EndCard
+
+Character: PD/SE32-06
+Name Kagamine Len "Patissier Hansel"
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Act: RestSelf
+{
+    If Not HasMarker
+    {
+        SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+        If HasTarget
+        {
+            Marker_FaceDown
+        }
+    }
+}
+Text Act: [Rest this card] If there's no marker under this card, you may choose a «Music» character in your waiting room and put it face-down under this card as marker.
+Act: 1 SendMarker WaitingRoom RestSelf
+{
+    *Check4Add1(Music)
+}
+Text Act: [(1) Put a marker from under this card in the waiting room, Rest this card] Look at up to the top 4 cards of your deck, choose up to 1 «Music» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: PD/SE32-07
+Name Kagamine Rin "Patissier Gretel"
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Combo Amazing Dolce
+*GlobalPower(500,Music)
+Auto: OnSpecificClimaxPlay Amazing Dolce
+{
+    If StageContains 1 Other && NameEquals Kagamine Len "Patissier Hansel"
+    {
+        *Check4Add1(Music)
+    }
+}
+Text Auto: CxCombo When "Amazing Dolce" is placed on your climax area, if you have another 'Kagamine Len "Patissier Hansel"', look at up to the top 4 cards of your deck, choose up to 1 «Music» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: PD/SE32-08
+Name Kagamine Len "Holy Lancer"
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Auto: OnAttack
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom NameEquals Holy Lance Explosion Boy
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, choose a "Holy Lance Explosion Boy" in your waiting room and return it to your hand.
+*GainPowerWhenOtherAttacks(1500,Music)
+EndCard
+
+Event: PD/SE32-09
+Name Holy Lance Explosion Boy
+Color Y
+Level 1
+Cost 0
+Requirement StageContains 1 HasTrait Music
+Effect: 
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to stand.
+    Stand
+    Message Search a character to put to the bottom of your deck.
+    SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+    MoveCardToBottom Deck
+    TargetSelf
+    MoveCard Stock
+}
+Text If you have no «Music» characters, you cannot play this card from your hand. Choose 1 of your characters and stand it, choose a character in your waiting room and put it on the bottom of your deck, and put this card in your stock.
+EndCard
+
+Climax: PD/SE32-10
+Name The Lost One's Weeping
+*WindClimax
+EndCard
+
+Character: PD/SE32-11
+Name Hatsune Miku "Silent Voice"
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+    If Not MyTurn
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your opponent's turn, this card gets +1000 power.
+Auto: OnPlay
+{
+    PayCost 1 Clock
+    {
+        SearchDeck Compare ThatCardsLevel 1 OrLess && IsCharacter
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: PD/SE32-12
+Name "Secret of X" Hatsune Miku
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchLocationForTargets Clock 1 1 HasTrait Music
+        MoveCard Hand
+        TargetTop Deck 1
+        MoveCard Clock
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Music» character in your clock and return it to your hand, and put the top card of your deck in your clock.
+*OnAttackGainPowerForEachOther(1000,Music)
+EndCard
+
+Character: PD/SE32-13
+Name "New World" Hatsune Miku
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Hand in Hand
+*Healer
+Auto: StartEncoreStep
+{
+    PayCost SendClimax WaitingRoom
+    {
+        SearchLocationForTargets Hand 0 1 NameEquals Hand in Hand
+        If HasTarget
+        {
+            PlayClimax
+            TriggerCustomEvent HandInHandClimaxPlayedFromEffect
+        }
+    }
+}
+Text Auto: CxCombo [Put 1 climax from your climax area in the waiting room] At the beginning of encore step, you may pay the cost. If you do, choose up to 1 "Hand in Hand" in your hand and put it in your climax area.
+Auto: OnCustomEvent HandInHandClimaxPlayedFromEffect
+{
+    If InLocation CenterStage
+    {
+        PayCost 1 Discard 1 Any
+        {
+            Burn 3
+        }
+    }
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(1) Put 1 card from your hand to the waiting room] This ability activates up to once per turn. When "Hand in Hand" is put to your climax area by the effect of Auto: ability of your card, if this card is in the center stage, you may pay the cost. If you do, deal 3 damage to your opponent. 
+EndCard
+
+Character: PD/SE32-14
+Name Hatsune Miku "Ultimate Miku"
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Element
+Auto: OnClimaxPlay
+{
+    UntilEndOfOpponentsTurn
+    *GiveCharacterPower(500,Any)
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, and that character gets +500 power until the end of your opponent's next turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: PD/SE32-15
+Name Hatsune Miku "Judgment"
+Color G
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Love
+Auto: OnUseThisCardsBackup
+{
+    If StageContains 2 && HasTrait Music
+    {
+        TargetMyCharacterInBattle
+        SetXValue MyLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Quick
+Text Auto: When you use this card's "BACKUP", if the number of «Music» characters you have is 2 or more, choose 1 of your characters in battle, and that character gets +X power until end of turn. X equals 500 times your level.
+Backup 1000
+EndCard
+
+Character: PD/SE32-16
+Name "Name of the Sin" Hatsune Miku
+Color G
+Level 1
+Cost 0
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Magic
+Combo Name of the Sin
+Cont: GiveSelf
+{
+    TargetLocation Marker
+    NarrowTargets FaceDown
+    If HasTarget
+    {
+        LosePower 1500
+    }
+}
+Text Cont: If there's a face-down marker underneath this card, this card gets -1500 power.
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Marker_FaceDown
+}
+Text Auto: When this card is placed on the stage from your hand, put the top card of your deck face-down underneath this card as marker.
+Auto: OnAttack
+{
+    If Climax Name of the Sin
+    {
+        TargetLocation Marker
+        NarrowTargets FaceDown
+        If HasTarget
+        {
+            ChooseCardsFromTargets 1 1 Any
+            FlipFaceUp
+            TargetSelf
+            GainEffect
+            {
+                Auto: OnReverseOpponent
+                {
+                    SearchWaitingRoom HasTrait Music
+                }
+                Text Auto: When this card's battle opponent becomes reverse, you may choose a «Music» character in your waiting room and return it to your hand.
+            }
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Name of the Sin" is in your climax area and there's a marker under this card, choose a face-down marker under this card and turn it face-up, and this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may choose a «Music» character in your waiting room and return it to your hand."
+EndCard
+
+Character: PD/SE32-17
+Name Hatsune Miku "Original" (X HD)
+Color G
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait Music
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If the number of other «Music» characters you have is 2 or more, this card gets +1500 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+EndCard
+
+Character: PD/SE32-18
+Name Hatsune Miku "DE:MONSTAR"
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Demon
+*LevelAssist
+Auto: OnClimaxPlay
+{
+    UntilEndOfOpponentsTurn
+    *GiveCharacterPower(1000,Any)
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, and that character gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: PD/SE32-19
+Name Hatsune Miku "Engage"
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Glasses
+*500Assist
+*OnClimaxPlayGivePower(1000)
+EndCard
+
+Character: PD/SE32-20
+Name Hatsune Miku "Pumpkin Dream"
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Pumpkin
+*PowerInMiddle(3000)
+EndCard
+
+Character: PD/SE32-21
+Name Hatsune Miku "Pizzicato"
+Color G
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Time
+Auto: OnLevelUp
+{
+    MoveCard WaitingRoom
+}
+Quick
+Text Auto: When you level-Up, put this card in the waiting room.
+Auto: OnOpponentClimaxPlay
+{
+    MoveCard WaitingRoom
+}
+Quick
+Text Auto: When your opponent's climax is placed on your climax area, put this card in the waiting room.
+EndCard
+
+Character: PD/SE32-22
+Name Hatsune Miku "High Fever"
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Pajama
+*GreenEarlyPlayBomb
+EndCard
+
+Character: PD/SE32-23
+Name Hatsune Miku "Final Fusion"
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Music
+Trait2 Awaken
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Music
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If all your characters are «Music», this card gets +2000 power.
+*HandEncoreTrait(Music)
+EndCard
+
+Character: PD/SE32-24
+Name Hatsune Miku "Ambivalence"
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+    If StageContainsOrLess 0 Other
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have no other characters, this card gets +2000 power.
+Auto: StartOpponentEncorePhase
+{
+    If InLocation CenterStage
+    {
+        PayCost Discard 1 Climax
+        {
+            SearchLocationForTargets Deck 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+            PlaceOnStage false true true false
+            ShuffleLocation Deck
+        }   
+    }
+}
+Text Auto: [Put 1 climax from your hand to the waiting room] At the beginning of your opponent's encore step, if this card is in the center stage, you may pay the cost. If you do, search your deck for up to 1 level 0 or lower character, put it in any position on the stage, and shuffle your deck.
+EndCard
+
+Character: PD/SE32-25
+Name Hatsune Miku "Lollipop"
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayGivePower(1500,Music)
+EndCard
+
+Character: PD/SE32-26
+Name Hatsune Miku "Raspberryism"
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+    PayCost Clock Discard 1 Any
+    {
+        SearchDeck IsClimax
+    }
+}
+Text Auto: [Put the top card of your deck in your clock, Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 climax card, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: PD/SE32-27
+Name Hatsune Miku "Underhanded Green"
+Color G
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Hero
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 卑怯
+    {
+        GainSpecialEffect FreeSideAttack
+    }
+}
+Text Cont: If the number of other characters with "Underhanded" in its card name you have is 2 or more, this card's soul does not decreas by side attacking.
+*GreenCost0Bomb
+EndCard
+
+Character: PD/SE32-28
+Name Hatsune Miku "Bandaged Heart"
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Bandage
+Auto: OnClimaxPlay
+{
+    SetXToNumberOfCharacters HasTrait Music
+    MultiplyXValue 500
+    UntilEndOfOpponentsTurn
+    GainPower X
+}
+Quick
+Text Auto: When your climax is placed on your climax area, this card gets +X power until the end of your opponent's next turn. X equals 500 times the number of your «Music» characters.
+EndCard
+
+Character: PD/SE32-29
+Name Hatsune Miku "Chopstick"
+Color G
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Music
+    {
+        *OptionalBlindStock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 4 or more, you may put the top card of your deck in your stock.
+Auto: StartClimaxPhase
+{
+    PayCost 1 Discard 1 Any SendSelf Clock
+    {
+        SearchLocationForTargets WaitingRoom 1 1 NameEquals Hatsune Miku "Final Fusion"
+        If HasTarget
+        {
+            Change
+        }
+    }
+}
+Text Auto: CHANGE [(1) Put 1 card from your hand to the waiting room, put this card in your clock] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 'Hatsune Miku "Final Fusion"' in your waiting room and put it in the position this card was in.
+EndCard
+
+Climax: PD/SE32-30
+Name Name of the Sin
+*BagClimax
+EndCard
+
+Climax: PD/SE32-31
+Name Hand in Hand
+*BarClimax
+EndCard
+
+Character: PD/SE32-32
+Name Megurine Luka "Dominant Stone"
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Element
+*EarlyPlay2OrLessClimax
+*GainPowerWithEnoughCharacters(1000,2,Music)
+*OnPlayCheckX(Music)
+EndCard
+
+Character: PD/SE32-33
+Name MEIKO "Strawberry Witch"
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Sweets
+Combo Amazing Dolce
+*Healer
+Auto: OnAttack
+{
+    If Climax Amazing Dolce
+    {
+        PayCost 1
+        {
+            GainPower 1000
+            TargetTop Deck 1
+            Reveal
+            IfTarget Compare ThatCardsLevel 2 OrMore
+            {
+                Burn 2
+            }
+            Else
+            {
+                Burn 1
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Amazing Dolce" is in your climax area, you may pay the cost. If you do, this card gets +1000 power until end of turn, and reveal the top card of your deck. If it's level 2 or higher, deal 2 damage to your opponent, if not, deal 1 damage to your opponent.
+EndCard
+
+Character: PD/SE32-34
+Name MEIKO "Ivy Grimoire"
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Element
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: PD/SE32-35
+Name Megurine Luka "Villainess"
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Mystery
+Auto: OnUseThisCardsBackup
+{
+    PayCost 2 Send 1 WaitingRoom Any
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && EarlyPlay
+        If HasTarget
+        {
+            ChooseCharacterFromTargets choose 1 of your opponent's characters whose level is higher than the level of your opponent and put it in the waiting room.
+            MoveCard WaitingRoom
+        }
+    }
+}
+Text Auto: [(2) Put 1 card from your hand to the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than the level of your opponent and put it in the waiting room.
+Backup 2500
+EndCard
+
+Character: PD/SE32-36
+Name MEIKO "Underhanded Red"
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Music
+Trait2 Hero
+Cont: InHand
+{
+    GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: You may play this card from your hand without meeting the color requirement.
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        SetXToNumberOfCharacters HasTrait Music && Other
+        MultiplyXValue 1000
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +1000 power for each of your other «Music» characters.
+EndCard
+
+Character: PD/SE32-37
+Name Hatsune Miku "Anode Electronica"
+Color R
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Love
+*Bond1(Megurine Luka "Cathode Electronica")
+Auto: StartClimaxPhase
+{
+    PayCost Resonate Megurine Luka "Cathode Electronica"
+    {
+        GainPower 6000
+    }
+}
+Text Auto: RESONATE [Reveal a 'Megurine Luka "Cathode Electronica"' from your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +6000 power until end of turn.
+EndCard
+
+Character: PD/SE32-38
+Name Megurine Luka "Cathode Electronica"
+Color R
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Love
+*GlobalPower(500,Music)
+*BondDiscard(Hatsune Miku "Anode Electronica")
+Auto: StartClimaxPhase
+{
+    PayCost Resonate Hatsune Miku "Anode Electronica"
+    {
+        *GiveCharacterPower(2500,Any)
+    }
+}
+Text Auto: RESONATE [Reveal a 'Hatsune Miku "Anode Electronica"' from your hand, rest this card] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 of your characters, and that character gets +2500 power until end of turn.
+EndCard
+
+Event: PD/SE32-39
+Name Sharing the World
+Color G
+Level 1
+Cost 1
+Effect: 
+{
+    MoveCard Memory
+}
+Text Send this card into memory.
+Auto: OnClimaxPlay
+{
+    *PutCardFromWaitingRoomIntoStock(HasTrait Music)
+}
+InMemory
+Text Auto: MEMORY When your climax is placed from hand to your climax area, if this card is in your memory, you may choose a «Music» character in your waiting room and put it in your stock.
+EndCard
+
+Character: PD/SE32-40
+Name Megurine Luka "Izayoi"
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Yukata
+Combo A Single Red Leaf
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait Music
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If the number of other «Music» characters you have is 2 or more, this card gets +1500 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+Auto: OnSpecificClimaxPlay A Single Red Leaf
+{
+    If InLocation CenterStage
+    {
+        SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 0 OrLess && HasTrait Music
+        PlaceOnStage false true true false
+        ScheduleEffectForTargets EndOfMyTurn
+        {
+            Effect:
+            {
+                MoveCard Memory
+            }
+        }
+    }
+}
+Text Auto: CxCombo When "A Single Red Leaf" is placed to your climax area, if this card is in the center stage, choose up to 1 «Music» character in your waiting room whose cost is 0 or lower and put it in any position on the stage, and at the end of the turn, send that card to memory.
+EndCard
+
+Climax: PD/SE32-41
+Name A Single Red Leaf
+*RedStockSoul
+EndCard
+
+Climax: PD/SE32-42
+Name Amazing Dolce
+*DoorClimax
+EndCard
+
+Character: PD/SE32-43
+Name Hatsune Miku "Layered Envy"
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+*MillRunner(Music)
+EndCard
+
+Character: PD/SE32-44
+Name Hatsune Miku "Sea Lily"
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+*OnAttackGivePowerForEachOther(500,Music)
+Auto: OnPlay
+{
+    PayCost Clock
+    {
+        SearchWaitingRoom NameEquals Tale of the Deep-sea Lily
+    }
+}
+Text Auto: [Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Tale of the Deep-sea Lily" in your waiting room and return it to your hand.
+EndCard
+
+Character: PD/SE32-45
+Name KAITO "Underhanded Blue"
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Hero
+Combo Urotander, Underhanded Rangers
+*Healer
+Auto: StartEncoreStep
+{
+    If Climax Urotander, Underhanded Rangers && StageContains 1 NameEquals Hatsune Miku "Underhanded Green" && Other &&& StageContains 1 NameEquals MEIKO "Underhanded Red" && Other &&& StageContains 1 NameEquals Kagamine Rin "Underhanded Orange" && Other &&& StageContains 1 NameEquals Kagamine Len "Underhanded Yellow" && Other
+    {
+        PayCost 3
+        {
+            TargetTop OpponentDeck 2
+            SaveTargets
+            ChooseCardsFromTargets 0 2 Any
+            MoveCardToBottom OpponentDeck
+            RemoveCurrentFromSavedTargets
+            LoadTargets
+            Reorder
+            ChooseNumber 3 5 Choose the amount to burn.
+            Burn Answer
+        }
+    }
+}
+Text Auto: CxCombo [(3)] At the beginning of encore step, if "Urotander, Underhanded Rangers" is in your climax area, this card is in the center stage, and you have other characters named 'Hatsune Miku "Underhanded Green"', 'MEIKO "Underhanded Red"', 'Kagamine Rin "Underhanded Orange"' and 'Kagamine Len "Underhanded Yellow"', you may pay the cost. If you do, look at up to the top 2 cards of your opponent's deck, choose up to 2 cards among them and put them on top of the deck in any order, put the rest into your waiting room, and perform 1 of the following effects of your choice. "deal 3 damage to your opponent." "deal 4 damage to your opponent." "deal 5 damage to your opponent." 
+EndCard
+
+Character: PD/SE32-46
+Name KAITO "Mysterious Butterfly"
+Color B
+Level 1
+Cost 0
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Element
+Cont: GiveSelf
+{
+    TargetFacing
+    IfTarget Compare ThatCardsLevel ThisCardsLevel GreaterThan
+    {
+        GainSpecialEffect CannotFrontalAttack
+    }
+}
+Text Cont: If the level of the character facing this card is higher than the level of this card, this card cannot frontal attack.
+EndCard
+
+Character: PD/SE32-47
+Name Hatsune Miku "Green Tanuki"
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Ninja
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && NameEquals Kagamine Rin "Orange Fox"
+    {
+        GainPower 4000
+    }
+}
+Text Cont: During your turn, if you have another 'Kagamine Rin "Orange Fox"', this card gets +4000 power.
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music
+    {
+        SearchLocationForTargets WaitingRoom 1 1 NameEquals Kagamine Rin "Orange Fox"
+        PlaceOnStage false true true false
+    }
+}
+Text Auto: [Put a «Music» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a 'Kagamine Rin "Orange Fox"' in your waiting room and put it in any position on the stage.
+EndCard
+
+Character: PD/SE32-48
+Name Kagamine Rin "Orange Fox"
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Ninja
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals Hatsune Miku "Green Tanuki"
+    {
+        SetXToNumberOfCharacters HasTrait Music && Other
+        MultiplyXValue 1000
+        GainPower X
+    }
+}
+Text Cont: If you have another 'Hatsune Miku "Green Tanuki"', this card gets +1000 power for each of your other «Music» characters.
+Auto: StartOpponentAttackPhase
+{
+    TargetLocation Stage
+    NarrowTargets NameEquals Hatsune Miku "Green Tanuki"
+    ChooseCharacterFromTargets_Optional Choose a Hatsune Miku "Green Tanuki" to exchange with this card.
+    If HasTarget
+    {
+        AddSelfToTargets
+        Stand
+        Exchange
+    }
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 of your 'Hatsune Miku "Green Tanuki"' and this card, then stand and exchange them.
+EndCard
+
+Event: PD/SE32-49
+Name Tale of the Deep-sea Lily
+Color B
+Level 2
+Cost 0
+Requirement StageContains 1 HasTrait Music
+Effect: 
+{
+    Repeat 2
+    {
+        *Check4Add1(Music)
+    }
+}
+Text If you have no «Music» characters, you cannot play this card from your hand. Perform the following action twice. "Look at up to the top 4 cards of your deck, choose up to 1 «Music» character among them, reveal it, put it in your hand, and put the rest into your waiting room."
+EndCard
+
+Climax: PD/SE32-50
+Name Urotander, Underhanded Rangers
+*GateClimax
+EndCard
+
+Event: PD/SE32-P01
+Name Love Song
+Color G
+Level 2
+Cost 1
+Requirement StageContains 1 HasTrait Music
+Effect: 
+{
+    SearchDeck NameEquals Hatsune Miku "V3"
+    SearchLocationForTargets Hand 0 1 Compare ThatCardsLevel MyLevel OrLess && IsCharacter
+    PlaceOnStage true false true false
+}
+Text If you don't have a «Music» character, you cannot play this card from hand. Search your deck for up to 1 'Hatsune Miku "V3"', reveal it, put it in your hand, shuffle your deck, choose up to 1 character in your hand whose level is equal to or lower than your level and put it in an open position in the backstage.
+EndCard
+
+Event: PD/SE32-P02
+Name The First Sound
+Color G
+Level 2
+Cost 1
+Counter
+Effect: 
+{
+    TargetLocation WaitingRoom
+    NarrowTargets IsClimax
+    SetXValue TargetsWithDifferentNames
+    PushX
+    SetXValue TargetsWithDifferentNames
+    MultiplyXValue 1000
+    TargetLocation Stage
+	NarrowTargets HasTrait Music
+	ChooseCharacterFromTargets Choose a character to give +X power.
+    GainPower X
+    PopX
+    If Compare X 6 OrMore
+    {
+        *OptionalHeal
+    }
+}
+Text {Counter] Choose 1 of your «Music» characters, and that character gets +X power until end of turn. If the number of climax with different name in your waiting room is 6 or more, you may choose a card in your clock and put it in the waiting room. X equals 1000 times the number of climax with different name in your waiting room.
+EndCard
+
+Character: PD/SE32-P03
+Name "Future Tone DX" Hatsune Miku
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+    If StageContains 2 Other && HasTrait Music
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: PD/SE32-P04
+Name "AiDee" Hatsune Miku & Megurine Luka
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Love
+*OnPlayMill2GainPowerForEachCharacter(1000,Music)
+EndCard
+
+Character: PD/SE32-P05
+Name "Streaming Heart" Hatsune Miku
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Bandage
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetSelf
+        GainPower 3000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there's at least 1 climax among them, this card gets +3000 power until end of turn.
+*GreenLevel0Bomb
+EndCard
+

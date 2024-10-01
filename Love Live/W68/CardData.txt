@@ -1,0 +1,2478 @@
+Character: LL/W68-001
+Name "Secret Letter" Eli Ayase
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*MoveOtherWithTraitToBackstageOnReverse(Music)
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainLevel 1
+		GainPower 2000
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck in your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +1 level and +2000 power until end of turn.
+EndCard
+
+Character: LL/W68-002
+Name "Message from the Heart" Nico Yazawa
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Combo Powerful Stage
+*GainPowerWithEnoughCharacters(2000,2,Music)
+Auto: OnAttack
+{
+	If Climax Powerful Stage
+	{
+		If LocationContains WaitingRoom 1 HasTrait Music && IsCharacter
+		{
+			Question_Obvious Choose a character in your waiting room and put it into your stock?
+			If Yes
+			{
+				Message Choose a <Music> character to put into your stock
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Music && IsCharacter
+				RevealTargets
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Powerful Stage" is in your climax area, you may choose a «Music» character in your waiting room and put it to your stock.
+EndCard
+
+Character: LL/W68-003
+Name "Telepathy to You" Nozomi Toujou
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Music
+Combo Relaxing Fun Stage
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		GainPower 1500
+		GainSoul 1
+		GainEffect
+		{
+			*HandEncoreTrait(Music)
+		}
+	}
+}
+Text Cont: MEMORY if you have 3 or more cards in memory, this card gets +1500 power, +1 soul, and "Auto: ENCORE [Put a «Music» character from hand to the waiting room]".
+*OnPlayDraw2Discard1
+Auto: OnEndOfAttack
+{
+	If Climax Relaxing Fun Stage
+	{
+		PayCost 2
+		{
+			MillOpponentBottom 4
+			NarrowTargets IsClimax
+			If HasTarget
+			{
+				TargetSelf
+				Stand
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2)] This ability activates up to once per turn. At the end of this card's attack, if "Relaxing Fun Stage" is in your climax area, you may pay the cost. If you do, put the bottom 4 cards of your opponent's deck into their waiting room. If there is a climax among those cards, stand this card.
+EndCard
+
+Character: LL/W68-004
+Name "Monster and Hunter" Eli Ayase
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 RPG
+*OnPlayMill2GainPowerForEachCharacter(1000,Music)
+Auto: OnAttack
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to get -1000 power until end of turn
+	LosePower 1000
+}
+Text Auto: When this card attacks, choose 1 of your opponent's center stage characters, that character gets -1000 power until end of turn.
+EndCard
+
+Character: LL/W68-005
+Name "Surprise Hope" Nozomi Toujou
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Sky
+Auto: StartClimaxPhase
+{
+	If LocationContains Memory 1 NameEquals If You Look Again
+	{
+		TargetLocation Memory
+		NarrowTargets NameEquals If You Look Again
+		SetXValue TargetCount
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +X power
+		GainPower X
+	}	
+}
+Text Auto: MEMORY At the beginning of your climax phase, choose 1 of your characters, and that character gets +X power until end of turn. X equals 500 times the number of "If You Look Again" in your memory.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: LL/W68-006
+Name "Shadow Effort" Nico Yazawa
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Tea
+Auto: OnUseAccelerate
+{
+	*OptionalDrawDiscard
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use "ACCELERATE", you may draw a card. If you do, discard a card from your hand to the waiting room.
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: LL/W68-007
+Name "I'm Going to Pick You Up" Nozomi Toujou
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Profession
+Auto: StartOpponentAttackPhase
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget HasTrait Music || NameEquals If You Look Again
+		{
+			TargetLocation CenterStage
+			If Compare TargetCount 2 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your center stage?
+				If Yes
+				{
+					MoveToOpenPosition True False
+				}
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may put the top card of your deck into the waiting room. If that card is a «Music» character or "If You Look Again", you may move this card to a vacant center stage position.
+Auto: OnReversed
+{
+	If Compare CardsInMemory 2 OrMore &&& LocationContains WaitingRoom 1 NameEquals "Telepathy to You" Nozomi Toujou
+	{
+		Question_Obvious Put a "Telepathy to You" Nozomi Toujou into memory from waiting room?
+		If Yes
+		{
+			Message Choose a "Telepathy to You" Nozomi Toujou to send to your memory
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals "Telepathy to You" Nozomi Toujou
+			RevealTargets
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card is becomes reversed in battle, if you have 2 or fewer cards in memory, you may choose a '"Telepathy to You" Nozomi Toujou' in your waiting room and send it to memory.
+EndCard
+
+Character: LL/W68-008
+Name "Even if I Don't Divine it" Nozomi Toujou
+Color G
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+*OnPlayGainPowerForEach(500,Music)
+EndCard
+
+Character: LL/W68-009
+Name "Venue Guide" Eli Ayase
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Sky
+Combo Powerful Stage
+*OnPlayGainPowerForEach(1000,Music)
+Auto: OnSpecificClimaxPlay Powerful Stage
+{
+	If InLocation CenterStage
+	{
+		SearchDeck NameEquals "Sometimes Obedient" Maki Nishikino
+		*OptionalBlindStock
+	}
+}
+Text Auto: CxCombo When "Powerful Stage" is placed on your climax area, if this card is in the center stage, search your deck for up to 1 '"Sometimes Obedient" Maki Nishikino', reveal it, put it in your hand, shuffle your deck, then put up to 1 card from the top of your deck into your stock.
+EndCard
+
+Character: LL/W68-010
+Name "Admiring...!" Nico Yazawa
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Sky
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				Message Choose up to 2 characters with "Maki", "Nico", or "Eli" to add to your hand
+				SearchLocationForTargets Deck 0 2 IsCharacter && NameContains Nico|Maki|Eli
+				RevealTargets
+				MoveCard Hand
+				Discard 2 Any
+				ShuffleLocation Deck
+			}
+			Text Auto: When this card's battle opponent becomes reverse, search your deck for up to 2 characters with "Maki", "Nico", or "Eli" in its card name, reveal them, put them in your hand, discard 2 cards from your hand to the waiting room, and shuffle your deck.
+		}
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck in your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +1500 power and 'Auto: When this card's battle opponent becomes reverse, search your deck for up to 2 characters with "Maki", "Nico", or "Eli" in its card name, reveal them, put them in your hand, discard 2 cards from your hand to the waiting room, and shuffle your deck' until end of turn.
+EndCard
+
+Character: LL/W68-011
+Name "Muse's Pirate Story" Eli Ayase
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Pirate
+Cont: InHand
+{
+	If StageContains 1 NameEquals "Also for Kotori" Maki Nishikino &&& StageContains 1 NameEquals "Shadow Effort" Nico Yazawa
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have '"Also for Kotori" Maki Nishikino' and '"Shadow Effort" Nico Yazawa', this card gets -1 level while in your hand.
+*OnPlayGainPowerAndNoBackups(4500)
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 Clock
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to get -2 soul
+		LoseSoul 2
+	}
+}
+Text Auto: ACCELERATE [(1) Put the top card of your deck in your clock] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your opponent's characters, and that character gets -2 soul until end of turn.
+EndCard
+
+Character: LL/W68-012
+Name "Spectacular Device" Nico Yazawa
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Pirate
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameContains Nico|Maki|Eli && Other
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: For each of your other characters with "Maki", "Nico", or "Eli" in its card name, this card gets +500 power.
+*OnPlayCheck3
+Auto: OnDirectAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [(1) Put a card to waiting room] When this card Direct attacks, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: LL/W68-013
+Name "Queen of Hearts" Eli Ayase
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+*OnPlayReorderTop2
+*GreenLevel0Bomb
+EndCard
+
+Character: LL/W68-014
+Name "Elegant Time" Eli Ayase
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Tea
+*BondDiscard("Also For Kotori" Maki Nishikino)
+*BondDiscard("Shadow Effort" Nico Yazawa)
+EndCard
+
+Character: LL/W68-015
+Name "Nozomi's Set" Nozomi Toujou
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Tea
+*GreenLevel0Bomb
+Act: SendSelf WaitingRoom
+{
+	*GiveCharacterPower(2000,Music)
+}
+Text Act: [Put this card in the waiting room] Choose 1 of your «Music» characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: LL/W68-016
+Name "The Target is You" Eli Ayase
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Profession
+Auto: OnPlay|OnReversed
+{
+	Peek OpponentDeck 1
+	EndPeek
+}
+Text Auto: When this card is played on the stage from your hand, or when this card is reversed in battle, you may look at the top card of your opponent's deck. (put the viewed card back where it was)
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question_Obvious Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If it's level 2 or higher, you may return this card to your hand. 
+EndCard
+
+Character: LL/W68-017
+Name "Niko's Magic Show" Nico Yazawa
+Color G
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Trick
+*DropSearch(Music)
+EndCard
+
+Character: LL/W68-018
+Name "Role I Can Understand" Nico Yazawa
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 RPG
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 0 OrLess
+		{
+			Heal
+		}
+	}
+}
+Text Auto: [(1)] When this card is played on the stage from your hand, you may pay the cost. If you do, put the top card of your deck in your waiting room. If that card is level 0 or lower, put the top card of your clock in your waiting room. 
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if the number of other «Music» characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: LL/W68-019
+Name "New Muse Power" Maki & Nico & Eli
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 BiBi
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters HasTrait Music
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's <b> BACKUP </b>, if all your characters are «Music», you may put the top card of your deck in stock.
+Backup 2000
+EndCard
+
+Character: LL/W68-020
+Name "Nozomin the Mage" Nozomi Toujou
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Music
+Trait2 RPG
+*LevelAssist
+*ClimaxExchange
+EndCard
+
+Character: LL/W68-021
+Name "Beautiful Flower" Nico Yazawa
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Profession
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If you have 5 or more cards in your hand, this card gets +1 level and +1500 power.
+Auto: StartOpponentAttackPhase
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget NameContains Nico && IsCharacter
+		{
+			TargetLocation CenterStage
+			If Compare TargetCount 2 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your center stage?
+				If Yes
+				{
+					MoveToOpenPosition True False
+				}
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may put the top card of your deck in the waiting room. If that card is a character with "Nico" in its card name, you may move this card to an open position in your center stage.
+EndCard
+
+Character: LL/W68-022
+Name "It's a Magic Trick!" Nozomi Toujou
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Trick
+EndCard
+
+Character: LL/W68-023
+Name "Lovely Top Hat" Eli Ayase
+Color G
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Trick
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals "It's a Magic Trick!" Nozomi Toujou
+	{
+		Message Choose a <Music> character to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put a '"It's a Magic Trick!" Nozomi Toujou' from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand.
+*GreenCost0Bomb
+EndCard
+
+Character: LL/W68-024
+Name "Assault! Nozomi the Pirate" Nozomi Toujou
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Pirate
+Combo Let Me Know
+Cont: GiveSelf
+{
+	If AllYourCharacters NameContains Nozomi
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all your characters have "Nozomi" in its card name, this card gets +2000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Let Me Know
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && NameContains Nozomi
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Let Me Know" is in your climax area, put up to 1 card from the top of your deck into your stock, reveal the top card of your deck, and if it is a character with "Nozomi" in its card name, put it in your hand. (otherwise put it back)
+EndCard
+
+Character: LL/W68-025
+Name "Proper Appearance" Nico Yazawa
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Star
+*GainPowerWhenOtherAttacks(1500,Music)
+*HandEncore
+EndCard
+
+Character: LL/W68-026
+Name "Nico's Role" Nico Yazawa
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 7000
+		GainEffect
+		{
+			*EncoreStepIfNoneRestedPayToRest
+		}
+	}
+}
+Text Cont: If there is a marker under this card, this card gets +7000 power and "Auto: [(1)] At the beginning of the encore step, if you do not have any other rested characters on your center stage, you may pay the cost, rest this card."
+Auto: OnPlay
+{
+	If LocationContains WaitingRoom 1 NameContains "Supporting Your Journey" Maki Nishikino
+	{
+		Question_Obvious Put a "Supporting Your Journey" Maki Nishikino
+		If Yes
+		{
+			Message Choose a "Supporting Your Journey" Maki Nishikino to marker under this card
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals "Supporting Your Journey" Maki Nishikino
+			RevealTargets
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 '"Supporting Your Journey" Maki Nishikino' in your waiting room and put it face-down under this card as marker.
+EndCard
+
+Character: LL/W68-027
+Name "It's Warm" Eli Ayase
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Star
+Combo Words You Want to Convey
+Cont: InHand
+{
+	If StageContains 4 NameContains Eli
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more characters with "Eli" in its card name, this card gets -1 level while in your hand.
+Auto: OnAttack
+{
+	If Climax Words You Want to Convey
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to gain the effect
+		AddSelfToTargets
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchDeck NameContains Eli && IsCharacter
+			}
+			Text Auto: When this card's battle opponent becomes reverse, search your deck for up to 1 character with "Eli" in its card name, reveal it, put it in your hand, and shuffle your deck.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Words You Want to Convey" is in your climax area, choose 1 of your other characters and this card, and they get the following ability. "Auto: When this card's battle opponent becomes reverse, search your deck for up to 1 character with "Eli" in its card name, reveal it, put it in your hand, and shuffle your deck."
+EndCard
+
+Character: LL/W68-028
+Name "Your Guardian Star" Nozomi Toujou
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Music
+Trait2 Star
+Auto: OnAttack
+{
+	If Compare CardsInMemory 2 OrMore
+	{
+		SetXToNumberOfCharacters HasTrait Music
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Quick
+Text Auto: MEMORY When this card attacks, if there are 2 or more cards in your memory, this card gets +X power until end of turn. X equals 1000 times the number of your «Music» characters.
+EndCard
+
+Event: LL/W68-029
+Name Honest Real Intention
+Color G
+Level 1
+Cost 2
+Effect: 
+{
+	Message Choose up to 2 characters with "Maki", "Nico", or "Eli" to return to your hand
+	SearchLocationForTargets WaitingRoom 0 2 NameContains Nico|Maki|Eli && IsCharacter
+	RevealTargets
+	MoveCard Hand
+}
+Text Choose up to 2 characters in your waiting room with "Maki", "Nico", or "Eli" in its card name and return them to hand.
+EndCard
+
+Climax: LL/W68-030
+Name Powerful Stage
+*BarClimax
+EndCard
+
+Climax: LL/W68-031
+Name Words You Want to Convey
+*BarClimax
+EndCard
+
+Climax: LL/W68-032
+Name Let Me Know
+*BagClimax
+EndCard
+
+Climax: LL/W68-033
+Name Deliver a Smile
+*GreenStockSoul
+EndCard
+
+Character: LL/W68-034
+Name "Sky Full of Stars" Honoka Kousaka
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Star
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1500 power.
+*FreeRunner
+EndCard
+
+Character: LL/W68-035
+Name "Deliver to You" Kotori Minami
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo Gentle Gaze
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets +1000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Gentle Gaze
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Music
+		*GiveCharacterPower(1000,Music)
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Gentle Gaze" is in your climax area, choose up to 1 «Music» in your waiting room, return it to hand, choose 1 of your characters, and it gets +1000 power until end of turn.
+EndCard
+
+Character: LL/W68-036
+Name "Growing Feelings" Umi Sonoda
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Music
+Combo Always Full Power
+*GainPowerWithEnoughCharacters(1000,2,Music)
+Auto: PlacedBy Always Full Power
+{
+	If Phase Climax &&& Climax Always Full Power
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			TargetSelf
+			Stand
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Always Full Power" from your climax area to the waiting room] During your climax phase, when this card is placed to the stage by the effect of "Always Full Power", you may pay the cost. If you do, stand this card.
+*HandEncoreTrait(Music)
+EndCard
+
+Character: LL/W68-037
+Name "Feelings to Convey" Honoka Kousaka
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		GainPower 2500
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 5 or higher, this card gets +2500 power.
+*Healer
+Auto: OnSpecificClimaxPlay Thrilling Exciting Stage
+{
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			*OptionalBurn(1)
+		}
+		Text Auto: When this card's battle opponent becomes reverse, you may deal 1 damage to your opponent.
+	}
+}
+Text Auto: CxCombo When "Thrilling Exciting Stage" is placed on your climax area, until the end of your opponent's next turn, this card gets the following ability. "Auto: When this card's battle opponent becomes reverse, you may deal 1 damage to your opponent."
+EndCard
+
+Character: LL/W68-038
+Name "Neat Image" Umi Sonoda
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Sky
+*RedLevel0Bomb
+Act: 1 SendSelf Memory
+{
+	*Check4Add1(Music)
+}
+Text Act: [(1) Put this card into memory] Look at up to 4 cards from the top of your deck, search for up to 1 «Music» character, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LL/W68-039
+Name "Thanks to This Clothing" Umi Sonoda
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Star
+Text Cont: You may have up to 4 total copies of cards between cards with the same name as this card and '"Now Is the Best!" Umi Sonoda'.
+*OnAttackGivePower(1500,Music)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: LL/W68-040
+Name "Beast Master Kotori" Kotori Minami
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 RPG
+Text Cont: You may have up to 4 total copies of cards between cards with the same name as this card and '"Now Is the Best!" Kotori Minami'.
+*GiveMiddlePower(500,Music)
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: LL/W68-041
+Name "Only About You" Honoka Kousaka
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Trick
+Text Cont: You may have up to 4 total copies of cards between cards with the same name as this card and '"Now Is the Best!" Honoka Kousaka'.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1(Music)
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to 4 cards from the top of your deck and search for up to 1 «Music» character, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LL/W68-042
+Name "Soothing Happiness" Kotori Minami
+Color R
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Star
+*BackupBonus1000(Music)
+Backup 1000
+EndCard
+
+Character: LL/W68-043
+Name "Don't Make a Mistake~!" Kotori Minami
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Sky
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameContains Hanayo|Honoka|Kotori && Other
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: For each of your other characters with "Hanayo", "Honoka", or "Kotori" in its card name, this card gets +500 power.
+Auto: OnAttack
+{
+	If Compare Experience 2 OrMore
+	{
+		PayCost 1
+		{
+			GainSpecialEffect DoubleTrigger
+		}
+	}
+}
+Text Auto: EXPERIENCE [(1)] When this card attacks, if the total level of cards in your level is 2 or higher, you may pay the cost. If you do, perform trigger check twice during this card attack's trigger step.
+EndCard
+
+Character: LL/W68-044
+Name "More Minutes With You" Honoka Kousaka
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets +2000 power.
+EndCard
+
+Character: LL/W68-045
+Name "9 Alices!?" Umi Sonoda
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 4000
+Soul 2
+Trait1 Music
+Trait2 Fairy Tales
+Combo Relaxing Fun Stage
+*2000Assist
+*Healer
+Auto: OnSpecificClimaxPlay Relaxing Fun Stage
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		PayCost 1
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [(1)] When "Relaxing Fun Stage" is placed on your climax area, if you have 3 or more cards in memory, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: LL/W68-046
+Name "Three Person Stage" Hanayo & Honoka & Kotori
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Printemps
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose a character to return to hand
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there's at least 1 climax among them, you may pay the cost. If you do, choose a character in your waiting room and return it to your hand.
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		Message Choose a "As a School Idol" to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals As a School Idol
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "As a School Idol" in your waiting room and return it to your hand.
+EndCard
+
+Character: LL/W68-047
+Name "Let Me Speak Quickly!" Honoka Kousaka
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Profession
+*RedLevel0Bomb
+Auto: StartClimaxPhase
+{
+	If StageContains 3 HasTrait Music
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock and the number of «Music» characters you have is 3 or more, at the beginning of your climax phase, choose 1 of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: LL/W68-048
+Name "Exciting Magic Trick" Umi Sonoda
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Trick
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: LL/W68-049
+Name "Sister Experience" Umi Sonoda
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Profession
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals If You Look Again
+	{
+		GainPower 2500
+		GainEffect
+		{
+			Auto: OnOtherFrontalAttacked
+			{
+				PayCost SendSelf WaitingRoom
+				{
+					TargetMyCharacterInBattle
+					GainPower 1000
+				}
+			}
+			Text Auto: [Put this card in your waiting room] When another of your characters is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, and that character gets +1000 power until end of turn.
+		}
+	}
+}
+Text Cont: MEMORY If "If You Look Again" is in your memory, this card gets +2500 power and the following ability. "Auto: [Put this card in your waiting room] When another of your characters is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, and that character gets +1000 power until end of turn."
+EndCard
+
+Character: LL/W68-050
+Name "I Want to Meet Expectations!" Umi Sonoda
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Pirate
+*GainPowerWithEnoughCharacters(2000,2,Music)
+*HandEncore
+EndCard
+
+Character: LL/W68-051
+Name "Necessary Props" Kotori Minami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Pirate
+Combo Thrilling Exciting Stage
+*LevelAssist
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainEffect
+		{
+			Act: RestSelf
+			{
+				TargetLocation Stage
+				ChooseCharacterFromTargets Choose a character to gain +1000 power
+				UntilEndOfOpponentsTurn
+				GainPower 1000
+			}
+			Text Act: [Rest this card] Choose 1 of your characters, and until the end of your opponent's next turn, that character gets +1000 power.
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 3 or higher, this card gets the following ability. "Act: [Rest this card] Choose 1 of your characters, and until the end of your opponent's next turn, that character gets +1000 power."
+Auto: OnSpecificClimaxPlay Thrilling Exciting Stage
+{
+	If LocationContains WaitingRoom 1 IsCharacter && HasTrait Music
+	{
+		Message Choose up to 1 <Music> character to put into your stock
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: CxCombo When "Thrilling Exciting Stage" is placed to your climax area, you may choose a «Music» character in your waiting room and put it to stock.
+EndCard
+
+Character: LL/W68-052
+Name "To a Wonderful Trip Through the Air" Honoka Kousaka
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Sky
+*EarlyPlayInClock("Feelings to Convey" Honoka Kousaka)
+*RedEarlyPlayBomb
+EndCard
+
+Character: LL/W68-053
+Name "Ill Catch You" Kotori Minami
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Profession
+*OnPlayCheckX(Music)
+Auto: OnAttack
+{
+	If Compare Experience 6 OrMore
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1500 power
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+}
+Text Auto: EXPERIENCE When this card attacks, if the total level of cards in your level is 6 or higher, choose 1 of your characters, and that character gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: LL/W68-054
+Name "Magician Kotori" Kotori Minami
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Trick
+*GlobalPower(500,Music)
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 1 SendSelf WaitingRoom
+			{
+				*ChangeWaitingRoom("Necessary Props" Kotori Minami)
+			}
+			Text Act: [(1) Put this card in waiting room] Choose a '"Necessary Props" Kotori Minami' in your waiting room and place it to the position this card was in.
+		}
+	}
+}
+Text Cont: If you are level 2 or higher, this card gets the following ability. "Act: [(1) Put this card in waiting room] Choose a '"Necessary Props" Kotori Minami' in your waiting room and place it to the position this card was in."
+EndCard
+
+Character: LL/W68-055
+Name "Will Omanju Fit?" Honoka Kousaka
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Tea
+Cont: GiveAll
+{
+	If NameEquals "Kotori's Set" Kotori Minami
+	{
+		GainEffect
+		{
+			Auto: OnReversed
+			{
+				TargetTop Deck 1
+				Reveal
+				If Compare TargetCardsLevel 2 OrMore
+				{
+					TargetSelf
+					Bounce
+				}
+			}
+			Text Auto: When this card is reversed in battle, reveal the top card of your deck. If the revealed card is level 2 or higher, return this card to your hand.
+		}
+	}
+}
+Text Cont: All of your other '"Kotori's Set" Kotori Minami' get the following ability. "Auto: When this card is reversed in battle, reveal the top card of your deck. If the revealed card is level 2 or higher, return this card to your hand."
+*RestGivePower(1000,Any)
+EndCard
+
+Character: LL/W68-056
+Name "Muse Set" Umi Sonoda
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Tea
+*OnPlayGivePower(1000,Music)
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		*GiveCharacterPower(1000,Any)
+		If Compare CardsInMemory 2 OrLess &&& LocationContains WaitingRoom 1 NameEquals "Telepathy to You" Nozomi Toujou
+		{
+			Message Choose up to 1 "Telepathy to You" Nozomi Toujou to put into your memory
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals "Telepathy to You" Nozomi Toujou
+			RevealTargets
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: [Return this card to hand] When a climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, that character gets +1000 power until end of turn, if you have 2 or less cards in memory, choose up to 1 '"Telepathy to You" Nozomi Toujou' in your waiting room and send it to memory.
+EndCard
+
+Character: LL/W68-057
+Name "Rabbit's Whereabouts" Kotori Minami
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		Message Choose a <Music> character to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Music
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(2)] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand.
+EndCard
+
+Character: LL/W68-058
+Name "From the Princess..." Umi Sonoda
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 RPG
+Auto: OnPlay
+{
+	Peek Deck 2
+	Message Choose a card to put on the top of your deck
+	ChooseCardsFromTargets 1 1 Any
+	MoveCard Deck
+	TargetLocation ScryArea
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top 2 cards of your deck, choose 1 of them and put it on top of your deck, and put the rest into your waiting room.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		*ChangeWaitingRoom("Anemone Heart" Umi Sonoda)
+	}
+}
+Text Auto: CHANGE [Put this card in the waiting room] At the beginning of the climax phase, you may pay the cost. If you do, choose a '"Anemone Heart" Umi Sonada' in your waiting room and put it in the position this card was in.
+EndCard
+
+Character: LL/W68-059
+Name "Kotori's Set" Kotori Minami
+Color R
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Tea
+EndCard
+
+Character: LL/W68-060
+Name "Pirate's Adventure" Honoka Kousaka
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Pirate
+Combo Thanks to You
+Auto: OnOpponentReverse
+{
+	If Climax Thanks to You &&& StageContains 4 Other && NameContains Honoka
+	{
+		*OptionalBlindStock
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Thanks to You" is in your climax area and the number of other characters with "Honoka" in its card name you have is 4 or more, put up to 1 card from the top of your deck to stock, and choose up to 1 character in your waiting room and return it to hand.
+*HandEncore
+EndCard
+
+Character: LL/W68-061
+Name "I Became a Swordswoman!" Honoka Kousaka
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 RPG
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put 2 cards from your hand to the waiting room] When you use this card's BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than the level of your opponent and put it in the waiting room.
+Backup 2500
+EndCard
+
+Event: LL/W68-062
+Name As a School Idol
+Color R
+Level 2
+Cost 0
+Effect: 
+{
+	MultipleChoiceQuestion Choose an effect to resolve \n1. Give a <Music> character +2000 power until end of turn. \n2. Look at up to 4 cards from the top of your deck and add a <Music> character |1|2
+	If Answer 0
+	{
+		*GiveCharacterPower(2000,Music)
+	}
+	If Answer 1
+	{
+		*Check4Add1(Music)
+	}
+}
+Text Perform 1 of the following effects of your choice. "Choose 1 of your «Music» characters, until end of turn, that character gets +2000 power." "Look at up to 4 card from the top of your deck, choose up to 1 «Music» character among them, reveal it, put it in your hand, and put the rest into waiting room."
+EndCard
+
+Event: LL/W68-063
+Name "Congratulations on the 6th Anniversary!" Muse
+Color R
+Level 3
+Cost 8
+Effect: 
+{
+	MillUpTo 6
+	If LocationContainsSeparateCardsThatMeetConditions WaitingRoom NameContains Honoka, NameContains Eli, NameContains Kotori, NameContains Umi, NameContains Rin, NameContains Maki, NameContains Nozomi, NameContains Hanayo, NameContains Nico
+	{
+		Repeat 4
+		{
+			Burn 1
+		}
+	}
+}
+Text Put up to 6 cards from the top of your deck in your waiting room. If in your waiting room there are, separately, a character with "Honoka" in its card name, a character with "Eli" in its card name, a character with "Kotori" in its card name, a character with "Umi" in its card name, a character with "Rin" in its card name, a character with "Maki" in its card name, a character with "Nozomi" in its card name, a character with "Hanayo" in its card name, and a character with "Nico" in its card name, perform the following action 4 times. "Deal 1 damage to your opponent". 
+EndCard
+
+Climax: LL/W68-064
+Name Thanks to You
+*RedStockSoul
+EndCard
+
+Climax: LL/W68-065
+Name Thrilling Exciting Stage
+*DoorClimax
+EndCard
+
+Climax: LL/W68-066
+Name Gentle Gaze
+*DoorClimax
+EndCard
+
+Climax: LL/W68-067
+Name Always Full Power
+*StandbyClimax
+EndCard
+
+Character: LL/W68-068
+Name "Cheer You Up" Rin Hoshizora
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: OnReversed
+{
+	PayCost 1 Clock SendSelf Memory
+	{
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: [(1) Put the top card of your deck in your clock and put this card into memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LL/W68-069
+Name "Sometimes Obedient" Maki Nishikino
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Combo The Song You Want to Give
+*PowerOnMyTurn(2000)
+*Healer
+Auto: OnSpecificClimaxPlay The Song You Want to Give
+{
+	If InLocation CenterStage &&& StageContains 4 Other && NameContains Nico|Maki|Eli
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to gain the ability
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				PayCost Discard 1 Any
+				{
+					Burn 3
+				}
+			}
+			Text Auto: [Put 1 card from hand to the waiting room] When the battle opponent of this card is reversed, you may pay the cost. If you do, deal 3 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo When "The Song You Want to Give" is placed on your climax area, if this card is in the center stage and the number of other characters with "Maki", "Nico", or "Eli" you have in it's card name is 4 or more, choose 1 of your other characters, and until end of turn, that character gets the following ability. "Auto: [Put 1 card from hand to the waiting room] When the battle opponent of this card is reversed, you may pay the cost. If you do, deal 3 damage to your opponent."
+EndCard
+
+Character: LL/W68-070
+Name "I'll Show You" Hanayo Koizumi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	If LocationContains Clock 1 HasTrait Music && IsCharacter
+	{
+		Message Choose up to 1 <Music> character to put on the bottom of your deck
+		SearchLocationForTargets Clock 0 1 HasTrait Music && IsCharacter
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 «Music» character in your clock and put it on the bottom of your deck.
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another «Music» character, this card gets +2000 power until the end of your opponent's next turn.
+EndCard
+
+Character: LL/W68-071
+Name "With Two People" Maki Nishikino
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 RPG
+Auto: OnAttack
+{
+	*Scry
+}
+Text Auto: When this card attacks, look at the top card of your deck, and put it either on top or bottom of the deck.
+*BlueLevel0Bomb
+EndCard
+
+Character: LL/W68-072
+Name "With a Poker Face!" Hanayo Koizumi
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Trick
+Combo Thrilling Exciting Stage
+*OnPlayGivePower(1500,Music)
+Auto: OnDamageCancel
+{
+	If Climax Thrilling Exciting Stage
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Music
+	}
+}
+Text Auto: CxCombo This ability activates up to once per turn. When damage dealt by this card is canceled, if "Thrilling Exciting Stage" is in your climax area, choose 1 of your «Music» characters in your waiting room and return it to your hand.
+EndCard
+
+Character: LL/W68-073
+Name "Stage Greetings!?" Hanayo Koizumi
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Auto: OnOtherOpponentReversed
+{
+	If Compare Experience 3 OrMore
+	{
+		*GiveCharacterPower(500,Any)
+	}
+}
+Text Auto: EXPERIENCE When another of your characters' battle opponents are reversed, if the total level of cards in your level is 3 or higher, choose 1 character, and until end of turn that character gets +500 power.
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: LL/W68-074
+Name "Always Together" Maki Nishikino
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Star
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameContains Nico|Maki|Eli
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: For each of your other characters with either "Maki", "Nico", or "Eli" in its card name, this card gets +500 power.
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		Message Choose a "Sometimes Obedient" Maki Nishikino or "Always Together" Maki Nishikino to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals "Sometimes Obedient" Maki Nishikino | "Always Together" Maki Nishikino
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck in your clock] At the beginning of your climax phase, you may pay the cost. If you do, choose a '"Sometimes Obedient" Maki Nishikino' or '"Always Together" Maki Nishikino' in your waiting room and return it to hand.
+EndCard
+
+Character: LL/W68-075
+Name "The Starry Sky is Special" Rin Hoshizora
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Sky
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals If You Look Again && MyTurn
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+	}
+}
+Text Cont: MEMORY On your turn, if "If You Look Again" is in your memory, this card gets +2000 power and the following ability. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 of them, put it on the top of your deck, and put the rest into waiting room."
+EndCard
+
+Character: LL/W68-076
+Name "Also for Kotori" Maki Nishikino
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Trick
+Combo Powerful Stage
+*LevelAssistTrait(Music)
+Auto: OnUseAccelerate
+{
+	If CardPosition Stand
+	{
+		PayCost RestSelf
+		{
+			Message Choose a <Music> character to put into stock
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Music && IsCharacter
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: [Rest this card] When you use "ACCELERATE", if this card is standing, you may pay the cost. If you do, choose 1 «Music» character in your waiting room and put it in your stock.
+Auto: OnSpecificClimaxPlay Powerful Stage
+{
+	Message Choose a character to return to hand
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+	RevealTargets
+	MoveCard Hand
+	Discard 1 Any
+}
+Text Auto: CxCombo When "Powerful Stage" is placed on your climax area, choose 1 character in your waiting room and return it to hand, and discard a card from hand to the waiting room.
+EndCard
+
+Character: LL/W68-077
+Name "Is the Rice Ball a Candy?" Hanayo Koizumi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Tea
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains Level 1 NameEquals "I'll Show You" Hanayo Koizumi
+	{
+		TargetMyCharacterInBattle
+		GainPower 1500
+	}
+}
+Text Auto: EXPERIENCE When you use this card's BACKUP, if '"I'll Show You" Hanayo Koizumi' is in your level, choose 1 of your characters in battle, and that character gets +1500 power until end of turn.
+Backup 2500
+EndCard
+
+Character: LL/W68-078
+Name "Usual Habits" Rin Hoshizora
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 RPG
+Combo Relaxing Fun Stage
+Auto: OnSpecificClimaxPlay Relaxing Fun Stage
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		ChooseCharactersFromTargets 0 2 Choose up to 2 characters to gain +1500 power and the ability
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question Put this card's battle opponent on the bottom of your opponent's deck?
+					If Yes
+					{
+						MoveCardToBottom OpponentDeck
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put it on the bottom of your opponent's deck.
+		}
+	}
+}
+Text Auto: CxCombo When "Relaxing Fun Stage" is placed on your climax area, is this card is in your center stage, choose up to 2 of your characters, and until end of turn they get +1500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put it on the bottom of your opponent's deck."
+*BlueEarlyPlayBomb
+EndCard
+
+Character: LL/W68-079
+Name "Rin's Trouble" Rin Hoshizora
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Fairy Tales
+Cont: InHand
+{
+	If StageContains 4 NameContains Umi|Nozomi|Rin
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more characters with "Umi", "Nozomi", or "Rin" in its card name, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: MEMORY If there are 3 or more cards in your memory, this card gets +2000 power.
+*Healer
+EndCard
+
+Character: LL/W68-080
+Name "I Will Guide You" Hanayo Koizumi
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Profession
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1500 power.
+EndCard
+
+Character: LL/W68-081
+Name "Our Three Stages" Umi & Nozomi & Rin
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 lilywhite
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a "If You Look Again" to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals If You Look Again
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "If You Look Again" in your waiting room and return it to your hand.
+EndCard
+
+Character: LL/W68-082
+Name "Rin's Magic Show" Rin Hoshizora
+Color B
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Trick
+*BackupBonus1000(Music)
+Backup 1000
+EndCard
+
+Character: LL/W68-083
+Name "Maki's Favorite" Maki Nishikino
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Tea
+*GiveMiddlePower(500,Any)
+Act: 1 RestSelf
+{
+	RevealUpTo Deck 3
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 NameContains Maki && IsCharacter
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Rest this card] Look at the up to the top 3 cards of your deck, choose up to 1 character with "Maki" in its card name among them, reveal it, put it in your hand, and put the rest into waiting room.
+EndCard
+
+Character: LL/W68-084
+Name "Unity Up" Maki Nishikino
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets With Auto: ACCELERATE
+	ChooseCharacterFromTargets Choose a character to gain +2000 power
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, Chose one of your other characters with "ACCELERATE", and that character gets +2000 power until end of turn.
+*ClimaxExchange
+EndCard
+
+Character: LL/W68-085
+Name "A Little Breather" Rin Hoshizora
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Trait2 Star
+Combo Superb Rin
+Auto: OnOpponentReverse
+{
+	If Climax Superb Rin
+	{
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Superb Rin" is in your climax area, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LL/W68-086
+Name "What I Can Do" Hanayo Koizumi
+Color B
+Level 1
+Cost 1
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Pirate
+*CannotBeReversedByCost0
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets +2000 power.
+EndCard
+
+Character: LL/W68-087
+Name "For an Authentic Play" Maki Nishikino
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Pirate
+*OnPlayCheckTopAddDiscard(Music)
+*BlueEarlyPlayBomb
+EndCard
+
+Character: LL/W68-088
+Name "Forehead Bonk" Rin Hoshizora
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Profession
+*GlobalPower(500,Music)
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock in your waiting room.
+EndCard
+
+Character: LL/W68-089
+Name "Just For You" Rin Hoshizora
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Tea
+*OnPlayScryToBottom
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget NameContains Rin && IsCharacter || NameEquals Love Wing Bell
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is a character with "Rin" in its card name, or "Love Wing Bell", put it in your hand, and discard a card from hand to the waiting room.
+EndCard
+
+Character: LL/W68-090
+Name "Supporting Your Journey" Maki Nishikino
+Color B
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Profession
+EndCard
+
+Character: LL/W68-091
+Name "Simple" Maki Nishikino
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Sky
+*OnAttackGivePower(2500,Any)
+EndCard
+
+Character: LL/W68-092
+Name "Contrails" Hanayo Koizumi
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Sky
+Auto: OnOtherAttacks
+{
+	IfOther NameContains Hanayo
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When your other character with "Hanayo" in its card name attacks, this card gets +1500 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 Other && CardPosition Stand && NameContains Hanayo
+		{
+			SearchDeck NameContains Hanayo && IsCharacter
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other standing characters with "Hanayo" in its card name] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, search your deck for up to 1 character with "Hanayo" in its card name, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LL/W68-093
+Name "Priestess' Role" Hanayo Koizumi
+Color B
+Level 1
+Cost 0
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 RPG
+*CannotSideAttack
+Auto: OnReversed
+{
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is reversed in battle, put this card on bottom of the deck.
+EndCard
+
+Character: LL/W68-094
+Name "Brilliant Appearance" Rin Hoshizora
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Pirate
+Auto: OnUseThisCardsBackup
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 2 OrMore
+			ChooseCharacterFromTargets Choose a character to get -2 soul
+			LoseSoul 2
+		}
+	}
+}
+Text Auto: MEMORY [(2) Put 1 card from hand to the waiting room] When you use this card's BACKUP, if the number of cards in memory you have is 3 or more, you may pay the cost. If you do, choose 1 of your opponent's level 2 or higher characters, and that character gets -2 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: LL/W68-095
+Name "Shining Like a Star" Hanayo Koizumi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Star
+Combo Sunny Outfit
+Auto: OnAttack
+{
+	TargetLocation Facing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		TargetSelf
+		GainPower 4000
+		GainSoul 1
+	}
+}
+Quick
+Text Auto: When this card attacks, if the level of the character facing this card is 3 or higher, this card gets +4000 power and +1 soul until end of turn.
+Auto: OnAttack
+{
+	If Climax Sunny Outfit
+	{
+		Message Choose up to 1 <Music> character to put to stock
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Stock
+		TargetSelf
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Sunny Outfit" is in your climax area, choose up to 1 «Music» character in your waiting room, put that character in your stock, and until the end of your opponent's next turn, this card gets the following ability. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Event: LL/W68-096
+Name If You Look Again
+Color B
+Level 1
+Cost 1
+Effect: 
+{
+	Mill 2
+	SaveTargets
+	SetXValue TotalLevel
+	Message Choose a level X or lower character to return to hand
+	SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter
+	RevealTargets
+	MoveCard Hand
+	LoadTargets
+	NarrowTargets NameContains Umi|Nozomi|Rin
+	If Compare TargetCount 2 OrMore
+	{
+		*OptionalBlindStock
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Put the top 2 cards of your deck in the waiting room, choose a level X or lower character in your waiting room and return it to your hand. X equals the total level of the cards put into the waiting room this way. If 2 or more characters with "Umi, "Nozomi", or "Rin" in its card name are put in the waiting room by this card effect, you may put the top card of your deck in your stock.  Put this card into memory.
+EndCard
+
+Climax: LL/W68-097
+Name Relaxing Fun Stage
+*GateClimax
+EndCard
+
+Climax: LL/W68-098
+Name Superb Rin
+*BlueStockSoul
+EndCard
+
+Climax: LL/W68-099
+Name The Song You Want to Give
+*BookClimax
+EndCard
+
+Climax: LL/W68-100
+Name Sunny Outfit
+*BookClimax
+EndCard
+
+Character: LL/W68-101
+Name "Rainbow Fairy Elichika" Eli Ayase
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Swimsuit
+Auto: OnUseAct
+{
+	GainPower 1500
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an <b> ACT </b> ability, this card gets +1500 power until end of turn.
+Act: Rest 1 HasTrait Music
+{
+	GainPower 1000
+}
+Text Act: [Rest 1 of your «Music» characters] This gets +1000 power until end of turn.
+EndCard
+
+Character: LL/W68-102
+Name "Mocomoco Rabbit Nico" Nico Yazawa
+Color G
+Level 1
+Cost 0
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Animal
+*OthersCannotSideAttack
+Auto: OnReversed
+{
+	OpponentQuestion Draw and discard a card?
+	If Yes
+	{
+		TargetTop OpponentDeck
+		MoveCard OpponentHand
+		OpponentSearchLocationForTargets Hand 1 1 Any
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may draw a card. If you do, your opponent discards a card from their hand to the waiting room.
+EndCard
+
+Character: LL/W68-103
+Name "Heart's Cry?" Nozomi Toujou
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Army
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && HasTrait Music && Other
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: For each other «Music» character in your backstage this card gets +2000 power.
+EndCard
+
+Character: LL/W68-104
+Name "Nostalgic Apple Bowl" Umi Sonoda
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Summer
+*OnPlayGivePower(1500,Music)
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		Refresh
+	}
+}
+Text Auto: [(1) Put the top card of your deck into clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all the cards in your waiting room to your deck, and shuffle your deck.
+EndCard
+
+Character: LL/W68-105
+Name "Strawberry Shortcake" Honoka Kousaka
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+*OnPlayMill2GainPowerForEachCharacter(1000,Music)
+Auto: OnPlay
+{
+	If LocationContains WaitingRoom 1 NameEquals "Feelings to Convey" Honoka Kousaka &&& Compare MyLevel 1 OrMore
+	{
+		Question Exchange a card in level with "Feelings to Convey" Honoka Kousaka from waiting room?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any, NameEquals "Feelings to Convey" Honoka Kousaka)
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your level and a '"Feelings to Convey" Honoka Kousaka' in your waiting room and exchange them.
+EndCard
+
+Character: LL/W68-106
+Name "Overcoming Snow" Kotori Minami,
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Snow
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && NameContains Kotori
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If is a character with "Kotori" in its card name, put it in your stock.
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters NameContains Kotori
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X equals the number of your characters with "Kotori" in its card name times 1000.
+EndCard
+
+Character: LL/W68-107
+Name "Trick or Rice Ball" Hanayo Koizumi
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Monster
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a level 0 or lower character to place on stage
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel 0 OrLess && IsCharacter
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from hand to waiting room] When this card is placed from hand to stage, you may pay the cost. If you do, choose a level 0 or lower character in your waiting room and place it to any slot on the stage.
+EndCard
+
+Character: LL/W68-108
+Name "My Favorite One" Rin Hoshizora
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Animal
+Auto: OnUseAct
+{
+	*GiveCharacterPower(1500,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an <b> ACT </b> ability, choose 1 of your characters, and that character gets +1500 power until end of turn.
+*RestGivePower(1000,Any)
+EndCard
+
+Character: LL/W68-109
+Name "Your Heart" Maki Nishikino
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Sweets
+*GainPowerForEachOther(1000,Music)
+EndCard
+
+Character: LL/W68-P01
+Name "I Can't Stop Loving!" Hanayo & Honoka & Kotori
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Printemps
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's BACKUP, put the top 3 cards of your deck in your waiting room.
+Backup 2000
+EndCard
+
+Character: LL/W68-P02
+Name "My Favorite Things." Maki & Nico & Eri
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 BiBi
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a <Music> character to return to hand
+		SearchLocationForTargets Clock 1 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Music» character in your clock and return it to your hand, and put the top card of your deck in your clock.
+EndCard
+
+Character: LL/W68-P03
+Name "Because I Like It." Umi & Nozomi & Rin
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 lilywhite
+*OnPlayGiveOtherPower(2000,Music)
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Message Choose a character with "Umi", "Nozomi", or "Rin" to return to hand
+		SearchLocationForTargets Memory 1 1 NameContains Umi|Nozomi|Rin && IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, Choose 1 character in memory with "Umi" or "Nozomi" or "Rin" in the name and return it to hand.
+EndCard
+
+Character: LL/W68-P04
+Name "Lovely Princesses" Muse
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayGainPower(1500)
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Music
+		*GiveOtherCharacterPower(1000,Music)
+	}
+}
+Text Auto: [(1) Put 1 card from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 1 «Music» characters from your waiting room, return it to your hand, and choose another «Music» character and until end of turn it gets +1000 power.
+EndCard
+
+Character: LL/W68-P05
+Name "Surrounded by Autumn Leaves" Nico Yazawa
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Autumn
+Combo Deliver a Smile
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, draw a card, discard a card, and choose up to 1 of your opponent's characters and return it to hand.
+Auto: OnAttack
+{
+	If Climax Deliver a Smile
+	{
+		PayCost 2 SendClimax WaitingRoom
+		{
+			UntilEndOfOpponentsTurn
+			GainPower 4000
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					LoseSoul 2
+				}
+				Text Cont: The character facing this card gets -2 soul
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put a "Deliver a Smile" from your climax area to the waiting room] When this card attacks, you may pay the cost. If you do, until the end of your opponent's next turn, this card gets +4000 power and the following ability. "Cont: The card facing this card gets -2 soul."
+EndCard
+
+Character: LL/W68-P06
+Name "Dig Here, Woof Woof" Honoka Kousaka
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 New Year
+*DropSearch(Music)
+EndCard
+

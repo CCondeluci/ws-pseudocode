@@ -1,0 +1,2486 @@
+Character: KS/W76-E001
+Name "Endurance is My Forte" Darkness
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Worries
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsClimax
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		CheckForEmptyDeck
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+	
+}
+Text Auto: When this card is put into the waiting room from the stage, look at up to 4 cards from the top of your deck, choose up to 1 climax from among them, add it to your hand, and put the rest into the waiting room. If you added a climax to your hand, discard 1 card.
+EndCard
+
+Character: KS/W76-E002
+Name "Musclebrained Crusader" Darkness
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Trait2 Worries
+Combo M-My Defensive Strength?
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Adventurer|Magic
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other <Adventurer> or <Magic> characters.
+Auto: OnPlay|PlacedBy Fusion
+{
+	Peek Deck 3
+	ChooseCard Choose a card to add to your hand.
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand or by a "Fusion" effect, look at up to 3 cards from the top of your deck, choose up to 1 to add to your hand, and put the rest into the waiting room.
+Auto: OnAttack
+{
+	If Climax M-My Defensive Strength? && StageContains 4 Other && HasTrait Adventurer|Magic
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnDamageCancel|OnDamageDealtByCharacterFacingThisCanceled
+			{
+				Burn 1
+			}
+			TimesPerTurn 1
+			Text Auto: Once per turn, when damage dealt by this card or the character facing this card is canceled, deal 1 damage to your opponent.
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "M-My Defensive Strength?" is in your climax area, and you have 4 or more other <Adventurer> or <Magic> characters, this card gets the following ability until the end of your opponent's turn. "Auto: Once per turn, when damage dealt by this card or the character facing this card is canceled, deal 1 damage to your opponent."
+EndCard
+
+Character: KS/W76-E003
+Name "A Break in the Forest" Darkness
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Worries
+*500Assist
+Act: RestSelf Discard 1 NameEquals "A Break in the Forest" Darkness
+{
+	SearchWaitingRoom HasTrait Adventurer|Magic
+}
+Text Act: [Discard 1 ""A Break in the Forest" Darkness", Rest this card] Choose an <Adventurer> or <Magic> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KS/W76-E004
+Name "Beauty in a Yukata" Darkness
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Worries
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put 3 cards from the top of your deck into the waiting room.
+*ClimaxExchange
+EndCard
+
+Character: KS/W76-E005
+Name "Important Friend" Kazuma
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Rest 1 Other && HasTrait Adventurer|Magic
+	{
+		Message Choose a card in your waiting room to exchange with a card in your level.
+		SearchLocationForTargets WaitingRoom 1 1 Any
+		If HasTarget
+		{
+			SaveTargets
+			Message Choose a card in your level to swap with it
+			SearchLocationForTargets Level 1 1 Any
+			If HasTarget
+			{
+				AddSavedToCurrentTargets
+				Exchange
+			}
+		}
+	}
+}
+Text Auto: [Rest 1 of your other <Adventurer> or <Magic> characters] When this card is placed on the stage from your hand, you may pay the cost, choose a card in your level and a card in your waiting room and exchange them.
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Adventurer|Magic
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When your other <Adventurer> or <Magic> character attacks, this card gets +1500 power until end of turn.
+EndCard
+
+Character: KS/W76-E006
+Name "Shivering from Disparagement" Darkness
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Worries
+Combo Orc Invasion!
+*GainPowerForEachOther(500,Adventurer|Magic)
+Auto: OnAttack
+{
+	If Climax Orc Invasion! && StageContains 2 Other && HasTrait Adventurer|Magic
+	{
+		MultipleChoiceQuestion Search deck or waiting room?|Deck|Waiting Room
+		If Compare Answer 0 Exactly
+		{
+			SearchDeck NameEquals "Fierce Battle" Vanir|"A Break in the Forest" Darkness
+		}
+		Else
+		{
+			SearchWaitingRoom NameEquals "Fierce Battle" Vanir|"A Break in the Forest" Darkness
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Orc Invasion!" is in your climax area, and you have 2 or more other <Adventurer> or <Magic> characters, choose 1 of the following effects and perform it "Choose 1 ""Fierce Battle" Vanir" or ""A Break in the Forest" Darkness" in your waiting room and return it to your hand" or "Search your deck for up to 1 ""Fierce Battle" Vanir" or ""A Break in the Forest" Darkness" and add it to your hand"
+EndCard
+
+Character: KS/W76-E007
+Name "Fireworks Display" Kazuma
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Adventurer
+Trait2 Magic
+*YellowEarlyPlayBomb
+EndCard
+
+Character: KS/W76-E008
+Name "Fierce Battle" Vanir
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Mask
+Trait2 Magic
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 2 NameEquals "Musclebrained Crusader" Darkness
+	RevealTargets
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 2 ""Musclebrained Crusader" Darkness" in your waiting room and put them on the bottom of your deck.
+Act: MarkerOtherUnderThis 1 NameEquals "A Break in the Forest" Darkness
+{
+	SearchDeckForTarget NameEquals "Musclebrained Crusader" Darkness
+	Fusion
+}
+Text Act: FUSION [Put a card named ""A Break in the Forest" Darkness" from your stage face-up underneath this card as a marker] Search your deck for one ""Musclebrained Crusader" Darkness", put it in this card's position, and put this and all markers underneath this card face-up underneath that character.
+EndCard
+
+Character: KS/W76-E009
+Name "My Popular Phase is Here!" Kazuma
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation OpponentStage
+	AIChoice BounceOpponent
+	ChooseCharacterFromTargets_Optional Choose up to 1 of your opponent's characters to return to the hand.
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, draw 1 card, discard a card, choose up to 1 of your opponent's characters and return it to the hand.
+Auto: OnAttack
+{
+	PayCost Discard 1 IsCharacter
+	{
+		GainPower 2000
+		GainSoul 1
+	}
+}
+Text Auto: [Discard a character] When this card attacks, you may pay the cost, this gets +2000 power and +1 soul until end of turn.
+EndCard
+
+Character: KS/W76-E010
+Name "S-Rank Luck" Kazuma
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+Combo Thumbs Up!
+Auto: OnSpecificClimaxPlay Thumbs Up!
+{
+	If InLocation CenterStage
+	{
+		PayCost Clock
+		{
+			RevealUpTo Deck 2
+			ChooseCardsFromTargets 0 2 IsCharacter && Compare ThatCardsCost 0 OrLess
+			PlaceOnStage False True True False
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Put the top card of your deck into your clock] When "Thumbs Up!" is placed in your climax area, if this card is on your center stage, you may pay the cost, look at up to 2 cards from the top of your deck, choose up to 2 cost 0 characters among them, place them on your stage, and put the rest into the waiting room.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost, move this card to an open position of your backstage.
+EndCard
+
+Character: KS/W76-E011
+Name "Dumbfounded" Darkness
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Worries
+*OnPlayReorderTop2
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer|Magic
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Adventurer> or <Magic> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: KS/W76-E012
+Name "Sightseeing in the Crimson Demon Village!" Darkness
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Worries
+Cont: GiveSelf
+{
+	If OpponentsTurn && StageContainsOrLess 0 Not HasTrait Adventurer|Magic
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: During your opponent's turn, if all your characters are <Adventurer> or <Magic> this card gets +1 level and +1500 power.
+*OnPlayTradeClimaxForCharacter(Adventurer|Magic)
+EndCard
+
+Character: KS/W76-E013
+Name "Straitforward Confession" Kazuma
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Devil King Army || NameContains Kazuma
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your <Devil King Army> characters, or characters with "Kazuma" in its name, it gets +500 power until end of turn.
+Act: 1 MarkerSelfUnderOther NameContains Sylvia
+{
+	*Check4Add1Level1OrHigher
+}
+Text Act: [(1) Put this card face-up underneath your character with "Sylvia" in its name as a marker] Look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: KS/W76-E014
+Name "Welcome" Vanir
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Mask
+Trait2 Magic
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Adventurer|Magic
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Adventurer> or <Magic> character, this card gets +2000 power.
+*GivePowerOnAttack(1000)
+EndCard
+
+Character: KS/W76-E015
+Name "Sought-After Paradise" Kazuma
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Sylvia
+	ChooseCharacterFromTargets Choose a character to place markers under.
+	If HasTarget
+	{
+		SaveTargets
+		Message Choose up to 1 card to put under that card as a marker.
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "Sought-After Paradise" Kazuma
+		If HasTarget
+		{
+			MarkerTargetsUnderSavedTarget_FaceUp
+		}
+	}
+}
+Text Auto: When you use this card's "<b>Backup</b>", choose 1 of your characters with "Sylvia" in its name, choose up to 1 ""Sought-After Paradise" Kazuma" in your waiting room, and place it face-up underneath that chosen character on the stage as a marker.
+Backup 1500
+EndCard
+
+Character: KS/W76-E016
+Name "Blocking the Way" Darkness
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Worries
+*BackupBonus1000(TRAITLIST)
+Backup 1000
+EndCard
+
+Character: KS/W76-E017
+Name "To the Crimson Demon Village!" Kazuma
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				TargetLocation Hand
+				NarrowTargets NameEquals "To the Crimson Demon Village!" Darkness
+				FirstTarget
+				Change
+			}
+			Text Act: [Put this card into the waiting room] Choose up to 1 ""To the Crimson Demon Village!" Darkness" in your hand and place it in the position that this card was on.
+		}
+	}
+}
+Text Cont: If you are level 2 or higher, this card gets the following ability. "Act: [Put this card into the waiting room] Choose up to 1 ""To the Crimson Demon Village" Darkness!" in your hand and place it in the position that this card was on."
+*BondDiscard("To the Crimson Demon Village!" Darkness)
+EndCard
+
+Character: KS/W76-E018
+Name "Mind-Reading Demon" Vanir
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Mask
+Trait2 Magic
+Auto: OnAttack|OnReversed
+{
+	Peek Deck 2
+	If HasTarget
+	{
+		Message Choose a card to put back on top. 
+		AIChoice If Not IsClimax
+		ChooseCardsFromTargets 1 1 Any
+		MoveCard Deck
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: When this card attacks or becomes reversed, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room.
+EndCard
+
+Character: KS/W76-E019
+Name "Vigorous Assertion" Kazuma
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until then end of your opponent's turn. "Cont: This card cannot move to another position of the stage."
+EndCard
+
+Character: KS/W76-E020
+Name "Scope Set!" Kazuma
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Forbidden Weapon
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose 1 "Forbidden Weapon" in your waiting room, and return it to your hand.
+EndCard
+
+Character: KS/W76-E021
+Name "Bold Bluff" Kazuma
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Adventurer
+Trait2 Magic
+*YellowCost0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(1) Discard a card] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KS/W76-E022
+Name "Sole Redeeming Feature" Darkness
+Color Y
+Level 1
+Cost 1
+Power 5000
+Trait1 Adventurer
+Trait2 Worries
+Cont: GiveSelf
+{
+	TargetFacing
+	IfTarget Compare ThatCardsCost 0 OrLess
+	{
+		GainSpecialEffect CannotBeReversed
+	}
+}
+Text Cont: If the character facing this card is cost 0 or lower, this card cannot become reversed.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: KS/W76-E023
+Name "To the Crimson Demon Village!" Darkness
+Color Y
+Level 2
+Cost 2
+Power 12000
+Soul 0
+Trait1 Adventurer
+Trait2 Worries
+EndCard
+
+Event: KS/W76-E024
+Name Up Up Down Down Left Right Left Right! There you go!
+Color Y
+Level 1
+Cost 1
+Requirement StageContains 1 NameContains Kazuma
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect:\n1: "Choose a character in your waiting room and return it to your hand."\n2: "Choose a character on your opponent's center stage, and return it to his or her hand."\n3: "If there are 5 or more cards in your opponent's memory, your opponent puts all characters from his or her memory into the waiting room."|1|2|3
+	If Compare Answer 0 Exactly
+	{
+		SearchWaitingRoom IsCharacter
+	}
+	If Compare Answer 1 Exactly
+	{
+		TargetLocation OpponentCenterStage
+		AIChoice BounceOpponent
+		ChooseCharacterFromTargets Choose a character to return to your opponent's hand.
+		Bounce
+	}
+	If Compare Answer 2 Exactly
+	{
+		TargetLocation OpponentMemory
+		If Compare TargetCount 5 OrMore
+		{
+			NarrowTargets IsCharacter
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text If you do not have a character with "Kazuma" in its name, this card cannot be played from your hand. Choose 1 of the following effects and perform it.\n"Choose a character in your waiting room and return it to your hand."\n"Choose a character on your opponent's center stage, and return it to his or her hand."\n"If there are 5 or more cards in your opponent's memory, your opponent puts all characters from his or her memory into the waiting room."
+EndCard
+
+Climax: KS/W76-E025
+Name M-My Defensive Strength?
+*ChoiceClimax
+EndCard
+
+
+Climax: KS/W76-E026
+Name Orc Invasion!
+*WindClimax
+EndCard
+
+Climax: KS/W76-E027
+Name Thumbs Up!
+*ChoiceClimax
+EndCard
+
+
+Character: KS/W76-E028
+Name "Faith in Comrades" Yunyun
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Adventurer|Magic
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put 2 cards from the top of your deck into the waiting room, and this card gets +X power until end of turn, X is 1000 times the number of <Adventurer> or <Magic> characters revealed.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		TargetSelf
+		Question Return "'Faith in Comrades' Yunyun" to your hand?
+		If Yes
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck, if it is level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: KS/W76-E029
+Name "To the Crimson Demon Village" Megumin & Yunyun
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Door
+	{
+		TargetLocation Stage
+		AIChoice GainSoul 1
+		ChooseCharacterFromTargets Choose a character to give +1 soul.
+		GainSoul 1
+	}
+}
+Text Auto: When a climax is placed in your climax area, if that card's trigger icon is Door, choose 1 of your characters, it gets +1 soul until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: KS/W76-E030
+Name "To the Crimson Demon Village!" Wiz
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Death
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Adventurer|Magic
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Adventurer> or <Magic> characters, this card gets +1000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Discard a card] When this card is put into the waiting room from the stage, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: KS/W76-E031
+Name "Sentiments Toward Explosion Magic" Megumin
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Adventurer
+Trait2 Magic
+Combo Teasing
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+Auto: OnSpecificClimaxPlay Teasing
+{
+	If StageContains 1 Other && HasTrait Adventurer|Magic
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+		UntilEndOfOpponentsTurn
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Quick
+Text Auto: CxCombo When "Teasing" is placed in your climax area, if you have another <Adventurer> or <Magic> character, this card gets the following 2 abilities until the end of your opponent's next turn. "Auto: [(1)] When this card attacks, you may pay the cost, if you do, during that attack, perform a trigger check 2 times on the trigger step." "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: KS/W76-E032
+Name "Greatest Mage" Yunyun
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Adventurer|Magic
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: Encore Discard 1 HasTrait Adventurer|Magic
+			{
+			}
+			Text Auto: ENCORE [Discard an <Adventurer> or <Magic> character]
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Adventurer> or <Magic> characters, this card gets +1500 power and "Auto: ENCORE [Discard a character]".
+*Healer
+EndCard
+
+Character: KS/W76-E033
+Name "Foremost Mage" Megumin
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Combo Linked Palms
+*StockHealer
+Auto: StartAttackPhase
+{
+	If Climax Linked Palms && InLocation CenterStage
+	{
+		PayCost 3 SendClimax WaitingRoom RestSelf Rest 1 NameEquals "Greatest Mage" Yunyun && InLocation CenterStage
+		{
+			OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+			ReverseTargets OpponentWaitingRoom
+			MoveCards OpponentDeck
+			ShuffleLocation OpponentDeck
+			//Need a way to find which characters were rested to pay for this cost
+			//Need to add TargetFacingTargets
+			TargetRestedToPayCost
+			TargetFacingTargets
+			MoveCard OpponentClock
+			Burn 3
+			Burn 3
+		}
+	}
+}
+Text Auto: CxCombo [(3) Send 1 "Linked Palms" from your climax area to the waiting room & in your center stage rest 1 "'Greatest Mage' Yunyun" and this card] At the beginning of your attack phase, you may pay the cost, your opponent chooses 1 climax in his or her waiting room, returns all cards except that card from their waiting room to the deck and shuffles it, put all characters facing the characters rested by this card's ability cost into your opponent's clock, and deal 3 damage to your opponent twice.
+EndCard
+
+
+Character: KS/W76-E034
+Name "Watching Over Gently" Yunyun
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+*500Assist
+*Act1SalvageBrainstorm(Any)
+EndCard
+
+Character: KS/W76-E035
+Name "Master of Explosion Magic Someday" Megumin
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals "Foremost Mage" Megumin|"Greatest Mage" Yunyun
+	{
+		*Check5Add1(Adventurer|Magic)
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [Discard a "'Foremost Mage' Megumin" or "'Greatest Mage' Yunyun"] When this card is placed on the stage from your hand, you may pay the cost, look at up to 5 cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character among them, add it to your hand, and put the rest into the waiting room, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: KS/W76-E036
+Name "Shy" Yunyun
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals "Foremost Mage" Megumin
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Discard a "'Foremost Mage' Megumin"] When this card is placed on the stage from your hand, you may pay the cost, return all cards in your waiting room to your deck, and shuffle your deck.
+EndCard
+
+
+Character: KS/W76-E037
+Name "Chewing" Komekko
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Younger Sister
+Cont: GiveSelf
+{
+	GainSpecialEffect CanSendMarkerInsteadOfStockForEventCost
+}
+Text Cont: If you would pay the cost for an event in your hand, you may put a marker from underneath this card into your waiting room instead of a card from your stock.
+Auto: OnPlay
+{
+	PayCost RestSelf
+	{
+		TargetTop Deck 1
+		Marker_FaceUp
+	}
+}
+Text Auto: [Rest this card] When this card is placed on the stage from your hand, you may pay the cost, put the top card of your deck underneath this card as a marker.
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer|Magic
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your <Adventurer> or <Magic> characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: KS/W76-E038
+Name "Against the Mage Killer" Wiz
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Death
+Trait2 Magic
+*ScryOnPlay
+*OnAttackGivePowerForEachOther(500,Adventurer|Magic)
+EndCard
+
+Character: KS/W76-E039
+Name "When Push Comes to Shove" Megumin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	//This cost might require adding the ability to have multiple cost components with requirements
+	PayCost Send 1 WaitingRoom Any Discard 1 NameEquals "Foremost Mage" Megumin
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Discard 1 "Foremost Mage" Megumin, send a character from your stage to the waiting room] When you use this card's "BACKUP", you may pay the cost, choose 1 of your opponent's characters with level higher than your opponent's level and put it into the waiting room.
+Backup 2500
+EndCard
+
+Character: KS/W76-E040
+Name "Embarassed Laugh" Megumin
+Color R
+Level 2
+Cost 1 
+Trigger Soul
+Power 4000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+*OnAttackGivePowerForEachOther(500,Adventurer|Magic)
+*RedLevel2Bomb
+EndCard
+
+
+Character: KS/W76-E041
+Name "Reunited After a Long Time" Wiz
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Death
+Trait2 Magic
+*LevelAssist
+Requirement StageContains 1 NameEquals "Foremost Mage" Megumin
+Act: 2 Discard 1 Any
+{
+	If StageContains 1 NameEquals "Foremost Mage" Megumin
+	{
+		SearchWaitingRoom NameEquals Linked Palms
+	}
+}
+Text Act: CxCombo [(2) Discard a card] If you have another "'Foremost Mage' Megumin", choose 1 "Linked Palms" in your waiting room and return it to your hand.
+EndCard
+
+Character: KS/W76-E042
+Name "Signature Statement" Yunyun
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Adventurer
+Trait2 Magic
+Combo Clap of Thunder
+*EarlyPlay4OrMore(Adventurer|Magic)
+Auto: OnReverseOpponent
+{
+	If Climax Clap of Thunder
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			RevealUpTo Deck 4
+			NarrowTargets HasTrait Adventurer|Magic
+			MoveCards Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Send 1 "Clap of Thunder" from your climax area to the waiting room] When this card's battle opponent becomes reversed, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 4 <Adventurer> or <Magic> characters among them, add them to your hand, and put the rest into the waiting room.
+EndCard
+ 
+Character: KS/W76-E043
+Name "Convenient Transportation Magic" Wiz
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Death
+Trait2 Magic
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Adventurer|Magic
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 <Adventurer> or <Magic> character in your waiting room, and return it to your hand.
+Auto: OnAttack
+{
+	PayCost 3
+	{
+		MillOpponent 4
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [(3)] When this card attacks, you may pay the cost, put 4 cards from the bottom of your deck into the waiting room, and deal X damage to your opponent, X is the number of climax revealed among those cards.
+EndCard
+
+Character: KS/W76-E044
+Name "Breaking Out in Cold Sweat" Yunyun
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnReversed
+{
+	Mill 4
+	NarrowTargets NameEquals "Unreasonable Demand" Megumin
+	If HasTarget
+	{
+		TargetSelf
+		If OnStage
+		{
+			Question Return "'Breaking Out in Cold Sweat' Yunyun" to your hand?
+			If Yes
+			{
+				Bounce
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, put 4 cards from the top of your deck into the waiting room. If "'Unreasonable Demand' Megumin" is among those cards, you may return this card to your hand.
+*RedLevel0Bomb
+EndCard
+
+Character: KS/W76-E045
+Name "I Am Called" Funifura
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+*ScryOnPlay
+*OnAttackMill1PutLevel0OnField
+EndCard
+
+
+Character: KS/W76-E046
+Name "Sightseeing in the Crimson Demon Village!" Megumin
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Adventurer|Magic
+	{
+		Peek Deck 3
+		ChooseCardFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put an <Adventurer> or <Magic> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost, look at up to 3 cards from the top of your deck, choose up to 1 to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: KS/W76-E047A
+Name "Expert Self-Introduction" Crimson Demon
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Auto: OnPlay
+{
+	Question Agree to give both players a blind stock?
+	If Yes
+	{
+		OpponentQuestion Agree to give both players a blind stock?
+		If Yes
+		{
+			BlindStock
+			TargetTop OpponentDeck 1
+			MoveCard OpponentStock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may state your own name. If you do, your opponent may state his or her own name. If he or she does, all players put the top card of their decks into their stock.
+*FreeRunner
+EndCard
+
+Character: KS/W76-E047B
+Clone KS/W76-E047A
+Image KS_W76_E047B
+EndCard
+
+Character: KS/W76-E047C
+Clone KS/W76-E047A
+Image KS_W76_E047C
+EndCard
+
+Character: KS/W76-E047D
+Clone KS/W76-E047A
+Image KS_W76_E047D
+EndCard
+
+Character: KS/W76-E048
+Name "Loading Up with Magic Power" Wiz
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Death
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		AIChoice PlaceOnStage
+		SearchLocationForTargets Deck 0 1 HasTrait Adventurer|Magic && Compare ThatCardsCost 0 OrLess && Compare ThatCardsLevel MyLevel OrLess
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 cost 0 or lower character with level equal to or lower than your level, and place it on any position of your stage.
+EndCard
+
+
+
+Character: KS/W76-E049
+Name "Unreasonable Demand" Megumin
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnReversed
+{
+	Mill 5
+	NarrowTargets NameEquals "Unreasonable Demand" Megumin
+	If HasTarget
+	{
+		TargetSelf
+		If OnStage
+		{
+			TargetSelf
+			Question Return "'Unreasonable Demand' Megumin" to your hand?
+			If Yes
+			{
+				Bounce
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, put 5 cards from the top of your deck into the waiting room. If "'Unreasonable Demand' Megumin" is among those cards, you may return this card to your hand.
+*RedLevel1Bomb
+EndCard
+
+Character: KS/W76-E050
+Name "Unyielding Spirit of Rivalry" Megumin
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, this card gets +4000 power.
+EndCard
+
+Character: KS/W76-E051
+Name "Fierce Battle" Wiz
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Death
+Trait2 Magic
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Act: Discard 1 IsClimax
+{
+	GainPower 1500
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			RevealExactly Deck 2
+			AIChoice AddToOpponentsHand
+			OpponentChooseCardsFromTargets 1 1 IsEvent || IsCharacter
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		Text Auto: When this card attacks, reveal the top 2 cards of your deck, your opponent chooses 1 character or event card from among them, add it to your hand, and put the rest into your waiting room.
+	}
+}
+Text Act: [Discard a climax] This card gets +1500 power and the following ability until end of turn. "Auto: When this card attacks, reveal the top 2 cards of your deck, your opponent chooses 1 character or event card from among them, add it to your hand, and put the rest into your waiting room."
+EndCard
+
+Character: KS/W76-E052
+Name "Important Friend" Megumin
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Not StageContains 1 HasTrait Adventurer|Magic
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another <Adventurer> or <Magic> character, this card cannot stand during your stand phase.
+*ScryOnPlay
+EndCard
+
+Character: KS/W76-E053
+Name "Party Member" Yunyun
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Adventurer
+Trait2 Magic
+*CannotAttackHigherLevel
+Auto: OnPlay
+{
+	Mill 1
+	If Compare TargetCardsLevel 0 OrLess
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		AIChoice SendToWaitingRoom
+		ChooseCharacterFromTargets Choose a cost 0 character to send to the waiting room.
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top card of your deck into the waiting room, if that card is level 0 or lower, choose a cost 0 or lower character on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: KS/W76-E054
+Name "Supportive Cover" Yuiyui
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Magic
+Auto: OnUseThisCardsBackup
+{
+	PayCost 4 Discard 1 HasTrait Adventurer|Magic
+	{
+		TargetLocation OpponentStage
+		AIChoice Rest
+		ChooseCharacterFromTargets Choose 1 of your opponent's characters to rest.
+		Rest
+	}
+}
+Text Auto: [(4) Discard an <Adventurer> or <Magic> character] When you use this card's "BACKUP" you may pay the cost, choose 1 of your opponent's characters and rest it.
+Backup 2500
+EndCard
+
+Character: KS/W76-E055
+Name "Receiving Guests" Komekko
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Magic
+Trait2 Younger Sister
+Combo Homecoming and Welcome Greetings
+Auto: OnAttack
+{
+	If Climax Homecoming and Welcome Greetings
+	{
+		PayCost 1
+		{
+			AIChoice If Not IsClimax
+			Message Choose up to 3 cards to shuffle into your opponent's deck.
+			SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+			RevealTargets
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Homecoming and Welcome Greetings" is in your climax area, you may pay the cost, choose up to 3 cards in your opponent's waiting room and shuffle them into his or her deck.
+EndCard
+
+Character: KS/W76-E056
+Name "Today's Explosion Magic" Megumin
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Combo An Explosion A Day
+Auto: OnPlay
+{
+	SearchWaitingRoom NameEquals An Explosion A Day
+	TargetSelf
+	GainPower 1000
+}
+Text Auto: CxCombo When this card is placed on the stage from your hand, choose up to 1 "An Explosion A Day" in your waiting room, return it to your hand, and this card gets +1000 power until end of turn.
+Auto: StartAttackPhase
+{
+	If CardPosition Stand && Climax An Explosion A Day
+	{
+		//Check if the cost can be paid fully, if not I won't allow the player to use the effect
+		SetXValue CardsInHand
+		AddToXValue CardsInStock
+		If Compare X 7 OrHigher //7 Hand and stock plus the climax
+		{
+			PayCost SendClimax WaitingRoom
+			{
+				TargetLocation Stock
+				MoveCard WaitingRoom
+				TargetLocation Hand
+				MoveCard WaitingRoom
+				TargetLocation OpponentStage
+				NarrowTargets Compare ThatCardsLevel 3 OrLower
+				MoveCard OpponentWaitingRoom
+				TargetLocation OpponentDeck
+				MoveCard OpponentWaitingRoom
+				CheckForEmptyDeck
+				TargetLocation Level
+				NarrowTargets NameEquals "Today's Explosion Magic" Megumin
+				SetXValue TargetCount
+				Burn X
+				TargetSelf
+				Rest
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put all cards in your hand and stock into the waiting room, put an "An Explosion A Day" from your climax area into the waiting room] At the beginning of your attack phase, you may pay the cost, if 8 or more cards were put into your waiting room by this ability's cost, put all of your opponent's level 3 or lower characters into the waiting room, your opponent puts all cards in his or her deck into the waiting room, deal X damage to your opponent, and rest this card. X is equal to the number of "'Today's Explosion Magic' Megumin" in your level.
+EndCard
+
+Character: KS/W76-E057
+Name "Beauty in a Yukata" Megumin
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Adventurer|Magic
+	{
+		SearchLocationForTargets Deck 0 2 NameEquals "Extreme Misunderstanding" Yunyun
+		RevealTargets
+		MoveCard Hand
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put 1 <Adventurer> or <Magic> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 2 ""Extreme Misunderstanding" Yunyun" and add them to your hand.
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 HasTrait Adventurer|Magic
+	{
+		TargetLocation Stage
+		AIChoice GainSoul 1
+		ChooseCharacterFromTargets Choose a character to give +1 soul.
+		GainSoul 1
+	}
+}
+Text Auto: [Shuffle 2 <Adventurer> or <Magic> characters from your waiting room into your deck] When this card is placed on the stage from your hand, you may pay the cost, choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: KS/W76-E058
+Name Megumin & Komekko
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Younger Sister
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Adventurer|Magic
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is an  <Adventurer> or <Magic> character, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: KS/W76-E059
+Name Hyoizaburo & Yuiyui
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && HasTrait Adventurer|Magic
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other <Adventurer> or <Magic> character in the middle position of your center stage gets +1000 power.
+Act: 2 RestSelf
+{
+	SearchDeck NameContains Megumin|Komekko
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 character with "Megumin" or "Komekko" in its name, and add it to your hand.
+EndCard
+
+Character: KS/W76-E060
+Name "I Am Called" Arue
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainSpecialEffect NoBackupInBattle
+	}
+}
+Text Cont: During this card's battle, you cannot play "<b>Backup</b>" from hand.
+Auto: OnDamageNotCanceled
+{
+	GainPower 6000
+}
+Quick
+Text Auto: When damage dealt by this card is not canceled, this card gets +6000 power until end of turn.
+EndCard
+
+Character: KS/W76-E061
+Name "I Am Called" Dodonko
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	If Compare TargetCount 1 Exactly
+	{
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets Choose a cost 0 character to send to the waiting room.
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of characters on your opponent's center stage is 1 or less, choose a cost 0 or lower character on your opponent's center stage, and put it into the waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Magic
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost, choose 1 <Magic> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KS/W76-E062
+Name "Freezing Magic" Wiz
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Death
+Trait2 Magic
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +1 level and +1500 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Adventurer|Magic
+	{
+		Question Put this card underneath "Freezing Magic" Wiz as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is an <Adventurer> or <Magic> character, you may put it face down underneath this card as a marker.
+EndCard
+
+Character: KS/W76-E063
+Name "Extreme Misunderstanding" Yunyun
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Adventurer
+Trait2 Magic
+EndCard
+
+Character: KS/W76-E064
+Name "Devious Younger Sister" Komekko
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Younger Sister
+*OpponentMayPay2ToPreventFrontalAttack
+EndCard
+
+Character: KS/W76-E065
+Name "Do-or-Die Confession" Yunyun
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Adventurer|Magic
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other <Adventurer> or <Magic> characters, this card gets +2000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: KS/W76-E066
+Name "Confrontation of the Cliff" Yunyun
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "<b>Backup</b>", put 3 cards from the top of your deck into the waiting room.
+Backup 2000
+EndCard
+
+
+Character: KS/W76-E067
+Name "Suggestive" Megumin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Adventurer
+Trait2 Magic
+Act: RestSelf
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest this card] Draw 1 card, and discard 1 card.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer|Magic
+	AIChoice GainPower 3000
+	ChooseCharacterFromTargets Choose a character to give +3000 power.
+	GainPower 3000
+}
+Text Act: [Rest this card] Choose 1 of your <Adventurer> or <Magic> characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: KS/W76-E068
+Name "Beauty in a Yukata" Yunyun
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveAll
+{
+	If Other && HasTrait Adventurer|Magic
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other <Adventurer> or <Magic> characters get +1000 power.
+Auto: OnPlay
+{
+	If Compare CardsInClock 1 OrMore
+	{
+		Question Swap the bottom card of your clock with a <Magic> character in your waiting room?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Magic
+			SaveTargets
+			TargetBottom Clock 1
+			MoveCard WaitingRoom
+			LoadTargets
+			MoveCardToBottom Clock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose the bottom card of your clock, and a <Magic> character in your waiting room, and exchange them.
+EndCard
+
+Character: KS/W76-E069
+Name "Overflowing Magic Power" Yunyun
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Adventurer|Magic
+	MultiplyXValue 1000
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of <Adventurer> or <Magic> characters you have times 1000.
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals "Foremost Mage" Megumin
+	{
+		SearchWaitingRoom HasTrait Adventurer|Magic
+	}
+}
+Text Auto: [Discard a "'Foremost Mage' Megumin"] When this card is placed on the stage from your hand, you may pay the cost, choose an <Adventurer> or <Magic> character in your waiting room, and return it to your hand.
+EndCard
+
+Event: KS/W76-E070
+Name Forbidden Weapon
+Color R
+Level 2
+Cost 4
+Requirement StageContains 1 NameContains Kazuma
+Effect
+{
+	TargetSelf
+	MoveCard Memory
+}
+Text If you have a character with "Kazuma" in its name, put this card into your memory.
+Auto: EndOfOpponentsTurn
+{
+	If InLocation Memory //This IS needed here so you can't trigger for each one
+	{
+		CostOptions (2)|Discard a "Receiving Guests" Komekko
+		PayCost 2 OR Discard 1 NameEquals "Receiving Guests" Komekko
+		{
+			TargetLocation Memory
+			NarrowTargets NameEquals Forbidden Weapon
+			If HasTarget
+			{
+				MoveCard WaitingRoom
+				Message Choose cards to put on top of opponent's deck. (Bottom card first)
+				SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+				MoveCard OpponentDeck
+				Burn 5
+			}
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY [(2) Put all "Forbidden Weapon" in your memory into your waiting room] At the end of your opponent's turn, if this card is in your memory, you may pay the cost. If you do, choose up to 2 cards in your opponent's waiting room, put them on the top of his or her deck in any order, and deal 5 damage to your opponent. When you pay the cost for this ability, you may choose 1 ""Receiving Guests" Komekko" in your hand, and put it into your waiting room instead of 2 cards from your stock. 
+EndCard
+
+Climax: KS/W76-E071
+Name Teasing
+*DoorClimax
+EndCard
+
+Climax: KS/W76-E072
+Name Linked Palms
+*DoorClimax
+EndCard
+
+
+
+Climax: KS/W76-E073
+Name Clap of Thunder
+*RedStockSoul
+EndCard
+
+Climax: KS/W76-E074
+Name Homecoming and Welcome Greetings
+Color R
+*2SoulClimax
+EndCard
+
+Climax: KS/W76-E075
+Name An Explosion A Day
+*RedStockSoul
+EndCard
+
+Character: KS/W76-E076
+Name "Giving Full Support" Aqua
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Goddess
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When your character's trigger check reveals a climax card, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Adventurer|Goddess)
+EndCard
+
+Character: KS/W76-E077
+Name "To the Crimson Demon Village!" Aqua
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Trait2 Goddess
+Combo Protection of a Goddess
+*GainPowerForEachOther(500,Adventurer|Goddess)
+*Healer
+Auto: OnAttack
+{
+	If Climax Protection of a Goddess
+	{
+		PayCost 1
+		{
+			MillOpponentBottom 2
+			NarrowTargets IsClimax
+			If Not HasTarget
+			{
+				Burn 1
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Protection of a Goddess" is in your climax area, you may pay the cost, put 2 cards from the bottom of your opponent's deck into the waiting room, if no climax is sent, deal 1 damage to your opponent 2 times.
+EndCard
+
+Character: KS/W76-E078
+Name "Occasionally Goddess-Like" Aqua
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Goddess
+*500Assist
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	Sacrifice Any
+}
+Text Auto: [Put this card into your waiting room] When your other character is put into the waiting room from the stage, if this card is on your backstage, you may pay the cost, return that character to its previous position rested.
+EndCard
+
+Character: KS/W76-E079
+Name "Sightseeing in the Crimson Demon Village!" Aqua
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Adventurer
+Trait2 Goddess
+*GivePowerOnPlay(1500,Adventurer|Goddess)
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: KS/W76-E080
+Name "Results of Synthesis and Modification" Sylvia
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Devil King Army
+Combo Because Something Is!
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each marker underneath this card.
+Auto: OnPlay
+{
+	RevealUpTo Deck 2
+	ChooseCardsFromTargets 0 2 HasTrait Devil King Army || NameContains Kazuma || NameEquals Devil King Army Invades!
+	Marker_FaceUp
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, reveal up to 2 cards from the top of your deck, choose up to 2 <Devil King Army> characters, characters with "Kazuma" in its name, or "Devil King Army Invades!" put them face-up underneath this card as markers, and put the rest into the waiting room.
+Auto: OnReverseOpponent
+{
+	If Climax Because Something Is!
+	{
+		PayCost 1 SendClimax WaitingRoom
+		{
+			SearchLocationForTargets Deck 0 2 HasTrait Devil King Army || NameContains Kazuma
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 "Because Something Is!" From your climax area into the waiting room] When this card's battle opponent becomes reversed, you may pay the cost, search your deck for up to 2 <Devil King Army> characters or characters with "Kazuma" in its name, and add them to your hand.
+EndCard
+
+
+Character: KS/W76-E081
+Name "Required Quality of Adventurer Life" Aqua
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Adventurer
+Trait2 Goddess
+Combo Quest Failed
+Auto: OnAttack
+{
+	If Climax Quest Failed && StageContains 1 Other && HasTrait Adventurer|Goddess
+	{
+		RevealUpTo Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Quest Failed" is in your climax area, and you have another <Adventurer> or <Goddess> character, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KS/W76-E082
+Name "Synthesis With the Mage Killer" Sylvia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Devil King Army
+Combo Invasion of the Crimson Demon Village
+Cont: GiveSelf
+{
+	GainPower 3000
+	SetXValue MarkersUnderThis
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +3000 power and +X power X is the number of markers under this card times 500.
+Auto: OnEndOfAttack
+{
+	If Climax Invasion of the Crimson Demon Village
+	{
+		If StageContains 4 Other && HasTrait Devil King Army || NameContains Kazuma
+		{
+			PayCost Discard 2 Any SendClimax WaitingRoom
+			{
+				Stand
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [Discard 2 cards, Put 1 "Invasion of the Crimson Demon Village" from your climax area into the waiting room] Once per turn, at the end of this card's attack, if you have 4 or more other <Devil King Army> characters or characters with "Kazuma" in its name, you may pay the cost, stand this card.
+EndCard
+
+
+
+Character: KS/W76-E083
+Name "Cunning Idea" Aqua
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Goddess
+*BlueLevel0Bomb
+Auto: StartClimaxPhase
+{
+	If InLocation Clock
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Adventurer|Goddess
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetOther
+				Question Put the battle opponent on the bottom of your opponent's deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck.
+		}
+	}
+}
+Alarm
+Text Auto: ALARM At the beginning of your climax phase, if this card is the top card of your clock, choose 1 of your <Adventurer> or <Goddess> characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck."
+EndCard
+
+Character: KS/W76-E084
+Name "Women and Men's Feelings" Sylvia
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Devil King Army
+Auto: OnPlay
+{
+	//Need to test if this works as expected
+	If StageContains 2 Other && HasTrait Devil King Army || NameContains Kazuma
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Devil King Army> or characters with "Kazuma" in its name, you may draw 1 card, if you do, discard 1 card.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchDeck HasTrait Devil King Army || NameContains Kazuma
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into the waiting room. For each climax revealed, search your deck for up to 1 <Devil King Army> character, or character with "Kazuma" in its name, and add it to your hand.
+EndCard
+
+Character: KS/W76-E085
+Name "Devil King Army General" Sylvia
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Devil King Army
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Devil King Army Invades!
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose 1 "Devil King Army Invades!" in your waiting room, and return it to your hand.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	NarrowTargets HasTrait Devil King Army || NameContains Kazuma
+	SetXValue TargetCount
+	MultiplyXValue 500
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Devil King Army> characters, or characters with "Kazuma" in its name, it gets +X power until end of turn. X is 500 times the number of other <Devil King Army> characters, or characters with "Kazuma" in its name.
+EndCard
+
+
+Character: KS/W76-E086
+Name "Supportive Magic" Aqua
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adventurer
+Trait2 Goddess
+Auto: OnUseThisCardsBackup
+{
+	Repeat 50
+	{
+		PayCost Discard 1 Any
+		{
+			*Scry
+		}
+		Else
+		{
+			StopLoop
+		}
+	}
+}
+Text Auto: When you use this card's "<b>Backup</b>" perform the following action as many times as you like. "You may discard a card, if you do, look at the top card of your deck, and put it on the top of your deck or into the waiting room."
+Backup 2500
+EndCard 
+
+
+Character: KS/W76-E087
+Name "Droopy Temptation" Sylvia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Devil King Army
+Cont: InHand
+{
+	If StageContains 4 HasTrait Devil King Army || NameContains Kazuma
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more <Devil King Army> characters or characters with "Kazuma" in its name, this card gets -1 level in your hand.
+*Healer
+Auto: OnReversed
+{
+	PayCost 2 Discard 1 Any MarkerFromWaitingRoom 2 HasTrait Devil King Army
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals "Synthesis With the Mage Killer" Sylvia
+		If HasTarget
+		{
+			FirstTarget
+			Fusion
+			Rest
+		}
+	}
+}
+Text Auto: [(2) Discard a card, put 2 <Devil King Army> characters from your waiting room face-up in any order underneath this card as markers] When this card becomes reversed in battle, you may pay the cost, choose 1 ""Synthesis With the Mage Killer" Sylvia" in your waiting room, put it in this card's previous position rested, and put this card and all markers under it underneath that card.
+EndCard
+
+Character: KS/W76-E088
+Name "Beauty in a Yukata" Aqua
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Goddess
+*500Assist
+Act: Rest 2 HasTrait Adventurer|Goddess
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer|Goddess
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Act: [Rest 2 of your <Adventurer> or <Goddess> characters] Choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: KS/W76-E089
+Name "Surprise Blow" Aqua
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Goddess
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsCharacter && Compare ThatCardsLevel 0 OrLess
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put 2 cards from the top of your deck into the waiting room, if there is a level 0 or lower character among those cards, this card's soul does not decrease by side attacking until end of turn.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: KS/W76-E090
+Name "Chasing Down" Sylvia
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Devil King Army
+*CharacterFacingThisCannotMove
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Character: KS/W76-E091
+Name "Composed Retreat" Sylvia
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Devil King Army
+Cont: GiveSelf
+{
+	If Phase Attack
+	{
+		GainSpecialEffect CannotReturnCharactersFromWaitingRoomToHand
+	}
+}
+Text Cont: During the attack phase, you cannot return characters from your waiting room to your hand by your own card's effects.
+Auto: StartOpponentAttackPhase
+{
+	If InLocation MiddleCenterStage
+	{
+		TargetLocation CenterStage
+		If Compare TargetCount 2 OrLess
+		{
+			TargetSelf
+			MoveToOpenPosition True False
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if this card is on the middle position of your center stage, move this card to an open position of your center stage.
+EndCard
+
+Character: KS/W76-E092
+Name "Close to Tears" Aqua
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Adventurer
+Trait2 Goddess
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Adventurer|Goddess
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put 2 cards from the top of your deck into the waiting room, this card gets +X power until end of turn. X is 1000 times the number of <Adventurer> or <Magic> characters revealed.
+EndCard
+
+Character: KS/W76-E093
+Name "Burn to Nothingness" Sylvia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Devil King Army
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotBeChosen
+			}
+			Text Cont: This card cannot be chosen by your opponent's effects.
+		}
+		GainEffect
+		{
+			Cont: GiveAll
+			{
+				If NameContains Kazuma || HasTrait Devil King Army
+				{
+					GainPower 1000
+				}
+			}
+			Text Cont: All of your other <Devil King Army> characters or characters with "Kazuma" in its name get +1000 power.
+		}
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets the following ability. "Cont: This card cannot be chosen by your opponent's effects." and  "Cont: All of your other <Devil Ling Army> characters or characters with "Kazuma" in its name get +1000 power."
+Act: 1 Discard 1 Any
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Devil King Army || NameContains Kazuma
+	AIChoice GainPower 2500
+	ChooseCharacterFromTargets Choose a character to give +2500 power until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainPower 2500
+}
+Text Act: [(1) Discard a card] Choose 1 of your <Devil King Army> characters or characters with "Kazuma" in its name, it gets +2500 power until the end of your opponent's turn.
+EndCard
+
+Character: KS/W76-E094
+Name "Menacing Pose" Aqua
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Adventurer
+Trait2 Goddess
+*Level3Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question Place the battle opponent on the bottom of your opponent's deck?
+			If Yes
+			{
+				TargetOther
+				MoveCardToBottom OpponentDeck
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck."
+EndCard
+
+Character: KS/W76-E095
+Name "Discerning Eyes" Sylvia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Devil King Army
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Devil King Army || NameContains Kazuma
+	MultiplyXValue 1000
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this gets +X power until end of turn, X is the number of other <Devil King Army> characters or characters with "Kazuma" in its name you have times 1000.
+EndCard
+
+Event: KS/W76-E096
+Name Devil King Army Invades!
+Color B
+Level 1
+Cost 1
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets CardPosition Stand && HasTrait Devil King Army || NameContains Kazuma
+	If HasTarget
+	{
+		ChooseCharacterFromTargets Choose a card to rest.
+		Rest
+		SearchDeck HasTrait Devil King Army || NameContains Kazuma
+		TargetLocation Stage
+		AIChoice GainPower 3000
+		ChooseCharacterFromTargets Choose a character to give +3000 power.
+		GainPower 3000
+	}
+}
+Text Choose 1 of your standing <Devil King Army> characters or characters with "Kazuma" in its name, if you do, search your deck for up to 1 <Devil King Army> characters or characters with "Kazuma" in its name, add it to your hand, and choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Climax: KS/W76-E097
+Name Protection of a Goddess
+*GateClimax
+EndCard
+
+
+Climax: KS/W76-E098
+Name Quest Failed
+*BookClimax
+EndCard
+
+Climax: KS/W76-E099
+Name Invasion of the Crimson Demon Village
+*GateClimax
+EndCard
+
+
+
+Climax: KS/W76-E100
+Name Because Something Is!
+*BlueStockSoul
+EndCard
+
+Character: KS/W76-E101
+Name "A Knight's Duty" Darkness
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Worries
+Auto: OnAttack
+{
+	Question Put the top card of your deck into your waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget IsClimax
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card attacks, you may put the top card of your deck into the waiting room, if that card is a climax, draw 1 card, then discard 1 card.
+*YellowLevel0Bomb
+EndCard
+
+Character: KS/W76-E102
+Name "Mattress at Home" Megumin
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: KS/W76-E103
+Name "Appearance of the Main Star" Yunyun
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+*EarlyPlay2OrLessClimax()
+*OnPlayCheckX(Adventurer|Magic)
+EndCard
+
+Character: KS/W76-E104
+Name "Magical Academy Field Trip" Aqua
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Adventurer
+Trait2 Goddess
+Auto: OnAttack
+{
+	TargetFacing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		TargetSelf
+		GainPower 6000
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this is level 3 or higher, this card gets +6000 power until end of turn.
+EndCard
+
+Character: KS/W76-PE01
+Name "With Great Vigor" Yunyun
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Adventurer
+Trait2 Magic
+Cont: Assist
+{
+	If HasTrait Adventurer|Magic
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST Your <Adventurer> or <Magic> characters in front of this get +X Power where X is 500 times the level of that character.
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+
+
+
+
+
+Character: KS/W76-P02
+Name "Running Through" Megumin & Yunyun
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1000 power until end of opponent's turn.
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Auto: [Return this card to your hand] When a climax is placed on your climax area, you may pay the cost, if you do, choose 1 of your characters. It gets +1000 power until the end of your opponent's next turn.
+Act: RestSelf
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: KS/W76-P03
+Name "Rock Star" Megumin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnReverseOpponent
+{
+	Message You may choose a character in your waiting room, and return it to your hand.
+	SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+	RevealTargets
+	MoveCard Hand
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room, and return it to your hand. If you do, choose a card in your hand, and put it into your waiting room.
+*RedEarlyPlayBomb
+EndCard
+
+
+
+
+
+
+
+
+
+
+
+

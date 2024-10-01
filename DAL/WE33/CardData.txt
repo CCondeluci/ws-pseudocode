@@ -1,0 +1,1387 @@
+Character: DAL/WE33-E001
+Name "Nightmare or Queen" Kurumi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+
+Auto: OnPlay
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock && HasTrait Date|Celestial Spirit
+		{
+			Message Choose a card to add to your hand.
+			SearchLocationForTargets Deck 0 1 Compare ThatCardsLevel 1 OrLower && IsCharacter
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+}
+Text Auto: [(1) Put 1 <Date> or <Celestial Spirit> character from your waiting room at the bottom of your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+
+
+
+
+Character: DAL/WE33-E002
+Name Girl Entwined With Nightmares, Kurumi
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Confrontation of Black and White
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Date|Celestial Spirit
+		{
+			GainPower 1000
+		}
+}
+Text Cont: If all of your characters are 《Date》 or 《Celestial Spirit》, this card gets +1000 power.
+Auto: OnClimaxPlay
+{
+	If Climax Confrontation of Black and White && StageContains 1 HasTrait Date|Celestial Spirit
+	{
+		GainEffect
+			{
+				Cont: GiveFacing
+					{
+						GainSpecialEffect CannotReturnToHand
+						GainSpecialEffect CannotMove
+						GainSpecialEffect CannotGoToMemory
+					}
+					Text Cont: The character facing this card cannot be returned to hand, move to another stage position, or be put into memory.
+			}
+		GainEffect
+			{
+				Auto: OnOpponentReverse
+					{
+						If Climax Confrontation of Black and White && StageContains 1 HasTrait Date|Celestial Spirit
+							{
+								SearchWaitingRoom HasTrait Date|Celestial Spirit
+							}
+					}
+				Text: Choose 1 <Date> or <Celestial Spirit> character in your waiting room, and return it to your hand
+			}
+	}
+}
+Text Auto: CxCombo When "Confrontation of Black and White" is placed on your climax area, if you have another <Date> or <Celestial Spirit> character, this card gets the following 2 abilities until end of turn. "Cont: The character facing this card cannot be returned to hand, move to another stage position, or be put into memory." "Auto: When this card's battle opponent becomes reversed, you may choose 1 <Date> or <Celestial Spirit> character in your waiting room, and return it to your hand."
+EndCard
+
+
+Character: DAL/WE33-E003
+Name Spirit in Black, Kurumi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && HasTrait Date|Celestial Spirit
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each other <Date> or <Celestial Spirit> character in your back stage.
+Act: 2 Discard 1 Any
+{
+	TargetTop Clock 1
+	PlaceOnStage False True True False
+	TargetTop Deck 1
+	MoveCard Clock
+}
+Alarm
+ActivationRequirement If Compare MyLevel 2 OrMore && StageContains 4 && HasTrait Date|Celestial Spirit
+Text Act: [(2) Put 1 card from your hand into your waiting room] Put this card on any position of your stage, and put the top card of your deck into your clock."
+Auto: OnPlay|PlacedBy Spirit in Black, Kurumi
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by the Act: effect of "Spirit in Black, Kurumi", you may put the top card of your clock into your waiting room.
+EndCard
+
+Character: DAL/WE33-E004
+Name "〈Zafkiel〉" Kurumi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Combo 〈Zafkiel〉
+Auto: StartEncoreStep
+{
+	If PlayedThisTurn
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: During the turn that this card is placed on the stage from your hand, at the beginning of the encore step, you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax 〈Zafkiel〉
+		{ 
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to gain +1000 power.
+			GainPower 1000
+			TargetSelf
+			GainEffect
+				{
+					Auto: OnEndOfAttack
+						{
+							PayCost 2 Discard 1 Any
+								{
+									SearchLocationForTargets Clock 1 1 Any
+									SetXValue TargetCardsLevel
+									AddToXValue 1
+									Burn X
+								}
+						}
+					Text: [(2) Put 1 card from your hand into your waiting room] Choose 1 card in your clock, and deal X damage to your opponent. X is equal to that card's level +1
+				}		
+		}
+}		
+Text Auto: CxCombo When this card attacks, if "〈Zafkiel〉" is in your climax area, choose 1 of your characters, and until end of turn, that character gets +1000 power and this card gets the following ability. "Auto: [(2) Put 1 card from your hand into your waiting room] At the end of this card's attack, you may pay the cost. If you do, choose 1 card in your clock, and deal X damage to your opponent. X is equal to that card's level +1." 
+EndCard
+
+
+Character: DAL/WE33-E005
+Name Holding at Gun Point, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your <Date> or <Celestial Spirit> characters, it gets +1500 power until end of turn.
+Auto: StartOpponentClimaxPhase
+{
+	TargetLocation Stage && HasTrait Date|Celestial Spirit
+	GainEffect
+		{
+			Auto: OnFrontalAttacked
+				{
+					PayCost Discard 1 Any
+						{
+							GainPower 2000
+						}
+				}
+		}	
+}
+Alarm
+Text Auto: 【CLOCK】 ALARM If this card is the top card of your clock, at the beginning of your opponent's climax phase, all of your <Date> or <Celestial Spirit> characters get the following ability until end of turn. "Auto: [Put 1 card from your hand into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, this card gets +2000 power until end of turn."
+EndCard
+
+Character: DAL/WE33-E006
+Name Visitor, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Combo  Confrontation of Black and White|〈Zafkiel〉
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Choice
+	{
+		TargetLocation Stage
+		GainPower 500
+	}
+}
+Text Auto: When your climax with choice in its trigger icon is placed on your climax area, all of your characters get +500 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	PerClimax NameEquals Confrontation of Black and White|〈Zafkiel〉
+	{
+		SearchWaitingRoom IsCharacter
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Act: CxCombo BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each "Confrontation of Black and White" or "〈Zafkiel〉" revealed among those cards, choose up to 1 character in your waiting room, return it to your hand, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: DAL/WE33-E007
+Name Difference in Status, Kurumi
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other <Date> or <Celestial Spirit> characters get +500 power.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+		{
+			SearchLocationForTargets Deck 1 1 NameEquals "〈Zafkiel〉" Kurumi
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 ""〈Zafkiel〉" Kurumi", reveal it to your opponent, put it into your hand, and shuffle your deck.
+Act: RestSelf Resonate "〈Zafkiel〉" Kurumi
+{
+	SearchLocationForTargets Clock 1 1 Any
+	MoveCard Hand
+	SearchLocationForTargets Hand 1 1 Any
+	MoveCard Clock
+}
+Text Act: RESONATE [Reveal 1 ""〈Zafkiel〉" Kurumi" in your hand & Rest this card] Choose 1 card in your clock, return it to your hand, choose 1 card in your hand, and put it into your clock.
+EndCard
+
+Character: DAL/WE33-E008
+Name Original Appearance, Hibiki
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If MyTurn && LocationContains Memory 1 Any
+		{
+			GainPower 2500
+			GainEffect
+				{
+					*GainPowerWhenAttackingLevel2(6000)
+				}
+		}
+}
+Text Cont: MEMORY During your turn, if there is a card in your memory, this card gets +2500 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+EndCard
+
+Character: DAL/WE33-E009
+Name Imperturbable, Kurumi
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnSentFromStageToWaitingRoom
+{
+	Peek Deck 4
+	ChooseCardsFromTargets 0 1 IsClimax && IsColor Yellow
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, look at up to 4 cards from the top of your deck, choose up to 1 yellow climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+Act: SendSelf WaitingRoom
+{
+	TargetLocation Stage HasTrait Date|Celestial Spirit
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Act: [Put this card into your waiting room] Choose 1 of your <Date> or <Celestial Spirit> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: DAL/WE33-E010
+Name Logical Judgement, Kurumi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: Assist
+{
+	If Compare ThatCardsLevel 3 OrMore
+		{
+			GainPower 2000
+		}
+}
+	
+Text Cont: ASSIST All of your level 3 or higher characters in front of this card get +2000 power.
+Act: RestSelf
+{
+	Message Choose a character to put into your clock.
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Date|Celestial Spirit
+	If HasTarget
+		{
+			MultipleChoiceQuestion Top or bottom of clock?|Top|Bottom
+			If Answer 0
+				{
+					MoveCard Clock
+				}
+			Else
+				{
+					MoveCardToBottom Clock
+				}
+				ScheduleEffect EndOfTurn
+					{
+						Effect:
+							{
+								TargetBottom Clock 1
+								MoveCard WaitingRoom
+							}
+						Text: At the end of the turn, put the bottom card of your clock into your waiting room.
+					}
+		}
+}
+Text Act: [Rest this card] Choose 1 <Date> or <Celestial Spirit> character in your waiting room, and put it on the top or at the bottom of your clock. If you put 1 card into your clock, at the end of the turn, put the bottom card of your clock into your waiting room.
+EndCard
+
+Character: DAL/WE33-E011
+Name A New Story, Kurumi & Hibiki
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Stage && NameContains Kurumi|Hibiki
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other characters with "Kurumi" or "Hibiki" in its card name.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		StockSwap
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent puts all of their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock.
+EndCard
+
+Character: DAL/WE33-E012
+Name “【Aleph】” Kurumi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	PayCost SendFromWaitingRoom 2 Deck IsCharacter
+	{
+		ShuffleLocation Deck
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: [Return 2 characters from your waiting room to your deck, and shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card's soul does not decrease by side attacking until end of turn.
+Auto: OnAttack
+{
+	*GiveOtherCharacterPower(1500,HasTrait Date|Celestial Spirit)
+}
+Text Auto: When this card attacks, choose 1 of your <Date> or <Celestial Spirit> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: DAL/WE33-E013
+Name Fight Between Equals, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1) Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: DAL/WE33-E014
+Name Precise Firing, Kurumi
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnReversed
+{
+	SetXValue TargetCardsLevel
+	If Compare X TargetCardsLevel GreaterThan
+	{
+		TargetBattleOpponent
+		MoveCard OpponentStock
+		TargetBottom OpponentStock 1
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+EndCard
+
+Character: DAL/WE33-E015
+Name Brief Truce, Hibiki
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose an opponent's character to return to the hand.
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 of your opponent's characters, and return it to their hand.
+Auto: OnReversed
+{
+	PayCost 1 SendSelf Memory
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals "〈Lucifugus〉" Queen
+			ChangeRested
+		}
+}
+Text Auto: [(1) Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, choose 1 ""〈Lucifugus〉" Queen" in your waiting room, and put it on the stage position that this card was on as resting.
+EndCard
+
+Character: DAL/WE33-E016
+Image DAL_WE33_E016
+Name Unfading Memories, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Unfading Memories, Sawa
+		{
+			GainPower 2000
+			GainEffect
+				{
+					*OnAttackPay1ToDoubleTrigger
+				}
+		}
+}
+Text Cont: MEMORY If "Unfading Memories, Sawa" is in your memory, this card gets +2000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals "〈Zafkiel〉" Kurumi
+}		
+ActivationRequirement CardPosition Stand
+Text Act: [(1) Put this Stand card into your memory] Choose 1 ""〈Zafkiel〉" Kurumi" in your waiting room, and return it to your hand.
+EndCard
+
+Character: DAL/WE33-E017
+Name In Recollections, Hibiki
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveHand
+{
+	If IsClimax
+	{
+		GainSpecialEffect IgnoreColorRequirement
+	}
+}
+Text Cont: Your climax can be played from your hand without fulfilling color requirements.
+Cont: GiveAll
+{
+	If Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other <Date> or <Celestial Spirit> characters get +500 power.
+EndCard
+
+Character: DAL/WE33-E018
+Name No Questions Asked, Kurumi
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+*ClockShift(0,yellow)
+Backup 1500
+EndCard
+
+Character: DAL/WE33-E019
+Name Carrying a White Cat, Kurumi
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If LocationContains OpponentStage 1 HasTrait Cat
+		{
+			GainSpecialEffect CannotFrontalAttack
+			GainSpecialEffect CannotSideAttack
+		}
+}
+Text Cont: If your opponent has a <Cat> character, this card cannot attack.
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Unfading Memories, Kurumi
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If "Unfading Memories, Kurumi" is in your memory, this card gets +3000 power.
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Unfading Memories, Sawa
+		{
+			GainEffect
+				{
+					*OnAttackPay1ToDoubleTrigger
+				}
+		}
+}
+Text Cont: MEMORY If "Unfading Memories, Sawa" is in your memory, this card gets the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+EndCard
+
+Character: DAL/WE33-E020
+Name Trade, Kurumi
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnCardSentFromHandToClock
+{
+	IfOther IsCharacter
+		{
+			GainPower 3000
+		}	
+}	
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to 2 times per turn. When your character is put into your clock from your hand, this card gets +3000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: DAL/WE33-E021
+Name Penetrating Bullet, Kurumi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnUseThisCardsBackup
+{
+	TargetLocation Stage
+	GainEffect
+		{
+			Auto: OnReverseOpponent
+				{
+					TargetBattleOpponent
+					MoveCard OpponentMemory
+				}
+		}
+}
+Text Auto: When you use this card's "BACKUP", choose 1 of your characters in battle, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, put that character into your opponent's memory."
+Backup 3000
+EndCard
+
+Character: DAL/WE33-E022
+Name Shadow That Should Not Exist, Kurumi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Date> or <Celestial Spirit> characters, this card gets +4000 power.
+Auto: StartClimaxPhase
+{
+	If StageContains 1 Other && HasTrait Date|Celestial Spirit
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give the effect to.
+			GainEffect
+				{
+					Auto: OnReverseOpponent
+						{
+							TargetBattleOpponent
+							MoveCard OpponentStock
+							TargetBottom OpponentStock 1
+							MoveCard OpponentWaitingRoom
+						}
+				}
+			}
+}
+Alarm
+Text Auto: 【CLOCK】 ALARM At the beginning of your climax phase, if this card is the top card of your clock, and you have a <Date> or <Celestial Spirit> character, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room."
+EndCard
+
+Event: DAL/WE33-E023
+Name Released Chains
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	Message Choose 1 card in your hand and put it at the bottom of your clock.
+	SearchLocationForTargets Hand 1 1 Any
+	If HasTarget
+		{
+			MoveCardToBottom Clock
+			SearchLocationForTargets Deck 0 2 NameContains Kurumi && IsCharacter 
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+			ShuffleLocation Deck
+		}
+}
+Text You may choose 1 card in your hand, and put it at the bottom of your clock. If you do, search your deck for up to 2 characters with "Kurumi(狂三)" in their card names, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Climax: DAL/WE33-E024
+Name Confrontation of Black and White
+Color Y
+*ChoiceClimax
+EndCard
+
+
+
+Climax: DAL/WE33-E025
+Name 〈Zafkiel〉
+Color Y
+*ChoiceClimax
+EndCard
+
+Character: DAL/WE33-E026
+Name Spirit in White, Queen
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Clashing Emotions
+Auto: OnAttack
+{
+	If Climax Clashing Emotions &&& StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		Peek Deck 3
+		Message Choose up to 1 <Date> or <Celestial Spirit> character to add to your hand
+		ChooseCardsFromTargets 0 1 HasTrait Date|Celestial Spirit
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		*GiveOtherCharacterPower(1500,HasTrait Date|Celestial Spirit)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Clashing Emotions" is in your climax area, and you have 2 or more other <Date> or <Celestial Spirit> characters, look at up to 3 cards from the top of your deck, choose up to 1 <Date> or <Celestial Spirit> character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, choose 1 of your other <Date> or <Celestial Spirit> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: DAL/WE33-E027
+Name "〈Lucifugus〉" Queen
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Combo 〈Lucifugus〉
+Auto: OnPlay|PlacedBy Brief Truce, Hibiki
+{
+	Heal
+}
+Text Auto: When this card is placed on the stage from your hand or by the Auto: effect of "Brief Truce, Hibiki", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax 〈Lucifugus〉 && StageContains 1 Other && HasTrait Date|Celestial Spirit
+		{
+			MultipleChoiceQuestion \n1. Choose up to 2 cards in your opponent's waiting room, return them to their deck, your opponent shuffles their deck, and this card gets +2 soul until end of turn."\n2. "You may put the top 2 cards of your stock into your waiting room. If you do, deal 2 damage to your opponent."|1|2
+				If Answer 0
+					{
+						Message Choose up to 2 cards to return to your opponent's deck.
+						SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+						RevealTargets
+						MoveCard OpponentDeck
+						ShuffleLocation OpponentDeck
+						TargetSelf
+						GainSoul 2
+					}
+				Else
+					{
+						ForcePayCost 2
+							{
+								Burn 2
+							}
+					}
+		}
+}
+Text Auto: CxCombo When this card attacks, if "〈Lucifugus〉" is in your climax area, and you have another <Date> or <Celestial Spirit> character, choose 1 of the following effects, and perform it. "Choose up to 2 cards in your opponent's waiting room, return them to their deck, your opponent shuffles their deck, and this card gets +2 soul until end of turn." "You may put the top 2 cards of your stock into your waiting room. If you do, deal 2 damage to your opponent." 
+EndCard
+
+Character: DAL/WE33-E028
+Name Declaration of War, Queen
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{	
+	Paycost 2
+		{
+			TargetLocation OpponentStage
+			NarrowTargets CanMove
+			ChooseCharacterFromTargets Choose a character to move.
+			MoveToOpenPosition True True
+		}
+}			
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and move it to another open position of their stage.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: DAL/WE33-E029
+Name Predetermined Conclusion, Queen
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If NameContains Queen && Other
+	{
+		GainEffect
+		{
+			Auto: StartOpponentAttackPhase
+			{
+				PayCost SendFromMemoryToWaitingRoom 1 HasTrait Date|Celestial Spirit
+				{
+					TargetLocation Stage
+					NarrowTargets Other && HasTrait Date|Celestial Spirit && CanMove
+					ChooseCharacterFromTargets
+					If HasTarget
+					{
+						AddSelfToTargets
+						Exchange
+						Stand
+					}
+				}
+			}
+			Text Auto: [Put 1 <Date> or <Celestial Spirit> character from your memory into your waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose this card and 1 of your <Date> or <Celestial Spirit> characters, and exchange them as standing.
+		}
+	}
+}
+Text Cont: All of your other characters with "Queen" in their card names get the following ability. "Auto: [Put 1 <Date> or <Celestial Spirit> character from your memory into your waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose this card and 1 of your <Date> or <Celestial Spirit> characters, and exchange them as standing."
+Cont: GiveAll
+{
+	If Compare ThatCardsLevel 0 OrLess
+	{
+		GainPower 500
+		GainEffect
+		{
+			Auto: OnReversed
+			{
+				If Compare CardsInMemory 2 OrLess
+				{
+					Question Put this card into your memory?
+					If Yes
+					{
+						MoveCard Memory
+					}
+				}
+			}
+		}
+	}		
+}									
+Text Cont: All of your other level 0 or lower characters get +500 power and the following ability. "Auto: When this card becomes reversed in battle, if your memory has 2 or less cards, you may put this card into your memory."
+EndCard
+
+Character: DAL/WE33-E030
+Name Sinking White Shadow, Queen
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: InHand
+{
+	If Compare ClimaxInWaitingRoom 2 OrLess
+	{
+		LoseLevel 1
+	}
+}	
+Text Cont: If your waiting room has 2 or less climax, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Date> or <Celestial Spirit> characters, this card gets +2000 power.
+Auto: OnPlay
+{
+	*OptionalDraw
+	*OptionalDraw
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 2 cards, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: DAL/WE33-E031
+Name "Doll Master" Pannier
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If InLocation Stage
+		{
+			GainTrait Puppet
+		}
+}
+Text Cont: If this card is in your stage, this card gets <Puppet>.
+Cont: GiveAll
+{
+	If Compare ThatCardsLevel 0 OrLess
+		{
+			GainEffect
+				{
+					*HandEncore
+				}
+		}
+}
+Text Cont: All of your other level 0 or lower characters get "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+Act: Rest 2 && HasTrait Date|Celestial Spirit
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Act: [Rest 2 of your <Date> or <Celestial Spirit> characters] Choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: DAL/WE33-E032
+Name Blissful Days, Sawa
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Date|Celestial Spirit
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Date> or <Celestial Spirit> character in your waiting room, and return it to your hand.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Unfading Memories, Kurumi | Unfading Memories, Sawa
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 "Unfading Memories, Kurumi" or "Unfading Memories, Sawa" in your waiting room, and return it to your hand.
+EndCard
+
+Character: DAL/WE33-E033
+Name Kunoichi, Yui
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your <Date> or <Celestial Spirit> characters, it gets +1500 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom|OnSentFromStageToElsewhere Memory
+{
+	If LocationContainsOrLess Stage 0 Not HasTrait Date|Celestial Spirit
+		{
+			PayCost 1
+				{
+					*SearchDeckToPlaceOnStage(NameEquals Kunoichi\, Yui, True)
+					ShuffleLocation Deck
+				}
+		}
+}		
+Text Auto: [(1)] When this card is put into your waiting room or memory from the stage, if all your characters are <Date> or <Celestial Spirit>, you may pay the cost. If you do, search your deck for up to 1 "Kunoichi, Yui", put it on any position of your stage as resting, and shuffle your deck.
+EndCard
+
+Character: DAL/WE33-E034
+Name Holding at Gun Point, Queen
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && HasTrait Date|Celestial Spirit
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other <Date> or <Celestial Spirit> character in the middle position of your center stage gets +1000 power.
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When your character's trigger check reveals a climax with "Bar" in its trigger icon, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: DAL/WE33-E035
+Name Unfading Memories, Sawa
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Date
+Act: 1
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		Peek Deck 3
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 HasTrait Date|Celestial Spirit
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		TargetSelf
+		MoveCard Memory
+	}
+}	
+Text Act: [(1)] If your memory has 2 or less cards, look at up to 3 cards from the top of your deck, choose up to 1 <Date> or <Celestial Spirit> character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and put this card into your memory.
+EndCard
+
+Character: DAL/WE33-E036
+Name Repelling Bullets, Queen
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Unfading Memories, Sawa
+	{
+		GainPower 2000
+	}
+}
+Text Cont: MEMORY If "Unfading Memories, Sawa" is in your memory, this card gets +2000 power.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+		{
+			SearchDeck HasTrait Date|Celestial Spirit
+		}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 <Date> or <Celestial Spirit> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: DAL/WE33-E037
+Name In Recollections, Tsang
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level while in the stage.
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 IsClimax
+		{
+			Question Put the top card of your deck into your stock?
+			If Yes
+				{
+					*OptionalBlindStock
+				}
+		}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you have a climax in your climax area, you may put the top card of your deck into your stock.
+EndCard
+
+Character: DAL/WE33-E038
+Name “【Moznaim】” Queen
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to give -1000 power
+	LosePower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a card in your clock to return to your hand.
+		SearchLocationForTargets Clock 1 1 HasTrait Date|Celestial Spirit
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Date> or <Celestial Spirit> character in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: DAL/WE33-E039
+Name Traces of a Best Friend, Queen
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+*500Assist
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Date|Celestial Spirit
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 <Date> or <Celestial Spirit> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: DAL/WE33-E040
+Name Fatal Move, Queen
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseBackup
+	GainSpecialEffect CannotUseEvents
+}
+Text Cont: You cannot play event cards or "BACKUP" from your hand.
+EndCard
+
+Character: DAL/WE33-E041
+Name In Recollections, Isami
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+*OpponentMayPay2ToPreventFrontalAttack
+EndCard
+
+Character: DAL/WE33-E042
+Name White Space, Queen
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 Any
+		{
+			GainPower 3000
+		}
+}
+Text Cont: MEMORY If you have a card in your memory, this card gets +3000 power.
+Auto: OnAttack
+{
+	PayCost Discard 1 IsClimax && HasTrigger Bar
+		{
+			GainPower 1500
+			GainEffect
+			{
+				Auto: OnOpponentReverse
+					{
+						*OptionalDraw
+					}
+			}		
+		}
+}		
+Text Auto: [Put 1 climax with "Bar" in its trigger icon from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +1500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw 1 card."
+EndCard
+
+Character: DAL/WE33-E043
+Name True Swordsmanship, Isami
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level while in the stage.
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, this card gets +4000 power.
+EndCard
+
+Character: DAL/WE33-E044
+Name In Recollections, Pannier
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	LoseLevel 1
+	GainTrait Puppet
+}
+Text Cont: If this card is in your stage, this card gets -1 level and <Puppet>.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLess
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other level 0 or lower characters.
+EndCard
+
+Character: DAL/WE33-E045
+Name Lonely World, Queen
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+*LevelAssist
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar
+	{
+		Question Do you want to draw 2 & discard 2?
+		If Yes
+			{
+				DrawCard
+				DrawCard
+				Discard 2 Any
+			}
+	}
+}
+Text Auto: When your character's trigger check reveals a climax with "Bar" in its trigger icon, you may draw 2 cards. If you do, choose 2 cards in your hand, and put them into your waiting room.
+EndCard
+
+Character: DAL/WE33-E046
+Name Overwhelming Difference, Queen
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && HasTrait Date|Celestial Spirit
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other <Date> or <Celestial Spirit> character in your back stage.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+		{
+			PayCost 1 Rest 1 Other && HasTrait Date|Celestial Spirit && CardPosition Stand
+				{
+					SearchDeck HasTrait Date|Celestial Spirit
+				}
+		}
+}
+Text Auto: [(1) Rest 1 of your other Stand <Date> or <Celestial Spirit> characters] During the turn that this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to 1 <Date> or <Celestial Spirit> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: DAL/WE33-E047
+Name In Recollections, Yui
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	LoseLevel 2
+}
+Text Cont: This card gets -2 level while in the stage.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move.
+	UntilEndOfOpponentsTurn
+	GainEffect
+		{
+			Cont: GiveSelf
+				{
+					GainSpecialEffect CannotMove
+				}
+			Text Cont: This card cannot move to another stage position.
+		}
+}							
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+*GreenEarlyPlayBomb
+EndCard
+
+Character: DAL/WE33-E048
+Name Battle Stance, Tsang
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 9000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	LoseLevel 2
+}
+Text Cont: This card gets -2 level while in the stage.
+Auto: OnAttack
+{
+	If LocationContains Memory 2 HasTrait Date|Celestial Spirit
+		{
+			TargetSelf
+			SetXValue BattleOpponentsLevel
+			MultiplyXValue 2000
+			GainPower X
+		}
+}
+Text Auto: MEMORY When this card attacks, if your memory has 2 or more <Date> or <Celestial Spirit> characters, this card gets +X power until end of turn. X is equal to the level of the character facing this card ×2000.
+EndCard
+
+Climax: DAL/WE33-E049
+Name Clashing Emotions
+Color G
+*BarClimax
+EndCard
+
+
+
+Climax: DAL/WE33-E050
+Name 〈Lucifugus〉
+Color G
+*BarClimax
+EndCard
+
+Character: DAL/WE33-PE01
+Name Derived Answer, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	PayCost 2
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose an opponent's character to return to the hand.
+			Bounce
+		}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameContains Kurumi|Hibiki
+	ChooseCharacterFromTargets Choose a character to gain +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card attacks, choose 1 of your other characters with "Kurumi" or "Hibiki" in its card name, it gets +1000 power until end of turn.
+EndCard

@@ -1,0 +1,3383 @@
+Character: YHN/W111-001
+Name Delivered with a Bang, You
+JPName ドドーンとお届け ヨウ
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost 1 Clock
+    {
+        SearchDeck IsCharacter && HasTrait Sound of Heart
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 «Sound of Heart» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: YHN/W111-002
+Name Best Day, Kanan
+JPName 最高の一日 カナン
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Sound of Heart
+Combo For Those in Need
+Auto: OnUseAct
+{
+    PayCost 1 Discard 1 Any
+    {
+        If MyTurn && Compare ThisCardsMarkers 1 OrLess
+        {
+            TargetTop Deck 1
+            Marker_FaceUp
+        }
+        If Not MyTurn
+        {
+            Heal
+        }
+    }
+}
+TimesPerTurn 2
+Text Auto: [(1) Put 1 card from hand to the waiting room] This ability activates up to twice per turn. When you use an "Act:" ability, you may pay the cost. If you do, if it's your turn and there is 1 or less markers underneath this card and put the top card of your deck underneath this card face up as a marker, if it's your opponent's turn, put the top card of your clock into waiting room.
+Auto: OnAttack
+{
+    If Climax For Those in Need
+    {
+        PayCost 1
+        {
+            Repeat ThisCardsMarkers
+            {
+                Burn 2
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "For Those in Need" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent X times. X is equal to the number of markers under this card.
+EndCard
+
+Character: YHN/W111-003
+Name Loves Crafts, Kanan
+JPName 工作大好き カナン
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnUseAct
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        TargetLocation Stage
+        NarrowTargets HasTrait Sound of Heart
+        ChooseCharacterFromTargets Choose a character to give +1 soul.
+        GainSoul 1
+    }
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an "Act:" ability, if you have another «Sound of Heart» character, choose 1 of your characters with «Sound of Heart» and until end of turn that character gets +1 soul.
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets HasTrait Sound of Heart
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    UntilEndOfOpponentsTurn
+    GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your «Sound of Heart» characters, and that character gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: YHN/W111-004
+Name Overlapping Sounds of Hearts, Kanan
+JPName 重なる心の音 カナン
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Act: RestSelf
+{
+    If StageContains 4 Other && HasTrait Sound of Heart
+    {
+        *OptionalDrawDiscard
+        *OptionalDrawDiscard
+        *OptionalDrawDiscard
+    }
+}
+Text Act: [Rest this card] If the number of other «Sound of Heart» characters you have is 4 or more, draw a card, and discard a card from your hand to the waiting room.
+*Act1RestSelfSearchBrainstorm(Sound of Heart)
+EndCard
+
+Character: YHN/W111-005
+Name Lively!, You
+JPName 元気はつらつ！ ヨウ
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+Combo Letter for You!
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Sound of Heart
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you have another «Sound of Heart» character, this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+    If Climax Letter for You! && StageContains 2 Other && HasTrait Sound of Heart
+    {
+        *CheckAndAdd(3)
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Letter for You!" is in your climax area and the number of other «Sound of Heart» characters you have is 2 or more, look at up to the top 3 cards of your deck, choose up to 1 card among them, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: YHN/W111-006
+Name Overlapping Sounds of Hearts, You
+JPName 重なる心の音 ヨウ
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    If LocationContains Backstage 2 CardPosition Rest && With Act:
+    {
+        GainEffect
+        {
+            *1500Assist
+        }
+    }
+}
+Text Cont: If the number of rest characters in your backstage with "Act:" abilities you have is 2 or more, this card gets the following ability. "Cont: ASSIST Your characters in front of this card get +1500 power."
+Auto: StartClimaxPhase
+{
+    If Compare MyLevel 2 OrMore && StageContains 1 Any
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets_Optional You may choose a character to exchange with this card.
+        If HasTarget
+        {
+            AddSelfToTargets
+            Exchange
+            Question Rest this card ?
+            If Yes
+            {
+                Rest
+            }
+        }
+    }
+}
+Alarm
+Text Auto: ALARM When this card is on top of your clock, if you are level 2 or higher, at the beginning of your climax phase you may choose 1 of your characters and this card, and exchange them. If you do, you may rest this card.
+*RestGivePower(1000,Any)
+EndCard
+
+Character: YHN/W111-007
+Name Someone to Rely On, Kanan
+JPName 頼れる存在 カナン
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+*OnAttackGivePowerForEachOther(500,Sound of Heart)
+*YellowLevel0Bomb
+EndCard
+
+Character: YHN/W111-008
+Name Hearts Connecting, Friendship Beginning, Ruby & You
+JPName 繋がる心、始まる友情 ルビィ＆ヨウ
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    Message You may choose a character to put into stock.
+    SearchLocationForTargets Hand 0 1 IsCharacter
+    SaveTargets
+    Message You may choose a climax or an event to put into stock.
+    SearchLocationForTargets Hand 0 1 IsEvent || IsClimax
+    AddSavedToCurrentTargets
+    RevealTargets
+    Reorder
+    MoveCard Stock
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character and up to 1 event or climax from your hand, reveal them, and put them into stock in any order.
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Sound of Heart» character, this card gets +2000 power until end of turn.
+EndCard
+
+Character: YHN/W111-009
+Name Delivering Energy!, You
+JPName 元気をお届け！ ヨウ
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+*PowerOnMyTurn(1000)
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess CenterStage 2 Any
+	{
+		TargetFacing
+		If HasTarget
+		{
+			TargetSelf
+			Question Move this card to another position?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: YHN/W111-010
+Name Hearts Connecting, Friendship Beginning, Kanan
+JPName 繋がる心、始まる友情 カナン
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+*ClimaxExchange
+EndCard
+
+Character: YHN/W111-011
+Name Uchiura's Recycling Queen, Kanan
+JPName ウチーラのリサイクルクイーン カナン
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsCharacter && HasTrait Sound of Heart
+    {
+        Question Put the top card of your deck underneath this card as a marker ?
+        If Yes
+        {
+            Marker_FaceUp
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is a «Sound of Heart» character, you may put it face up underneath this card as a marker.
+Auto: OnUseAct
+{
+    SetXToNumberOfCharacters HasTrait Sound of Heart && Other
+    MultiplyXValue 500
+    GainPower X
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When you use an "Act:" ability, this card gets +X power until end of turn. X equals 500 times the number of your other «Sound of Heart» characters.
+Act: Discard 1 Any
+{
+    TargetLocation Marker
+    If Compare TargetCount 2 OrMore
+    {
+        ChooseCardsFromTargets 1 1 Any
+    }
+    MoveCard Hand
+}
+Text Act: [Put 1 card from your hand to the waiting room] Put a marker from underneath this card to your hand.
+EndCard
+
+Character: YHN/W111-012
+Name Messenger, You
+JPName メッセンジャー ヨウ
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnUseAct
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        UntilEndOfOpponentsTurn
+        GainPower 1000
+    }
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When you use an "Act:" ability, and you have another «Sound of Heart» character, this card gets +1000 power until the next of your opponent's turn.
+Act: Rest 1 Other && HasTrait Sound of Heart
+{
+    GainPower 1500
+}
+Text Act: [Rest 1 of your «Sound of Heart» characters] This gets +1500 power until end of turn.
+EndCard
+
+Character: YHN/W111-013
+Name Excellent Reflexes, You
+JPName 運動神経抜群 ヨウ
+Color Y
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnUseThisCardsBackup
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom NameEquals Excellent Reflexes, You
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When you use this card's BACKUP, you may pay the cost. If you do, choose a "Excellent Reflexes, You" in your waiting room and return it to your hand.
+Backup 1000
+EndCard
+
+Character: YHN/W111-014
+Name Certain Beliefs, Kanan
+JPName 確かな信念 カナン
+Color Y
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    If InLocation CenterStage
+    {
+        TargetLocation Hand
+        NarrowTargets HasTrait Sound of Heart
+        GainEffect
+        {
+            Act_Backup: 0
+            {
+                TargetMyCharacterInBattle
+                GainPower 2000
+            }
+            Quick
+            Text Act: BACKUP 2000 level 0 [Put this card from hand to the waiting room]
+        }
+    }
+}
+Text Cont: If this card is in your center stage, all «Sound of Heart» characters in your hand get "Act: BACKUP 2000 level 0 [Put this card from hand to the waiting room]".
+Act: Rest 2 HasTrait Sound of Heart
+{
+    GainSpecialEffect FreeSideAttack
+}
+Text Act: [Rest 2 of your «Sound of Heart» characters] This card's soul does not decrease by side attacking until end of turn.
+EndCard
+
+Character: YHN/W111-015
+Name Always a Sign of Bright Energy, You
+JPName いつも明るい元気印 ヨウ
+Color Y
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnOtherAttacks
+{
+    SetXToNumberOfCharacters Other && HasTrait Sound of Heart
+    MultiplyXValue 500
+    GainPower X
+}
+Quick
+Text Auto: When your other «Sound of Heart» character attacks, this card gets +X power until end of turn. X equals 500 times the number of your other «Sound of Heart» characters.
+*HandEncore
+EndCard
+
+Character: YHN/W111-016
+Name Mechanic, Kanan
+JPName メカニック カナン
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        *Check4Add1(Sound of Heart)
+    }
+}
+Text Auto: [Put 1 card from hand to the waiting room] When this card is placed on the stage from your hand you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character or event among them, reveal it, put it in your hand, and put the rest into waiting room.
+*YellowEarlyPlayBomb
+EndCard
+
+Event: YHN/W111-017
+Name Delivered to You!
+JPName あなたへお届け！
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+    MultipleChoiceQuestion Search your deck or your waiting room for "Lively!, You" to place on stage ?|Deck|WaitingRoom
+    If Answer 0
+    {
+        SearchLocationForTargets Deck 0 1 NameEquals Lively!, You
+        ShuffleLocation Deck
+    }
+    If Answer 1
+    {
+        SearchLocationForTargets WaitingRoom 0 1 NameEquals Lively!, You
+    }
+    PlaceOnStage false true true false
+}
+Text Choose 1 of the 2 following effects and perform it. "Choose up to 1 'Lively!, You' from your waiting room and place it to any position on your stage." "Search your deck for up to 1 'Lively!, You' and place it to any position on your stage, and shuffle your deck."
+EndCard
+
+Climax: YHN/W111-018
+Name For Those in Need
+JPName 必要としてくれる人のために
+*ChoiceClimax
+EndCard
+
+Climax: YHN/W111-019
+Name Letter for You!
+JPName Letter for you!
+*ChoiceClimax
+EndCard
+
+Character: YHN/W111-020
+Name Promise We Made, Lailaps
+JPName 交わした約束 ライラプス
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 Any
+    {
+        *Check4Add1Level1OrHigher
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room.
+Act: SendSelf WaitingRoom
+{
+    TargetLocation Stage
+    NarrowTargets NameContains ヨハネ|ライラプス
+    ChooseCharacterFromTargets Choose a character to put this card underneath as a marker.
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        MarkerTargetsUnderSavedTarget_FaceUp
+    }
+}
+ActivationRequirement CardPosition Stand
+Text Act: [Put this standing card into waiting room] Choose a character with "Yohane" or "Lailaps" in its card name and place this card face up underneath that card as a marker.
+EndCard
+
+Character: YHN/W111-021
+Name Wait for That Kid, Mari
+JPName あの子を待って マリ
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Sound of Heart
+*EarlyPlay4OrMore(Sound of Heart)
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        TargetLocation OpponentBackstage
+        SetXValue TargetCount
+        MultiplyXValue 2000
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +200 for each of your opponent's backstage characters.
+*StockHealer
+EndCard
+
+Character: YHN/W111-022
+Name Miraculous Song Spun With Bonds, Yohane
+JPName 絆が紡ぐ奇跡の歌 ヨハネ
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sound of Heart
+Combo Sound of Heart Spinning With You
+*Healer
+Auto: OnAttack
+{
+    If Climax Sound of Heart Spinning With You && StageContains 2 Other && HasTrait Sound of Heart &&& LocationContainsOrLess Hand 5 Any
+    {
+        Burn 1
+        GainEffect
+        {
+            Auto: StartMyEncoreStep
+            {
+                If Compare ThisCardsMarkers 1 OrMore
+                {
+                    PayCost 2 Discard 1 Any
+                    {
+                        Burn 2
+                    }
+                }
+            }
+            Text Auto: [(2) Put 1 card from hand to the waiting room] At the beginning of your encore step, if there is a marker under this card, you may pay the cost. If you do, deal 2 damage to your opponent.
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Sound of Heart Spinning With You" is in your climax area, the number of other «Sound of Heart» characters you have is 2 or more and you have 5 or less cards in hand, deal 1 damage to your opponent and this card gets the following ability until end of turn. "Auto: [(2) Put 1 card from hand to the waiting room] At the beginning of your encore step, if there is a marker under this card, you may pay the cost. If you do, deal 2 damage to your opponent."
+EndCard
+
+Character: YHN/W111-023
+Name Welcome, Lailaps
+JPName お出迎え ライラプス
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Combo The Days I Walked With You
+Cont: GiveSelfEverywhere
+{
+    If Climax The Days I Walked With You
+    {
+        GainTriggerIcon Bag
+        GainTriggerIcon Bag
+        GainTriggerIcon Bag
+    }
+}
+Text Cont: CxCombo If "The Days I Walked With You" is in your climax area, this card gets Bag Bag Bag trigger icons while in any zone.
+Auto: OnPlay
+{
+    GainPower 2500
+    GainEffect
+    {
+        Auto: OnEndOfAttack
+        {
+            MoveCard Deck
+            ShuffleLocation Deck
+        }
+        Quick
+        Text Auto: At the end of this card's attack, return this card to your deck and shuffle your deck.
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +2500 power and the following ability until end of turn. "Auto: At the end of this card's attack, return this card to your deck and shuffle your deck."
+EndCard
+
+Character: YHN/W111-024
+Name Overlapping Sounds of Hearts, Mari
+JPName 重なる心の音 マリ
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost HandClock IsCharacter && HasTrait Sound of Heart
+    {
+        *CheckAndAdd(3)
+    }
+}
+Text Auto: [Put a «Sound of Heart» character from your hand in clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 cards among them, put it in your hand, and put the rest into your waiting room.
+*FreeRunner
+EndCard
+
+Character: YHN/W111-025
+Name Overlapping Sounds of Hearts, Yohane
+JPName 重なる心の音 ヨハネ
+Color G
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+Combo World Filled with Songs
+Auto: OnAttack
+{
+    GainPower 4000
+    If Climax World Filled with Songs
+    {
+        *GainBounceWhenFrontalAttacked
+    }
+}
+Quick
+Text Auto: CxCombo When this card attacks, this card gets +4000 power until end of turn. If "World Filled with Songs" is in your climax area, this card gets the following ability until end of your opponent's turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+Act: Discard 1 IsClimax && HasTrigger Book || IsClimax && HasTrigger Bar &&& SendSelf WaitingRoom
+{
+    If LocationContains WaitingRoom 2 IsClimax && HasTrigger Book &&& LocationContains WaitingRoom 2 IsClimax && HasTrigger Bar
+    {
+        RevealUpTo Deck 3
+        ChooseCardsFromTargets 0 3 HasTrait Sound of Heart
+        RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Act: [Put a climax with a Book or a Bar trigger icon from hand to the waiting room, put this card in the waiting room] If you have 2 or more climax with a Book trigger icon and 2 or more climax with a Bar trigger icon in waiting room, look at up to the top 3 cards of your deck, choose up to 3 «Sound of Heart» characters among them, reveal them, put them in your hand, and put the rest into waiting room.
+EndCard
+
+Character: YHN/W111-026
+Name Similar People, Mari
+JPName 似た者同士 マリ
+Color G
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnAttack
+{
+    *GiveOtherCharacterPower(1500,Sound of Heart)
+    GainEffect
+    {
+        *HandEncore
+    }
+}
+Text Auto: When this card attacks, choose 1 of your other «Sound of Heart» characters, and that character gets +1500 power and the following ability until end of your opponent's turn. "Auto: ENCORE [Put 1 character from hand to the waiting room]".
+Auto: StartMyEncoreStep
+{
+    PayCost 2
+    {
+        TargetLocation Stage
+        NarrowTargets Other
+        ChooseCharacterFromTargets Choose a character to put into memory.
+        AddSelfToTargets
+        MoveCard Memory
+        ScheduleEffectWithTargets StartDrawPhase
+        {
+            Effect:
+            {
+                ForEachTarget
+                {
+                    IfTarget InLocation Memory
+                    {
+                        AddCurrentToSavedTargets
+                    }
+                }
+                LoadTargets
+                PlaceOnStage false true true false
+            }
+            Text At the beginning of your next draw phase, put those characters from your memory in separate positions on the stage.
+        }
+    }
+}
+Text Auto: [(2)] At the beginning of your encore step, you may pay the cost. If you do, choose 1 of your other characters and this card and send them to memory. At the beginning of your next draw phase, put those characters from your memory in separate positions on the stage.
+EndCard
+
+Character: YHN/W111-027
+Name Returning Girl, Yohane
+JPName 出戻り少女 ヨハネ
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Sound of Heart
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you have another «Sound of Heart» character, this card gets +3000 power.
+Auto: OnAttack
+{
+    PayCost Discard 1 Any
+    {
+        GainSpecialEffect DoubleTrigger
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, perform the trigger check twice during this attack.
+EndCard
+
+Character: YHN/W111-028
+Name Magic Given to You, Lailaps
+JPName 君に贈る魔法 ライラプス
+Color G
+Level 1
+Cost 1
+Power 3000
+Soul 1
+Trait1 Sound of Heart
+*LevelAssistTrait(Sound of Heart)
+Auto: StartAttackPhase
+{
+    If Compare ThisCardsMarkers 1 OrMore
+    {
+        *GiveCharacterPower(1000,Sound of Heart)
+        GainSoul 1
+    }
+}
+Text Auto: At the beginning of your attack phase, if this card has a marker underneath, choose 1 of your «Sound of Heart» characters and that character gets +1000 power and +1 soul until end of turn.
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameEquals Miraculous Song Spun With Bonds, Yohane && Compare ThatCardsMarkers 0 OrMore
+    ChooseCharacterFromTargets Choose 1 of your Miraculous Song Spun With Bonds, Yohane to give a marker.
+    SaveTargets
+    MultipleChoiceQuestion Put a marker from underneath this card or a "Promise We Made, Lailaps" from your waiting room underneath that card as a marker|This card|"Promise We Made, Lailaps"
+    If Answer 0
+    {
+        TargetLocation Marker
+        ChooseCardsFromTargets 0 1 Any
+    }
+    If Answer 1
+    {
+        SearchLocationForTargets WaitingRoom 1 1 NameEquals Promise We Made, Lailaps
+    }
+    If HasTarget
+    {
+        MarkerTargetsUnderSavedTarget_FaceDown
+    }
+}
+Text Act: [Rest this card] Choose 1 of your "Miraculous Song Spun With Bonds, Yohane", and if that does not have a marker underneath, choose up to 1 marker underneath this card or a "Promise We Made, Lailaps" in your waiting room, and place it face up underneath that "Miraculous Song Spun With Bonds, Yohane" as a marker.
+EndCard
+
+Character: YHN/W111-029
+Name Good Buddy, Lailaps
+JPName 良き相棒 ライラプス
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+*GainPowerWithEnoughCharacters(8000,2,Sound of Heart)
+Auto: OnPlay
+{
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            If Not MyTurn
+            {
+                GainPower 2000
+            }
+        }
+        Text Cont: During your opponent's turn, this card gets +2000 power.
+    }
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        *GreatPerformance
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets the following 2 abilities until end of your opponent's turn. "Cont: During your opponent's turn, this card gets +2000 power." "Cont: GREAT PERFORMANCE"
+EndCard
+
+Character: YHN/W111-030
+Name Reach Out for the Water's Surface, Yohane
+JPName 水面に手を伸ばす ヨハネ
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		OpponentMessage Choose a climax to keep in your waiting room.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		ReverseTargets OpponentWaitingRoom
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if the number of other «Sound of Heart» characters you have is 4 or more, you may pay the cost. If you do, your opponent chooses 1 climax in their waiting room, returns all cards except that card from their waiting room to their deck, and shuffles their deck.
+EndCard
+
+Character: YHN/W111-031
+Name What Only I Can Do, Yohane
+JPName 私にしかできないこと ヨハネ
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost Clock
+    {
+        TargetTop Deck 1
+        MoveCard Stock
+    }
+}
+Text Auto: [Put the top card of your deck in clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your deck in your stock.
+*GreenLevel0Bomb
+EndCard
+
+Character: YHN/W111-032
+Name Past Emotional Scars, Mari
+JPName 過去の心の傷 マリ
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+*OnPlayScry
+Act: 1 RestSelf
+{
+    If StageContains 2 Other && HasTrait Sound of Heart
+    {
+        Brainstorm 4
+		PerClimax
+		{
+			*OptionalDraw
+			*OptionalDraw
+			*OptionalDraw
+			Discard 2 Any
+		}
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this card] If the number of other «Sound of Heart» characters you have is 2 or more, flip over 4 cards from the top of your deck, and put them into the waiting room for each climax revealed perform the following action. "Draw up to 3 cards, then discard 2 card."
+EndCard
+
+Character: YHN/W111-033
+Name Magic Received, Lailaps
+JPName 受け取った魔法 ライラプス
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    TargetLocation Stage
+    NarrowTargets NameContains ヨハネ|ライラプス
+    ChooseCharacterFromTargets Choose a character to put a marker underneath.
+    If HasTarget
+    {
+        SaveTargets
+        SearchLocationForTargets WaitingRoom 0 1 NameEquals Promise We Made, Lailaps
+        If HasTarget
+        {
+            MarkerTargetsUnderSavedTarget_FaceUp
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters with "Yohane" or "Lailaps" in its card name, and if that character has no marker underneath it, choose up to 1 "Promise We Made, Lailaps" from your waiting room and put it underneath that character face up as a marker.
+Act: Discard 1 Any &&& SendSelf WaitingRoom
+{
+    SearchWaitingRoom NameContains ヨハネ|ライラプス && IsCharacter
+}
+Text Act: [Put 1 card from hand to the waiting room, put this card in the waiting room] Choose a character in your waiting room with "Yohane" or "Lailaps" in its card name, and return it to hand.
+EndCard
+
+Character: YHN/W111-034
+Name A New Story Begins, Yohane
+JPName 新たに始まる物語 ヨハネ
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+*DropSearch(Sound of Heart)
+Auto: OnAttack
+{
+    TargetTop Deck 2
+    If Compare TargetCount 2 OrMore
+    {
+        Reorder
+    }
+    Else
+    {
+        View
+    }
+}
+Text Auto: When this card attacks, look at up to 2 cards from the top of your deck and put them on top of your deck in any order.
+EndCard
+
+Character: YHN/W111-035
+Name Hearts Connecting, Friendship Beginning, Mari
+JPName 繋がる心、始まる友情 マリ
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+Act: SendSelf WaitingRoom
+{
+    TargetLocation Stage
+    NarrowTargets NameEquals Similar People, Yohane
+    ChooseCharacterFromTargets Choose a character to give +1000 power and the effect.
+    GainPower 1000
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Sound of Heart)
+            TargetTop Deck 1
+            Reveal
+            IfTarget Compare ThatCardsLevel 1 OrMore
+            {
+                MoveCard Stock
+            }
+        }
+    }
+}
+Text Act: [Put this card in the waiting room] Choose 1 of your "Similar People, Yohane" and that card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, choose up to 1 «Sound of Heart» character in your waiting room, put it in your stock, and reveal the top card of your deck. If that card is level 1 or higher put it in your stock."
+Act: 1 Resonate Similar Poeple, Yohane &&& RestSelf
+{
+    *Check3Add1(Sound of Heart)
+}
+Text Act: RESONATE [(1) Reveal a "Similar People, Yohane" from your hand, rest this card] Look at up to the top 3 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: YHN/W111-036
+Name Hearts Connecting, Friendship Beginning, Yohane
+JPName 繋がる心、始まる友情 ヨハネ
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sound of Heart
+Combo Glimpse of Harmony
+Auto: OnDrawCard
+{
+    If InBattle && MyTurn
+    {
+        PayCost 1 Discard 1 Any
+        {
+            Burn 1
+        }
+    }
+}
+Text Auto: [(1) Put 1 card from hand to the waiting room] During this card's attack, when you draw a card, you may pay the cost. If you do, deal 1 damage to your opponent.
+Auto: OnSpecificClimaxPlay Glimpse of Harmony
+{
+    If InLocation CenterStage
+    {
+        GainPower 1000
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            Cont: GiveSelf
+            {
+                If Not MyTurn
+                {
+                    GainSpecialEffect CannotBeReversed
+                }
+            }
+            Text Cont: During your opponent's turn, this card cannot be reverse.
+        }
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                SetXValue 0
+                Question_Obvious Draw a card ?
+                If Yes
+                {
+                    DrawCard
+                    AddToXValue 1
+                }
+                Question_Obvious Draw a card ?
+                If Yes
+                {
+                    DrawCard
+                    AddToXValue 1
+                }
+                Discard X Any
+            }
+            Text Auto: When this card attacks, draw up to 2 cards and put the same number of cards from your hand into waiting room.
+        }
+    }
+}
+Text Auto: CxCombo When "Glimpse of Harmony" is placed to your climax area, if this card is in your center stage, this card gets +1000 power until end of turn, and this card gets the following 2 abilities until end of your opponent's turn. "Cont: During your opponent's turn, this card cannot be reverse." "Auto: When this card attacks, draw up to 2 cards and put the same number of cards from your hand into waiting room."
+EndCard
+
+Character: YHN/W111-037
+Name Looking for "Homework", Yohane's Mother
+JPName “宿題”探し ヨハネの母
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            GainSpecialEffect CannotMove
+        }
+        Text Cont: This card cannot move to another position.
+    }
+}
+Text Auto: When this card is placed from the hand to the stage, choose 1 of your opponent's characters, and that character gets the following ability until end of your opponent's turn. "Cont: This card cannot move to another position."
+*RestGivePower(1500,Sound of Heart)
+EndCard
+
+Character: YHN/W111-038
+Name Ruler of the Underworld, Mari
+JPName 冥界を束ねる者 マリ
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnDirectAttack
+{
+    GainSoul 1
+}
+Quick
+Text Auto: When this card direct attacks, this card gets +1 soul until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Sound of Heart
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			IfTarget OnStage
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [(1) Put this card into waiting room] When your other «Sound of Heart» character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: YHN/W111-039
+Name At an Age Where you Can't Be Honest, Yohane
+JPName 素直になれないお年頃 ヨハネ
+Color G
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+Auto: StartClimaxPhase
+{
+    If LocationContains OpponentStock 2 Any
+    {
+        OpponentQuestion Pay 2 for this card to not frontal attack.
+        If Yes
+        {
+            TargetTop 2 OpponentStock
+            MoveCard OpponentWaitingRoom
+            TargetSelf
+            GainSpecialEffect CannotFrontalAttack
+        }
+    }
+}
+Text Auto: At the beginning of your climax phase, your opponent may put the top 2 cards of their stock in the waiting room. If they do, this card cannot frontal attack until end of turn.
+EndCard
+
+Character: YHN/W111-040
+Name Watching Over You, Lailaps
+JPName 君のそばで見守る ライラプス
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sound of Heart
+*OnPlayGainPower(1500)
+Auto: OnClimaxPlay
+{
+    IfOther HasTrigger Bar
+    {
+        *GiveCharacterPower(1000,Any)
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                TargetLocation OpponentClock
+                If HasTarget
+                {
+                    TargetBattleOpponent
+                    IfTarget OnStage
+                    {
+                        Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+                        If Yes
+                        {
+                            TargetTop OpponentClock 1
+                            MoveCard OpponentWaitingRoom
+                            TargetBattleOpponent
+                            MoveCard OpponentClock
+                        }
+                    }
+                }
+            }
+            Text Auto: When this card battle opponent of this card becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character to their clock.
+        }
+    }
+}
+Text Auto: When your climax with a Bar trigger icon is placed on your climax area, choose 1 of your characters, and that character gets +1000 power and the following ability until end of turn. "Auto: When this card battle opponent of this card becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character to their clock."
+EndCard
+
+Character: YHN/W111-041
+Name Troubled Expression, Lailaps
+JPName 困り顔 ライラプス
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Soul 1
+Trait1 Sound of Heart
+*ScryBackup(Sound of Heart)
+Backup 2000
+EndCard
+
+Character: YHN/W111-042
+Name Descendant of the Demon King, Mari
+JPName 魔王族の末裔 マリ
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    Mill 3
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into the waiting room.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: YHN/W111-043
+Name Mature Smile, Mari
+JPName 大人っぽい笑み マリ
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Sound of Heart
+Combo Receiving Courage, the World Expands
+*EarlyPlay4OrMore(Sound of Heart)
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 2 Other && HasTrait Sound of Heart
+    {
+        GainPower 6000
+    }
+}
+Text Cont: During your turn, if the number of other «Sound of Heart» characters you have is 2 or more, this card gets +6000 power.
+Auto: OnReverseOpponent
+{
+    If Climax Receiving Courage, the World Expands
+    {
+        PayCost SendClimax WaitingRoom
+        {
+            RevealUpTo Deck 4
+            ChooseCardsFromTargets 0 4 HasTrait Sound of Heart && IsCharacter
+            RevealTargets
+            MoveCard Hand
+            PutTheRestIntoTheWaitingRoom
+        }
+    }
+}
+Text Auto: CxCombo [Put a "Receiving Courage, the World Expands" from your climax area in the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 4 «Sound of Heart» characters among them, reveal them, put them in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: YHN/W111-044
+Name Similar People, Yohane
+JPName 似た者同士 ヨハネ
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Soul 1
+Trait1 Sound of Heart
+HandAction 0
+{
+    TargetSelf
+    If Compare ThatCardsCost 1 OrMore
+    {
+        SetXValue ThatCardsCost
+        SubtractFromXValue 1
+        If LocationContains Stock X Any
+        {
+            TargetLocation Stage
+            NarrowTargets NameEquals Similar People, Yohane && Compare ThatCardsMarkers 1 OrMore
+            ChooseCharacterFromTargets Choose a character to pay cost with its markers.
+            TargetMarkersUnderTargets
+            ChooseCardsFromTargets 1 1 Any
+            MoveCard WaitingRoom
+            TargetTop Stock X
+            MoveCard WaitingRoom
+            TargetSelf
+            PlaceOnStage false true true false
+        }
+    }
+    Else
+    {
+        PlaceOnStage false true true false
+    }
+}
+ActivationRequirement StageContains 1 NameEquals Similar People, Yohane && Compare ThatCardsMarkers 1 OrMore &&& Compare MyLevel 2 OrMore &&& LocationContains Level 1 IsColor Green || LocationContains Clock 1 IsColor Green
+EndCard
+
+Event: YHN/W111-045
+Name The Sounds of our Hearts Resonate Together
+JPName 心の音は響き合う
+Color G
+Level 1
+Cost 0
+Effect:
+{
+    Brainstorm 3
+    TargetBrainstormed
+    SearchWaitingRoom IsCharacter && HasTrait Sound of Heart && Compare ThatCardsLevel TotalLevel OrLess
+}
+Text BRAINSTORM Flip over the top 3 cards of your deck and put them in the waiting room. Choose a level X or lower «Sound of Heart» character in your waiting room and return it to your hand. X equals the number of «Sound of Heart» character cards revealed this way.
+EndCard
+
+Climax: YHN/W111-046
+Name Sound of Heart Spinning With You
+JPName 君と紡ぐ心の音
+*BarClimax
+EndCard
+
+Climax: YHN/W111-047
+Name The Days I Walked With You
+JPName 君と歩んだ日々
+*BagClimax
+EndCard
+
+Climax: YHN/W111-048
+Name World Filled with Songs
+JPName 世界は歌で満たされる
+*BarClimax
+EndCard
+
+Climax: YHN/W111-049
+Name Receiving Courage, the World Expands
+JPName 貰った勇気、広がる世界
+*BagClimax
+EndCard
+
+Character: YHN/W111-050
+Name Making Sweets, Hanamaru
+JPName お菓子作り ハナマル
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sound of Heart
+Combo Welcome Home
+Auto: OnAttack
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        GainPower 3500
+        If InLocation MiddleCenterStage
+        {
+            UntilEndOfOpponentsTurn
+            GainEffect
+            {
+                *HandEncore
+            }
+        }
+    }
+}
+Text Auto: When this card attacks, if you have another «Sound of Heart» character, this card gets +3500 power until end of turn, and if this card is in the middle position of your center stage, this card gets the following effect until end of your opponent's turn. "Auto: ENCORE [Discard a character]"
+Auto: OnEndOfAttack
+{
+    If Climax Welcome Home && FacingIsEmptyOrReversed
+    {
+        PayCost Discard 1 Any
+        {
+            SearchWaitingRoom IsCharacter && HasTrait Sound of Heart
+            SearchWaitingRoom IsCharacter && HasTrait Sound of Heart || NameEquals Please Have Some Sweets
+        }
+    }
+}
+Text Auto: CxCombo [Put 1 card from hand to the waiting room] At the end of this card's attack, if "Welcome Home" is in your climax area, and there is either no character or a reversed character facing this card, you may pay the cost. If you do, choose up to 1 «Sound of Heart» character, and up to 1 «Sound of Heart» character or "Please Have Some Sweets" in your waiting room, and return them to your hand.
+EndCard
+
+Character: YHN/W111-051
+Name Loves Sweets, Dia
+JPName スイーツ大好き ダイヤ
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+*PowerOnMyTurn(3000)
+Auto: OnReverseOpponent
+{
+    If PlayedThisTurn
+    {
+        CostOptions Pay a stock | Put 1 card from your hand into waiting room
+        PayCost 1 OR Discard 1 Any
+        {
+            *Check4Add1(Sound of Heart)
+        }
+    }
+}
+Text Auto: [Put 1 card from your hand into waiting room OR Put the top card of your stock into waiting room] During the turn this card was placed on the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into waiting room.
+EndCard
+
+Character: YHN/W111-052
+Name Have Some Fruit!, Ruby
+JPName フルーツをどうぞ！ ルビィ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Sound of Heart
+*OnPlayRevealBurnIfTrait(Sound of Heart)
+Auto: OnReverseOpponent
+{
+    Question Return this card to your hand ?
+    If Yes
+    {
+        Bounce
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, you may return this card to your hand.
+Auto: OnReversed
+{
+    If StageContains 2 Other && HasTrait Sound of Heart
+    {
+        TargetBattleOpponent
+		IfTarget Compare ThatCardsLevel 3 OrLess && OnStage && Not CardPosition Reverse
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+    }
+}
+Text Auto: When this card becomes reverse, if your have 2 or more other «Sound of Heart» characters, and this card's battle opponent is level 3 or lower, you may reverse that card.
+EndCard
+
+Character: YHN/W111-053
+Name Overlapping Sounds of Hearts, Hanamaru
+JPName 重なる心の音 ハナマル
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        TargetTop Deck 1
+        Reveal
+        SearchWaitingRoom IsCharacter && Compare ThatCardsLevel TargetCardsLevel OrLess
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand. X equals level of the card revealed this way.
+EndCard
+
+Character: YHN/W111-054
+Name Overlapping Sounds of Hearts, Ruby
+JPName 重なる心の音 ルビィ
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Sound of Heart
+    {
+        RevealExactly Deck 2
+        Message Choose a card to put into your opponent's hand.
+        OpponentChooseCardsFromTargets 1 1 IsCharacter || IsEvent
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: [Put a «Sound of Heart» character from hand to the waiting room] When this card is placed from stage to the waiting room, you may pay the cost. If you do, reveal the top 2 cards of your deck, your opponent chooses a character or an event among those cards and put it in your hand, then put the rest into your waiting room.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: YHN/W111-055
+Name "Corundum Strider" Ruby
+JPName “コランダムストライダー” ルビィ
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Soul 1
+Trait1 Sound of Heart
+*LevelAssistTrait(Sound of Heart)
+Auto: OnUseAccelerate
+{
+    PayCost 1
+    {
+        Heal
+    }
+}
+TimesPerTurn 1
+Text Auto: [(1)] This ability activates up to once per turn. When you use "ACCELERATE", you may pay the cost. If you do, put the top card of your clock in the waiting room.
+*RestGivePower(1000,Any)
+EndCard
+
+Character: YHN/W111-056
+Name Overlapping Sounds of Hearts, Dia
+JPName 重なる心の音 ダイヤ
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Sound of Heart
+*GainPowerWithEnoughCharacters(2000,2,Sound of Heart)
+Auto: Encore SendFromWaitingRoomToBottom 1 Clock IsCharacter && HasTrait Sound of Heart
+{
+}
+Text Auto: ENCORE [Put a «Sound of Heart» character from your waiting room on the bottom of your clock]
+EndCard
+
+Character: YHN/W111-057
+Name Loves Delicious Food, Hanamaru
+JPName 美味しいものが大好き ハナマル
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Sound of Heart
+*GlobalPower(1500,Sound of Heart)
+*OnPlayCheck3
+Act: 2 RestSelf
+{
+    Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock in the waiting room.
+EndCard
+
+Character: YHN/W111-058
+Name Rider Wearing Red Armor, Dia
+JPName 紅の装甲纏いしライダー ダイヤ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Sound of Heart
+Combo Blade Illuminated by Moonlight
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Sound of Heart
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If all your characters are «Sound of Heart», this card gets +2000 power.
+Auto: OnAttack
+{
+    If Climax Blade Illuminated by Moonlight
+    {
+        PayCost 1 Discard 1 Any
+        {
+            Burn 2
+            Heal
+        }
+    }
+}
+Text Auto: CxCombo [(1) Put 1 card from hand to the waiting room] When this card attacks, if "Blade Illuminated by Moonlight" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent, choose up to 1 card from the top of your clock and put it in the waiting room.
+Auto: StartOpponentAttackPhase
+{
+    PayCost 1 SendFromWaitingRoomToBottom 1 Clock IsCharacter && HasTrait Sound of Heart
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to give -2 souls.
+        LoseSoul 2
+    }
+}
+Text Auto: ACCELERATE [(1) Put a «Sound of Heart» character from waiting room to the bottom of your clock] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your opponent's characters and that character gets -2 soul until end of turn.
+EndCard
+
+Character: YHN/W111-059
+Name Hearts Connecting, Friendship Beginning, Dia
+JPName 繋がる心、始まる友情 ダイヤ
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+*GlobalPower(500,Sound of Heart)
+Auto: OnPlay
+{
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to give -500 power.
+    LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's center stage characters, and that character gets -500 power until end of turn.
+Auto: StartMainPhase
+{
+    TargetTop Deck 1
+    View
+    TargetLocation Stock
+    View
+}
+Text Auto: At the beginning of your main phase, look at the top card of your deck, and look at all of your stock.
+EndCard
+
+Character: YHN/W111-060
+Name Obedient, Hanamaru
+JPName 素直 ハナマル
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsCharacter && HasTrait Sound of Heart
+    {
+        GainPower 4000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Sound of Heart» character, this card gets +4000 power until end of turn.
+*OnPlayGivePower(1500,Sound of Heart)
+EndCard
+
+Character: YHN/W111-061
+Name Calm Smile, Dia
+JPName 落ち着いた笑み ダイヤ
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost Discard 1 IsClimax && HasTrigger Standby || IsClimax && HasTrigger Gate
+    {
+        SearchWaitingRoom IsCharacter && HasTrait Sound of Heart
+        If LocationContains WaitingRoom 2 IsClimax && HasTrigger Standby &&& LocationContains WaitingRoom 2 IsClimax && HasTrigger Gate
+        {
+            *PutCardFromWaitingRoomIntoStock(IsCharacter && HasTrait Sound of Heart)
+        }
+    }
+}
+
+Text Auto: [Put a climax with a Gate or Standby trigger icon from hand to the waiting room] When this card is placed from hand to stage, you may pay the cost. If you do, choose up to 1 «Sound of Heart» character in the waiting room, return it to hand, and uf you have 2 or more climax with a Gate trigger icon and 2 or more climax with a Standby trigger icon in waiting room, choose up to 1 «Sound of Heart» character in your waiting room and place it to stock.
+EndCard
+
+Character: YHN/W111-062
+Name Bright Look, Ruby
+JPName 明るい表情 ルビィ
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+Combo Bike Integration
+Auto: OnSpecificClimaxPlay Bike Integration
+{
+    PayCost SendSelf Hand SendClimax WaitingRoom
+    {
+        *Check3Add1(Sound of Heart)
+        *GiveCharacterPower(2500,Any)
+    }
+}
+Text Auto: CxCombo [Return this card to hand, put a "Bike Integration" from climax area to waiting room] When "Bike Integration" is placed to your climax area, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, put the rest into waiting room, choose 1 character, and that character gets +2500 power until end of turn.
+EndCard
+
+Character: YHN/W111-063
+Name Laid-Back Girl, Hanamaru
+JPName のんびりとした女の子 ハナマル
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    *OptionalDrawDiscard
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Sound of Heart» characters you have is 2 or more, you may draw a card. If you do, discard a card from your hand to the waiting room.
+*RedLevel1Bomb
+EndCard
+
+Character: YHN/W111-064
+Name Descendant of the Fairy Tribe, Ruby
+JPName 妖精族の末裔 ルビィ
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+*OnPlayGainPower(3000)
+Auto: EndOfMyTurn
+{
+    If PlayedThisTurn && LocationContains CenterStage 1 Any &&& LocationContains Backstage 1 Any
+    {
+        TargetLocation CenterStage
+        NarrowTargets HasTrait Sound of Heart
+        ChooseCharacterFromTargets_Optional You may choose a character in center stage to exchange with a character in backstage.
+        If HasTarget
+        {
+            SaveTargets
+            TargetLocation CenterStage
+            NarrowTargets HasTrait Sound of Heart && Not InSavedTargets
+            ChooseCharacterFromTargets Choose a character in your backstage to exchange with.
+            Rest
+            Exchange
+        }
+    }
+}
+Text Auto: During the turn this card is placed on the stage from your hand, at the end of your turn, you may choose a «Sound of Heart» in your center stage and a «Sound of Heart» character in your backstage, rest them and exchange them.
+EndCard
+
+Character: YHN/W111-065
+Name Reliable Sister, Ruby
+JPName 頼れる妹 ルビィ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: YHN/W111-066
+Name Witty and Beautiful, Dia
+JPName 才色兼備 ダイヤ
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Sound of Heart
+*GainPowerForEachOther(1000,Sound of Heart)
+*HandEncore
+EndCard
+
+Character: YHN/W111-067
+Name Serious Expression, Ruby
+JPName 真剣な表情 ルビィ
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to give -1000 power.
+        LosePower 1000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand or when this card is placed from stage to the waiting room, put the top 2 cards of your deck in the waiting room. If there is a climax among them, choose 1 of your opponent's characters, and that character gets -1000 power until end of turn.
+EndCard
+
+Character: YHN/W111-068
+Name Full of Enthusiasm, Ruby
+JPName 意気込み十分 ルビィ
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+*PowerInMiddle(3000)
+Act: 1 SendSelf WaitingRoom
+{
+    *Check4Add1(Sound of Heart)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: YHN/W111-069
+Name Reliable Right Hand, Kohaku
+JPName 頼れる右腕 コハク
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+*OnPlayGainPower(3000)
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 IsCharacter && HasTrait Sound of Heart
+    {
+        DrawCard
+    }
+}
+Text Auto: [Put a «Sound of Heart» character from your hand to the waiting room] When this card is placed on the stage from your hand or from the stage to the waiting room, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: YHN/W111-070
+Name Hearts Connecting, Friendship Beginning, Hanamaru
+JPName 繋がる心、始まる友情 ハナマル
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets Other && HasTrait Sound of Heart
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            If Not MyTurn
+            {
+                GainPower 3000
+            }
+        }
+        Text Cont: During your opponent's turn, this card gets +3000 power.
+    }
+}
+Text Auto: When this card attacks, choose 1 of your other «Sound of Heart» characters, and that character gets the following ability until end of your opponent's turn. "Cont: During your opponent's turn, this card gets +3000 power."
+EndCard
+
+Character: YHN/W111-071
+Name Calm and Collected, Dia
+JPName 冷静沈着 ダイヤ
+Color R
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+*GiveAllOpponentsEncore2
+EndCard
+
+Character: YHN/W111-072
+Name Pastry Chef, Hanamaru
+JPName パティシエ ハナマル
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sound of Heart
+*PowerOnMyTurn(1000)
+*OnAttackGivePowerForEachOther(500,Sound of Heart)
+EndCard
+
+Character: YHN/W111-073
+Name Secretary of Numazu, Dia
+JPName ヌマヅ執務長官 ダイヤ
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Sound of Heart
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you have another «Sound of Heart» character, this card gets +3000 power.
+Cont: GiveSelf
+{
+    TargetFacing
+    IfTarget Compare ThatCardsCost 0 OrLess
+    {
+        GainSpecialEffect CannotBeReversed
+    }
+}
+Text Cont: If the cost of the character facing this card is 0 or lower, this card cannot be reverse.
+EndCard
+
+Character: YHN/W111-074
+Name Gentle Smile, Hanamaru
+JPName 優しい笑顔 ハナマル
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnAttack
+{
+    TargetFacing
+    If HasTarget
+    {
+        If Compare TargetCardsLevel 3 OrMore
+        {
+            TargetSelf
+            GainPower 6000
+            GainSoul 2
+        }
+    }
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +6000 power and +2 soul until end of turn.
+EndCard
+
+Event: YHN/W111-075
+Name Please Have Some Sweets
+JPName お菓子をどうぞ
+Color R
+Level 1
+Cost 0
+Counter
+Effect:
+{
+    MultipleChoiceQuestion Choose 1 of the following 2 effects and perform it.\n1: If the number of «Sound of Heart» characters you have is 3 or more, look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into waiting room.\n2: Choose 1 of your 'Making Sweets, Hanamaru', and that character gets the following ability until end of turn. 'Cont: During your opponent's turn, this card and its battle opponent cannot be reverse.'|1|2
+    If Answer 0
+    {
+        If StageContains 3 Other && HasTrait Sound of Heart
+        {
+            *Check4Add1(Sound of Heart)
+        }
+    }
+    If Answer 1
+    {
+        TargetLocation Stage
+        NarrowTargets NameEquals Making Sweets, Hanamaru
+        ChooseCharacterFromTargets Choose a character to give the effect.
+        GainEffect
+        {
+            Cont: Global
+            {
+                If Not MyTurn && Not Other && InBattle
+                {
+                    GainSpecialEffect CannotBeReversed
+                }
+                If Not MyTurn && Facing Not Other &&& InBattle
+                {
+                    //This condition is wrong. This will give to the character facing this card, which may not be the battle opponent.
+                    GainSpecialEffect CannotBeReversed
+                }
+            }
+            Text Cont: During your opponent's turn, this card and this card's battle opponent cannot be reverse.
+        }
+
+    }
+}
+Text Counter: Choose 1 of the following 2 effects and perform it.\n"If the number of «Sound of Heart» characters you have is 3 or more, look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into waiting room."\n"Choose 1 of your 'Making Sweets, Hanamaru', and until end of turn that character gets the following ability. 'Cont: During your opponent's turn, this card and this card's battle battle opponent cannot be reverse.'"
+EndCard
+
+Climax: YHN/W111-076
+Name Welcome Home
+JPName おかえり
+*DoorClimax
+EndCard
+
+Climax: YHN/W111-077
+Name Blade Illuminated by Moonlight
+JPName 月光に照らされし刃
+*StandbyClimax
+EndCard
+
+Climax: YHN/W111-078
+Name Bike Integration
+JPName バイクと一体化
+*StandbyClimax
+EndCard
+
+Character: YHN/W111-079
+Name Moment To One's Self, Riko
+JPName ありのままでいられる瞬間 リコ
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnClimaxPlay
+{
+    PayCost Discard 1 Any
+    {
+        TargetTop Deck 1
+        Reveal
+        SearchWaitingRoom IsCharacter && Compare ThatCardsLevel TargetCardsLevel OrLess
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When your climax is placed on your climax area, you may pay the cost. If you do, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: YHN/W111-080
+Name Monster Who Protects Numazu, Chika
+JPName ヌマヅを守る怪傑 チカ
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+Combo Justogun
+*PowerOnMyTurn(2000)
+Auto: OnAttack
+{
+    If Climax Justogun && StageContains 2 Other && HasTrait Sound of Heart
+    {
+        MultipleChoiceQuestion Perform 1 of the following 2 effects of your choice.\n1: Look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into waiting room.\n2: Choose a level 2 or higher «Sound of Heart» character in your waiting room and return it to hand.|1|2
+        If Answer 0
+        {
+            *Check4Add1(Sound of Heart)
+        }
+        If Answer 1
+        {
+            SearchWaitingRoom IsCharacter && HasTrait Sound of Heart && Compare ThatCardsLevel 2 OrMore
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Justogun" is in your climax area, and the number of other «Sound of Heart» characters you have is 2 or more, perform 1 of the following 2 effects of your choice. "Look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into waiting room." "Choose a level 2 or higher «Sound of Heart» character in your waiting room and return it to hand."
+EndCard
+
+Character: YHN/W111-081
+Name Secret Weapon, Chika
+JPName 秘密兵器 チカ
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        UntilEndOfOpponentsTurn
+        GainPower 2000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another «Sound of Heart» character, this card gets +2000 power until end of your opponent's turn.
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to return to hand.
+        Bounce
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters and return it to their hand.
+EndCard
+
+Character: YHN/W111-082
+Name Playful Side, Riko
+JPName お茶目な一面 リコ
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+*PowerOnMyTurn(1000)
+*MoveOtherWithTraitToBackstageOnReverse(Sound of Heart)
+EndCard
+
+Character: YHN/W111-083
+Name Overlapping Sounds of Hearts, Chika
+JPName 重なる心の音 チカ
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Sound of Heart
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Sound of Heart
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If all your characters are «Sound of Heart», this card gets +1500 power and "Auto: ENCORE [Put 1 character from hand to the waiting room]".
+Cont: GiveAll
+{
+    IfOwner InLocation CenterStage
+    {
+        If HasTrait Sound of Heart
+        {
+            GainPower 1500
+        }
+    }
+}
+Text Cont: If this card is in the center stage, all your «Sound of Heart» characters get +1500 power.
+EndCard
+
+Character: YHN/W111-084
+Name Sounds of Overlapping Hearts, Riko
+JPName 重なる心の音 リコ
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sound of Heart
+Combo Because We're Loners, We Can Understand Each Other
+*Healer
+Auto: OnEndOfAttack
+{
+    If Climax Because We're Loners, We Can Understand Each Other
+    {
+        PayCost 1
+        {
+            TargetTop Deck 1
+            Reveal
+            IfTarget IsCharacter && HasTrait Sound of Heart
+            {
+                TargetSelf
+                Stand
+            }
+        }
+    }
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(1)] This ability activates up to once per turn. At the end of this card's attack, if "Because We're Loners, We Can Understand Each Other" is in your climax area, you may pay the cost. If you do, reveal the top card of your deck. If that card is a «Sound of Heart» character, stand this card.
+EndCard
+
+Character: YHN/W111-085
+Name Inquisitive Mind, Riko
+JPName 探究心旺盛 リコ
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+*500Assist
+*SacrificeToSave(HasTrait Sound of Heart)
+Text Auto: [Put this card in the waiting room] When your other «Sound of Heart» character is placed from the stage to the waiting room, if this card is in the backstage, you may pay the cost. If you do, put that character rest in the position that card was in.
+EndCard
+
+Character: YHN/W111-086
+Name Similar People, Riko
+JPName 似た者同士 リコ
+Color B
+Level 1
+Cost 0
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Text Cont: When you pay for the cost of "Similar People, Yohane" in your hand, you may put a marker from underneath this card in the waiting room instead of 1 stock.
+Auto: OnPlay
+{
+    PayCost Resonate Similar People, Yohane
+    {
+        TargetTop Deck 1
+        Marker_FaceUp
+    }
+}
+Text Auto: RESONATE [Reveal a "Similar People, Yohane" from your hand] When this card is placed from hand to stage, you may pay the cost. If you do, place the top card of your deck face up underneath this card as a marker.
+Act: SendSelf WaitingRoom
+{
+    TargetLocation Stage
+    NarrowTargets NameEquals Similar People, Yohane
+    ChooseCharacterFromTargets Choose a character to give +1500 power and the effect.
+    GainPower 1500
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            SearchWaitingRoom IsCharacter && HasTrait Sound of Heart
+        }
+        Text Auto: When this card's battle opponent becomes reverse, choose a «Sound of Heart» character in your waiting room and return it to hand.
+    }
+}
+Text Act: [Put this card in the waiting room] Choose 1 of your "Similar People, Yohane" and that character gets +1500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, choose a «Sound of Heart» character in your waiting room and return it to hand."
+EndCard
+
+Character: YHN/W111-087
+Name Secret That No One Knows, Chika
+JPName 誰も知らない秘密 チカ
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+*OnPlayGivePower(1500,Sound of Heart)
+*OnAttackGivePower(1500,Sound of Heart)
+EndCard
+
+Character: YHN/W111-088
+Name Bright Look, Chika
+JPName 明るい表情 チカ
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnUseThisCardsBackup
+{
+    PayCost 2 Send 1 WaitingRoom Any
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && EarlyPlay
+        If HasTarget
+        {
+            ChooseCharacterFromTargets choose 1 of your opponent's characters whose level is higher than your opponent's level and put it in waiting room.
+            MoveCard WaitingRoom
+        }
+    }
+}
+Text Auto: [(2) Put 1 character from your stage in the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent and put it in the waiting room.
+Backup 2500
+EndCard
+
+Character: YHN/W111-089
+Name Hearts Connecting, Friendship Beginning, Riko
+JPName 繋がる心、始まる友情 リコ
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Combo Glimpse of Harmony
+Trait1 Sound of Heart
+*GlobalPower(1000,Sound of Heart)
+Auto: OnSpecificClimaxPlay Glimpse of Harmony
+{
+    If InLocation Backstage
+    {
+        TargetLocation Stage
+        NarrowTargets NameEquals Hearts Connecting, Friendship Beginning, Yohane
+        ChooseCharacterFromTargets Choose a character to give +1000 power and the effect.
+        GainPower 1000
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                PayCost Rest 1 Any
+                {
+                    GainSpecialEffect AdditionalTrigger
+                    GainSpecialEffect AdditionalTrigger
+                }
+            }
+            Text Auto: [Rest 1 of your standing character] When this card attacks, you may pay the cost. If you do, perform trigger check 3 times during this card's trigger step.
+        }
+    }
+}
+Text Auto: CxCombo When "Glimpse of Harmony" is placed in your climax area, if this card is in your backstage, choose 1 of your "Hearts Connecting, Friendship Beginning, Yohane" and that character gets +1000 power and the following ability until end of turn. "Auto: [Rest 1 of your character] When this card attacks, you may pay the cost. If you do, perform trigger check 3 times during this card's trigger step."
+Act: Discard 2 Any &&& RestSelf
+{
+    Peek Deck 6
+    Message Choose 3 cards to put into your waiting room
+    ChooseCardsFromTargets 3 3 Any
+    MoveCard WaitingRoom
+    TargetLocation ScryArea
+    SetXValue TargetCount
+    MoveCard Deck
+    TargetTop Deck X
+    Message Select order to return cards, (first on top)
+    Reorder
+}
+Text Act: [Put 2 cards from your hand to the waiting room, rest this card] Look at up to the top 6 cards of your deck, choose 3 cards among them, put them in the waiting room, and put the rest on top of your deck in any order.
+EndCard
+
+Character: YHN/W111-090
+Name Friendly Girl, Chika
+JPName フレンドリーな女の子 チカ
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+*OnPlayFlicker
+*OnPlayGiveOtherPower(2000,Sound of Heart)
+EndCard
+
+Character: YHN/W111-091
+Name Mascot Girl of the Inn, Chika
+JPName 旅館の看板娘 チカ
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    MillUpTo Deck 2
+}
+Text Auto: When this card is placed on the stage from your hand, put up to 2 cards from the top of your deck to the waiting room.
+*OnPlayTradeClimaxForCharacter(Sound of Heart)
+EndCard
+
+Character: YHN/W111-092
+Name Cannot Be Obedient, Riko
+JPName 素直になれない リコ
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost HandClock Any
+    {
+        TargetLocation Stage
+		NarrowTargets Other && HasTrait Sound of Heart
+		SetXToNumberOfCharacters
+		Peek Deck X
+        Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: [Put 1 card from your hand in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at to up to X cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room. X equals the number of your other «Sound of Heart» characters.
+EndCard
+
+Character: YHN/W111-093
+Name Inn's Poster Girl, Mito
+JPName 旅館の看板娘 ミト
+Color B
+Level 1
+Cost 0
+Power 1000
+Soul 2
+Trait1 Sound of Heart
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets NameContains チカ
+    ChooseCharacterFromTargets Choose a character to give +1500 power, +1 soul and the effect.
+    UntilEndOfOpponentsTurn
+    GainPower 1500
+    UntilEndOfOpponentsTurn
+    GainSoul 1
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        *HandEncore
+    }
+}
+Text Auto: When this card attacks, choose 1 of your characters with "Chika" in its card name, and that character gets +1500 power, +1 soul and the following ability until end of your opponent's turn "Auto: ENCORE [Put 1 character from hand to the waiting room]".
+Auto: OnDamageCanceled
+{
+    PayCost 1
+    {
+        DrawCard
+        Discard 1 Any
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen && Compare ThatCardsLevel 1 OrLess
+        ChooseCharacterFromTargets Choose a character to put into waiting room.
+        MoveCard OpponentWaitingRoom
+    }
+}
+Text Auto: [(1)] When this card's damage is canceled, you may pay the cost. If you do, draw a card, put 1 card from your hand into waiting room, choose 1 of your opponent's center stage characters whose level is 1 or lower, and put it into waiting room.
+EndCard
+
+Character: YHN/W111-094
+Name Inn's Poster Girl, Shima
+JPName 旅館の看板娘 シマ
+Color B
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 NameContains チカ
+    If HasTarget
+    {
+        RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+        Discard 1 Any
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to the top 3 cards of your deck, choose up to 1 character with "Chika" in its card name among them, reveal it, put it in your hand, put the rest into waiting room. If you put a card in your hand this way, put 1 card from your hand into waiting room.
+*BlueCost0Bomb
+EndCard
+
+Character: YHN/W111-095
+Name Hearts Connecting, Friendship Beginning, Chika
+JPName 繋がる心、始まる友情 チカ
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+*GainPowerForEachOther(500,Sound of Heart)
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: YHN/W111-096
+Name Zoologist, Riko
+JPName 動物学者 リコ
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnClimaxPlay
+{
+    GainPower 2500
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            Question Put this card in your memory?
+            If Yes
+            {
+                TargetSelf
+                MoveCard Memory
+                ScheduleEffectForTargets StartDrawPhase
+                {
+                    Effect:
+                    {
+                        If InLocation Memory
+                        {
+                            PlaceOnStage False True True False
+                            GainPower 3500
+                        }
+                    }
+                    Text Put this card onto your stage
+                }
+            }
+        }
+        Text Auto: When this card's battle opponent becomes reverse, you may put this card into memory. If you do, at the beginning of your next draw phase, choose a 'Zoologist, Riko' in your memory and place it to any position on your stage.
+    }
+}
+Quick
+Text Auto: When a climax is placed to your climax area, this card gets +2500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may put this card into memory. If you do, at the beginning of your next draw phase, choose a 'Zoologist, Riko' in your memory and place it to any position on your stage."
+EndCard
+
+Event: YHN/W111-097
+Name Brilliant Sword Under the Moonlit Night
+JPName 月夜の元、華麗な助太刀
+Color B
+Level 3
+Cost 2
+Counter
+Effect:
+{
+    If StageContains 5 HasTrait Sound of Heart
+    {
+        *OptionalHeal
+        *OptionalHeal
+        *GiveCharacterPower(2500,Sound of Heart)
+    }
+    TargetSelf
+    MoveCard Memory
+}
+Text Counter: If the number of «Sound of Heart» characters you have is 5 or more, put up to 2 cards from the top of your clock to your waiting room, choose 1 of your «Sound of Heart» characters, and that character gets +1500 power. Put this card into memory.
+EndCard
+
+Climax: YHN/W111-098
+Name Justogun
+JPName パップガン
+*GateClimax
+EndCard
+
+Climax: YHN/W111-099
+Name Because We're Loners, We Can Understand Each Other
+JPName ひとりぼっちだから分かり合えた心
+*GateClimax
+EndCard
+
+Climax: YHN/W111-100
+Name Glimpse of Harmony
+JPName ひとみしりのハーモニー
+*BookClimax
+EndCard
+
+Character: YHN/W111-101
+Name Chibi Kanan
+JPName ちびカナン
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+*RestGivePower(2500,Any)
+EndCard
+
+Character: YHN/W111-102
+Name Chibi You
+JPName ちびヨウ
+Color Y
+Level 2
+Cost 1
+Power 3500
+Soul 1
+Trigger Soul
+Trait1 Sound of Heart
+*OnAttackGivePower(5000,Any)
+EndCard
+
+Character: YHN/W111-103
+Name Chibi Lailaps
+JPName ちびライラプス
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+*OnPlayGainPower(3000)
+EndCard
+
+Character: YHN/W111-104
+Name Chibi Mari
+JPName ちびマリ
+Color G
+Level 1
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnUseThisCardsBackup
+{
+    PayCost 2
+    {
+        SearchDeck IsCharacter && HasTrait Sound of Heart
+    }
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, search your deck for up to 1 «Sound of Heart» character, reveal it, add it to your hand and shuffle your deck.
+Backup 1000
+EndCard
+
+Character: YHN/W111-105
+Name Chibi Yohane
+JPName ちびヨハネ
+Color G
+Level 2
+Cost 2
+Power 1000
+Soul 1
+Trigger Soul
+Trait1 Sound of Heart
+Backup 5500
+EndCard
+
+Character: YHN/W111-106
+Name Chibi Hanamaru
+JPName ちびハナマル
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnAttack
+{
+    If StageContains 2 Other && HasTrait Sound of Heart
+    {
+        PayCost 2
+        {
+            GainPower 1000
+            GainSoul 2
+        }
+    }
+}
+Text Auto: [(2)] When this card attacks, if the number of other «Sound of Heart» characters you have is 2 or more, you may pay the cost. If you do, this card gets +1000 power and +2 soul until end of turn.
+EndCard
+
+Character: YHN/W111-107
+Name Chibi Dia
+JPName ちびダイヤ
+Color R
+Level 1
+Cost 0
+Power 6500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    UntilEndOfOpponentsTurn
+    GainPower 1000
+}
+Text Auto: When this card placed on the stage from your hand, choose 1 of your opponent's character and that character gets +1000 power until end of your opponent's turn.
+EndCard
+
+Character: YHN/W111-108
+Name Chibi Ruby
+JPName ちびルビィ
+Color R
+Level 2
+Cost 1
+Power 7000
+Soul 1
+Trigger Soul
+Trait1 Sound of Heart
+*OnAttackGainPowerForEachOther(1000,Sound of Heart)
+Auto: OnReverseOpponent
+{
+    *GiveCharacterPower(2000,Sound of Heart)
+}
+Text Auto: When this card's battle opponent becomes reverse, choose 1 of your «Sound of Heart» character and that character gets +2000 power until end of turn.
+EndCard
+
+Character: YHN/W111-109
+Name Chibi Riko
+JPName ちびリコ
+Color B
+Level 1
+Cost 0
+Power 7500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost 2
+    {
+        Refresh
+    }
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: YHN/W111-110
+Name Chibi Chika
+JPName ちびチカ
+Color B
+Level 1
+Cost 1
+Power 4500
+Soul 1
+Trigger Soul
+Trait1 Sound of Heart
+*EarlyPlayMemoryBomb
+EndCard
+
+Character: YHN/W111-P01
+Name Ever-Changing Future, Yohane
+JPName 	変わり続ける未来 ヨハネ
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+	Question Put a card from your hand into your stock?
+	If Yes
+	{
+		SearchLocationForTargets Hand 0 1 Any
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	SetXValue TargetCardsLevel
+	TargetLocation OpponentClock
+	If HasTarget
+	{
+		TargetBattleOpponent
+		IfThatCard Compare ThatCardsLevel X OrLess && OnStage
+		{
+			Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+			If Yes
+			{
+				TargetTop OpponentClock 1
+				MoveCard OpponentWaitingRoom
+				TargetBattleOpponent
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed, reveal the top card of your deck. If this card's battle opponent is level X or lower, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into your opponent's clock. X is equal to the level of the revealed card.
+EndCard
+
+Character: YHN/W111-P07
+Name A Future Big Star?, Yohane
+JPName 未来の大スター？ ヨハネ
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 0 OrLess && IsCharacter && HasTrait Adolescence
+        PlaceOnStage false true true false
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a level 0 or lower «Sound of Heart» character in your waiting room and put it in any position on your stage.
+*GainPowerWhenOtherAttacks(1500,Sound of Heart)
+EndCard
+
+Character: YHN/W111-P12
+Name Kiminotame Bokunotame
+JPName キミノタメボクノタメ
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    Mill 3
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into waiting room.
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        SearchWaitingRoom IsCharacter && HasTrait Sound of Heart
+        *GiveOtherCharacterPower(1000,Sound of Heart)
+    }
+}
+Text Auto: [(1) Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a «Sound of Heart» character in your waiting room, return it to your hand, choose 1 of your other «Sound of Heart» character and that character gets +1000 power until end of turn.
+EndCard
+
+Character: YHN/W111-P15
+Name Two Friends From Childhood, Yohane
+JPName 幼き日の二人 ヨハネ
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sound of Heart
+*GainPowerForEachOther(500,Sound of Heart)
+EndCard
+
+Character: YHN/W111-P16
+Name Two Friends From Childhood, Lailaps
+JPName 幼き日の二人 ライラプス
+Color G
+Level 2
+Cost 1
+Power 2500
+Soul 1
+Trigger Soul
+Trait1 Sound of Heart
+Act: 1 RestSelf
+{
+    *CheckAndAdd(3)
+}
+Text Act: [(1) Rest this card] Look at up to the top 3 cards of your deck, choose up to 1 card among them, add it to your hand and put the rest into the waiting room.
+EndCard
+
+Character: YHN/W111-P17
+Name Live Today, Yohane
+JPName 今日を生きる。 ヨハネ
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnClimaxPlay
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +2500 power.
+    UntilEndOfOpponentsTurn
+    GainPower 2500
+}
+Text Auto: When a climax is placed in you climax area, choose one of your characters, it gets +2500 power until end of your opponent's turn.
+EndCard
+
+Character: YHN/W111-P18
+Name Watching Over Today, Lailaps
+JPName 今日を見守る。 ライラプス
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sound of Heart
+*CannotSideAttack
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: YHN/W111-T01
+Name At Work, Hanamaru
+JPName お仕事中 ハナマル
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    Message you may choose a card in your clock and return it to your hand.
+    SearchLocationForTargets Clock 0 1 Any
+    If HasTarget
+    {
+        RevealTargets
+        MoveCard Hand
+        Message Put a card from your hand in your clock.
+        SearchLocationForTargets Hand 1 1 Any
+        MoveCard Clock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your clock and return it to your hand. If you do, put a card from your hand in your clock.
+Act: 1 SendSelf WaitingRoom
+{
+    *Check4Add1(Sound of Heart)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: YHN/W111-T02
+Name Interesting Incident, Dia
+JPName 気になる事件 ダイヤ
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+*PowerOnMyTurn(2000)
+Auto: StartClimaxPhase
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            TargetLocation OpponentClock
+            If HasTarget
+            {
+                TargetBattleOpponent
+                IfTarget OnStage
+                {
+                    Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+                    If Yes
+                    {
+                        TargetTop OpponentClock 1
+                        MoveCard OpponentWaitingRoom
+                        TargetBattleOpponent
+                        MoveCard OpponentClock
+                    }
+                }
+            }
+        }
+        Text Auto: When this card's battle opponent becomes reverse, you may put the top card of your opponent's clock to their waiting room. If you do, that character is placed to their clock.
+    }
+}
+Alarm
+Text Auto: ALARM When this card is on the top of your clock, at the beginning of your climax phase, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may put the top card of your opponent's clock to their waiting room. If you do, that character is placed to their clock."
+EndCard
+
+Character: YHN/W111-T03
+Name Eavesdropping, Ruby
+JPName 盗み聞き ルビィ
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnAttack
+{
+    PayCost Discard 1 Any
+    {
+        GainSpecialEffect DoubleTrigger
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, perform the trigger check twice during this attack.
+Auto: OnDamageCanceled
+{
+    Question Return this card to your hand ?
+    If Yes
+    {
+        MoveCard Hand
+    }
+}
+Text Auto: When damage dealt by this card is canceled, you may return this card to your hand.
+EndCard
+
+Character: YHN/W111-T04
+Name Special Magic, Yohane
+JPName 特別な魔法 ヨハネ
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    PayCost ShuffleFromWaitingRoom 2 IsCharacter
+    {
+        GainSpecialEffect FreeSideAttack
+    }
+}
+Text Auto: [Return 2 characters from your waiting room to your deck, shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this character's soul does not decrease by side attacking until end of turn.
+*ClimaxExchange
+EndCard
+
+Character: YHN/W111-T05
+Name Those Who Know Numazu's History, Mari
+JPName ヌマヅの歴史を知る者 マリ
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Sound of Heart» character, this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget Compare ThatCardsLevel 2 OrMore && IsCharacter
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, if you have another «Sound of Heart» character, reveal the top card of your deck. if it's a level 2 or higher character, put it in your hand.
+EndCard
+
+Character: YHN/W111-T06
+Name Million Dollar Member, Chika
+JPName ミリオンダラーの一員 チカ
+Color G
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sound of Heart
+*OnAttackGivePower(2500,Any)
+EndCard
+
+Character: YHN/W111-T07
+Name Happy Remark, Lailaps
+JPName うれしい発言 ライラプス
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    If Compare MyLevel 2 OrMore
+    {
+        GainEffect
+        {
+            Act: 1 Discard 1 Any &&& SendSelf WaitingRoom
+            {
+                SearchLocationForTargets Hand 0 1 NameEquals Uneven Sisters, Yohane & Lailaps
+                If HasTarget
+                {
+                    Change
+                }
+            }
+        }
+    }
+}
+Text Cont: If you are level 2 or higher, this card gets the following ability. "Act: [(1) Put 1 card from your hand into waiting room, put this card into waiting room] Choose up to 1 'Uneven Sisters, Yohane & Lailaps' from your hand and put it in the position this card was in."
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 Any
+    {
+        *Check4Add1Level1OrHigher
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 «Sound of Heart» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: YHN/W111-T08
+Name Smile Like Summer in Full Bloom, You
+JPName 夏に咲く満開の笑顔 ヨウ
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Sound of Heart
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you have another «Sound of Heart» character, this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+    If StageContains 1 Other && HasTrait Sound of Heart
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget Compare ThatCardsLevel 2 OrMore && IsCharacter
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, if you have another «Sound of Heart» character, reveal the top card of your deck. if it's a level 2 or higher character, put it in your hand.
+EndCard
+
+Character: YHN/W111-T09
+Name Treasure Collection, Kanan
+JPName お宝集め カナン
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Sound of Heart
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If all your characters are «Sound of Heart», this card gets +1000 power.
+Auto: OnAttack
+{
+    PayCost Send 1 WaitingRoom Other && HasTrait Sound of Heart
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget IsCharacter && HasTrait Sound of Heart
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: [Put 1 of your other «Sound of Heart» character from the stage in the waiting room] When this card attacks, you may pay the cost. If you do, reveal the top card of your deck. If it's a «Sound of Heart» character, put it in your hand.
+EndCard
+
+Character: YHN/W111-T10
+Name Sudden Excitement, Riko
+JPName 突然のときめき リコ
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnUseThisCardsBackup
+{
+    If LocationContains OpponentClimax 1 Any
+    {
+        TargetMyCharacterInBattle
+        IfTarget HasTrait Sound of Heart
+        {
+            GainPower 2000
+        }
+    }
+}
+Text Auto: When you use this card's "BACKUP", if there's a climax in your opponent's climax area, choose 1 of your «Sound of Heart» characters in battle, and that character gets +2000 power until end of turn.
+Backup 2500
+EndCard
+
+Event: YHN/W111-T11
+Name Magic Wand
+JPName 魔法の杖
+Color G
+Level 2
+Cost 1
+Counter
+Requirement StageContains 1 HasTrait Sound of Heart
+Effect:
+{
+	ForcePayCost Discard 1 IsClimax
+	{
+		TargetBattleOpponent
+		NarrowTargets CanBeChosen
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotDealDamage
+			}
+			Text Cont: This card cannot deal damage to players.
+		}
+	}
+}
+Text Counter: If you do not have a «Sound of Heart» character, this card cannot be played from hand.\nYou may choose a climax from your hand and place it in the waiting room. If you do, choose a character in battle, and until end of turn that character gets the following ability. "Cont: This card cannot deal damage to players".
+EndCard
+
+Climax: YHN/W111-T12
+Name Slipping into the Sea of Memories
+JPName 記憶の海にただ沈む
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+    *PutCardFromWaitingRoomIntoStock(Compare ThatCardsLevel 1 OrLess && IsCharacter)
+    TargetLocation Stage
+    GainSoul 1
+}
+Text Auto: When this is placed in your climax area, choose up to 1 level 1 or lower character in your waiting room and put it into your stock, and all your characters get +1 soul for the turn.
+EndCard
+
+Character: YHN/W111-T13
+Name Smile Like Summer in Full Bloom, Kanan
+JPName 夏に咲く満開の笑顔 カナン
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sound of Heart
+Auto: OnClimaxPlay
+{
+    TargetTop Deck 2
+    If Compare TargetCount 2 OrMore
+    {
+        Reorder
+    }
+    Else
+    {
+        View
+    }
+}
+Text Auto: When your climax is placed on your climax area, look at up to 2 cards from the top of your deck and put them on top of the deck in any order.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: YHN/W111-T14
+Name Having Fun at Work, Chika
+JPName 楽しいお仕事 チカ
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    TargetLocation OpponentStage
+    SetXValue TargetCount
+    MultiplyXValue 1000
+    TargetSelf
+    GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X equals 1000 times the number of your opponent's characters.
+*OnPlayTradeClimaxForCharacter(Sound of Heart)
+EndCard
+
+Character: YHN/W111-T15
+Name Consultation About Concerns, You
+JPName お悩み相談 ヨウ
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 Any
+    {
+        *Check4Add1Level1OrHigher
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: YHN/W111-T16
+Name Open Heart, Riko
+JPName 開いた心 リコ
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sound of Heart
+*OnPlayGainPower(1500)
+*DropSearch(Sound of Heart)
+EndCard
+
+Character: YHN/W111-T17
+Name Secret Fairy, Ruby
+JPName 秘密の妖精 ルビィ
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sound of Heart
+*GainPowerWithEnoughCharacters(2000,2,Sound of Heart)
+Auto: Encore SendFromWaitingRoomToBottom 1 Clock IsCharacter && HasTrait Sound of Heart
+{
+}
+Text Auto: ENCORE [Put a «Sound of Heart» character from your waiting room on the bottom of your clock]
+EndCard
+
+Character: YHN/W111-T18
+Name Let's Go!, Dia
+JPName いざ出動！ ダイヤ
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Sound of Heart
+*1000Assist
+Auto: StartClimaxPhase
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom IsCharacter && HasTrait Sound of Heart
+    }
+}
+Alarm
+Text Auto: ALARM [Put 1 card from your hand to the waiting room] If this card is on top of your clock, at the beginning of your climax phase, you may pay the cost. If you do, choose a «Sound of Heart» character in your waiting room and return it to your hand.
+EndCard
+
+Character: YHN/W111-T19
+Name Lonely Look, Mari
+JPName さみし気な表情 マリ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Sound of Heart
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Sound of Heart
+    MultiplyXValue 2500
+    GainPower X
+}
+Text Cont: This card gets +2500 power for each of your other «Sound of Heart» characters in your backstage.
+EndCard
+
+Character: YHN/W111-T20
+Name Uneven Sisters, Yohane & Lailaps
+JPName 凸凹姉妹 ヨハネ＆ライラプス
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Sound of Heart
+Combo We Will Always Be Together
+*OnPlayDraw2Discard2BlindStock
+Auto: OnOtherAttacks
+{
+    IfOther NameEquals Joy of Meeting Friends, Yohane
+    {
+        If Climax We Will Always Be Together && InLocation CenterStage && LocationContainsOrLess Hand 6 Any
+        {
+            PayCost 2 Discard 1 IsCharacter && HasTrait Sound of Heart
+            {
+                Burn 3
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(2) Put a «Sound of Heart» character from hand to the waiting room] When your other "Joy of Meeting Friends, Yohane" attacks, if "We Will Always Be Together" is in your climax area, this card is in the center stage, and you have 6 or less cards in your hand, you may pay the cost. If you do, deal 3 damage to your opponent.
+EndCard
+
+Character: YHN/W111-T21
+Name Courage I Got From Singing, Hanamaru
+JPName 歌から貰った勇気 ハナマル
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Sound of Heart
+Auto: OnPlay
+{
+    TargetTop Deck 3
+    If Compare TargetCount 2 OrMore
+    {
+        Reorder
+    }
+    Else
+    {
+        View
+    }
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets_Optional Choose up to 1 character to return to hand.
+    Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to the top 3 cards of your deck, put them on top of your deck in any order, choose up to 1 of your opponent's characters and return that character to their hand.
+Auto: OnAttack
+{
+    If StageContains 2 Other && HasTrait Sound of Heart
+    {
+        *GiveCharacterPower(2000,Any)
+    }
+}
+Text Auto: When this card attacks, if the number of other «Sound of Heart» characters you have is 2 or more, choose 1 of your characters and that character gets +2000 power until end of turn.
+EndCard
+
+Character: YHN/W111-T22
+Name Joy of Meeting Friends, Yohane
+JPName 仲間と出会えた喜び ヨハネ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sound of Heart
+Combo We Will Always Be Together
+Auto: OnPlay|PlacedBy Joy of Meeting Friends, Yohane
+{
+    *OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or placed by the effect of the CxCombo of "Joy of Meeting Friends, Yohane" to the stage, you may put the top card of your clock in the waiting room.
+Auto: OnSpecificClimaxPlay We Will Always Be Together
+{
+    If Compare MyLevel 2 OrMore && StageContains 1 NameEquals Joy of Meeting Friends, Yohane
+    {
+        PayCost 1 Discard 1 IsCharacter && HasTrait Sound of Heart
+        {
+            PlaceOnStage false true true false
+        }
+    }
+}
+InWaitingRoom
+Text Auto: CxCombo [(1) Put a «Sound of Heart» character from hand to the waiting room] If this card is in your waiting room, when "We Will Always Be Together" is placed to your climax area, if you are level 2 or higher, and you have "Uneven Sisters, Yohane & Lailaps", you may pay the cost. If you do, place this card to any position on your stage.
+EndCard
+
+Climax: YHN/W111-T23
+Name We Will Always Be Together
+JPName これからもずっと一緒
+*DoorClimax
+EndCard
+

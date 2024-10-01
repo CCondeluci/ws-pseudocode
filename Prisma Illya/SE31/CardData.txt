@@ -1,0 +1,1151 @@
+Character: PI/SE31-01
+Name "Slumber Party" Miyu
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Magic
+Combo Friends Who Laugh Together
+Auto: OnAttack
+{
+	If Climax Friends Who Laugh Together
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			*OptionalBlindStock
+			TargetLocation Stage
+			NarrowTargets Other
+			ChooseCharacterFromTargets Choose a character to gain the ability
+			GainEffect
+			{
+				Auto: OnOpponentReverse
+				{
+					SearchWaitingRoom IsCharacter
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Friends Who Laugh Together" from your climax area into your waiting room] When this card attacks, you may pay the cost. If you do, put up to one card from top of your deck into your stock, choose one of your other characters, and that character gains the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand."
+EndCard
+
+Character: PI/SE31-02
+Name "Chains of Fate" Miyu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Master
+Trait2 Magic
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && Other && HasTrait Magic || Other && IsColor Green
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each of your other <Magic> or GREEN characters in your center stage, this card gains +1000 power.
+*Healer
+EndCard
+
+Character: PI/SE31-03
+Name "Duty as a Big Brother" Shirou
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Weapon
+Combo Last-Ditch Effort
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 3 OrLess
+		ChooseCharacterFromTargets Choose a character to send to your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [Discard a card from your hand into your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a level 3 or lower character in your opponent's center stage, and put it into their waiting room.
+Auto: OnDamageCancel
+{
+	If Climax Last-Ditch Effort
+	{
+		PayCost 1 SendFromHand 1 Revealed NameContains Kuro
+		{
+			TargetSentToPayCost
+			SetXValue TargetCardsSoul
+			Burn X
+			TargetSentToPayCost
+			MoveCard Hand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo RESONATE [(1) Reveal a character with "Kuro" in its name from your hand] This ability activates up to once per turn. When the damage dealt by this card is cancelled, if "Last-Ditch Effort" is in your climax area, you may pay the cost. If you do, deal X damage to your opponent. X is equal to the soul of the character revealed.
+EndCard
+
+Character: PI/SE31-04
+Name "Install" Angelica
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Weapon
+Trait2 Doll
+Combo Gate of Babylon
+Cont: GiveSelf
+{
+	GainSpecialEffect NoEventsOnAttack
+}
+Text Cont: During battles involving this card, your opponent cannot play event cards from hand.
+Auto: OnPlay
+{
+	Question Swap two of your opponent's characters?
+	If Yes
+	{
+		*Exchange2OfOpponentsCharacters
+	}
+}
+Text Auto: When this card is placed on stage from hand, you may choose 2 of your opponent's characters, then stand and swap them.
+Auto: OnAttack
+{
+	If Climax Gate of Babylon
+	{
+		Mill 2
+		*CountSoulTriggers
+		Repeat X
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Gate of Babylon" is in your climax area, put the top 2 cards of your deck into your waiting room. For each soul trigger icon those cards have, perform the following action. "Deal one damage to your opponent."
+EndCard
+
+Character: PI/SE31-05
+Name "Kigurumi Pajama" Miyu
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Magic
+Cont: Assist
+{
+	If MyTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: ASSIST During your turn, all of your characters in fron tof this card gain +500 power.
+*Act1Rest2SalvageBrainstorm(Any)
+EndCard
+
+Character: PI/SE31-06
+Name "Waking Up" Illya & Tanaka
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Hungry
+Cont: GiveSelf
+{
+	If OpponentsTurn && AllYourCharacters HasTrait Magic|Hungry
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: During your opponent's turn, if all of your characters are either <Magic> or <Hungry>, this card gains +1 level and +1500 power.
+EndCard
+
+Character: PI/SE31-07
+Name "Doll" Angelica
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Weapon
+Trait2 Doll
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 NameEquals "Half-Serious" Beatrice
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have another "Half-Serious" Beatrice, this card gains +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsColor Green && IsCharacter || HasTrait Doll
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "Half-Serious" Beatrice
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard a GREEN or <Doll> character from your hand into your waiting room.] When this card is placed on stage from hand you may pay the cost. If you do, choose a '"Half-Serious" Beatrice' in your waiting room and place it on any position on your stage.
+EndCard
+
+Character: PI/SE31-08
+Name "Mjolnir" Beatrice
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Weapon
+Trait2 Doll
+Cont: GiveSelf
+{
+	If AllYourCharacters IsColor Green || HasTrait Doll
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are either GREEN or <Doll>, this card gains +2000 power until end of turn.
+*OnPlayDraw2Discard2BlindStock
+EndCard
+
+Character: PI/SE31-09
+Name "Loves Julian" Beatrice
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Weapon
+Trait2 Doll
+Auto: OnPlay
+{
+	PayCost SendFromWaitingRoom 2 Deck HasTrait <Doll>
+	{
+		ShuffleLocation Deck
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1 soul
+		GainSoul 1
+	}
+}
+Text Auto: [Choose two <Doll> characters in your waiting room and return them to your deck, and shuffle your deck] When this is card is placed on stage from your hand, you may pay the cost. If you do, choose one of your characters, and that character gains +1 soul until end of turn.
+*GreenLevel0Bomb
+EndCard
+
+Character: PI/SE31-10
+Name "Warm-Up Exercises" Miyu
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Magic
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Magic || IsColor Green
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this gets +X power until end of turn. X is 500 times the number of <Magic> or GREEN characters you have.
+EndCard
+
+Character: PI/SE31-11
+Name Sakura Matou?
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Mystery
+Trait2 Doll
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Doll || Other && IsColor Green
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: This card gets +500 power for each of your other <Doll> or GREEN characters.
+*ClockEncore
+EndCard
+
+Character: PI/SE31-12
+Name "Half-Serious" Beatrice
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Weapon
+Trait2 Doll
+Combo Super Bishoujo Dolls
+Cont: InHand
+{
+	If StageContains 4 HasTrait Doll || IsColor Green
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of <Doll> or GREEN characters you have is 4 or more, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 4000
+	GainPower X
+}
+Text Cont: For each marker under this card, this card gains +4000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Super Bishoujo Dolls
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Doll
+		Marker_FaceDown
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Super Bishoujo Dolls" is in your climax area, you may choose a <Doll> character in your waiting room and put it face-down under this card as a marker. 
+EndCard
+
+Character: PI/SE31-13
+Name "True Face Under the Mask" Julian
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Noble Phantasm
+Auto: OnPlay|PlacedBy "Going Out Wearing Insufficient Amount of Clothes" Darius
+{
+	If LocationContains WaitingRoom 6 NameEquals Mud Holy Spirit
+	{
+		Refresh
+		*OptionalDraw
+	}
+}
+Text Auto: When this card is placed on stage from hand or via the effect of ""Going Out Wearing Insufficient Amount of Clothes" Darius", if there are six or more "Mud Holy Spirit" in your waiting room, return all cards in your waiting room to your deck. If you do, shuffle your deck and draw up to one card.
+EndCard
+
+Character: PI/SE31-14
+Name "Twisted Girl" Erika
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Doll
+*500Assist
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets Deck 0 2 NameEquals Mud Holy Spirit
+	PlaceOnStage False True True False
+	ShuffleLocation Deck
+}
+Text Act: [(1) Send this card to your waiting room] Search your deck for up to two "Mud Holy Spirit" and put them on seperate positions on your stage.
+EndCard
+
+Character: PI/SE31-15
+Name Mud Holy Spirit
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Weapon
+Trait2 Noble Phantasm
+Army
+*HandEncore
+EndCard
+
+Character: PI/SE31-16
+Name Tanaka
+Color G
+Level 1
+Cost 0
+Power 1000
+Trait1 Hungry
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	GainEffect
+	{
+		Auto: OnSentFromStageToWaitingRoom
+		{
+			Revive
+		}
+		Text Auto: When this card is put into your waiting room from the stae, return it to its previous position rested.
+	}
+	TargetBattleOpponent
+	GainEffect
+	{
+		Auto: OnSentFromStageToWaitingRoom
+		{
+			Revive
+		}
+		Text Auto: When this card is put into your waiting room from the stage, return it to its previous position rested.
+	}
+}
+Text Auto: When you use this card's BACKUP, all of the battling characters gain the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage return it to its previous position rested"
+Backup 0
+EndCard
+
+Character: PI/SE31-17
+Name "Going Out Wearing Insufficient Amount of Clothes" Darius
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Noble Phantasm
+Auto: OnOtherAttacks
+{
+	IfOther IsColor Green || HasTrait Doll
+	{
+		TargetSelf
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When your other GREEN or <Doll> character attacks, this card gains +1500 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "True Face Under the Mask" Julian
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [(1) Discard a card from your hand to your waiting room] When this card is placed into your waiting room from stage, you may pay the cost. If you do, choose a '"True Face Under the Mask" Julian' in your waiting room and place it rested on any position on your stage.
+EndCard
+
+Character: PI/SE31-18
+Name "Salvation of the World" Angelica
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Weapon
+Trait2 Doll
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters IsColor Green || HasTrait Doll
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's backup, if all of your characters are either GREEN or <Doll>, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: PI/SE31-19
+Name "Japanese Style Pretty Lady" Miyu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Master
+Trait2 Magic
+*CannotSideAttack
+Cont: GiveSelf
+{
+	If AllYourCharacters IsColor Green || HasTrait Magic
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are either GREEN or <Magic>, this card gains +2000 power.
+EndCard
+
+Character: PI/SE31-20
+Name "Fake" Shirou
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Weapon
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Weapon || NameContains Miyu
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters have <Weapon> or have "Miyu" in name, this card gains +2000 power.
+Auto: Encore Discard 1 IsCharacter && HasTrait Weapon || IsCharacter && NameContains Miyu
+{
+}
+Text Auto: ENCORE [Discard a character with either <Weapon> or "Miyu" in name]
+EndCard
+
+Climax: PI/SE31-21
+Name Friends Who Laugh Together
+Color G
+*2K1Climax
+EndCard
+
+Climax: PI/SE31-22
+Name Last-Ditch Effort
+*BarClimax
+EndCard
+
+Climax: PI/SE31-23
+Name Gate of Babylon
+*GreenStockSoul
+EndCard
+
+Climax: PI/SE31-24
+Name Super Bishoujo Dolls
+Color G
+*2K1Climax
+EndCard
+
+Character: PI/SE31-25
+Name "Argent City" Kuro
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 8500
+Trait1 Magic
+Trait2 Weapon
+*Healer
+Auto: OnOpponentReverse
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		TargetSelf
+		Bounce
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may return this card to your hand.
+Auto: OnReversed
+{
+	If StageContains 2 Other && HasTrait Magic|Weapon
+	{
+		TargetBattleOpponent
+		IfThatCard Compare ThatCardsLevel 3 OrLess && OnStage && Not CardPosition Reverse
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+Quick
+Text Auto: When this card becomes reversed in battle, if you have two or more other characters with either <Weapon> or <Magic>, and the level of this card's battle opponent is 3 or lower, you may reverse the battle opponent.
+EndCard
+
+Character: PI/SE31-26
+Name "Doll" Luvia
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Jewel
+Trait2 Doll
+Cont: GiveAll
+{
+	If Other &&& IsColor Green || HasTrait Jewel
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other GREEN or <Jewel> characters gain +500 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Send an opponent's level 0 or lower character to waiting room?
+		If Yes
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 0 OrLess
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is level 2 or higher, you may choose a level 0 or lower character in your opponent's center stage and put it into their waiting room.
+EndCard
+
+Character: PI/SE31-27
+Name "Doll" Rin
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Jewel
+Trait2 Doll
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsCharacter &&& HasTrait Jewel || IsColor Green
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of turn. X is 1000 times the number of GREEN or <Jewel> characters revealed.
+EndCard
+
+Character: PI/SE31-28
+Name "Preparation for Festival" Illya & Kuro
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Trait2 Weapon
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into your waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on stage from hand, you may put the top 3 cards of your deck into your waiting room.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		PeekTop Deck
+		Question Place this card in your waiting room? (Press no to return it to the top)
+		If Yes
+		{
+			MoveCard WaitingRoom
+		}
+		If No
+		{
+			EndPeek Deck
+		}
+		TargetLocation Stage
+		NarrowTargets HasTrait Weapon
+		ChooseCharacterFromTargets Choose a character to gain +2000 power until end of turn.
+		GainPower 2000
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed into your climax area, you may pay the cost. If you do, look at the top card of your deck, put it on the top of your deck or into the waiting room, choose one of your <Weapon> characters, and that character gains +2000 power until end of turn.
+EndCard
+
+Character: PI/SE31-29
+Name "Slumber Party" Kuro
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Weapon
+Combo Coordinated Combo
+Auto: OnSpecificClimaxPlay Coordinated Combo
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Weapon && CardPosition Rest
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Coordinated Combo" is placed into your climax area, if this card is in your center stage, you may pay the cost. If you do, choose one of your other <Weapon> characters and stand it.
+EndCard
+
+Character: PI/SE31-30
+Name "Real Threat" Kuro
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if there is a marker under this card, this card gains +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Weapon|Magic
+	{
+		Question Move that card underneath this card as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If it's a character with either <Weapon> or <Magic>, you may put it face-down under this card as a marker.
+EndCard
+
+Character: PI/SE31-31
+Name "Argent City" Gilgamesh
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Weapon
+Trait2 Royalty
+Combo Gate of Babylon
+*LevelAssist
+Auto: OnClimaxPlay|OnOpponentClimaxPlay
+{
+	IfOther NameEquals Gate of Babylon
+	{
+		TargetLocation Stage
+		ChooseCharactersFromTargets 0 2 Choose up to two characters to gain +1500 power
+		GainPower 1500
+	}
+}
+Text Auto: CxCombo When "Gate of Babylon" is placed to yours or your opponent's climax area, choose up to two of your characters, and those characters gain +1500 power until end of turn.
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1 soul
+	GainSoul 1
+}
+Text Auto: When your character's trigger check reveals a climax, choose one of your characters and that character gains +1 soul until end of turn.
+EndCard
+
+Character: PI/SE31-32
+Name "Kigurumi Pajama" Kuro
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Magic|Weapon
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on stage from hand, if you have four or more other <Weapon> or <Magic> characters, you may put the top card of your deck into your stock.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: PI/SE31-33
+Name "Gofer" Gilgamesh
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Weapon
+Trait2 Royalty
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals "Hades' Cap of Invisibility
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a "Hades' Cap of Invisibility" in your waiting room and return it to your hand.
+Auto: OnSideAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to gain +1500 power
+	GainPower 1500
+}
+Text Auto: When this card side attacks, choose one of your other characters and that character gains +1500 power until end of turn.
+EndCard
+
+Character: PI/SE31-34
+Name "Argent City" Bazett
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Male Dressing
+Trait2 Noble Phantasm
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter &&& HasTrait <Jewel> || NameContains Bazett
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand, you may pay the cost, choose a <Jewel> character or a character that has "Bazett" in name, in your waiting room and return it to your hand.
+EndCard
+
+Character: PI/SE31-35
+Name "Not Enough Defense" Luvia
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Jewel
+Trait2 Heiress
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters CardPosition Reverse
+	MultiplyXValue 1500
+	TargetMyCharacterInBattle
+	GainPower X
+}
+Text Auto: When you use this card's BACKUP, choose one of your characters in battle and that character gains +X power until end of turn. X is equal to 1500 times the number of your reversed characters.
+Backup 0
+EndCard
+
+Character: PI/SE31-36
+Name "Miracle of Jewel Magic" Rin
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Jewel
+*LevelAssistTrait(Jewel)
+Act: 1 RestSelf Discard 1 HasTrait Jewel
+{
+	Heal
+}
+Text Act: [(1) Discard a <Jewel> character from your hand to your waiting room and rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Event: PI/SE31-37
+Name Hades' Cap of Invisibility
+Color R
+Level 3
+Cost 2
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotFrontalAttack
+		}
+		Text Cont: This card cannot front attack
+	}
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			GainSpecialEffect CannotFrontalAttack
+		}
+		Text Cont: The character facing this card cannot front attack.
+	}
+}
+Text Choose one of your characters, and that character gains the following two abilities until the next end of your opponents turn.
+Text Cont: This card cannot frontal attack
+Text Cont: The card facing this card cannot frontal attack.
+EndCard
+
+Climax: PI/SE31-38
+Name Coordinated Combo
+*StandbyClimax
+EndCard
+
+Character: PI/SE31-39
+Name "Adventure in a Parallel World" Illya
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Master
+Trait2 Magic
+Combo The Last Hope
+*GainPowerForEachOther(500,Magic)
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax The Last Hope && HasMarker
+	{
+		PayCost 2 SendFromHand 1 Revealed NameEquals "Waking Up" Illya & Tanaka
+		{
+			TargetSentToPayCost
+			Marker_FaceDown
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2) Reveal a '"Waking Up" Illya & Tanaka' from your hand and put it face-down under this card as a marker] This ability activates up to once per turn. When this card attacks, if "The Last Hope" is in your climax area, and there's a marker under this card, you may pay the cost. If you do, stand this card.
+EndCard
+
+Character: PI/SE31-40
+Name "Complaint Time" Ruby
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+*OnPlayGivePower(1500,Magic|Hungry)
+Act: MarkerSelfUnderOther NameEquals "Adventure in a Parallel World" Illya && Not HasMarker
+{
+	TargetSelf
+	FlipFaceDown
+	SearchWaitingRoom NameEquals "Waking Up" Illya & Tanaka
+}
+Text Act: [Put this card face-down under an '"Adventure in a Parallel World" Illya' with no markers] Choose a '"Waking Up" Illya & Tanaka' in your waiting room and return it to your hand.
+EndCard
+
+Character: PI/SE31-41
+Name "Mind Replacement" Illya
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is a marker under this card, this card gains +2000 power.
+Auto: PlacedBy CHANGE
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals "Deep Cover" Sapphire
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on stage via CHANGE, you may choose a '"Deep Cover" Sapphire' in your waiting room and put it face-down under this card as a marker
+*MillRunner(Magic|Hungry)
+EndCard
+
+Character: PI/SE31-42
+Name "Sapphire Ver." Illya
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 4500
+	}
+}
+Text Cont: If there is a marker under this card, this card gains +4500 power.
+Auto: OnPlay|PlacedBy CHANGE
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals "Deep Cover" Sapphire
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on stage via CHANGE, you may choose a '"Deep Cover" Sapphire' in your waiting room and put it face-down under this card as a marker
+EndCard
+
+Character: PI/SE31-43
+Name "Slumber Party" Illya
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Miyu
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have another character with "Miyu" in it's name, this card gains +1000 power and "Auto: Encore [Discard a character]"
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Magic
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if you have two or more other <Magic> characters, this card gains +2000 power until end of turn.
+EndCard
+
+Character: PI/SE31-44
+Name "Deep Cover" Sapphire
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+*500Assist
+Auto: StartDrawPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "Sapphire Ver." Illya | "Mind Replacement" Illya
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the start of your draw phase, you may pay the cost. If you do, choose either a '"Sapphire Ver." Illya' or a '"Mind Replacement" Illya' in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: PI/SE31-45
+Name "Class Card Saber" Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Master
+Trait2 Magic
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: PI/SE31-46
+Name "Argent City" Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Master
+Trait2 Magic
+*Level3Assist
+*BondDiscard("Chains of Fate" Miyu)
+EndCard
+
+Character: PI/SE31-47
+Name "Kigurumi Pajama" Illya
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Master
+Trait2 Magic
+Auto: OnReversed
+{
+	TargetSelf
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is reversed in battle, put this card on the bottom of your deck.
+Auto: OnReversed
+{
+	BlockEncore
+}
+Text Auto: When this card is reversed in battle, you cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: PI/SE31-48
+Name "Install" Illya
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Master
+Trait2 Magic
+*GainPowerWhenOtherAttacks(1500,Magic|Hungry)
+EndCard
+
+Character: PI/SE31-49
+Name "Class Card Lancer" Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Master
+Trait2 Magic
+*BlueEarlyPlayBomb
+EndCard
+
+Climax: PI/SE31-50
+Name The Last Hope
+*GateClimax
+EndCard
+
+Character: PI/SE31-P01
+Name "Everyone's Happiness" Miyu
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsCharacter &&& HasTrait Magic || IsColor Green
+	}
+}
+Text Auto: [(1) Discard a card from your hand into your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to one character that is either GREEN or <Magic>, reveal it, put it into your hand and shuffle your deck.
+EndCard
+
+Character: PI/SE31-P02
+Name "Everyone's Happiness" Illya
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Master
+Trait2 Magic
+*BondDiscard("Slumber Party" Miyu)
+*BondDiscard("Kigurumi Pajama" Miyu)
+EndCard
+
+Character: PI/SE31-P03
+Name Illya, Oath Under the Snow
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Master
+Trait2 Magic
+Auto: OnPlay
+{
+	If LocationContainsOrLess Deck 5 Any
+	{
+		Refresh
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +3000 power
+		UntilEndOfOpponentsTurn
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if there are 5 or less cards in your deck, return all cards in your waiting room to your deck. If you do, shuffle your deck, choose one of your characters, and that character gains +3000 power until the next end of your opponent's turn.
+Act: 2 Rest 2 Any
+{
+	DrawCard
+}
+Text Act: [(2) Rest two of your characters] Draw a card.
+EndCard
+
+ 

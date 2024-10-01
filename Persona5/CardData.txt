@@ -1,0 +1,2995 @@
+﻿//PERSONA 5
+
+Character: P5/S45-E001
+Name Protagonist as JOKER & Arsene
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Thief
+Tag WantOpponentReverse
+*ContForEachOtherTrait(500,Thief)
+*Healer
+Auto: StartMyEncorePhase
+{
+	Message Start of my encore phase
+	TargetLocation OpponentCenterStage
+	SetXValue TargetCount
+	NarrowTargets Not CardPosition Reversed
+	//If Not LocationContains OpponentCenterStage 1 Not CardPosition Reversed
+	If Compare TargetCount 0 Exactly
+	{
+		PayCost 3 Discard 1 HasTrait Thief
+		{	
+			//TargetLocation CenterStage
+			//NarrowTargets HasTrait Thief
+			//SetXValue TargetCount
+			ClearTargets
+			SetXToNumberOfCharacters InLocation CenterStage && HasTrait Thief
+			Repeat X
+			{
+				TargetTop Deck 1
+				RevealTargets
+				SetXValue TargetCardsLevel
+				MoveCardToBottom Deck
+				Burn X
+			}
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: [(3) Discard a <Thief> character] At the beginning of your encore step, if your opponent has no non-reversed characters on center stage, you may pay the cost, perform the following action for each <Thief> character on your center stage. "Reveal the top card of your deck, put it on the bottom of your deck, and deal X damage to your opponent. X is that card's level".  Shuffle your deck afterwards.
+EndCard
+
+Character: P5/S45-E002
+Name Ryuji as SKULL: All-out Attack
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Thief
+Trait2 Sports
+Combo FREAKIN' BORING
+*OnPlayCheck3
+Auto: OnSpecificClimaxPlay FREAKIN' BORING
+{
+	If InLocation CenterStage
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			AIChoice Bounce
+			ChooseCharacterFromTargets Choose a character to return to the hand.
+			Bounce
+			TargetLocation Stage
+			NarrowTargets HasTrait Thief|Sports
+			AIChoice GainPower 1000
+			ChooseCharacterFromTargets Choose a character to give +1000 power and the effect to.
+			GainPower 1000
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					Burn 1
+				}
+				TimesPerTurn 1
+				Text Auto: Once per turn, when damage dealt by this card is canceled, deal 1 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Discard a card] When a card named "FREAKIN' BORING" is placed in your climax area, if this card is on your center stage, you may pay the cost, choose up to 1 of your opponent's characters and return it to the hand, choose 1 of your <Thief> or <Sports> characters, it gets +1000 power and the following ability until end of turn. "Once per turn, when damage dealt by this card is canceled, deal 1 damage to your opponent."
+EndCard
+
+Character: P5/S45-E003
+Name Protagonist: The Will of Rebellion
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Auto: OnUseAct
+{
+	TargetLocation Stage
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Slow
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an "Act" ability, choose 1 of your characters, it gets +500 power until end of turn.
+*Act1Rest2SearchBrainstorm(Thief)
+EndCard
+
+Character: P5/S45-E004
+Name Ryuji as SKULL: The Phantom Vangard
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Thief
+Trait2 Sports
+Cont: GiveAll
+{
+	If Other && HasTrait Thief | Sports
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Thief> or <Sports> characters get +500 power.
+Auto: OnOpponentReceiveDamage
+{
+	If DirectAttacking
+	{
+		IfOther InBattle
+		{
+			TargetLocation OpponentMemory
+			NarrowTargets FaceDown
+			If HasTarget
+			{
+				FirstTarget
+				MoveCard OpponentWaitingRoom
+				SearchDeck HasTrait Thief | Sports
+				Discard 1 Any
+			}
+		}
+	}
+}
+Quick
+Text Auto: When damage dealt by your direct attacking character is not canceled, choose a face-down card in your opponent's memory, and put it into the waiting room. If you do, search your deck for up to 1 <Thief> or <Sports> character, add it to your hand, and discard a card.
+EndCard
+
+Character: P5/S45-E005
+Name Ryuji Sakamoto
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Thief
+Trait2 Sports
+*GainPowerForEachOther(500,Thief|Sports)
+EndCard
+
+Character: P5/S45-E006
+Name Protagonist as JOKER: All-out Attack
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Thief
+Combo THE SHOW'S OVER
+Tag ComboOnReverse
+*EarlyPlay4OrMore(Thief)
+Auto: OnReverseOpponent
+{
+	If Climax THE SHOW'S OVER && StageContains 4 Other && HasTrait Thief
+	{
+		DrawCard
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "THE SHOW'S OVER" is in your climax area, and you have 4 or more other <Thief> characters, draw a card, and search your deck for up to 1 level 1 or lower character and add it to your hand.
+EndCard
+
+Character: P5/S45-E007
+Name Ryuji as SKULL & Captain Kidd
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Thief
+Trait2 Sports
+Combo Yo I'm Ready...
+Auto: OnAttack
+{
+	TargetFacing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		TargetSelf
+		GainPower 6000
+	}
+}
+Quick
+Text Auto: When this card attacks, iff the character facing this card is level 3 or higher, this card gets +6000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Yo I'm Ready...
+	{
+		AIChoice Bounce
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets_Optional Choose up to 1 of your own characters to return to your hand.
+		Bounce
+		AIChoice BounceOpponent
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets_Optional Choose up to 1 of your opponent's characters to return to the hand.
+		Bounce
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Yo I'm Ready..." is in your climax area, choose up to 1 of your other characters, and return it to your hand. Choose up to 1 of your opponent's characters and return it to your opponent's hand.
+EndCard
+
+Character: P5/S45-E008
+Name Ryuji as SKULL: A Big Smile
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Thief
+Trait2 Sports
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +1000 power.
+Auto: StartMainPhase
+{
+	Question Use the effect of "Ryuji as SKULL: A Big Smile"?
+	If Yes
+	{
+		Mill 1
+		IfThatCard IsCharacter && Compare TargetCardsLevel 2 OrMore
+		{
+			TargetSelf
+			GainEffect
+			{
+				Cont: GiveAll
+				{
+					If Other && InLocation MiddleCenterStage
+					{
+						GainSoul 1
+					}
+				}
+				Text Cont: Your other character in the middle position of your center stage gets +1 soul.
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your main phase, you may put the top card of your deck into the waiting room. If that card is a level 2 or higher character, this card gets the following ability until end of turn. "Cont: Your other character in the middle position of your center stage gets +1 soul."
+EndCard
+
+Character: P5/S45-E009
+Name Protagonist: Leblanc's Troublesome Guest
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Trait2 Glasses
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Thief
+	SetXValue TargetCount
+	TargetSelf
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of turn. X is 1000 times the number of <Thief> characters sent.
+Auto: OnPlay
+{
+	PayCost ShuffleCharacter 2
+	{
+		GainSoul 1
+	}
+}
+Text Auto: [Shuffle 2 characters from your waiting room into your deck] When this card is placed on the stage from your hand, you may pay the cost, this card gets +1 soul until end of turn.
+EndCard
+
+Character: P5/S45-E010
+Name Akechi: The New Detective Prince
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Detective
+Auto: OnOtherFrontalAttacked
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetOther
+		Bounce
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other character is frontal attacked, you may pay the cost, return that character to your hand.
+EndCard
+
+Character: P5/S45-E011
+Name Ryuji: It's a Deal
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Thief
+Trait2 Sports
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Calling Card
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a "Calling Card" in your waiting room and return it to your hand.
+EndCard
+
+Character: P5/S45-E012
+Name Protagonist: Prisoner of Fate
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Thief
+Cont: GiveAll
+{
+	If NameEquals Protagonist as JOKER & Arsene
+	{
+		GainPower 500
+		If MyTurn
+		{
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					*Scry
+				}
+				Text Auto: During your turn, when this card's battle opponent becomes reversed, look at the top card of your deck, return it to the top of your deck or put it into the waiting room.
+			}
+		}
+	}
+}
+Text Cont: Your other "Protagonist as JOKER & Arsene" get +500 power and the following ability "Auto: During your turn, when this card's battle opponent becomes reversed, look at the top card of your deck, return it to the top of your deck or put it into the waiting room."
+Cont: Assist
+{
+	If MyTurn
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: ASSIST During your turn, your characters in front of this card get +X power, X is 1000 times the level of that character.
+EndCard
+
+Character: P5/S45-E013
+Name Swimsuit Ryuji
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Trait2 Sports
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncorePhase
+			{
+				TargetSelf
+				MoveCard WaitingRoom
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost, rest this card, and at the beginning of your next encore step, put this card into the waiting room.
+EndCard
+
+Character: P5/S45-E014
+Name Goro Akechi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Detective
+Auto: OnPlay
+{
+	Peek Deck 2
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and return them in the original order.
+Auto: OnPlay
+{
+	Peek OpponentDeck 2
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your opponent's deck, and return them in the original order.
+EndCard
+
+Character: P5/S45-E015
+Name Swimsuit Protagonist
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Thief
+*DropSearch(Thief)
+EndCard
+
+Character: P5/S45-E016
+Name Protagonist as JOKER: Thief Clad in Black
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Thief
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				TargetFacing
+				IfTarget ColorIs Green || ColorIs Red
+				{
+					GainPower 3000
+				}
+			}
+			Text Cont: If the character facing this card is green or red, this card gets +3000 power.
+		}
+	}
+}
+Text Cont: If there is a marker under this card, this card gets the following ability. "Cont: If the character facing this card is green or red, this card gets +3000 power."
+Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+{
+	//AIChoice Random
+	//SearchLocationForTargets WaitingRoom 0 1 NameEquals Protagonist as JOKER: Lurking in the Dark
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Protagonist as JOKER: Lurking in the Dark
+	If HasTarget
+	{
+		FirstTarget
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or waiting room, you may choose a card named "Protagonist as JOKER: Lurking in the Dark" in your waiting room and placed in face-down under this card as a marker.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Protagonist as JOKER: Lurking in the Dark
+		FirstTarget
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into the waiting room] At the beginning of your climax phase, you may pay the cost, choose a "Protagonist as JOKER: Lurking in the Dark" in your waiting room and place it in the stage position that this card was on.
+EndCard
+
+Character: P5/S45-E017
+Name Protagonist as JOKER: Lurking in the Dark
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Thief
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				TargetFacing
+				IfTarget ColorIs Yellow || ColorIs Blue
+				{
+					GainPower 3000
+				}
+			}
+			Text Cont: If the character facing this card is yellow or blue, this card gets +3000 power.
+		}
+	}
+}
+Text Cont: If there is a marker under this card, this card gets the following ability. "Cont: If the character facing this card is yellow or blue, this card gets +3000 power."
+Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Protagonist as JOKER: Thief Clad in Black
+	If HasTarget
+	{
+		FirstTarget
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or waiting room, you may choose a card named "Protagonist as JOKER: Thief Clad in Black" in your waiting room and placed in face-down under this card as a marker.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Protagonist as JOKER: Thief Clad in Black
+		FirstTarget
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into the waiting room] At the beginning of your climax phase, you may pay the cost, choose a "Protagonist as JOKER: Thief Clad in Black" in your waiting room and place it in the stage position that this card was on.
+EndCard
+
+
+Character: P5/S45-E018
+Name Ryuji as SKULL: The Fight is On
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Thief
+Trait2 Sports
+Cont: GiveSelf
+{
+	If MyTurn && InLocation MiddleCenterStage
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if this card is in the middle position of your center stage, this card gets +4000 power.
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost ExchangeStandingWithThis
+		{
+			TargetLocation Stage
+			AIChoice GainSoul 1
+			ChooseCharacterFromTargets Choose a character to give +1 soul.
+			GainSoul 1
+		}
+	}
+}
+Text Auto: [Exchange a standing character on your center stage and this card] During your turn, when this card's battle opponent becomes reversed, you may pay the cost, choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: P5/S45-E019
+Name Yuuki Mishima
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Sports
+Trait2 Net
+Backup 2000
+EndCard
+
+Character: P5/S45-E020
+Name Akechi: The High-School Detective
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Trait1 Detective
+Power 8000
+Soul 2
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other <Thief> characters you have is 2 or more, this card gets +2000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Thief
+	If HasTarget
+	{
+		AIChoice SendToWaitingRoom
+		ChooseCharacterFromTargets Choose a character to send to your waiting room.
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, choose one of your <Thief> characters, and put it into the waiting room.
+EndCard
+
+
+Event: P5/S45-E021
+Name Calling Card
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	If Not LocationContains OpponentMemory 1 FaceDown
+	{
+		TargetLocation OpponentHand
+		If HasTarget
+		{
+			AIChoice MemoryFaceDown
+			OpponentSearchLocationForTargets Hand 1 1 Any
+			SendToMemoryFaceDown
+		}
+		//opponent draws regardless of if a card was sent.
+		OpponentQuestion Draw a card?
+		If Yes
+		{
+			TargetTop OpponentDeck 1
+			MoveCard OpponentHand
+		}
+	}
+	*Check4Add1(Thief)
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsCost 0 OrLess
+	AIChoice Bounce
+	ChooseCharacterFromTargets_Optional Choose up to 1 cost 0 character to return to the hand.
+	Bounce
+}
+Text If there are no face down cards in your opponent's memory, your opponent chooses a card from their hand, puts it face down into their memory and draws up to 1 card.  Look at up to 4 cards from the top of your deck, choose up to 1 <Thief> character, add it to your hand, and put the rest into the waiting room.  You may choose a cost 0 character on your opponent's center stage and return it to the hand.
+EndCard
+
+Event: P5/S45-E022
+Name Wild Talk
+Color Y
+Level 1
+Cost 1
+Requirement StageContains 1 HasTrait Thief
+Effect:
+{
+	MultipleChoiceQuestion Choose 1 of the following effects:\n1: Search your deck for up to 1 <Thief> character and add it to your hand.\n2: Put this card into your stock, put the top card of your deck into your stock.\n3: All of your characters get +1 soul until end of turn.|Choice 1|Choice 2|Choice 3
+	If Answer 0
+	{
+		SearchDeck HasTrait Thief
+	}
+	If Answer 1
+	{
+		TargetSelf
+		MoveCard Stock
+		BlindStock
+	}
+	If Answer 2
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+}
+Text If you do not have a <Thief> character, this card cannot be played from your hand.\nChoose one of the following effects and perform it.\n"Search your deck for up to 1 <Thief> character and add it to your hand."\n"Put this card into your stock, and put the top card of your deck into your stock."\n"All of your characters get +1 soul until end of turn."
+EndCard
+
+Climax: P5/S45-E023
+Name THE SHOW'S OVER
+*WindClimax
+Combo Protagonist as JOKER: All-out Attack
+EndCard
+
+Climax: P5/S45-E024
+Name FREAKIN' BORING
+*YellowStockSoul
+Combo Ryuji as SKULL: All-out Attack
+EndCard
+
+Climax P5/S45-E025
+Name Yo I'm Ready...
+*ShotClimax
+Combo Ryuji as SKULL & Captain Kidd
+EndCard
+
+Character: P5/S45-E026
+Name Makoto as QUEEN & Johanna
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Thief
+Trait2 Student Council
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost Discard 1 Any
+		{
+			TargetBattleOpponent
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [Discard a card] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost, put that character into your opponent's clock.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Thief|Student Council|Prosecutor
+	{
+		PayCost 1
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: [(1)] When this card becomes reversed in battle, reveal the top card of your deck, if that card is a <Thief> <Student Council> or <Prosecutor> character, you may pay the cost, return this card to your hand.
+EndCard
+
+Character: P5/S45-E027
+Name Haru as NOIR & Milady
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Thief
+Trait2 Heiress
+*Healer
+Auto: OnFrontalAttacked
+{
+	PayCost 2 Discard 1 Any
+	{
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 2
+			}
+			Text Cont: The character facing this card gets -2 soul.
+		}
+	}
+}
+Text Auto: [(2) Discard a card] When this card is frontal attacked, you may pay the cost,, this card gets the following ability until end of turn. "Cont: The character facing this card gets -2 soul."
+EndCard
+
+
+Character: P5/S45-E028
+Name Makoto as QUEEN: The Phantom Tactician
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Thief
+Trait2 Student Council
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Thief|Student Council|Prosecutor
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power and +1 level.
+	GainPower 1000
+	GainLevel 1
+}
+Text Auto: When this card is placed on the the stage from your hand, choose one of your <Thief> or <Student Council> or <Prosecutor> characters, it gets +1 level and +1000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice AddToHand
+		SearchLocationForTargets Clock 1 1 HasTrait Thief|Student Council|Prosecutor
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a <Thief> or <Student Council> or <Prosecutor> character in your clock and return it to your hand and put the top card of your deck into your clock.
+EndCard
+
+Character: P5/S45-E029
+Name Haru Okumura
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Thief
+Trait2 Heiress
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Thief
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Thief
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power until end of opponent's turn.
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Auto: When a climax is placed in your climax area, reveal the top card of your deck, if it is a <Thief> character, choose one of your characters, it gets +1000 power until the end of your opponent's turn.
+*Act1RestSelfClockBrainstorm
+EndCard
+
+Character: P5/S45-E030
+Name Swimsuit Makoto
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Thief
+Trait2 Student Council
+*OnPlayMill2RestIfClimax
+EndCard
+
+Character: P5/S45-E031
+Name Makoto Niijima
+Color G
+Level 1
+Cost 0
+Power 6500
+Trait1 Thief
+Trait2 Student Council
+*CannotAttackHigherLevel
+EndCard
+
+Character: P5/S45-E032
+Name Haru as NOIR: All-out Attack
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Combo Adieu
+Trait1 Thief
+Trait2 Heiress
+*EarlyPlayInClock(Haru as NOIR & Milady)
+Auto: OnSpecificClimaxPlay Adieu
+{
+	If InLocation CenterStage
+	{
+		BlindStock
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+}
+Text Auto: CxCombo When "Adieu" is placed in your climax area, if this card is on your center stage, put the top card of your deck into your stock, and this card gets +1500 power until the end of your opponent's turn.
+EndCard
+
+
+Character: P5/S45-E033
+Name Sadayo Kawakami
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Teacher
+Trait2 Maid
+Cont: GiveSelf
+{
+	If Compare MyLevel 3 OrMore
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				TargetLocation Hand
+				NarrowTargets NameEquals Protagonist as JOKER & Arsene
+				FirstTarget
+				Change
+			}
+			Text Act: [Put this card into your waiting room] Choose up to 1 "Protagonist as JOKER & Arsene" in your hand and put it on the stage position that this card was on.
+		}
+	}
+}
+Text Cont: If your level is 3 or higher, this card gets the following ability. "Act: [Put this card into your waiting room] Choose up to 1 "Protagonist as JOKER & Arsene" in your hand and put it on the stage position that this card was on."
+EndCard
+
+Character: P5/S45-E034
+Name Totanosuke Yoshida
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Speech
+Auto: OnPlay
+{
+	PayCost Rest 2 Any
+	{
+		TargetLocation Stage
+		AIChoice CanReverseOpponent
+		ChooseCharacterFromTargets Choose a character to give "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBlindStock
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+		}
+	}
+}
+Text Auto: [Rest 2 of your standing characters] When this card is placed on the stage from your hand, you may pay the cost, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+Act: 1 SendSelf WaitingRoom
+{
+	RevealUpTo Deck 4
+	SearchLocationForTargets ScryArea 0 1 IsCharacter && NameContains Protagonist
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your ddeck, choose up to 1 character with "Protagonist" in its name and add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: P5/S45-E035
+Name Haru as NOIR: The Mysterious Beauty Thief
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Thief
+Trait2 Heiress
+Cont: GiveAll
+{
+	If MyTurn && NameEquals Morgana Car
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, your other "Morgana Car" Get +2000 power.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		AIChoice PlaceOnStageStanding
+		SearchDeckForTarget NameEquals Morgana Car
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1) When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 "Morgana Car" and place it on any position of your stage.
+EndCard
+
+Character: P5/S45-E036
+Name Makoto as QUEEN: All-out Attack
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Thief
+Trait2 Student Council
+Combo JUSTICE HAS PREVAILED
+Auto: OnUseAct
+{
+	SetXToNumberOfCharacters HasTrait Thief|Student Council|Prosecutor
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an ACT effect, this card gets +X power until end of turn, X is 500 times the number of <Thief> <StudentCouncil> or <Prosecutor> characters you have.
+Auto: OnReverseOpponent
+{
+	If Climax JUSTICE HAS PREVAILED
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2500
+		ChooseCharacterFromTargets Choose a character to give +1 level and +2500 power until the end of your opponent's turn
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+		UntilEndOfOpponentsTurn
+		GainLevel 1
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "JUSTICE HAS PREVAILED" is in your climax area, choose 1 of your other characters, it gets +1 level and +2500 power until the end of your opponent's turn.
+EndCard
+
+Character: P5/S45-E037
+Name Haru as NOIR: The Phantom Lady
+Color G
+Level 1
+Cost 1
+Power 5500
+Trait1 Thief
+Trait2 Heiress
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other <Thief> characters you have is 2 or more, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost ExchangeStandingWithThis
+		{
+			TargetLocation Stage
+			AIChoice GainPower 2000
+			ChooseCharacterFromTargets Choose a character to give +2000 power.
+			GainPower 2000
+		}
+	}
+}
+Text Auto: [Exchange a standing character on your center stage with this card] During your turn, when this card's battle opponent becomes reversed, you may pay the cost, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: P5/S45-E038
+Name Makoto as QUEEN: Miss Post-Apocalyptic Raider
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Thief
+Trait2 Student Council
+*LevelAssist
+Auto: OnOpponentReceiveDamage
+{
+	If LocationContains OpponentMemory 1 FaceDown
+	{
+		If DirectAttacking
+		{
+			PayCost 1 Discard 1 HasTrait Thief|Student Council|Prosecutor
+			{
+				TargetLocation OpponentMemory
+				NarrowTargets FaceDown
+				FirstTarget
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: [(1) Discard a <Thief> <Student Council> or <Prosecutor> character] When damage dealt by your direct attacking character is not canceled, if the number of other <Thief> or <Student Council> or <Prosecutor> characters you have is 3 or more, you may pay the cost, choose a face down card in your opponent's memory, and put it into his or her clock.
+EndCard
+
+Character: P5/S45-E039
+Name Sae Niijima
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Prosecutor
+*Bond1(Makoto as QUEEN: All-out Attack)
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Thief
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your <Thief> characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: P5/S45-E040
+Name Prosecutor Sae
+Color G
+Level 0
+Cost 0
+Power 500
+*500Assist
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther NameContains Protagonist
+	{
+		If InLocation Backstage
+		{
+			PayCost SendSelf WaitingRoom
+			{
+				TargetOther
+				Revive
+			}
+		}
+	}
+}
+Text Auto: [Put this card into the waiting room] When your other character with "Protagonist" in its name is put into your waiting room from the stage, if this card is on yoru backstage, you may pay the cost, return that character to its previous position rested.
+EndCard
+
+
+Character: P5/S45-E041
+Name Haru: It's a Deal
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Thief
+Trait2 Heiress
+Cont: GiveSelf
+{
+	If LocationContainsOrLess CenterStage 1 Other
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other characters on your center stage is 1 or less, this card gets +2000 power.
+Auto: OnAttack
+{
+	If LocationContainsOrLess Stage 1 Other
+	{
+		Question Put the top card of your deck into the waiting room for the effect of "Haru: It's a Deal"?
+		If Yes
+		{
+			Mill 1
+			IfThatCard IsCharacter && Compare TargetCardsLevel 0 OrLower
+			{
+				PlaceOnStage False False True False
+				GainTrait Coffee
+			}
+		}
+	}
+}
+Text Auto: When this card attacks, if the number of other characters you have is 1 or less, you may put the top card of your deck into the waiting room. If that card is a level 0 character, put it on any position of your backstage and it gets <Coffee> until end of turn.
+EndCard
+
+Character: P5/S45-E042
+Name Makoto: It's a Deal
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Thief
+Trait2 Student Council
+Cont: GiveAll
+{
+	If Other && HasTrait Thief
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Thief> characters get +500 power.
+Act: RestSelf
+{
+	TargetLocation Stage
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			If LocationContains OpponentClock 1 Any
+			{
+				Question Put the top card of your opponent's clock into the waiting room to put the battle opponent into your opponent's clock?
+				If Yes
+				{
+					TargetTop OpponentClock 1
+					MoveCard OpponentWaitingRoom
+					TargetBattleOpponent
+					MoveCard OpponentClock
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock.
+	}
+}
+Text Act: [Rest this card] Choose one of your characters, it gets the following ability until end of turn, "Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock."
+EndCard
+
+Character: P5/S45-E043
+Name Haru: A Life on the Rails
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Trait2 Heiress
+Auto: OnDamageCancel
+{
+	Question Put "Haru: A Life on Rails" into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may put this card into your stock.
+EndCard
+
+Character: P5/S45-E044
+Name Chihaya Mifune
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Fortune Telling
+Trait2 Tarot
+Auto: OnUseChange
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When you use "CHANGE", choose one of your characters, it gets +1000 power until end of turn.
+Auto: OnUseBackup
+{
+	TargetMyCharacterInBattle
+	GainPower +1000
+}
+TimesPerTurn 1
+Quick
+Text Auto: Once per turn, when you use "BACKUP" your character in battle gets +1000 power until end of turn.
+EndCard
+
+Character: P5/S45-E045
+Name Ichiko Ohya
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Camera
+Cont: Alarm
+{
+	If NameContains Protagonist && MyCard
+	{
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				PeekTop OpponentDeck
+				Question Put this card on the bottom of your opponent's deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+				Else
+				{
+					EndPeek
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, look at the top card of your opponent's deck, put it on the top or bottom of the deck.
+		}
+	}
+}
+Text Cont: ALARM If this card is on top of your clock, all of your characters with "Protagonist" in its name get the following ability. "Auto: When this card's battle opponent becomes reversed, look at the top card of your opponent's deck, put it on the top or bottom of the deck."
+EndCard
+
+Event: P5/S45-E046
+Name Calling Card
+Color G
+Level 2
+Cost 1
+Effect:
+{
+	If Not LocationContains OpponentMemory 1 FaceDown
+	{
+		TargetLocation OpponentHand
+		If HasTarget
+		{
+			AIChoice MemoryFaceDown
+			OpponentSearchLocationForTargets Hand 1 1 Any
+			SendToMemoryFaceDown
+		}
+		//opponent draws regardless of if a card was sent.
+		TargetTop OpponentDeck 1
+		MoveCard OpponentHand
+	}
+	TargetLocation Stage
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			Question_Obvious Put the battle opponent into the opponent's clock?
+			If Yes
+			{
+				MoveCard OpponentClock
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock.
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text If there are no face-down cards in your opponent's memory, you opponent chooses a card in his or her hand, puts it face-down into memory, and draws up to 1 card.  Choose 1 of your characters it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock."  Put this card into your memory.
+EndCard
+
+Event: P5/S45-E047
+Name Metaverse Navigator
+Color G
+Level 1
+Cost 0
+Effect:
+{
+	AIChoice PlaceOnStage
+	SearchLocationForTargets Clock 1 1 IsCharacter && Compare ThatCardsLevel 1 OrLess
+	PlaceOnStage False True True False
+	GainTrait Thief
+	TargetTop Deck 1
+	MoveCard Clock
+}
+Text Choose a level 1 or lower character in your clock, put it on any position of your stage, put the top card of your deck into your clock, and that character gets <Thief> until end of turn.
+EndCard
+
+Event: P5/S45-E048
+Name Tanaka's Shady Commodities
+Color G
+Level 2
+Cost 1
+Requirement StageContains 1 HasTrait Thief
+Effect:
+{
+	TargetSelf
+	MoveCard Memory
+	DrawCard
+	If LocationContains Memory 2 NameEquals Tanaka's Shady Commodities
+	{
+		SearchWaitingRoom HasTrait Thief
+	}
+	If LocationContains Memory 3 NameEquals Tanaka's Shady Commodities
+	{
+		SearchDeck HasTrait Thief
+	}
+	If LocationContains Memory 4 NameEquals Tanaka's Shady Commodities
+	{
+		AIChoice Random
+		SearchLocationForTargets Clock 0 1 HasTrait Thief
+		MoveCard WaitingRoom
+	}
+}
+Text If you do not have a <Thief> character, this card cannot be played from your hand. Put this card into your memory, draw a card. If the number of "Tanaka's Shady Commodities" in your memory is 2 or more, choose a <Thief> character in your waiting room and return it to your hand. If the number of "Tanaka's Shady Commodities" in your memory is 3 or more, search your deck for up to 1 <Thief> character and add it to your hand. If the number of "Tanaka's Shady Commodities" in your memory is 4, you may choose a <Thief> character in your clock and put it into the waiting room.
+EndCard
+
+Climax: P5/S45-E049
+Name Adieu
+*GreenStockSoul
+EndCard
+
+Climax: P5/S45-E050
+Name JUSTICE HAS PREVAILED
+*BarClimax
+EndCard
+
+Character: P5/S45-E051
+Name Morgana as MONA & Zorro
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Thief
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if the number of other <Thief> characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: P5/S45-E052
+Name Ann as PANTHER: All-out Attack
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Thief
+Combo omg!! We are SO awesome
+Auto: OnPlay
+{
+	*OptionalDraw
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, and this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax omg!! We are SO awesome
+	{
+		AIChoice RemoveFromWaitingRoom
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Thief
+		MoveCard Stock
+		Burn 1
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed if "omg!! We are SO awesome" is in your climax area, choose up to 1 <Thief> character in your waiting room, put it into your stock, and deal 1 damage to your opponent.
+EndCard
+
+Character: P5/S45-E053
+Name Ann as PANTHER: The Talented(?) Phantom Actress
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Thief
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		AIChoice GainPower 1500
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500
+	}
+}
+Text: Auto: when this card is placed on the stage from your hand, put the top two cards of your deck into the waiting room. If a climax is sent, choose 1 of your characters, it gets +1500 power until end of turn.
+*RedLevel0Bomb
+EndCard
+
+Character: P5/S45-E054
+Name Morgana as MONA: The Phantom Guide
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+*FreeRunner
+EndCard
+
+Character: P5/S45-E055
+Name Ann as PANTHER & Carmen
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Thief
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost ExchangeStandingWithThis
+		{
+			SearchWaitingRoom IsCharacter
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: [Exchange a standing character on your center stage with this card] During your turn, when this card's battle opponent becomes reversed, you may pay the cost, choose a character in your waiting room and return it to your hand and discard a card.
+*RedLevel1Bomb
+EndCard
+
+Character: P5/S45-E056
+Name Morgana as MONA: All-out Attack
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Thief
+Combo MISSION ACCOMPLISHED
+Auto: OnClimaxPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When a climax is placed in your climax area, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax MISSION ACCOMPLISHED && StageContains 1 Other && HasTrait Thief
+	{
+		TargetTop Deck 1
+		Reveal
+		MoveCard Hand
+		IfThatCard Not HasTrait Thief
+		{
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks if "MISSION ACCOMPLISHED" is in your climax area, and you have another <Thief> character, reveal the top card of your deck and add it to your hand. If that card is not a <Thief> character, discard a card.
+EndCard
+
+Character: P5/S45-E057
+Name Ann Takamaki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Thief
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Thief
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a <Thief> character in your waiting room and return it to your hand.
+EndCard
+
+Character: P5/S45-E058
+Name Shinya Oda
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Net Game
+Cont: Alarm
+{
+	If Compare MyLevel 2 OrMore
+	{
+		If NameContains Protagonist
+		{
+			GainEffect
+			{
+				Auto: OnReversed
+				{
+					TargetBattleOpponent
+					IfThatCard Compare ThatCardsLevel ThisCardsLevel OrLower
+					{
+						Question Reverse the battle opponent?
+						If Yes
+						{
+							Reverse
+						}
+					}
+				}
+				Text Auto: When this card becomes reversed, if the level if this card's battle opponent is less that or equal to this card's level, you may reverse that character.
+			}
+		}
+	}
+}
+Text Cont: ALARM If this card is the top card of your clock, and you level is 2 or higher, all your characters with "Protagonist" in its name get the following ability. "Auto: When this card becomes reversed, if the level if this card's battle opponent is less that or equal to this card's level, you may reverse that character."
+EndCard
+
+Character: P5/S45-E059
+Name Ann as PANTHER: Quiet Rage
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Thief
+Cont: GiveAll
+{
+	If Other && HasTrait Thief
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Thief> characters get +500 power.
+Auto: OnOpponentReceiveDamage
+{
+	If DirectAttacking
+	{
+		TargetLocation OpponentMemory
+		NarrowTargets FaceDown
+		If HasTarget
+		{
+			FirstTarget
+			MoveCard OpponentWaitingRoom
+			PayCost 1
+			{
+				SearchWaitingRoom HasTrait Thief
+			}
+		}
+	}
+}
+Text Auto: [(1)] When damage dealt by your direct attacking character is not canceled, choose a face-down card in your opponent's memory, and put it into the waiting room. You may pay the cost, choose a <Thief> character in your waiting room and return it to your hand.
+EndCard
+
+Character: P5/S45-E060
+Name Ann: It's a Deal
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Thief
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand, you may pay the cost, choose a <Thief> character in your waiting room and return it to your hand.
+EndCard
+
+Character: P5/S45-E061
+Name Morgana as MONA: It's a Deal
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Thief
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 HasTrait Thief
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When you use this card's BACKUP, if you have a <Thief> character, your character in battle gets +1000 power until end of turn.
+Backup 1000
+EndCard
+
+Character: P5/S45-E062
+Name Ann as PANTHER: Determination
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Thief
+Combo For My Best Friend
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other <Thief> characters you have is 2 or more, this card gets +2000 power.
+Auto: OnSpecificClimaxPlay For My Best Friend
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			AIChoice PlaceOnStage
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Thief && Compare ThatCardsCost 0 OrLess
+			PlaceOnStage False True True False
+			TargetSelf
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					Question Put the battle opponent on top of the opponent's deck?
+					If Yes
+					{
+						TargetOther
+						MoveCard OpponentDeck
+					}
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "For My Best Friend" is placed in your climax area, if this card is on your center stage, you may pay the cost, choose a cost 0 <Thief> character in your waiting room and place it on any position of your stage, and this card gets the following ability until end of turn "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck."
+EndCard
+
+Character: P5/S45-E063
+Name Morgana Car
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Thief
+Auto: StartOpponentMainPhase
+{
+	PayCost 2 Discard 2 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		Marker_FaceDown
+	}
+}
+Text Auto: [(2) Discard 2 cards] At the beginning of your opponent's main phase, you may pay the cost, put all of your other characters face-down underneath this card as markers.
+Auto: StartOpponentAttackPhase
+{
+	//Move the card to ANY open position of your stage if it has a marker
+	If HasMarker
+	{
+		Question Move "Morgana Car" to another open position of your stage?
+		If Yes
+		{
+			MoveToOpenPosition True True
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if this card has a marker, you may move this card to an open position of your stage.
+Auto: StartMainPhase
+{
+	TargetLocation Marker
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: At the beginning of your main phase, put all markers from underneath this card on separate positions of your stage.
+EndCard
+
+Character: P5/S45-E064
+Name Hifumi Togo
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Shogi
+*500Assist
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Thief
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Thief
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a <Thief> character in your waiting room and return it to your hand, choose 1 of your other <Thief> characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: P5/S45-E065
+Name Morgana as MONA: Earnest Affection
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Cont: GiveAll
+{
+	If MyTurn && NameEquals Ann as PANTHER & Carmen
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, your other "Ann as PANTHER & Carmen" get +2000 power.
+Auto: OnMiddleCharacterAttacks
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfThatCard IsClimax
+		{
+			AIChoice If IsCharacter
+			Message Choose a card to place on top of your deck.
+			SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+			MoveCard OpponentDeck
+		}
+	}
+}
+Text Auto: When your other character in the middle position of your center stage attacks, you may put the top card of yoru deck into the waiting room. If that card is a climax, choose a card in your opponent's waiting room, and put it on top of the deck.
+EndCard
+
+Character: P5/S45-E066
+Name Munehisa Iwai
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Weapon
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Weapon
+	}
+}
+Text Auto: [(2)] When this card is put into the waiting room from the stage, you may pay the cost, choose a <Weapon> character in your waiting room and return it to your hand.
+EndCard
+
+Character: P5/S45-E067
+Name Swimsuit Ann
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Thief
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if the number of other <Thief> characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: P5/S45-E068
+Name Morgana as MONA: Identity Unknown
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Thief
+Backup 3000
+EndCard
+
+
+Character: P5/S45-E069
+Name Morgana as MONA: For the Sake of the Team
+Color R
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Thief
+Combo Where I Belong
+*OnPlayGainPowerForEach(1000,Thief)
+Auto: OnSpecificClimaxPlay Where I Belong
+{
+	If InLocation CenterStage
+	{
+		Question Use the CxCombo of "Morgana as MONA: For the Sake of the Team"?
+		If Yes
+		{
+			AIChoice AddToHand
+			SearchLocationForTargets WaitingRoom 3 3 IsCharacter
+			If HasTarget
+			{
+				MoveCard Hand
+				Discard 3 Any
+			}
+		}
+	}
+}
+Text: Auto: CxCombo When "Where I Belong" is placed in your climax area, if this card is on your center stage, you may choose 3 characters in your waiting room and return them to your hand, if you do, discard 3 cards.
+EndCard
+
+Event: P5/S45-E070
+Name Calling Card
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	If Not LocationContains OpponentMemory 1 FaceDown
+	{
+		TargetLocation OpponentHand
+		If HasTarget
+		{
+			AIChoice MemoryFaceDown
+			OpponentSearchLocationForTargets Hand 1 1 Any
+			SendToMemoryFaceDown
+		}
+		//opponent draws regardless of if a card was sent.
+		TargetTop OpponentDeck 1
+		MoveCard OpponentHand
+	}
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 1 OrLess
+	AIChoice SendToWaitingRoom
+	If HasTarget
+	{
+		ChooseCharacterFromTargets_Optional Choose up to 1 opponent's level 1 or lower character to send to the waiting room.
+		MoveCard WaitingRoom
+	}
+	TargetLocation Stage
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand.
+	}
+}
+Text If there are no face-down cards in your opponent's memory, your opponent chooses a card in their hand and puts it face-down into his or her memory, then draws up to 1 card. Choose up to 1 level 1 or lower character on your opponent's center stage and put it into the waiting room. Choose 1 of your characters, until end of turn it gets "Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand."
+EndCard
+
+
+Event: P5/S45-E071
+Name Mementos
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	TargetSelf
+	MoveCard Memory
+}
+Text Put this card into your memory.
+Auto: OnReceiveDamage
+{
+	If Compare LastDamageTaken 3 OrMore
+	{
+		PayCost 0
+		{	
+			TargetSelf
+			MoveCard WaitingRoom
+			AIChoice AddToHand
+			SearchLocationForTargets WaitingRoom 0 2 IsCharacter
+			MoveCard Hand
+			TargetLocation Hand
+			AIChoice Discard
+			ChooseCard Choose a card in your hand to put into your stock
+			MoveCard Stock
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY [Put this card into your waiting room] When damage you reveived is not canceled, if that damage is 3 or more, if this card is in your memory, you may pay the cost, choose up to 2 characters in your waiting room, return them to your hand. Choose a card in your hand and put it into your stock.
+EndCard
+
+Climax: P5/S45-E072
+Name omg!! We are SO awesome
+*DoorClimax
+Combo Ann as PANTHER: All-out Attack
+EndCard
+
+Climax: P5/S45-E073
+Name For My Best Friend
+*RedStockSoul
+EndCard
+
+
+Climax: P5/S45-E074
+Name MISSION ACCOMPLISHED
+*DoorClimax
+Combo Morgana as MONA: All-out Attack
+EndCard
+
+
+Climax: P5/S45-E075
+Name Where I Belong
+Combo Morgana as MONA: For the Sake of the Team
+*RedStockSoul
+EndCard
+
+Character: P5/S45-E076
+Name Futaba as ORACLE: Navigation Duty
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Thief
+Trait2 Net
+Cont: GiveAll
+{
+	If Other && HasTrait Thief | Coffee
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other <Thief> or <Coffee> characters get +1500 power.
+Auto: OnOtherAttacked
+{
+	If StageContains 3 Other && HasTrait Thief | Coffee
+	{
+		PayCost 1 Discard 1 NameEquals I'll Never Forgive Them!
+		{
+			TargetBattleOpponent
+			IfThatCard CanBeChosen
+			{
+				GainEffect
+				{
+					Cont: GiveSelf
+					{
+						GainSpecialEffect CannotDealDamage
+					}
+					Text Cont: This card cannot deal damage to players.
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Discard an "I'll Never Forgive Them!"] When your other character is attacked, if the number of other <Thief> or <Coffee> characters you have is 3 or more, you may pay the cost, choose 1 of your opponent's characters in battle, it gets the following ability until end of turn. "Cont: This card cannot deal damage to players."
+Auto: OnReceiveDamage
+{
+	If OpponentsTurn
+	{
+		*Scry
+	}
+}
+Text Auto: During your opponent's turn, when damage you receive is not canceled, look at the top card of your deck, put it on the top of your deck or into the waiting room.
+EndCard
+
+Character: P5/S45-E077
+Name Yusuke as FOX & Goemon
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Thief
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Thief
+	{
+		PayCost 1 Discard 1 HasTrait Thief
+		{
+			Heal
+		}
+	}
+}
+Text Auto: [(1) Discard a <Thief> character] When this card attacks, if you have another <Thief> character, you may pay the cost, put the top card of your clock into the waiting room.
+Auto: StartOpponentDrawPhase
+{
+	If InLocation CenterStage
+	{
+		AIChoice GainPower 4000
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +4000 power.
+		GainPower 4000
+	}
+}
+Text Auto: At the beginning of your draw phase, if this card is on your center stage, choose 1 of your characters, it gets +4000 power until end of turn.
+EndCard
+
+Character: P5/S45-E078
+Name Caroline
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Twins
+Trait2 Eye Patch
+Cont: GiveSelf
+{
+	GainSpecialEffect CanSendMarkerInsteadOfStockForEventCost
+}
+Text Cont: If you would pay the cost for an event in your hand, you may put a marker from underneath this card into your waiting room instead of a card from your stock.
+Auto: OnPlay
+{
+	PayCost RestSelf
+	{
+		TargetTop Deck 1
+		Marker_FaceUp
+	}
+}
+Text Auto: [Rest this card] When this card is placed on the stage from your hand, you may pay the cost, put the top card of your deck underneath this card as a marker.
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		Peek Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 HasTrait Thief | Twins || NameContains Igor
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1)] When a climax is placed in your climax area, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 <Thief> or <Twins> character or a character with "Igor" in its name, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: P5/S45-E079
+Name Futaba Sakura
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Trait2 Net
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +1 level and +1500 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Thief|Coffee
+	{
+		Question Put the revealed card under "Futaba Sakura" as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is a <Thief> or <Coffee> character, you may put it face-down underneath this card as a marker.
+EndCard
+
+Character: P5/S45-E080
+Name Yusuke as FOX: The Phantom Artist
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Thief
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Calling Card
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a "Calling Card" in your waiting room, and return it to your hand.
+Auto: OnUseEvent
+{
+	GainPower 2000
+}
+TimesPerTurn 1
+Quick
+Text Auto: Once per turn, when you play an event, this card gets +2000 power until end of turn.
+EndCard
+
+Character: P5/S45-E081
+Name Futaba as ORACLE & Necronomicon
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Thief
+Trait2 Net
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Theif | Coffee
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is 500 times the number of <Thief> or <Coffee> characters you have.
+EndCard
+
+Character: P5/S45-E082
+Name Yusuke Kitagawa
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Thief
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Thief
+	{
+		*OptionalDraw
+		Discard 1 Any
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Thief> character, draw up to 1 card, discard a card, and put up to 1 card from the top of your deck into your stock.
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 2 HasTrait Thief
+	{
+		MoveCard Hand
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Yusuke as FOX & Goemon
+		Change
+	}
+}
+Text Auto: CHANGE [(1) Discard 2 <Thief> characters and return this card to your hand] At the beginning of your climax phase, you may pay the cost, choose a "Yusuke as FOX & Goemon" in your waiting room and put it in the stage position this card was on.
+EndCard
+
+Character: P5/S45-E083
+Name Justine
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Twins
+Trait2 Eye Patch
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Caroline
+	{
+		GainEffect
+		{
+			Cont: Assist
+			{
+				If HasTrait Thief
+				{
+					GainLevel 1
+					GainPower 500
+				}
+			}
+			Text Cont: ASSIST Your <Thief> characters in front of this card get +1 level and +500 power.
+		}
+	}
+}
+Text Cont: If you have another character named Caroline, this card gets "Cont: ASSIST Your <Thief> characters in front of this card get +1 level and +500 power."
+*BondDiscard(Caroline)
+EndCard
+
+Character: P5/S45-E084
+Name Swimsuit Futaba
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Thief
+Trait2 Net
+Cont: GiveAll
+{
+	If Other && HasTrait Thief|Coffee
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Thief> or <Coffee> characters get +500 power.
+Auto: OnOpponentReceiveDamage
+{
+	If DirectAttacking
+	{
+		IfOther InBattle
+		{
+			TargetLocation OpponentMemory
+			NarrowTargets FaceDown
+			If HasTarget
+			{
+				FirstTarget
+				MoveCard OpponentWaitingRoom
+				PayCost 1 Discard 1 Any
+				{
+					Heal
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1) Discard a card] When damage dealt by your direct attacking character is not canceled, choose a face-down card in your opponent's memory, and put it into his or her waiting room, if you do, you may pay the cost, put the top card of your clock into the waiting room.
+EndCard
+
+Character: P5/S45-E085
+Name Igor: Imposer of Rehabilitation
+Color B
+Level 0
+Cost 0
+Power 2000
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Execution
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a card named "Execution" in your waiting room and return it to your hand.
+EndCard
+
+Character: P5/S45-E086
+Name Futaba as ORACLE: The Phantom Hacker
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Thief
+Trait2 Net
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(2)] When you use this card's "Backup" you may pay the cost, return all cards in your waiting room to your deck and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: P5/S45-E087
+Name Tae Takemi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Doctor
+*1000Assist
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: P5/S45-E088
+Name Sojiro Sakura
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Glasses
+Trait2 Coffee
+Cont: GiveAll
+{
+	If NameEquals Futaba: Hacking in Session
+	{
+		GainLevel 1
+		GainPower 500
+	}
+}
+Text Cont: Your other "Futaba: Hacking in Session" get +1 level and +500 power.
+*Bond1(Futaba: Hacking in Session)
+EndCard
+
+Character: P5/S45-E089
+Name Yusuke: First Encounter
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Thief
+Cont: GiveAll
+{
+	If HasTrait Thief
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Thief> characters get +500 power.
+Auto: OnMiddleCharacterAttacks
+{
+	Question Put the top card of your deck into the waiting room for "Yusuke: First Encounter"
+	If Yes
+	{
+		Mill 1
+		IfThatCard IsClimax
+		{
+			PayCost 1
+			{
+				DrawCard
+			}
+		}
+	}
+}
+Text Auto: [(1)] When your other character in the middle position of your center stage attacks, you may put the top card of your deck into the waiting room, if that card is a climax, you may pay the cost, draw a card.
+EndCard
+
+Character: P5/S45-E090
+Name Yusuke: It's a Deal
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Thief
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 level and +2500 power.
+EndCard
+
+Character: P5/S45-E091
+Name Futaba: It's a Deal
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Thief
+Trait2 Net
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1
+	{
+		SearchLocationForTargets Stock 0 1 IsEvent || HasTrait Thief|Coffee
+		MoveCard Hand
+		Reveal
+		ShuffleLocation Stock
+	}
+}
+Text Auto: [(1)] When this card is put into the waiting room from your stage, you may pay the cost, search your stock for up to 1 <Thief> or <Coffee> character or event card, add it to your hand, and shuffle your stock.
+EndCard
+
+Character: P5/S45-E092
+Name Futaba: Hacking in Session
+Color B
+Level 1
+Cost 0
+Power 6000
+Trait1 Thief
+Trait2 Net
+Cont: InHand
+{
+	If Not StageContains 3 HasTrait Thief|Coffee
+	{
+		GainSpecialEffect CannotBePlayed
+	}
+}
+Text Cont: If the number of <Thief> or <Coffee> characters you have is 2 or less, this card cannot be played from your hand.
+EndCard
+
+Character: P5/S45-E093
+Name Yusuke: Card Duplication
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Thief
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && HasTrait Thief
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Your other <Thief> character in the middle position of your center stage gets +2000 power.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchDeck IsClimax && SameNameAsCardInWaitingRoom
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 climax with the same name as a climax in your waiting room, and add it to your hand.
+EndCard
+
+Character: P5/S45-E094
+Name Igor: Master of the Velvet Room
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Auto: StartMainPhase
+{
+	TargetLocation OpponentHand
+	View
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, at the beginning of your main phase, look at your opponent's hand.
+EndCard
+
+Character: P5/S45-E095
+Name Yusuke as FOX: All-out Attack
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Thief
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other <Thief> characters you have is 2 or more, this card gets +2000 power.
+Auto: OnSpecificClimaxPlay IT WAS FUN WHILE IT LASTED, GOODBYE.
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			AIChoice Random
+			SearchLocationForTargets Deck 0 1 NameEquals Yusuke as FOX: All-out Attack
+			PlaceOnStage False True True False
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "IT WAS FUN WHILE IT LASTED, GOODBYE." is placed in your climax area, if this card is on your center stage, you may pay the cost, search your deck for up to 1 "Yusuke as FOX: All-out Attack" and place it on any position fo your stage.
+EndCard
+
+Event: P5/S45-E096
+Name Calling Card
+Color B
+Level 1
+Cost 1
+Counter
+Effect:
+{
+	If Not LocationContains OpponentMemory 1 FaceDown
+	{
+		TargetLocation OpponentHand
+		If HasTarget
+		{
+			AIChoice MemoryFaceDown
+			OpponentSearchLocationForTargets Hand 1 1 Any
+			SendToMemoryFaceDown
+		}
+		//opponent draws regardless of if a card was sent.
+		TargetTop OpponentDeck 1
+		MoveCard OpponentHand
+	}
+	TargetLocation Stage
+	NarrowTargets HasTrait Thief
+	AIChoice GainPower 2500
+	ChooseCharacterFromTargets Choose a character to give +2500 power and on reverse bottom-deck.
+	GainPower 2500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			IfThatCard OnStage
+			{
+				Question Put the battle opponent on the bottom of your opponent's deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck.
+	}
+}
+Text If there are no face down cards in your opponent's memory, your opponent chooses a card from their hand, puts it face down into their memory and draws 1 card.  Choose one of your <Thief> characters, it gets +2500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck."
+EndCard
+
+Event: P5/S45-E097
+Name Execution
+Color B
+Level 1
+Cost 3
+Effect:
+{
+	ChooseMultipleCharacters 0 4 InLocation Stage
+	SetXValue 0
+	ForEachTarget
+	{
+		AddToXValue TargetCardsLevel
+		AddToXValue TargetCardsCost
+		MoveCard WaitingRoom
+	}
+	SearchLocationForTargets Deck 0 1 HasTrait Thief && Compare ThatCardsCostPlusLevel X OrLess
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+	}
+	ShuffleLocation Deck
+}
+Text Choose up to 4 of your characters and put them into the waiting room. Search your deck for up to 1 <Thief> character with a total level and cost of X or lower and place it on any position of your stage. X is the total level and cost of the characters put into the waiting room by this effect while they were on the stage.
+EndCard
+
+Event: P5/S45-E098
+Name Velvet Room
+Color B
+Level 1
+Cost 1
+Color B
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to send to the waiting room.
+	If HasTarget
+	{
+		MoveCard WaitingRoom
+		SearchDeck IsEvent
+	}
+}
+Text Choose one of your characters, and put it into the waiting room. If you do, search your deck for up to 1 event and add it to your hand.
+EndCard
+
+Climax: P5/S45-E099
+Name IT WAS FUN WHILE IT LASTED, GOODBYE.
+*BlueStockSoul
+Combo Yusuke as FOX: All-out Attack
+EndCard
+
+Climax: P5/S45-E100
+Name I'll Never Forgive Them!
+*GateClimax
+EndCard
+
+Character: P5/S45-E101
+Name Protagonist as JOKER: Phantom Thief of Hearts
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Thief
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: P5/S45-E102
+Name Ryuji: Phantom Thief of Hearts
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Thief
+Trait2 Sports
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+*HandEncore
+EndCard
+
+Character: P5/S45-E103
+Name Ann: Phantom Thief of Hearts
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Thief
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck, if that card is a <Thief> character, add it to your hand, and discard a card.
+EndCard
+
+Character: P5/S45-E104
+Name Morgana as MONA: Phantom Thief of Hearts
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Act: Rest 2 HasTrait Thief
+{
+	TargetLocation Stage
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Act: [Rest 2 of your <Thief> characters] Choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: P5/S45-E105
+Name Yusuke: Phantom Thief of Hearts
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Thief
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Thief
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your opponent's turn, this card gets +500 power for each of your other <Thief> characters.
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost ExchangeStandingWithThis
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: [Exchange a standing character on your center stage and this card] During your turn, when this card's battle opponent becomes reversed, you may pay the cost, draw a card and discard a card.
+EndCard
+
+Character: P5/S45-E106
+Image P5_S45_E106
+Name Makoto: Phantom Thief of Hearts
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Thief
+Trait2 Student Council
+Auto: OnOpponentClimaxPlay
+{
+	MoveCard WaitingRoom
+}
+Text Auto: When a climax is placed in your opponent's climax area, put this card into the waiting room.
+EndCard
+
+Character: P5/S45-E107
+Name Futaba: Phantom Thief of Hearts
+Color B
+Level 1
+Cost 1
+Power 6000
+Trait1 Thief
+Trait2 Net
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of other <Thief> characters you have is 2 or more, this card gets +1000 power.
+*ClockEncore
+EndCard
+
+Character: P5/S45-E109
+Name Protagonist as JOKER: Destiny Awaits
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Thief
+*ScryToBottomOnPlay
+Auto: OnReversedInBattle
+{
+	If OnStage
+	{
+		PayCost 1 SendSelf Clock
+		{
+			Peek Deck 2
+			AIChoice AddToHand
+			ChooseCard Choose one to add to your hand.
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: [(1) Put this card into your clock] When this card becomes reversed in battle, you may pay the cost, look at up to 2 cards from the top of your deck, choose up to 1 to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: P5/S45-PE02
+Clone P5/S45-E109
+Image P5_S45_PE02
+EndCard
+
+Character: P5/S45-TE01
+Name Protagonist as JOKER: Phantom Thief Under Moonlight
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Thief
+Auto: OnOtherFrontalAttacked
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetMyCharacterInBattle
+		GainPower 2000
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other character is frontal attacked, you may pay the cost. If you do, your character in battle gets +2000 power until end of turn.
+EndCard
+
+Character: P5/S45-TE02
+Name Mishima: Volleyball Team Member
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Sports
+Trait2 Net
+*OnPlayGivePower(1000, Any)
+EndCard
+
+
+
+Character: P5/S45-TE03
+Name Protagonist (P5)
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Thief
+Trait2 Glasses
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Thief
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Thief
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Thief> characters, it gets +X power until end of turn, X is 500 times the number of other <Thief> characters you have.
+EndCard
+
+Character: P5/S45-TE04
+Name Ryuji: Spirit of Defiance
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Thief
+Trait2 Sports
+Auto: OnFrontalAttacked
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals Ryuji as SKULL: The Skull of Rebellion
+		Change
+		BecomeNewBattleOpponent
+	}
+}
+Text Auto: [Put this card into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, choose up to one card named "Ryuji as SKULL: The Skull of Rebellion" in your hand, and put it on this card's stage position as the defending character.
+EndCard
+
+Character: P5/S45-TE05
+Name Protagonist: Imprisonment
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Thief
+Combo The Will of Rebellion
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchDeck HasTrait Thief
+	}
+}
+Text Auto:  [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to one «Thief» character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnSpecificClimaxPlay The Will of Rebellion
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals Protagonist as JOKER
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card into your waiting room] When a card named "The Will of Rebellion" is placed on your climax area, you may pay the cost. If you do, choose up to one card named "Protagonist as JOKER" in your hand, and put it on the stage position that this card was on.
+EndCard
+
+Character: P5/S45-TE06
+Name Ryuji as SKULL: The Skull of Rebellion
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Thief
+Trait2 Sports
+EndCard
+
+Character: P5/S45-TE07
+Name Protagonist as JOKER
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Thief
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 1500
+		GainSpecialEffect CannotBeChosen
+	}
+}
+Text Cont: If the number of other «Thief» characters you have is two or more, this card gets +1500 power, and this card cannot be chosen by your opponent's effects.
+Cont: GiveFacing
+{
+	LoseSoul 1
+}
+Text Cont: The character facing this card gets -1 soul.
+EndCard
+
+Event: P5/S45-TE08
+Name The Unforgettable Memory
+Color Y
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Thief
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text COUNTER Choose 1 of your <Thief> characters, it gets +2000 power until end of turn.
+EndCard
+
+Climax: P5/S45-TE09
+Name The Will of Rebellion
+*WindClimax
+EndCard
+
+Climax P5/S45-TE10
+Name Power Awakens
+Color Y
+*2SoulClimax
+EndCard
+
+Character: P5/S45-TE11
+Name Ann: Concerned for Her Friend
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Thief
+*GlobalPower(500,Thief|Sports)
+EndCard
+
+
+
+Character: P5/S45-TE12
+Name Morgana as MONA: The Elusive Phantom Thief
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Thief
+*500Assist
+*Act1SalvageBrainstorm(Thief)
+EndCard
+
+Character: P5/S45-TE13
+Name Shiho Suzui
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sports
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Ann as PANTHER: First Infiltration
+		FirstTarget
+		ChangeRested
+	}
+}
+Text Auto: [(1)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose a card named "Ann as PANTHER: First Infiltration" in your waiting room, and put it on any position of your stage rested.
+EndCard
+
+Character: P5/S45-TE14
+Name Morgana as MONA: The Plan Fails
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Thief
+EndCard
+
+Character: P5/S45-TE15
+Name Ann as PANTHER: First Infiltration
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Theif
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Thief
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of other «Thief» characters you have is two or more, this card gets +1000 power.
+EndCard
+
+Character: P5/S45-TE16
+Name Morgana as MONA: That's the Treasure!
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Thief
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Thief
+	{
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other «Thief» character attacks, this card gets +1000 power until end of turn.
+EndCard
+
+Climax: P5/S45-TE17
+Name We Will Promptly Shut Them Up!
+*DoorClimax
+EndCard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

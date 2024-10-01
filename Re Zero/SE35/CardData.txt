@@ -1,0 +1,1444 @@
+Character: RZ/SE35-E01
+Name Girl Imprisoned in Ice, Emilia
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Bar
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power until end of opponent's turn.
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When a climax is placed in your climax area, if that card's trigger is bar, choose 1 of your characters, it gets +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		Peek Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 IsCharacter && NameContains Emilia|Puck
+		Reveal
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1)] When a climax is placed in your climax area, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 character with <Puck> or <Emilia> in its name, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: RZ/SE35-E02
+Name Resisting Against Fate, Puck
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 2 Other && NameContains Emilia|Puck
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, if you have 2 or more other characters with "Emilia" or "Puck" in its name, this card gets +1 level and +1500 power.
+*MoveOtherWithTraitToBackstageOnReverse(Magic|Weapon)
+EndCard
+
+Character: RZ/SE35-E03
+Name "The Frozen Bond" Puck and Emilia
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Celestial Spirit
+Combo Sacred Dialogue
+Auto: OnReverseOpponent
+{
+	If Climax Sacred Dialogue && StageContains 1 Other && HasTrait Magic|Weapon
+	{
+		PayCost Discard 1 ColorIs Green
+		{
+			AIChoice AddToHand
+			Message Searching deck for up to 2 <Magic> or <Weapon> characters.
+			SearchLocationForTargets Deck 0 2 HasTrait Magic|Weapon
+			Reveal
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [Discard a green card] When this card's battle opponent becomes reversed, if "Sacred Dialogue" is in your climax area, and you have another <Magic> or <Weapon> character, you may pay the cost, search your deck for up to 2 <Magic> or <Weapon> characters and add them to your hand.
+EndCard
+
+Character: RZ/SE35-E04
+Name Contractor and Spirit, Emilia & Puck
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Combo The Road Ahead for the Two
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 HasTrait Magic|Weapon
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If your memory has 2 or more <Magic> or <Weapon> characters, this card gets +3000 power.
+*Healer
+Auto: OnSpecificClimaxPlay The Road Ahead for the Two
+{
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question_Obvious Put the battle opponent into the opponent's clock?
+			If Yes
+			{
+				TargetOther
+				MoveCard OpponentClock
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock.
+	}
+	GainEffect
+	{
+		Auto: OnDirectAttack
+		{
+			PayCost Discard 1 Any
+			{
+				Burn 2
+			}
+		}
+		Text Auto: [Discard a card] When this card direct attacks, you may pay the cost, deal 2 damage to your opponent.
+	}
+}
+Quick
+Text Auto: CxCombo When "The Road Ahead for the Two" is placed in your climax area, this card gets the following 2 abilities until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock." and "Auto: [Discard a card] When this card direct attacks, you may pay the cost, deal 2 damage to your opponent."
+EndCard
+
+Character: RZ/SE35-E05
+Name Believe That Time Will Come, Puck
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+*EarlyPlay2OrLessClimax
+*GainPowerForEachOther(500,Magic|Weapon)
+*StockHealer
+EndCard
+
+Character: RZ/SE35-E06
+Name Contract With a Lesser Spirit, Emilia
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Weapon
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your <Magic> or <Weapon> characters, it gets +1500 power until end of turn.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Magic|Weapon
+}
+Text Act: [Discard a card, put this card into the waiting room, choose a <Magic> or <Weapon> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/SE35-E07
+Name Sliding Action! Emilia
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther NameContains Emilia
+	{
+		If InLocation Backstage
+		{
+			PayCost SendSelf WaitingRoom
+			{
+				TargetOther
+				Revive
+			}
+		}
+	}
+}
+Text Auto: [Put this card into the waiting room] When your other character with "Emilia" in its name is put into the waiting room from your stage, you may pay the cost, return that character to its previous stage position as rested.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Emilia
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Emilia" in its name, it gets +1500 power until end of turn.
+EndCard
+
+Character: RZ/SE35-E08
+Name Puck Joking Around
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && NameContains Emilia|Puck
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another character with "Emilia" or "Puck" in its name, this card cannot stand during your stand phase.
+Act: 1 SendSelf Memory
+{
+	Peek Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsCharacter && NameContains Emilia|Puck
+	Reveal
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Put this card into your memory] Look at up to 4 cards from the top of your deck, and put them into the waiting room, choose up to 1 character with "Emilia" or "Puck" in its name, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: RZ/SE35-E09
+Name Exploring the Forest, Emilia
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 1 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If there is a card in your memory, this card gets +3000 power.
+Auto: OnAttack
+{
+	PayCost Discard 1 IsClimax && HasTrigger Bar
+	{
+		TargetSelf
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalDraw
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may draw 1 card.
+		}
+	}
+}
+Text Auto: [Discard a climax with a bar trigger icon] When this card attacks, you may pay the cost, this card gets +1500 power and the following effect until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw 1 card."
+EndCard
+
+Character: RZ/SE35-E10
+Name "Your Father" Puck
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Trait2 Celestial Spirit
+Combo Encounter Between the Two
+Auto: OnSpecificClimaxPlay Encounter Between the Two
+{
+	If StageContains 1 Other && HasTrait Magic|Weapon
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				Message Choose up to 1 card to put into your stock.
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Magic|Weapon
+				MoveCard Stock
+			}
+			Text Auto: When this card attacks, you may choose 1 <Magic> or <Weapon> character in your waiting room, and put it into your stock.
+		}
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When "Encounter Between the Two" is placed in your climax area, if you have another <Magic> or <Weapon> character, this card gets the following two abilities until end of turn. "Auto: When this card attacks, you may choose 1 <Magic> or <Weapon> character in your waiting room, and put it into your stock." and "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check 2 times on the trigger step."
+Requirement InBattle
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bag
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: Whent this card's trigger check reveals a climax with a bag trigger icon, you may choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/SE35-E11
+Name Emilia All Alone
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If NameEquals "Call My Name" Puck
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other ""Call My Name" Puck" get +1000 power.
+*LevelAssistTrait(Magic|Weapon)
+Act: 1 Clock RestSelf
+{
+	SearchDeck IsCharacter && NameContains Emilia|Puck
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Act: [(1) Put the top card of your deck into your clock and rest this card] Search your deck for up to 1 character with "Emilia" or "Puck" in its name and add it to your hand. Choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: RZ/SE35-E12
+Name Mana Release, Emilia
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Magic
+Trait2 Celestial Spirit
+*GreenEarlyPlayBomb
+EndCard
+
+Character: RZ/SE35-E13
+Name Caring Disposition, Emilia
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Magic
+Trait2 Celestial Spirit
+*ScryBackup(Magic|Weapon)
+Backup 2500
+EndCard
+
+Character: RZ/SE35-E14
+Name "Just" Emilia
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Emilia All Alone
+	{
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: MEMORY If "Emilia All Alone" is in your memory, this card gets the following ability, "Cont: This card cannot be chosen by your opponent's effects."
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		GainEffect
+		{
+			Cont: Assist
+			{
+				SetXValue ThatCardsLevel
+				MultiplyXValue 1000
+				GainPower X
+			}
+			Text Cont: ASSIST Your characters in front of this card get +X power. X is that character's level times 1000.
+		}
+	}
+}
+Text Cont: MEMORY If your memory has 3 or more cards, this card gets "Cont: ASSIST Your characters in front of this card get +X power. X is that character's level times 1000."
+Auto: OnPlay|PlacedBy "Call My Name" Puck
+{
+	SearchWaitingRoom HasTrait Magic|Weapon
+}
+Text Auto: When this card is placed on the stage from your hand, or by the effect of ""Call My Name" Puck", you may choose 1 <Magic> or <Weapon> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/SE35-E15
+Name Desperate Resistance, Emilia
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+*Healer
+Auto: OnAttack
+{
+	PayCost 3 Discard 2 Any
+	{
+		Burn 5
+	}
+}
+Text Auto: [(3) Discard 2 cards] When this card attacks, you may pay the cost, deal 5 damage to your opponent.
+EndCard
+
+Character: RZ/SE35-E16
+Name "Star Beastification" Puck
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Combo Clash Between Spirits
+Cont: GiveAll
+{
+	If NameEquals Desperate Resistance, Emilia
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other "Desperate Resistance, Emilia" get +1000 power.
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+	PlaceOnStage False True True False
+	TargetSelf
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or less than your level in your hand, put it on any position of your stage, and this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Clash Between Spirits
+	{
+		StockSwap
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Clash Between Spirits" is in your climax area, put all of your opponent's stock into their waiting room, and your opponent puts the same number of cards from the top of their deck into their stock.
+EndCard
+
+Character: RZ/SE35-E17
+Name Strengthened Bond, Emilia
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnTriggerCheck
+{
+	IfOther NameEquals Mining Shiny Stones, Emilia|"Your Father" Puck
+	{
+		Question Return the top card of your stock to your hand?
+		If Yes
+		{
+			TargetTop Stock 1
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When your character's trigger check reveals "Mining Shiny Stones, Emilia" or ""Your Father" Puck", you may return the top card of your stock to your hand.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: RZ/SE35-E18
+Name Mining Shiny Stones, Emilia
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, if a climax is sent, you may pay the cost, choose a character in your waiting room, and return it to your hand.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Shiny Stone
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose 1 "Shiny Stone" in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/SE35-E19
+Name Encounter Between the Two, Emilia
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Celestial Spirit
+*OnPlayTradeClimaxForCharacter(Magic|Weapon)
+EndCard
+
+Character: RZ/SE35-E20
+Name One With Power, Puck
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 NameContains Emilia|Puck
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When you use this card's <b>"Backup"</b>, if you have a character with "Emilia" or "Puck" in its name, your character in battle gets +1000 power until end of turn.
+Backup 1000
+EndCard
+
+Character: RZ/SE35-E21
+Name "Call My Name" Puck
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act 1 SendSelf Memory Send 1 Memory NameEquals Emilia All Alone
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals "Just" Emilia
+				Change
+			}
+			Text Act: [(1) Put this card and 1 "Emilia All Alone" from your stage into your memory] Choose 1 ""Just" Emilia" in your waiting room, and place it in the stage position this card was on.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [(1) Put this card and 1 "Emilia All Alone" from your stage into your memory] Choose 1 ""Just" Emilia" in your waiting room, and place it in the stage position this card was on."
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost Discard 1 Any
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncorePhase
+			{
+				Effect:
+				{
+					MoveCard WaitingRoom
+				}
+				Text At the start of your next encore step, put this card into the waiting room.
+			}
+		}
+	}
+}
+Text Auto: [Discard a card] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost, rest this card, and at the start of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: RZ/SE35-E22
+Name Punishement Time, Puck
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2500
+	}
+}
+Text Cont: If there is a marker  underneath this card, this card gets +2500 power.
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation OpponentStage
+	AIChoice Bounce
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand.
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, draw 1 card, discard a card, choose up to 1 of your opponent's characters, and return it to their hand.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquaks Pure and Innocent, Emilia|Girl Imprisoned in Ice, Emilia
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a "Pure and Innocent, Emilia" or "Girl Imprisoned in Ice, Emilia" in your waiting room, and put it face-down underneath this card as a marker.
+EndCard
+
+Character: RZ/SE35-E23
+Name Invitation to the Outside, Puck
+Color G
+Level 0
+Cost 0 
+Power 500
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 500
+	ChooseCharacterFromTargets Choose a character to give -500 power.
+	LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, choose a character on your opponent's center stage, it gets -500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchDeck IsCharacter && NameContains Emilia|Puck
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 character with "Emilia" or "Puck" in its name, and put it into your hand.
+EndCard
+
+Character: RZ/SE35-E24
+Name Exploring the Forest, Puck
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Celestial Spirit
+*500Assist
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 1 OrMore
+	{
+		GainEffect
+		{
+			Act: 2 RestSelf
+			{
+				SearchWaitingRoom IsCharacter
+			}
+			Text Act: [(2) Rest this card] Choose a character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Cont: MEMORY If there is a card in your memory, this card gets the following ability. "Act: [(2) Rest this card] Choose a character in your waiting room, and return it to your hand."
+Auto: StartMainPhase
+{
+	If Compare CardsInStock 1 OrMore
+	{
+		ChooseNumber 1 CardsInStock Choose a card in your stock to look at, (numbers count from the bottom).
+		TargetNthCardFromBottom Stock Answer
+		View
+	}
+}
+Text Auto: At the beginning of your main phase, you may choose 1 card in your stock, and look at it.
+EndCard
+
+Character: RZ/SE35-E25
+Name Emilia Reminiscing the Past
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If Other && HasTrait Magic|Weapon
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Magic> or <Weapon> characters get +500 power.
+Act: RestSelf
+{
+	TargetTop Deck 1
+	View
+}
+Text Act: [Rest this card] Look at the top card of your deck.
+EndCard
+
+Character: RZ/SE35-E26
+Name Visiting the Village, Emilia
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Celestial Spirit
+*DropSearch(Magic|Weapon)
+EndCard
+
+Character: RZ/SE35-E27
+Name Unsettling Premonition, Puck
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another stage position.
+*OpponentMayPay2ToPreventFrontalAttack
+EndCard
+
+Character: RZ/SE35-E28
+Name In the Present With Everyone, Emilia
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && NameContains Emilia|Puck
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another character with "Emilia" or "Puck" in its name, this card cannot stand during the stand phase.
+Auto: OnPlay
+{
+	TargetLocation OpponentWaitingRoom
+	NarrowTargets IsClimax
+	If Compare TargetCount 5 OrMore
+	{
+		TargetSelf
+		Rest
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if your opponent's waiting room has 5 or more climax, rest this card.
+EndCard
+
+Character: RZ/SE35-E29
+Name Unreasonable Censure, Emilia
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupInBattle
+}
+Text Cont: During this card's battle, all players cannot play "<b>Backup</b>" from their hand.
+Auto: OnFrontalAttacked
+{
+	PayCost 1 SendSelf Memory
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals "Call My Name" Puck
+		Change
+	}
+}
+Text Auto: [(1) Put this card into your memory] When this card is frontal attacked, you may pay the cost, choose up to 1 ""Call My Name" Puck" in your hand, and put it in the position this card was on as the defending character.
+Act: Rest 1 HasTrait Magic|Weapon
+{
+	GainPower 1000
+}
+Text Act: [Rest 1 of your <Magic> or <Weapon> characters] This card gets +1000 power until end of turn.
+EndCard
+
+Character: RZ/SE35-E30
+Name "Always By Your Side" Puck
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Emilia
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another card with "Emilia" in its name, this card gets +3000 power.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			If Compare CardsInOpponentsClock 1 OrMore
+			{
+				IfOther OnStage
+				{
+					Question Put the top card of your opponent's clock into the waiting room and put the battle opponent into your opponent's clock?
+					If Yes
+					{
+						TargetTop OpponentClock 1
+						MoveCard OpponentWaitingRoom
+						TargetOther
+						MoveCard OpponentClock
+					}
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into their clock.
+	}
+}
+Alarm
+Text Auto: ALARM At the beginning of your climax phase, if this card is on the top of your clock, choose 1 of your characters, it gets the following effect until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into their clock."
+EndCard
+
+Character: RZ/SE35-E31
+Name Balance Between Oath and Contract, Puck
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInMemory 1 OrMore
+	{
+		GainPower 2500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetFacing
+				If Compare TargetCardsLevel 2 Exactly
+				{
+					TargetSelf
+					GainPower 6000
+				}
+			}
+			Text Auto: When this card attacks if the character facing this card is level 2, this card gets +6000 power until end of turn.
+		}
+	}
+}
+Text Cont: MEMORY During your turn, if there is a card in your memory, this card gets +2500 power and the following ability, "Auto: When this card attacks if the character facing this card is level 2, this card gets +6000 power until end of turn."
+*ClockEncore
+EndCard
+
+Character: RZ/SE35-E32
+Name Life in the Forest, Emilia
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If Compare CardsInStock 6 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If your stock has 6 or more cards, this card gets +3000 power.
+*HandEncore
+EndCard
+
+Character: RZ/SE35-E33
+Name Considerate Warning, Emilia
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnUseAct
+{
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalBlindStock
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an ACT effect, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: RZ/SE35-E34
+Name Surging Rage, Puck
+Color G
+Level 1
+Cost 1
+Power 5500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Magic> or <Weapon> characters, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: RZ/SE35-E35
+Name Emilia Basked in Sunset
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Feelings Toward Emilia, Puck
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have another "Feelings Toward Emilia, Puck" this card gets "Auto: ENCORE [Discard a character]."
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		GainPower 4000
+		GainSoul 1
+	}
+}
+Text Cont: MEMORY If your memory has 3 or more cards, this card gets +4000 power and +1 soul.
+EndCard
+
+Character: RZ/SE35-E36
+Name Feelings Toward Emilia, Puck
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 NameEquals Emilia Basked in Sunset
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have another "Emilia Basked in Sunset", this card gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 ColorIs Green
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Emilia Basked in Sunset
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard a green card] When this card is placed on the stage from your hand, you may pay the cost, choose 1 "Emilia Basked in Sunset" in your waiting room, and place in on any position of your stage.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Event: RZ/SE35-E37
+Name Ice Blooms
+Color G
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Emilia
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect.\n 1. "You may put 3 cards from the bottom of your stock into the waiting room, if you do, choose 1 level 3 or lower character on your opponent's center stage, and put it on the bottom of their deck."\n 2. "All of your opponent's characters get -500 power until end of turn. Put this card into your memory"|Effect 1|Effect 2
+	If Answer 0
+	{
+		If Compare CardsInStock 3 OrMore
+		{
+			TargetBottom Stock 3
+			MoveCard WaitingRoom
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLower
+			AIChoice RemoveCard
+			ChooseCharacterFromTargets Choose a character to put on the bottom of your opponent's deck.
+			MoveCardToBottom OpponentDeck
+		}
+	}
+	Else
+	{
+		TargetLocation OpponentStage
+		LosePower 500
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text If you do not have a character with "Emilia" in its name, this card cannot be played from your hand.\nChoose 1 of the following effects and perform it.\n"You may put 3 cards from the bottom of your stock into the waiting room, if you do, choose 1 level 3 or lower character on your opponent's center stage, and put it on the bottom of their deck."\n"All of your opponent's characters get -500 power until end of turn. Put this card into your memory"
+EndCard
+
+Event: RZ/SE35-E38
+Name Shiny Stone
+Color G
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Emilia
+Effect:
+{
+	ForcePayCost Rest 1 Any
+	{
+		SearchLocationForTargets Stock 0 1 HasTrigger Bag
+		Reveal
+		MoveCard Hand
+		ShuffleLocation Stock
+	}
+}
+Text If you do not have a character with "Emilia" in its name, this card cannot be played from your hand.\nChoose 1 of your standing characters and rest it, if you do, search your stock for up to 1 climax with a bag trigger icon, return it to your hand, and shuffle your stock.
+EndCard
+
+Climax: RZ/SE35-E39
+Name Sacred Dialogue
+*BarClimax
+EndCard
+
+Climax: RZ/SE35-E40
+Name The Road Ahead for the Two
+*BarClimax
+EndCard
+
+Climax: RZ/SE35-E41
+Name Encounter Between the Two
+*BagClimax
+EndCard
+
+Climax: RZ/SE35-E42
+Name Clash Between Spirits
+*BagClimax
+EndCard
+
+Character: RZ/SE35-E43
+Name Ram in a Hakama
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Trait2 Maid
+Combo Subaru Natsuki's Decoy Tactic
+Cont: GiveSelf
+{
+	If StageContains 2 Other && NameContains Ram|Rem
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other characters with "Ram" or "Rem" in its name, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If Climax Subaru Natsuki's Decoy Tactic
+	{
+		*OptionalBlindStock
+		SearchWaitingRoom NameEquals Pink-Haired Maid, Ram
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Subaru Natsuki's Decoy Tactic" is in your climax area, put up to 1 card from the top of your deck into your stock, choose up to 1 "Pink-Haired Maid, Ram" in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/SE35-E44
+Name Bandits in the Forest, Chap
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Weapon
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				SearchLocationForTargets Hand 1 1 NameEquals Avenger, Chap
+				Change
+			}
+			Text Act: [Put this card into the waiting room] Choose 1 "Avenger, Chap" in your hand, and place it on the stage position this card was in.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [Put this card into the waiting room] Choose 1 "Avenger, Chap" in your hand, and place it on the stage position this card was in."
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchLocationForTargets WaitingRoom 0 2 NameEquals Black Water
+		MoveCard Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, choose up to 2 "Black Water" in your waiting room, and return them to your hand.
+EndCard
+
+Character: RZ/SE35-E45
+Name "Mediator" Melaquera
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+DeckLimit 7
+Combo All-Consuming Flames
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets NameEquals "Mediator" Melaquera
+	SetXValue TargetCount
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: EXPERIENCE This card gets +2000 power for each ""Mediator" Melaquera" in your level.
+Auto: OnAttack
+{
+	If Climax All-Consuming Flames
+	{
+		Burn 1
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				IfOther OnStage
+				{
+					Question Put the battle opponent on top of your opponent's deck?
+					If Yes
+					{
+						TargetOther
+						MoveCard OpponentDeck
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "All-Consuming Flames" is in your climax area, deal 1 damage to your opponent, and this card gets +1000 power and the following ability until the end of your opponent's next turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck."
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCard Memory
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card into your memory.
+EndCard
+
+Character: RZ/SE35-E46
+Name Black Water
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Magic
+Army
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets NameEquals "Mediator" Melaquera
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: EXPERIENCE This card gets +1500 power for each ""Mediator" Melaquera" in your level.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Black Water
+	{
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				IfOther OnStage
+				{
+					Question Put the battle opponent on top of your opponent's deck?
+					If Yes
+					{
+						TargetOther
+						MoveCard OpponentDeck
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck.
+		}
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Black Water" in your hand] At the beginning of your climax phase, you may pay the cost, this card gets the following effect until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck."
+EndCard
+
+Character: RZ/SE35-E47
+Name "Great Four" Malaquera
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: InHand
+{
+	If LocationContains WaitingRoom 4 NameEquals Black Water
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your waiting room has 6 or more "Black Water", this card gets -1 level in your hand.
+Cont: GiveAll
+{
+	If Other && ColorIs Red
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other red characters get +1000 power.
+Cont: GiveSelf
+{
+	If Compare MyLevel 3 OrMore && LocationContains Memory 1 NameEquals "Mediator" Melaquera
+	{
+		GainEffect
+		{
+			Act: 1
+			{
+				SearchLocationForTargets Level 1 1 NameEquals "Mediator" Melaquera
+				If HasTarget
+				{
+					Exchange
+				}
+			}
+			Text Act: [(1)] Choose 1 ""Mediator" Melaquera" in your level and this card, and exchange them.
+		}
+	}
+}
+Text Cont: MEMORY If your level is 3 or higher, and ""Mediator" Melaquera" is in your memory, this card gets the following ability. "Act: [(1)] Choose 1 ""Mediator" Melaquera" in your level and this card, and exchange them."
+EndCard
+
+Character: RZ/SE35-E48
+Name Avenger, Chap
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 5000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: Global
+{
+	If InLocation OpponentStage && NameContains Emilia
+	{
+		GainTrait Witch
+	}
+}
+Text Cont: All of your opponent's characters with "Emilia" in its card name gain <Witch>.
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +2000 power and "Auto: ENCORE [Discard a character]".
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets NameEquals "Mediator" Melaquera
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: EXPERIENCE This card gets +1500 power for each ""Mediator" Melaquera" in your level.
+*OnPlayChooseMarker(Bandits in the Forest\, Chap)
+EndCard
+
+Climax: RZ/SE35-E49
+Name All-Consuming Flames
+*DoorClimax
+EndCard
+
+Character: RZ/SE35-E50
+Name Rem in a Hakama
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Maid
+Auto: StartClimaxPhase
+{
+	TargetTop Deck 1
+	View
+}
+Text Auto: At the beginning of your climax phase, you may look at the top card of your deck.
+*Act1RestSelfSearchBrainstorm(Magic|Weapon)
+EndCard
+
+Character: RZ/SE35-P01
+Name Inside the Stagnant Time, Emilia
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Celestial Spirit
+*ClimaxExchange
+EndCard
+
+Character: RZ/SE35-PE02
+Name Pouting Emilia
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Celestial Spirit
+*OnAttackPay1ToDoubleTrigger
+*GreenCost0Bomb
+EndCard
+
+Character: RZ/SE35-P03
+Name Shirokuro Animal, Ram
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +3000 power.
+*ClimaxExchange
+EndCard
+
+Character: RZ/SE35-P04
+Name Shirokuro Animal, Emilia
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Celestial Spirit
+*OnPlayCheckTopAddDiscard(Magic|Weapon)
+*OnPlayTradeClimaxForCharacter(Magic|Weapon)
+EndCard
+
+Character: RZ/SE35-P05
+Name Shirokuro Animal, Rem
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Maid
+Auto: OnPlay
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, it gets +1000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*CheckAndAddOne(4,IsCharacter && NameContains Rem|Ram)
+	}
+}
+Text Auto: [Discard a card] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 character with "Rem" or "Ram" in its name, and add it to your hand. Put the rest into the waiting room.
+EndCard
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,612 @@
+Character: CL/WE01-01
+Name Nagisa, Drama Club President
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Play
+Trait2 Dango
+Combo Do You Like This School...?
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals Tomoya Okazaki
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have another "Tomoya Okazaki", this card gains +1000 power.
+Auto: OnAttack
+{
+	If Climax Do You Like This School...?
+	{
+		SearchDeck HasTrait Twins | Book
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Do You Like This School...?" is in your climax area, search your deck for up to one character with either <Twins> and/or <Book>, reveal it, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: CL/WE01-02
+Name Tomoya Okazaki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Deliquent
+Trait2 Sports
+Auto: StartOpponentAttackPhase
+{
+	Question Exchange this card and another?
+	If Yes
+	{
+		TargetLocation Stage
+		NarrowTargets Other && CanMove
+		ChooseCharacterFromTargets
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose one of your characters and this card and exchange them as standing.
+EndCard
+
+Character: CL/WE01-03
+Name Nagisa, Girl Who Stood Still
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Play
+Trait2 Dango
+Auto: OnPlay
+{
+	If StageContains 4 Other && NameContains Furukawa
+	{
+		TargetLocation Stage
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have four or more other characters with "Furukawa" in name, all of your characters gain +2 soul until end of turn.
+EndCard
+
+Character: CL/WE01-04
+Name Nagisa Furukawa
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Play
+Trait2 Dango
+Cont: GiveAll
+{
+	If NameEquals Tomoya Okazaki
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Tomoya Okazaki" gain +1000 power.
+*Bond1(Tomoya Okazaki)
+EndCard
+
+Character: CL/WE01-05
+Name Nagisa, Caretaker
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Play
+Trait2 Dango
+*PowerOnMyTurn(1000)
+EndCard
+
+Character: CL/WE01-06
+Name Youhei Sunohara
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Deliquent
+Trait2 Sports
+Act: RestSelf
+{
+	TargetLocation AnyStage
+	ChooseCharactersFromTargets 0 2 Choose up to two characters to gain <Sports>
+	GainTrait Sports
+}
+Text Act: [Rest this card] Choose up to two characters and those characters gain <Sports> until end of turn.
+Act: SendSelf WaitingRoom
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Tomoyo
+	ChooseCharacterFromTargets Choose a character to gain +2500 power
+	GainPower 2500
+}
+Text Act: [Put this card into your waiting room] Choose one of your characters with "Tomoyo" in name and that characterr gains +2500 power until end of turn.
+EndCard
+
+Climax: CL/WE01-07
+Name Do You Like This School...?
+Color Y
+*2SoulClimax
+EndCard
+
+Character: CL/WE01-08
+Name Fuuko, Legendary Starfish User
+Color G
+Level 1
+Cost 0
+Power 1000
+Trait1 Starfish
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	GainEffect
+	{
+		*FreeEncore
+	}
+	TargetBattleOpponent
+	GainEffect
+	{
+		*FreeEncore
+	}
+}
+Text Auto: When you use this card's BACKUP, all of the battling characters gain the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return it to its previous position rested"
+Backup 0
+EndCard
+
+Character: CL/WE01-09
+Name Tomoyo, Family Feel
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Student Council
+Trait2 Sports
+Auto: OnPlay
+{
+	TargetLocation Backstage
+	NarrowTargets Compare ThatCardsLevel 1 OrLess && Not CardPosition Stand
+	If HasTarget
+	{
+		Question Stand a level 1 or less in your backstage?
+		If Yes
+		{
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose a level 1 or lower character in your backstage and stand it.
+EndCard
+
+Character: CL/WE01-10
+Name Tomoyo, All-Around in Sports
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Student Council
+Trait2 Sports
+Auto: OnPlay
+{
+	PayCost 5
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets HasTrait Sports | Deliquent && Compare ThatCardsLevel 3 OrLess
+		ChooseCharacterFromTargets Choose a character to send to your opponent's clock
+		MoveCard OpponentClock
+	}
+}
+Text Auto: [(5)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a level 3 or lower character with either <Sports> and/or <Deliquent> in your opponent's center stage and put it into their clock.
+*Healer
+EndCard
+
+Character: CL/WE01-11
+Name Fuuko, Ghost Girl
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Starfish
+Combo Until the End of the Dream
+Auto: OnAttack
+{
+	If Climax Until the End of the Dream
+	{
+		BlindStock
+		TargetLocation Stage
+		NarrowTargets HasTrait Starfish
+		GainPower 2000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Until the End of the Dream" is in your climax area, put the top card of your deck into your stock and all of your <Starfish> charactes gain +2000 power
+Auto: Encore 2
+{
+}
+Text Auto: ENCORE [(2)]
+EndCard
+
+Character: CL/WE01-12
+Name Tomoyo, Legendary Girl
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Student Council
+Trait2 Sports
+Auto: OnPlay
+{
+	TargetLocation Backstage
+	NarrowTargets NameContains Youhei
+	If HasTarget
+	{
+		Question Choose a Youhei in your backstage to put to your stock?
+		If Yes
+		{
+			ChooseCharacterFromTargets Choose a character to put to your stock
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose a character in your backstage whose name includes "Youhei" and put it into your stock.
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1 level and +3000 power
+	GainPower 3000
+	GainLevel 1
+}
+Text Act: [(1) Rest this card] Choose one of your characters and that character gains +1 level and +3000 power until end of turn.
+EndCard
+
+Character: CL/WE01-13
+Name Fuuko & Kouko
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Starfish
+Trait2 Teacher
+Act: 1
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain <Starfish> and the effect
+	GainTrait Starfish
+	GainEffect
+	{
+		Act: RestSelf
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Teacher
+			ChooseCharacterFromTargets Choose a character to gain +2000 power
+			GainPower 2000
+		}
+		Text Act: [Rest this card] Choose one of your <Teacher> characters, and that character gains +2000 power until end of turn.
+	}
+}
+Text Act: [(1)] Choose one of your characters and that character gains <Starfish> and "Act: [Rest this card] Choose one of your <Teacher> characters, and that character gains +2000 power until end of turn."
+EndCard
+
+Climax: CL/WE01-14
+Name Until the End of the Dream
+Color G
+*OldStockSoulClimax
+EndCard
+
+Character: CL/WE01-15
+Name Kyou, Loves Caring
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Twins
+Trait2 Chairman
+*GlobalPower(500,Sports)
+EndCard
+
+Character: CL/WE01-16
+Name Nagisa & Kyou, Bakery
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Play
+Trait2 Chairman
+Cont: GiveAll
+{
+	If HasTrait Deliquent && Other
+	{
+		GainLevel 1
+	}
+}
+Text Cont: All of your other <Deliquent> characters gain +1 level.
+*GlobalPower(500,Chairman)
+EndCard
+
+Character: CL/WE01-17
+Name Kyou, Thinking of Younger Sister
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Twins
+Trait2 Chairman
+Cont: GiveAll
+{
+	If NameContains Ryou && Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Ryou" in name gain +500 power.
+Backup 3000
+EndCard
+
+Character: CL/WE01-18
+Name Kyou, Berserking Girl
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Twins
+Trait2 Chairman
+Auto: OnPlay
+{
+	PayCost 1 Send 1 WaitingRoom HasTrait Book
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 1 OrLess
+		ChooseCharacterFromTargets Choose a character to send to your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [(1) Send a <Book> character from your stage to your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a level 1 or lower character in your opponent's center stage and put it into their waiting room. 
+EndCard
+
+Character: CL/WE01-19
+Name Sanae Furukawa
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Bread
+Trait2 Teacher
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Play
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another character with <Play>, this card gains +2000 power.
+EndCard
+
+Character: CL/WE01-20
+Name Akio Furukawa
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Bread
+Trait2 Play
+*GlobalPower(500,Bread|Dango)
+Act: 1 SendSelf WaitingRoom
+{
+	SearchWaitingRoom NameEquals Sanae Furukawa
+}
+Text Act: [(1) Put this card in your waiting room] Choose a "Sanae Furukawa" in your waiting room and return it to your hand.
+EndCard
+
+Character: CL/WE01-21
+Name Nagisa & Kotomi
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Play
+Trait2 Book
+Cont: GiveSelf
+{
+	If StageContains 1 IsColor Yellow && Other &&& StageContains 1 IsColor Green && Other &&& OpponentsTurn
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: During your opponent's turn, if you have another YELLOW character and another GREEN character, this card gains +1500 power and "Auto: ENCORE [Discard a character]"
+EndCard
+
+Character: CL/WE01-22
+Name Kotomi, Honorary Book Committee Member
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Book
+Trait2 Music
+Cont: Assist
+{
+	If Compare ThatCardsLevel 2 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: ASSIST All of your level 2 or higher characters in front of this card gain +1000 power.
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Book
+}
+Text Act: [(2) Rest this card] Search your deck for up to one <Book> character, reveal it, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: CL/WE01-23
+Name Kotomi, Destructor of Rhythm
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Book
+Trait2 Music
+Combo Present to My Daughter
+Auto: OnAttack
+{
+	If Climax Present to My Daughter
+	{
+		PayCost 7
+		{
+			TargetLocation CenterStage
+			NarrowTargets Other
+			MoveCard Deck
+			ShuffleLocation Deck
+			TargetLocation OpponentCenterStage
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo [(7)] When this card attacks, if "Present to My Daughter" is in your climax area, you may pay the cost. If you do, return all other characters in each player's center stage to their decks, then shuffle each deck.
+EndCard
+
+Character: CL/WE01-24
+Name Girl of the Fantasy World
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Doll
+Cont: Alarm
+{
+	If MyCard && StageContainsOrLess 1 Any
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				SearchDeck IsCharacter
+			}
+			Text Auto: When this card attacks, search your deck for up to one character, reveal it, put it into your hand, and shuffle your deck afterwards.
+		}
+	}
+}
+Text Cont: ALARM If this card is on the top of your clock, and you have exactly 1 character, all of your characters gain "Auto: When this card attacks, search your deck for up to one character, reveal it, put it into your hand, and shuffle your deck afterwards."
+EndCard
+
+Character: CL/WE01-25
+Name Kotomi Ichinose
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Book
+Trait2 Music
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Auto: When this card is placed on stage from your hand, draw a card and then discard a card from your hand to your waiting room.
+EndCard
+
+Character: CL/WE01-26
+Name Kyou & Ryou
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Twins
+Trait2 Chairman
+EndCard
+
+Climax: CL/WE01-27
+Name Present to My Daughter
+*BookClimax
+EndCard
+
+Character: CL/WE01-46
+Name Nagisa in Sunlight
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Play
+Trait2 Dango
+EndCard
+
+Event: CL/WE01-47
+Name Sunohara Combo
+Color G
+Level 2
+Cost 0
+Effect:
+{
+	SearchLocationForTargets Clock 0 1 NameEquals Youhei Sunohara
+	MoveCard WaitingRoom
+	If StageContains 1 NameContains Tomoya
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Youhei Sunohara
+		MoveCard Stock
+	}
+}
+Text Choose a "Youhei Sunohara" in your clock and put it into your waiting room. If you have a character with "Tomoya" in name, choose a "Youhei Sunohara" in your waiting room and put it into your stock
+EndCard
+
+Character: CL/WE01-48
+Name Girls in Gardens
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Play
+Trait2 Sports
+EndCard
+
+Character: CL/WE01-49
+Name Kyou, Continuing Combo
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Twins
+Trait2 Chairman
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals Sunohara Combo
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a "Sunohara Combo" in your waiting room and return it to your hand.
+Act: 1
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Youhei Sunohara
+	If HasTarget
+	{
+		MoveCard Clock
+		SearchLocationForTargets Clock 1 1 Any
+		MoveCard WaitingRoom
+	}
+}
+Text Act: [(1)] You may choose a "Youhei Sunohara" in your waiting room and put it into your clock. If you do, choose a card in your clock and put it into your waiting room.
+EndCard
+

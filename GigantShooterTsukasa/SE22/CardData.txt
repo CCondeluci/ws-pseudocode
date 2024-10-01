@@ -1,0 +1,716 @@
+Character: GST/SE22-01
+Name Stable Gigant Brain, Tsukasa
+JPName 安定のギガント脳 つかさ
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Gigant
+Trait2 Protagonist
+*OnPlayCheckTopAddDiscard(Gigant)
+Auto: StartClimaxPhase
+{
+    If InLocation MiddleCenterStage && FirstTurnOfGame
+    {
+        *OptionalDraw
+        *OptionalDraw
+        SearchLocationForTargets Hand 1 1 Any
+        MoveCard Stock
+        TargetLocation Stage
+        GainSpecialEffect CannotAttack
+    }
+}
+Text Auto: At the beginning of your climax phase, if this card is in the middle position of your center stage, and it is the first turn of the player who went first, draw up to 2 cards, choose a card in your hand and put it in stock, and you cannot attack this turn.
+EndCard
+
+Character: GST/SE22-02
+Name Hates to Lose, Miruko
+JPName 勝気な少女 ミル子
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Gigant
+Trait2 Love-blind
+Auto: OnAttack
+{
+    PayCost 1 Clock
+    {
+        SearchWaitingRoom IsCharacter && HasTrait Gigant
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card attacks, you may pay the cost. If you do, choose 1 «Gigant» character in your waiting room and return it to your hand.
+EndCard
+
+Character: GST/SE22-03
+Name Tsundere Beauty, Miruko
+JPName ツンデレ美少女 ミル子
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Gigant
+Trait2 Love-blind
+*LevelAssist
+*OnPlayTradeClimaxForCharacter(Gigant)
+EndCard
+
+Character: GST/SE22-04
+Name Loves Gigant, Tsukasa
+JPName ギガント大好き つかさ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 1
+Soul 2
+Trait1 Gigant
+Trait2 Protagonist
+Combo Galactica Dragon
+Cont: GiveAll
+{
+    IfOwner Not CardPosition Reverse && InLocation CenterStage
+    {
+        If Not NameContains つかさ
+        {
+            GainPower 5500
+        }
+    }
+}
+Text Cont: If this card is in the center stage and not reversed, all your other characters without "Tsukasa" in its card name get +5500 power.
+Auto: OnAttack
+{
+    If Climax Galactica Dragon
+    {
+        PayCost 1 Discard 2 Any
+        {
+            Burn 5
+            UntilEndOfOpponentsTurn
+            GainEffect
+            {
+                Auto: OnReversed
+                {
+                    Rest
+                }
+                TimesPerTurn 1
+                Text Auto: This ability activates up to once per turn. When this card becomes reversed in battle, rest this card.
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(1) Put 2 cards from hand to the waiting room] When this card attacks, if "Galactica Dragon" is in your climax area, you may pay the cost. If you do, deal 5 damage to your opponent, and this card gets the following ability until the end of your opponent's next turn: "Auto: This ability activates up to once per turn. When this card becomes reversed in battle, rest this card."
+EndCard
+
+Character: GST/SE22-05
+Name Goddess of the Clear Water, Miruko
+JPName 麗しき水の女神 ミル子
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Gigant
+Trait2 Love-blind
+Cont: InHand
+{
+    If LocationContains Level 2 NameEquals Tsundere Beauty, Miruko
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If you have 2 or more "Tsundere Beauty, Miruko", this card gets -1 level while in your hand.
+*OnPlayDraw2Discard1
+EndCard
+
+Character: GST/SE22-06
+Name Surprisingly Skilled, Tsukasa's Mother
+JPName 意外な実力者 つかさの母
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Housewife
+Trait2 Gigant
+*BondClock(Searching for King Manger\, Tsukasa)
+Act: 1
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen && Compare ThatCardsLevel 0 OrLess
+    ChooseCharacterFromTargets Choose a character to put into waiting room.
+    MoveCard OpponentWaitingRoom
+}
+Text Act: [(1)] Choose a level 0 or lower character in your opponent's center stage and put it in the waiting room.
+EndCard
+
+Character: GST/SE22-07
+Name Victory for the Dream, Miruko
+JPName 夢のための勝利 ミル子
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Gigant
+Trait2 Love-blind
+Combo Crunching Water Cutter
+*OnPlayScry
+Auto: OnAttack
+{
+    If Climax Crunching Water Cutter
+    {
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            Auto: OnReversed
+            {
+                TargetBattleOpponent
+                IfTarget Compare ThatCardsCost 1 OrLess && OnStage && Not CardPosition Reverse
+                {
+                    Question Reverse the battle opponent?
+                    If Yes
+                    {
+                        Reverse
+                    }
+                }
+            }
+            Quick
+            Text Auto: When this card becomes reversed, if the cost of this card's battle opponent is 1 or lower, you may reverse that character.
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Crunching Water Cutter" is in your climax area, this card gets the following ability until end of turn. "Auto: When this card becomes reversed, if the cost of this card's battle opponent is 1 or lower, you may reverse that character."
+EndCard
+
+Character: GST/SE22-08
+Name Missing, Tsukasa's Father
+JPName 行方不明中 つかさの父
+Color R
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Gigant
+*BackupBonus1000(Gigant)
+Backup 1000
+EndCard
+
+Character: GST/SE22-09
+Name Searching for King Manger, Tsukasa
+JPName キングメンガーを探すつかさ
+Color R
+Level 1
+Cost 0
+Power 7000
+Soul 1
+Trait1 Gigant
+Trait2 Protagonist
+Auto: OnFrontalAttacked
+{
+    MoveCard WaitingRoom
+}
+Quick
+Text Auto: When this card is frontal attacked, put this card in the waiting room.
+EndCard
+
+Character: GST/SE22-10
+Name Illegitimate Child of the Burning Flames, Tsukasa
+JPName 燃え盛る炎の落とし子 つかさ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 9500
+Soul 1
+Trait1 Gigant
+Trait2 Protagonist
+Auto: StartClimaxPhase
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+    {
+        TargetLocation Hand
+        ChooseRandomTarget
+        MoveCard WaitingRoom
+    }
+}
+Text Auto: At the beginning of your climax phase, reveal the top card of your deck. If it's a level 0 or lower character, discard a random card from your hand to the waiting room.
+*ClockEncore
+EndCard
+
+Climax: GST/SE22-11
+Name Galactica Dragon
+JPName ギャラクティカドラゴン
+*RedStockSoul
+EndCard
+
+Climax: GST/SE22-12
+Name Crunching Water Cutter
+JPName シャリシャリウォーターカッター
+*DoorClimax
+EndCard
+
+Character: GST/SE22-13
+Name Admiration for Tsukasa, Manabu
+JPName つかさを慕うマナブ
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Glasses
+Trait2 Gigant
+*GlobalPower(500,Gigant)
+Act: 2 RestSelf
+{
+    Brainstorm 4
+    Repeat BrainstormedClimax
+    {
+        SearchWaitingRoom IsClimax
+    }
+}
+Text Act: BRAINSTORM [(2) Rest this card] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, choose up to 1 climax in your waiting room and return it to your hand.
+EndCard
+
+Character: GST/SE22-14
+Name Part of the Power, Kirito
+JPName 力の片鱗 キリト
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Mystery
+Trait2 Gigant
+*GiveMiddlePower(1500,Gigant)
+Auto: StartClimaxPhase
+{
+    If InLocation Backstage
+    {
+        Question Put the top card of your deck underneath this card as a marker ?
+        If Yes
+        {
+            TargetTop Deck 1
+            Marker_FaceDown
+        }
+    }
+}
+Text Auto: At the beginning of your climax phase, if this card is in the backstage, you may put the top card of your deck underneath this card as a marker.
+Auto: OnAttack
+{
+    SetXValue ThisCardsMarkers
+    MultiplyXValue 1500
+    GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X equals 1500 times the number of markers underneath this card.
+EndCard
+
+Character: GST/SE22-15
+Name Burnt out, Ataru
+JPName 燃え尽きたあたる
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Brocade
+Trait2 Gigant
+Combo Great Bison Impact
+Auto: OnAttack
+{
+    If Climax Great Bison Impact
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget IsCharacter && HasTrait Gigant
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Great Bison Impact" is in your climax area, reveal the top card of your deck. If it's a «Gigant» character, put it in your hand.
+Auto: OnAttack
+{
+    If Climax Great Bison Impact
+    {
+        GainPower 3000
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Great Bison Impact" is in your climax area, this card gets +3000 power until end of turn.
+EndCard
+
+Character: GST/SE22-16
+Name Ready for Battle, Manabu
+JPName 気合十分 マナブ
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Glasses
+Trait2 Gigant
+*GainPowerWithEnoughCharacters(1000,2,Gigant)
+EndCard
+
+Character: GST/SE22-17
+Name Ataru's Little Sister, Ruri
+JPName あたるの妹 ルリ
+Color B
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Gigant
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Gigant
+    MultiplyXValue 500
+    GainPower X
+}
+Text Cont: This card gets +500 power for each of your «Gigant» characters in the backstage
+*HandEncore
+EndCard
+
+Character: GST/SE22-18
+Name Pinpoint Tsukkomi, Ataru
+JPName 的確なツッコミ あたる
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Brocade
+Trait2 Gigant
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Gigant
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If all your characters are «Gigant», this card gets +1000 power.
+*Healer
+EndCard
+
+Character: GST/SE22-19
+Name Secretly Skilled, Kirito
+JPName 影の実力者 キリト
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Mystery
+Trait2 Gigant
+Auto: StartClimaxPhase
+{
+    If StageContainsOrLess 0 Other
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen && Compare ThatCardsLevel 3 OrLess
+        ChooseCharacterFromTargets_Optional Choose up to 1 character to put into clock.
+        MoveCard OpponentClock
+        TargetSelf
+        GainPower 7000
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                PayCost 2 Discard 2 Any
+                {
+                    Stand
+                    MoveToOpenPosition true false
+                }
+            }
+        }
+    }
+}
+Text Auto: At the beginning of your climax phase, if you have no other characters, choose up to 1 level 3 or lower character in your opponent's center stage and put it in clock, and this card gets +7000 power and the following ability until end of turn. "Auto: [(2) Put 2 cards from hand to the waiting room] This ability activates up to once per turn. When this card's battle opponent becomes reverse, you may pay the cost. If you do, stand this card and move this card to another open position on the stage."
+Act: Send 1 WaitingRoom Other
+{
+    UntilEndOfOpponentsTurn
+    GainPower 1000
+}
+Text Act: [Choose 1 of your other characters on the stage and put it in the waiting room] This gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: GST/SE22-20
+Name Adorable Beauty, Ruri
+JPName 可憐な美少女 ルリ
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Gigant
+*OnAttackGiveOtherPower(1000,Gigant)
+EndCard
+
+Character: GST/SE22-21
+Name Silent Fighting Will, Ataru
+JPName 静かな闘志 あたる
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Brocade
+Trait2 Gigant
+Cont: GiveSelf
+{
+    If LocationContainsOrLess OpponentCenterStage
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If your opponent has 2 or less characters in center stage, this card gets +1000 power.
+EndCard
+
+Character: GST/SE22-22
+Name Delinquent Elementary School Student
+JPName 不良小学生
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Delinquent
+Trait2 Gigant
+Act: Rest 2 Any
+{
+    *GiveCharacterPower(1500,Gigant)
+}
+Text Act: [Rest 2 of your characters] Choose 1 of your «Gigant» characters, and that character gets +1500 power until end of turn.
+EndCard
+
+Character: GST/SE22-23
+Name Hidden Message in Speech, Kirito
+JPName 意味深な発言 キリト
+Color B
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Mystery
+Trait2 Gigant
+EndCard
+
+Character: GST/SE22-24
+Name Dark Magician of the Abyss, Kirito
+JPName 深淵なる闇の奇術師 キリト
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Mystery
+Trait2 Gigant
+Act: 1
+{
+    Brainstorm 4
+    Repeat BrainstormedClimax
+    {
+        *GiveCharacterPower(2000,Gigant)
+    }
+}
+Text Act: BRAINSTORM [(1)] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, choose 1 of your «Gigant» characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: GST/SE22-25
+Name Blessed Child of the Fertile Land, Ataru
+JPName 豊穣なる大地の申し子 あたる
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Brocade
+Trait2 Gigant
+Backup 3000
+EndCard
+
+Character: GST/SE22-26
+Name the Tiny Strength, Ruri
+JPName 小さな強さ ルリ
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Gigant
+Cont: GiveSelf
+{
+    If Not MyTurn
+    {
+        SetXToNumberOfCharacters Other && HasTrait Gigant
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: During your opponent's turn, this card gets +500 power for each of your other «Gigant» characters
+EndCard
+
+Character: GST/SE22-27
+Name Refreshing Breeze Blowing Through, Manabu
+JPName 吹き抜ける清涼な風 マナブ
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Glasses
+Trait2 Gigant
+Cont: GiveSelf
+{
+    If Compare ThisCardsMarkers 1 OrMore
+    {
+        GainPower 3500
+        GainSoul 1
+    }
+}
+Text Cont: If there is 1 or more marker underneath this card, this card gets +3500 power and +1 soul.
+Auto: OnSpecificClimaxPlay Shining Grasshopper
+{
+    Question Put this card into memory?
+    If Yes
+    {
+        MoveCard Memory
+        ScheduleEffect StartDrawPhase
+        {
+            Effect:
+            {
+                TargetLocation Memory
+                NarrowTargets NameEquals Refreshing Breeze Blowing Through, Manabu
+                FirstTarget
+                If HasTarget
+                {
+                    Message Refreshing Breeze Blowing Through, Manabu returns from memory.
+                    PlaceOnStage False True True False
+                    TargetTop Deck 1
+                    Marker_FaceDown
+                }
+            }
+            Text At the beginning of your next draw phase, choose 1 "Refreshing Breeze Blowing Through, Manabu" in your memory and put it in any position on the stage, and put the top card of your deck under that character as a marker.
+        }
+    }
+}
+Text Auto: When "Shining Grasshopper" is placed on your climax area, you may put this card into memory. If you do, at the beginning of your next draw phase, choose 1 "Refreshing Breeze Blowing Through, Manabu" in your memory and put it in any position on the stage, and put the top card of your deck under that character as a marker.
+EndCard
+
+Character: GST/SE22-28
+Name Moved to Tears, Manabu
+JPName 感涙するマナブ
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Glasses
+Trait2 Gigant
+Auto: OnPlay
+{
+    PayCost Discard 1 IsCharacter && HasTrait Gigant
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && Compare ThatCardsCost 1 OrLess
+        ChooseCharacterFromTargets Choose a character to put to the bottom of the deck.
+        MoveCardToBottom OpponentDeck
+    }
+}
+Text Auto: [Put a «Gigant» character from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's cost 1 or lower characters and put it on the bottom of the deck.
+*GainPowerWhenOtherAttacks(1000,Gigant)
+EndCard
+
+Climax: GST/SE22-29
+Name Shining Grasshopper
+JPName シャイニンググラスホッパー
+Color B
+*2SoulClimax
+EndCard
+
+Climax: GST/SE22-30
+Name Great Bison Impact
+JPName グレートバイソンインパクト
+*BookClimax
+EndCard
+
+Character: GST/SE22-P01
+Name Gigant Shooter, Tsukasa
+JPName ギガントシューター つかさ
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Gigant
+Trait2 Protagonist
+Cont: GiveFacing
+{
+    GainTrait Gigant
+}
+Text Cont: The character facing this card get «Gigant».
+EndCard
+
+Character: GST/SE22-P02
+Name Elegant Battle, Miruko
+JPName 華麗な戦い ミル子
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Gigant
+Trait2 Love-blind
+Act: Rest 1 HasTrait Gigant
+{
+    GainPower 1000
+}
+Text Act: [Rest 1 of your «Gigant» characters] This gets +1000 power until end of turn.
+EndCard
+
+Character: GST/SE22-P03
+Name Man Full of Mystery, Kirito
+JPName 謎めいた男 キリト
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Mystery
+Trait2 Gigant
+Auto: StartAttackPhase
+{
+    PayCost 1
+    {
+        If CanMove && OnStage
+		{
+			TargetLocation Backstage
+			If Compare TargetCount 1 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your backstage?
+				If Yes
+				{
+					MoveToOpenPosition false true
+				}
+			}
+		}
+    }
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position in the backstage.
+EndCard
+

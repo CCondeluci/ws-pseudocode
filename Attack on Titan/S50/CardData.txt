@@ -1,0 +1,2251 @@
+Character: AOT/S50-E001
+Name "To Seize Freedom" Armin
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of cards in your hand is five or more, this card gets +2000 power.
+*RunToCenter
+EndCard
+
+Character: AOT/S50-E002
+Name "My Fate to Bear" Eren
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Corps
+Trait2 Weapon
+Combo Yell of Rage
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameContains Eren|Mikasa|Armin
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to 500 multiplied by the number of other characters you have with “Eren” or “Mikasa” or “Armin” in its card name.
+Auto: OnOpponentReverse
+{
+	If Climax Yell of Rage
+	{
+		SearchWaitingRoom NameEquals Anti-Titan Device "Omni-Directional Mobility Gear"
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				Question Return the attack target to your hand?
+				If Yes
+				{
+					MoveCard Hand
+				}
+			}
+			Text Auto: When this card is frontal attacked, you may return this card to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if a card named "Yell of Rage" is in your climax area, choose up to one card named "Anti-Titan Device "Omni-Directional Mobility Gear"" in your waiting room, return it to your hand, and this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: AOT/S50-E003
+Name "Crimson Fighting Spirit" Eren
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+Combo Outcry
+Auto: OnPlay|PlacedBy "Single Ray of Light" Eren Titan
+{
+	If Compare CardsInClock 1 OrMore
+	{
+		Question_Obvious Put the top card of your clock into the waiting room?
+		If Yes
+		{	
+			Heal
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or by the AUTO effect of a card named ""Single Ray of Light" Eren Titan", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Corps
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if the number of other 《Corps》 characters you have is two or more, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Outcry
+	{
+		PayCost 1 Discard 1 Any Send 1 WaitingRoom Any
+		{
+			SearchLocationForTargets Memory 0 1 NameEquals "Pursuit" Titan
+			PlaceOnStage False True True False
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo  [(1) Put a card from your hand into your waiting room & Put another character from your stage into your waiting room] This ability activates up to one time per turn. When this card attacks, if a card named "Outcry" is in your climax area, you may pay the cost. If you do, choose a card named ""Pursuit" Titan" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: AOT/S50-E004
+Name "Single Ray of Light" Armin
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Corps
+Trait2 Weapon
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 NameEquals Anti-Titan Device "Omni-Directional Mobility Gear" ||| IsCharacter && IsColor Yellow 
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may reveal up to three cards from the top of your deck. If you revealed one or more cards, choose up to one yellow character or card named "Anti-Titan Device "Omni-Directional Mobility Gear"" from among them, put it into your hand, put the rest into your waiting room, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: AOT/S50-E005
+Name "Keen Mind" Armin
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Corps
+Trait2 Weapon
+Auto: StartMyEncoreStep
+{
+	TargetSelf
+	If CardPosition Rest
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetLocation Hand
+			ChooseCardsFromTargets 0 1 NameEquals "Resisting Fate" Armin
+			Change
+		}
+	}
+}
+Text Auto: Change [Put this card into your waiting room] At the beginning of your encore step, if this card is rested, you may pay the cost. If you do, choose up to one card named ""Resisting Fate" Armin" in your hand, and put it on the stage position that this card was on.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Corps
+	ChooseCharacterFromTargets Choose a <Corps> character to gain +2500 power and hexproof
+	GainPower 2500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*HexProof
+	}
+}
+Text Act: [Rest this card] Choose one of your 《Corps》 characters, and until end of turn, that character gets +2500 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Character: AOT/S50-E006
+Name "To Seize Freedom" Eren
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Corps
+Trait2 Weapon
+Auto: OnFrontalAttacked 
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetLocation Hand
+		ChooseCardsFromTargets 0 1 NameEquals "Single Ray of Light" Eren Titan
+		Change
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, choose up to one card named ""Single Ray of Light" Eren Titan" in your hand, and put it on this card's stage position as the defending character.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Single Ray of Light" Eren Titan
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: Resonate [Reveal a card named ""Single Ray of Light" Eren Titan" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +1 soul until end of turn.
+EndCard
+
+Character: AOT/S50-E007
+Name "Until the Dying Breath" Armin
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+*GainPowerWithEnoughCharacters(1000,2,Corps)
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1 soul
+		GainSoul 1
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose one of your characters, and that character gets +1 soul until end of turn.
+*DefensiveScryOnCenterStage
+EndCard
+
+Character: AOT/S50-E008
+Name "Single Ray of Light" Eren Titan
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Titan
+Trait2 Corps
+*OnPlayGainPowerAndNoBackups(4500)
+Auto: OnPlay
+{
+	TargetLocation WaitingRoom
+	ChooseCardsFromTargets 0 1 NameEquals "Crimson Fighting Spirit" Eren
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card named ""Crimson Fighting Spirit" Eren" in your waiting room, and put it face down underneath this card as a marker.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		TargetSelf
+		TargetMarkersUnderTargets
+		PayCost 1 SendSelf WaitingRoom
+		{
+			IfTarget InLocation WaitingRoom
+			{
+				ChooseCardsFromTargets 0 1 Any
+				PlaceOnStage False True True False
+			}
+		}
+    }
+}
+Text Auto: [(1) Put this card into your waiting room] When this card becomes reversed in battle, you may pay the cost. If you do, choose a card in your waiting room that was a marker of this card, and put in on any position of your stage as rest.
+EndCard
+
+Character: AOT/S50-E009
+Name "Relief" Eren
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Corps
+Trait2 Weapon
+*500Assist
+Auto: OnTriggerCheckClimax
+{
+	IfOther IsColor Yellow
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When your character's trigger check reveals a yellow climax, you may pay the cost. If you do, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/S50-E010
+Name "Cleanup" Eren
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Corps
+Trait2 Weapon
+*OnPlayMill2GainPowerForEachCharacter(1000,Corps)
+EndCard
+
+Character: AOT/S50-E011
+Name "Born in Ragako" Conny
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Corps
+Trait2 Weapon
+*OnAttackGivePowerForEachOther(500,Corps)
+EndCard
+
+Character: AOT/S50-E012
+Name "Steady Advance" Eren Titan
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Titan
+Trait2 Corps
+Combo Close Combat
+Auto: OnAttack
+{
+	If Climax Close Combat
+	{
+		RevealUpTo Deck 2
+		NarrowTargets Compare TargetCardsLevel 1 OrMore
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Close Combat" is in your climax area, look at up to two cards from the top of your deck, choose up to two level 1 or higher cards from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room. (Climax are regarded as level 0)
+*YellowEarlyPlayBomb
+EndCard
+
+Character: AOT/S50-E013a
+Image AOT_S50_E013A
+Name "Memory of that Day" Annie
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Titan
+Trait2 Corps
+Auto: OnFrontalAttacked
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetLocation Hand
+		ChooseCardsFromTargets 0 1 NameEquals "Plan of Capture" Female Titan
+		Change
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, choose up to one card named ""Plan of Capture" Female Titan" in your hand, and put it on this card's stage position as the defending character.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Plan of Capture" Female Titan
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: Resonate [Reveal a card named ""Plan of Capture" Female Titan" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2000 power until end of turn.
+EndCard
+
+Character: AOT/S50-E013b
+Image AOT_S50_E013B
+Name "Memory of that Day" Annie
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Titan
+Trait2 Corps
+Clone AOT/S50-E013a
+EndCard
+
+Character: AOT/S50-E014
+Name "Whimsical Days" Eren
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Corps
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose one of your characters, and that character gets +1000 power until end of turn.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals "Until the Dying Breath" Mikasa
+	GainPower 2500
+}
+Text Act: [Rest this card] Choose one of your cards named ""Until the Dying Breath" Mikasa", and that card gets +2500 power until end of turn.
+EndCard
+
+Character: AOT/S50-E015
+Name "Recovering Eren" Armin
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon 
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && NameEquals "Captured" Eren
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Your other card named ""Captured" Eren" in the middle position of the center stage gets +2000 power.
+*BondDiscard("Captured" Eren)
+EndCard
+
+Character: AOT/S50-E016
+Name "Until the Dying Breath" Conny
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Corps
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare TargetCardsLevel 0 OrLess
+		ChooseCharacterFromTargets Choose a character to go into your opponent's stock
+		SetXValue TargetCount
+		If Compare X 1 OrMore
+		{
+			MoveCard OpponentStock			
+			TargetBottom OpponentStock 1
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, you may choose a cost 0 or lower character in your opponent's center stage, and put it into your opponent's stock. If you do, put a card from the bottom of your opponent's stock into his or her waiting room.
+EndCard
+
+Character: AOT/S50-E017a
+Name "Revenge" Hannes
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Backup 1500
+EndCard
+
+Character: AOT/S50-E017b
+Name "Revenge" Hannes
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Clone AOT/S50-E017a
+EndCard
+
+Character: AOT/S50-E018
+Name "Captured" Eren
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Corps
+Trait2 Weapon
+EndCard
+
+Character: AOT/S50-E019
+Name "Sunset on Your Back" Eren Titan
+Color Y
+Level 1
+Cost 0
+Power 6500
+Trait1 Titan
+Trait2 Corps
+*OthersCannotSideAttack
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		*ClockEncore
+	}
+}
+Text Cont: The character facing this card gets "Auto: Encore [Put the top card of your deck into your clock]".
+EndCard
+
+Event: AOT/S50-E020
+Name Anti-Titan Device "Omni-Directional Mobility Gear"
+Color Y
+Level 1
+Cost 1
+Counter
+Effect:
+{
+	TargetMyCharacterInBattle
+	IfTarget HasTrait Corps
+	{
+		MoveCard Hand
+	}
+	SearchWaitingRoom IsCharacter
+	Discard 1 Any
+}
+Text Counter Choose up to one of your 《Corps》 characters in battle, return it to your hand, choose up to one character in your waiting room, return it to your hand, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Event: AOT/S50-E021
+Name Coordinate
+Color Y
+Level 3
+Cost 1
+Effect:
+{
+	TargetLocation Memory
+	NarrowTargets NameEquals "Pursuit" Titan
+	SetXValue TargetCount
+	Burn X
+	SearchLocationForTargets Memory 1 1 NameEquals "Pursuit" Titan
+	MoveCard WaitingRoom
+}
+Text Deal X damage to your opponent. X is equal to the number of cards named ""Pursuit" Titan" in your memory. (This damage may be canceled). Choose a card named ""Pursuit" Titan" in your memory, and put it into your waiting room.
+EndCard
+
+Climax: AOT/S50-E022
+Name Outcry
+*WindClimax
+EndCard
+
+Climax: AOT/S50-E023a
+Name Yell of Rage
+*WindClimax
+EndCard
+
+Climax: AOT/S50-E023b
+Clone AOT/S50-E023a
+EndCard
+
+Climax: AOT/S50-E024
+Name Close Combat
+*YellowStockSoul
+EndCard
+
+Character: AOT/S50-E025
+Name "Silent Fury" Levi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+*EarlyPlay2OrLessClimax
+*GainPowerWithEnoughCharacters(1000,2,Corps)
+*Healer
+EndCard
+
+Character: AOT/S50-E026
+Name "To Seize Freedom" Hange
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+Combo Standby for Full Scale Assault!
+*OnPlayDraw2Discard2BlindStock
+Auto: OnAttack
+{
+	PayCost 1
+	{
+		TargetSelf
+		GainPower 1500
+		TargetLocation Stage
+		NarrowTargets HasTrait Corps && Other
+		ChooseCharacterFromTargets Choose another character to gain +1500 power
+		GainPower 1500
+	}
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, choose another of your 《Corps》 characters and this card, and those characters get +1500 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If Climax Standby for Full Scale Assault!
+	{
+		TargetLocation Facing
+		NarrowTargets CanBeChosen
+		Question_Obvious Would you like to move the battle opponent to your opponent's clock?
+		If Yes
+		{
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if a card named "Standby for Full Scale Assault!" is in your climax area, you may put that character into your opponent's clock.
+EndCard
+
+Character: AOT/S50-E027
+Name "Until the Dying Breath" Hange
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Corps
+Trait2 Weapon
+*GlobalPower(500,Corps)
+*OnPlayCheckTopRestIfClimax
+*Bond1("Resisting Fate" Levi)
+EndCard
+
+Character: AOT/S50-E028
+Name "Until the Dying Breath" Erwin
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && NameContains Levi|Hange|Erwin
+	{
+		GainLevel 1
+		GainPower 1000
+	}
+}
+Text Cont: Your other character in the middle position of the center stage with “Levi” or “Hange” or “Erwin” in its card name gets +1 level and +1000 power.
+*Act1Rest2SearchBrainstorm(Corps)
+EndCard
+
+Character: AOT/S50-E029
+Name "Single Ray Of Light" Levi
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Corps
+Trait2 Weapon
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 IsCharacter Green
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may reveal up to three cards from the top of your deck. If you revealed one or more cards, choose up to one green character from among them, put it into your hand, put the rest into your waiting room, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: AOT/S50-E030
+Name "Until the Dying Breath" Levi
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Corps
+Trait2 Weapon
+Auto: OnAttack
+{
+	If StageContains 1 Other && NameContains Levi|Hange|Erwin
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card attacks, if you have another character with “Levi” or “Hange” or “Erwin” in its card name, this card gets +3000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Auto: When this cards' battle opponent becomes reversed, draw a card, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: AOT/S50-E031
+Name "To Seize Freedom" Levi
+Color G
+Level 1
+Cost 0
+Power 4500
+Combo Blade that Rends Despair
+Trait1 Corps
+Trait2 Weapon
+*GainPowerWithEnoughCharacters(1000,2,Corps)
+Auto: OnOpponentReverse
+{
+	If Climax Blade that Rends Despair &&& StageContains 1 Other && HasTrait Corps
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Corps
+		MoveCard Stock
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +2000 power
+		UntilEndOfOpponentsTurn
+		GainPower 2000
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if a card named "Blade that Rends Despair" is in your climax area, and you have another 《Corps》 character, choose up to one 《Corps》 character in your waiting room, put it into your stock, choose one of your characters, and that character gets +2000 power until the end of your opponent's next turn.
+EndCard
+
+Character: AOT/S50-E032
+Name Pastor Nick
+Color G
+Level 0
+Cost 0
+Power 2000
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals In the Wall
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card named "In the Wall" in your waiting room, and return it to your hand.
+Auto: StartMainPhase
+{
+	Mill 1
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: At the beginning of your main phase, put the top card of your deck into your waiting room. If that card is level 1 or higher, put this card into your waiting room. (Climax are regarded as level 0)
+EndCard
+
+Character: AOT/S50-E033
+Name “Confirming the Unknown” Hange
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Backup 1500
+*ScryBackup(Corps)
+EndCard
+
+Character: AOT/S50-E034
+Name "To Seize Freedom" Erwin
+Color G
+Level 1
+Cost 1
+Power 5500
+Trait1 Corps
+Trait2 Weapon
+*GainPowerForEachOther(500,Corps)
+Auto: EndOfMyTurn
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		PayCost 1 Discard 1 HasTrait Corps
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: [(1) Put a 《Corps》 character from your hand into your waiting room] At the end of your turn, if this card is in your center stage, you may pay the cost. If you do, deal one damage to your opponent. (This damage may be canceled)
+EndCard
+
+Character: AOT/S50-E035
+Name "Cleanup" Levi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Corps
+Trait2 Weapon
+*LevelAssist
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Corps
+	ChooseCharacterFromTargets Choose a character to gain +500 power
+	GainPower 500
+	IfTarget NameEquals "Resisting Fate" Levi
+	{
+		GainSpecialEffect NoBackupOnAttack
+		GainSpecialEffect OpponentCannotUseEvents
+	}
+}
+Text Auto: At the beginning of your climax phase, choose one of your 《Corps》 characters, that character gets +500 power until end of turn, and if that character is named ""Resisting Fate" Levi", that character gets the following ability until end of turn. "Cont: During this card's battle, your opponent cannot play event cards and "Backup" from hand."
+EndCard
+
+Character: AOT/S50-E036
+Name "Sunset on Your Back" Levi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Corps
+Trait2 Weapon
+Combo Revolutionists
+*GainPowerForEachOther(500,Corps)
+Auto: OnSpecificClimaxPlay Revolutionists
+{
+	SearchDeck HasTrait Corps
+}
+Text Auto: CxCombo When a card named "Revolutionists" is placed on your climax area, if this card is in your center stage, search your deck for up to one 《Corps》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: AOT/S50-E037
+Name "Communication" Hange
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+*GainPowerWhenAttackingLevel3(6000)
+*HandEncore
+EndCard
+
+Character: AOT/S50-E038
+Name "The Fate of Mankind's Survival" Erwin
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveAll
+{
+	If NameEquals "What Happens Henceforth" Levi && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other cards named ""What Happens Henceforth" Levi" get +1000 power.
+*BondClock("What Happens Henceforth" Levi)
+EndCard
+
+Character: AOT/S50-E039a
+Name "Veteran Scout" Nanaba
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals "Veteran Scout" Gelgar
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another card named ""Veteran Scout" Gelgar", this card gets +2000 power.
+Cont: GiveAll
+{
+	If Compare ThatCardsLevel 0 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other level 0 or lower characters get +1000 power.
+EndCard
+
+Character: AOT/S50-E039b
+Name "Veteran Scout" Nanaba
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Corps
+Trait2 Weapon
+Clone AOT/S50-E039a
+EndCard
+
+Character: AOT/S50-E040a
+Name "Veteran Scout" Gelgar
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals "Veteran Scout" Nanaba
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another card named ""Veteran Scout" Nanaba", this card gets +3000 power.
+EndCard
+
+Character: AOT/S50-E040b
+Name "Veteran Scout" Gelgar
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Clone AOT/S50-E040a
+EndCard
+
+Character: AOT/S50-E041
+Name Moblit
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveAll
+{
+	If NameContains Hange
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with “Hange” in its card name get +500 power.
+Act: 2 RestSelf
+{
+	SearchDeck IsCharacter && NameContains Hange
+}
+Text Act: [(2) rest this card] Search your deck for up to one character with “Hange” in its card name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: AOT/S50-E042
+Name "What Happens Henceforth" Hange
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Corps
+Trait2 Weapon
+*OnPlayGainPower(1500)
+EndCard
+
+Character: AOT/S50-E043
+Name "A Definite Step" Hange
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Corps
+Trait2 Weapon
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Corps
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Corps》 character, this card gets +2000 power until end of turn.
+EndCard
+
+Character: AOT/S50-E044
+Name "What Happens Henceforth" Levi
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Corps
+Trait2 Weapon
+EndCard
+
+Character: AOT/S50-E045a
+Name "Until the Dying Breath" Miche
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Corps
+Trait2 Weapon
+*CannotSideAttack
+*ClockEncore
+EndCard
+
+Character: AOT/S50-E045b
+Name "Until the Dying Breath" Miche
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Corps
+Trait2 Weapon
+Clone AOT/S50-E045a
+EndCard
+
+Event: AOT/S50-E046
+Name A Request or... an Order...?
+Color G
+Level 2
+Cost 0
+Requirement StageContains 1 HasTrait Corps
+Effect: 
+{
+	MultipleChoiceQuestion Choose an effect.\n1. Search your deck for up to one <Corps> character, reveal it to your opponent, put it into your hand and shuffle your deck. \n2. Choose one of your characters, that character gets +3000 power until end of turn and put this card into your stock |1|2
+	If Answer 0
+	{
+		SearchDeck HasTrait Corps
+	}
+	Else
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +3000 power
+		GainPower 3000
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text If you do not have a 《Corps》 character, this card cannot be played from your hand.
+Text Choose one of the following effects and perform it. "Search your deck for up to one 《Corps》 character, reveal it to your opponent, put it into your hand, and shuffle your deck." "Choose one of your characters, that character gets +3000 power until end of turn, and put this card into your stock."
+EndCard
+
+Event: AOT/S50-E047
+Name Repose
+Color G
+Level 2
+Cost 2
+Effect:
+{
+	SearchLocationForTargets Deck 0 2 HasTrait Corps
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Deck
+}
+Text Search your deck for up to two 《Corps》 characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Climax: AOT/S50-E048
+Name Blade that Rends Despair
+*GreenStockSoul
+EndCard
+
+Climax: AOT/S50-E049a
+Name Revolutionists
+*BagClimax
+EndCard
+
+Climax: AOT/S50-E049b
+Name Revolutionists
+Clone AOT/S50-E049a
+EndCard
+
+Climax: AOT/S50-E050a
+Name Standby for Full Scale Assault!
+Image AOT_S50_E050A
+*BarClimax
+EndCard
+
+Climax: AOT/S50-E050b
+Name Standby for Full Scale Assault!
+Image AOT_S50_E050B
+Clone AOT/S50-E050a
+EndCard
+
+Character: AOT/S50-E051
+Name "Goddess' Smile" Christa
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Corps
+Trait2 Weapon
+Combo My Real Name...
+*GainPowerWithEnoughCharacters(2000,2,Corps)
+Auto: OnOpponentReverse
+{
+	If Climax My Real Name...
+	{
+		TargetTop Deck 1
+		MoveCard Stock
+		SearchWaitingRoom NameEquals Anti-Titan Device "Omni-Directional Mobility Gear"
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if a card named "My Real Name..." is in your climax area, put up to one card from the top of your deck into your stock, choose up to one card named "Anti-Titan Device "Omni-Directional Mobility Gear"" in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/S50-E052
+Name "Embraced Memories" Mikasa
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+*EarlyPlayInClock("My Fate to Bear" Eren)
+*OnPlayGainPower(1500)
+*OnPlayCheckX(Corps)
+EndCard
+
+Character: AOT/S50-E053
+Name "To Seize Freedom" Sasha
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	Mill 1
+	SetXValue TargetCardsLevel
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel X OrLess
+	ChooseCharacterFromTargets Choose character that is X or lower to send to your opponent's waiting room.
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, put the top card of your deck into your waiting room, choose up to one of your opponent's level X or lower characters, and put it into his or her waiting room. X is equal to that card's level. (Climax are regarded as level 0)
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Corps
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, if the number of other 《Corps》 characters you have is two or more, this card gets +1 soul until end of turn.
+EndCard
+
+Character: AOT/S50-E054
+Name "Single Ray of Light" Mikasa
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Auto: OnCardMoves
+{
+	TargetOther
+	GainPower 500
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			GainSpecialEffect CannotSideAttack
+		}
+	}
+}	
+Text Auto: During the attack phase, when your character moves to another stage position, until end of turn, that character gets +500 power and the following ability. "Cont: The character facing this card cannot side attack."
+*Act1RestSelfSalvageBrainstorm(Corps)
+EndCard
+
+Character: AOT/S50-E055
+Name "Insatiable Hunger" Sasha
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Auto: OnOpponentReverse
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		Question_Obvious Move the battle opponent to the top of your opponent's deck?
+		If Yes
+		{
+			TargetFacing
+			MoveCard OpponentDeck
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if the number of cards in your stock is three or less, you may put that character on the top of your opponent's deck.
+*RedLevel0Bomb
+EndCard
+
+Character: AOT/S50-E056
+Name "Brief Respite" Christa
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Corps
+Trait2 Weapon
+*RedLevel1Bomb
+*MillRunner(Corps)
+EndCard
+
+Character: AOT/S50-E057
+Name "Sunset on Your Back" Mikasa
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Eren
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have another character with “Eren” in its card name, this card gets +1000 power and "Auto: ENCORE [Put a character from your hand into your waiting room]".
+Auto: OnAttack
+{
+	If StageContains 2 Other && NameContains Eren
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if the number of other characters you have with “Eren” in its card name is two or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: AOT/S50-E058
+Name "Until the Dying Breath" Sasha
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Corps
+Trait2 Weapon
+*GainPowerWithEnoughCharacters(2000,2,Corps)
+*MillRunner(Corps)
+EndCard
+
+Character: AOT/S50-E059
+Name "To Seize Freedom" Mikasa
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+Combo Thank You...
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetSelf
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to one card, and this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Thank You...
+	{
+		Burn 1
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Thank You..." is in your climax area, you may deal one damage to your opponent.
+Auto: OnOpponentReverse
+{
+	PayCost 2
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal one damage to your opponent. 
+EndCard
+
+Character: AOT/S50-E060
+Name "Until the Dying Breath" Christa
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If TargetCardsLevel 0 OrLess
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a level 0 or lower character, put it into your stock. 
+*StockHealer
+EndCard
+
+Character: AOT/S50-E061
+Name "Recovering Eren" Mikasa
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Corps
+Trait2 Weapon
+*OnPlayTradeClimaxForCharacter(Corps)
+*BondDiscard("Crimson Fighting Spirit" Eren)
+EndCard
+
+Character: AOT/S50-E062
+Name "Piercing Terror" Sasha
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Corps
+Trait2 Weapon
+Combo Run!!
+*500Assist
+Auto: OnSpecificClimaxPlay Run!!
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to get the effect
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			RevealUpTo Deck 4
+			AIChoice AddToHand
+			ChooseCardsFromTargets 0 1 HasTrait Corps
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		Text Auto: When this card's battle opponent becomes reversed, look at up to four cards from the top of your deck, choose up to one 《Corps》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+	}
+}
+Text Auto: CxCombo When a card named "Run!!" is placed on your climax area, choose one of your other characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, look at up to four cards from the top of your deck, choose up to one 《Corps》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room."
+EndCard
+
+Character: AOT/S50-E063
+Name "Fine as Is" Christa
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Corps
+Trait2 Weapon
+*500Assist
+Auto: OnLevelUp
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Corps
+	}
+}
+Text Auto: [(2)] When you level up, you may pay the cost. If you do, choose a 《Corps》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/S50-E064a
+Name “Hidden Truth” Ymir
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Titan
+Trait2 Corps
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 2 NameContains Christa
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if the number of other characters you have with “Christa” in its card name is two or more, this card gets +4000 power.
+Auto: StartMyEncoreStep
+{
+	TargetSelf
+	If CardPosition Rest
+	{
+		PayCost 1 SendSelf Clock
+		{
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals Ymir Titan
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [(1) Put this card into your clock] At the beginning of your encore step, if this card is rested, you may pay the cost. If you do, choose a card named "Ymir Titan" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: AOT/S50-E064b
+Name “Hidden Truth” Ymir
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Titan
+Trait2 Corps
+Clone AOT/S50-E064b
+EndCard
+
+Character: AOT/S50-E065
+Name "Until the Dying Breath" Bertholdt
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Titan
+Trait2 Corps
+*GainPowerForEachOther(500,Corps|Titan)
+EndCard
+
+Character: AOT/S50-E066
+Name “Hidden Truth” Bertholdt
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Titan
+Trait2 Corps
+Auto: OnPlay
+{
+	If StageContains 1 HasTrait Titan && Other
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 0 OrLess
+		ChooseCharacterFromTargets Choose a character to send to your opponent's waiting room
+		MoveCard WaitingRoom
+		TargetTop Deck 1
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Titan》 character, choose up to one cost 0 or lower character in your opponent's center stage, put it into his or her waiting room, and put up to one card from the top of your deck into your stock. 
+Act: 3 SendSelf Clock
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals "Enemy of Humanity" Colossal Titan
+	Change
+}
+Text Act: [(3) Put this card into your clock] Choose a card named ""Enemy of Humanity" Colossal Titan" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: AOT/S50-E067
+Name "Born in Dauper" Sasha
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Corps
+Trait2 Weapon
+*PayToExchange(Corps)
+*RedEarlyPlayBomb
+EndCard
+
+Character: AOT/S50-E068
+Name “Hidden Truth” Reiner
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Titan
+Trait2 Corps
+Combo Duel
+Auto: OnSpecificClimaxPlay Duel
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation Hand
+		ChooseCardsFromTargets 0 1 NameEquals "Resurgence" Armored Titan
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card into your waiting room] When a card named "Duel" is placed on your climax area, you may pay the cost. If you do, choose up to one card named ""Resurgence" Armored Titan" in your hand, and put it on the stage position that this card was on.
+EndCard
+
+Character: AOT/S50-E069
+Name "The Smile I Want to Protect" Christa
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveAll
+{
+	If NameEquals "Until the Dying Breath" Ymir
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other cards named ""Until the Dying Breath" Ymir" get +2000 power.
+Act: Discard 1 NameEquals "Until the Dying Breath" Ymir
+{
+	RevealUpTo Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 HasTrait Corps
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [Put a card named ""Until the Dying Breath" Ymir" from your hand into your waiting room] Look at up to four cards from the top of your deck, choose up to one 《Corps》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: AOT/S50-E070
+Name "Until the Dying Breath" Jean
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+*OnPlayScryToBottom
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Corps
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a 《Corps》 character, put it into your hand, choose a card in your hand, and put it into your waiting room. 
+EndCard
+
+Character: AOT/S50-E071
+Name "Soldier and Warrior" Reiner
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Titan
+Trait2 Corps
+*OnPlayGainPower(1500)
+*OnOtherAttackedSacrificeToGivePower(1000, Corps|Titan)
+EndCard
+
+Character: AOT/S50-E072
+Name "Dispossession" Bertholdt
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Titan
+Trait2 Corps
+*OnPlayReorderTop2
+EndCard
+
+Character: AOT/S50-E073
+Name "Until the Dying Breath" Ymir
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Titan
+Trait2 Corps
+Cont: GiveSelf
+{
+	TargetLocation Facing
+	SetXValue TargetCardsLevel
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +X power. X is equal to 2000 multiplied by the level of the character facing this card.
+EndCard
+
+Character: AOT/S50-E074
+Name “Until the Dying Breath” Reiner
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Titan
+Trait2 Corps
+Auto: OnOtherCharacterAttacks
+{
+	TargetOther
+	IfThatCard HasTrait Corps|Titan
+	{
+		TargetSelf
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When your other 《Corps》 or 《Titan》 character attacks, this card gets +1500 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "Until the Dying Breath" Bertholdt
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [(1)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose a card named ""Until the Dying Breath" Bertholdt" in your waiting room, and put it on any position of your stage as resting.
+EndCard
+
+Character: AOT/S50-E075
+Name "Until the Dying Breath" Mikasa
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Corps
+Trait2 Weapon
+EndCard
+
+Character: AOT/S50-E076
+Name "Safekeeping" Sasha
+Color R
+Level 1
+Cost 0
+Power 7000
+Trait1 Corps
+Trait2 Weapon
+*CannotSideAttack
+Cont: GiveFacing
+{
+	GainSoul 1
+	GainTrait Potato
+}
+Text Cont: The character facing this card gets +1 soul, and this card gets 《Potato》.
+EndCard
+
+Character: AOT/S50-E077
+Name "To Seize Freedom" Jean
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Corps
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel OpponentsLevel GreaterThan
+		AIChoice SendToWaitingRoom
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		If HasTarget
+		{
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: [Put two cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room.
+Backup 2500
+EndCard
+
+Character: AOT/S50-E078
+Name "Relief" Mikasa
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Corps
+Trait2 Weapon
+*LevelAssist
+Auto: OnCardMoves
+{
+	TargetOther
+	GainPower 1000
+}
+Text Auto: During the attack phase, when your character moves to another stage position, that character gets +1000 power until end of turn.
+EndCard
+
+Character: AOT/S50-E079
+Name "Noble Bloodline" Christa
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Corps
+Trait2 Weapon
+*GlobalPower(1000,Corps)
+*RestGivePower(1500,Corps)
+EndCard
+
+Event: AOT/S50-E080
+Name The Goddess
+Color R
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	TargetLocation Stage
+	AIChoice GiveFreeEncore
+	ChooseCharacterFromTargets Choose a character to give "Auto: When this card is put into your waiting room from the stage, return it to its previous position rested."
+	GainEffect
+	{
+		Auto: OnSentFromStageToWaitingRoom
+		{
+			Revive
+		}
+	}
+}
+Text Counter: Choose one of your characters, it gets the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to its previous stage position as resting."
+EndCard
+
+Event: AOT/S50-E081
+Name Murderous Glare
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Eren
+	ChooseCharacterFromTargets Choose a character to give +4500 power
+	UntilEndOfOpponentsTurn
+	GainPower 4500
+}
+Text Choose one of your characters with “Eren” in its card name, it gets +4500 power until the end of your opponent’s next turn.
+EndCard
+
+Climax: AOT/S50-E082
+Name My Real Name...
+*DoorClimax
+EndCard
+
+Climax: AOT/S50-E083
+Name Thank You...
+Color R
+*2K1Climax
+EndCard
+
+Climax: AOT/S50-E084a
+Name Run!!
+*RedStockSoul
+EndCard
+
+Climax: AOT/S50-E084b
+Clone AOT/S50-E084a
+EndCard
+
+Character: AOT/S50-E085
+Name "Strength Assessment" Beast Titan
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Titan
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 NameEquals "Predation" Titan
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 1 OrLess
+		ChooseCharacterFromTargets Choose a character to send to the bottom of your opponent's deck
+		MoveCard BottomOfOpponentDeck
+	}
+}
+Text Auto: [Put a card named ""Predation" Titan" from your hand into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose a level 1 or lower character in your opponent's center stage, and put it on the bottom of his or her deck.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchLocationForTargets WaitingRoom 0 2 NameEquals "Predation" Titan
+		MoveCard Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest two of your characters] Reveal four cards from the top of your deck, and put them into your waiting room. For each climax revealed, choose up to two cards named ""Predation" Titan" in your waiting room, and return them to your hand.
+EndCard
+
+Character: AOT/S50-E086
+Name Beast Titan
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Titan
+Combo Sentience
+*Healer
+Auto: OnAttack
+{
+	If Climax Sentience
+	{
+		PayCost 1 Discard 1 NameEquals "Predation" Titan
+		{
+			Burn 4
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put a card named ""Predation" Titan" from your hand into your waiting room] When this card attacks, if a card named "Sentience" is in your climax area, and you have another 《Titan》 character, you may pay the cost. If you do, deal four damage to your opponent. 
+EndCard
+
+Character: AOT/S50-E087
+Name "Resurgence" Armored Titan
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Titan
+Combo Duel
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupInBattle
+}
+Text Cont: During this card's battle, all players cannot play "BACKUP" from hand.
+Auto: OnAttack
+{
+	If Climax Duel
+	{
+		PayCost 1
+		{
+			UntilEndOfOpponentsTurn
+			GainPower 1000
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					LoseSoul 2
+				}
+				Text Cont: The character facing this card gets -2 soul.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "Duel" is in your climax area, you may pay the cost. If you do, until the end of your opponent's next turn, this card gets +1000 power and the following ability. "Cont: The character facing this card gets -2 soul."
+*Give4000PowerAtStartOfOpponentsTurn
+EndCard
+
+Character: AOT/S50-E088a
+Name "Pursuit" Titan
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Titan
+*BlueLevel0Bomb
+Cont: GiveSelf
+{
+	If CardPosition Stand
+	{
+		GainEffect
+		{
+			Act: 1 SendSelf Memory
+			{
+				SearchWaitingRoom NameEquals "Crimson Fighting Spirit" Eren
+			}
+		}
+	}
+}
+Text Act: [(1) Put this STAND card into your memory] Choose a card named ""Crimson Fighting Spirit" Eren" in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/S50-E088b
+Name "Pursuit" Titan
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Titan
+Clone AOT/S50-E088a
+EndCard
+
+Character: AOT/S50-E088c
+Name "Pursuit" Titan
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Titan
+Clone AOT/S50-E088a
+EndCard
+
+Character: AOT/S50-E088d
+Name "Pursuit" Titan
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Titan
+Clone AOT/S50-E088a
+EndCard
+
+Character: AOT/S50-E089
+Name "Multiple Decisive Battles" Colossal Titan
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Titan
+*1000Assist
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		SearchDeck HasTrait Titan
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to one 《Titan》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: AOT/S50-E090a
+Name Ymir Titan
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Titan
+Trait2 Corps
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Titan || NameContains Christa
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other 《Titan》 characters or characters with “Christa” in its card name.
+Auto: StartOpponentAttackPhase
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget HasTrait Corps || NameContains Christa
+		{
+			TargetLocation CenterStage
+			If Compare TargetCount 2 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your center stage?
+				If Yes
+				{
+					MoveToOpenPosition True False
+				}
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent’s attack phase, you may put the top card of your deck into your waiting room. If that card is a 《Titan》 character or character with “Christa” in its card name, you may move this card to an open position of your center stage.
+EndCard
+
+Character: AOT/S50-E090b
+Name Ymir Titan
+Image AOT_S50_E090b
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Titan
+Trait2 Corps
+Clone AOT/S50-E090a
+EndCard
+
+Character: AOT/S50-E091
+Name "Enemy of Humanity" Colossal Titan
+Color B
+Level 3
+Cost 3
+Trigger Soul
+Power 11000
+Soul 2
+Trait1 Titan
+*GiveAll1500OnCenterStage(Titan)
+Auto: StartOpponentAttackPhase
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		PayCost Discard 3 HasTrait Titan
+		{
+			TargetFacing
+			NarrowTargets CanBeChosen
+			LoseSoul 1
+			GainSpecialEffect CannotFrontalAttack
+		}
+	}
+}		
+Text Auto: [Put three 《Titan》 characters from your hand into your waiting room] At the beginning of your opponent's attack phase, if this card is in your center stage, you may pay the cost. If you do, choose a character facing this card, and until end of turn, that character gets -1 soul and the following ability. "Cont: This card cannot frontal attack."
+EndCard
+
+Character: AOT/S50-E092
+Name "Nemesis" Titan
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Titan
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	If Compare TargetCount 1 OrLess
+	{
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets Choose a character to put to the bottom of your opponents deck
+		MoveCard BottomOfOpponentDeck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of characters in your opponent's center stage is one or less, choose a cost 0 or lower character in your opponent's center stage, and put it on the bottom of his or her deck.
+EndCard
+
+Character: AOT/S50-E093
+Name "Incomprehensible" Titan
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Titan
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: This card cannot move to another position on the stage.
+*GlobalPower(500,Titan)
+EndCard
+
+Character: AOT/S50-E094
+Name "Until the Goal is Accomplished" Armored Titan
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Titan
+Backup 1000
+*BackupBonus1000(Titan)
+EndCard
+
+Character: AOT/S50-E095a
+Name "Predation" Titan
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Titan
+Army
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && NameEquals "Predation" Titan && Other
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other cards in the center stage named ""Predation" Titan".
+EndCard
+
+Character: AOT/S50-E095b
+Name "Predation" Titan
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Titan
+Army
+Clone AOT/S50-E095a
+EndCard
+
+Character: AOT/S50-E095c
+Name "Predation" Titan
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Titan
+Army
+Clone AOT/S50-E095a
+EndCard
+
+Character: AOT/S50-E095d
+Name "Predation" Titan
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Titan
+Army
+Clone AOT/S50-E095a
+EndCard
+
+Character: AOT/S50-E096
+Name "All-surpassing Existence" Colossal Titan
+Color B
+Level 1
+Cost 2
+Power 7500
+Trait1 Titan
+*GainPowerForEachOther(500,Titan)
+EndCard
+
+Character: AOT/S50-E097
+Name "Confrontation" Armored Titan
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Titan
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotDirectAttack
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot direct attack and side attack.
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			TargetSelf
+			GainPower 4000
+			GainSoul 1
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +4000 power and +1 soul until end of turn.
+EndCard
+
+Event: AOT/S50-E098
+Name In the Wall
+Color B
+Level 2
+Cost 1
+Counter
+Effect:
+{
+	Peek Deck 3
+	ChooseCardsFromTargets 0 3 Any
+	MoveCard WaitingRoom
+	EndPeek
+	ShuffleLocation Deck
+}
+Text Counter: Look at up to three cards from the top of your deck, choose up to three cards from among them, put them into your waiting room, return the rest to your deck, and shuffle your deck.
+EndCard
+
+Climax: AOT/S50-E099a
+Name Sentience
+*BookClimax
+EndCard
+
+Climax: AOT/S50-E099b
+Name Sentience
+*BookClimax
+EndCard
+
+Climax: AOT/S50-E100a
+Name Duel
+Color B
+*GateClimax
+EndCard
+
+Climax: AOT/S50-E100b
+Name Duel
+Color B
+*GateClimax
+EndCard
+
+Character: AOT/S50-E101
+Name "Mischievous Battle" Chimi Armin
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Corps
+Trait2 Weapon
+*HexProof
+*LevelAssistTrait(Corps)
+EndCard
+
+Character: AOT/S50-E102
+Name "Mischievous Battle" Chimi Eren
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Corps
+Trait2 Weapon
+*GainPowerForEachOther(500,Corps)
+EndCard
+
+Character: AOT/S50-E103
+Name "Mischievous Battle" Chimi Mikasa
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Corps
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	IfTarget HasTrait Corps
+	{
+		GainPower 1000
+	}
+}
+Text Auto: When you use this card's "BACKUP", choose one of your 《Corps》 characters in battle, it gets +1000 power until end of turn.
+Backup 1500
+EndCard
+
+Character: AOT/S50-E104
+Name "Mischievous Battle" Chimi Colossal Titan
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Titan
+Cont: GiveSelf
+{
+	If Phase Attack
+	{
+		GainSpecialEffect CannotReturnCharactersFromWaitingRoomToHand
+	}
+}
+Text Cont: During the attack phase, you cannot return characters from your waiting room to your hand by your card's effects.
+EndCard
+
+Character: AOT/S50-PE01
+Name "Indomitable Will" Eren
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Corps
+Trait2 Weapon
+Backup 3000
+*MemoryBackup
+EndCard

@@ -1,0 +1,1407 @@
+
+Character: P3/SE46-01
+Name Transfer Student, Ryoji Mochizuki
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Reload
+Trait2 Death
+Auto: StartMainPhase
+{
+	Question Draw a card?
+	If Yes
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Alarm
+Text Auto: ALARM If this is on top of your clock, at the start of your main phase, you may draw 1 card. If you do, discard 1 card.
+Auto: StartClimaxPhase
+{
+	If StageContains 3 HasTrait Reload|Magic|Weapon
+	{
+		*GiveCharacterPower(3000,Any)
+	}
+}
+Alarm
+Text Auto: ALARM If this is on top of your clock, at the start of your climax phase, if you have 3 or more <Reload> or <Magic> or <Weapon> characters, choose 1 of your character +3000 power until end of turn.
+EndCard
+
+Character: P3/SE46-02
+Name "S.E.E.S." Protagonist
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+*OnPlayReorderTop2
+*OnAttackMill1PutLevel0OnField
+EndCard
+
+Character: P3/SE46-03
+Name "S.E.E.S." Aigis
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Reload
+Trait2 Mecha
+Trait3 Weapon
+*GivePowerOnPlay(1500,Reload|Magic|Weapon)
+*OnAttackGivePower(1500,Reload|Magic|Weapon)
+EndCard
+
+Character: P3/SE46-04
+Name Battle Stance, Protagonist
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Reload|Magic|Weapon
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 <Reload> or <Magic> or <Weapon> character] When this is placed on stage from hand, you may pay the cost. If you do, draw 1 card.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 Level 1 or lower character, put it into your hand, and shuffle your deck. 
+EndCard
+
+Character: P3/SE46-05
+Name Arcana "Chariot", Aigis
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Reload
+Trait2 Mecha
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+*DropSearch(Reload|Magic|Weapon)
+EndCard
+
+Character: P3/SE46-06
+Name Mechanical Girl, Aigis
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Reload
+Trait2 Mecha
+Trait3 Weapon
+Cont: Assist
+{
+	If Compare ThatCardsLevel 1 OrMore
+	{
+		If MyTurn
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: ASSIST During your turn, all Level 1 or higher characters in front of this gain +500 Power.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		AIChoice AddToHand
+		SearchLocationForTargets WaitingRoom 0 X IsCharacter && HasTrait Reload|Magic|Weapon
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, choose up to 1 <Reload> or <Magic> or <Weapon> character in your waiting room and return it to your hand.
+EndCard
+
+Character: P3/SE46-07
+Name Member No.7, Aigis
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Reload
+Trait2 Mecha
+Trait3 Weapon
+*BackupBonus1000(Reload|Magic|Weapon)
+Backup 1000
+EndCard
+
+Character: P3/SE46-08
+Name One with the power of the Wild, Protagonist
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Reload|Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have another <Reload> or <Magic> or <Weapon> character, this card gains +2000 power until end of turn.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: P3/SE46-09
+Name Member No.3, Protagonist
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	*ScryToBottom
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, put it on the top or bottom of your deck.
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Reload|Magic|Weapon
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power. X is equal to the number of <Reload> or <Magic> or <Weapon> characters you have x500.
+EndCard
+
+Character: P3/SE46-10
+Name "Anti-Shadow Suppression Weapon Type 7" Aigis
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Reload
+Trait2 Mecha
+Trait3 Weapon
+Combo TARGET NEUTRALIZED.
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Reload|Magic|Weapon
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power. X is equal to the number of <Reload> or <Magic> or <Weapon> characters you have x500.
+Auto: OnAttack
+{
+	If Climax TARGET NEUTRALIZED. &&& StageContains 1 Other && HasTrait Reload|Magic|Weapon
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchDeck HasTrait Reload|Magic|Weapon
+			}
+			Text Auto: When this card’s battle opponent is reversed, search your deck for up to 1 <Reload> or <Magic> or <Weapon> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+		}
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "TARGET NEUTRALIZED." in your climax area, and you have another <Reload> or <Magic> or <Weapon> character, choose 1 of your characters, this turn, it gains the following ability, Auto: When this card’s battle opponent is reversed, search your deck for up to 1 <Reload> or <Magic> or <Weapon> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.”
+EndCard
+
+Character: P3/SE46-11
+Name The last battle, Protagonist
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget 
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsLevel 3 OrLess
+		ChooseCharacterFromTargets Choose a character to move to your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into your waiting room. If there is a climax among those cards, you may choose 1 level 3 or lower character in your opponent's center stage, and put it into their waiting room.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: P3/SE46-12
+Name Client, Elizabeth
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Reload
+Trait2 Magic
+Trait3 God
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: P3/SE46-13
+Name Mysterious Boy, Pharos
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Reload
+Trait2 Death
+*Level3Assist
+Auto: OnPlayedNormally
+{
+	PayCost Discard 1 Any
+	{
+		Bond Protagonist & Thanatos Reload
+	}
+}
+Text Auto: Bond/"Protagonist & Thanatos Reload" [Put 1 card from your hand into your waiting room] (When this card is played and placed on the stage, you may pay the cost, choose 1 "Bomb Disposal Squad, Kiryu Coco" or "On the Stage, Amane Kanata" in your waiting room, and return it to your hand)
+EndCard
+
+Character: P3/SE46-14
+Name Protagonist & Orpheus Reload
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Combo DONE AND DUSTED.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Reload|Magic|Weapon
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 <Reload> or <Magic> or <Weapon> character] When this is placed on stage from hand, you may pay the cost. If you do, draw 1 card.
+Auto: OnSpecificClimaxPlay DONE AND DUSTED.
+{
+	If Phase Climax
+	{
+		PayCost Send 1 Memory CardPosition Stand && Not Other
+		{
+			SearchLocationForTargets Hand 0 1 NameEquals Protagonist & Thanatos Reload
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [Put this standing card into your memory] During your climax phase, when "DONE AND DUSTED." is placed on your climax area, you may pay the cost. If you do, choose up to 1 "Protagonist & Thanatos Reload" in your hand, and put it in the stage position that this card was in.
+EndCard
+
+Character: P3/SE46-15
+Name Aigis & Palladion Reload
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Reload
+Trait2 Mecha
+Trait3 God
+Cont: InHand
+{
+	TargetLocation Deck
+	SetXValue TargetCount
+	If Compare X 5 OrLess 
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of the cards in your deck is 5 or lower, this card gets -1 level
+*GainPowerForEachOther(500,Reload|Magic|Weapon)
+*Healer
+EndCard
+
+Character: P3/SE46-16
+Name Protagonist & Thanatos Reload
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Combo DONE AND DUSTED.
+*Healer
+Auto: OnAttack
+{
+	If Climax DONE AND DUSTED. && AllYourCharacters HasTrait Reload
+	{
+		MultipleChoiceQuestion Choose an effect to activate \n1. Choose a <Reload> or <Magic> or <Weapon> character in your waiting room or your opponent's characters and return it to hand, you may put the top card of your deck into stock. \n2. [Put 1 <Reload> or <Magic> or <Weapon> character from your hand into your waiting room] You may pay the cost. If you do, deal 2 damage to your opponent.|1|2
+		If Answer 0
+		{
+			MultipleChoiceQuestion Choose a character location of effect. \n1. Waiting Room. \n2. Opponent's stage. |1|2
+			If Answer 0
+			{
+				SearchWaitingRoom HasTrait Reload|Magic|Weapon
+				*OptionalBlindStock
+			}
+			If Answer 1
+			{
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets
+				MoveCard OpponentHand
+				*OptionalBlindStock
+			}
+		}
+		Else
+		{
+			PayCost Discard 1 HasTrait Reload|Magic|Weapon
+			{
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "DONE AND DUSTED." is in your climax area, and all of your characters are <Reload>, choose 1 of the following effects, and perform it. "Choose a <Reload> or <Magic> or <Weapon> character in your waiting room or your opponent's characters and return it to hand, you may put the top card of your deck into stock." "[Put 1 <Reload> or <Magic> or <Weapon> character from your hand into your waiting room] You may pay the cost. If you do, deal 2 damage to your opponent."
+EndCard
+
+Event: P3/SE46-17
+Name A boy awakens to the power of his heart
+Color Y
+Level 3
+Cost 1
+Effect:
+{
+	StockSwap
+	TargetLocation Stage
+	NarrowTargets HasTrait Reload
+	ChooseCharacterFromTargets Choose a character to gain +5000 power
+	GainPower 5000
+}
+Text Put all cards in your opponent's stock into your opponent's waiting room, and your opponent puts the same number of cards from the top of your opponent's deck into his or her stock, Choose 1 of your <Reload> characters, it gets +5000 power until end of turn.
+EndCard
+
+Climax: P3/SE46-18
+Name TARGET NEUTRALIZED.
+*ChoiceClimax
+EndCard
+
+Climax: P3/SE46-19
+Name DONE AND DUSTED.
+*ChoiceClimax
+EndCard
+
+Character: P3/SE46-20
+Name Amada & Nemisis Reload
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Reload
+Trait2 Magic
+Trait3 God
+Auto: OnPlay
+{
+	Message Choose a "Koromaru & Cerberus Reload" to put underneath this card as a marker
+	SearchLocationForTargets Deck 0 1 NameEquals Koromaru & Cerberus Reload
+	Marker_FaceUp
+	ShuffleLocation Deck
+}
+Text Auto: When this card is placed on stage from your hand, search your deck for up to 1 "Koromaru & Cerberus Reload", reveal it to your opponent and place it underneath this card face-up as a marker.
+Act: Discard 1 IsCharacter
+{
+	If Compare MyLevel 1 OrMore
+	{
+		TargetSelf
+		TargetMarkersUnderTargets
+		ChooseCardsFromTargets 1 1 NameEquals Koromaru & Cerberus Reload
+		PlaceOnStage False True True False
+		RememberTargets
+	}
+}
+Text Act: [Discard 1 character] If your level is 1 or higher, choose 1 "Koromaru & Cerberus Reload" underneath this card as a marker and place it on any position on your stage. At the end of your turn, you may put that character underneath this card face-up as a marker.
+Auto: EndOfTurn
+{
+	If StageContains 1 RememberedByThisCard
+	{
+		TargetRemembered
+		Question Put your "Koromaru & Cerberus Reload" under this card as a marker?
+		If Yes
+		{
+			Marker_FaceUp
+		}
+	}
+}
+*RestGivePower(1000,Any)
+EndCard
+
+Character: P3/SE46-21
+Name "S.E.E.S." Junpei Iori
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: When a climax is placed on your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+Auto: OnLevelUp
+{
+	TargetLocation Marker
+	MoveCard WaitingRoom
+}
+Quick
+Text Auto: When you level up, put all markers underneath this card into your waiting room.
+Act: RestSelf
+{
+	Peek Deck 1
+	Marker_FaceDown
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power for each marker under this card
+	GainPower X
+}
+Text Act: [Rest this card] Look at the top card of your deck, and put it face down underneath this card as a marker. Choose 1 of your characters, it gets +X power until end of turn. X is equal to the number of markers underneath this card ×1000.
+EndCard
+
+Character: P3/SE46-22
+Name Arcana "Empress", Akihiko Sanada
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Reload
+Trait2 Magic
+Trait3 Sports
+Cont: GiveSelf
+{
+	If Compare MyLevel 3 OrHigher
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				SearchLocationForTargets Hand 0 1 NameEquals "S.E.E.S." Akihiko Sanada
+				Change
+			}
+			Text Act: [Put this card into the waiting room] Choose a ""S.E.E.S." Akihiko Sanada" in your hand and place it in the stage position this card was on.
+		}
+	}
+}
+Text Cont: If you are level 3 or higher this card gets the following ability. "Act: [Put this card into the waiting room] Choose up to 1 ""S.E.E.S." Akihiko Sanada" in your hand and place it in the stage position this card was on.
+*GlobalPower(500,Reload|Magic|Weapon)
+EndCard
+
+Character: P3/SE46-23
+Name "S.E.E.S." Ken Amada
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Reload|Magic|Weapon
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, choose 1 <Reload> or <Magic> or <Weapon> character in your waiting room, return it to your hand.
+EndCard
+
+Character: P3/SE46-24
+Name "Strega" Chidori
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to lose -500 power
+	LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -500 power until end of turn.
+Act: 1 SendSelf Memory
+{
+	*Check3Add1(Reload|Magic|Weapon)
+}
+Text Act: [(1) Send this to memory] Look at up to 3 cards from the top of your deck, choose up to 1 <Reload> or <Magic> or <Weapon> character from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: P3/SE46-25
+Name Arcana "Justice", Ken Amada
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Reload|Magic|Weapon
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Reload> or <Magic> or <Weapon> character in your waiting room, return it to your hand.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation OpponentStage
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+		Bounce
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+Character: P3/SE46-26
+Name "S.E.E.S." Shinjiro Aragaki
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+*RestGivePower(1000,Any)
+*Act1SalvageBrainstorm(Reload|Magic|Weapon)
+EndCard
+
+Character: P3/SE46-27
+Name Arcana "Pope", Shinjiro Aragaki
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+*RedLevel0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Reload|Magic|Weapon
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 <Reload> or <Magic> or <Weapon> character in your waiting room, return it to your hand.
+EndCard
+
+Character: P3/SE46-28
+Name Akihiko & Polydeuces Reload
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Reload
+Trait2 Magic
+Trait3 Sports
+*PowerOnMyTurn(1000)
+Auto: OnSentFromStageToWaitingRoom
+{
+	Peek Deck 3
+	ChooseCardsFromTargets 0 1 IsClimax
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed from the stage into your waiting room, look at up to three cards from the top of your deck, select up to one climax card, show it to your opponent, add it to your hand, and move the remaining cards to your waiting room. put it on. If you add it to your hand, choose 1 card from your hand and put it into your waiting room.
+EndCard 
+
+Character: P3/SE46-29
+Name Member No.8, Koromaru
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Reload
+Trait2 Animal
+Trait3 Weapon
+*OnPlayMill2GainPowerForEachCharacter(1000,Reload|Magic|Weapon)
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Reload|Magic|Weapon
+		AIChoice GainPower 1000
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Reload|Magic|Weapon
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Reload> or <Magic> or <Weapon> character in your waiting room, return it to your hand, choose 1 of your other <Reload> or <Magic> or <Weapon> characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: P3/SE46-30
+Name "S.E.E.S." Koromaru
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Reload
+Trait2 Animal
+Trait3 Weapon
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+*FreeRunner
+EndCard
+
+Character: P3/SE46-31
+Name Member No.9, Ken Amada
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put two cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room.
+Backup 1000
+EndCard
+
+Character: P3/SE46-32
+Name Member No.5, Junpei Iori
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Combo THAT'S THE GAME!
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Reload|Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have another <Reload> or <Magic> or <Weapon> character, this card gains +2000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax THAT'S THE GAME! &&& StageContains 2 Other && HasTrait Reload|Magic|Weapon
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Reload|Magic|Weapon && Compare ThatCardsLevel X OrLess
+		If Compare X 2 OrMore
+		{
+			TargetSelf
+			GainSoul 1
+		}
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "THAT'S THE GAME!" in the climax area, and you have 2 or more other <Reload> or <Magic> or <Weapon> characters, mill 2, then choose up to 1 level X or lower <Reload> or <Magic> or <Weapon> character from your waiting room, and add it to hand. If X is 2 or higher, this turn, this gets +1 soul. X equals the sum of levels of cards milled by this effect.
+EndCard
+
+Character: P3/SE46-33
+Name Koromaru & Cerberus Reload
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Reload
+Trait2 Animal
+Trait3 Weapon
+*OnAttackGivePowerForEachOther(500,Reload|Magic|Weapon)
+EndCard
+
+Character: P3/SE46-34
+Name Member No.2, Shinjiro
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Slow
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+*EarlyPlayMemoryBomb
+EndCard
+
+Character: P3/SE46-35
+Name "Strega" Jin
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Auto: OnOtherCharacterAttacks
+{
+	TargetOther
+	IfThatCard HasTrait Reload|Magic|Weapon
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Reload|Magic|Weapon
+		SetXValue TargetCount
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When your other <Reload> or <Magic> or <Weapon> character attacks, this card gets +X power until end of turn. X is the 500 of other <Reload> or <Magic> or <Weapon> characters you have times.
+*HandEncore
+EndCard
+
+Character: P3/SE46-36
+Name Shinjiro & Castor Reload
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Reload
+Trait2 Sports
+Trait3 God
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: P3/SE46-37
+Name Member No.1, Akihiko Sanada
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Reload
+Trait2 Magic
+Trait3 Sports
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 10000
+	}
+}
+Text Cont: During your turn, this card gets +10000 power.
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrHigher
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may put the top card of your deck into stock.
+EndCard
+
+Character: P3/SE46-38
+Name Arcana "Juggler", Junpei Iori
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals "Strega" Chidori
+	{
+		GainPower 4500
+	}
+}
+Text Cont: MEMORY If ""Strega" Chidori" in your memory, this card gets +4500 power.
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Reload|Magic|Weapon
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power. X is equal to the number of other <Reload> or <Magic> or <Weapon> characters you have x1000.
+EndCard
+
+Character: P3/SE46-39
+Name Arcana "Strength", Koromaru
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Reload
+Trait2 Animal
+Trait3 Weapon
+*Level3Assist
+Auto: OnOpponentBrainstormSuccess
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Auto: When your opponent uses "BRAINSTORM", if a climax is put into the waiting room by that effect, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: P3/SE46-40
+Name "S.E.E.S." Akihiko Sanada
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Reload
+Trait2 Magic
+Trait3 Sports
+Combo ON TO THE NEXT BOUT.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Reload|Magic|Weapon
+	{
+		Question_Obvious Put the top card of your clock into your stock?
+		If Yes
+		{
+			TargetTop Clock 1
+			MoveCard Stock
+		}
+		Else
+		{
+			*OptionalHeal
+		}
+	}
+	Else
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: When this card is placed on stage from your hand, put up to 1 card from the top of your clock into your waiting room. If you have 4 or more other <Reload> or <Magic> or <Weapon> characters, you may put it into your stock instead of your waiting room.
+Auto: OnAttack
+{
+	If Climax ON TO THE NEXT BOUT. && AllYourCharacters HasTrait Reload
+	{
+		PayCost 1 Discard 2 Any
+		{
+			TargetLocation OpponentWaitingRoom
+			SaveTargets
+			Burn 3
+			If LastDamageCanceled
+			{
+				TargetNthCardFromTop OpponentWaitingRoom 3
+				IfTarget Not InSavedTargets && Compare ThatCardsLevel 1 OrMore
+				{
+					MoveCard OpponentClock
+				}
+				TargetNthCardFromTop OpponentWaitingRoom 2
+				IfTarget Not InSavedTargets && Compare ThatCardsLevel 1 OrMore
+				{
+					MoveCard OpponentClock
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Discard 2 cards] When this card attacks, if "ON TO THE NEXT BOUT." is in your climax area, and all of your characters are <Reload>, you may pay the cost. If you do, deal 3 damage to your opponent. Put all level 1 or higher cards revealed due to damage dealt by this effect into your opponent's clock in the order they are revealed even if the damage is cancelled.
+EndCard
+
+Character: P3/SE46-41
+Name "Strega" Takaya
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+*Healer
+Auto: OnAttack
+{
+	PayCost 3 Discard 2 Any
+	{
+		Burn 2
+		SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+		MoveCard OpponentDeck
+	}
+}
+Text Auto: [(3) Put 2 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 2 damage to your opponent, and choose up to 1 card in your opponent's waiting room and put them on top of the deck.
+EndCard
+
+Character: P3/SE46-42
+Name Junpei & Hermes Reload
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Reload
+Trait2 Weapon
+Trait3 God
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, if you do, choose a climax in your waiting room, and return it to your hand.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBurn(1)
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent." 
+EndCard
+
+Climax: P3/SE46-43
+Name THAT'S THE GAME!
+*DoorClimax
+EndCard
+
+Climax: P3/SE46-44
+Name ON TO THE NEXT BOUT.
+*DoorClimax
+EndCard
+
+Character: P3/SE46-45
+Name "S.E.E.S." Yukari Takeba
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+*MillRunner(Reload|Magic|Weapon)
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Reload|Magic|Weapon
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 2 Any
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and you have 4 or more <Reload> or <Magic> or <Weapon> characters, at the beginning of your climax phase, draw up to 2 cards, choose 2 cards in your hand, and put them into your waiting room.
+EndCard
+
+Character: P3/SE46-46
+Name Mitsuru & Penthesilea Reload
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Reload
+Trait2 Student Council
+Trait3 God
+Auto: OnPlay
+{
+	TargetLocation OpponentBackstage
+	NarrowTargets Compare ThatCardsLevel OpponentsLevel GreaterThan
+	ChooseCharacterFromTargets Choose a character to make unable to stand.
+	DontStand
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's back stage with level higher than your opponent's level. That character cannot stand during your opponent's next stand phase.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter && HasTrait Reload|Magic|Weapon
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a card from hand to waiting room] When this is placed from hand to stage, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower <Reload> or <Magic> or <Weapon> character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+EndCard
+
+Character: P3/SE46-47
+Name Arcana "Empress", Mitsuru Kirijo
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Reload
+Trait2 Magic
+Trait3 Student Council
+*GainPowerWhenOtherAttacks(1000,Reload|Magic|Weapon)
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Reload|Magic|Weapon
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other <Reload> or <Magic> or <Weapon> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: P3/SE46-48
+Name Fuuka & Lucia Reload
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Reload
+Trait2 Magic
+Trait3 God
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Auto: When your climax is placed into your climax area, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: P3/SE46-49
+Name Arcana "Lovers", Yukari Takeba
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+*ClimaxExchange
+EndCard
+
+Character: P3/SE46-50
+Name Arcana "Popess", Fuuka Yamagishi
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Reload
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Reload|Magic|Weapon
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Reload> or <Magic> or <Weapon> characters, it gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	GainEffect
+	{
+		Auto: OnThisTriggerCheck
+		{
+			IfOther IsClimax
+			{
+				PayCost Discard 1 IsClimax
+				{
+					SearchWaitingRoom HasTrait Reload|Magic|Weapon
+				}
+			}
+		}
+		Text Auto: [Put 1 climax from hand to the waiting room] When this card triggers a climax during trigger check, you may pay cost. If you do, choose a <Reload> or <Magic> or <Weapon> character in your waiting room and return it to hand.
+	}
+}
+Text Auto: When this card attacks, all your characters gets the following ability until end of turn. "Auto: [Put 1 climax from hand to the waiting room] When this card triggers a climax during trigger check, you may pay cost. If you do, choose a <Reload> or <Magic> or <Weapon> character in your waiting room and return it to hand."
+EndCard
+
+Character: P3/SE46-51
+Name Member No.0, Mitsuru Kirijo
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Reload
+Trait2 Magic
+Trait3 Student Council
+Combo KNEEL BEFORE ME.
+*GainPowerWithEnoughCharacters(1000,2,Reload|Magic|Weapon)
+Auto: OnAttack
+{
+	If Climax KNEEL BEFORE ME. &&& StageContains 1 Other && HasTrait Reload|Magic|Weapon
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Reload|Magic|Weapon
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "KNEEL BEFORE ME." is in your climax area, and you have another <Reload> or <Magic> or <Weapon> character, look at up to 4 cards from the top of your deck, choose 1 <Reload> or <Magic> or <Weapon> character to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: P3/SE46-52
+Name Member No.6, Fuuka Yamagishi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Reload
+Trait2 Magic
+*GainPowerWhenAttackingLevel3(6000)
+*HandEncoreTrait(Reload|Magic|Weapon)
+EndCard
+
+Character: P3/SE46-53
+Name "S.E.E.S." Mitsuru Kirijo
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Reload
+Trait2 Magic
+Trait3 Student Council
+Auto: OnPlay
+{
+	TargetLocation Deck
+	SetXValue TargetCount
+	If Compare X 6 OrLess
+	{
+		Question Shuffle all cards from your waiting room into your deck?
+		If Yes
+		{
+			Refresh
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have 6 or less cards in your deck, you may shuffle all cards from your waiting room into your deck. 
+EndCard
+
+Character: P3/SE46-54
+Name "S.E.E.S." Fuuka Yamagishi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 3500
+Soul 2
+Trait1 Reload
+Trait2 Magic
+*2000Assist
+*StockHealer
+Act: RestSelf
+{
+	TargetTop Deck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Act: [Rest this card] Look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+EndCard
+
+Character: P3/SE46-55
+Name Yukari & Isis Reload
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Reload
+Trait2 Magic
+Trait3 God
+Cont: InHand
+{
+	If StageContains 4 HasTrait Reload|Magic|Weapon
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more <Reload> or <Magic> or <Weapon> characters, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each character in your opponent's back stage.
+*StockHealer
+EndCard
+
+Character: P3/SE46-56
+Name Member No.4, Yukari Takeba
+Color B
+Level 3
+Cost 2
+Power 11000
+Soul 2
+Trait1 Reload
+Trait2 Magic
+Trait3 Weapon
+Combo THERE YOU HAVE IT.
+Auto: OnAttack
+{
+	If Climax THERE YOU HAVE IT. && AllYourCharacters HasTrait Reload
+	{
+		PayCost Discard 2 Any
+		{
+			MultipleChoiceQuestion Choose the burn value. |2|4
+			If Compare Answer 0 Exactly
+			{
+				Burn 2
+			}
+			If Compare Answer 1 Exactly
+			{
+				Burn 4
+			}
+			SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+			MoveCard OpponentDeck
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 3000
+		}
+	}
+}
+Text Auto: CxCombo [Put 2 cards from your hand into your waiting room] When this card attacks, if "THERE YOU HAVE IT." is in your climax area, and all of your characters are <Reload>, you may pay the cost. If you do, deal 2 or 4 damage to your opponent, choose up to 1 card in your opponent's waiting room and put them on top of the deck, this card +3000 power until the end of your opponent's next turn.
+EndCard
+
+Event: P3/SE46-57
+Name Velvet Room
+Color B
+Level 2
+Cost 3
+Counter
+Effect:
+{
+	TargetLocation Stage
+	OpponentChooseCharactersFromTargets 0 1 Choose up to 1 of your opponent's character to return to hand
+	Bounce
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to rest
+	Rest
+	
+}
+Text Counter: Your opponent may choose one of your characters, and return that character to your hand. Choose one of your opponent's characters, and Rest it.
+EndCard
+
+Event: P3/SE46-58
+Name The Student of Gekkoukan High School
+Color B
+Level 2
+Cost 4
+Counter
+Effect:
+{
+	TargetLocation OpponentStage
+	AIChoice Rest
+	ChooseCharacterFromTargets Choose a character to rest.
+	Rest
+}
+Text Counter: Choose 1 of your opponent's characters and rest it.
+EndCard
+
+Climax: P3/SE46-59
+Name KNEEL BEFORE ME.
+*GateClimax
+EndCard
+
+Climax: P3/SE46-60
+Name THERE YOU HAVE IT.
+*GateClimax
+EndCard

@@ -1,0 +1,2275 @@
+﻿//Do not use this as an example for writing cards!
+
+Character: SAO/S20-E001
+Name Asuna Invites To Party
+Level 1
+Cost 0
+Power 4500
+Color Y
+Combo «Star Splash»
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Avatar|Net
+	{
+		GainPower 1000
+	}
+}
+Text: Cont: If the number of other <Avatar> or <Net> characters you have is 3 or more this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax «Star Splash»
+	{
+		PayCost 1
+		{
+			SearchDeck HasTrait Avatar|Net
+		}
+	}
+}
+Text: Auto: CxCombo [(1)] When this card attacks, if "«Star Splash»" is in your climax area, you may pay the cost, search your deck for up to 1 <Avatar> or <Net> character and add it to your hand.
+AINote IncreaseSearchValueIf 0.5 HandContains 1 NameEquals «Star Splash»
+AINote AddTagIf Attacker HandContains 1 NameEquals «Star Splash»
+AINote AutoIf 1 Compare CardsInHand 6 OrLess
+
+EndCard
+
+
+Character: SAO/S20-E002
+Name "Lightning Flash" Asuna
+Level 2
+Cost 1
+Color Y
+Trigger Soul
+Power 8000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If Facing Compare ThatCardsLevel 3 OrMore
+		{
+			GainPower 4000
+			GainSoul 1
+		}
+	}
+}
+Text Cont: During your turn, if the character facing this is level 3 or higher, this gets +4000 power and +1 soul.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	If OnStage
+	{
+		MoveCard OpponentStock
+	}
+}
+Quick
+Text Auto: When this card's battle opponent becomes reversed, put that character into your opponent's stock.
+Tag AntiLevel3
+EndCard
+
+Character: SAO/S20-E003
+Name Asuna Lays on the Sofa
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	MoveCard Revealed
+	Wait 1.0
+	IfThatCard Not HasTrait Avatar
+	{
+		MoveCard Clock
+	}
+	Else
+	{
+		MoveCard Deck
+	}
+}
+Text Auto When this card is placed on the stage from your hand, reveal the top card of your deck, if it is not an <Avatar> character put it into your clock.
+EndCard
+
+Character: SAO/S20-E004
+Name Imprisoned Queen, Asuna
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 1 NameIncludes Kirito
+	{
+		GainPower 1000
+		GainEffect Auto: Encore [Discard a character]
+		{
+			Auto: Encore Discard 1 IsCharacter
+			{
+			}
+		}
+	}
+}
+Text If you have another character with "Kirito" in its name this gets +1000 power and "Auto: ENCORE [Discard a character]".
+Tag Encore
+AINote AddTagIf WantInWaitingRoom Compare MyLevel 0 OrLower
+EndCard
+
+Character: SAO/S20-E005
+Name Asuna Changes Clothes
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnOtherCharacterAttacks
+{
+	TargetOther
+	IfThatCard HasTrait Avatar|Net
+	{
+		TargetSelf
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other <Avatar> or <Net> character attacks, this gets +1000 power for the turn.
+AINote AttackPriority Late
+EndCard
+
+Character: SAO/S20-E006
+Name Asuna Dozed Off
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+Combo A Sworn Promise
+Auto: OnAttack
+{
+	If Climax A Sworn Promise
+	{
+		TargetAll
+		GainPower 1000
+		BlockOpponentEncore
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "A Sworn Promise" is in your climax area, until end of turn, all your characters get +1000 power and your opponent cannot use "Auto: ENCORE"
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 3000
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost, this gets +3000 power until the end of your opponent's turn.
+AINote AutoIf 2 AI_NeedPower 3000 && Compare MyLevel 2 OrLess
+EndCard
+
+Character: SAO/S20-E007
+Name Asuna's Commanding Strength
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnPlay
+{
+	Heal
+}
+Quick
+Auto: PlacedBy Returning to the Front Lines
+{
+	Heal
+}
+Quick
+Text Auto: When this is placed on the stage from your hand or by the effect of "Returning to the Front Lines", you may put the top card of your clock into the waiting room.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetAll
+		NarrowTargets HasTrait Avatar
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Discard 1 card] When this card attacks, you may pay the cost, all of your <Avatar> characters get +500 power and +1 soul for the turn.
+Tag AttackFirst
+Tag Healer
+AINote AutoIf 3 AI_NeedSoul 1
+AINote AutoIf 3 AI_NeedSoul_Other 1
+EndCard
+
+Character: SAO/S20-E008
+Name Asuna's Married Life
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Avatar
+Trait2 Weapon
+*500Assist
+Auto: OnClimaxPlay
+{
+	TargetAll
+	Message Choose a character to get +1000 power.
+	AIChoice GainPower 1000
+	ChooseCharacter InLocation Stage
+	GainPower 1000
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets +1000 power for the turn.
+AINote AddTagIf Obsolete Compare MyLevel 2 OrMore
+EndCard
+
+Character: SAO/S20-E009
+Name Asuna's True Expression
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 1 Any SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Imprisoned Queen, Asuna
+		AIChoice Random
+		ChooseCard Choose 1 "Imprisoned Queen, Asuna" to place on the stage
+		If HasTarget
+		{
+			Change
+		}
+	}
+}
+Text Auto: [(1) Discard 1 card, put this card into your waiting room] At the beginning of your climax phase, you may pay the cost, choose 1 "Imprisoned Queen, Asuna" in your waiting room and put it in the stage position this was on."
+AINote AutoIf 1 LocationContains WaitingRoom 1 NameEquals Imprisoned Queen, Asuna && Compare MyLevel 0 OrLess
+AINote AutoIf 1 LocationContains Hand 1 NameEquals Imprisoned Queen, Asuna && Compare MyLevel 0 OrLess
+EndCard
+
+Character: SAO/S20-E010
+Name Vice Commander Asuna
+Color Y
+Power 2000
+Level 1
+Cost 0
+Trait1 Avatar
+Trait2 Weapon
+Backup 1000
+Auto: UseThisCardsBackup
+{
+	Message UsedBackup
+	if StageContains 2 HasTrait Avatar | Net
+	{
+		Message Choose a character to give +1000 power.
+		AIChoice GainPower 1000
+		ChooseCharacter InLocation Stage
+		GainPower 1000
+	}
+}
+Text Auto: When you use this card's BACKUP if the number of <Avatar> or <Net> characters you have is 2 or more, choose 1 of your characters, it gets +1000 power for the turn.
+EndCard
+
+Character: SAO/S20-E011
+Name Asuna Takes Shelter
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Avatar
+Trait2 Weapon
+Tag Attacker
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	GainLevel X
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1 level and +1500 power for each marker underneath this card.
+Auto: OnReverseOpponent
+{
+	Question_Obvious Put the top card of your deck under "Asuna Takes Shelter" as a marker. (you will not see the card)
+	If Yes
+	{
+		TargetTop Deck 1
+		Marker_FaceDown
+	}
+}
+Text: Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck underneath this card as a marker.
+Tag WantOpponentReverse
+EndCard
+
+Character: SAO/S20-E012
+Name Asuna Replies to a Proposal
+Color Y
+Level 2
+Cost 1
+Power 3500
+Trigger Soul
+Trait1 Avatar
+Trait2 Weapon
+Cont: Assist
+{
+	GainPower 1000
+}
+Text Cont: ASSIST Your characters in front of this get +1000 Power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Avatar | Net
+	{
+		Message Choose a character to get +1 soul
+		AIChoice GainSoul 1
+		ChooseCharacter InLocation Stage
+		GainSoul 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is an <Avatar> or <Net> character, choose one of your characters, it gets +1 soul for the turn.
+Tag Backstage
+EndCard
+
+Character: SAO/S20-E013
+Name Guild Commander, Heathcliff
+Color Y
+Level 2
+Cost 1
+Power 8000
+Trigger Soul
+Trait1 Avatar
+Trait2 Weapon
+Combo Duel in the Arena
+Auto: OnAttack
+{
+	If Climax Duel in the Arena
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsCost 1 OrLess
+		If HasTarget
+		{
+			Message Choose a cost 1 or lower character to return to your opponent's hand.
+			AIChoice BounceOpponent
+			ChooseCharacterFromTargets
+			Bounce
+		}
+		TargetSelf
+		GainSpecialEffect CannotBeReversed
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Duel in the Arena" is in your climax area, choose one of your opponent's cost 1 or lower characters, return it to your opponent's hand, and this card cannot become reversed until end of turn.
+EndCard
+
+Character: SAO/S20-E014
+Name Asuna's Strong Bond
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Avatar
+Trait2 Weapon
+*BondClock(Kirito Joins the Knights of the Blood Oath)
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Avatar
+	Message Choose an <Avatar> character to get +500 power for the turn.
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Act: [(1)] Choose one of your <Avatar> characters, it gets +500 power until end of turn.
+AINote ActIf 1 AI_NeedPower_Other 500 && Compare CardsInStock 3 OrMore
+AINote ActIf 1 AI_NeedPower 500 && Compare CardsInStock 3 OrMore
+AINote AutoIf 1 HandContains 1 NameEquals Marriage Proposal && Not StageContains 1 Name Equals Kirito Joins the Knights of the Blood Oath && Not HandContains 1 NameEquals Kirito Joins the Knights of the Blood Oath && LocationContains WaitingRoom 1 NameEquals Kirito Joins the Knights of the Blood Oath && Compare MyLevel 1 OrMore
+AINote AutoIf 1 LocationContains WaitingRoom 1 NameEquals Kirito Joins the Knights of the Blood Oath && Compare MyLevel 2 OrMore && Compare CardsInStock 1 OrMore && Compare CardsInHand 1 OrLess
+EndCard
+
+
+Character: SAO/S20-E015
+Name Asuna Jumps to Conclusions
+Color Y
+Power 2500
+Level 0
+Cost 0
+Trait1 Avatar
+Trait2 Weapon
+Tag Attacker
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn this card gets +1000 power.
+Tag Attacker
+EndCard
+
+Character: SAO/S20-E016
+Name Observer, Kuradeel
+Color Y
+Power 2500
+Level 0
+Cost 0
+Trait1 Avater
+Trait2 Weapon
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	If HasTarget
+	{
+		AIChoice RemoveCard
+		ChooseCharacterFromTargets Choose an opponent's level 0 or lower character to put into stock.
+		MoveCard OpponentStock
+	}
+}
+Text Act: [(1)] Choose a level 0 or lower character on your opponent's center stage and put it into your opponent's stock.
+EndCard
+
+Character: SAO/S20-E017
+Name Asuna - Start of the Battle
+Color Y
+Power 3000
+Level 0
+Cost 0
+Trait1 Avatar
+Trait2 Weapon
+Tag Attacker
+EndCard
+
+
+
+Character: SAO/S20-E018
+Name Laughing Coffin
+Color Y
+Power 2500
+Level 0
+Cost 0
+Trait1 Avatar
+Trait2 Weapon
+Act: 1 Rest 2 Any
+{
+	GainPower 1500
+	GainSoul 1
+}
+Text Act: [(1) Rest two of your characters] This card gets +1500 power and +1 soul until end of turn.
+AINote ActPriority 1 Late
+AINote ActIf AI_NeedPower 1500 && StageContains 5 CardPosition Stand
+AINote ActIf AI_NeedSoul 1 && StageContains 5 CardPosition Stand
+EndCard
+
+Character: SAO/S20-E019
+Name Heathcliff's Hidden Identity
+Color Y
+Power 7000
+Level 1
+Cost 1
+Trait1 Avatar
+Trait2 Weapon
+Tag Attacker
+EndCard
+
+Character: SAO/S20-E020
+Name Asuna's Veteran Cooking Skill
+Color Y
+Power 8500
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains_Other 2 HasTrait Avatar
+		{
+			GainLevel 1
+			GainPower 1500
+		}
+	}
+}
+Text Cont: During your turn, if the number of other <Avatar> characters you have is two or more, this card gets +1 level and +1500 power.
+AINote PlayPower_Self 1500
+EndCard
+
+Event: SAO/S20-E021
+Name Returning to the Front Lines
+Color Y
+Level 2
+Cost 1
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Asuna Replies to a Proposal
+	If HasTarget
+	{
+		If Compare TargetCount 2 OrMore
+		{
+			Message Choose which "Asuna Replies to a Proposal" to send to the Waiting Room
+			AIChoice Random
+			ChooseCharacterFromTargets
+		}
+		MoveCard WaitingRoom
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Asuna's Commanding Strength
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard Choose an "Asuna's Commanding Strength" to place on the stage
+			MoveCard WaitingRoom // Move it to the top of the waiting room while you choose where to put it
+			PlaceOnStage false true true false
+		}
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Choose 1 of your characters named "Asuna Replies to a Proposal" and put it into your waiting room. If you do, choose 1 "Asuna's Commanding Strength" in your waiting room, and put it on any position of your stage. Put this card into your memory.
+AINote PlayIf Compare MyLevel 2 Exactly && StageContains 1 NameEquals Asuna Replies to a Proposal && LocationContains WaitingRoom 1 Asuna's Commanding Strength
+AINote PlayIf Compare MyLevel 3 Exactly && StageContains 1 NameEquals Asuna Replies to a Proposal && LocationContains WaitingRoom 1 Asuna's Commanding Strength && AI_NeedAttacker
+AINote PlayIf Compare MyLevel 3 Exactly && StageContains 1 NameEquals Asuna Replies to a Proposal && LocationContains WaitingRoom 1 Asuna's Commanding Strength && Compare CardsInClock 4 OrMore
+EndCard
+
+Event: SAO/S20-E022
+Name Self-sacrifice
+Color Y
+Level 1
+Cost 1
+Counter
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Avatar | Net
+	If HasTarget
+	{
+		AIChoice GainPower 3500
+		ChooseCharacterFromTargets Choose a character to give +3500 power.
+		GainPower 3500
+	}
+}
+Text Counter: Choose 1 of your <Avatar> or <Net> characters, it gets +3500 power for the turn.
+AINote PlayIf AI_NeedPower_Other 3500
+AINote PlayPriority Last
+EndCard
+
+
+Climax: SAO/S20-E023
+Name A Sworn Promise
+Color Y
+Combo Asuna Dosed Off
+*DrawClimax
+EndCard
+
+Climax: SAO/S20-E024
+Name «Star Splash»
+*WindClimax
+Combo Asuna Invites To Party
+EndCard
+
+Climax: SAO/S20-E025
+Name Duel in the Arena
+*ShotClimax
+Combo Guild Commander, Heathcliff
+EndCard
+
+
+
+Character: SAO/S20-E026
+Name Magic Swordsman, Leafa
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Avatar
+Trait2 Weapon
+Combo Spell Chanting
+Auto: OnAttack
+{
+	If Climax Spell Chanting
+	{
+		PayCost 1
+		{
+			GainPower 1000
+			GainEffect
+			{
+				Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+				{
+					TargetBattleOpponent
+					IfTarget OnStage
+					{
+						MoveCard OpponentClock
+					}
+				}
+			}
+		}
+	}
+}
+Text: Auto: CxCombo [(1)] When this card attacks, if "Spell Chanting" is in your climax area, you may pay the cost, until end of turn, this card gets +1000 power and the following ability. "Auto: When this card's level 2 or higher battle opponent becomes reverse, you may put that character into your opponent's clock."
+EndCard
+
+Character: SAO/S20-E027
+Name Leafa's Pure Wish
+Color G
+Level 3
+Cost 2
+Soul 2
+Trigger Soul
+Power 10000
+Trait1 Avatar
+Trait2 Weapon
+Tag EarlyPlay
+Cont: InHand
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of cards in your deck is 5 or less, this card gets -1 level in your hand.
+Cont: GiveAll
+{
+	If Other && HasTrait Avatar | Net
+	{
+		GainPower 1500
+	}
+}
+Text Cont: All of your other <Avatar> or <Net> characters get +1500 power.
+Act: 1 Discard 1 HasTrait Avatar | Net
+{
+	UntilEndOfOpponentsTurn
+	GainPower 3000
+	UntilEndOfOpponentsTurn
+	GainSpecialEffect CannotBeChosen
+}
+Text Act: [(1) Discard 1 <Avatar> or <Net> character] Until the end of your opponent's next turn, this card gets +3000 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+
+Character: SAO/S20-E028
+Name Reliable Guide, Leafa
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Avatar
+Trait2 Net
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	Message Choose a character to get +1000 power and +1 level.
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets
+	GainPower 1000
+	GainLevel 1
+}
+Text Auto: When this card attacks, choose another of your characters, it gets +1 level and +1000 power for the turn.
+EndCard
+
+Character: SAO/S20-E029
+Name Suguha's Shaken Feelings
+Color G
+Power 2000
+Level 1
+Cost 0
+Trait1 Net
+Trait2 Sports
+Cont: GiveAll
+{
+	If Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters get +500 power.
+Auto: OnClimaxPlay
+{
+	If Climax Repressed Feelings
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			GainPower 1500
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Repressed Feelings" is placed in your climax area, you may pay the cost, all of your characters get +1500 power until end of turn.
+Combo Repressed Feelings
+EndCard
+
+
+Character: SAO/S20-E030
+Name Sylph Girl, Leafa
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Avatar
+Trait2 Weapon
+*HandEncore
+Act: Rest 2 HasTrait Avatar | Net
+{
+	GainPower 2500
+}
+Text Act: [Rest 2 of your <Avatar> or <Net> characters] This card gets +2500 power until end of turn.
+EndCard
+
+
+Character: SAO/S20-E031
+Name Suguha in Uniform
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Net
+Trait2 Sports
+Cont: GiveSelf
+{
+	If Have_Other 3 HasTrait Avatar | Net
+	{
+		GainEffect
+		{
+			Auto: Encore Discard 1 IsCharacter
+			{
+			}
+		}
+	}
+}
+Text Cont: If the number of other <Avatar> or <Net> characters you have is three or more, this card gets "Auto: ENCORE [Discard a character]"
+Auto: OnAttack
+{
+	PayCost 1
+	{
+		GainPower 2500
+	}
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost, this gets +2500 power until end of turn.
+EndCard
+
+Character: SAO/S20-E032
+Name Suguha Persuading Herself
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Net
+Trait2 Sports
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Avatar | Net
+	Message Choose a character to give +500 power to.
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets 
+	GainPower 500
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your other <Avatar> or <Net> characters, it gets +500 power until end of turn.
+*Bond1(Kirito - For Someone Special)
+EndCard
+
+Character: SAO/S20-E033
+Name Gentle Ally, Recon
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Avatar
+Trait2 Weapon
+*500Assist
+EndCard
+
+Character: SAO/S20-E034
+Name Kendo Girl, Suguha
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Net
+Trait2 Sports
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over 4 cards from the top of your deck and put them into the waiting room. For each climax revealed, this card gets +3000 power until end of turn.
+EndCard
+
+Character: SAO/S20-E035
+Name Leafa's Bashful Expression
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+Character: SAO/S20-E036
+Name Leafa Gets Her Hand Bit
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other
+	{
+		GainSpecialEffect CannotSideAttack
+	}
+}
+Text Cont: Your other characters cannot side attack.
+EndCard
+
+Character: SAO/S20-E037
+Name Leafa's Sharp Observation
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of cards in your stock is 3 or more, this card gets +1000 power.
+EndCard
+
+Character: SAO/S20-E038
+Name Suguha Out of the Bath
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Net
+Trait2 Sports
+EndCard
+
+Character: SAO/S20-E039
+Name Leafa's in a Panic
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+Character: SAO/S20-E040
+Name Suguha's Mixed Emotions
+Color G
+Power 2000
+Level 1
+Cost 1
+Trigger Soul
+Trait1 Net
+Trait2 Sports
+Backup 2000
+EndCard
+
+Character: SAO/S20-E041
+Name Fairy King, Oberon
+Color G
+Level 2
+Cost 2
+Power 9000
+Trigger Soul
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+Event: SAO/S20-E042
+Name Healing Magic
+Color G
+Level 2
+Cost 1
+Effect:
+{
+	Peek OpponentDeck 2
+	AIChoice If IsClimax
+	ChooseCard Choose up to 1 card to put on the bottom of the opponent's deck
+	If HasTarget
+	{
+		MoveCardToBottom OpponentDeck
+	}
+	Reorder
+	EndPeek
+	TargetLocation Stage
+	If HasTarget
+	{
+		AIChoice GainPower 3000
+		ChooseCharacterFromTargets Choose a character to give +3000 power.
+		GainPower 3000
+	}
+}
+Text Look at up to 2 cards from the top of your opponent's deck, choose up to 1 and put it on the bottom of your opponent's deck. Put the rest on top of your opponent's deck in any order. Choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Event: SAO/S20-E043
+Name Recon's Courage
+Color G
+Level 2
+Cost 1
+Effect:
+{
+	TargetLocation Stage
+	If HasTarget
+	{
+		AIChoice RemoveCard
+		ChooseCharacterFromTargets Choose one of your characters to put into the waiting room.
+		MoveCard WaitingRoom
+		TargetLocation OpponentStage
+		AIChoice LosePower 4000
+		ChooseCharacterFromTargets Choose an opponent's character to give -4000 power.
+		LosePower 4000
+	}
+}
+Text Choose 1 of your characters, and put it into your waiting room. If you do, choose up to 1 of your opponent's characters, it gets -4000 power until end of turn.
+EndCard
+
+Climax: SAO/S20-E044
+Name Spell Chanting
+Color G
+*OldStockSoulClimax
+Combo Magic Swordsman, Leafa
+EndCard
+
+Climax: SAO/S20-E045
+Name Repressed Feelings
+*BarClimax
+Combo Suguha's Shaken Feelings
+EndCard
+
+
+Character: SAO/S20-E046
+Name Searching Lisbeth
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnAttack
+{
+	If Climax Seeking Warmth
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom IsCharacter
+			SearchWaitingRoom IsCharacter
+			Discard 1 Any
+			TargetSelf
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Seeking Warmth" in in your climax area, you may pay the cost, choose up to 2 characters in your waiting room and return them to your hand, choose a card in your hand and put it into the waiting room, and this card gets +1000 power until end of turn.
+Combo Seeking Warmth
+EndCard
+
+Character: SAO/S20-E047
+Name Like a Younger Sister, Silica
+Color R
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+Trigger Soul
+*Healer
+Auto: OnAttack
+{
+	If Climax Pina's Resurrection
+	{
+		SearchWaitingRoom IsCharacter
+		TargetLocation OpponentWaitingRoom
+		*Saboutage
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Pina's Resurrection" is in your climax area, choose up to 1 character in your waiting room and return it to your hand, choose up to 1 card in your opponent's waiting room and placed it on top of your opponent's deck.
+Combo Pina's Resurrection
+EndCard
+
+Character: SAO/S20-E048
+Name Lisbeth's Blessings
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets NameContains アスナ
+	GainPower 500
+}
+Quick
+Text Auto: When this card attacks, all your other characters with "Asuna" (アスナ) in its name get +500 power until end of turn.
+*Bond1(Asuna Invites to Party)
+EndCard
+
+
+Character: SAO/S20-E049
+Name Silica in the Flower Garden
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Bond Pneuma Flower
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, choose a card named "Pneuma Flower" in you waiting room, and return it to your hand.
+EndCard
+
+Character: SAO/S20-E050
+Name Lisbeth's Professional Pride
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Avatar
+Trait2 Weapon
+*RedLevel0Bomb
+Auto: StartClimaxPhase
+{	
+	PayCost Clock
+	{
+		AIChoice GainPower 2500
+		ChooseCharacter Other && HasTrait Weapon
+		GainPower 2500
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost, choose 1 of your other <Weapon> characters, it gets +2500 power for the turn.
+EndCard
+
+Character: SAO/S20-E051
+Name Silica's Unyielding Trust
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchWaitingRoom HasTrait Avatar|Net|Familiar
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, choose up to 1 <Avatar> <Net> or <Familiar> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SAO/S20-E052
+Name Lisbeth Changes Clothes
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Avatar
+Trait2 Weapon
+*ContForEachOtherTrait(500,Avatar|Net)
+EndCard
+
+
+
+Character: SAO/S20-E053
+Name Lisbeth's Determined Confession
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Avatar
+Trait2 Weapon
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SAO/S20-E054
+Name Familiar, Pina
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Familiar
+Trait2 Dragon
+Cont: GiveAll
+{
+	If NameContains Silica
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other characters with "Silica" in its name get +500 power.
+*SacrificeToSave(NameContains Silica)
+Text Auto: [Put this card into the waiting room] When your other character with "Silica" in its name is put into your waiting room from the stage, if this card is on your backstage, you may pay the cost, if you do return that character to its previous position as rested.
+EndCard
+
+Character: SAO/S20-E055
+Name Silica - Like a Date
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Avatar
+Trait2 Weapon
+*ClimaxPhaseCheckTopRestIfClimax
+EndCard
+
+Character: SAO/S20-E056
+Name Mace User, Lisbeth
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnAttack
+{
+	If Climax Awakened Feelings
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Weapon
+			GainPower 2500
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Awakened Feelings" is in your climax area, you may pay the cost, all of your <Weapon> characters get +2500 power until end of turn.
+Combo Awakened Feelings
+EndCard
+
+Character: SAO/S20-E057
+Name Silica - Start of the Adventure
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnAttack
+{
+	If Climax "First Adventure"
+	{
+		PayCost 1
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals Familiar, Pina
+			If HasTarget
+			{
+				AIChoice Random
+				ChooseCard Choose a "Familiar, Pina" to place on the stage.
+				PlaceOnStage False True True True
+			}
+			TargetSelf
+			GainPower 3500
+		}
+	}
+}
+Text Auto: CxCombo [(1)] Whent this card attacks, if "First Adventure" is in your climax area, you may pay the cost, choose a card named "Familiar, Pina" in your waiting room and place it on any position of your stage rested, and this card gets +3500 power for the turn.
+Combo First Adventure
+EndCard
+
+Character: SAO/S20-E058
+Name Dagger User, Silica
+Color R
+Level 1
+Cost 1
+Power 7000
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+Character: SAO/S20-E059
+Name Cute Mischief, Silica
+Color R
+Level 2
+Cost 1
+Power 9000
+Trigger Soul
+Trait1 Avatar
+Trait2 Weapon
+*ClimaxPhaseCheckTopTributeOtherIfClimax
+EndCard
+
+
+Character: SAO/S20-E060
+Name Lisbeth's Positive Smile
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+*OnPlayCheckTopRestIfClimax
+EndCard
+
+Character: SAO/S20-E061
+Name Lisbeth the Blacksmith
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Avatar
+Trait2 Weapon
+*500Assist
+Auto: OnUseAccelerate
+{
+	If CardPosition Stand
+	{
+		PayCost RestSelf
+		{
+			TargetLocation Stage
+			AIChoice GainPower 1500
+			ChooseCharacterFromTargets Choose a character to give +1500 power to
+			GainPower 1500
+		}
+	}
+}
+Text Auto: [Rest this card] When you use "Accelerate", if this card is standing, you may pay the cost, choose 1 of your characters, it gets +1500 power for the turn.
+EndCard
+
+Character: SAO/S20-E062
+Name Beast Tamer Silica
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Avatar
+Trait2 Weapon
+*Bond1(Familiar\, Pina)
+EndCard
+
+Character: SAO/S20-E063
+Name Like an Idol, Silica
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Avater
+Trait2 Weapon
+EndCard
+
+Character: SAO/S20-E064
+Name Silica Leaves the Party
+Color R
+Level 1
+Cost 1
+Power 1500
+Trait1 Avatar
+Trait2 Weapon
+Backup 1500
+EndCard
+
+Character: SAO/S20-E065
+Name Pina's Heart
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Familiar
+Trait2 Dragon
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage
+	{
+		If NameContains Silica
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: Your other character in the middle position of your center stage with "Silica" in its name gets +1000 power.
+*Revenge(1000)
+EndCard
+
+Character: SAO/S20-E066
+Name Cornered Silica
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Avatar
+Trait2 Weapon
+*PowerInMiddle(1000)
+EndCard
+
+Character: SAO/S20-E067
+Name Encouraging Lisbeth
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Avatar
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost 2 SendSelf WaitingRoom Discard 1 Any
+	{
+		*ChangeWaitingRoom(Lisbeth's Positive Smile)
+	}
+}
+Text Auto: CHANGE [(2) Put a card from your hand into your waiting room, put this card into your waiting room] At the beginning of your climax phase, you may pay the cost, choose a card named "Lisbeth's Positive Smile" in your waiting room, and put it on the stage position this was on.
+EndCard
+
+Character: SAO/S20-E068
+Name Happening! Silica
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+Character: SAO/S20-E069
+Name Silica's Gratitude
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 8500
+Trait1 Avatar
+Trait2 Weapon
+Act: Rest 2 HasTrait Avatar|Net|Familiar
+{
+	TargetSelf
+	GainPower 2500
+}
+Text Act: [Rest 2 of your <Avatar> <Net> or <Familiar> characters] This card gets +2500 power until end of turn.
+EndCard
+
+Event: SAO/S20-E070
+Name Pneuma Flower
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Silica
+Effect:
+{
+	SearchDeck NameContains Pina
+}
+Text If you do not have a character with "Silica" in its card name, this cannot be played from your hand. Search your deck for up to 1 card with "Pina" in its name.
+EndCard
+
+
+Event: SAO/S20-E071
+Name White Dragon's Lair
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	TargetSelf
+	MoveCards Memory
+}
+Text Put this card into your memory
+Cont: Memory
+{
+	If InLocation MiddleCenterStage
+	{
+		If NameContains Kirito
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: MEMORY If this is in your memory, your character in the middle position of your center stage with "Kirito" in its name gets +1000 power.
+EndCard
+
+Climax: SAO/S20-E072
+Name Seeking Warmth
+*DoorClimax
+Combo Searching Lisbeth
+EndCard
+
+Climax: SAO/S20-E073
+Name First Adventure
+Color R
+*2SoulClimax
+Combo Silica - Start of the Adventure
+EndCard
+
+Climax: SAO/S20-E074
+Name Pina's Resurrection
+Color R
+*DrawClimax
+Combo Like a Younger Sister, Silica
+EndCard
+
+Climax: SAO/S20-E075
+Name Awakened Feelings
+Color R
+*OldStockSoulClimax
+Combo Mace User, Lisbeth
+EndCard
+
+
+
+Character: SAO/S20-E076
+Name Mysterious Girl, Yui
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Net
+Act: 1
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [(1)] Draw a card, choose a card in your hand and put it into your waiting room.
+Act: RestSelf Rest 1 Other
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Act: [Rest this card and another of your characters] Choose 1 of your characters, it gets +1000 power until the end of your opponent's turn.
+EndCard
+
+
+Character: SAO/S20-E077
+Name Black Swordsman Kirito
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnClimaxPlay
+{
+	If Climax «Dual-Wielding User»
+	{
+		PayCost 3 HandClock Any
+		{
+			GainPower 3500
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					Stand
+				}
+				TimesPerTurn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(3) Put a card from your hand into your clock] When "«Dual-Wielding User»" is placed in your climax area, you may pay the cost, until end of turn, this gets +3500 power and the following ability. "Auto: Once per turn, When this card's battle opponent becomes reverse, you may stand this card."
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Avatar|Net
+	{
+		DrawCard
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck, if it is an <Avatar> or <Net> character, put it into your hand.
+Combo «Dual-Wielding User»
+AINote AutoIf 1 True
+Tag ComboOnReverse
+EndCard
+
+Character: SAO/S20-E078
+Name Blade User, Klein
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Avatar|Net
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is an <Avatar> or <Net> character, choose 1 of your characters, it gets +1000 power until end of turn.
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Avatar|Net
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Act: BRAINSTORM [(1)] Reveal 4 cards from the top of your deck, and put them into the waiting room. For each climax reavealed, choose one of your <Avatar> or <Net> characters, it gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: SAO/S20-E079
+Name Kirito in the Battlefield
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+*DropSearch(Avatar)
+EndCard
+
+
+Character: SAO/S20-E080
+Name Kirito - For Someone Special
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnAttack
+{
+	If Climax End of the World
+	{
+		PayCost 1
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "End of the World" is in your climax area, you may pay the cost, draw a card.
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost, this card gets +2500 power until the end of your opponent's turn.
+Combo End of the World
+EndCard
+
+Character: SAO/S20-E081
+Name Artificial Intelligence, Yui
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Net
+Auto: OnAttack
+{
+	If Climax Sudden Farewell
+	{
+		PayCost 2
+		{
+			*OptionalDraw
+			*OptionalDraw
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Sudden Farewell" is in your climax area, you may pay the cost, draw up to 2 cards.
+Combo Sudden Farewell
+EndCard
+
+Character: SAO/S20-E082
+Name Kirito Discovers a Unique Skill
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+//Will require several AI notes
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	GainLevel X
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1 level and +1500 power for each marker underneath this card.
+Auto: OnReverseOpponent
+{
+	Question_Obvious Put the top card of your deck under "Kirito Discovers a Unique Skill" as a marker? (you will not see the card).
+	If Yes
+	{
+		TargetTop Deck 1
+		Marker_FaceDown
+	}
+}
+Text: Auto: When this card's battle opponent becomes reverse, you may put the top card of your deck underneath this card as a marker.
+Auto: OnOtherCharacterAttacks
+{
+	TargetSelf
+	If Compare MarkersUnderThis 5 OrMore
+	{
+		PayCost 0
+		{	
+			TargetLocation Marker
+			MoveCard WaitingRoom
+			TargetSelf
+			Stand
+			GainPower 6000
+		}
+	}
+}
+Text Auto: [Put all markers from underneath this card into your waiting room] When another of your characters attacks, if the number of markers underneath this card is five or morer, you may pay the cost, stand this card, and this card gets +6000 power until end of turn.
+EndCard
+
+Character: SAO/S20-E083
+Name Solo Player, Kirito
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If OnStage
+	{
+		If Not StageContains_Other 1 Any
+		{
+			GainPower 1500
+			GainLevel 1
+		}
+	}
+}
+Text Cont: If you have no other characters, this gets +1 level and +1500 power.
+EndCard
+
+Character: SAO/S20-E084
+Name Moonlit Black Cats, Sachi
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, this gets +1000 power.
+EndCard
+
+Character: SAO/S20-E085
+Name Kirito's Strong Bond
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveAll
+{
+	If NameContains アスナ
+	{
+		GainPower 500
+	}
+}
+Text Cont: All your other characters with "Asuna" (アスナ) in its name get +500 power.
+Cont: GiveAll
+{
+	If OpponentsTurn
+	{
+		If Other
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: During your opponent's turn, all your other characters get +500 power.
+EndCard
+
+Character: SAO/S20-E086
+Name Kirito Appraises Items
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains_Other 1 NameContains アスナ
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: Encore Discard 1 IsCharacter
+			{
+			}
+		}
+	}
+}
+Text Cont: If you have another character with "Asuna" (アスナ) in its name, thsi gets +1000 power and "Auto: ENCORE [Discard a character]"
+EndCard
+
+Character: SAO/S20-E087
+Name Kirito's Natural Gentleness
+Color B
+Level 1
+Cost 1
+Power 6500
+Trait1 Avatar
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost 2 Discard 1 Any &&& SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Kirito Discovers a Unique Skill
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [(2) Put a card from your hand into the waiting room & put this card into the waiting room] At the beginning of your climax phase, you may pay the cost, choose a card named "Kirito Discovers a Unique Skill" in your waiitng room, and put it on the stage position this was on.
+EndCard
+
+Character: SAO/S20-E088
+Name Their Child, Yui
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Net
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Kirito|アスナ
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Act: [Rest this card] Choose one of your characters with "Kirito" or "Asuna" (アスナ) in its name, it gets +500 power until end of turn.
+EndCard
+
+Character: SAO/S20-E089
+Name Kirito's Quiet Days
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Avatar
+Trait2 Weapon
+*Bond1(Asuna Changes Clothes)
+EndCard
+
+Character: SAO/S20-E090
+Name Kirito - Start of the Battle
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+Character: SAO/S20-E091
+Name Sachi's Bloomed Admiration
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnReversedInBattle
+{
+	PayCost 2 SendSelf Memory
+	{
+		DrawCard
+	}
+}
+Text Auto: [(2) Put this card into your memory] When this card becomes reverse in battle, you may pay the cost, draw a card.
+EndCard
+
+Character: SAO/S20-E092
+Name Lovely Girl, Yui
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Net
+EndCard
+
+
+Character: SAO/S20-E093
+Name Kirito - Snow Mountain on Floor 55
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Backup 3000
+EndCard
+
+Character: SAO/S20-E094
+Name Kirito Joins the Knights of the Blood Oath
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, this card gets +1000 power.
+EndCard
+
+Character: SAO/S20-E095
+Name Axe Warrior, Agil
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+
+Event: SAO/S20-E096
+Name Marriage Proposal
+Color B
+Level 2
+Cost 2
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Kirito Joins the Knights of the Blood Oath
+	AIChoice Random
+	If HasTarget
+	{
+		MoveCard WaitingRoom
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Black Swordsman Kirito
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			PlaceOnStage False True True False
+			UntilEndOfOpponentsTurn
+			GainPower 1500
+		}
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Choose 1 of your "Kirito Joins the Knights of the Blood Oath" and put it into your waiting room, if you do, choose a "Black Swordsman Kirito" in your waiting room, and put it on any position of your stage, and that character gets +1500 power until the end of your opponent's next turn. Put this card into your memory.
+AINote PlayIf StageContains 1 NameEquals Kirito Joins the Knights of the Blood Oath && LocationContains WaitingRoom 1 NameEquals Black Swordsman Kirito
+EndCard
+
+Event: SAO/S20-E097
+Name Thank you, goodbye
+Color B
+Level 1
+Cost 1
+Effect:
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 3 OrLess
+	AIChoice MostThreatening
+	ChooseCharacterFromTargets
+	DontStand
+}
+Text Choose 1 of your opponent's level 3 or lower characters, that character cannot stand during your opponent's next stand phase.
+EndCard
+
+Climax: SAO/S20-E098
+Name «Dual-Wielding User»
+*BookClimax
+EndCard
+
+
+Climax: SAO/S20-E099
+Name End of the World
+Color B
+*DrawClimax
+EndCard
+
+
+
+Climax: SAO/S20-E100
+Name Sudden Farewell
+Color B
+*2SoulClimax
+Combo Artificial Intelligence, Yui
+EndCard
+
+Character: SAO/S20-E104
+Name Kirito & Asuna
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, this card gets +1000 power.
+*ScryWhenAttacked
+Act: 1
+{
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Act: [(1)] This card gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: SAO/S20-E106
+Image SAO_S20_E106
+Name SD Asuna
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+
+Character: SAO/S20-E107
+Name SD Silica
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Avatar
+Trait2 Weapon
+*500Assist
+EndCard
+
+Character: SAO/S20-E108
+Name SD Kirito
+Color B
+Level 2
+Cost 2
+Power 9000
+Trigger Soul
+Soul 2
+EndCard
+
+Character: SAO/S20-E109
+Name SD Yui
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Net
+EndCard
+
+Character: SAO/S20-PE01
+Name Fair and Beautiful, Asuna
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Avatar
+Trait2 Weapon
+EndCard
+
+
+
+
+
+
+
+
+
+
+
+
+
+Character: SAO/S20-TE05
+Name Asuna's Veteran Cooking Skill
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 8500
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If Have 3 Other && HasTrait Avatar
+		{
+			GainLevel 1
+			GainPower 1500
+		}
+	}
+}
+Text Cont: If you have 3 or more other <Avatar> characters, this card gets +1 level and +1500 power.
+EndCard
+
+
+Character: SAO/S20-E101
+Name Lead Group Asuna
+Color Y
+Level 1
+Cost 1
+Power 6500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnUseAct
+{
+	GainPower 1000
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to two times per turn. When you use an ACT effect, this card gets +1000 power until end of turn
+EndCard
+
+Character: SAO/S20-E105
+Name Asuna Enters the Underground Dungeon
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Avatar
+Trait2 Weapon
+Auto: StartClimaxPhase
+{	
+	PayCost Clock
+	{
+		GainPower 3500
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost, this card gets +3500 power until end of turn.
+EndCard
+
+Character: SAO/S20-PE02
+Name Asuna in the Bath
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotBeChosen
+}
+Text Cont: This card cannot be chosen by your opponent's effects.
+Cont: GiveAll
+{
+	If Other
+	{
+		If MyTurn
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: During your turn, all of your other characters get +1000 power.
+EndCard
+
+Character: SAO/S20-PE03
+Name A Happy Moment, Asuna & Yui
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Avatar
+Trait2 Net
+Cont: GiveAll
+{
+	If Other
+	{
+		If MyTurn
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: During your turn, all of your other characters get +500 power.
+EndCard
+
+
+Character: SAO/S20-PE04
+Name Asuna - Two Worlds
+Color Y
+Level 1
+Cost 1
+Power 6500
+Trait1 Avatar
+Trait2 Weapon
+Act: 1
+{
+	GainSoul 1
+}
+Text Act: [(1)] This card gets +1 soul until end of turn.
+AINote ActPriority 1 Last
+AINote ActIf 1 AI_NeedSoul 1 && Compare CardsInStock 3 OrMore && CardPosition Stand && InLocation CenterStage
+EndCard
+
+Character: SAO/S20-PE05
+Name Asuna Conveying Her Feelings
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Net
+Act: 1
+{
+	GainSoul 1
+}
+Text Act: [(1)] This card gets +1 soul until end of turn.
+AINote ActPriority 1 Last
+AINote ActIf 1 AI_NeedSoul 1 && Compare CardsInStock 3 OrMore && CardPosition Stand && InLocation CenterStage
+EndCard
+
+
+Character: SAO/S20-PE06
+Name Suguha Conveying Her Feelings
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Net
+Trait2 Sports
+*1000Assist
+*GivePowerOnAct(500,1)
+EndCArd
+
+Character: SAO/S20-E102
+Name Lead Group Kirito
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && HasTrait Avatar|Net
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All your other <Avatar> or <Net> characters get +1000 power.
+*ScryToBottomOnPlay
+EndCard
+
+Character: SAO/S20-E103
+Name Beater Kirito
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Avatar
+Trait2 Weapon
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Avatar|Net
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets
+	GainPower 1500
+}
+Text Act: [(1)] Choose 1 of your <Avatar> or <Net> characters, it gets +1500 power until end of turn.
+EndCard
+
+
+
+

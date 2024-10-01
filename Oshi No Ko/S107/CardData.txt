@@ -1,0 +1,3373 @@
+﻿Character: OSK/S107-001
+Name "B-Komachi" Ruby
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Showbiz
+		ChooseCharacterFromTargets Choose 1 <Showbiz> character to give +1000 power and +1 soul.
+		GainPower 1000
+		GainSoul 1
+	}
+}
+Text Auto: When a climax is placed in your climax area, reveal the top card of your deck, if it is level is 1 or higher, choose 1 of your <Showbiz> characters, it gets +1000 power and +1 soul until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: OSK/S107-002
+Name Moment of Falling in Love, Arima Kana
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Combo Today With Sweet Words
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Showbiz
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have other characters, this card gets +3000 power.
+Auto: OnAttack
+{
+	If Climax Today With Sweet Words && Compare Experience 2 OrMore
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLower &&& IsCharacter &&& HasTrait Showbiz
+		If Compare X 2 OrHigher
+		{
+			PayCost Discard 1 Any
+			{
+				SearchWaitingRoom IsCharacter
+			}
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE When this card attacks, if "Today With Sweet Words" is in your climax area and the total level of the cards in your level is 2 or more, put the top 2 cards of your deck into your waiting room. Choose up to 1 level X or lower <Showbiz> character in your waiting room, and return it to your hand. If X is 2 or higher, you may discard 1 card. If you do, choose 1 character in your waiting room, and return it to your hand. X is equal to the total levels of cards put into your waiting room this way.
+EndCard
+
+Character: OSK/S107-003
+Name "B-Komachi" MEMcho
+Color Y
+Level 3
+Cost 2
+Power 9500
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Not HasTrait Showbiz
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Showbiz>, this card gets +1000 power.
+Auto: OnPlay
+{
+	If Compare Experience 3 OrMore
+	{
+		MultipleChoiceQuestion Choose an effect:\n1. Look at up to 3 cards from the top of your deck, choose 1 card to add to your hand, then put the rest back on top of your deck in any order. \n2. [Discard 1 card] You may pay the cost. If you do, choose 1 <Showbiz> character from your clock and return it to your hand.|Effect 1|Effect 2
+		If Answer 0
+		{
+			Peek Deck 3
+			AIChoice AddToHand
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Hand
+			TargetLocation ScryArea
+			MoveCard Deck
+			TargetTop Deck TargetCount
+			If Compare TargetCount 2 OrMore
+			{
+				Message Choose the order to return cards. (First on top)
+				Reorder
+			}
+		}
+		If Answer 1
+		{
+			PayCost Discard 1 Any
+			{
+				TargetLocation Clock
+				NarrowTargets isCharacter && HasTrait Showbiz
+				If HasTarget
+				{
+					SearchLocationForTargets Clock 1 1 isCharacter && HasTrait Showbiz
+					MoveCard Hand
+				}
+			}
+		}
+	}
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, if the total level of cards in your level is 3 or higher, choose 1 of the following effects, and perform it. \n"Look at up to 3 cards from the top of your deck, choose 1 card to add to your hand, then put the rest back on top of your deck in any order." \n"[Discard 1 card] You may pay the cost. If you do, choose 1 <Showbiz> character from your clock and return it to your hand."
+EndCard
+
+Character: OSK/S107-004
+Name "B-Komachi" Arima Kana
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Combo Beyond that Line of Sight
+*Healer
+Auto: OnAttack
+{
+	If Climax Beyond that Line of Sight && Compare Experience 6 OrMore
+	{
+		PayCost 1
+		{
+			TargetSelf
+			GainEffect
+			{
+				Auto: OnDamageCanceled
+				{
+					MillOpponentBottom 3
+					NarrowTargets Compare ThatCardsLevel 0 OrLess
+					SetXValue TargetCount
+					Repeat X
+					{
+						Burn 2
+					}
+				}
+				Text Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, put the bottom 3 cards of your opponent's deck into their waiting room, and deal 2 damage X times to your opponent. X is equal to the number of cards whose level is 0 or lower among those cards.
+				TimesPerTurn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE [(1)] When this card attacks, if "Beyond that Line of Sight" is in your climax area and the total level of cards in your level is 6 or more, you may pay the cost. If you do, this card gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, put the bottom 3 cards of your opponent's deck into their waiting room, and deal 2 damage X times to your opponent. X is equal to the number of cards whose level is 0 or lower among those cards."
+EndCard
+
+Character: OSK/S107-005
+Name Negotiating an Appearance, Arima Kana
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another stage position.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's turn. "Cont: This card cannot move to another stage position."
+*YellowLevel0Bomb
+EndCard
+
+Character: OSK/S107-006
+Name Aiming to Become the Idol You Admire, Ruby
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrigger Choice && IsClimax
+	{
+		SearchWaitingRoom IsClimax && HasTrigger Choice
+	}
+}
+Text Auto: [Discard 1 climax with a choice trigger icon] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 climax with a choice trigger icon in your waiting room, and return it to your hand.
+EndCard
+
+Character: OSK/S107-007
+Name Beginner Idol, Arima Kana
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInStock 3 OrLess
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if the number of cards in your stock is 3 or less, this card gets +2000 power.
+Auto: StartOpponentDrawPhase
+{
+	Mill 2
+	NarrowToHighestLevel
+	If Compare TargetCardsLevel 2 OrHigher
+	{
+		TargetSelf
+		Question Return "Beginner Idol, Arima Kana" to your hand?
+		If Yes && OnStage
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, put the top 2 cards of your deck into the waiting room. If there is a level 2 or higher card among them, you may return this card to your hand.
+EndCard
+
+Character: OSK/S107-008
+Name Dream Again, MEMcho
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	ChooseCharacterFromTargets_Optional Choose a character to return to your opponent's hand.
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a level 0 or lower character in your opponent's center stage and return it to their hand.
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(1) Put a card from your hand into the waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: OSK/S107-009
+Name Fake Age, MEMcho
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelfInLevel
+{
+	GainLevel 3
+}
+Text Cont: EXPERIENCE This card gets +3 level while in your level.
+Act: 1
+{
+	Message Choose a card in your level.
+	SearchLocationForTargets Level 1 1 HasTrait Showbiz
+	MoveCard WaitingRoom
+	TargetSelf
+	MoveCard Level
+	*Check4Add1Level1OrHigher
+}
+ActivationRequirement LocationContains Level 1 HasTrait Showbiz
+Text Act: [(1) Put 1 <Showbiz> character from your level into your waiting room, and put this card into your level] Look at up to 4 cards from top of your deck, choose up to 1 level 1 or higher card, reveal it, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: OSK/S107-010
+Name Road to JIF, MEMcho
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveWaitingRoom
+{
+	If NameEquals First Stage
+	{
+		SelectableWithTriggerIcon Choice
+	}
+}
+Text Cont: "First Stage" in your waiting room may be chosen with the effect of the choice trigger icon.
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Showbiz
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Showbiz> characters get +1000 power.
+Auto: OnClimaxPlay
+{
+	If LocationContains Climax 1 HasTrigger Choice
+	{
+		TargetLocation Stage
+		GainPower 500
+	}
+}
+Text Auto: When a climax with choice in its trigger icon is placed in your climax area, all of your characters get +500 power until end of turn.
+EndCard
+
+Character: OSK/S107-011
+Name Dazzling White Light, Arima Kana
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnAttack
+{
+	If LocationContains Climax 1 HasTrigger Choice
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Message Rearrange the top 2 cards of your deck. (First on top)
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: When this card attacks, if a climax with choice in its trigger icon is in your climax area, look at up to 2 cards from top of your deck, return them in any order, this card gets +1000 power until end of turn.
+Auto: OnAttack
+{
+	If Compare Experience 2 OrMore
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Showbiz && Other
+		SetXValue TargetCount
+		MultiplyXValue 500
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +X power.
+		GainPower X
+	}
+}
+Text Auto: EXPERIENCE When this card attacks, if the total level of cards in your level is 2 or higher, choose 1 of your characters, it gets +X power until end of turn. X is 500 times the number of other <Showbiz> characters you have.
+EndCard
+
+Character: OSK/S107-012
+Name Cute Pose ♪ MEMcho
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Host
+*OnAttackGivePower(1500,Showbiz)
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		If Not LocationContains Backstage 2 Any && CanMove
+		{
+			MoveToOpenPosition False True
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your backstage. 
+EndCard
+
+Character: OSK/S107-013
+Name PV Photography, Arima Kana
+Color Y
+Level 1
+Cost 1
+Power 3500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+*YellowEarlyPlayBomb
+Auto: OnPlay
+{
+	If Compare Experience 2 OrMore
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1500 power and can't be chosen by your opponent.
+		GainPower 1500
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, if the total level of cards in your level is 2 or more, choose 1 of your characters, it gets +1500 power and the following ability until end of turn. "Auto: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Character: OSK/S107-014
+Name Before the Performance, Ruby
+Color Y
+Level 2
+Cost 1
+Power 2500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: OSK/S107-015
+Name Dreaming Girl, MEMcho
+Color Y
+Level 2
+Cost 1
+Power 5000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Cont: GiveAll
+{
+	If Other && HasTrait Showbiz
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other <Showbiz> character get +1000 power.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Message Choose a character to place on stage.
+		SearchLocationForTargets Deck 0 1 NameEquals Dream-like Story, MEMcho
+		RevealTargets
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for 1 "Dream-like Story, MEMcho", and put it on any position of your stage.
+Act: RestSelf
+{
+	TargetTop Deck 2
+	Message Rearrange the top 2 cards of your deck.
+	Reorder
+}
+Text Act: [Rest this card] Look at up to 2 top card of your deck, put them back on top of your deck in any order.
+EndCard
+
+Character: OSK/S107-016
+Name Masked Muscle-Training YouTuber, Pieyon
+Color Y
+Level 2
+Cost 1
+Power 5000
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Muscle
+Cont: GiveAll
+{
+	If Other && NameEquals Masked Muscle-Training YouTuber, Pieyon
+	{
+		GainPower 3000
+	}
+}
+Text Cont: Your other "Masked Muscle-Training YouTuber, Pieyon" get +3000 power.
+*GlobalPower(500,Showbiz)
+EndCard
+
+Character: OSK/S107-017
+Name Dream-like Story, MEMcho
+Color Y
+Level 2
+Cost 1
+Power 6000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Combo Fake Wings
+*GainPowerForEachOther(1000,Showbiz)
+Auto: OnSpecificClimaxPlay Fake Wings
+{
+	If InLocation CenterStage && Compare Experience 3 OrMore
+	{
+		Message Choose a <Showbiz> character in your waiting room, return it to your hand.
+		SearchWaitingRoom HasTrait Showbiz
+		TargetSelf
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				Message Choose up to 2 <Showbiz> characters to put into your stock.
+				SearchLocationForTargets WaitingRoom 0 2 HasTrait Showbiz
+				RevealTargets
+				MoveCard Stock
+			}
+			Text Auto: When damage dealt by this card is canceled, choose up to 2 <Showbiz> characters in your waiting room, and put them into your stock in any order.
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE When "Fake Wings" is placed on your climax area, if this card is on your center stage, and the total level of cards in your level is 3 or higher, choose 1 <Showbiz> character in your waiting room, return it to your hand, and this card gets the following ability until end of turn. "Auto: When damage dealt by this card is canceled, choose up to 2 <Showbiz> characters in your waiting room, and put them into your stock in any order."
+EndCard
+
+Character: OSK/S107-018
+Name Center Competition, Ruby
+Color Y
+Level 2
+Cost 1
+Power 6500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveAll
+{
+	If Other && NameEquals "B-Komachi" MEMcho
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Showbiz)
+		}
+	}
+}
+Text Cont: All your other ""B-Komachi" MEMcho" get +1500 power and "Auto: ENCORE [Discard 1 <Showbiz> character]".
+Cont: GiveSelf
+{
+	If Compare Experience 4 OrMore
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetFacing
+				If HasTarget
+				{
+					If Compare TargetCardsLevel 2 OrMore
+					{
+						TargetSelf
+						GainPower 6000
+					}
+				}
+			}
+			Quick
+			Text Auto: When this card attacks, if the character facing this card is level 2 or higher, this card gets +6000 power until end of turn.
+		}
+		GainEffect
+		{
+			*HandEncoreTrait(Showbiz)
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 4 or higher, this card gets the following 2 abilities. "Auto: When this card attacks, if the character facing this card is level 2 or higher, this card gets +6000 power until end of turn." "Auto: ENCORE [Discard a <Showbiz> character]."
+EndCard
+
+Character: OSK/S107-019
+Name Wavering Maiden's Heart, Arima Kana
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand.
+	Bounce
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Discard a card to return an additional character to the opponent's hand?
+		If Yes
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand.
+			Bounce
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose up to 1 of your opponent's characters and return it to their hand. You may discard a card, if you do, choose up to 1 of your opponent's characters and return it to their hand.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Showbiz
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Showbiz)
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 4 or more other <Showbiz> characters, you may choose a <Showbiz> character in your waiting room and put it into your stock.
+EndCard
+
+Character: OSK/S107-020
+Name Buzz Pro, MEMcho
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Host
+Combo Buzz
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(1500,Showbiz)
+}
+Text Auto: At the start of your climax phase, choose 1 of your <Showbiz> characters, it gets +1500 power until end of turn.
+Auto: OnSpecificClimaxPlay Buzz
+{
+	PayCost RestSelf
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Showbiz)
+	}
+}
+Text Auto: CxCombo [Rest this card] When "Buzz" is placed on your climax area, you may pay the cost. If you do, choose 1 <Showbiz> character in your waiting room, and put it into your stock.
+EndCard
+
+Character: OSK/S107-021
+Name Karaoke, Ruby
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	Mill 1
+	SetXValue TargetCardsLevel
+	MillOpponent 1
+	If Compare TargetCardsLevel X LessThan
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players put the top card of their deck to their waiting room. If your card's level is higher than opponent's, this card gets +3000 power until end of turn.
+Auto: OnDamageCancel
+{
+	If OnStage
+	{
+		Question Return "Karaoke, Ruby" to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may return this card to your hand.
+EndCard
+
+Character: OSK/S107-022
+Name Real First Time, Arima Kana
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If HasTrait Showbiz || NameEquals First Stage
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it a <Showbiz> character or "First Stage", this card gets +1 soul until end of turn.
+Auto: OnAttack
+{
+	If Not LocationContains Backstage 1 Other
+	{
+		Question Put the top card of your deck into the waiting room?
+		If Yes
+		{
+			Mill 1
+			IfThatCard IsCharacter && Compare TargetCardsLevel 0 OrLess
+			{
+				PlaceOnStage False False True False
+			}
+		}
+	}
+}
+Text Auto: When this card attacks, if you do not have another character in your back stage, you may put the top card of your deck into the waiting room, if it is a level 0 character, put it on any position of your backstage.
+EndCard
+
+Character: OSK/S107-023
+Name Searching for Members, Ruby
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsCharacter && With EXPERIENCE
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is put into your waiting room from the stage, look at up to 3 cards from the top of your deck, choose up to 1 character with "EXPERIENCE", reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put a card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: OSK/S107-024
+Name The Person Who Looks at Me, Arima Kana
+Color Y
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	If LocationContains Backstage 1 NameEquals Pieyon's True Identity, Akua || NameEquals Fan of All, Akua
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If you have another "Pieyon's True Identity, Akua" or "Fan of All, Akua" in your back stage, this card gets +4000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: OSK/S107-025
+Name Inference, Ruby
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Showbiz
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Showbiz> character, this card gets +3000 power.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If OnStage && Compare TargetCardsLevel 2 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If the level of that card is 2 or higher, you may return this card to your hand.
+EndCard
+
+Character: OSK/S107-026
+Name Karaoke, MEMcho
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	Mill 1
+	SetXValue TargetCardsLevel
+	MillOpponent 1
+	If Compare TargetCardsLevel X LessThan
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players put the top card of deck to their waiting room. If your card's level is higher than opponent's, you may put the top card of your deck to your stock.
+Auto: OnDamageCancel
+{
+	If OnStage
+	{
+		Question Return "Karaoke, MEMcho" to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may return this card to your hand.
+EndCard
+
+Character: OSK/S107-027
+Name What's Your Favorite Type? MEMcho
+Color Y
+Level 1
+Cost 1
+Power 500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Host
+*ScryBackup(Showbiz)
+Backup 2000
+EndCard
+
+Character: OSK/S107-028
+Name Blatant Attitude, Arima Kana
+Color Y
+Level 2
+Cost 1
+Power 5500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && HasTrait Showbiz && Other
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each other <Showbiz> character on your center stage.
+Auto: OnClimaxPlay
+{
+	If LocationContains Climax 1 HasTrigger Choice
+	{
+		TargetSelf
+		If InLocation CenterStage
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					PayCost 1
+					{
+						GainSpecialEffect DoubleTrigger
+					}
+				}
+				Text Auto: [(1)] WWhen this card attacks, you may pay the cost. If you do, perform the trigger check twice during this attack
+			}
+		}
+	}
+}
+Text Auto: When a climax with choice in its trigger icon is placed on your climax area, if this card is on your center stage, all of your other characters get following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, perform the trigger check twice during this attack."
+EndCard
+
+Event: OSK/S107-029
+Name First Stage
+Color Y
+Level 3
+Cost 0
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect:\n1. Search your deck for up to 1 climax, and put it into your hand. \n2. Choose 1 of your characters, it gets +4000 power until end of turn, and put this card into your stock \n3.[(4)] You may pay the cost. If you do, choose 1 of your characters, it gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When this card attacks, you may deal 3 damage to your opponent."|Effect 1|Effect 2|Effect 3
+	If Answer 0
+	{
+		SearchDeck IsClimax
+	}
+	If Answer 1
+	{
+		*GiveCharacterPower(4000,Any)
+		TargetSelf
+		MoveCard Stock
+	}
+	If Answer 2
+	{
+		PayCost 4
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give the ability to.
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					*OptionalBurn(3)
+				}
+				Text Auto: This ability activates up to 1 time per turn. When this card attacks, you may deal 3 damage to your opponent.
+				TimesPerTurn 1
+			}
+		}
+	}
+}
+Text Choose 1 of the following effects, and perform it.\n"Search your deck for up to 1 climax, reveal it to your opponent, put it into your hand and shuffle your deck."\n"Choose 1 of your character, it gets +4000 power until end of turn, and put this card into your stock."\n"[(4)] You may pay the cost. If you do, choose 1 of your characters, it gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When this card attacks, you may deal 3 damage to your opponent.""
+EndCard
+
+Climax: OSK/S107-030
+Name Beyond that Line of Sight
+*ChoiceClimax
+EndCard
+
+Climax: OSK/S107-031
+Name Today With Sweet Words
+*ChoiceClimax
+EndCard
+
+Climax: OSK/S107-032
+Name Fake Wings
+*ChoiceClimax
+EndCard
+
+Climax: OSK/S107-033
+Name Buzz
+*ChoiceClimax
+EndCard
+
+Character: OSK/S107-034
+Name "B-Komachi" Ai
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnReversed
+{
+	PayCost 1 SendSelf Memory &&& SendFromWaitingRoomToBottom 1 Clock HasTrait Showbiz
+	{
+		SearchDeck HasTrait Showbiz
+	}
+}
+Text Auto: [(1) Put 1 <Showbiz> from your waiting room on the bottom of your clock & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Showbiz> character, reveal it, put it into your hand and shuffle your deck.
+EndCard
+
+
+Character: OSK/S107-035
+Name Beyond the Darkness, Akua
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Auto: OnAttack
+{
+	GainSpecialEffect DoubleTrigger
+	ScheduleEffectForTargets OnThisTriggerCheck
+	{
+		Effect:
+		{
+			TargetTop Stock 1
+			MoveCard WaitingRoom
+		}
+		Quick
+	}
+}
+Text Auto: When this card attacks, perform the trigger check twice during this attack. After performing 2 trigger checks, put the top card of your stock into the waiting room.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Showbiz
+	{
+		PayCost 1 SendSelf Memory
+		{
+			TargetMyCharacterInBattle
+			IfTarget OnStage
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [(1) Put this card into your memory] When your other <Showbiz> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: OSK/S107-036
+Name To the Sparkling Stage, Ruby
+Color R
+Level 3
+Cost 2
+Power 10500
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Combo Hidden Passion
+Auto: OnPlay
+{
+	If LocationContains Memory 1 NameEquals "B-Komachi" Ai
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: MEMORY When this card is placed on the stage from your hand, if you have "B-Komachi" Ai in your memory, you may put the top card of your clock into waiting room.
+Auto: OnAttack
+{
+	If Climax Hidden Passion
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation Memory
+			SetXValue TargetsWithDifferentNames
+			MultiplyXValue 4000
+			Peek OpponentDeck 2
+			Message Choose card to put into your opponent's clock, whose total power is X or lower.
+			Repeat 2
+			{
+				ChooseCardsFromTargets 0 1 isCharacter && Compare ThatCardsPower X orLower
+				SubtractFromXValue TargetCardsPower
+				MoveCard OpponentClock
+				TargetLocation OpponentScryArea
+			}
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [Discard 1 card] When this card attacks, if "Hidden Passion" is in your climax area, you may pay the cost. If you do, look at up to 2 top cards of your opponent's deck, choose up to 2 characters whose total power is X or lower from among them, put them to your opponent's clock in any order, put the rest into your opponent's waiting room. X is equal to the number of cards in your memory with different names.
+EndCard
+
+Character: OSK/S107-037
+Name Pieyon's True Identity, Akua
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Auto: StartClimaxPhase
+{
+	If Compare MyLevel 2 OrHigher
+	{
+		PayCost 1 SendSelf Memory
+		{
+			*ChangeWaitingRoom(Fan of All\, Akua)
+		}
+	}
+}
+Text Auto: [(1) Put this card into your memory] At the beginning of your climax phase, if your level is 2 or higher, you may pay the cost. If you do, choose a card named "Fan of All, Akua" in your waiting room, and put it on the stage position that this card was on.
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Showbiz
+	ChooseCharacterFromTargets Choose a character to give the ability to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text: Auto: When this card's battle opponent becomes reversed, choose 1 character in your waiting room, return it to your hand.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your <Showbiz> characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, choose up to 1 character in your waiting room, return it to your hand."
+EndCard
+
+Character: OSK/S107-038
+Name Swimsuit Shot, Ai
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Showbiz
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your <Showbiz> characters, it gets +1500 power.
+Act: RestSelf Rest 1 Any
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Showbiz || IsEvent
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Act: [Rest this card and 1 of your other characters] Reveal the top card of your deck, if that card is event card or <Showbiz> character, put it into your hand and discard 1 card.
+EndCard
+
+Character: OSK/S107-039
+Name Underground Idol Debut? Ruby
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Showbiz
+	{
+		TargetSelf
+		GainPower 1500
+	}
+}
+Text Auto: When this card attacks, if you have other <Showbiz> characters on your stage, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If LocationContains Memory 1 NameEquals "B-Komachi" Ai
+	{
+		TargetSelf
+		GainPower 500
+		TargetTop Deck 1
+		Reveal
+		IfTarget NameEquals Revenge Kamen, Akua || Compare TargetCardsLevel 2 OrMore
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: MEMORY When this card attacks, if ""B-Komachi" Ai" is in your memory, this card gets +500 power until end of turn, and reveal the top card of your deck. If the revealed card is "Mask of Revenge, Akua" or a level 2 or higher card, put it into your stock.
+EndCard
+
+Character: OSK/S107-040
+Name Fan of All, Akua
+Color R
+Level 2
+Cost 1
+Power 1500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actor
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && NameEquals "B-Komachi" Arima Kana
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PeekTop OpponentDeck
+				Question Place this card on the bottom of your opponent deck? (Press no to return it to the top)
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+				If No
+				{
+					MoveCard OpponentDeck
+				}
+			}
+			Text: Auto: When this card attacks, look at the top card of your opponent's deck, put it on the top or bottom of your opponent's deck.
+		}
+	}
+}
+Text Cont: Your other ""B-Komachi" Arima Kana" in the middle position of your center stage gets the following ability. "Auto: When this card attacks, look at the top card of your opponent's deck, put it on the top or bottom of your opponent's deck."
+*LevelAssist
+Auto: OnOtherAttacks
+{
+	IfOther NameContains Ruby|Arima Kana|MEMcho
+	{
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: When your other character with "Ruby", "Arima Kana" or "MEMcho" in its name attacks, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: OSK/S107-041
+Name Real First Time, Akua
+Color R
+Level 2
+Cost 1
+Power 3000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actor
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 1 Any &&& Send 1 WaitingRoom IsCharacter
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AiChoice RemoveCard
+		ChooseCharacterFromTargets Choose a character to put into your opponent's memory
+		MoveCard OpponentMemory
+	}
+}
+Text Auto:[(1) Discard 1 card, put 1 character on your stage into the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is greater than your opponent's level, and put it into your opponent's memory.
+Backup 2500
+EndCard
+
+Character: OSK/S107-042
+Name To Repay the Kindness, Kurokawa Akane
+Color R
+Level 2
+Cost 1
+Power 7500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Showbiz
+	{
+		PayCost 2
+		{
+			SetXValue CardsInOpponentsStock
+			TargetLocation OpponentStock
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+			TargetTop OpponentDeck X
+			MoveCard OpponentStock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Showbiz> character, you may pay the cost. If you do, return all of your opponent's stock to their deck, your opponent shuffles their deck, and your opponent puts the same number of cards from the top of their deck into their stock.
+EndCard
+
+Character: OSK/S107-043
+Name Color Selection, Ruby
+Color R
+Level 3
+Cost 2
+Power 8500
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Cont: InHand
+{
+	TargetLocation Memory
+	SetXValue TargetsWithDifferentNames
+	If Compare X 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: MEMORY If the number of cards in your memory with different names is 3 or more, this card gets -1 level in your hand.
+Auto: OnPlay
+{
+	TargetLocation Clock
+	NarrowTargets IsCharacter
+	If HasTarget
+	{
+		SearchLocationForTargets Clock 0 1 HasTrait Showbiz
+		MoveCardToBottom Deck
+	}
+	TargetSelf
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 <Showbiz> character in your clock and put it on the bottom of your deck, and this card gets +1500 power until end of turn.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		If OnStage
+		{
+			Question_Obvious Return this card to your hand?
+			If Yes
+			{
+				TargetSelf
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand
+EndCard
+
+Character: OSK/S107-044
+Name Eyes That Naturally Draw You In, Ai
+Color R
+Level 3
+Cost 2
+Power 10500
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+*GlobalPower(1500,Showbiz)
+Auto: StartMyEncorePhase
+{
+	If AllOpponentsReversed
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Mill 1
+			SetXValue TargetCardsLevel
+			AddToXValue 1
+			Burn X
+		}
+}
+}
+Text Auto: [(1) Discard 1 card] At the beginning of your encore step, if this card is on your center stage, and there are no characters on your opponent's center stage or all of characters on your opponent's center stage are reversed, you may pay the cost. If you do, put the top card of your deck into the waiting room, and deal X damage to your opponent. X is equal to that card's level +1.
+EndCard
+
+Character: OSK/S107-045
+Name Legendary Idol, Ai
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Combo First-class Star Shining Stronger Than Anyone Else
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If this card is on the middle position of your center stage, this card gets +4000 power.
+Auto: StartMyEncoreStep
+{
+	If InLocation MiddleCenterStage && Climax First-class Star Shining Stronger Than Anyone Else
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom HasTrait Showbiz
+			Mill 1
+			If Compare TargetCardsLevel 1 OrMore
+			{
+				SearchWaitingRoom HasTrait Showbiz
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "First-class Star Shining Stronger Than Anyone Else" from your climax area into your waiting room] At the beginning of your encore step, if this card is on the middle position of your center stage, you may pay the cost. If you do, choose up to 1 <Showbiz> character in your waiting room, return it to your hand, put the top card of your deck into your waiting room. If the level of that card is 1 or higher, choose up to 1 <Showbiz> character in your waiting room, return it to your hand.
+EndCard
+
+Character: OSK/S107-046
+Name Passing Feelings, Akua
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Auto: OnPlay
+{
+	If Compare CardsInClock 1 OrMore
+	{
+		Message Choose up to 1 card in your clock to return to your hand.
+		SearchLocationForTargets Clock 0 1 Any
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			SearchLocationForTargets Hand 1 1 Any
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your clock, return it to your hand. If you do, choose 1 card in your hand, put it in your clock.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Refresh
+	}
+}
+Text Auto: [(1) Discard 1 card] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: OSK/S107-047
+Name Self-Proclaimed Idol, Ruby
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	*GiveCharacterPower(1500,Showbiz)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Showbiz> characters, it gets +1500 power until end of turn.
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals Color Selection, Ruby|Underground Idol Debut? Ruby
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(1) Put this standing card into your memory] Choose 1 "Color Selection, Ruby" or "Underground Idol Debut? Ruby" in your waiting room, and return it to your hand.
+EndCard
+
+Character: OSK/S107-048
+Name Fireworks Event, Kurokawa Akane
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+*OnPlayReorderTop2
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation Stage
+		SetXToNumberOfCharacters Other && HasTrait Showbiz
+		Peek Deck X
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Discard 1 card] When this card is placed on the stage from your hand, look at up to X cards from the top of your deck. Choose up to 1 card from among them, put it into your hand, and put the rest into the waiting room. X is the number of other <Showbiz> characters you have.
+EndCard
+
+Character: OSK/S107-049
+Name Future Relationship, Kurokawa Akane
+Color R
+Level 1
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 1 OrLess
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to put into waiting room.
+		If HasTarget
+		{
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into the waiting room. If there is a climax among those cards, choose up to 1 level 1 or lower character on your opponent's center stage, and put it into the waiting room.
+*RedLevel1Bomb
+EndCard
+
+Character: OSK/S107-050
+Name Villain, Akua
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Combo Manga Original Drama
+Combo Second High School Debut
+Auto: OnPlay
+{
+	*GiveOtherCharacterPower(2000,Showbiz)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Showbiz> characters, it gets +2000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	If Climax Manga Original Drama || Climax Second High School Debut
+	{
+		PayCost SendSelf Hand
+		{
+			TargetTop Deck 1
+			Reveal
+			If Compare TargetCardsLevel 1 OrHigher
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Return this card to your hand] When "Manga Original Drama" or "Second High School Debut" is placed on your climax area, you may pay the cost. If you do, reveal the top card of your deck. If that card is leve1 1 or higher, put it into your hand.
+EndCard
+
+Character: OSK/S107-051
+Name Modeling Work, Ai
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Showbiz
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Showbiz> character, this card gets +3000 power.
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Showbiz
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose a character to place on stage.
+			SearchLocationForTargets Deck 0 1 NameEquals Creepy Child, Akua" || NameEquals A Glimpse of an Idol, Ruby
+			RevealTargets
+			PlaceOnStage False True True False
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Showbiz> character, you may pay the cost. If you do, search your deck for up to 1 "Creepy Child, Akua" or "A Glimpse of an Idol, Ruby", and put it on any position of your stage.
+EndCard
+
+Character: OSK/S107-052
+Name Watching Drama, Ruby
+Color R
+Level 2
+Cost 2
+Power 8000
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Combo Manga Original Drama
+Combo Second High School Debut
+Auto: OnAttack
+{
+	If Climax Manga Original Drama || Climax Second High School Debut
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Showbiz)
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Manga Original Drama" or "Second High School Debut" is in your climax area, choose up to 1 <Showbiz> character in your waiting room, put it to your stock, and this card gets +3000 power until end of turn.
+EndCard
+
+Character: OSK/S107-053
+Name During Practice, Kurokawa Akane
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Message Put up to 1 card from your hand into your stock.
+		SearchLocationForTargets Hand 0 1 Any
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put 1 card from your hand into your stock.
+Auto: OnDamageNotCanceled
+{
+	TargetSelf
+	GainPower 6000
+}
+Quick
+Text Auto: When damage dealt by this card is not canceled, this card gets +6000 power until end of turn.
+EndCard
+
+Character: OSK/S107-054
+Name Public Relations Activities, Saitou Miyako
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 President
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrHigher
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				SearchLocationForTargets Hand 0 1 NameEquals Watching Drama, Ruby
+				Change
+			}
+			Text Act: [Put this card into waiting room] Choose up to 1 "Watching Drama, Ruby" in your hand, and put it on the stage position this card was on.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [Put this card into waiting room] Choose up to 1 "Watching Drama, Ruby" in your hand, and put it on the stage position this card was on."
+*2OptionBondDiscard(Villain\, Akua,Watching Drama\, Ruby)
+EndCard
+
+Character: OSK/S107-055
+Name Selection, Ruby
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+*RestGivePower(1500,Showbiz)
+Act: RestSelf
+{
+	If LocationContains Memory 1 NameEquals "B-Komachi" Ai
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Act: MEMORY [Rest this card] If ""B-Komachi" Ai" is in your memory, draw 1 card, and discard 1 card.
+EndCard
+
+Character: OSK/S107-056
+Name During the Lesson, Ruby
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay|OnAttack
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand or attacks, look at the top card of your deck, put it on the top of your deck or into the waiting room.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Return this character to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, you may return this card to your hand.
+EndCard
+
+Character: OSK/S107-057
+Name Recovered Light, Kurokawa Akane
+Color R
+Level 1
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Showbiz
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, choose a <Showbiz> character in your waiting room, and return it to you hand.
+Auto: OnAttack
+{
+	*GiveCharacterPower(4000,Any)
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +4000 power until end of turn.
+EndCard
+
+Character: OSK/S107-058
+Name "45510" Akua
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Showbiz
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Showbiz> character, this card gets +2000 power.
+Auto: OnThisTriggerCheck
+{
+	IfOther IsClimax
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: When this card's trigger check reveals a climax, you may deal 1 damage to your opponent.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	MoveCard Clock
+	TargetSelf
+	Rest
+}
+Text Auto: When this card becomes reversed in battle, put the top card of your deck into your clock, and rest this card.
+EndCard
+
+Character: OSK/S107-059
+Name Net Literacy, Ruby
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Showbiz
+	{
+		SetXToNumberOfCharacters Other && HasTrait Showbiz
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When your other <Showbiz> character attacks, this card gets +X power until end of turn. X is 500 times the number of other <Showbiz> characters you have.
+*HandEncore
+EndCard
+
+Character: OSK/S107-060
+Name Deceptive Appeal, Akua
+Color R
+Level 2
+Cost 1
+Power 7000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actor
+Cont: GiveSelf
+{
+	If MyTurn && LocationContains Memory 1 NameEquals "B-Komachi" Ai
+	{
+		SetXToNumberOfCharacters Other && HasTrait Showbiz
+		MultiplyXValue 1500
+		GainPower X
+	}
+}
+Text Cont: MEMORY During your turn, if ""B-Komachi" Ai" is in your memory, this card gets +1500 power for each of your other <Showbiz> characters.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		Question Put the battle opponent into memory?
+		If Yes
+		{
+			MoveCard OpponentMemory
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+EndCard
+
+Event: OSK/S107-061
+Name Words Left Behind
+Color R
+Level 1
+Cost 1
+Requirement StageContains 1 NameContains Akua|Aqua|Ruby
+Effect:
+{
+	SearchDeck HasTrait Showbiz
+	If LocationContainsOrLess Memory 0 NameEquals "B-Komachi" Ai
+	{
+		Message Choose up to 1 ""B-Komachi" Ai" to put into your memory.
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "B-Komachi" Ai
+		MoveCard Memory
+	}
+	TargetSelf
+	MoveCard Memory
+}
+
+Text If you do not have a character with "Akua" or "Ruby" in its name, this card cannot be played from your hand.\nSearch your deck for up to 1 <Showbiz> character, and put it into your hand.\nIf ""B-Komachi" Ai" is not in your memory, choose up to 1 ""B-Komachi" Ai" in your waiting room, put it into your memory.\nPut this card into your memory.
+EndCard
+
+Climax: OSK/S107-062
+Name Hidden Passion
+*DoorClimax
+EndCard
+
+Climax: OSK/S107-063
+Name First-class Star Shining Stronger Than Anyone Else
+*DoorClimax
+EndCard
+
+Climax: OSK/S107-064
+Name Second High School Debut
+*StandbyClimax
+EndCard
+
+Climax: OSK/S107-065
+Name Manga Original Drama
+*StandbyClimax
+EndCard
+
+Character: OSK/S107-066
+Name Idea Incorporated into the Performance, Kurokawa Akane
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLower &&& IsCharacter
+	}
+}
+Text Auto: [Discard 1 card] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Put this character into your stock?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, you may put this card into your stock.
+EndCard
+
+Character: OSK/S107-067
+Name Mask of Revenge, Akua
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Combo Whereabouts of the Truth
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, it gets +X power until end of turn. X is equal to 500 times the number characters on your opponent's stage.
+Auto: OnAttack
+{
+	If Climax Whereabouts of the Truth && AllYourCharacters HasTrait Showbiz
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Showbiz || IsEvent
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Whereabouts of the Truth" is in your climax area and all of your characters are <Showbiz> character, look at up to 4 cards from the top of your deck, choose 1 <Showbiz> character or event card from among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: OSK/S107-068
+Name Perfect Trace, Kurokawa Akane
+Color B
+Level 3
+Cost 2
+Power 8500
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+Combo Thorough Characterization
+Cont: GiveSelf
+{
+	If MyTurn && OnStage
+	{
+		GainPower 3000
+	}
+}
+Text: Cont: During your turn, this card gets +3000 power.
+Auto: OnAttack
+{
+	If Climax Thorough Characterization &&& LocationContains Memory 1 NameEquals "B-Komachi" Ai &&& HasMarker
+	{
+		Peek OpponentDeck 2
+		Message Choose cards to return to the top of your opponent's deck.
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard OpponentDeck
+		If Compare TargetCount 2 OrMore //If 2 or more cards returned, choose the order.
+		{
+			TargetTop OpponentDeck TargetCount
+			Message Choose order to return to the deck (Top first)
+			Reorder
+		}
+		PutTheRestIntoTheWaitingRoom
+		If Compare CardsInClock 1 OrMore
+		{
+			Question Put top of your clock to your stock?
+			If Yes
+			{
+				TargetTop Clock 1
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: CxCombo MEMORY When this card attacks, if "Thorough Characterization" is in your climax area, there is a marker underneath this card, and ""B-Komachi" Ai" is in your memory, look at up to 2 top cards of your opponent's deck, choose up to 2 cards from among them, put them on top of your opponent's deck in any order, put the rest into your opponent's waiting room, and put up to 1 top card of your clock into your stock.
+EndCard
+
+Character: OSK/S107-069
+Name Great Reversal, MEMcho
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Stock 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		ShuffleLocation Stock
+	}
+}
+Text Auto: [Discard 1 card] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your stock for up to 1 character, reveal it to your opponent, put it into your hand and shuffle your stock.
+*BlueLevel0Bomb
+EndCard
+
+Character: OSK/S107-070
+Name Bell Pepper Gymnastics, Arima Kana
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Bell Pepper
+Auto: OnLevelUp
+{
+	PayCost 2 FlipSelfFaceDown
+	{
+		Peek Deck 2
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+InMemory
+Text Auto: MEMORY [(2) Flip this card face down] If this card is in your memory, when you level is up, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, put the rest into your waiting room.
+Act: 1 SendSelf Memory
+{
+	*CheckAndAddOne(3,HasTrait Showbiz)
+}
+Text Act: [(1) Put this card into your memory] Look at up to 3 cards from the top of your deck, choose up to 1 <Showbiz> character from among them, put it into your hand, put the rest into your waiting room.
+EndCard
+
+Character: OSK/S107-071
+Name Work Date, Kurokawa Akane
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Cont: GiveSelf
+{
+	CanSendMarkersToPayForActEffect NameEquals Work Date, Akua
+}
+Text Cont: When paying the cost for the Act ability of "Work Date, Akua", you may put a marker from underneath this card into your waiting room instead of a card from your stock.
+Auto: OnTriggerCheckClimax
+{
+	If Compare MarkersUnderThis 2 OrLower
+	{
+		Question Put the top card of your deck face up underneath this card as a marker?
+		If Yes
+		{
+			TargetTop Deck 1
+			View
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When your character's trigger check reveals a climax, you may look at the top card of your deck. If you do, put that card face down underneath this card as a marker.
+Act: 1 RestSelf Resonate Perfect Trace, Kurokawa Akane
+{
+	RevealUpTo Deck 3
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 HasTrait Showbiz || NameEquals Snapshot From Our Perspective
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: RESONATE [(1) Reveal 1 "Perfect Trace, Kurokawa Akane" from your hand & Rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 <Showbiz> character or "Snapshot From Our Perspective" from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: OSK/S107-072
+Name Enchanting Eyes, Akua
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Showbiz
+	MultiplyXValue 500
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to give -X power.
+	LosePower X
+}
+Text Auto: When this card attacks, choose a character on your opponent's center stage, it gets -X power until end of turn. X is 500 times the number of other <Showbiz> characters you have.
+Auto: OnPlay
+{
+	If LocationContains Memory 1 NameEquals "B-Komachi" Ai
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 1 OrHigher
+			ChooseCharacterFromTargets Choose a character to downgrade.
+			*Downgrade
+		}
+	}
+}
+Text Auto: MEMORY [Discard 1 card] When this card is placed on the stage from your hand, if ""B-Komachi" Ai" is in your memory, you may pay the cost. If you do, choose a level 1 or higher character from your opponent's stage and your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is the level of the character you chose -1.
+EndCard
+
+
+Character: OSK/S107-073
+Name To Surpass Genius, Kurokawa Akane
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+*OnAttackGivePower(1500,Showbiz)
+Auto: OnAttack
+{
+	TargetLocation Stage
+	GainEffect
+	{
+		Auto: OnThisTriggerCheck
+		{
+			IfOther IsClimax
+			{
+				PayCost Discard 1 IsClimax
+				{
+					SearchWaitingRoom HasTrait Showbiz
+				}
+			}
+		}
+		Text Auto: [Put 1 climax from your hand into your waiting room] When this card's trigger check reveals a climax, you may pay the cost. If you do, choose 1 <Showbiz> character in your waiting room, and return it to your hand.
+	}
+}
+Text Auto: When this card attacks, all of your characters get the following ability until end of turn. "Auto: [Put 1 climax from your hand into your waiting room] When this card's trigger check reveals a climax, you may pay the cost. If you do, choose 1 <Showbiz> character in your waiting room, and return it to your hand."
+EndCard
+
+Character: OSK/S107-074
+Name Profiling, Kurokawa Akane
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 0 2 HasTrait Showbiz
+		RevealTargets
+		MoveCard Hand
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Discard 1 card] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 2 <Showbiz> characters, and put them into your hand.
+Auto: StartClimaxPhase
+{
+	If LocationContains Hand 1 NameEquals Perfect Trace, Kurokawa Akane
+	{
+		PayCost 0
+		{
+			SearchLocationForTargets Hand 1 1 NameEquals Perfect Trace, Kurokawa Akane
+			If HasTarget
+			{
+				Marker_FaceUp
+			}
+			TargetSelf
+			Sunder Perfect Trace, Kurokawa Akane
+			ScheduleEffectForTargets EndOfTurn
+			{
+				Effect:
+				{
+					Sunder Profiling, Kurokawa Akane
+					TargetMarkersUnderTargets
+					Message Choose a marker to return to your hand.
+					ChooseCardFromTargets 1 1 Any
+					MoveCard Hand
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put 1 "Perfect Trace, Kurokawa Akane" from your hand face-up underneath this card as a marker] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Perfect Trace, Kurokawa Akane" from underneath this card and exchange it with this card, and at the end of your turn, exchange those two cards again, then choose 1 marker from underneath that "Profiling, Kurokawa Akane" and return it to your hand.
+EndCard
+
+Character: OSK/S107-075
+Name True Purpose, Akua
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Auto: OnFrontalAttacked
+{
+	PayCost SendSelf Clock
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals Ego Search, Arima Kana
+		Change
+		BecomeNewBattleOpponent
+	}
+}
+Text Auto: [Put this card into your clock] When this card is frontal attacked, you may pay the cost. If you do, choose 1 "Ego Search, Arima Kana" in your hand and place it on the stage position this card was on as the defending character.
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		Peek Deck 3
+		ChooseCard Choose a card to add to your hand (Will not be revealed)
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over 4 cards from the top of your deck, and put them into the waiting room, for each climax revealed perform the following action. "Look at up to 3 cards from the top of your deck, choose up to 1 to add to your hand, and put the rest into the waiting room, then discard a card."
+EndCard
+
+Character: OSK/S107-076
+Name Shining Character, Akua
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+*OnPlayFlicker
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals Yoto High School's General Studies, Akua|Enchanting Eyes, Akua
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(1) Put this standing card into your memory] Choose 1 "Yoto High School's General Studies, Akua" or "Enchanting Eyes, Akua" in your waiting room, and return it to your hand.
+EndCard
+
+Character: OSK/S107-077
+Name Performing Together Again, Kurokawa Akane
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	IfTarget OnStage && Compare CardsInStock 4 OrLess
+	{
+		Question Put the battle opponent on the bottom of the deck?
+		If Yes
+		{
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if the number of cards in your stock is 4 or less, you may put that character on the bottom of your opponent's deck.
+EndCard
+
+Character: OSK/S107-078
+Name Flaming Countermeasures, Arima Kana
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose 1 character to get +3000 power.
+	GainPower 3000
+}
+Text Auto: When a climax is placed in you climax area, choose 1 character, it gets +3000 power.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: OSK/S107-079
+Name Effort to Stand Out, Kurokawa Akane
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+Combo Genius Actress of LALALAI
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Showbiz
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other <Showbiz> characters in your back stage.
+Auto: OnAttack
+{
+	If Climax Genius Actress of LALALAI && StageContains 2 Other && HasTrait Showbiz
+	{
+		MultipleChoiceQuestion Choose 1 effect to perform. \n1. Search your deck for up to 1 "Perfect Trace, Kurokawa Akane" or "Profiling, Kurokawa Akane", reveal to opponent, put it to your hand, and shuffle your deck. \n2. Perform the trigger check twice during this attack.|Search|Double trigger
+		If Answer 0
+		{
+			SearchDeck NameEquals Profiling, Kurokawa Akane || NameEquals Perfect Trace, Kurokawa Akane
+		}
+		Else
+		{
+			GainSpecialEffect DoubleTrigger
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Genius Actress of LALALAI" is in your climax area, and you have 2 or more other <Showbiz> characters, choose 1 of following effects and perform it. "Search your deck for up to 1 "Perfect Trace, Kurokawa Akane" or "Profiling, Kurokawa Akane", reveal to opponent, put it to your hand, and shuffle your deck." "Perform the trigger check twice during this attack."
+EndCard
+
+Character: OSK/S107-080
+Name Ego Search, Arima Kana
+Color B
+Level 1
+Cost 1
+Power 4500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	TargetFacing
+	If HasTarget && Compare TargetCardsCost 0 OrLess
+	{
+		GainLevel 1
+		GainPower 3500
+	}
+}
+Text Cont: If the character facing this card is cost 0 or lower, this card gets +1 level and +3500 power.
+Auto: OnReverseOpponent
+{
+	If AllYourCharacters HasTrait Showbiz
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 2
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into the waiting room] When this card's battle opponent becomes reversed, if all of your characters are <Showbiz> character, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, put the rest into your waiting room.
+EndCard
+
+Character: OSK/S107-081
+Name Work Date, Akua
+Color B
+Level 2
+Cost 1
+Power 3500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actor
+*LevelAssist
+Act: 4 RestSelf
+{
+	SearchLocationForTargets Hand 0 1 NameEquals Profiling, Kurokawa Akane
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+	}
+}
+Text: Act: [(4) Rest this card] Choose up to 1 "Profiling, Kurokawa Akane" in your hand, put it on any position of your stage.
+EndCard
+
+Character: OSK/S107-082
+Name Like Dogs and Monkeys? Arima Kana
+Color B
+Level 2
+Cost 1
+Power 6500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 NameEquals Like Dogs and Monkeys? Kurokawa Akane
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If you have another "Like Dogs and Monkeys? Kurokawa Akane" on your center stage, this card gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Showbiz
+	{
+		Message Choose 1 " Like Dogs and Monkeys? Kurokawa Akane" to put on the stage.
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals  Like Dogs and Monkeys? Kurokawa Akane
+		If HasTarget
+		{
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: [Put 1 <Showbiz> character from your hand into the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Like Dogs and Monkeys? Kurokawa Akane" in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: OSK/S107-083
+Name  Like Dogs and Monkeys? Kurokawa Akane
+Color B
+Level 2
+Cost 1
+Power 7000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 NameEquals Like Dogs and Monkeys? Arima Kana
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If MyTurn
+				{
+					GainPower 4000
+				}
+			}
+			Text Cont: During your turn, this card gets +4000 power.
+		}
+		GainEffect
+		{
+			Auto: OnReversed
+			{
+				If OpponentsTurn
+				{
+					TargetBattleOpponent
+					IfTarget OnStage && Compare TargetCardsLevel 2 OrLess
+					{
+						Question Put the battle opponent on the bottom of the deck?
+						If Yes
+						{
+							MoveCardToBottom OpponentDeck
+						}
+					}
+				}
+			}
+			Text Auto: During opponent's turn, when this card becomes reversed in battle, if this card's battle opponent is level 2 or lower you may put that character on the bottom of your opponent's deck.
+		}
+	}
+}
+Text Cont: If you have another "Like Dogs and Monkeys? Arima Kana" on your center stage, this card gets the following 2 abilities. "Cont: During your turn, this card gets +4000 power." "Auto: During opponent's turn, when this card becomes reversed in battle, if this card's battle opponent is level 2 or lower you may put that character on the bottom of your opponent's deck."
+Auto: StartOpponentAttackPhase
+{
+	Question Change position with 1 "Like Dogs and Monkeys? Arima Kana"?
+	If Yes && CanMove
+	{
+		TargetLocation Stage
+		NarrowTargets Other && NameEquals Like Dogs and Monkeys? Arima Kana
+		ChooseCharacterFromTargets Choose a character to exchange this with
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 "Like Dogs and Monkeys? Arima Kana" and this card and exchange them as standing.
+EndCard
+
+Character: OSK/S107-084
+Name Final Curtain, Akua
+Color B
+Level 3
+Cost 2
+Power 10500
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actor
+Combo Kiss Scene of Calculation and Tactics
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Showbiz
+	{
+		Peek Deck 3
+		AIChoice AddToHand
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		TargetLocation ScryArea
+		Message Choose a card to put into your stock.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Stock
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put another <Showbiz> character from your stage into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, choose up to 1 card from the remaining cards, put it into your stock, and put the rest into your waiting room.
+Auto: OnEndOfAttack
+{
+	If Climax Kiss Scene of Calculation and Tactics
+	{
+		PayCost 9 Discard 2 Any
+		{
+			Repeat 3
+			{
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(9) Discard 2 cards] At the end of this card's attack, if "Kiss Scene of Calculation and Tactics" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent 3 times.
+EndCard
+
+Character: OSK/S107-085
+Name An Adult's Duty, Akua
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+*OnPlayTradeClimaxForCharacter(Showbiz)
+Auto: OnPlay
+{
+	If LocationContains Memory 1 NameEquals "B-Komachi" Ai
+	{
+		Peek Deck 2
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: MEMORY When this card is placed on stage from your hand, if ""B-Komachi" Ai" is in your memory, look at up to 2 cards from the top of your deck, choose up to 1 card from among them put it into your hand, put the rest into the waiting room, and put 1 card from your hand into the waiting room.
+EndCard
+
+Character: OSK/S107-086
+Name Genius Child Actor Who Licks Baking Soda, Arima Kana
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Soda
+Auto: OnAttack
+{
+	PayCost Discard 1 HasTrait Showbiz
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 <Showbiz> character] When this card attacks, you may pay the cost. If you do, draw 1 card.
+*FreeRunner
+EndCard
+
+Character: OSK/S107-087
+Name Popular YouTuber, MEMcho
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Host
+*GlobalPower(500,Showbiz)
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose 1 character to get ability.
+	GainEffect
+	{
+		*OnAttackCheck2ChooseTrigger
+	}
+}
+Text Auto: When a climax is placed in you climax area, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck, and put the rest into the waiting room."
+EndCard
+
+Character: OSK/S107-088
+Name Film Director, Gotanda Taishi
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Showbiz
+Trait2 director
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Showbiz
+	{
+		SearchDeck NameEquals Final Curtain, Akua
+	}
+}
+Text Auto: [Discard a <Showbiz> character] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Final Curtain, Akua", reveal to opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Showbiz
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	SetXValue TargetCardsSoul
+	MultiplyXValue 1000
+	GainPower X
+	IfTarget NameContains Akua
+	{
+		GainTrait Precocious
+	}
+}
+Text Auto: When this card attacks, choose 1 of your <Showbiz> characters, it gets +X power until end of turn. If that character has "Akua" in its name, it gets <Precocious> until end of turn. X is equal to 1000 times that character's soul.
+EndCard
+
+Character: OSK/S107-089
+Name Confusion, MEMcho
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+*OnPlayGivePower(1500,Showbiz)
+*OnAttackGivePower(1500,Showbiz)
+EndCard
+
+Character: OSK/S107-090
+Name Topic of Love, Sumi Yuki
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Showbiz
+Trait2 Model
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 NameEquals The Charm that Attracts Everyone, Kurokawa Akane
+	{
+		GainPower 3500
+		GainSoul 1
+		GainEffect
+		{
+			Cont: GiveAll
+			{
+				If NameEquals The Charm that Attracts Everyone, Kurokawa Akane
+				{
+					GainPower 2000
+					GainSoul 1
+				}
+			}
+			Text Cont: All of your other "The Charm that Attracts Everyone, Kurokawa Akane" get +2000 power and +1 soul.
+		}
+	}
+}
+Text Cont: If you have another "The Charm that Attracts Everyone, Kurokawa Akane" on your center stage, this card gets +3500 power, +1 soul, and the following ability. "Cont: All of your other "The Charm that Attracts Everyone, Kurokawa Akane" get +2000 power and +1 soul."
+Auto: StartAttackPhase
+{
+	If CardPosition Stand && LocationContainsOrLess CenterStage 1 Other
+	{
+		TargetLocation CenterStage
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetTop Deck 1
+				Reveal
+				ChooseCardsFromTargets 0 1 NameEquals Snapshot From Our Perspective || HasTrait Showbiz
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+			}
+			Text Auto: When this card attacks, look at 1 card from the top of your deck, choose up to 1 "Snapshot From Our Perspective" or <Showbiz> character from among them, reveal to your opponent, add it to your hand, and put the rest into the waiting room.
+		}
+	}
+}
+Quick
+Text Auto: At the beginning of your attack phase, if this card is standing, and you have 1 or less other character in center stage, all of your characters on your center stage get the following ability until end of turn. "Auto: When this card attacks, look 1 card from the top of your deck, choose up to 1 "Snapshot From Our Perspective" or <Showbiz> character from among them, reveal to your opponent, add it to your hand, and put the rest into the waiting room."
+EndCard
+
+Character: OSK/S107-091
+Name The Charm that Attracts Everyone, Kurokawa Akane
+Color B
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+EndCard
+
+Character: OSK/S107-092
+Name Awkward Silence, MEMcho
+Color B
+Level 1
+Cost 1
+Power 4000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Host
+*BlueEarlyPlayBomb
+EndCard
+
+Character: OSK/S107-093
+Name Memo Demon, Kurokawa Akane
+Color B
+Level 2
+Cost 1
+Power 1500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actress
+Auto: OnUseThisCardsBackup
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Showbiz
+	SetXValue TargetCount
+	MillOpponentBottom X
+}
+Text Auto: When you use this card's "BACKUP", put the bottom X cards of your opponent's deck into their waiting room. X is equal to the number of <Showbiz> characters you have.
+Backup 3000
+EndCard
+
+Character: OSK/S107-094
+Name Today's Main Character, MEMcho
+Color B
+Level 2
+Cost 1
+Power 6000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Host
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Showbiz
+		MultiplyXValue 1500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +1500 power for each of your other <Showbiz> characters.
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsEvent
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Showbiz
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Showbiz> characters, it gets +X power until end of turn. X is 1500 times the number of event cards in your waiting room.
+EndCard
+
+Character: OSK/S107-095
+Name Radish Actor, Narushima Melt
+Color B
+Level 2
+Cost 1
+Power 7000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Model
+Auto: OnOtherFrontalAttacked
+{
+	IfThatCard HasTrait Showbiz
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			GainPower 3000
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other <Showbiz> character is frontal attacked, you may pay the cost. If you do, choose 1 of your character in battle, it gets +3000 power.
+*HandEncoreTrait(Showbiz)
+EndCard
+
+Event: OSK/S107-096
+Name Snapshot From Our Perspective
+Color B
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	If Compare MyLevel 2 OrLess
+	{
+		*CheckAndAddOne(4,HasTrait Showbiz)
+	}
+	Else
+	{
+		PayCost 2 Discard 1 NameEquals Snapshot From Our Perspective
+		{
+			TargetSelf
+			MoveCard Memory
+			Repeat 2
+			{
+				TargetLocation Stage
+				ChooseCharacterFromTargets Choose a character to give the ability to.
+				GainEffect
+				{
+					Cont: GiveFacing
+					{
+						LoseSoul 2
+					}
+					Text Cont: The character facing this card gets -2 soul.
+				}
+			}
+		}
+	}
+}
+ActivationRequirement StageContains 1 HasTrait Showbiz
+Text Counter: If you do not have a <Showbiz> character this card cannot be played from your hand. \nIf your level is 2 or lower, look at up to 4 cards from the top of your deck, choose up to 1 <Showbiz> character from among them, put it into your hand, and put the rest into the waiting room.\n[(2) Put 1 "Snapshot From Our Perspective" from your hand into waiting room] If your level is 3 or higher, you may pay the cost. If you do, put this card in your memory, perform the following actions for 2 times. "Choose 1 of your character, it gets the following ability until end of turn. "Cont: The character facing this card gets -2 soul.""
+EndCard
+
+Climax: OSK/S107-097
+Name Whereabouts of the Truth
+*GateClimax
+EndCard
+
+Climax: OSK/S107-098
+Name Thorough Characterization
+*GateClimax
+EndCard
+
+Climax: OSK/S107-099
+Name Genius Actress of LALALAI
+*GateClimax
+EndCard
+
+Climax: OSK/S107-100
+Name Kiss Scene of Calculation and Tactics
+*GateClimax
+EndCard
+
+Character: OSK/S107-101
+Name Chibi MEMcho
+Color Y
+Level 1
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+*GiveMiddlePower(1000,Any)
+Auto: OnUseAct
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose 1 <Showbiz> character to get +1000 power.
+	GainPower 1000
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an act ability, choose 1 of your <Showbiz> characters, it gets +1000 power until end of turn.
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into the waiting room.
+EndCard
+
+Character: OSK/S107-102
+Name Chibi Arima Kana
+Color Y
+Level 2
+Cost 1
+Power 2500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost, if you do, deal 1 damage to your opponent.
+Backup 2500
+EndCard
+
+Character: OSK/S107-103
+Name Chibi Ruby
+Color R
+Level 1
+Cost 1
+Power 4500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainPower 3000
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, it gets +3000 power and +1 soul.
+*HandEncore
+EndCard
+
+Character: OSK/S107-104
+Name Chibi Ai
+Color R
+Level 2
+Cost 1
+Power 4500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+*OnAttackGivePowerForEachOther(1000,Showbiz)
+*RedLevel2Bomb
+EndCard
+
+Character: OSK/S107-105
+Name Chibi Akua
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Showbiz
+	SetXValue TargetCount
+	MultiplyXValue 500
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Showbiz> characters, it gets +X power until end of turn. X is equal to 500 times the number of <Showbiz> characters you have.
+EndCard
+
+Character: OSK/S107-106
+Name Chibi Kurokawa Akane
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+*OnPlayGainPower(3000)
+*RestGivePower(1000,Showbiz)
+EndCard
+
+Character: OSK/S107-T01
+Name Scout, Ai
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Showbiz
+	ChooseCharacterFromTargets Choose a character to give +1500 power and the ability to.
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Auto: When this card attacks, choose 1 of your other <Showbiz> characters, it gets +1500 power and the following ability until the end of opponent's turn. "Auto: ENCORE [Discard a character]"
+EndCard
+
+Character: OSK/S107-T02
+Name Otaku, Ruby
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Showbiz
+Trait2 Otaku
+*2OptionBondDiscard(Absolute Center\, Ai,Otaku\, Akua)
+Act: 1 SendSelf WaitingRoom
+{
+	SearchWaitingRoom NameEquals From Mother to Children
+}
+Text Act: [(1) Put this card into your waiting room waiting room] Choose 1 "From Mother to Children" in your waiting room, and return it to your hand.
+EndCard
+
+Character: OSK/S107-T03
+Name Ichigo Productions President, Saitou Ichigo
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Showbiz
+Trait2 President
+*GlobalPower(500,Showbiz)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a character to place on stage.
+		SearchLocationForTargets Deck 0 1 NameEquals Scout, Ai
+		RevealTargets
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for 1 "Scout, Ai", and put it on any position of the stage.
+EndCard
+
+Character: OSK/S107-T04
+Name Yoto High School's Showbiz Department, Ruby
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+*ClimaxExchange
+*MoveOtherWithTraitToBackstageOnReverse(Showbiz)
+EndCard
+
+Character: OSK/S107-T05
+Name A Glimpse of an Idol, Ruby
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Combo The Light I Continued to Admire
+*OnAttackGivePower(1500,Showbiz)
+Auto: OnAttack
+{
+	If Climax The Light I Continued to Admire
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Showbiz
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchWaitingRoom HasTrait Showbiz
+			}
+			Text Auto: When this card's battle opponent becomes reversed, choose up to 1 <Showbiz> character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "The Light I Continued to Admire" is in your climax area, choose 1 of your <Showbiz> characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, choose up to 1 <Showbiz> character in your waiting room, and return it to your hand."
+EndCard
+
+Character: OSK/S107-T06
+Name Contact with her Father, Ai
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Showbiz
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other <Showbiz> characters on your back stage.
+Auto: OnAttack
+{
+	If AllYourCharacters HasTrait Showbiz
+	{
+		Peek Deck 2
+		Message Choose a card to return to the top of your deck.
+		ChooseCardsFromTargets 1 1 Any
+		MoveCard Deck
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: When this card attacks, if all your characters are <Showbiz>, look at up to 2 cards from the top of your deck. Choose 1 card from among them, return it to the top of your deck, and put the rest into the waiting room.
+EndCard
+EndCard
+
+Character: OSK/S107-T07
+Name Lies are Love, Ai
+Color R
+Level 1
+Cost 1
+Power 1000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Backup 2500
+EndCard
+
+Character: OSK/S107-T08
+Name Natural Smile, Ai
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Showbiz
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Showbiz> characters, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: OSK/S107-T09
+Name Practicing Together, Ruby & Ai
+Color R
+Level 2
+Cost 1
+Power 1500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+*LevelAssist
+Act: Discard 1 Any &&& RestSelf
+{
+	Peek Deck 2
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [Discard 1 card & Rest this card] Look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into the waiting room.
+EndCard
+
+Character: OSK/S107-T10
+Name Absolute Center, Ai
+Color R
+Level 3
+Cost 2
+Power 9500
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+Combo IDOL
+*Healer
+Auto: OnAttack
+{
+	If Climax IDOL
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Burn 2
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				*GreatPerformance
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Discard 1 card] When this card attacks, if "IDOL" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent, and this card gets "Cont: GREAT PERFORMANCE" until end of your opponent's turn.
+EndCard
+
+Climax: OSK/S107-T11
+Name The Light I Continued to Admire
+*DoorClimax
+EndCard
+
+Climax: OSK/S107-T12
+Name IDOL
+*DoorClimax
+EndCard
+
+Character: OSK/S107-T13
+Name Creepy Child, Akua
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+Cont: GiveAll
+{
+	If StageContains 2 Other && HasTrait Showbiz
+	{
+		If NameEquals Absolute Center, Ai || NameEquals A Glimpse of an Idol, Ruby
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Showbiz> character, your other "Absolute Center, Ai" and "A Glimpse of an Idol, Ruby" get +1000 power.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: OSK/S107-T14
+Name Genius Child Actor, Arima Kana
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Showbiz
+Trait2 Actress
+*DropSearch(Showbiz)
+Auto: OnReceiveDamage
+{
+	If InBattle && OnStage
+	{
+		TargetSelf
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: During this card's battle, when damage you receive is not canceled, this card gets +1500 power until end of turn.
+EndCard
+
+Character: OSK/S107-T15
+Name Flame of Revenge, Akua
+Color B
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Showbiz
+Trait2 Actor
+*GiveAllOpponentsEncore2
+EndCard
+
+Character: OSK/S107-T16
+Name Otaku, Akua
+Color B
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Showbiz
+Trait2 Otaku
+EndCard
+
+Character: OSK/S107-T17
+Name Gorou & Sarina
+Color B
+Level 2
+Cost 1
+Power 6000
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Showbiz
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each of your other <Showbiz> characters in your back stage.
+EndCard
+
+Character: OSK/S107-T18
+Name Yoto High School's General Studies, Akua
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Showbiz
+Trait2 Actor
+Auto: OnPlay
+{
+	*PlayCharacterFromHand(Compare ThatCardsLevel MyLevel OrLess)
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it in any position of your stage, and that character gets +2000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		OpponentMessage Choose 1 climax to keep in your waiting room.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		ReverseTargets OpponentWaitingRoom
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, your opponent chooses a climax from their waiting room and returns every card except the chosen climax back into their deck and shuffles their deck.
+EndCard
+
+Event: OSK/S107-T19
+Name From Mother to Children
+Color B
+Level 2
+Cost 1
+Effect:
+{
+	If StageContains 1 NameEquals Creepy Child, Akua
+	{
+		If StageContains 1 NameEquals Practicing Together, Ruby & Ai
+		{
+			*PlayCharacterFromHand(NameEquals Absolute Center\, Ai)
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					GainSpecialEffect NoBackupOnAttack
+					GainSpecialEffect NoEventsOnAttack
+				}
+				Text Cont: During this card's battle, your opponent cannot play event cards or "BACKUP" from their hand.
+			}
+		}
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Auto: If you have "Creepy Child, Akua" and "Practicing Together, Ruby & Ai", choose up to 1 "Absolute Center, Ai" in your hand, put it on any position of your stage, and it gets the following ability until end of turn. "Cont: During this card's battle, your opponent cannot play event cards or "BACKUP" from their hand." \nPut this card into your memory.
+EndCard
+
+Climax: OSK/S107-T20
+Name Dream-Like Days
+Color B
+*2SoulClimax
+EndCard
+
+Character: OSK/S107-P01
+Name Summer Sweet Memory, MEMcho
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Showbiz
+Trait2 Idol
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Stock 0 1 IsCharacter
+		Reveal
+		MoveCard Hand
+		ShuffleLocation Stock
+	}
+}
+Text Auto: [Discard 1 card] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your stock for up to 1 character, reveal it to your opponent, put it into your hand, and shuffle your stock.
+*BlueLevel0Bomb
+EndCard
+
+Character: OSK/S107-P02
+Name Summer Sweet Memory, Ruby
+Color Y
+Level 2
+Cost 1
+Power 2500
+Soul 1
+Trigger Soul
+Trait1 Showbiz
+Trait2 Idol
+*MemoryBackup
+Backup 3000
+EndCard

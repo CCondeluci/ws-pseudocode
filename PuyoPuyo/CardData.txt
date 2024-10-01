@@ -1,0 +1,2749 @@
+Character: PY/S38-001
+Name Great Victory! Arle
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Puyo
+Trait2 Magic
+*OnPlayMill2RestIfClimax
+EndCard
+
+Character: PY/S38-002
+Name Studying the Creation of Magical Potion, Witch
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Magic
+Combo You Are An Idiot
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Puyo
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is 500 times the number of <Puyo> characters you have.
+Auto: OnAttack
+{
+	If Climax You Are An Idiot
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Puyo
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "You Are An Idiot" is in your climax area, reveal the top card of your deck, if it is a <Puyo> character, add it to your hand.
+EndCard
+
+Character: PY/S38-003
+Name "Bayoe~n" Arle
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Puyo
+Trait2 Magic
+Combo Bayoe~n
+Auto: OnAttack
+{
+	If Climax Bayoe~n
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Puyo
+		GainPower 2000
+		TargetSelf
+		GainEffect
+		{
+			*OnCancelBurn1
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Bayoe~n" is in your climax area, all of your <Puyo> characters get +2000 power until end of turn, and this card gets the following ability until end of turn. "Auto: Once per turn, when damage dealt by this card is canceled, you may deal 1 damage to your opponent."
+Auto: OnDamageCancel
+{
+	If PlayedThisTurn
+	{
+		*OptionalBurn(1)
+	}
+}
+TimesPerTurn 1
+Text Auto: Once during the turn this card is placed on the stage from your hand, when damage dealt by this card is canceled, you may deal 1 damage to your opponent.
+EndCard
+
+Character: PY/S38-004
+Name "Pervert" Schezo
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Weapon
+Auto: OnDamageCancel
+{
+	PayCost 1
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1)] When damage dealt by this card is canceled, you may pay the cost, if you do, draw a card.
+*YellowLevel0Bomb
+EndCard
+
+Character: PY/S38-005
+Name Idle Talk? Draco Centauros
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Trait2 Fang Tooth
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+*Act1Rest2SearchBrainstorm(Puyo)
+EndCard
+
+Character: PY/S38-006
+Name Sexy Battle Queen, Rulue
+Color Y
+Level 1
+Cost 0
+Power 6000
+Trait1 Puyo
+Trait2 Love
+*CannotSideAttack
+EndCard
+
+Character: PY/S38-007
+Name Going After the Power of Magic, Schezo
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Puyo
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchDeck NameContains Arle && IsCharacter
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for a character with "Arle" in its name, and put it into your hand.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: PY/S38-008
+Name Whimsical, Carbuncle
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Puyo
+Trait2 Mystery
+Cont: Assist
+{
+	If HasTrait Puyo
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: ASSIST Your <Puyo> characters in front of this card get +1000 power and "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Character: PY/S38-009
+Name Creating an Puyo Hell!? Satan
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Puyo
+Trait2 Horns
+Auto: OnPlay
+{
+	GainPower 3000
+	BlockOpponentBackup
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +3000 power until end of turn, and your opponent cannot use "BACKUP" until end of turn.
+Auto: OnFrontalAttacked
+{
+	PayCost 1 Discard 1 NameEquals Yellow Puyo
+	{
+		GainPower 4000
+	}
+}
+Text Auto: [(1) Discard a "Yellow Puyo"] When this card is frontal attacked, you may pay the cost. If you do, this card gets +4000 power until end of turn.
+EndCard
+
+Character: PY/S38-010
+Name Arle
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Puyo
+Trait2 Magic
+Cont: GiveAll
+{
+	If Other && MyTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your turn, your other characters get +500 power.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets NameEquals Yellow Puyo
+	If HasTarget
+	{
+		Message Choose a character to place on stage
+		SearchLocationForTargets Deck 0 1 IsCharacter && HasTrait Puyo && Compare ThatCardsCost 0 OrLower
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 characters] Flip over 4 cards from the top of your deck and put them into the waiting room, if a "Yellow Puyo" was revealed, search your deck for up to 1 cost 0 or lower <Puyo> character, and put it on any position of your stage.
+EndCard
+
+Character: PY/S38-011
+Name High Tension, Suketoudara
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Dance
+Auto: OnPlay
+{
+	OpponentMultipleChoiceQuestion Choose a number.|0|1|2|3
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel Answer Exactly
+	{
+		IfTarget IsCharacter
+		{
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent declares 0, 1, 2, or 3. Reveal the top card of your deck, if it is a character with the same level as the number your opponent declared, put it on any position of your stage.
+Auto: OnOpponentClimaxPlay
+{
+	If OnStage
+	{
+		Question Put this card into your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+} 
+Text Auto: When a climax is placed in your opponent's climax area, you may put this card into your stock.
+EndCard
+
+Character: PY/S38-012
+Name Carbuncle
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Puyo
+Trait2 Mystery
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give +1 level and +1000 power.
+	GainLevel 1
+	GainPower 1000
+}
+Text Auto: When this card attacks, choose 1 of your other characters, it gets +1 level and +1000 power until end of turn.
+*BondDiscard("Bayoe~n" Arle)
+EndCard
+
+Character: PY/S38-013
+Name Witch
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Puyo
+Trait2 Magic
+*GlobalPower(500,Puyo)
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Puyo
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Act: [(1)] Choose 1 of your <Puyo> characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: PY/S38-014
+Name Strongest Bishoujo, Draco Centauros
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Fang Tooth
+*BackupBonus1000(Puyo)
+Backup 1000
+EndCard
+
+Character: PY/S38-015
+Name Arle is His Fiancee!? Satan
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Puyo
+Trait2 Horns
+Combo This is What You Get For Defying Me
+Auto: OnSpecificClimaxPlay This is What You Get For Defying Me
+{
+	If Compare CardsInStock 5 OrLess
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			MultipleChoiceQuestion Choose an effect:\n1: Choose a "Creating a Puyo Hell!? Satan" in your and, and put it in the stage position this card was on.\n2: Choose up to 3 cost 0 or lower characters in your waiting room, and put them on separate positions of your stage.|Effect 1|Effect 2
+			If Answer 0
+			{
+				SearchLocationForTargets Hand 1 1 NameEquals Creating a Puyo Hell!? Satan
+				Change
+			}
+			Else
+			{
+				Message Choose up to 3 characters to place on your stage.
+				SearchLocationForTargets WaitingRoom 0 3 IsCharacter && Compare ThatCardsCost 0 OrLower
+				PlaceOnStage False True True False
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put this card into the waiting room] When "This is What You Get For Defying Me" is placed in your climax area, if the number of cards in your stock is 5 or less, you may pay the cost. If you do, select and perform one of the following actions. "Choose a "Creating a Puyo Hell!? Satan" in your and, and put it in the stage position this card was on." "Choose up to 3 cost 0 or lower characters in your waiting room, and put them on separate positions of your stage."
+EndCard
+
+Character: PY/S38-016
+Name Loves Carbuncle, Satan
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Horns
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Puyo
+	{
+		SearchDeck IsCharacter && NameContains Arle|Carbuncle
+	}
+}
+Text Auto: [Discard a <Puyo> character] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 character with "Arle" or "Carbuncle" in its name, and put it into your hand.
+EndCard
+
+
+Character: PY/S38-017
+Name Burning Crush, Rulue
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Trait2 Love
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		RevealUpTo Deck 3
+		ChooseCardsFromTargets 1 1 NameEquals Minotauros
+		PlaceOnStage False True True True
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost, if you do, look at up to 3 cards from the top of your deck, choose up to 1 "Minotauros", put it on any position of your stage rested, and put the rest into your waiting room.
+Auto: OnAttack
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, put the top card of your deck into the waiting room, if it is a climax, all of your characters get +1 soul until end of turn.
+EndCard
+
+Character: PY/S38-018
+Name Yellow Puyo
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Army
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation CenterStage && NameEquals Yellow Puyo
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Yellow Puyo" on your center stage.
+EndCard
+
+Character: PY/S38-019
+Name "Batankyuu" Carbuncle
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Mystery
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+*ClockEncore
+EndCard
+
+Character: PY/S38-020
+Name Magician of Darkness, Schezo
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Weapon
+Auto: OnAttack
+{
+	*GiveCharacterPower(1000,Puyo)
+	If LocationContains Clock 1 NameEquals Yellow Puyo
+	{
+		*GiveCharacterPower(1000,Puyo)
+	}
+}
+Text Auto: When this card attacks, choose 1 of your <Puyo> characters, it gets +1000 power until end of turn. If "Yellow Puyo" is in your clock, choose 1 of your <Puyo> characters, it gets +1000 power until end of turn.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed, put this card on the bottom of your deck.
+EndCard
+
+Character: PY/S38-021
+Name Charming Dancer, Suketoudara
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Puyo
+Trait2 Dance
+EndCard
+
+Character: PY/S38-022
+Name "Batankyuu" Arle
+Color Y
+Level 1
+Cost 1
+Power 6500
+Trait1 Puyo
+Trait2 Magic
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLower
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other level 0 characters.
+EndCard
+
+Character: PY/S38-023
+Name Naive and Innocent, Draco Centauros
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Puyo
+Trait2 Fang Tooth
+Auto: OnAttack
+{
+	Mill 3
+	NarrowTargets NameEquals Yellow Puyo
+	If HasTarget
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, put the top 3 cards of your deck into the waiting room. If one or more "Yellow Puyo" were sent, all of your characters get +1 soul until end of turn.
+EndCard
+
+Character: PY/S38-024
+Name Strong Maiden, Rulue
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Puyo
+Trait2 Love
+EndCard
+
+
+Event: PY/S38-025
+Name All Clear
+Color Y
+Level 2
+Cost 0
+Effect:
+{
+	Refresh
+	OpponentRefresh
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Each player returns all cards from their waiting room into the deck and shuffles their deck. Choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Event: PY/S38-026
+Name Let's Puyo Battle!
+Color Y
+Level 3
+Cost 0
+Requirement StageContains 1 HaasTrait Puyo
+Effect
+{
+	TargetLocation Stage
+	GainPower 2500
+	MillOpponent 1
+	SetXValue TargetCardsLevel
+	Mill 1
+	If Compare TargetCardsLevel X GreaterThan
+	{
+		TargetLocation Stage
+		GainPower 2500
+	}
+}
+Text If you do not have a <Puyo> character, this card cannot be played from your hand. All of your characters get +2500 power until end of turn. Put the top card of each player's deck into their waiting room. If the level of the card put into your waiting room is greater than the level of the card put into your opponent's waiting room, all of your characters get +2500 power until end of turn.
+EndCard
+
+
+Climax: PY/S38-027
+Name Bayoe~n
+*WindClimax
+EndCard
+
+Climax: PY/S38-028
+Name You Are An Idiot
+*YellowStockSoul
+EndCard
+
+Climax: PY/S38-029
+Name This is What You Get for Defying Me
+*ShotClimax
+EndCard
+
+Character: PY/S38-030
+Name Loves Sweet Things, Lemres
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Puyo
+Trait2 Sweets
+*OnPlayCheckTopAddDiscard(Puyo)
+*Act1SearchBrainstorm(Puyo)
+EndCard
+
+Character: PY/S38-031
+Name Lemres
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Puyo
+Trait2 Sweets
+Cont: GiveSelf
+{
+	If Not LocationContains Level 1 Not HasTrait Puyo
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If all of the cards in your level are <Puyo> characters, this card gets +1500 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question_Obvious Put the battle opponent into clock?
+					If Yes
+					{
+						MoveCard OpponentClock
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock.
+		}
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, if you do, this card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock."
+EndCard
+
+Character: PY/S38-032
+Name Feli
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 11000
+Soul 2
+Trait1 Puyo
+Trait2 Occult
+*Healer
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed, put this card on the bottom of your deck.
+EndCard
+
+Character: PY/S38-033
+Name Feelings for Lemres, Feli
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Occult
+Cont: GiveAll
+{
+	If NameEquals Genius Magician, Lemres
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other "Genius Magician, Lemres" get +1000 power.
+*Bond1(Genius Magician\, Lemres)
+EndCard
+
+Character: PY/S38-034
+Name Hohow Bird
+Color G
+Level 0 
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Hero
+Auto: OnReverseOpponent
+{
+	If Compare CardsInClock 3 OrMore
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to rest and move to the backstage.
+		Rest
+		IfTarget CanMove
+		{
+			MoveToOpenPosition False True
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there are 3 or more cards in your clock, choose 1 of your other characters, rest it, and move it to an open position of your backstage.
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 2500
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2500 power until end of turn.
+EndCard
+
+Character: PY/S38-035
+Name Maiden in Love, Feli
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Occult
+*GainPowerForEachOther(500,Puyo)
+EndCard
+
+Character: PY/S38-036
+Name Genius Magician, Lemres
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Sweets
+Combo Everyone, Let's Get Along
+Auto: OnReverseOpponent
+{
+	If Climax Everyone, Let's Get Along
+	{
+		Message Choose up to 2 cards to put into your stock
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Puyo
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Everyone, Let's Get Along" is in your climax area, choose up to 2 <Puyo> characters in your waiting room, and put them into your stock.
+EndCard
+
+
+Character: PY/S38-037
+Name Prince of the Sea, Ocean Prince
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Royalty
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Green Puyo
+	{
+		SearchWaitingRoom NameEquals Fever Mode
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [Discard a "Green Puyo"] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Fever Mode" in your waiting room, return it to your hand, and this card gets +1000 power until end of turn.
+EndCard
+
+
+Character: PY/S38-038
+Name Yu-chan & Rei-kun
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Puyo
+Trait2 Bad Pun
+Auto: OnAttack
+{
+	SetXValue CardsInStock
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is 500 times the number of cards in your stock.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 5 Discard 1 Any &&& Send 1 WaitingRoom Other
+		{
+			TargetLocation Hand
+			NarrowTargets NameEquals Bright Yu-rit, Yu-chan
+			FirstTarget
+			SaveTargets
+			TargetLocation Hand
+			NarrowTargets NameEquals Reticent Spi-rei, Rei-kun
+			FirstTarget
+			AddSavedToCurrentTargets
+			PlaceOnStage False True True False
+		}	
+	}
+}
+Text Auto: [(5) Discard a card & Put another character from your stage into the waiting room] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost, if you do, choose up to 1 "Bright Yu-rit, Yu-chan" and up to 1 "Reticent Spi-rei, Rei-kun" in your hand, and put them on separate positions of your stage.
+EndCard
+
+Character: PY/S38-039
+Name Frankensteins with Kids
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Puyo
+Trait2 Modification
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put 2 cards from the top of your deck into the waiting room. If a climax was sent, this card gets +3000 power until end of turn.
+EndCard
+
+Character: PY/S38-040
+Name A Little Bit Egoist, Ocean Prince
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Royalty
+*OnPlayGainPowerForEach(500,Puyo)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		Message Choose a "Escaping from Otomo, Ocean Prince" to place on stage rested.
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Escaping from Otomo, Ocean Prince
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [(1) Discard a card] Whenn this card is put into the waiting room from your stage, you may pay the cost. If you do, choose an "Escaping from Otomo, Ocean Prince" in your waiting room, and put it on any position of your stage as rested.
+EndCard
+
+Character: PY/S38-041
+Name Bright Yu-rit, Yu-chan
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Bad Pun
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && NameEquals Reticent Spi-rei, Rei-kun
+	GainSoul X
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each other "Reticent Spi-rei, Rei-kun" on your center stage, this card gets +1000 power and +1 soul.
+EndCard
+
+Character: PY/S38-042
+Name Reticent Spi-rei, Rei-kun
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Bad Pun
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && NameEquals Bright Yu-rit, Yu-chan
+	GainSoul X
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each other "Bright Yu-rit, Yu-chan" on your center stage, this card gets +1000 power and +1 soul.
+EndCard
+
+Character: PY/S38-043
+Name Magician of Comet, Lemres
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Puyo
+Trait2 Sweets
+*LevelAssist
+Act: 2 RestSelf
+{
+	SearchLocationForTargets Clock 1 1 Any
+	RevealTargets
+	MoveCard Hand
+	TargetTop Deck 1
+	MoveCard Clock
+}
+Text Act: [(2) Rest this card] Choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: PY/S38-044
+Name F-A-T-E, Feli
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Puyo
+Trait2 Occult
+Combo You Wish to Defy Fate?
+Auto: OnAttack
+{
+	If Climax You Wish to Defy Fate?
+	{
+		Message Choose up to 2 cards to put into your stock.
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Puyo
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: CxCombo When this card attacks, if "You Wish to Defy Fate?" is in your climax area, choose up to 2 <Puyo> characters in your waiting room, and put them into your stock.
+Auto: OnFrontalAttacked
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals Feli
+		Change
+		BecomeNewBattleOpponent
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When this card is frontal attacked, you may pay the cost, if you do, choose up to 1 "Feli" in your hand, and put it in this card's previous position as the new defending character.
+EndCard
+
+Character: PY/S38-045
+Name Escaping from Otomo, Ocean Prince
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Puyo
+Trait2 Royalty
+Auto: OnAttack
+{
+	Peek Deck 3
+	Message Choose a card to put into your stock.
+	ChooseCardsFromTargets 0 1 NameEquals Green Puyo
+	RevealTargets
+	MoveCard Stock
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card attacks, look at up to 3 cards from the top of your deck. Choose up to 1 "Green Puyo" from among them, put it into your stock, and put the rest into the waiting room.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	MoveCard Clock
+	TargetSelf
+	Rest
+}
+Text Auto: When this card becomes reversed, put the top card of your deck into your clock, and rest this card.
+EndCard
+
+
+Character: PY/S38-046
+Name Akuma
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Puyo
+Trait2 Mystery
+Cont: GiveFacing
+{
+	GainSoul 1
+}
+Text Cont: The character facing this card gets +1 soul.
+Auto: OnLevelUp
+{
+	GainEffect
+	{
+		Auto: Encore 1
+		{
+		}
+		Text Auto: ENCORE [(1)]
+	}
+}
+Quick
+Text Auto: When you level up, this card gets "Auto: ENCORE [(1)]" until end of turn.
+EndCard
+
+Character: PY/S38-047
+Name Free as a Bird, Yu-chan & Rei-kun
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Bad Pun
+*500Assist
+Combo We Did It
+Auto: OnSpecificClimaxPlay We Did It
+{
+	PayCost 1
+	{
+		SearchDeck NameEquals Bright Yu-rit, Yu-chan|Reticent Spi-rei, Rei-kun
+	}
+}
+Text Auto: CxCombo [(1)] When "We Did It" is placed in your climax area, you may pay the cost. If you do, search your deck for up to 1 "Bright Yu-rit, Yu-chan" or "Reticent Spi-rei, Rei-kun", and put it into your hand.
+EndCard
+
+Character: PY/S38-048
+Name Kerotie Nii-san? Dongurigaeru
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Puyo
+Trait2 Frog
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Message Choose a card to return to your hand.
+		SearchLocationForTargets Clock 1 1 Any
+		RevealTargets
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+Act: RestSelf
+{
+	Brainstorm 3
+	TargetBrainstormed
+	NarrowTargets NameEquals Green Puyo
+	If HasTarget
+	{
+		*GiveCharacterPower(3000,Any)
+	}
+}
+Text Act: BRAINSTORM [Rest this card] Flip over 3 cards from the top of your deck, and put them into the waiting room. If one or more "Green Puyo" was revealed, choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: PY/S38-049
+Name Oniko
+Color G
+Level 1
+Cost 1
+Power 6000
+Trait1 Puyo
+Trait2 Horns
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && NameEquals Onion Pixie
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Onion Pixie" on your center stage.
+*HandEncore
+EndCard
+
+Character: PY/S38-050
+Name Dongurigaeru
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Puyo
+Trait2 Frog
+EndCard
+
+Character: PY/S38-051
+Name Green Puyo
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Army
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation CenterStage && NameEquals Green Puyo
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Green Puyo" on your center stage.
+EndCard
+
+Character: PY/S38-052
+Name Oshare Bones
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Clothes
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Puyo
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+	SaveTargets
+	TargetLocation Stage
+	NarrowTargets SameNameAsSavedTarget && Not InSavedTargets
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your <Puyo> characters, it gets +1000 power until end of turn. Choose 1 of your other characters with thes same name as that character, it gets +1000 power until end of turn.
+EndCard
+
+Character: PY/S38-053
+Name Ocean Prince
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Puyo
+Trait2 Royalty
+EndCard
+
+Character: PY/S38-054
+Name Zoh Daimaoh 
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Puyo
+Trait1 Animal
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets Choose a character to rest.
+	Rest
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your standing characters, and rest it.
+EndCard
+
+Character: PY/S38-055
+Name Ocean Prince's Lecturer, Otomo
+Color G
+Level 1
+Cost 0
+Power 200
+Trait1 Puyo
+Trait2 Teacher
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck HasTrait Royalty
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, if you do, search your deck for up to 1 <Royalty> character, and put it into your hand.
+EndCard
+
+Character: PY/S38-056
+Name Nasu Grave
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Puyo
+Trait2 Plant
+EndCard
+
+Character: PY/S38-057
+Name Baldanders
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Puyo
+Trait2 Mystery
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 4 HasTrait Puyo
+	{
+		PayCost 2
+		{
+			*SendEarlyPlayToWaitingRoom
+		}
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", if you have 4 or more <Puyo> characters, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is greater than your opponent's level, and put it into the waiting room.
+Backup 1500
+EndCard
+
+Character: PY/S38-058
+Name Onion Pixy
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Puyo
+Trait2 Horn
+Cont: InHand
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If there are 5 or less cards in your deck, this card gets -1 level in your hand.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameEquals Oniko && InLocation CenterStage
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Oniko" on your center stage.
+EndCard
+
+Event: PY/S38-059
+Name Fever Mode
+Color G
+Level 2
+Cost 2
+Effect
+{
+	Brainstorm 7
+	TargetBrainstormed
+	NarrowTargets NameEquals Green Puyo
+	SetXValue TargetCount
+	Burn X
+}
+Text BRAINSTORM Flip over 7 cards from the top of your deck and put them into the waiting room, and deal X damage to your opponent. X is the number of "Green Puyo" among the revealed cards.
+EndCard
+
+Event: PY/S38-060
+Name F-A-T-E
+Color G
+Level 3
+Cost 1
+Effect:
+{
+	Message Choose a card to return to your hand.
+	SearchLocationForTargets Clock 1 1 IsCharacter
+	RevealTargets
+	MoveCard Hand
+	TargetSelf
+	MoveCard Memory
+}
+Text Choose a character in your clock, and return it to your hand. Put this card into your memory.
+EndCard
+
+Climax: PY/S38-061
+Name Everyone, Let's Get Along
+*GreenStockSoul
+EndCard
+
+Climax: PY/S38-062
+Name We Did It
+*BarClimax
+EndCard
+
+Climax: PY/S38-063
+Name You Wish to Defy Fate?
+*BarClimax
+EndCard
+
+Character: PY/S38-064
+Name "Bayoe~n" Amitie
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Puyo
+Trait2 Hat
+Combo Bayoe~n
+Cont: GiveSelf
+{
+	GainName Red Puyo
+}
+Text Cont: While on the stage, this card's name is also regarded as "Red Puyo".
+Auto: OnOpponentLevelUp
+{
+	If Climax Bayoe~n && InLocation CenterStage
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When your opponent levels up, if "Bayoe~n" is in your climax area and this card is on your center stage, you may choose a character in your waiting room, and return it to your hand.
+*RedLevel1Bomb
+EndCard
+
+Character: PY/S38-065
+Name Very Good! Amitie
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Puyo
+Trait2 Hat
+*EarlyPlayInClock("KO'd" Amitie)
+*GainPowerForEachOther(500,Puyo)
+*OnPlayCheckX(Puyo)
+EndCard
+
+Character: PY/S38-066
+Name Student of Primp Magic School, Sig
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Puyo
+Trait2 Bug
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotBeReversedByAutoEffects
+			}
+			Text Cont: This card cannot be reversed by your opponent's character's "AUTO" effects.
+		}
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets "Cont: This card cannot be reversed by your opponent's character's "AUTO" effects.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: PY/S38-067
+Name Popoi is Ventriloquism? Miss Accord
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Puyo
+Trait2 Teacher
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 Clock
+	{
+		Message Choose a "Popoi" to place on the stage.
+		SearchLocationForTargets Hand 0 1 NameEquals Popoi
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose up to 1 "Popoi" in your hand, and place it on any position of your stage.
+*RedLevel0Bomb
+EndCard
+
+Character: PY/S38-068
+Name Wrapping Hair Around Two Horns, Rider
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Trait2 Horn
+*GlobalPower(500,Puyo)
+*OnPlayScry
+EndCard
+
+Character: PY/S38-069
+Name Training for Beauty and Victory, Raffine
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Puyo
+Trait2 Heiress
+*LevelAssistTrait(Puyo)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1(Puyo)
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, if you do, look at up to 4 cards from the top of your deck, choose up to 1 <Puyo> character from among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: PY/S38-070
+Name Miss Accord
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Puyo
+Trait2 Teacher
+*OnPlayRevealBurnIfTrait(Puyo)
+Auto: OnDamageCancel
+{
+	GainPower 2000
+}
+Quick
+Text Auto: When damage dealt by this card is canceled, this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	*GiveCharacterPower(2000,Puyo)
+}
+Text Auto: When this card's battle opponent becomes reversed, choose 1 of your <Puyo> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: PY/S38-071
+Name Dreaming of Becoming a Wonderful Magician, Amitai
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Hat
+Auto: OnClimaxPlay
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets NameEquals Red Puyo
+	If HasTarget
+	{
+		SearchWaitingRoom HasTrait Puyo
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck, and put them into the waiting room, if one or more "Red Puyo" was sent, choose a <Puyo> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: PY/S38-072
+Name Student of Primp Magic School, Raffine
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Puyo
+Trait2 Heiress
+Combo Well-Deserved Result
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a character in your waiting room, and return it to your hand.
+Auto: OnSpecificClimaxPlay Well-Deserved Result
+{
+	PayCost Clock SendSelf Hand
+	{
+		SearchLocationForTargets Deck 0 1 HasTrait Puyo && Compare ThatCardsLevel 0 OrLower
+		Change
+		ShuffleLocation Deck
+	}
+}
+Text Auto: CxCombo [Put the top card of your deck into your clock & Return this card to your hand] When "Well-Deserved Result" is placed in your climax area, you may pay the cost, if you do, search your deck for up to 1 level 0 or lower <Puyo> character, and put it in the stage position this card was on.
+EndCard
+
+Character: PY/S38-073
+Name "KO'd" Amitie
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Puyo
+Trait2 Hat
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainLevel 1
+		GainPower 1000
+	}
+}
+Text Cont: If there are 2 or less cards in your stock, this card gets +1 level and +1000 power.
+EndCard
+
+Character: PY/S38-074
+Name Looking for Dark Magic, Klug
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Puyo
+Trait2 Book
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level while on the stage.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLower
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other level 0 or lower characters.
+EndCard
+
+Character: PY/S38-075
+Name Student of Primp Magic School, Amitie
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Puyo
+Trait2 Hat
+*ScryBackup(Puyo)
+Backup 2500
+EndCard
+
+Character: PY/S38-076
+Name A Little Sarcastic, Klug
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Puyo
+Trait2 Book
+Cont: GiveSelf
+{
+	If StageContains 1 Compare ThatCardsLevel 3 OrMore && Other
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another level 3 or higher character, this card gets +2000 power.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Puyo
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Puyo> characters, you may put the top card of your deck into your stock.
+EndCard
+
+Character: PY/S38-077
+Name Student of Primp Magic School, Rider
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Puyo
+Trait2 Horn
+Combo Ehe, I'm Happy
+Auto: OnReverseOpponent
+{
+	If Climax Ehe, I'm Happy
+	{
+		SearchWaitingRoom IsCharacter
+		Message Choose a card to put on top of your opponent's deck.
+		SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+		MoveCard OpponentDeck
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Ehe, I'm Happy" is in your climax area, choose up to 1 character in your waiting room, and return it to your hand, choose up to 1 card in your opponent's waiting room, and put it on the top of your opponent's deck.
+EndCard
+
+Character: PY/S38-078
+Name Red Puyo
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Army
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation CenterStage && NameEquals Red Puyo
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Red Puyo" on your center stage.
+EndCard
+
+Character: PY/S38-079
+Name Klug
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Puyo
+Trait2 Book
+EndCard
+
+Character: PY/S38-080
+Name Since When Did My Left Eye and Left Hand Become Strange? Sig
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Bug
+Combo Did I Win
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Puyo
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Puyo> characters, this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax Did I Win
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Did I Win" is in your climax area, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Did I Win
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to remove a trait from.
+		RemoveTrait
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Did I Win" is in your climax area, choose 1 of your opponent's characters and 1 of that character's traits. That character loses the chosen trait until end of turn.
+EndCard
+
+Character: PY/S38-081
+Name Easily Embarassed, Rider
+Color R
+Level 1
+Cost 1
+Power 7000
+Trait1 Puyo
+Trait2 Horn
+EndCard
+
+Character: PY/S38-082
+Name Popoi
+Color R
+Level 1
+Cost 1
+Power 7000
+Trait1 Puyo
+Trait2 Animal
+*CannotSideAttack
+*ClockEncore
+EndCard
+
+Character: PY/S38-083
+Name Loves Bugs, Sig
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Puyo
+Trait2 Bug
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets NameEquals Red Puyo
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 3 OrLower
+		ChooseCharacterFromTargets_Optional Choose a character to put into the waiting room.
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into the waiting room, if one or more "Red Puyo" is sent, choose up to 1 Level 3 or lower characater on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: PY/S38-084
+Name Raffine
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Puyo
+Trait2 Heiress
+Cont: InHand
+{
+	If Compare CardsInHand 5 OrLess
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If there are 5 or less cards in your deck, this card gets -1 level in your hand.
+Auto: Encore Discard 1 IsColor Red
+{
+}
+Text Auto: ENCORE [Discard a red card]
+EndCard
+
+Event: PY/S38-085
+Name KO'd
+Color R
+Level 1
+Cost 2
+Counter
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Puyo
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give the effect to.
+	GainEffect
+	{
+		*FreeEncore
+	}
+}
+Text Counter: Choose up to 2 of your <Puyo> characters, they get the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to it's previous stage position as rested."
+EndCard
+
+Climax: PY/S38-086
+Name Bayoe~n
+Color R
+*2SoulClimax
+EndCard
+
+Climax: PY/S38-087
+Name Well-Deserved Result
+Color R
+*RedStockSoul
+EndCard
+
+Climax: PY/S38-088
+Name Did I Win
+*DoorClimax
+EndCard
+
+Climax: PY/S38-089
+Name Ehe, I'm Happy
+*DoorClimax
+EndCard
+
+Character: PY/S38-090
+Name Lost in Mystery, Ringo
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Puyo
+Trait2 Science
+*MillRunner(Puyo)
+EndCard
+
+Character: PY/S38-091
+Name Risukuma-Senpai
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Puyo
+Trait2 Science
+Cont: InHand
+{
+	If LocationContainsOrLess OpponentWaitingRoom 3 IsClimax
+	{
+		LoseLevel 1
+	}
+}
+Text: If there are 3 or less climax in your opponent's waiting room, this card gets -1 level in your hand.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetSelf
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals Risukuma-Senpai
+				FirstTarget
+				Message Risukuma-senpai returns from memory.
+				RevealTargets
+				PlaceOnStage False True True False
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is a climax, put this card into your memory, and at the start of your next draw phase, choose one "Risukuma-Senpai" in your memory, and put it on any position of your stage.
+Auto: OnPlay|OnPlacedOnStageFromMemory
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or memory, you may put the top card of your clock into the waiting room.
+EndCard
+
+Character: PY/S38-092
+Name Reaction of Love, Risukuma-Senpai
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Science
+*500Assist
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Puyo)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Puyo> character from among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: PY/S38-093
+Name Student of Suzuran Middle School, Ringo
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Science
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, and put it into your hand.
+EndCard
+
+Character: PY/S38-094
+Name Being Frank for Better or Worse, Ecolo
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Mystery
+Combo This Is Fun
+Cont: GiveSelf
+{
+	If LocationContains Climax 1 ColorIs Blue
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If a blue climax is in your climax area, this card gets +1 soul.
+Auto: OnSpecificClimaxPlay This Is Fun
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 2 OrLower && CanMove
+			If Compare TargetCount 2 OrMore
+			{
+				ChooseCharactersFromTargets 2 2 Choose 2 characters to exchange
+				Exchange
+				Stand
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "This Is Fun" is placed in your climax area, if this card is on your center stage, you may pay the cost. If you do, choose 2 of your opponent's level 2 or lower characters and exchange them as standing.
+EndCard
+
+Character: PY/S38-095
+Name Kikimora
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Housework
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Refresh 
+		OpponentRefresh
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, all players return all cards in their waiting rooms to their decks and shuffle those decks.
+EndCard
+
+Character: PY/S38-096
+Name Horrible Fashion and Weird, Maguro
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Kendama
+Combo I Won~
+Auto: OnAttack
+{
+	If Climax I Won~ && Compare CardsInHand 4 OrMore
+	{
+		*Check4Add1(Puyo)
+	}
+}
+Text Auto: CxCombo When this card attacks if "I Won~" is in your climax area, and there are 4 or more cards in your hand, look at up to 4 cards from the top of your deck, choose up to 1 <Puyo> character from amongh them, put it into your hand, and put the rest into the waiting room.
+EndCard
+
+Character: PY/S38-097
+Name Start of an Expriement, Risukuma-Senpai
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Puyo
+Trait2 Science
+Combo Experiment is a Great Success
+*EarlyPlayInClock(Risukuma-Senpai)
+Auto: OnSpecificClimaxPlay Experiment is a Great Success
+{
+	If InLocation CenterStage
+	{
+		SearchDeck HasTrait Puyo
+	}
+}
+Text Auto: CxCombo When "Experiment is a Great Success" is placed in your climax area, if this card is on your center stage, search your deck for up to 1 <Puyo> character, and put it into your hand.
+EndCard
+
+Character: PY/S38-098
+Name Full of Curiosity, Ringo
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Puyo
+Trait2 Science
+Combo It's Perfect
+*OnPlayDraw2Discard1
+*GainPowerWhenOtherAttacks(1000,Puyo)
+Auto: OnDamageCancel
+{
+	If Climax It's Perfect && InBattle && MyTurn
+	{
+		PayCost 4 SendSelf Memory
+		{
+			Message Choose a character to place on your stage.
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [(4) Put this card into your memory] When damage dealt by this attacking character is canceled, if "It's Perfect" is in your climax area, you may pay the cost, if you do, choose a character in your waiting room, and put it in the stage position this card was on.
+EndCard
+
+Character: PY/S38-099
+Name Ringo's Childhood Friend, Maguro
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Kendama
+Cont: GiveSelf
+{
+	If Compare MarkersUnderThis 2 OrMore
+	{
+		GainEffect
+		{
+			*1000Assist
+		}
+	}
+}
+Text Cont: If there are 2 or more markers underneath this card, this card gets "Cont: ASSIST Your characters in front of this card get +1000 power."
+Auto OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+Act: RestSelf
+{
+	If Compare MarkersUnderThis 1 OrLess
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Blue Puyo
+		FirstTarget
+		RevealTargets
+		Marker_FaceDown
+	}
+}
+Text Act: [Rest this card] If there are 1 or less markers underneath this card, choose a "Blue Puyo" in your waiting room, and put it face-down underneath this card as a marker.
+EndCard
+
+Character: PY/S38-100
+Name Harpy
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Angel
+*GainPowerWhenOtherAttacks(1000,Puyo)
+EndCard
+
+Character: PY/S38-101
+Name Time Traveler, Ecolo
+Color B
+Level 1
+Cost 1
+Power 6000
+Trait1 Puyo
+Trait2 Mystery
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Puyo
+	{
+		GainPower 1500
+		GainLevel 1
+	}
+}
+Text Cont: If you have 2 or more other <Puyo> characters, this card gets +1 level and +1500 power.
+EndCard
+
+Character: PY/S38-102
+Name Brilliant Mind, Ringo
+Color B
+Level 1
+Cost 1
+Power 6500
+Trait1 Puyo
+Trait2 Science
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	GainLevel X
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each marker underneath this card, this card gets +1 level and +1000 power.
+Auto: OnReverseOpponent
+{
+	If OnStage
+	{
+		Question Put a "Blue Puyo" underneath this card as a marker.
+		If Yes
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals Blue Puyo
+			FirstTarget
+			RevealTargets
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may choose a "Blue Puyo" in your waiting room, and put it face-down underneath this card as a marker.
+Auto: OnGainMarker
+{
+	If Compare MarkersUnderThis 4 OrMore
+	{
+		If OnStage
+		{
+			MoveCard Stock
+		}
+		Message Choose a character to place on stage.
+		SearchLocationForTargets Hand 0 1 HasTrait Puyo
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: When a card is placed underneath this card as a marker, if there are 4 or more markers underneath this card, put this card into your stock. Choose up to 1 <Puyo> character in your hand, and put it on any position of your stage rested.
+EndCard
+
+Character: PY/S38-103
+Name Minotauros
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Puyo
+Trait2 Animal
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLower
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other level 0 or lower characters.
+EndCard
+
+Character: PY/S38-104
+Name Ecolo
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Puyo
+Trait2 Mystery
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: For each marker underneath this card, this card gets +1500 power.
+Auto: OnReverseOpponent
+{
+	If Compare MarkersUnderThis 4 OrMore
+	{
+		TargetMarkersUnderTargets
+		MoveCard WaitingRoom
+		TargetBattleOpponent
+		IfTarget OnStage
+		{
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there are 4 or more markers underneath this card, put all markers from underneath this card into the waiting room, and put this card's battle opponent into your opponent's clock.
+Act: MarkerOtherUnderThis 1 NameEquals Blue Puyo
+{
+	GainSoul 1
+}
+Text Act: [Put a "Blue Puyo" from your stage underneath this card as a marker] This card gets +1 soul until end of turn.
+EndCard
+
+Character: PY/S38-105
+Name Blue Puyo
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Army
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation CenterStage && NameEquals Blue Puyo
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Blue Puyo" on your center stage.
+EndCard
+
+Character: PY/S38-106
+Name Seriri
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Mermaid
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Puyo
+	{
+		GainPower 1000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 2
+Quick
+Text Auto: Up to twice per turn, when another <Puyo> character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+Act: Discard 1 IsClimax
+{
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent becomes reversed, draw up to 1 card.
+	}
+}
+Text Act: [Discard a climax] This card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, draw up to 1 card."
+EndCard
+
+Character: PY/S38-107
+Name Maguro
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Puyo
+Trait1 Kendama
+EndCard
+
+Character: PY/S38-108
+Name Skeleton T
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Puyo
+Trait2 Tea
+*CannotSideAttack
+EndCard
+
+Character: PY/S38-109
+Name Hard to Read, Ecolo
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Puyo
+Trait2 Mystery
+EndCard
+
+Character: PY/S38-110
+Name I Love You, Risukuma-Senpai
+Color B
+Level 1
+Cost 0
+Power 6000
+Trait1 Puyo
+Trait2 Science
+*CannotAttackHigherLevel
+*HandEncore
+EndCard
+
+Character: PY/S38-111
+Name Many Interests, Maguro
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Puyo
+Trait2 Kendama
+Backup 3000
+EndCard
+
+Character: PY/S38-112
+Name Ringo
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Puyo
+Trait2 Science
+*Level3Assist
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		TargetLocation Stage
+		NarrowTargets NameEquals Brilliant Mind, Ringo
+		ChooseCharacterFromTargets Choose a character to place marker under.
+		SaveTargets
+		TargetTop Deck 1
+		MarkerTargetsUnderSavedTarget_FaceDown
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your "Brilliant Mind, Ringo" and put the top card of your deck face-down underneath that character as a marker.
+Act: 2 RestSelf
+{
+	*OptionalDraw
+	*OptionalDraw
+	Discard 1 Any
+}
+Text Act: [(2) Rest this card] Draw up to 2 cards, then discard a card.
+EndCard
+
+Character: PY/S38-113
+Name Lagnus
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 10000
+Trait1 Puyo
+Trait2 Hero
+EndCard
+
+Event: PY/S38-114
+Name Cancel
+Color B
+Level 2
+Cost 1
+Counter
+Requirement LocationContains WaitingRoom 2 IsClimax
+Effect:
+{
+	ForcePayCost Discard 1 IsClimax
+	{
+		TargetBattleOpponent
+		NarrowTargets CanBeChosen
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotDealDamage
+			}
+			Text Cont: This card cannot deal damage to players.
+		}
+	}
+}
+Text Counter: If there are 1 or less climax in your waiting room, this card cannot be played from your hand.\nDiscard a climax, if you do, choose a character in battle, it gets the following ability until end of turn. "Cont: This card cannot deal damage to players."
+EndCard
+
+Event: PY/S38-115
+Name Nuisance Puyo
+Color B
+Level 3
+Cost 0
+Effect
+{
+	ForcePayCost Discard 4 NameEquals Blue Puyo
+	{
+		Message Put up to 2 cards from the top of your oppoennt's deck into the waiting room.
+		MillUpTo OpponentDeck 2
+		Message Choose up to 8 cards to return to your opponent's deck.
+		SearchLocationForTargets OpponentWaitingRoom 0 8 Any
+		RevealTargets
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Discard 4 Blue Puyo, if you do, put up to 2 cards from the top of your opponent's deck into the waiting room, and choose up to 8 cards in your opponent's waiting room, return them to your opponent's deck, and your opponent shuffles their deck.
+EndCard
+
+Climax: PY/S38-116
+Name It's Perfect
+*GateClimax
+EndCard
+
+Climax: PY/S38-117
+Name This Is Fun
+Color B
+*DrawClimax
+EndCard
+
+Climax: PY/S38-118
+Name I Won~
+*BlueStockSoul
+EndCard
+
+Climax: PY/S38-119
+Name Experiment is a Great Success
+*BookClimax
+EndCard
+
+Character: PY/S38-T01
+Name Rulue
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Love
+Cont: GiveAll
+{
+	If Other && NameEquals Satan
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Satan" get +1000 power.
+*500Assist
+EndCard
+
+Character: PY/S38-T02
+Name Draco Centauros
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Puyo
+Trait2 Fang Tooth
+EndCard
+
+Character: PY/S38-T03
+Name Satan
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Horn
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Puyo
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Puyo> characters, this card gets +1000 power.
+*HandEncore
+EndCard
+
+Character: PY/S38-T04
+Name Schezo
+Color Y
+Level 1
+Cost 1
+Power 7000
+Trait1 Puyo
+Trait2 Weapon
+EndCard
+
+
+Character: PY/S38-T05
+Name Witch Apprentice, Witch
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Puyo
+Trait2 Magic
+Backup 3000
+EndCard
+
+
+
+Character: PY/S38-T06
+Name Loves Adventuring, Arle
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Puyo
+Trait2 Magic
+*LevelAssist
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Puyo
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+	SaveTargets
+	TargetLocation Stage
+	NarrowTargets SameNameAsSavedTarget && Not InSavedTargets
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Act: [(1) Rest this card] Choose 1 of your <Puyo> characters, it gets +1 soul until end of turn. Choose one of your other characters with the same name, it gets +1 soul until end of turn.
+EndCard
+
+Character: PY/S38-T07
+Name Suketoudara
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Puyo
+Trait2 Dance
+*GainPowerWhenOtherAttacks(1000,Puyo)
+EndCard
+
+Character: PY/S38-T08
+Name Carbuncle with Arle
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Puyo
+Trait2 Mystery
+*Healer
+*OnPlayGainPowerForEach(500,Puyo)
+EndCard
+
+Climax: PY/S38-T09
+Name Great Victory!
+*YellowStockSoul
+EndCard
+
+Character: PY/S38-T10
+Name Gogotte
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Cook
+*500Assist
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Puyo
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a <Puyo> character in your waiting room, and return it to your hand.
+EndCard
+
+
+Character: PY/S38-T11
+Name Unrivaled Energy, Amitie
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Trait2 Hat
+*OnPlayScry
+*RedLevel0Bomb
+EndCard
+
+
+Character: PY/S38-T12
+Name Sig
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Puyo
+Trait2 Bug
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher
+	{
+		If OnStage
+		{
+			Question_Obvious Put "Sig" into your stock?
+			If Yes
+			{
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed, reveal the top card of your deck. If it is level 1 or higher, you may put this card into your stock.
+EndCard
+
+Character: PY/S38-T13
+Name Rider
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Puyo
+Trait2 Horn
+*DropSearch(Puyo)
+EndCard
+
+Character: PY/S38-T14
+Name Actually Works Hard, Raffine
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Puyo
+Trait2 Heiress
+EndCard
+
+Character: PY/S38-T15
+Name Student of Primp Magic School, Klug
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Book
+Combo Realization
+Auto: OnAttack
+{
+	If Climax Realization
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 0 OrLower
+			ChooseCharacterFromTargets Choose a character to send to the waiting room.
+			MoveCard OpponentWaitingRoom
+			TargetSelf
+			GainPower 2000
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Realization" is in your climax area, you may pay the cost. If you do, choose 1 of your opponent's level 0 or lower characters, put it into the waiting room, and this card gets +2000 power until end of turn.
+EndCard
+
+Character: PY/S38-T16
+Name Tarutaru
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Puyo
+Trait2 Titan
+EndCard
+
+Character: PY/S38-T17
+Name Primp Magic School, Miss Accord
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Puyo
+Trait2 Teacher
+*GlobalPower(1000,Puyo)
+EndCard
+
+Event: PY/S38-T18
+Name Primp Magic School
+Color R
+Level 2
+Cost 1
+Effect
+{
+	SearchWaitingRoom IsCharacter
+	Brainstorm 3
+	TargetBrainstormed
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text BRAINSTORM Choose a character in your waiting room, and return it to your hand. Flip over 3 cards from the top of your deck, and put them into the waiting room. If one or more climax was revealed, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Climax: PY/S38-T19
+Name Realization
+*DoorClimax
+EndCard
+
+Character: PY/S38-121
+Name Yellow Papyrus
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Animal
+Auto: OnPlay
+{
+	Message Reorder the top 2 cards of your opponent's deck.
+	TargetTop OpponentDeck 2
+	Reorder
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your opponent's deck, and return them in any order.
+EndCard
+
+Character: PY/S38-122
+Name Green Papyrus
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Puyo
+Trait2 Animal
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Character: PY/S38-123
+Name Red Papyrus
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Puyo
+Trait2 Animal
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a character in your waiting room, whose level is less than or equal to your level, and return it to your hand.
+*OnAttackGiveOtherPower(1000,Puyo)
+EndCard
+
+Character: PY/S38-124
+Name Blue Papyrus
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Puyo
+Trait2 Animal
+Auto: OnPlay
+{
+	Message Reorder the top 2 cards of your deck.
+	TargetTop Deck 2
+	Reorder
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and return them in any order.
+EndCard
+
+Character: PY/S38-P01
+Name Magician's Egg, Arle
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Puyo
+Trait2 Magic
+*OnAttackGivePowerTimesSoul
+EndCard
+
+Character: PY/S38-P02
+Name Rebounded Puyo, Amitie
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Puyo
+Trait2 Hat
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Puyo
+	{
+		GainPower 500
+		GainLevel 1
+	}
+}
+Text Cont: If you have 2 or more other <Puyo> characters, this card gets +1 level and +500 power.
+EndCard
+
+
+
+
+
+
+

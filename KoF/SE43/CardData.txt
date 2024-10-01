@@ -1,0 +1,1354 @@
+Character: KF/SE43-01
+Name Clark Steel
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Glasses
+Trait2 Army
+*OnAttackCheck2ChooseTrigger
+*GreenLevel0Bomb
+EndCard
+
+Character: KF/SE43-02
+Name Nameless
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Clone
+Trait2 Modification
+Auto: StartClimaxPhase
+{
+	Peek OpponentDeck 1
+	EndPeek
+}
+Text Auto: At the start of your climax phase, you may look at the top card of your opponent's deck.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power and the ability
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			TargetBattleOpponent
+			If OnStage
+			{
+				Question Put this card's battle opponent into your opponent's stock?
+				If Yes
+				{
+					MoveCard OpponentStock
+					TargetBottom OpponentStock
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}	
+Text Act: [Rest this card] Choose a character to gain +1000 power and the following ability. "Auto: When this card's battle opponent is reversed, you may send that character to your opponent's stock. If you do, send the bottom card of your opponent's stock to their waiting room."
+EndCard
+
+Character: KF/SE43-03
+Name Ralf Jones
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Army
+Auto: OnPlay
+{
+	If StageContains 3 Other
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 3 or more other characters, you may draw a card. If you do, discard a card.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1Level1OrHigher
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, add it to your hand and put the rest into your waiting room.
+EndCard
+
+Character: KF/SE43-04
+Name Silent Soldier, Leona
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Army
+Trait2 Orochi
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character and add it to your hand.
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: During this card's battle, when the damage you take is cancelled, you may return this card to your hand.
+EndCard
+
+Character: KF/SE43-05
+Name Elizabeth Blanctorche
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Weapon
+Trait2 Animal
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play Events or <b> BACKUP </b> from hand.
+*FreeRunner
+EndCard
+
+Character: KF/SE43-06
+Name Billy Kane
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Weapon
+Trait2 South Town
+*OnAttackGivePower(2500,Any)
+*HandEncore
+EndCard
+
+Character: KF/SE43-07
+Name Mature & Vice
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Orochi
+Trait2 South Town
+*500Assist
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: KF/SE43-08
+Name Goro Daimon
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Hachimaki
+*PowerOnMyTurn(4000)
+Auto: OnDamageCancel
+{
+	If InBattle
+	{
+		Question Send "Goro Daimon" to your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: During this card's battle, when the damage you take is cancelled, you may send this card to your stock.
+EndCard
+
+Character: KF/SE43-09
+Name Bad Charisma, Geese
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 South Town
+Combo Rashoumon
+Auto: OnAttack
+{
+	If StageContains 2 Other
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other characters, this card gains +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Rashoumon && StageContains 2 Other
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 0 OrLess
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to send to your opponent's waiting room
+		MoveCard WaitingRoom
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if you have "Rashoumon" in your climax area, and you have 2 or more other characters, choose up to 1 of your opponent's level 0 or lower characters, send it to their waiting room, and reveal the top card of your deck. If that card is a level 1 or higher card, add it to your hand.
+EndCard
+
+Character: KF/SE43-10
+Name Shen Woo
+Color G 
+Level 2
+Cost 1
+Power 2500
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's <b> BACKUP </b>, you may pay the cost. If you do, return all cards in your waiting room to your deck then shuffle your deck.
+Backup 2500
+EndCard
+
+Character: KF/SE43-11
+Name Goenitz of the Wild Wings
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Orochi
+Trait2 God
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupInBattle
+}
+Text Cont: During this card's battle, all players cannot play <b> BACKUP </b> from their hand.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: KF/SE43-12
+Name Ash Plunderer
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 3000
+Combo Germinal
+Cont: GiveSelf
+{
+	CopyTraitsFrom Other
+	SetXValue TraitsOnThisCard
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gains all traits from all other characters on either player's stage. For each trait this card has, this card gains +1000 power.
+Auto: OnSpecificClimaxPlay Germinal 
+{
+	TargetTop Clock 1
+	If HasTarget
+	{
+		Question Put the top card of your clock into your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+	BlockOpponentEvents
+	BlockOpponentBackup
+}
+Text Auto: CxCombo When "Germinal" is placed into your climax area, put up to one card from the top of your clock into your stock, and your opponent may not use events or backup from hand until the end of turn.
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	MoveCard OpponentMemory
+}
+Text Auto: When this card's battle opponent becomes reversed, send that character to your opponent's memory.
+EndCard
+
+Character: KF/SE43-13
+Name Cold Assassin, Hiedern
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Army
+Trait2 Eye Patch
+*PowerOnMyTurn(2000)
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Message Choose a climax in your waiting room and return it to your hand
+		SearchLocationForTargets WaitingRoom 1 1 IsClimax
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 climax in your waiting room and return it to your hand.
+EndCard
+
+Climax: KF/SE43-14
+Name Rashoumon
+*BarClimax
+EndCard
+
+Climax: KF/SE43-15
+Name Germinal
+Color G
+*2SoulClimax
+EndCard
+
+Character: KF/SE43-16
+Name Successor of Powerful Flames, Kyo
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Relics
+Trait2 Sun
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TotalLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+	}
+}	
+Text Auto: [Put 1 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: [Discard a card] When this card attacks, you may pay the cost, perform the trigger check twice during this attack.
+EndCard
+
+Character: KF/SE43-17
+Name Shermie
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Orochi
+Trait2 Music
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				*Scry
+			}
+			Text Auto: When this card attacks, look at the top card of your deck and put it on top of your deck or into your waiting room.
+		}
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gains +500 power and the following ability. "Auto: When this card attacks, look at the top card of your deck and put it on top of your deck or into your waiting room."
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Door
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power and the ability
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				TargetLocation OpponentClock
+				If HasTarget
+				{
+					TargetBattleOpponent
+					IfThatCard OnStage
+					{
+						Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+						If Yes
+						{
+							TargetTop OpponentClock 1
+							MoveCard OpponentWaitingRoom
+							TargetBattleOpponent
+							MoveCard OpponentClock
+						}
+					}
+				}
+			}
+			Quick
+			Text Auto: When this card becomes reversed, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into your opponent's clock.
+		}
+	}
+}
+Text Auto: When a climax with a <b> DOOR </b> trigger is placed into your climax area, choose 1 of your characters and it gains +1000 power and the following ability until end of turn. "Auto: When this card becomes reversed, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into your opponent's clock."
+EndCard
+
+Character: KF/SE43-18
+Name Andy Bogard
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Ninja
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsCost 0 OrLower
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, choose 1 cost 0 or lower character in your opponent's center stage, and put it into their waiting room.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the start of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: KF/SE43-19
+Name Iori Yagami
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Orochi
+Trait2 Relics
+*OnPlayGainPower(1500)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: KF/SE43-20
+Name Benimaru Nikaidou
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Narcisscist
+*OnPlayReorderTop2
+*ClimaxExchange
+EndCard
+
+Character: KF/SE43-21
+Name Eiji Kisaragi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Ninja
+Trait2 Weapon
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+}
+Text Auto: When a climax is placed into your climax area, choose 1 of your characters and it gains the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: KF/SE43-22
+Name Joe Higashi
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Hachimaki
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have 2 or more other characters, this card gains +3000 power.
+Auto: OnOtherFrontalAttacked
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetOther
+		Bounce
+	}
+}
+Text Auto: [(1) Put this card in your waiting room] When your other character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: KF/SE43-23
+Name Yoshiro Nanakase
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Orochi
+Trait2 Music
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupOnAttack
+}
+Text Cont: During this card's battle, your opponent cannot play <b> BACKUP </b> from their hand.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: KF/SE43-24
+Name Gorgeous Female Ninja, Mai
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Fan
+Trait2 Ninja
+Cont: GiveSelf
+{
+	If StageContains 3 Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 3 or more other characters, this card gains +1000 power.
+Auto: OnAttack
+{
+	If Climax Hana Arashi
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card attacks, if you have "Hana Arashi" in your climax area, mill 2 then choose up to 1 level X or lower character in your waiting room, and add it to your hand and this card gains +1000 power until end of turn. X is equal to the total level of the cards put into your waiting room by this effect.
+EndCard
+
+Character: KF/SE43-25
+Name Sealed One, Iori
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Orochi
+Trait2 Relics
+Cont: GiveSelf
+{
+	If StageContains 3 Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 3 or more othre characters, this card gains +1000 power.
+Auto: OnAttack
+{
+	If Climax Trinity Two && StageContains 3 Other
+	{
+		*Check4Add1Level1OrHigher
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card attacks, if you have "Trinity Two" in your climax area, and you have 3 or more other characters, look at up to 4 cards from the top of your deck, choose up to level 1 or higher from among them, add it to your hand and this card gains +1000 power.
+EndCard
+
+Character: KF/SE43-26
+Name Free Agent, Mary
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Animal
+*MemoryBackup
+Backup 2000
+EndCard
+
+Character: KF/SE43-27
+Name Omega Rugal
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Orochi
+Trait2 South Town
+*PowerOnMyTurn(10000)
+EndCard
+
+Character: KF/SE43-28
+Name Prince of Flames, Kyo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Relics
+Trait2 Sun
+*LevelAssist
+Auto: StartClimaxPhase
+{
+	If Compare MyLevel 3 OrMore
+	{
+		PayCost 1 SendSelf Memory
+		{
+			Message Choose an "Berserking, Iori" to place on stage
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Berserking, Iori
+			Change
+		}
+	}
+}
+Text Auto: [(1) Put this card into your memory] At the start of your climax phase, if you are level 3 or higher, you may pay the cost. If you do, choose 1 "Berserking, Iori" in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: KF/SE43-29
+Name Kyo Kusanagi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Relics
+Trait2 Sun
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to put into your stock
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 of your other characters and put it into your stock.
+EndCard
+
+Character: KF/SE43-30
+Name Terry Board
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Animal
+Combo Buster Wolf
+Cont: GiveSelf
+{
+	If StageContains 3 Other
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If you have 3 or more other characters, this card gains +4000 power.
+Auto: OnAttack
+{
+	If Climax Buster Wolf && StageContains 3 Other
+	{
+		Peek OpponentDeck 2
+		Message Choose up to 2 cards to send to your opponent's waiting room
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard OpponentWaitingRoom
+		EndPeek
+	}
+}
+Text Auto: CxCombo When this card attacks, if you have "Buster Wolf" in your climax area, and you have 3 or more other characters, look at up to 2 cards from the top of your opponent's deck, choose up to 2 cards from among them and put them on top of your opponent's deck in any order, then put the rest into your opponent's waiting room.
+EndCard
+
+Character: KF/SE43-31
+Name Chris
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Orochi
+Trait2 Music
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If StageContains 3 Other
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				PayCost Discard 1 Any
+				{
+					Bounce
+				}
+			}
+			Text Auto: [Discard a card] When this card is frontal attacked, you may pay the cost. If you do, return this card to your hand.
+		}
+	}
+}
+Text Cont: If you have 3 or more other characters, this card gains +1500 power and the following ability. "Auto: [Discard a card] When this card is frontal attacked, you may pay the cost. If you do, return this card to your hand."
+*Healer
+EndCard
+
+Character: KF/SE43-32
+Name Berserking, Iori
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Orochi
+Trait2 Relics
+Auto: OnPlay|PlacedBy Prince of Flames, Kyo
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on stage from your hand or by the effect of "Prince of Flames, Kyo", you may put the top card of your clock into your waiting room.
+Auto: OnOpponentReverse
+{
+	PayCost 4 Send 1 WaitingRoom Other
+	{
+		Burn 4
+	}
+}
+Text Auto: [(4) Put 1 of your other characters in your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 4 damage to your opponent.
+EndCard
+
+Character: KF/SE43-33
+Name Sweeper, Kyo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Relics
+Trait2 Sun
+Combo Flame of Destiny
+*Healer
+Auto: OnAttack
+{
+	If Climax Flame of Destiny
+	{
+		PayCost Discard 1 NameEquals Successor of Powerful Flames, Kyo
+		{
+			MillOpponentBottom 7
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [Discard 1 "Successor of Powerful Flames, Kyo" from your hand] When this card attacks, if you have "Flame of Destiny" in your climax area, you may pay the cost. If you do, put the bottom 7 cards of your opponent's deck into their waiting room and deal X damage to your opponent. X is equal to the number of climax put into your opponent's waiting room by this effect.
+EndCard
+
+Character: KF/SE43-34
+Name Mai Shiranui
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fan
+Trait2 Ninja
+*OnPlayStockSwap(1)
+Auto: OnAttack
+{
+	PayCost 3 Discard 2 Any
+	{
+		Burn 4
+	}
+}
+Text Auto: [(3) Discard 2 cards] When this card attacks, you may pay the cost. If you do, deal 4 damage to your opponent.
+EndCard
+
+Event: KF/SE43-35
+Name Purple Flame and Green Flame
+Color R
+Level 1
+Cost 1
+Counter
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to return to your hand
+	MoveCard Hand
+	TargetLocation OpponentStage
+	OpponentChooseCharactersFromTargets 1 1 Choose a character to return to your hand
+	MoveCard OpponentHand
+}
+Text [Counter] Choose one of your characters and return it to your hand. If you do, your opponent chooses one of their characters and returns it to their hand.
+EndCard
+
+Event: KF/SE43-36
+Name 104 Shiki: Aragami
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck IsClimax
+}
+Text Search your deck for up to 1 climax and add it to your hand.
+EndCard
+
+Event: KF/SE43-37
+Name Japan Team
+Color R
+Level 1
+Cost 2
+Requirement StageContains 1 NameContains Kyo|Benimaru|Goro
+Effect:
+{
+	SearchLocationForTargets WaitingRoom 0 2 IsCharacter
+	RevealTargets
+	MoveCard Hand
+}
+Text If you don't have a character with either "Kyo", "Benimaru", or "Goro" you cannot play this card from your hand.
+Text Choose up to two characters in your waiting room and return them to your hand.
+EndCard
+
+Climax: KF/SE43-38
+Name Hana Arashi
+*DoorClimax
+EndCard
+
+Climax: KF/SE43-39
+Name Trinity Two
+*DoorClimax
+EndCard
+
+Climax: KF/SE43-40
+Name Buster Wolf
+*DoorClimax
+EndCard
+
+Climax: KF/SE43-41
+Name Flame of Destiny
+*DoorClimax
+EndCard
+
+Character: KF/SE43-42
+Name Yuri Sakazaki
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Sports
+Trait2 Chairman
+*OnPlayScry
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: KF/SE43-43
+Name Robert Garcia
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Animal
+Auto: OnAttack
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: When this card attacks, if you have 5 or more cards in your hand, choose 1 of your characters and it gets +2000 power until end of turn.
+*FreeRunner
+EndCard
+
+Character: KF/SE43-44
+Name Gentsai Chin
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Wine
+Cont: GiveSelf
+{
+	If LocationContains WaitingRoom 1 HasTrait Wine
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is a <Wine> character in your waiting room, this card gains +2000 power.
+Act: RestSelf
+{
+	SearchLocationForTargets Deck 0 1 HasTrait Wine|Psychic Ability ||| IsEvent
+	MoveCard WaitingRoom
+	ShuffleLocation WaitingRoom
+}
+Text Act: [Rest this card] Search your deck for up to one card that is a character with <Psychic Ability> or <Wine> or an event and put it into your waiting room and shuffle your deck afterwards.
+EndCard
+
+Character: KF/SE43-45
+Name King
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Male Impersonator
+Trait2 Rose
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 Clock SendSelf Hand
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to return to your hand
+		Bounce
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock and return this card to your hand] At the start of your opponent's attack phase, you may payu the cost. If you do, choose 1 of your other characters and return it to your hand.
+EndCard
+
+Character: KF/SE43-46 
+Name Athena in Sailor Uniform
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Psychic Ability
+Trait2 Music
+Combo Super Phoenix Infinity
+Auto: OnSpecificClimaxPlay Super Phoenix Infinity
+{
+	If StageContains 3 Other
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: CxCombo When "Super Phoenix Infinity" is placed into your climax area, if you have 3 or more other characters, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, add it to your hand and put the rest into your waiting room.
+*Act1SalvageBrainstorm(Any)
+EndCard
+
+Character: KF/SE43-47
+Name Rookie of Ikari Team, Whip
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Army
+Trait2 Clone
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsEvent
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		CheckForEmptyDeck
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to freeze
+	UntilEndOfOpponentsTurn
+	GainSpecialEffect CannotMove
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your opponent's characters and that character gains the following ability until the end of your opponent's turn. "Cont: This card cannot move to other positions."
+EndCard
+
+Character: KF/SE43-48
+Name Kensou Sei
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Psychic Ability
+Trait2 Dragon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose up to 1 "Athena in Sailor Uniform" to place on stage
+		SearchLocationForTargets Deck 0 1 NameEquals Athena in Sailor Uniform && Compare ThatCardsLevel MyLevel OrLess
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Athena in Sailor Uniform" whose level is equal to or lower than your level and place it on any position on your stage.
+EndCard
+
+Character: KF/SE43-49
+Name K'
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Modification
+*PowerOnMyTurn(3000)
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: KF/SE43-50
+Name Athena Asamiya
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Psychic Ability
+Trait2 Music
+*500Assist
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [Discard a card] When your character's trigger check reveals a climax with <b> GATE </b> trigger, you may pay the cost. If you do, choose 1 card from your clock, add it to your hand and put the top card of your deck into your clock.
+EndCard
+
+Character: KF/SE43-51
+Name Ice Beauty, Kula
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Modification
+Trait2 Doll
+Combo Diamond Edge
+Cont: GiveSelf
+{
+	If StageContains 3 Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 3 other characters, this card gains +1000 power.
+Auto: OnSpecificClimaxPlay Diamond Edge
+{
+	If StageContains 3 Other
+	{
+		GainPower 2000
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Text Auto: CxCombo When "Diamond Edge" is placed into your climax area, if you have 3 or more other characters this card gains +2000 power and the following effect. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: KF/SE43-52
+Name Kasumi Toudou
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Hachimaki
+Auto: OnUseAct
+{
+	GainPower 1500
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			TargetTop Deck 1
+			Reveal
+			If Compare TargetCardsLevel 1 OrMore
+			{
+				MoveCard Stock
+			}
+		}
+		Text Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an Act, this card gets +1500 power and the following ability until end of turn. "Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock."
+EndCard
+
+Character: KF/SE43-53
+Name Treasure of the Tae Kwon Do World, Kim
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Teacher
+*OnPlayFlicker
+*BlueEarlyPlayBomb
+EndCard
+
+Character: KF/SE43-54
+Name Tomboy Girl, Yuri
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Sports
+Trait2 Chairman
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Send 1 of your characters from stage to your waiting room] When you use this card's <b> BACKUP </b>, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it into their waiting room.
+Backup 2500
+EndCard
+
+Character: KF/SE43-55
+Name One Who Exceeds K
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Modification
+Combo Crow Bites
+*Level3Assist
+Auto: OnSpecificClimaxPlay Crow Bites
+{
+	If LocationContains WaitingRoom 1 Compare ThatCardsLevel 0 OrLess && IsCharacter
+	{
+		Message Choose up to 1 level 0 or lower character to put into your stock
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+		RevealTargets
+		MoveCard STock
+	}
+}
+Text Auto: CxCombo When "Crow Bites" is placed into your climax area, you may choose 1 level 0 or lower character in your waiting room and put it into your stock.
+EndCard
+
+Character: KF/SE43-56
+Name Ryo Sakazaki
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Dragon
+Auto: OnPlay|PlacedBy CHANGE
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		Refresh
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character
+		PushX //If I have to look at this command again, it'll be too soon ~Riku
+		If HasTarget
+		{
+			IfTarget CanMove
+			{
+				FirstTarget //safety check
+				SaveTargets
+				TargetLocation OpponentStage
+				If Compare TargetCount 5 OrMore
+				{
+					//You can only exchange
+					SetXValue 1
+				}
+				Else
+				{
+					MultipleChoiceQuestion Move to open position, or exchange with another character.|Move|Exchange
+					SetXValue Answer
+				}
+				If Compare X 0 Exactly
+				{
+					//Move to an open position
+					LoadTargets
+					MoveToOpenPosition True True
+					Stand
+				}
+				Else
+				{
+					//Exchange with another card
+					TargetLocation OpponentStage
+					NarrowTargets CanMove && Not InSavedTargets
+					ChooseCharacterFromTargets Choose a character to exchange it with.
+					AddSavedToCurrentTargets
+					Stand
+					Exchange
+				}
+			}
+		}
+		PopX
+	}
+}
+Text Auto: When this card is placed on stage from your hand or via CHANGE, if you have five or less cards in your deck, return all cards in your waiting room to your deck and shuffle your deck. If you do, choose one of your opponent's characters and either stand that character, move it to an open position on your opponent's stage or choose one of your opponent's other characters, then stand and exchange them.
+EndCard
+
+Character: KF/SE43-57
+Name Kula Diamond
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Modification
+Trait2 Doll
+Combo Crow Bites
+Cont: GiveSelf
+{
+	If StageContains 3 Other
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 3 or more other characters, this card gets +2000 power.
+Auto: OnEndOfAttack
+{
+	If Climax Crow Bites
+	{
+		PayCost 3 Discard 1 Any
+		{
+			Peek OpponentDeck 2
+			Message Choose up to 2 cards to send to your opponent's waiting room
+			ChooseCardsFromTargets 0 2 Any
+			MoveCard OpponentWaitingRoom
+			EndPeek
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(3) Discard a card] This ability activates up to once per turn. At the end of this card's attack, if "Crow Bites" is in your climax area and you have 3 or more other characters, you may pay the cost. If you do, look at up to 2 cards from the top of your opponent's deck, choose up to 2 cards from among them, put them on top of your opponent's deck in any order and send the rest to the waiting room, then stand this card.
+EndCard
+
+Character: KF/SE43-58
+Name Angel
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Modification
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your opponent's backstage characters.
+*StockHealer
+EndCard
+
+Event: KF/SE43-59
+Name Psycho Soldier Team
+Color B
+Level 1
+Cost 2
+Requirement LocationContains WaitingRoom 1 NameContains Athena|Kensou|Gentsai && IsCharacter
+Effect:
+{
+	*OptionalHeal
+	*OptionalHeal
+	TargetSelf
+	MoveCard Memory
+}
+Text If you don't have a character with either "Athen", "Kensou", or "Gentsai" in your waiting room, you cannot play this card from your hand.
+Text Put up to two cards from the top of your clock into your waiting room. Send this card to your memory
+EndCard
+
+Event: KF/SE43-60
+Name Continue
+Color B
+Level 3
+Cost 4
+Counter
+Effect:
+{
+	TargetBattleOpponent
+	GainSpecialEffect CannotDealDamage
+	Question Return a character to your hand?
+	If Yes
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your hand.
+		Bounce
+	}
+}
+Text COUNTER Choose 1 character in battle, and that card gains the following ability until end of turn. "Cont: This card cannot deal damage to players."
+Text You may choose 1 of your characters and return that character to your hand.
+EndCard
+
+Climax: KF/SE43-61
+Name Super Phoenix Infinity
+*GateClimax
+EndCard
+
+Climax: KF/SE43-62
+Name Diamond Edge
+*GateClimax
+EndCard
+
+Climax: KF/SE43-63
+Name Crow Bites
+*GateClimax
+EndCard
+
+Character: KF/SE43-P01
+Name Unchained Angel
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Modification
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 character in your waiting room and return it to your hand.
+Act: SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+	Bounce
+}
+Text Act: [Send this card to your waiting room] Choose 1 of your opponent's characters and return it to their hand.
+EndCard
+

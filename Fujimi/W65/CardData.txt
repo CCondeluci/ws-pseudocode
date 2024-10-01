@@ -1,0 +1,2362 @@
+Character: F35/W65-E034
+Name Reason for Being Solitary, Ouka
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to lose -3000 power
+		LosePower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent's center stage has 1 or less characters, choose 1 of your opponent's characters in your opponent's center stage, it gets -3000 power until end of turn.
+*OnAttackMill1PutLevel0OnField
+EndCard
+
+Character: Fab/W65-E025
+Name Acting Manager's Aide, Isuzu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Trait3 Gun
+*EarlyPlay2OrLessClimax
+*GainPowerWithEnoughCharacters(1000,2,Fantasia Bunko|AmaBri)
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Fantasia Bunko|AmaBri
+	{
+		TargetSelf
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				Question_Obvious Put this card's battle opponent into their clock?
+				If Yes
+				{
+					TargetBattleOpponent
+					MoveCard OpponentClock
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock.
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Fantasia Bunko》 or 《AmaBri》 character, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock." 
+EndCard
+
+Character: Fab/W65-E026
+Name First Princess of Maple Land, Latifah
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Trait3 Princess
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: When a climax is placed on your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+Auto: OnLevelUp
+{
+	TargetLocation Marker
+	MoveCard WaitingRoom
+}
+Quick
+Text Auto: When you level up, put all markers underneath this card into your waiting room.
+Act: RestSelf
+{
+	Peek Deck 1
+	Marker_FaceDown
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power for each marker under this card
+	GainPower X
+}
+Text Act: [Rest this card] Look at the top card of your deck, and put it face down underneath this card as a marker. Choose 1 of your characters, it gets +X power until end of turn. X is equal to the number of markers underneath this card ×1000.
+EndCard
+
+Character: Fab/W65-E029
+Name Fairy of Water, Muse
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Trait3 Music
+*BackupBonus1000(Fantasia Bunko|AmaBri)
+Backup 1000
+EndCard
+
+Character: Fab/W65-E032
+Name First Time at a School Festival, Isuzu & Latifah
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Combo Welcome to Amagi Brilliant Park!
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Fantasia Bunko|AmaBri
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Fantasia Bunko|AmaBri)
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Fantasia Bunko》 or 《AmaBri》 characters, this card gets +1500 power, and "Auto: ENCORE [Put 1 《Fantasia Bunko》 or 《AmaBri》 character from your hand into your waiting room]".
+Auto: OnAttack
+{
+	If Climax Welcome to Amagi Brilliant Park!
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Fantasia Bunko|AmaBri
+		MoveCard Stock
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Fantasia Bunko|AmaBri
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Welcome to Amagi Brilliant Park!" is in your climax area, choose up to 1 《Fantasia Bunko》 or 《AmaBri》 character in your waiting room, put it into your stock, and reveal the top card of your deck. If that card is a 《Fantasia Bunko》 or 《AmaBri》 character, put it into your hand. 
+EndCard
+
+Character: Fab/W65-E036
+Name The Four Girls of "Elementario", Muse/Salama/Sylphy/Kobory
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Trait3 Music
+Auto: OnPlay
+{
+	Question Put the top card of your opponent's deck into the waiting room and replace it with a card from their waiting room?
+	If Yes
+	{
+		TargetTop OpponentStock 1
+		MoveCard OpponentWaitingRoom
+		SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+		MoveCard OpponentStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your opponent's stock into your opponent's waiting room. If you do, choose 1 card in your opponent's waiting room, and put it into his or her stock.
+*OnAttackGiveOtherPower(1000,Fantasia Bunko|AmaBri)
+*StockOnCancel
+Act: 1
+{
+	GainSoul 1
+}
+Text Act: [(1)] This card gets +1 soul until end of turn.
+EndCard
+
+Climax: Fab/W65-E040
+Name Welcome to Amagi Brilliant Park!
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom Compare ThatCardsLevel MyLevel OrLess
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to two characters to gain +1 soul
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character in your waiting room with level equal to or lower than your level, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Character: Fdd/W65-E043
+Name Girl of Healing, Asia
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Monk
+Combo First Friend
+*GlobalPower(1500,Fantasia Bunko|Demon)
+Cont: GiveAll
+{
+	If Climax First Friend
+	{
+		GainPower 1500
+	}
+}
+Text Cont: CxCombo If "First Friend" is in your climax area, all of your characters get +1500 power.
+*Healer
+EndCard
+
+Character: Fdd/W65-E044
+Name Red-Haired Ruin Princess, Rias
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 King
+*GiveMiddlePower(500,Any)
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals Believing in the Same Dream
+	}
+}
+Text Auto: [(1)] When a climax is placed on your climax area, you may pay the cost. If you do, choose 1 "Believing in the Same Dream" in your waiting room, and return it to your hand.
+EndCard
+
+Character: Fdd/W65-E048
+Name The Ultimate S, Akeno
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Queen
+*OthersCannotSideAttack
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: Fdd/W65-E049
+Name Reward Time, Rias
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 King
+Auto: OnUseAct
+{
+	TargetSelf
+	GainEffect
+	{
+		*OnReverseBlindStock
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an Act: ability, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: Fdd/W65-E052
+Name Devilish Smile, Rias
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 King
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 Compare ThatCardsLevel MyLevel OrLess
+	PlaceOnStage False True True False
+	GainSoul 1
+	GainTrait Demon
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character in your hand with level equal to or lower than your level, put it on any position of your stage, it gets +1 soul and 《Demon》 until end of turn.
+*OnAttackGainPowerForEachOther(1000,Fantasia Bunko|Demon)
+EndCard
+
+Character: Fdd/W65-E054
+Name Cross-Dressing Half-Vampire, Gasper
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Monk
+*OnOtherAttackedSacrificeToGivePower(1000,Fantasia Bunko|Demon)
+Act: 2 RestSelf
+{
+	SearchWaitingRoom IsCharacter
+}
+Text Act: [(2) Rest this card] Choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: Fdd/W65-E056
+Name Quiet White Cat, Koneko
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Tank
+*OnPlayScry
+*RedLevel1Bomb
+EndCard
+
+Character: Fdd/W65-E059
+Name Silver-Haired Former Valkyrie, Rossweisse
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Tank
+*OnOtherAttackedSacrificeToGivePower(3000,Fantasia Bunko|Demon)
+*RedEarlyPlayBomb
+EndCard
+
+Character: Fdd/W65-E060
+Name Master-and-Servant Relationship, Rias & Issei
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Soldier
+*OnAttackGivePower(2500,Any)
+EndCard
+
+Character: Fdd/W65-E062
+Name Gigantis Dragon's Contractor, Asia
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Monk
+Auto: OnPlay
+{
+	Question Put a card from your hand into your stock?
+	If Yes
+	{
+		SearchLocationForTargets Hand 0 1 Any
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+*NoEncoreIfReversed
+EndCard
+
+Character: Fdd/W65-E064
+Name Holy Sword User, Xenovia
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Knight
+*OthersCannotSideAttack
+*OnPlayMill2GainPowerForEachCharacter(1000,Fantasia Bunko|Demon)
+EndCard
+
+Character: Fdd/W65-E065
+Name Swift Sword Skills, Yuuto
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 Knight
+Backup 2500
+EndCard
+
+Event: Fdd/W65-E068
+Name Believing in the Same Dream
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Fantasia Bunko|Demon && Compare ThatCardsLevel X OrLess
+}
+Text Put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Fantasia Bunko》 or 《Demon》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Climax: Fdd/W65-E071
+Name First Friend
+Color R
+*StandbyClimax
+EndCard
+
+Character: Fdy/W65-E035
+Name Journey to Find "Relics of a Legendary Hero", Ryner & Ferris
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Clock 1 1 HasTrait Fantasia Bunko|Magic
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Fantasia Bunko》 or 《Magic》 character in your clock, return it to your hand, and put the top card of your deck into your clock.
+*OnAttackCheck2ChooseTrigger
+EndCard
+
+Character: Ffp/W65-E023
+Name High School Girl from Jindai High, Kaname
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Whispered
+Trait3 Honor Student
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		SearchLocationForTargets Deck 0 1 Compare ThatCardsCost 0 OrLess &&& HasTrait Fantasia Bunko|Whispered
+		PlaceOnStage False True True True
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into the waiting room from your stage, you may pay the cost. If you do, search your deck for up to 1 cost 0 or lower 《Fantasia Bunko》 or 《Whispered》 character, put it on any postion of your stage as resting, and shuffle your deck.
+EndCard
+
+Character: Ffp/W65-E028
+Name Tuatha de Danaan's Captain, Teresa
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Mithril
+Trait3 Whispered
+Combo Beginning of the Battle
+*Healer
+Auto: OnSpecificClimaxPlay Beginning of the Battle
+{
+	If InLocation CenterStage &&& StageContains 4 Other && HasTrait Fantasia Bunko|Mithril
+	{
+		*CheckTopXOfOpponentDeckSendAny(3)
+	}
+}
+Text Auto: CxCombo When "Beginning of the Battle" is placed on your climax area, if this card is on your center stage, and you have 4 or more other 《Fantasia Bunko》 or 《Mithril》 characters, look at up to 3 cards from the top of your opponent's deck, choose up to three cards from among them, put them into your opponent's waiting room, return the rest to your opponent's deck, and your opponent shuffles his or her deck.
+EndCard
+
+Character: Ffp/W65-E030
+Name Call Sign Urzu-7, Sousuke
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Fantasia Bunko
+Trait2 Mithril
+Trait3 Weapon
+*OnPlayGainPowerForEach(500,Fantasia Bunko|Mithril)
+EndCard
+
+Character: Ffp/W65-E031
+Name ARX-8 Laevatein
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Mithril
+Trait3 Arm Slave
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 8500
+		If InBattle
+		{
+			GainSpecialEffect ReceiveNoDamageFromAutoEffects
+		}
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +8500 power and the following ability. "Cont: During this card's battle, you cannot receive damage by Auto: effects of your opponent's characters."
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Call Sign Urzu-7, Sousuke
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Call Sign Urzu-7, Sousuke" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Climax: Ffp/W65-E041
+Name Beginning of the Battle
+*BarClimax
+EndCard
+
+Character: Fhc/W65-E090
+Name Coffin-Carrying Wizard, Chaika
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Death
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Fantasia Bunko|Magic
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Fantasia Bunko》 or 《Magic》 character in your waiting room, and return it to your hand.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is a level 0 or lower character, put it into your hand. 
+EndCard
+
+Character: Fii/W65-E072
+Name Sibling Affection, Suzuka
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Novel
+Trait3 Brocon
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Quick
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Fantasia Bunko|Novel)
+EndCard
+
+Character: Fii/W65-E082
+Name Towano Chikai's Rival, Mai
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Novel
+Trait3 Rival
+*OnPlayDraw2Discard2BlindStock
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fantasia Bunko|Novel
+	SetXValue TargetCount
+	MultiplyXValue 500
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your <Fantasia Bunko> or <Novel> characters, it gets +X power for the turn where X is 500 times the number of <Fantasia Bunko> or <Novel> characters you have.
+EndCard
+
+Character: Fii/W65-E085
+Name Interview for Valentine? Suzuka
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Novel
+Trait3 Brocon
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Stock 2 Any
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 0 OrLess && IsCharacter
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a level 0 or lower character among those cards, this card's soul does not decrease by side attacking until end of turn.
+EndCard
+
+Character: Fii/W65-E087
+Name Blushing Younger Sister, Suzuka
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Fantasia Bunko
+Trait2 Novel
+Trait3 Brocon
+Combo Love Story of the "Princess"
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Fantasia Bunko|Novel
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Fantasia Bunko》 or 《Novel》 character, this card gets +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If Climax Love Story of the "Princess"
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Fantasia Bunko|Novel
+		MoveCard Stock
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +3000 power
+		GainPower 3000
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Love Story of the "Princess"" is in your climax area, choose up to 1 《Fantasia Bunko》 or 《Novel》 character in your waiting room, put it into your stock, choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: Fii/W65-E096
+Name Illustrator from United Kingdom, Ahegao W Peace Sensei
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Fantasia Bunko
+Trait2 Glasses
+Trait3 Cosplay
+Auto: OnPlay
+{
+	TargetTop OpponentDeck 1
+	SaveTargets
+	SetXValue TargetCardsLevel
+	TargetTop Deck 1
+	AddCurrentToSavedTargets
+	LoadTargets
+	Reveal
+}
+Text Auto: When this card is placed on the stage from your hand, all players reveal the top card of their deck. If your card revealed by this effect has level equal to or higher than your opponent's card revealed by this effect, you may choose 1 of your opponent's level 2 or lower characters, and put it into his or her waiting room. 
+EndCard
+
+Climax: Fii/W65-E105
+Name Love Story of the "Princess"
+*GateClimax
+EndCard
+
+Character: Fkm/W65-E095
+Name Magical Cannon Swordsman-in-Training, Misora
+Color B
+Level 1
+Cost 1
+Power 6500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Weapon
+*CannotSideAttack
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each marker underneath this card.
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any
+	{
+		Peek Deck 1
+		Marker_FaceDown
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card becomes reversed in battle, you may pay the cost. If you do, look at the top card of your deck, put it face down underneath this card as a marker, and Rest this card.
+EndCard
+
+Character: Fks/W65-E015
+Name Ice Witch, Aliceliese
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 Royalty
+Trait3 Ice
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 1 OrLess
+	ChooseCharacterFromTargets Choose a character to not stand next stand phase
+	DontStand
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's level 1 or lower characters. That character cannot Stand during your opponent's next stand phase.
+EndCard
+
+Character: Fkz/W65-E002
+Name Tsundere Magical Arms Girl, Haruna
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Trait3 Magical Arms Girl
+Combo Absurd Daily Life
+*StockHealer
+Auto: OnAttack
+{
+	If Climax Absurd Daily Life
+	{
+		PayCost 3
+		{
+			Burn 4
+		}
+	}
+}
+Text Auto: CxCombo [(3)] When this card attacks, if "Absurd Daily Life" is in your climax area, you may pay the cost. If you do, deal 4 damage to your opponent. 
+EndCard
+
+Character: Fkz/W65-E003
+Name Silver-Haired Necromancer, Eu
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Trait3 Death
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfReviveBrainstorm
+EndCard
+
+Character: Fkz/W65-E005
+Name Many Different Festivals, Eu
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Trait3 Death
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsColor Yellow && IsClimax
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed into your waiting room from the stage, look at up to 4 cards from the top of your deck, choose up to 1 yellow climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: Fkz/W65-E006
+Name Vampire Ninja, Sera
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Fantasia Bunko
+Trait2 Shinobi
+Trait3 Blood
+Combo Solid Situation Panic
+Auto: OnOpponentReverse
+{
+	If Climax Solid Situation Panic
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Solid Situation Panic" is in your climax area, put up to 1 card from the top of your deck into your stock, and reveal the top card of your deck. If that card is level 1 or higher, put it into your hand. 
+EndCard
+
+Character: Fkz/W65-E007
+Name Healthy Outdoorsy Girl, Tomonori
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Shinobi
+Trait3 Blood
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Fantasia Bunko|Shinobi
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each of your other 《Fantasia Bunko》 or 《Shinobi》 characters in your back stage.
+EndCard
+
+Character: Fkz/W65-E008
+Name Broken Heart Magnum, Haruna
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Trait3 Magical Arms Girl
+*GiveAllOpponentsEncore2
+EndCard
+
+Character: Fkz/W65-E011
+Name Ideal Way to Awake, Sera
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fantasia Bunko
+Trait2 Shinobi
+Trait3 Blood
+*OnAttackGainPowerForEachOther(1000,Fantasia Bunko|Shinobi)
+EndCard
+
+Character: Fkz/W65-E012
+Name Wide-Open Shirt, Eu
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Trait3 Death
+Cont: InHand
+{
+	If LocationContainsOrLess Deck 5 Any
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your deck has 5 or less cards, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Fantasia Bunko|Weapon
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other 《Fantasia Bunko》 or 《Weapon》 characters.
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Fantasia Bunko|Weapon
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Fantasia Bunko》 or 《Weapon》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: Fkz/W65-E014
+Name Top Student of the Academic Year, Taeko
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Honor Student
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax revealed among those cards, this card gets +2 soul until end of turn.
+*OnAttackGiveOtherPower(1000,Fantasia Bunko)
+EndCard
+
+Character: Fkz/W65-E016
+Name Creepy in a Cute Way, Ayumu
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Fantasia Bunko
+Trait2 Magical Arms Girl
+Trait3 Death
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets Hand 0 1 Compare ThatCardsLevel MyLevel OrLess
+	Change
+}
+Text Act: [(1) Put this card into your waiting room] Choose up to 1 character in your hand with level equal to or lower than your level, and put it on the stage position that this card was on.
+EndCard
+
+Character: Fkz/W65-E018
+Name Dual-Personality Vampire Ninja, Saras
+Color Y
+Level 1
+Cost 0
+Power 6500
+Trait1 Fantasia Bunko
+Trait2 Shinobi
+Trait3 Blood
+Cont: GiveAll
+{
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			TargetSelf
+			MoveCardToBottom Deck
+		}
+		Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+	}
+}
+Text Cont: All of your characters get the following ability. "Auto: When this card becomes reversed in battle, put this card at the bottom of your deck."
+EndCard
+
+Event: Fkz/W65-E019
+Name No Coming in Between
+Color Y
+Level 3
+Cost 4
+Counter
+Effect:
+{
+	TargetLocation OpponentStage
+	ChooseCharactersFromTargets 0 2 Choose up to two characters to lose 2 soul
+	LoseSoul 2
+	TargetSelf
+	MoveCard Memory
+}
+Text Counter: Choose up to 2 of your opponent's characters, and those characters get -2 soul until end of turn. Put this card into your memory.
+EndCard
+
+Climax: Fkz/W65-E020
+Name Absurd Daily Life
+*WindClimax
+EndCard
+
+Climax: Fkz/W65-E021
+Name Solid Situation Panic
+*ShotClimax
+EndCard
+
+Character: Fmr/W65-E024
+Name Devoted Magician, Yuna
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Heroine
+Combo Secrets Inherited from Mother to Child
+*GainPowerForEachOther(500,Fantasia Bunko|Magic)
+Auto: OnOpponentReverse
+{
+	If Climax Secrets Inherited from Mother to Child
+	{
+		*OptionalBlindStock
+		*OptionalBlindStock
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Secrets Inherited from Mother to Child" is in your climax area, put up to 2 cards from the top of your deck into your stock.
+EndCard
+
+Character: Fmr/W65-E027
+Name Master of Swordsmanship, Rin
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Weapon
+*MoveOtherWithTraitToBackstageOnReverse(Fantasia Bunko|Magic)
+EndCard
+
+Character: Fmr/W65-E033
+Name Noble Young Woman, Kuriko
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Heiress
+*OnPlayCheckX(Fantasia Bunko|Magic)
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetSelf
+		GainPower 3500
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +3500 power until end of turn.
+EndCard
+
+Character: Fmr/W65-E038
+Name Hidden Qualities, Kazuki
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fantasia Bunko
+Trait2 Magic
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Climax: Fmr/W65-E039
+Name Secrets Inherited from Mother to Child
+*BarClimax
+EndCard
+
+Character: Fos/W65-E037
+Name Hero's Mom, Mamako
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Family
+Trait3 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	LosePower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, all characters on your opponent's center stage get -1500 power until end of turn.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: Foy/W65-E001
+Name Nation Unified by Force, Nobuna
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Princess General
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+	PayCost 3
+	{
+		TargetLocation OpponentStock
+		SetXValue TargetCount
+		MoveCard OpponentWaitingRoom
+		TargetTop OpponentDeck X
+		MoveCard OpponentStock
+	}
+}
+Text Auto: [(3)] When this card is placed on the stage from your hand, you may pay the cost. If you do, put all of your opponent's stock into your opponent's waiting room, and your opponent puts the same number of cards from the top of his or her deck into the stock.
+EndCard
+
+Character: Foy/W65-E004
+Name Frail Exorcist, Hanbei
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Exorcism
+Cont: GiveAll
+{
+	If MyTurn && Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your turn, all of your other characters get +500 power.
+Auto: OnClimaxPlay
+{
+	PayCost Clock
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When your climax is placed on your climax area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: Foy/W65-E009
+Name Queen of Zipang, Nobuna
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Princess General
+Combo One Who Fulfils Ambitions
+Auto: OnAttack
+{
+	If Climax One Who Fulfils Ambitions &&& StageContains 1 Other && HasTrait Fantasia Bunko|Sengoku
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel X OrLess && HasTrait Fantasia Bunko|Sengoku
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo When this card attacks, if "One Who Fulfils Ambitions" is in your climax area, and you have another 《Fantasia Bunko》 or 《Sengoku》 character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Fantasia Bunko》 or 《Sengoku》 character in your waiting room, and return it to your hand. X is the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: Foy/W65-E010
+Name Turbulent Times, Nobuna
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Princess General
+*YellowEarlyPlayBomb
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fantasia Bunko|Sengoku
+	ChooseCharacterFromTargets Choose a character to gain +1 soul
+	GainSoul 1
+}
+Text Act: [(1)] Choose 1 of your 《Fantasia Bunko》 or 《Sengoku》 characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: Foy/W65-E013
+Name Center of the Universe, Masamune
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Chunibyo
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Fantasia Bunko|Sengoku
+	{
+		TargetLocation OpponentCenterStage
+		LosePower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Fantasia Bunko》 or 《Sengoku》 character, all characters in your opponent's center stage get -1000 power until end of turn. 
+EndCard
+
+Climax: Foy/W65-E022
+Name One Who Fulfils Ambitions
+*WindClimax
+EndCard
+
+Character: Fra/W65-E073
+Name Inherited Magic Talent, Sistine
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Honor Student
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Fantasia Bunko|Magic && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 《Fantasia Bunko》 or 《Magic》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: Fra/W65-E075
+Name Gentle Smile, Rumia
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Royalty
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Fantasia Bunko|Magic
+	{
+		Peek Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 《Fantasia Bunko》 or 《Magic》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: Fra/W65-E078
+Name Under One Roof, Rumia & Sistine
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Combo Eden of Everlasting Summer
+*GainPowerWithEnoughCharacters(1000,2,Fantasia Bunko|Magic)
+Auto: OnOpponentReverse
+{
+	If Climax Eden of Everlasting Summer
+	{
+		SearchDeck HasTrait Fantasia Bunko|Magic
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Eden of Everlasting Summer" is in your climax area, search your deck for up to 1 《Fantasia Bunko》 or 《Magic》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: Fra/W65-E079
+Name Unique Mage Corps Member, Re=L
+Color B
+Level 1
+Cost 0
+Power 6500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Weapon
+*CannotSideAttack
+Auto: OnReversed
+{
+	MoveCardToBottom Deck
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: Fra/W65-E081
+Name Kindness and Strength, Rumia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Royalty
+*EarlyPlay4OrMore(Fantasia Bunko|Magic)
+Auto: OnPlay
+{
+	SearchLocationForTargets Clock 0 1 HasTrait Fantasia Bunko|Magic
+	MoveCard Memory
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Fantasia Bunko》 or 《Magic》 character in your clock, and put it into your memory.
+Auto: OnPlay
+{
+	PayCost 1 Discard 2 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to double their power.
+		SetXValue TargetCardsPower
+		MultiplyXValue 2
+		GainPower X
+	}
+}
+Text Auto: [(1) Put 2 cards from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your other characters, it gets +X power until end of turn. X is equal to that character's power.
+EndCard
+
+Character: Fra/W65-E084
+Name Instantaneous Decision, Glenn
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Teacher
+Act: 1 Rest 2 Any
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel X OrLess && HasTrait Fantasia Bunko|Sengoku
+	MoveCard Hand
+}
+Text Act: [(1) Rest 2 of your characters] Put the top 2 cards of your deck into your waiting room, choose 1 level X or lower 《Fantasia Bunko》 or 《Magic》 character in your waiting room, and return it to your hand. X is equal to the total level of those cards. 
+EndCard
+
+Character: Fra/W65-E089
+Name Pure White Dress, Sistine
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Honor Student
+Combo Not Wanting to Lose Precious Things
+Auto: OnPlay
+{
+	Question Return a character to your opponent's hand?
+	If Yes
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+		Bounce
+	}
+	TargetSelf
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 of your opponent's characters, return it to his or her hand, and this card gets +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If Climax Not Wanting to Lose Precious Things
+	{
+		PayCost 2 Discard 1 NameEquals Inherited Magic Talent, Sistine
+		{
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2) Put 1 "Inherited Magic Talent, Sistine" from your hand into your waiting room] This ability activates up to 1 time per turn. When this card's battle opponent becomes reversed, if "Not Wanting to Lose Precious Things" is in your climax area, you may pay the cost. If you do, Stand this card.
+EndCard
+
+Character: Fra/W65-E092
+Name Twinkling of the Star, Albert
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Magic
+*OnPlayGivePower(1500,Fantasia Bunko|Magic)
+Auto: OnReversed
+{
+	OpponentQuestion Would you like to draw a card and discard a card?
+	If Yes
+	{
+		TargetTop OpponentDeck 1
+		MoveCard OpponentHand
+		OpponentSearchLocationForTargets Hand 0 1 Any
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may draw 1 card. If they do, your opponent chooses 1 card in your opponent's hand, and put it in his or her waiting room.
+EndCard
+
+Character: Fra/W65-E097
+Name Messing Around, Rumia & Sistine
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Magic
+*BackupBonus1000(Fantasia Bunko|Magic)
+Backup 2500
+EndCard
+
+Character: Fra/W65-E098
+Name The Greatest Mage of the Continent, Celica
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Septende
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 3 or higher, this card gets "Auto: ENCORE [Put 1 character from your hand into your waiting room]
+*BlueEarlyPlayBomb
+EndCard
+
+Event: Fra/W65-E100
+Name Black Magic of Destruction
+Color B
+Level 2
+Cost 1
+Effect:
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 3 OrLess
+		ChooseCharacterFromTargets Choose a character to put to the bottom of their opponent's deck.
+		MoveCardToBottom OpponentDeck
+		TargetSelf
+		MoveCardToBottom Deck
+	}
+}
+Text You may choose 1 card in your hand, and put it into your waiting room. If you do, choose 1 level 3 or lower character on your opponent's center stage, put it at the bottom of his or her deck, and put this card at the bottom of your deck.
+EndCard
+
+Climax: Fra/W65-E102
+Name Eden of Everlasting Summer
+*BookClimax
+EndCard
+
+Climax: Fra/W65-E104
+Name Not Wanting to Lose Precious Things
+*GateClimax
+EndCard
+
+Character: Fsi/W65-E042
+Name Hekiyou Academy Student Council Treasurer, Mafuyu
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Otaku
+Combo In Slumber
+Auto: OnClimaxPlay
+{
+	TargetSelf
+	GainPower 1500
+}
+Text Auto: When a climax is placed on your climax area, this card gets +1500 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If Climax In Slumber
+	{
+		*Check4Add1(Fantasia Bunko|Student Council)
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +2000 power
+		GainPower 2000
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "In Slumber" is in your climax area, look at up to 4 cards from the top of your deck, choose up to 1 《Fantasia Bunko》 or 《Student Council》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: Fsi/W65-E045
+Name Hekiyou Academy Student Council President, Kurimu
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Sweets
+Combo Irreplaceable Daily Life
+Auto: OnSpecificClimaxPlay Irreplaceable Daily Life
+{
+	PayCost 1
+	{
+		TargetLocation Stage
+		NarrowTargets NameEquals Hekiyou Academy Student Council Secretary, Chizuru | Fragrence of Yuri, Chizuru
+		If HasTarget
+		{
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Irreplaceable Daily Life" is placed on your climax area, you may pay the cost. If you do, choose 1 of your other "Hekiyou Academy Student Council Secretary, Chizuru" or "Fragrance of Yuri, Chizuru", and Stand it.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: Fsi/W65-E047
+Name Absolute God, Kurimu
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Sweets
+*OnPlayScry
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Fantasia Bunko|Student Council
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Fantasia Bunko》 or 《Student Council》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: Fsi/W65-E050
+Name Hekiyou Academy Student Council Vice President, Minatsu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Hot-Blooded
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room.
+Backup 2500
+EndCard
+
+Character: Fsi/W65-E051
+Name Hekiyou Academy Student Council Secretary, Chizuru
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Honor Student
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Hekiyou Academy Student Council President, Kurimu
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another "Hekiyou Academy Student Council President, Kurimu", this card gets +3000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: Fsi/W65-E053
+Name Tsundere Maid, Minatsu
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Hot-Blooded
+Cont: GiveSelf
+{
+	TargetLocation Marker
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each marker underneath this card.
+Auto: OnPlay
+{
+	RevealUpTo Deck 2
+	ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 0 OrLess
+	RevealTargets
+	Marker_FaceDown
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, choose up to 1 level 0 or lower character from among them, reveal it to your opponent, put it face down underneath this card as a marker, and put the rest into your waiting room.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Otaku Girl, Mafuyu
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Otaku Girl, Mafuyu" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Character: Fsi/W65-E055
+Name Ungraspable Beauty, Chizuru
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Honor Student
+*OnPlayScryToBottom
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1 soul until end of turn
+		GainSoul 1
+	}
+}
+Text Auto: [Return this card to your hand] When a climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: Fsi/W65-E057
+Name Naivete, Kurimu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Sweets
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Fantasia Bunko|Student Council
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +2 soul until end of turn.
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other 《Fantasia Bunko》 or 《Student Council》 characters, choose 1 of your characters, it gets +2 soul until end of turn.
+*RedLevel2Bomb
+EndCard
+
+Character: Fsi/W65-E058
+Name Pretty Face and Fair-Skinned, Mafuyu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Otaku
+*Level3Assist
+Act: 2 Rest 2 Any
+{
+	Heal
+}
+Text Act: [(2) Rest 2 of your characters] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: Fsi/W65-E061
+Name Hekiyou Academy Student Council Vice President, Ken
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Fantasia Bunko|Student Council
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed into the waiting room from the stage, you may pay the cost. If you do, choose 1 <Fantasia Bunko> or <Student Council> character in your waiting room and return it to your hand.
+EndCard
+
+Character: Fsi/W65-E063
+Name Otaku Girl, Mafuyu
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Otaku
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +3000 power.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Tsundere Maid, Minatsu
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Tsundere Maid, Minatsu" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Character: Fsi/W65-E066
+Name Fragrance of Yuri, Chizuru
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Honor Student
+*GainPowerForEachOther(500,Fantasia Bunko|Student Council)
+*HandEncore
+EndCard
+
+Character: Fsi/W65-E067
+Name Dazzling, Minatsu
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Hot-Blooded
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Fantasia Bunko|Student Council
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Fantasia Bunko》 or 《Student Council》, this card gets +1000 power.
+Auto: OnOpponentReverse
+{
+	If MyTurn
+	{
+		PayCost 1
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: [(1)] During your turn, when this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Climax: Fsi/W65-E069
+Name In Slumber
+*DoorClimax
+EndCard
+
+Climax: Fsi/W65-E070
+Name Irreplaceable Daily Life
+*StandbyClimax
+EndCard
+
+Character: Fsl/W65-E046
+Name Genius Mage & Swordswoman, Lina
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Genius
+*RedLevel0Bomb
+Act: Discard 1 IsClimax
+{
+	TargetSelf
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may draw 1 card.
+	}
+}
+Text Act: [Put 1 climax from your hand into your waiting room] This card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw 1 card."
+EndCard
+
+Character: Ftr/W65-E017
+Name Fulfilled Promise, Natsume & Harutora
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Fantasia Bunko
+Trait2 Sorcery
+Trait3 Shikigami
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If this card has a marker underneath it, this card gets +3000 power.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Fulfilled Promise, Natsume & Harutora
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Fulfilled Promise, Natsume & Harutora" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Character: Foy/W65-E106
+Name Beautiful Swordsman, Mitsuhide
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Forehead
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Fantasia Bunko|Sengoku
+		SetXValue TargetCount
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other <Fantasia Bunko> or <Sengoku> characters.
+*HandEncore
+EndCard
+
+Character: Ffp/W65-E107
+Name Stylish Getup, Bonta-kun
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+*CannotSideAttack
+*GlobalPower(500,Fantasia Bunko)
+EndCard
+
+Character: Fab/W65-E108
+Name The AmaBri Triumvirate, Moffle & Macaron & Tiramy
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Trait3 Mascot
+*OnPlayMill2GainPowerForEachCharacter(1000,Fantasia Bunko|AmaBri)
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets CardPosition Stand && Other
+	Rest
+}
+Text Auto: When this card attacks, rest all of your other stand characters.
+EndCard
+
+Character: Fmr/W65-E109
+Name A Moment at the Hot Springs, Yuma & Kuriko & Rin
+Color G
+Level 1
+Cost 0
+Power 1500
+Trait1 Fantasia Bunko
+Trait2 Magic
+*OnActGivePower(1000,1)
+*Act1RestSelfDraw2Discard1Brainstorm
+EndCard
+
+Character: Fdd/W65-E110
+Name Goddess in Swimwear, Rias
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 King
+*OnPlayRevealBurnIfTrait(Fantasia Bunko|Demon)
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		BlockOpponentEncore
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: Fab/W65-TE07
+Name Duty of the Two, Isuzu & Seiya
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1 soul
+	GainSoul 1
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +1 soul until end of turn.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: Fab/W65-TE08
+Name Maple Kitchen, Latifah
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Fantasia Bunko
+Trait2 AmaBri
+Trait3 Princess
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play event cards or "BACKUP" from hand.
+EndCard
+
+Character: Fdd/W65-TE09
+Name High-Class Charms, Rias
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 King
+*GainPowerForEachOther(500, Fantasia Bunko|Demon)
+EndCard
+
+Character: Fdd/W65-TE10
+Name Occult Research Club Head, Rias
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Fantasia Bunko
+Trait2 Demon
+Trait3 King
+Combo A Voice Heard
+Auto: OnAttack
+{
+	If Climax A Voice Heard
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to gain the effect
+			AddSelfToTargets
+			GainEffect
+			{
+				Auto: OnOpponentReverse
+				{
+					SearchWaitingRoom IsCharacter
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "A Voice Heard" is in your climax area, you may pay the cost. If you do, choose 1 of your other characters and this card, and they get the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Climax: Fdd/W65-TE13
+Name A Voice Heard
+*DoorClimax
+EndCard
+
+Character: Ffp/W65-TE02
+Name Stand by Me Always, Sousuke & Kaname
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Mithril
+Trait3 Whispered
+*GainPowerWhenOtherAttacks(1000, Fantasia Bunko|Whispered)
+EndCard
+
+Character: Fii/W65-TE15
+Name Mai & Ahegao W Peace Sensei in Uniform
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Fantasia Bunko
+Trait2 Novel
+Trait3 Rival
+Cont: GiveAll
+{
+	If NameEquals Dangerous Younger Sister, Suzuka
+	{
+		GainSoul 1
+	}
+}
+Text Cont: All of your other "Dangerous Younger Sister, Suzuka" get +1 soul.
+*Bond1(Dangerous Younger Sister\, Suzuka)
+EndCard
+
+Character: Fii/W65-TE19
+Name Dangerous Younger Sister, Suzuka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Fantasia Bunko
+Trait2 Novel
+Trait3 Brocon
+EndCard
+
+Character: Fkz/W65-TE01
+Name Troubled Expression, Eu
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Trait3 Death
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Fantasia Bunko|Weapon || IsEvent
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Fantasia Bunko》 or 《Weapon》 character or event card, put it into your hand, choose 1 card in your hand, and put it into your waiting room. 
+*OnAttackGivePowerTimesSoul
+EndCard
+
+Character: Fkz/W65-TE05
+Name Year Refrain's Rising Class, Haruna
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Fantasia Bunko
+Trait2 Weapon
+Trait3 Magical Arms Girl
+Backup 2500
+EndCard
+
+Character: Fmr/W65-TE04
+Name Heart Magic, Yuna
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Heroine
+*DropSearch(Fantasia Bunko|Magic)
+EndCard
+
+Character: Foy/W65-TE03
+Name Burdened, Nobuna
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Princess General
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+EndCard
+
+Character: Foy/W65-TE06
+Name Head of the Oda Family, Nobuna
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Sengoku
+Trait3 Princess General
+Auto: OnPlay
+{
+	SearchDeck HasTrait Fantasia Bunko|Sengoku
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 《Fantasia Bunko》 or 《Sengoku》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Fantasia Bunko|Sengoku
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, all of your 《Fantasia Bunko》 or 《Sengoku》 characters get +500 power and +1 soul until end of turn.
+EndCard
+
+Character: Fra/W65-TE18
+Name Mind Made Up, Sistine
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Honor Student
+*LevelAssist
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: When your climax is placed in your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Climax: Fra/W65-TE20
+Name Silver Key
+Color B
+*2SoulClimax
+EndCard
+
+Character: Fsi/W65-TE11
+Name Ringing Declaration, Kurimu
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Sweets
+Combo Student Council's Discretion
+*Healer
+Auto: OnOpponentReverse
+{
+	If Climax Student Council's Discretion
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Fantasia Bunko|Student Council
+		MoveCard Stock
+		Burn 1
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Student Council's Discretion" is in your climax area, choose up to 1 《Fantasia Bunko》 or 《Student Council》 character in your waiting room, put it into your stock, and deal 1 damage to your opponent. 
+EndCard
+
+Event: Fsi/W65-TE12
+Name I Am Echo of Death
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	Mill 3
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Fantasia Bunko|Student Council && Compare ThatCardsLevel X OrLess
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +2000 power
+	GainPower 2000
+	TargetSelf
+	MoveCard Memory
+}
+Text BRAINSTORM Flip over 3 cards from the top of your deck, and put them into your waiting room. Choose 1 level X or lower 《Fantasia Bunko》 or 《Student Council》 character in your waiting room, and return it to your hand. X is equal to the number of 《Fantasia Bunko》 or 《Student Council》 characters revealed among those cards. Choose 1 of your characters, it gets +2000 power until end of turn. Put this card into your memory.
+EndCard
+
+Climax: Fsi/W65-TE14
+Name Student Council's Discretion
+*DoorClimax
+EndCard
+
+Character: Fii/W65-E111
+Name Younger-Sister-Style Voice, Sakura
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Fantasia Bunko
+Trait2 Voice Actor
+Trait3 Heroine
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore && IsCharacter
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When this card becomes reversed during battle, reveal the top card of your deck. If that card is a level 2 or higher character, you may return this card to your hand.
+EndCard
+
+Character: Fra/W65-E112
+Name Not That Bad of a Situation, Rumia & Re=L
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Fantasia Bunko
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && IsCharacter
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room and return it to your hand. X is equal to the level of the revealed card.
+EndCard
+
+Character: Fsi/W65-PE01
+Name President of the Universe, Kurumu
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Fantasia Bunko
+Trait2 Student Council
+Trait3 Sweets
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	SaveTargets
+	TargetTop OpponentDeck 1
+	SetXValue TargetCardsLevel
+	AddCurrentToSavedTargets
+	LoadTargets
+	RevealTargets
+	If Compare TargetCardsLevel X OrMore
+	{
+		TargetSelf
+		GainPower 4500
+	}
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, all players reveal the top card of their deck. If your card revealed by this effect has a level equal to or higher than your opponent's card revealed by this effect, this card gets +4500 power until end of turn.
+EndCard
+
+Character: Fkz/W65-PE02
+Name In Charge of Year Refrain's Rising Class, Great Teacher
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Fantasia Bunko
+Trait2 Teacher
+Trait3 Magical Arms Girl
+*LevelAssist
+Act: RestSelf
+{
+	TargetTop Deck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Act: [Rest this card] Look at up to two cards from the top of your deck, and put them on the top of your deck in any order.
+EndCard
+
+Character: Fsl/W65-P03
+Name Pretty Girl, Lina
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Fantasia Bunko
+Trait2 Magic
+Trait3 Genius
+*OnAttackGivePowerForEachOther(500, Fantasia Bunko)
+EndCard
+

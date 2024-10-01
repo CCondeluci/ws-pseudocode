@@ -1,0 +1,412 @@
+
+Character: HOL/WE45-T01
+Name Happy 15th Anniversary!! Takanashi Kiara
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 hololive
+Trait2 holoEN -Myth-
+*GivePowerOnPlay(1500,hololive)
+*OnAttackGivePower(1500,hololive)
+EndCard
+
+Character: HOL/WE45-T02
+Name On Stage! Moona Hoshinova & Takanashi Kiara
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 hololive
+Trait2 holoID 1st Gen
+Trait3 holoEN -Myth-
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1
+	{
+		Peek Deck 3
+		If HasTarget
+		{
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Clock
+			PutTheRestIntoTheWaitingRoom
+			SearchWaitingRoom HasTrait hololive
+		}
+	}
+}
+Text Auto: [(1)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it into your clock, then put the rest into your waiting room. If you put a card into your clock by this effect, choose a <hololive> character in your waiting room and return it to your hand.
+EndCard
+
+Character: HOL/WE45-T03
+Name Prayer of Blessing, Takanashi Kiara
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 hololive
+Trait2 holoEN -Myth-
+Combo Result of the Race?
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait hololive
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all your Characters are <hololive>, this card gains +2000 Power.
+Auto: OnAttack
+{
+	If Climax Result of the Race? &&& StageContains 1 Other && HasTrait hololive
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 4
+			ChooseCardsFromTargets 0 2 NameEquals cherry blossom||HasTrait hololive
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Discard a card from your hand to the Waiting Room] When this attacks, if "Result of the Race?" is in the Climax Zone and you have another <Music> Character, you may pay cost. If so, look at up to 4 cards from top of your Library and search for up to 2 cards that are either <hololive> Characters or "cherry blossom", reveal them, put them in your hand, and put the rest in the Waiting Room. 
+EndCard 
+
+Character: HOL/WE45-T04
+Name Let's! Weiβ Schwarz!! Takanashi Kiara
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 hololive
+Trait2 holoEN -Myth-
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		StockSwap
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent puts all of their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock.
+Auto: OnUseAct
+{
+	TargetLocation OpponentBackStage
+	SetXToNumberOfCharacters
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+TimesPerTurn 1
+Quick
+Text Auto: Once per turn, when you use an Act, this card gets +X power until end of turn. X is equal to the number of characters in your opponent's back stage ×1000.
+EndCard
+
+Climax: HOL/WE45-T05
+Name Result of the Race?
+*ChoiceClimax
+EndCard
+
+Character: HOL/WE45-T06
+Name On Stage! Hoshimachi Suisei & Sakura Miko
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 hololive
+Trait2 0th Generation
+Cont: GiveSelf
+{
+	If StageContains 2 Other
+	{
+		LosePower 1500
+	}
+}
+Text Cont: If the number of other characters you have is 2 or more, this card gets -1500 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: HOL/WE45-T07
+Name Prayer of Blessing, Sakura Miko
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 hololive
+Trait2 0th Generation
+*OnAttackPay1ToDoubleTrigger
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: When your character's trigger check reveals a card with a climax, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: HOL/WE45-T08
+Name Let's! Weiβ Schwarz!! Sakura Miko
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 hololive
+Trait2 0th Generation
+*Level3Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait hololive
+	ChooseCharacterFromTargets
+	GainPower 500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*Scry
+		}
+		Text Auto: When this card's battle opponent becomes reversed, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your <hololive> characters, it gets +500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, look at the top card of your deck, and put it on the top of your deck or into your waiting room."
+EndCard
+
+Character: HOL/WE45-T09
+Name Happy 15th Anniversary!! Sakura Miko
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 3500
+Soul 2
+Trait1 hololive
+Trait2 0th Generation
+*EarlyPlay2OrLessClimax
+*GainPowerWithEnoughCharacters(7000,2,hololive)
+*OnPlayCheckX(hololive)
+EndCard
+
+Event: HOL/WE45-T10
+Name cherry blossom
+Color R
+Level 1 
+Cost 1
+Requirement StageContains 1 HasTrait hololive
+Effect:
+{
+	SearchDeck HasTrait hololive
+	TargetSelf
+	MoveCard Memory
+}
+Text If you do not have a <hololive> character, this card cannot be played from your hand.
+Text Search your deck for up to 1 <hololive> character, reveal it to your opponent, put it into your hand, shuffle your deck, and put this card into your memory.
+Auto: StartMainPhase
+{
+	PayCost Discard 1 IsClimax
+	{
+		TargetSelf
+		MoveCard Hand
+	}
+}
+InMemory
+Text Auto: MEMORY [Put 1 climax from your hand into your waiting room] At the beginning of your main phase, if this card is in your memory, you may pay the cost. If you do, return this card to your hand.
+EndCard
+
+Character: HOL/WE45-T11
+Name Let's! Weiβ Schwarz!! Moona Hoshinova
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 hololive
+Trait2 holoID 1st Gen
+*BlueLevel0Bomb
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait hololive
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				Question Put the battle opponent at the bottom of your opponent's deck?
+				If Yes
+				{
+					TargetBattleOpponent
+					MoveCard BottomOfOpponentDeck
+				}
+			}
+		}
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, at the beginning of your climax phase, choose 1 of your <hololive> characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character at the bottom of your opponent's deck."
+EndCard
+
+Character: HOL/WE45-T12
+Name Prayer of Blessing, Hoshimachi Suisei
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 hololive
+Trait2 0th Generation
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice Attacker
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		*OnAttackCheck2ChooseTrigger
+	}
+}
+Text Auto: When a climax is placed on your climax area, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room."
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: HOL/WE45-T13
+Name Happy 15th Anniversary!! Hoshimachi Suisei
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 hololive
+Trait2 0th Generation
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait hololive
+		TargetLocation Stage
+		NarrowTargets HasTrait hololive && Other
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a <hololive> character in your waiting room and return it to your hand, then choose 1 of your other <hololive> characters and that character gains +1000 power until end of turn.
+Auto: OnOpponentClimaxPlay
+{
+	If OnStage
+	{
+		Question Put this card into your stock?
+		If Yes 
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When your opponent's climax card is placed into their climax area, you may put this card into your stock.
+EndCard
+
+Character: HOL/WE45-T14
+Name Happy 15th Anniversary!! Moona Hoshinova
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 hololive
+Trait2 holoID 1st Gen
+Cont: InHand
+{
+	GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: This card can be played from your hand without fulfilling color requirements.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom IsCharacter
+}
+Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 character in your waiting room, and return it to your hand.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1000 power until the end of your opponent's next turn.
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: HOL/WE45-T15
+Name Let's! Weiβ Schwarz!! Hoshimachi Suisei
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 hololive
+Trait2 0th Generation
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*BottomDeckEarlyPlay
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "Backup", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it at the bottom of their deck.
+Backup 2500
+EndCard
+
+Character: HOL/WE45-T16
+Name Prayer of Blessing, Moona Hoshinova
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 hololive
+Trait2 holoID 1st Gen
+Combo Incandescent! Goldfish Scooping
+*Healer
+Auto: OnAttack
+{
+	If Climax Incandescent! Goldfish Scooping
+	{
+		If LocationContainsOrLess Hand 5 Any
+		{
+			MultipleChoiceQuestion Choose an effect.\n1: Reveal the top card of your deck. If that card is a <hololive> character or "cherry blossom", deal 4 damage to your opponent.\n2: [(1)] At the end of this card's attack, if the character facing this card is Reversed, you may pay the cost. If you do, deal 2 damage to your opponent.|1|2
+			If Answer 0
+			{
+				TargetTop Deck 1
+				Reveal
+				IfTarget HasTrait hololive ||| NameEquals cherry blossom
+				{
+					Burn 4
+				}
+			}
+			If Answer 1
+			{
+				TargetSelf
+				GainEffect
+				{
+					Auto: OnEndOfAttack
+					{
+						If Facing CardPosition Reverse
+						{
+							PayCost 1
+							{
+								Burn 2
+							}
+						}
+					}
+					TimesPerTurn 1
+					Text [(1)] At the end of this card's attack, if the character facing this card is Reversed, you may put the top card of your stock into your waiting room. If you do, deal 2 damage to your opponent.
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Incandescent! Goldfish Scooping" is in your climax area, and your hand has 5 or less cards, choose 1 of the following effects, and perform it. "Reveal the top card of your deck. If that card is <hololive> character or "cherry blossom", deal 4 damage to your opponent." "[(1)] At the end of this card's attack, if the character facing this card is Reversed, you may pay the cost. If you do, deal 2 damage to your opponent." 
+EndCard
+
+Climax: HOL/WE45-T17
+Name Incandescent! Goldfish Scooping
+*GateClimax
+EndCard

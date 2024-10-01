@@ -1,0 +1,2800 @@
+
+Character: CTB/W118-001
+Name Japan Jr. Youth Representative, Jun Misugi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Soccer
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose a <Soccer> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: CTB/W118-002
+Name Super Great Goalkeeper, Genzo Wakabayashi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Soccer
+	{
+		If Not HasMarker &&& LocationContains Memory 1 NameEquals Soccer Ball &&& CardPosition Stand
+		{
+			PayCost 4 Discard 1 NameEquals Super Great Goalkeeper, Genzo Wakabayashi &&& RestSelf
+			{
+				SearchLocationForTargets Memory 1 1 NameEquals Soccer Ball
+				RevealTargets
+				Marker_FaceUp
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets Choose a character to lose -2000 power and gets the ability.
+				LosePower 2000
+				GainEffect
+				{
+					Cont: GiveSelf
+					{
+						GainSpecialEffect CannotDealDamage
+					}
+					Text Cont: This card cannot deal damage to players.
+				}
+			}
+		}
+	}
+}
+Text Auto: [(4) Put 1 "Super Great Goalkeeper, Genzo Wakabayashi" from your hand into your waiting room, put 1 "Soccer Ball" face up underneath this card as a marker from your memory, ] When your other <Soccer> character is frontal attacked, if there is not a marker underneath this card, you may pay the cost. If you do, choose 1 character in your opponent's stage, it gets -2000 power and gets the following ability until end of turn. "Cont: This card cannot deal damage to players"
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: CTB/W118-003
+Name Japan Jr. Youth Representative, Hikaru Matsuyama
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Soccer
+Trait2 Japan Team
+Combo Eagle Shot
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		*OptionalDraw
+		SearchLocationForTargets Hand 0 1 NameEquals Japan Jr. Youth Representative, Hikaru Matsuyama
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may pay the cost. If you do, draw up to 1 card, and choose up to 1 "Japan Jr. Youth Representative, Hikaru Matsuyama" in your hand and put it in any position of your stage.
+Auto: OnAttack
+{
+	If Climax Eagle Shot &&& StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		Burn 1
+		PayCost 3 Discard 1 Any &&& SendMarker WaitingRoom
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Eagle Shot" is in your climax area, and you have another <Soccer> character, you may pay the cost. If you do, deal 1 damage to your opponent, and perform the following action. "[(3) Put 1 card from your hand into your waiting room, put a marker from underneath this card to your waiting room] You may pay the cost. If you do, deal 2 damage to your opponent."
+EndCard
+
+Character: CTB/W118-004
+Name Japan Jr. Youth Representative, Genzo Wakabayashi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Japan Team
+*GlobalPower(500,Soccer)
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter && HasTrait Soccer
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your <Soccer> characters, it gets the following ability until end of turn."Auto: When this card's battle opponent becomes reversed, choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: CTB/W118-005
+Name Running through the field, Tsubasa Oozora
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Japan Team
+*OnPlayFlicker
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Soccer
+	RevealTargets
+	MoveCards Hand
+}
+Text Act: [Put 1 card from your hand into your waiting room, send this card to waiting room] Choose 1 <Soccer> character in your waiting room, add it to hand.
+EndCard
+
+Character: CTB/W118-006
+Name Captain's Style, Tsubasa Oozora
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Trait2 Japan Team
+*ClimaxExchange
+*ClockShift(0,Yellow)
+EndCard
+
+Character: CTB/W118-007
+Name Genius Keeper, Genzo Wakabayashi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Soccer
+Trait2 Hamburg
+*LevelAssist
+Auto: StartAttackPhase
+{
+	If HasMarker
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Soccer && Not HasMarker
+		ChooseCharacterFromTargets
+		GainPower 1000
+		SaveTargets
+		TargetSelf
+		TargetMarkersUnderTargets
+		Message Choose a marker to move
+		ChooseCardsFromTargets 1 1 Any
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Auto: At the start of your attack phase, if there is a marker underneath this card, choose 1 of your <Soccer> characters does not have a marker underneath it, choose 1 marker underneath this card underneath that card face-up as marker, and that card gets +1000 until end turn.
+Act: RestSelf
+{
+	If Not HasMarker
+	{
+		SearchLocationForTargets Memory 1 1 NameEquals Soccer Ball
+		If HasTarget
+		{
+			RevealTargets
+			Marker_FaceUp
+			Question Draw a card?
+			If Yes
+			{
+				DrawCard
+				Discard 1 Any
+			}
+		}
+	}
+}
+Text Act: [Rest this card] If there is not a marker underneath this card, choose 1 "Soccer Ball" in your memory, and put that card underneath this card face-up as marker. If you underneath the card, you may draw 1 card. If you do, discard a card.
+EndCard
+
+Character: CTB/W118-008
+Name Japan Jr. Youth Representative, Hiroshi Jito
+Color Y
+Level 2
+Cost 1
+Power 7500
+Trait1 Soccer
+Trait2 Japan Team
+*PowerOnMyTurn(3000)
+Act: SendSelf WaitingRoom
+{
+	ChooseMultipleCharacters 0 2 InLocation Stage && IsCharacter
+	GainPower 2000
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupOnAttack
+		}
+		Text Cont: During this card's battle, your opponent cannot play "BACKUP" from hand.
+	}
+}
+Text Act: [Send this card to waiting room] Choose up to 2 of your characters, and those characters gets +2000 power and the following ability until end of turn. "Cont: During this card's battle, your opponent cannot play "BACKUP" from hand."
+EndCard
+
+Character: CTB/W118-009
+Name With determination, Yuzo Morisaki
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(500,Any)
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, and that character gets +500 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 5
+	TargetBrainstormed
+	NarrowTargets HasTrigger Shot
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		Repeat X
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Soccer
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 5 cards from the top of your deck, and put them into your waiting room. For each climax with Shot in its trigger icon revealed among those cards, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: CTB/W118-010
+Name Goalkeeper from Japan, Genzo Wakabayashi
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Soccer
+Combo Leeway Smile
+Cont: GiveAll
+{
+	If MyTurn &&& Other && HasTrait Soccer
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Soccer> characters get +1000 power.
+Auto: StartMyEncoreStep
+{
+	If Climax Leeway Smile &&& InLocation BackStage &&& StageContains 1 Other && IsCharacter && HasTrait Soccer &&& CardPosition Stand
+	{
+		PayCost SendClimax WaitingRoom &&& RestSelf
+		{
+			Peek Deck 3
+			Message Choose up to 2 <Soccer> characters or "Soccer"
+			ChooseCardsFromTargets 0 2 IsCharacter && HasTrait Soccer || NameEquals Soccer Ball
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Send "Leeway Smile" from your climax area to waiting room, rest this card by standing position] At the start of your encore step, if this card is in your back stage, and you have another <Soccer> character, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 2 <Soccer> characters or "Soccer Ball" from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: CTB/W118-011
+Name Counterattack Signal, Genzo Wakabayashi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Soccer
+Trait2 Japan Team
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: CTB/W118-012
+Name Nankatsu Middle School Goalkeeper, Yuzo Morisaki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Soccer
+Trait2 Nankatsu MS
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 1 Any
+	{
+		Question Choose your opponent's character in battle to gain +2 soul? (Press no will choose yours)
+		If Yes
+		{
+			TargetBattleOpponent
+			GainSoul 2
+		}
+		If No
+		{
+			TargetMyCharacterInBattle
+			GainSoul 2
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 character in battle, it gets +2 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: CTB/W118-013
+Name High Speed ​​Dribble, Tsubasa Oozora
+Color Y
+Level 2
+Cost 1
+Power 7500
+Trait1 Soccer
+Trait2 Nankatsu MS
+Cont: GiveSelf
+{
+	If MyTurn &&& AllYourCharacters HasTrait Soccer
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Soccer>, this card gets +4000 power.
+Auto: OnAttack
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		PayCost 1
+		{
+			Message Choose card to put on your deck top.
+			SearchLocationForTargets WaitingRoom 1 1 ColorIs Yellow
+			RevealTargets
+			MoveCard Deck
+		}
+	}
+}
+Text Auto: [(1)] When this attacks, if you have another <> character, you may pay the cost. If you do, choose 1 yellow card in your waiting room, put it on top of your deck.
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent is reversed, if you have a climax in your climax area, you may put the top card of your deck into stock.
+EndCard
+
+Character: CTB/W118-014
+Name Nankatsu Middle School Captain, Tsubasa Oozora
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 3
+Trait1 Soccer
+Trait2 Nankatsu MS
+Combo Nankatsu's Unity
+*StockHealer
+Auto: OnDamageCancel
+{
+	If Climax Nankatsu's Unity &&& LocationContainsOrLess Hand 5 Any
+	{
+		PayCost SendMarkers 1 WaitingRoom
+		{		
+			Burn LastDamageGiven
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [Put 1 marker underneath this card into your waiting room] This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "Nankatsu's Unity" is in your climax area, and your hand has 5 or less cards, you may pay the cost. If you do, deal the same damage to your opponent by canceled.
+EndCard
+
+Character: CTB/W118-015
+Name Musashi Middle School Captain, Jun Misugi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Soccer
+Trait2 Musashi MS
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: OnReverseOpponent 
+{
+	PayCost SendMarker WaitingRoom
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: [Put a marker from underneath this card to your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, put the top card of your deck into stock.
+EndCard
+
+Character: CTB/W118-016
+Name Wild Eagle, Hikaru Matsuyama
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Trait1 Soccer
+Trait2 Japan Team
+Cont: GiveAll
+{
+	If MyTurn &&& Other && HasTrait Soccer
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Soccer> characters get +1000 power.
+Auto: OnPlay
+{
+	Question Choose one of your other characters and put it into your stock?
+	If Yes
+	{
+		TargetLocation Stage
+		NarrowTargets Other && IsCharacter
+		ChooseCharacterFromTargets_Optional Choose up to 1 of your other characters and put it into your stock
+		MoveCard Stock
+	}
+}
+Text Auto: When this is placed from hand to stage, you may choose 1 of your other characters and put it into your stock.
+Auto: OnPlay
+{
+	If OnStage
+	{
+		PayCost 2 Discard 2 Any &&& SendMarker BottomOfDeck
+		{
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					GainSpecialEffect CanDirectAttackFromBackstage
+				}
+				Text Cont: If this card is standing in your back stage, you may choose this card as the character that performs an attack. If you do, this card direct attacks.
+			}
+		}
+	}
+}
+Text Auto: [(2) Put 2 cards from your hand into your waiting room, put a marker from underneath this card on the bottom of your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card gets the following ability until end of turn. "Cont: If this card is standing in your back stage, you may choose this card as the character that performs an attack. If you do, this card direct attacks."
+EndCard
+
+Character: CTB/W118-017
+Name Japan Football Association, Munemasa Katagiri
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Soccer
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsCharacter && HasTrait Soccer
+	}
+}
+Alarm
+Text Auto: ALARM [(1) Put 1 card from your hand into your waiting room] If this is on top of your clock, at the start of your climax phase, you may pay the cost. If you do, search your deck for up to 1 <Soccer> character and add it to your hand, shuffle your deck.
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Soccer
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Alarm
+Text Auto: ALARM [Put 1 card from your hand into your waiting room] If this is on top of your clock, at the start of your climax phase, you may pay the cost. If you do, choose 1 <Soccer> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: CTB/W118-018
+Name Japan Jr. Youth Team Manager, Tatsuo Mikami
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Soccer
+	{
+		SearchDeck NameEquals Super Great Goalkeeper, Genzo Wakabayashi
+	}
+}
+Text Auto: [Put 1 <Soccer> character from your hand into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Super Great Goalkeeper, Genzo Wakabayashi", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+Act: SendSelf WaitingRoom
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter && HasTrait Soccer
+	ChooseCharacterFromTargets Choose a character to stand.
+	Stand
+}
+Text Act: [Send this card to waiting room] Choose 1 of your <Soccer> character, stand it.
+EndCard
+
+Character: CTB/W118-019
+Name Shutetsu Quartet, Mamoru Izawa
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Nankatsu MS
+Cont: GiveSelf
+{
+	If MyTurn &&& AllYourCharacters HasTrait Soccer
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Soccer>, this card gets +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Soccer
+	{
+		SearchDeck NameEquals Shutetsu Quartet, Shingo Takasugi|Shutetsu Quartet, Hajime Taki|Shutetsu Quartet, Teppei Kisugi
+	}
+}
+Text Auto: [Put 1 <Soccer> character from your hand into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Shutetsu Quartet, Shingo Takasugi" or "Shutetsu Quartet, Hajime Taki" or "Shutetsu Quartet, Teppei Kisugi", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: CTB/W118-020
+Name Shutetsu Quartet, Shingo Takasugi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Nankatsu MS
+Cont: GiveSelf
+{
+	If OpponentsTurn &&& AllYourCharacters HasTrait Soccer
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your opponent's turn, if all of your characters are <Soccer>, this card gets +2000 power.
+Auto: StartOpponentAttackPhase
+{
+	Question Exchange the characters?
+	If Yes
+	{
+		TargetLocation Stage
+		NarrowTargets Other && NameEquals Shutetsu Quartet, Mamoru Izawa|Shutetsu Quartet, Hajime Taki|Shutetsu Quartet, Teppei Kisugi
+		ChooseCharacterFromTargets Choose a character to swap with.
+		AddSelfToTargets
+		Exchange
+		Stand
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 of your "Shutetsu Quartet, Mamoru Izawa" or "Shutetsu Quartet, Hajime Taki" or "Shutetsu Quartet, Teppei Kisugi" and this card, and exchange them as standing.
+EndCard
+
+Character: CTB/W118-021
+Name Hirado Middle School Forward, Mitsuru Sano
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Hirado MS
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Soccer
+	ChooseCharacterFromTargets
+	GainSpecialEffect CanAttackAnyCenterStage
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Soccer> characters, it gets the following ability until end of turn. "Auto: When this card attacks, if this card in your center stage, you may choose 1 character in your opponent's center stage, and this card frontal attacks that character as the defending character instead."
+Auto: OnOtherOpponentReversed
+{
+	If PlayedThisTurn
+	{
+		TargetFacing
+		SaveTargets
+		TargetBattleOpponent
+		IfTarget InSavedTargets
+		{
+			PayCost Discard 1 Any
+			{
+				SearchWaitingRoom IsCharacter
+			}
+		}
+	}
+}
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		TargetFacing
+		SaveTargets
+		TargetBattleOpponent
+		IfTarget InSavedTargets
+		{
+			PayCost Discard 1 Any
+			{
+				SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+				RevealTargets
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: CTB/W118-022
+Name Shutetsu Quartet, Hajime Taki
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Nankatsu MS
+Cont: GiveSelf
+{
+	If InLocation LeftCenterStage || InLocation RightCenterStage
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If this card is in the left position or right position of your center stage, this card gets +1 level and +1500 power.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Soccer
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card attacks, choose 1 of your other <Soccer> characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: CTB/W118-023
+Name Shutetsu Quartet, Teppei Kisugi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Trait2 Nankatsu MS
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 level and +1500 power.
+EndCard
+
+Character: CTB/W118-024
+Name Hirado Middle School Defender, Hiroshi Jito
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Soccer
+Trait2 Hirado MS
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: <b>Encore</b> [(2)]"
+Cont: GiveSelf
+{
+	TargetFacing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		GainPower 7500
+	}
+}
+Text Cont: If the level of the character facing this card is 3 or higher, this card gains +7500 power.
+EndCard
+
+Character: CTB/W118-025
+Name Furano Middle School Captain, Hikaru Matsuyama
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Soccer
+Trait2 Furano MS
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Soccer
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power. X is equal to the number of other <Soccer> characters you have x500.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Soccer
+	{
+		PayCost SendSelf WaitingRoom &&& Send 1 WaitingRoom Other && IsCharacter
+		{
+			TargetOther
+			GainPower 2500
+		}
+	}
+}
+Text Auto: [Put 1 other character from your stage into your waiting room, put this card into your waiting room] When your other <Soccer> character is frontal attacked, you may pay the cost. If you do, your character in battle gets +2500 power until end of turn.
+EndCard
+
+Character: CTB/W118-026
+Name The Prince of the Field, Jun Misugi
+Color Y
+Level 1
+Cost 0
+Power 6000
+Trait1 Soccer
+Trait2 Japan Team
+ConditionalTrigger Shot LocationContains Climax 1 HasTrigger Shot
+Text Cont: If a climax with a Shot trigger is in your climax area, this card in any area gains Shot trigger.
+Auto: OnTriggerCheck
+{
+	IfOther HasTrigger Shot
+	{
+		*GiveCharacterPower(2000,Soccer)
+	}
+}
+Text Auto: When your trigger check reveals a card with Shot trigger, choose 1 of your <Soccer> characters, it gets +2000 power until end of turn.
+Auto: OnEndOfAttack
+{
+	If OnStage
+	{
+		TargetSelf
+		MoveCard BottomOfDeck
+	}
+}
+Text Auto: At the end of this card's attack, put this card on the bottom of your deck.
+EndCard
+
+Character: CTB/W118-027
+Name Indomitable spirit, Tsubasa Oozora
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Soccer
+Trait2 Nankatsu MS
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If HasMarker
+		{
+			GainPower 4500
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					IfOther OnStage
+					{
+						Question Put the battle opponent into the opponent's stock?
+						If Yes
+						{
+							TargetOther
+							MoveCard OpponentStock
+							TargetBottom OpponentStock 1
+							MoveCard OpponentWaitingRoom
+						}
+					}
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+			}
+		}
+	}
+}
+Text Cont: During your turn, if this card has a marker underneath it, this card gets +4500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room."
+*HandEncore
+EndCard
+
+Event: CTB/W118-028
+Name Soccer Ball
+Color Y
+Level 1
+Cost 1
+Cont: InHand
+{
+	GainSpecialEffect IgnoreColorRequirement
+}
+Text This card can be played from your hand without fulfilling color requirements.
+Effect:
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Soccer
+		RevealTargets
+		MoveCard Hand
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text If you have <Soccer> character, choose 1 <Soccer> character in your waiting room, and return it to your hand. Put this card into your memory.
+Auto: OnSentFromAToB Marker WaitingRoom
+{
+	If StageContains 2 IsCharacter && HasTrait Soccer
+	{
+		MoveCard Memory
+	}
+}
+InWaitingRoom
+Text Auto: When this card is moved from the marker area to your waiting room, if you have 2 or more <Soccer> characters, put this card into your memory.
+Auto: OnOtherPlacedOnStageFromHand|OnOtherPlacedOnStageFromWaitingRoom
+{
+	If InLocation Memory
+	{
+		IfOther HasTrait Soccer
+		{
+			IfOther Not HasMarker
+			{
+				Question Put this card underneath the character as marker?
+				If Yes
+				{
+					TargetOther
+					SaveTargets
+					TargetSelf
+					MarkerTargetsUnderSavedTarget_FaceUp
+				}
+			}
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY If this card is in your memory, when your <Soccer> character is placed on stage from your hand or waiting room, if that character does not have a marker underneath it, you may put this card underneath that card face-up as marker.
+EndCard
+
+Event: CTB/W118-029
+Name Yellow Card
+Color Y
+Level 2
+Cost 2
+Counter
+Requirement StageContains 1 HasTrait Soccer
+Effect:
+{
+	*Scry
+	*Scry
+	TargetLocation OpponentStage
+	SetXValue OpponentsLevel
+	AddToXValue 1
+	NarrowTargets Compare ThatCardsLevel X OrHigher
+	ChooseCharacterFromTargets Choose a character return to your opponent's hand.
+	Bounce
+}
+Text Counter: If you do not have a <Soccer> character, this card cannot be played from your hand.\nPrrform the following action 2 times. "Look at the top card of your deck, and put it on the top of your deck or into your waiting room." Choose 1 of your opponent's characters with level higher than your opponent's level, and return that to your opponent's hand.
+EndCard
+
+Climax: CTB/W118-030
+Name Eagle Shot
+*ChoiceClimax
+EndCard
+
+Climax: CTB/W118-031
+Name Leeway Smile
+*ShotClimax
+EndCard
+
+Climax: CTB/W118-032
+Name Nankatsu's Unity
+*ShotClimax
+EndCard
+
+Character: CTB/W118-033
+Name France Jr. Youth Representative, Pierre
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Soccer
+Trait2 France Team
+Combo Eiffel Attack
+Auto: OnSpecificClimaxPlay Eiffel Attack
+{
+	If InLocation CenterStage &&& StageContains 2 Other && IsCharacter && HasTrait Soccer
+	{
+		MultipleChoiceQuestion Choose an effect:\n1. Reveal the top card of your deck, choose 1 level X or lower characters in your waiting room, and return it to your hand. X is equal to the level of the revealed card. \n2. Choose 1 cost 0 or lower <Soccer> character in your waiting room, and put it on any position of your stage.|1|2
+		If Answer 0
+		{
+			TargetTop Deck 1
+			Reveal 
+			SetXValue TargetCardsLevel
+			SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLower && IsCharacter
+			RevealTargets
+			MoveCard Hand
+		}
+		If Answer 1
+		{
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsCost 0 OrLess && HasTrait Soccer
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo When "Eiffel Attack" is placed on your climax area, if this card is in your center stage, and you have 2 or more other <Soccer> characters, choose 1 of the following effects, and perform it. "reveal the top card of your deck, choose 1 level X or lower characters in your waiting room, and return it to your hand. X is equal to the level of the revealed card." "Choose 1 cost 0 or lower <Soccer> character in your waiting room, and put it on any position of your stage."
+Auto: OnAttack
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other <Soccer> characters, this card gets +2000 power until end of turn.
+EndCard
+
+Character: CTB/W118-034
+Name Germany Jr. Youth Representative, Schneider
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Soccer
+Trait2 Germany Team
+Combo Fire Shot
+*Healer
+Auto: OnAttack
+{
+	If Climax Fire Shot &&& StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		PayCost 2 Discard 2 Any &&& SendMarker BottomOfDeck
+		{
+			MultipleChoiceQuestion Choose an effect:\n1. Deal 1 damage to your opponent, choose 1 level 3 or lower character facing this card, and put it into your opponent's clock. \n2. Draw up to 1 card, choose up to 2 cards in your opponent's waiting room and return them to the deck, and your opponent shuffles their deck, deal 2 damage to your opponent.|1|2
+			If Answer 0
+			{
+				Burn 1
+				TargetFacing
+				IfTarget Compare ThatCardsLevel 3 OrLess
+				{
+					MoveCard OpponentClock
+				}
+			}
+			If Answer 1
+			{
+				Question_Obvious Draw a card?
+				If Yes
+				{
+					DrawCard
+				}
+				Message Choose up to 2 cards to return to your opponent's deck.
+				SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+				RevealTargets
+				MoveCard OpponentDeck
+				ShuffleLocation OpponentDeck
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room, put a marker from underneath this card on the bottom of your deck] When this card attacks, if "Fire Shot" is in your climax area, and you have another <Soccer> character, you may pay the cost. If you do, choose 1 of the following effects, and perform it. "Deal 1 damage to your opponent, choose 1 level 3 or lower character facing this card, and put it into your opponent's clock." "Draw up to 1 card, choose up to 2 cards in your opponent's waiting room and return them to the deck, and your opponent shuffles their deck, deal 2 damage to your opponent."
+EndCard
+
+Character: CTB/W118-035
+Name Germany Jr. Youth Representative, Muller
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Germany Team
+Auto: OnClimaxPlay
+{
+	PayCost Discard 1 Any
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your climax is placed on your climax area, you may pay the cost. If you do, draw 1 card.
+*Act1RestSelfSearchBrainstorm(Soccer)
+EndCard
+
+Character: CTB/W118-036
+Name Artists in the Field, Pierre
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 France Team
+*DropSearch(Soccer)
+*GreenLevel0Bomb
+EndCard
+
+Character: CTB/W118-037
+Name Worker, Kaltz
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Germany Team
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainLevel 1
+		GainPower 1500
+		GainEffect
+		{
+			Cont: Global
+			{
+				If Not Other
+				{
+					GainSpecialEffect CannotSideAttack
+				}
+				If InLocation Facing
+				{
+					GainSpecialEffect CannotSideAttack
+				}
+			}
+			Text Cont: This card and the character facing it cannot side attack.
+		}
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +1 level, +1500 power, and the following ability. "Cont: This card and the character facing it cannot side attack."
+*RunInFrontOfCharacter
+EndCard
+
+Character: CTB/W118-038
+Name Germany's young emperor, Schneider
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Soccer
+Trait2 Hamburg
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnOtherFrontalAttacked
+			{
+				IfOther HasTrait Soccer
+				{
+					TargetOther
+					PayCost 1 SendSelf WaitingRoom
+					{
+						Bounce
+					}
+				}
+			}
+			Text Auto: [(1) Put this card into your waiting room] When your other <Soccer> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+		}
+	}
+}
+Text Cont: If this card has a marker underneath it, this card gets +2000 power and the following ability. "Auto: [(1) Put this card into your waiting room] When your other <Soccer> character is frontal attacked, you may pay the cost. If you do, return that character to your hand."
+EndCard
+
+Character: CTB/W118-039
+Name Argentina Jr. Youth Representative, Diaz
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Soccer
+Trait2 Argentina Team
+*EarlyPlay4OrMore(Soccer)
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Soccer
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets IsCharacter && HasTrait Soccer
+	ChooseCharacterFromTargets Choose a character to gain +X power
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Soccer> character, it gets +X power until end of turn. X is equal to the number of <Soccer> characters you have x500.
+*StockHealer
+EndCard
+
+Character: CTB/W118-040
+Name Uruguay Jr. Youth Representative, Victorino
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Soccer
+Trait2 Uruguay Team
+Auto: OnPlay|PlacedBy Uruguay Jr. Youth Representative, Victorino
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or placed by the Auto effect of "Uruguay Jr. Youth Representative, Victorino", you may put the top card of your clock into the waitingroom.
+Auto: StartClimaxPhase
+{
+	If InLocation WaitingRoom &&& Compare MyLevel 3 OrMore &&& AllYourCharacters HasTrait Soccer
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetSelf
+			PlaceOnStage True True True False		
+		}
+	}
+}
+InWaitingRoom
+Text Auto: [(2) Put 1 card from your hand into your waiting room] If this card is in your waiting room, at the beginning of your climax phase, your level is 3 or higher, and all of your characters are <Soccer>, you may pay the cost. If you do, put this card on an open position of your opponent's stage.
+Auto: OnGainMarker
+{
+	GainPower 2000
+}
+Text Auto: When a marker is placed underneath face-up this card, this card gets +2000 power until end of turn.
+EndCard
+
+Character: CTB/W118-041
+Name Argentina Jr. Youth Representative, Galvan
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Argentina Team
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Soccer
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose 1 <Soccer> character in your waiting room and return it to your hand.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1Level1OrHigher
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 Level 1 or higher card among them, put it into your hand, and put the rest into the waiting room.
+EndCard
+
+Character: CTB/W118-042
+Name Black Panther of South America, Victorino
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Uruguay Team
+Cont: GiveSelf
+{
+	If MyTurn &&& Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if the number of cards in your hand is 5 or more, this card gets +2000 power.
+*FreeRunner
+EndCard
+
+Character: CTB/W118-043
+Name Germany Jr. Youth Representative, Margus
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Trait2 Germany Team
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Soccer
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Soccer
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Soccer> character in your waiting room, return it to your hand, choose 1 of your other <Soccer> characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: CTB/W118-044
+Name Various techniques, Diaz
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Trait2 Argentina Team
+*PowerOnMyTurn(1000)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Soccer || NameEquals Soccer Ball
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 <Soccer> character or "Soccer Ball" in your waiting room, and return it to your hand.
+EndCard
+
+Character: CTB/W118-045
+Name Germany Jr. Youth Representative, Kaltz
+Color G
+Level 1
+Cost 0
+Trigger Soul
+Power 2500
+Trait1 Soccer
+Trait2 Germany Team
+Auto: OnPlay
+{
+	If LocationContains WaitingRoom 1 NameEquals Germany Jr. Youth Representative, Schneider
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have "Germany Jr. Youth Representative, Schneider" in your waiting room, this card gets +3000 power until the end of your opponent's next turn.
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 Any
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reverse, if there is a climax in your climax area, you may put the top card of your deck in your stock.
+EndCard
+
+Character: CTB/W118-046
+Name Argentina's treasures, Diaz
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Soccer
+Trait2 Argentina Team
+Combo Rivals with the same Number 10
+*GainPowerWithEnoughCharacters(4000,2,Soccer)
+Auto: OnSpecificClimaxPlay Rivals with the same Number 10
+{
+	If InLocation WaitingRoom &&& Compare MyLevel 2 OrMore &&& AllYourCharacters HasTrait Soccer
+	{
+		PayCost Discard 1 Any
+		{
+			TargetSelf
+			PlaceOnStage False True True False
+			GainPower 1000
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					TargetBattleOpponent
+					IfTarget OnStage
+					{
+						Question Put the battle opponent on the top of the deck?
+						If Yes
+						{
+							MoveCard OpponentDeck
+						}
+					}
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck.
+			}
+		}
+	}
+}
+InWaitingRoom
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] If this card is in your waiting room, when "Rivals with the same Number 10" is placed on your climax area, your level is 2 or higher, and all of your characters are <Soccer>, you may pay the cost. If you do, put this card on any position of your stage, and this card gets +1000 and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck."
+EndCard
+
+Character: CTB/W118-047
+Name Bremen's Computer, Schester
+Color G
+Level 2
+Cost 1
+Power 8000
+Trait1 Soccer
+Trait2 Germany Team
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Soccer
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power. X is equal to the number of other <Soccer> characters you have x1000.
+Auto: OnReverseOpponent 
+{
+	If StageContains 4 Other && IsCharacter && HasTrait Soccer &&& LocationContains WaitingRoom 1 NameEquals Germany Jr. Youth Representative, Schneider
+	{
+		PayCost 1 &&& SendMarker WaitingRoom
+		{
+			TargetBattleOpponent
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [(1) Put a marker from underneath this card to your waiting room] When this card's battle opponent becomes reversed, if you have 4 or more other <Soccer> characters, and you have "Germany Jr. Youth Representative, Schneider" in your waiting room, you may pay the cost. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: CTB/W118-048
+Name Argentina Jr. Youth Representative, Pascal
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Argentina Team
+*GainPowerOnPlay(1500)
+Auto: OnReverseOpponent 
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		TargetSelf
+		Bounce
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may return this card to your hand.
+EndCard
+
+Character: CTB/W118-049
+Name France Jr. Youth Representative, Napoleon
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Soccer
+Trait2 France Team
+Auto: OnPlay|PlacedBy France Jr. Youth Representative, Pierre
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or placed by the Auto effect of "France Jr. Youth Representative, Pierre", if you have another <Soccer> character, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+Auto: OnAttack
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Soccer
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or moer other <Soccer> characters, this card gets +2000 power until end of turn.
+EndCard
+
+Character: CTB/W118-050
+Name Germany Jr. Youth Representative, Schester
+Color G
+Level 1
+Cost 0
+Power 6500
+Trait1 Soccer
+Trait2 Germany Team
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to lose +2000 power
+	UntilEndOfOpponentsTurn
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets +2000 power until the end of your opponent's next turn.
+Auto: OnAttack
+{
+	If HasMarker
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Soccer && Not HasMarker
+		ChooseCharacterFromTargets
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent 
+			{
+				PayCost 1 &&& SendMarker WaitingRoom
+				{
+					TargetLocation OpponentCenterStage
+					NarrowTargets Compare ThatCardsLevel 2 OrLess
+					ChooseCharacterFromTargets
+					MoveCard OpponentWaitingRoom
+				}
+			}
+			Text Auto: [(1) Put a marker from underneath this card to your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 Level 2 or lower character in your opponent's center stage, put that character into your opponent's waiting room.
+		}
+		SaveTargets
+		TargetSelf
+		TargetMarkersUnderTargets
+		Message Choose a marker to move
+		ChooseCardsFromTargets 1 1 Any
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Auto: When this card attacks, if there is a marker underneath this card, choose 1 of your <Soccer> characters does not have a marker underneath it, choose 1 marker underneath this card underneath that card face-up as marker, and that card gets +1000 and the following ability until end turn. "Auto: [(1) Put a marker from underneath this card to your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 Level 2 or lower character in your opponent's center stage, put that character into your opponent's waiting room."
+EndCard
+
+Character: CTB/W118-051
+Name Italy Jr. Youth Representative, Hernandez
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Soccer
+Trait2 Italy Team
+Cont: Assist
+{
+	If HasTrait Soccer
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST All of your <Soccer> characters in front of this card get +X power. X is equal to that character's level ×500.
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Bar
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to lose -1000 power
+		LosePower 1000
+	}
+}
+Text Auto: When your climax with Bar in its trigger icon is placed on your climax area, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When your character's trigger check reveals a climax with Bar in its trigger icon, you may draw 1 card. If you do, discard 1 card.
+EndCard
+
+Character: CTB/W118-052
+Name France Jr. Youth Representative, Amoros
+Color G
+Level 2
+Cost 0
+Power 8500
+Trait1 Soccer
+Trait2 France Team
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		If StageContains 1 Other && IsCharacter && HasTrait Soccer
+		{
+			Peek Deck 2
+			Message Choose up to 1 card to add to your hand.
+			ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Soccer || NameEquals Soccer Ball
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, if you have another <Soccer> character, look at up to 2 cards from the top of your deck, choose up to 1 <Soccer> character or "Soccer Ball" from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnReceiveDamage
+{
+	If InBattle && OnStage
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: During this card's battle, when damage you take is not cancelled, put this card into your waiting room.
+EndCard
+
+Character: CTB/W118-053
+Name Germany's ace striker, Schneider
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Soccer
+Trait2 Germany Team
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Souther
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Souther" in your waiting room, and return it to your hand.
+Act: Resonate Germany Jr. Youth Representative, Schneider &&& SendSelf WaitingRoom
+{
+	MillOpponent 11
+	*GiveCharacterPower(1500,Any)
+}
+Text Act: RESONATE [Reveal a "Germany Jr. Youth Representative, Schneider" from your hand, send this card to waiting room] Your opponent puts the top 11 cards of their deck into their waiting room, you choose 1 of your character, it gets +1500 power until end of turn.
+EndCard
+
+Event: CTB/W118-054
+Name Souther
+Color G
+Level 3
+Cost 1
+Effect:
+{
+	SearchDeck IsCharacter && NameContains Schneider
+	SearchLocationForTargets Hand 0 1 NameEquals Germany Jr. Youth Representative, Schneider
+	PlaceOnStage False True True False
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}
+Text Search your deck for up to 1 character with either "Schneider" in it's card name and add it to your hand, shuffle your deck, choose up to 1 "Germany Jr. Youth Representative, Schneider" in your hand, put it in any position of your stage, it gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Climax: CTB/W118-055
+Name Eiffel Attack
+*BarClimax
+EndCard
+
+Climax: CTB/W118-056
+Name Fire Shot
+*BarClimax
+EndCard
+
+Climax: CTB/W118-057
+Name Rivals with the same Number 10
+*BarClimax
+EndCard
+
+Character: CTB/W118-058
+Name Fierce Tiger, Kojiro Hyuga
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Japan Team
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Soccer
+	{
+		GainEffect
+		{
+			*PowerOnMyTurn(3000)
+		}
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchLocationForTargets WaitingRoom 1 1 HasTrait Soccer
+				RevealTargets
+				MoveCards Hand
+				Discard 1 Any
+			}
+			Text Auto: When this card's battle opponent is reversed, choose 1 <Soccer> character in your waiting room, add it to hand, then discard 1 card.
+		}
+	}
+}
+Text Cont: If all of your characters are <Soccer>, this card gets the 2 following abilities. "Cont: During your turn, this card gets +3000 power." "Auto: When this card's battle opponent is reversed, choose 1 <Soccer> character in your waiting room, add it to hand, then discard 1 card."
+Auto: OnReversed
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		Mill 2
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			Question Return this card to your hand?
+			If Yes
+			{
+				TargetSelf
+				Bounce
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if you have another <Soccer> character, put the top 2 cards of your deck in the waiting room. If there were at least 1 climax card among them, you may return this card to your hand.
+EndCard
+
+Character: CTB/W118-059
+Name Japan Jr. Youth Representative, Kojiro Hyuga
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Soccer
+Trait2 Japan Team
+Combo Tiger Shot
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+Auto: OnAttack
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Soccer
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other <Soccer> characters, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Tiger Shot &&& LocationContainsOrLess Hand 6 Any &&& StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 HasTrait Soccer && IsCharacter || NameEquals Soccer Ball
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		TargetSelf
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotReturnToHand
+			}
+			Text Cont: The character facing this card cannot be returned to hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Tiger Shot" is in your climax area, your hand has 6 or less cards, and you have another <Soccer> character, look at up to 4 cards from the top of your deck, choose up to 1 <Soccer> character or "Soccer Ball" to add to your hand, and put the rest into the waiting room, this card gets the following ability until end of turn. "Cont: The character facing this card cannot be returned to hand."
+EndCard
+
+Character: CTB/W118-060
+Name Japan Jr. Youth Representative, Ken Wakashimazu
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Japan Team
+*OnOtherAttackedSacrificeToGivePower(1000,Soccer)
+Act: 1
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		Repeat X
+		{
+			*CheckAndAdd(3)
+			Discard 1 Any
+		}
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over the top 4 cards of your deck, then send them to waiting room. For each climax among them, resolve the following effect: "Look at up to 3 cards from the top of your deck, choose up to 1 card among them, add it to hand, and send the rest to waiting room, and discard 1 card."
+EndCard
+
+Character: CTB/W118-061
+Name Karate Keeper, Ken Wakashimazu
+Color R
+Level 1
+Cost 0
+Power 1000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		*Scry
+		*GiveCharacterPower(2000,Soccer)
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, look at the top card of your deck, and put it on the top of your deck or into your waiting room, choose 1 of your <Soccer> character, it gets +2000 power until end of turn. 
+Backup 1500
+EndCard
+
+Character: CTB/W118-062
+Name Japan Jr. Youth Representative, Masao Tachibana
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Soccer
+Trait2 Japan Team
+Combo Skylab Hurricane 2nd stage launch
+*Healer
+Auto: OnAttack
+{
+	If Climax Skylab Hurricane 2nd stage launch
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Skylab Hurricane 2nd stage launch" is in your climax area, you may deal 1 damage to your opponent.
+Auto: OnEndOfAttack
+{
+	If LocationContains Stage 1 Other && NameEquals Japan Jr. Youth Representative, Kazuo Tachibana && HasMarker
+	{
+		PayCost 4 Discard 1 Any &&& SendMarker BottomOfDeck
+		{
+			TargetLocation Stage
+			NarrowTargets Other && NameEquals Japan Jr. Youth Representative, Kazuo Tachibana && HasMarker
+			ChooseCharacterFromTargets
+			TargetMarkersUnderTargets
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard BottomOfDeck
+			TargetSelf
+			Stand
+			TargetLocation Stage
+			GainEffect
+			{
+				Cont: GiveAll
+				{
+					If Compare AttacksThisTurn 4 OrMore
+					{
+						GainSpecialEffect CannotAttack
+					}
+				}
+				Text Cont: You cannot attack 5 or more times this turn.
+			}
+		}
+	}
+}
+Text Auto: [(4) Put 1 card from your hand into your waiting room, put a marker from underneath this card on the bottom of your deck, put a marker from underneath your other "Japan Jr. Youth Representative, Kazuo Tachibana" on the bottom of your deck] At the end of this card's attack, you may pay the cost. If you do, stand this card, you cannot attack 5 or more times until end of this turn.
+EndCard
+
+Character: CTB/W118-063
+Name Japan Jr. Youth Representative, Kazuo Tachibana
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Soccer
+Trait2 Japan Team
+Combo Skylab Hurricane 2nd stage launch
+*Healer
+Auto: OnAttack
+{
+	If Climax Skylab Hurricane 2nd stage launch
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Skylab Hurricane 2nd stage launch" is in your climax area, you may deal 1 damage to your opponent.
+Auto: OnEndOfAttack
+{
+	If LocationContains Stage 1 Other && NameEquals Japan Jr. Youth Representative, Masao Tachibana && HasMarker
+	{
+		PayCost 4 Discard 1 Any &&& SendMarker BottomOfDeck
+		{
+			TargetLocation Stage
+			NarrowTargets Other && NameEquals Japan Jr. Youth Representative, Masao Tachibana && HasMarker
+			ChooseCharacterFromTargets
+			TargetMarkersUnderTargets
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard BottomOfDeck
+			TargetSelf
+			Stand
+			TargetLocation Stage
+			GainEffect
+			{
+				Cont: GiveAll
+				{
+					If Compare AttacksThisTurn 4 OrMore
+					{
+						GainSpecialEffect CannotAttack
+					}
+				}
+				Text Cont: You cannot attack 5 or more times this turn.
+			}
+		}
+	}
+}
+Text Auto: [(4) Put 1 card from your hand into your waiting room, put a marker from underneath this card on the bottom of your deck, put a marker from underneath your other "Japan Jr. Youth Representative, Masao Tachibana" on the bottom of your deck] At the end of this card's attack, you may pay the cost. If you do, stand this card, you cannot attack 5 or more times until end of this turn.
+EndCard
+
+Character: CTB/W118-064
+Name Running through the field, Kojiro Hyuga
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Soccer
+Trait2 Japan Team
+Combo Tiger Shot
+Auto: OnAttack
+{
+	If Climax Tiger Shot
+	{
+		PayCost 2 Discard 1 Any &&& SendMarker BottomOfDeck
+		{
+			ChooseNumber 1 28
+			SetXValue Answer
+			Burn X
+			TargetSelf
+			GainPower 2000
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 1 card from your hand into your waiting room, put a marker from underneath this card on the bottom of your deck] When this card attacks, if "Fire Shot" is in your climax area, you may pay the cost. If you do, declare any number, and deal X damage to your opponent, this card gets +2000 power until end of turn. X is equal to the number you declared.
+Auto: OnSentFromStageToWaitingRoom
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		SearchWaitingRoom NameEquals Running through the field, Kojiro Hyuga
+		AIChoice RemoveFromWaitingRoom
+		SearchWaitingRoomForTarget HasTrait Soccer
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, you may return this card to your hand. If you do, choose up to 1 <Soccer> character in your waiting room, and put it into your stock.
+EndCard
+
+Character: CTB/W118-065
+Name Japan Jr. Youth Representative, Shun Nitta
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Soccer
+Trait2 Japan Team
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	PayCost SendMarker WaitingRoom
+	{
+		Burn 1
+	}
+}
+Slow
+Text Auto: [Put a marker from underneath this card to your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: CTB/W118-066
+Name Japan Jr. Youth Representative, Makoto Soda
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnAttack
+{
+	If HasMarker
+	{
+		GainPower 2500
+	}
+}
+Quick
+Text Auto: When this card attacks, if there is a marker underneath this card, this card gets +2500 power until end of turn.
+Auto: OnAttack
+{
+	If HasMarker
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Soccer && Not HasMarker
+		ChooseCharacterFromTargets
+		GainPower 2500
+		SaveTargets
+		TargetSelf
+		TargetMarkersUnderTargets
+		Message Choose a marker to move
+		ChooseCardsFromTargets 1 1 Any
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Auto: When this card attacks, if there is a marker underneath this card, choose 1 of your <Soccer> characters does not have a marker underneath it, choose 1 marker underneath this card underneath that card face-up as marker, and that card gets +2500 until end turn.
+EndCard
+
+Character: CTB/W118-067
+Name Japan Jr. Youth Representative, Takeshi Sawada
+Color R
+Level 2
+Cost 1
+Power 8000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	PayCost 1 Send 1 WaitingRoom Other && HasTrait Soccer
+	{
+		TargetLocation OpponentStage
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+		Bounce
+	}
+}
+Text Auto: [(1) Put 1 other <Soccer> character from your stage into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Soccer
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power. X is equal to the number of other <Soccer> characters you have x1000.
+EndCard
+
+Character: CTB/W118-068
+Name Toho Academy Middle School Goalkeeper, Ken Wakashimazu
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Soccer
+Trait2 Toho Academy
+Combo Wakado Style Karate
+Cont: GiveSelf
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Soccer
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncoreTrait(Soccer)
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Soccer> characters, this card gets +500 power and "Auto: ENCORE [Put 1 <Soccer> character from your hand into the waiting room]".
+Auto: StartAttackPhase
+{
+	If Climax Wakado Style Karate &&& StageContains 2 Other && IsCharacter && HasTrait Soccer
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			Stand
+			GainPower 2000
+		}
+	}
+}
+Text Auto: CxCombo At the start of your attack phase, if "Wakado Style Karate" is in your climax area, you have 2 or more other <Soccer> characters, you may pay the cost. If you do, stand this card, and this card gets +2000 power until end of turn.
+EndCard
+
+Character: CTB/W118-069
+Name Watchful Eyes, Takeshi Sawada
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Soccer || NameEquals Soccer Ball
+	{
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is either a <Soccer> character or "Soccer Ball", choose 1 of your characters, it gets +1000 power until end of turn.
+*DropSearch(Soccer)
+EndCard
+
+Character: CTB/W118-070
+Name Sparta Coach, Kozo Kira
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Soccer
+Auto: OnPlay
+{
+	Question Draw a card?
+	If Yes
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may draw 1 card. If you do, discard a card.
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Japan Jr. Youth Representative, Kojiro Hyuga
+	RevealTargets
+	PlaceOnStage False True True False
+	GainSoul 1
+}
+Text Act: [(1) Send this card to waiting room] Choose 1 "Japan Jr. Youth Representative, Kojiro Hyuga" in your waiting room, put it in any position of your stage, it gets +1 soul until end of turn.
+EndCard
+
+Character: CTB/W118-071
+Name Toho Academy Middle School Captain, Kojiro Hyuga
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Soccer
+Trait2 Toho Academy
+*GainPowerWithEnoughCharacters(3000,2,Soccer)
+Auto: OnReverseOpponent 
+{
+	If Not HasMarker
+	{
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals Soccer Ball
+			RevealTargets
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if not have a marker underneath this card, reveal the top card of your deck. If that card is level 1 or higher, you may choose 1 "Soccer Ball" in your waiting room, and put it underneath this card face-up as marker.
+EndCard
+
+Character: CTB/W118-072
+Name Like a Razor, Makoto Soda
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of your stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of your stage." 
+*EarlyPlayMemoryBomb
+EndCard
+
+Character: CTB/W118-073
+Name Savoring the regret, Shun Nitta
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Soccer
+Trait2 Japan Team
+*GainPowerWithEnoughCharacters(2000,2,Soccer)
+*HandEncore
+EndCard
+
+Climax: CTB/W118-074
+Name Tiger Shot
+*DoorClimax
+EndCard
+
+Climax: CTB/W118-075
+Name Skylab Hurricane 2nd stage launch
+*StandbyClimax
+EndCard
+
+Climax: CTB/W118-076
+Name Wakado Style Karate
+*StandbyClimax
+EndCard
+
+Character: CTB/W118-077
+Name Aiming for the top of the world, Tsubasa Oozora
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter || NameEquals Soccer Ball
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 character or "Soccer Ball", put it into your hand, and shuffle your deck.
+EndCard
+
+Character: CTB/W118-078
+Name Japan Jr. Youth Representative, Tsubasa Oozora
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Trait1 Soccer
+Trait2 Japan Team
+Combo Drive Shot
+Auto: OnPlay|PlacedBy Japan Jr. Youth Representative, Taro Misaki
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or placed by the Auto effect of "Japan Jr. Youth Representative, Taro Misaki", you may put the top card of your clock into the waitingroom.
+Auto: StartAttackPhase
+{
+	If Climax Drive Shot &&& InLocation CenterStage
+	{
+		MultipleChoiceQuestion Choose 1 of the following effects and perform it,\n1. If you have another <Soccer> character, choose up to 1 <Soccer> character in your waiting room, and put it in any position of your stage.\n2. [Put a marker from underneath this card to your waiting room, rest this card by standing position] You may pay the cost. If you do, Deal 3 or 4 damage to your opponent 2 times.|Choice 1|Choice 2
+		If Answer 0
+		{
+			If StageContains 1 Other && IsCharacter && HasTrait Soccer
+			{
+				SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Soccer
+				PlaceOnStage False True True False
+			}
+		}
+		If Answer 1
+		{
+			If CardPosition Stand
+			{
+				PayCost SendMarker WaitingRoom &&& RestSelf
+				{
+					MultipleChoiceQuestion Choose 1 of the following effects and perform it,\n1. Deal 3 damage to your opponent 2 times.\n2. Deal 4 damage to your opponent 2 times.|Choice 1|Choice 2
+					If Answer 0
+					{
+						Repeat 2
+						{
+							Burn 3
+						}
+					}
+					If Answer 1
+					{
+						Repeat 2
+						{
+							Burn 4
+						}
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the start of your attack phase, if "Drive Shot" is in your climax area, this card is in your center stage, choose 1 of the following effects and perfrom it. "If you have another <Soccer> character, choose up to 1 <Soccer> character in your waiting room, and put it in any position of your stage." "[Put a marker from underneath this card to your waiting room, rest this card by standing position] You may pay the cost. If you do, Deal 3 or 4 damage to your opponent 2 times."
+EndCard
+
+Character: CTB/W118-079
+Name Japan Jr. Youth Representative, Taro Misaki
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Japan Jr. Youth Representative, Tsubasa Oozora
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Japan Jr. Youth Representative, Tsubasa Oozora" in your waiting room, and put it in any position of your stage.
+Auto: OnGainMarker
+{
+	GainPower 1000
+	GainEffect
+	{
+		*HexProof
+	}
+}
+Text Auto: When a marker is placed underneath face-up this card, this card gets +1000 power and the following ability until end of turn. "Cont: This card cannot be chosen by your opponent's effects."
+Auto: StartAttackPhase
+{
+	If HasMarker
+	{
+		Question Pass the marker?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Soccer && Not HasMarker
+			ChooseCharacterFromTargets
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			Message Choose a marker to move
+			ChooseCardsFromTargets 1 1 Any
+			MarkerTargetsUnderSavedTarget_FaceUp
+		}
+	}
+}
+Text Auto: At the start of your attack phase, if there is a marker underneath this card, you may choose 1 of your <Soccer> characters does not have a marker underneath it, choose 1 marker underneath this card underneath that card face-up as marker.
+EndCard
+
+Character: CTB/W118-080
+Name A soccer boy from Japan, Taro Misaki
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Soccer Ball
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Soccer Ball" in your waiting room, and return it to your hand.
+EndCard
+
+Character: CTB/W118-081
+Name Dribbling breakthrough, Tsubasa Oozora
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Soccer
+Trait2 Japan Team
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Soccer
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another <Soccer> character, this card cannot stand during your stand phase.
+*MoveOtherWithTraitToBackstageOnReverse(Soccer)
+EndCard
+
+Character: CTB/W118-082
+Name Artist in the field, Taro Misaki
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Soccer
+Trait2 Japan Team
+Combo Twin Shoot
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Soccer && IsCharacter
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Soccer> character, this card gets +3000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Twin Shoot &&& StageContains 2 Other && HasTrait Soccer
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 1 Any
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Twin Shoot" is in your climax area, and you have 2 or more other <Soccer> characters, draw up to 2 cards, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: CTB/W118-083
+Name Tsubasa's teacher, Roberto
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Soccer
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards in your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: CTB/W118-084
+Name Soccer prodigy, Tsubasa Oozora
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Soccer
+	{
+		TargetTop Clock 1
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 <Soccer> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your clock into your hand.
+Auto: OnPlay
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		PayCost Discard 1 HasTrait Soccer
+		{
+			SetXValue CardsInOpponentsStock 
+			TargetLocation OpponentStock
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+			TargetTop OpponentDeck X
+			MoveCard OpponentStock
+		}
+	}
+}
+Text Auto: [Put 1 <Soccer> character from your hand into your waiting room] When this card is placed on the stage from your hand, if you have another <Soccer> character, you may pay the cost. If you do, return all of your opponent's stock to their deck, your Opponent shuffles their deck, and put the same number of cards from the top of their deck to their stock, and your opponent puts the same number of cards from the top of your opponent's deck into his or her stock.
+EndCard
+
+Character: CTB/W118-085
+Name Japan Jr. Youth Representative, Ryo Ishizaki
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Soccer
+Trait2 Japan Team
+*BlueLevel0Bomb
+Auto: Encore Send 1 Clock IsCharacter && HasTrait Soccer
+{
+}
+Text Auto: ENCORE [Put 1 <Soccer> character from your stage into your clock] 
+EndCard
+
+Character: CTB/W118-086
+Name Reunion, Roberto
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Soccer
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Act: 1 Discard 1 Any SendSelf WaitingRoom
+{
+	*CheckAndAdd(3)
+}
+Text Act: [(1) Put 1 card from your hand into your waiting room, send this card to waiting room] Look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: CTB/W118-087
+Name Game Maker, Taro Misaki
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Japan Team
+*PowerOnMyTurn(1000)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 Level 1 or higher card among them, put it into your hand, and put the rest into the waiting room.
+EndCard
+
+Character: CTB/W118-088
+Name Kumi Sugimoto & Yukari Nishimoto & Sanae Nakazawa
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Soccer
+Trait2 Japan Team
+Cont: Assist
+{
+	If HasTrait Soccer
+	{
+		GainPower 500
+	}
+}
+Text Cont: ASSIST All of your <Soccer> characters in front of this card get +500 power.
+Act: RestSelf
+{
+	ChooseMultipleCharacters 0 3 InLocation Stage && IsCharacter && HasTrait Soccer
+	GainPower 500
+}
+Text Act: [Rest this card] choose up to 3 of your <Soccer> characters, and those characters gets +500 power until end of turn.
+EndCard
+
+Character: CTB/W118-089
+Name Overhead Kick, Tsubasa Oozora
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Soccer
+Combo Overhead Kick
+Auto: OnAttack
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Soccer
+	{
+		TargetSelf
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another <Soccer> character, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Overhead Kick &&& StageContains 2 Other && IsCharacter && HasTrait Soccer
+	{
+		GainPower 1500
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Overhead Kick" is in your climax area, and you have 2 or more other <Soccer> characters, this card gets +1500 power until end of turn, and gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: CTB/W118-090
+Name Dribbling breakthrough, Taro Misaki
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Soccer
+Trait2 Japan Team
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Soccer && IsCharacter
+	{
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, if you have another <Soccer> character, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If HasMarker
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Soccer && Not HasMarker
+		ChooseCharacterFromTargets
+		GainPower 500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetTop Deck 1
+				Reveal
+				If Compare TargetCardsLevel 1 OrMore
+				{
+					MoveCard Stock
+				}
+			}
+			Text Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+		}
+		SaveTargets
+		TargetSelf
+		TargetMarkersUnderTargets
+		Message Choose a marker to move
+		ChooseCardsFromTargets 1 1 Any
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Auto: When this card attacks, if there is a marker underneath this card, choose 1 of your <Soccer> characters does not have a marker underneath it, choose 1 marker underneath this card underneath that card face-up as marker, and that card gets +500 and the following ability until end turn. "Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock."
+EndCard
+
+Character: CTB/W118-091
+Name Golden Duo, Taro Misaki
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Soccer
+Trait2 Japan Team
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 Other && NameEquals Golden Duo, Tsubasa Oozora
+	{
+		GainPower 3000
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+	}
+}
+Text Cont: If you have another "Golden Duo, Tsubasa Oozora" on your center stage, this card gets +3000 power and the following ability. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room."
+*Bond1(Golden Duo\, Tsubasa Oozora)
+EndCard
+
+Character: CTB/W118-092
+Name Golden Duo, Tsubasa Oozora
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Soccer
+Trait2 Japan Team
+Cont: GiveSelf
+{
+	If MyTurn &&& LocationContains CenterStage 1 Other && NameEquals Golden Duo, Taro Misaki
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+	}
+}
+Text Cont: During your turn, if you have another "Golden Duo, Taro Misaki" on your center stage, this card gets +2000 power and the following ability. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room."
+*BondDiscard(Golden Duo\, Taro Misaki)
+EndCard
+
+Character: CTB/W118-093
+Name Captain of Japan, Tsubasa Oozora
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	Question Pass the marker?
+	If Yes
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Soccer && Not HasMarker
+		ChooseCharacterFromTargets
+		SaveTargets
+		TargetLocation Stage
+		NarrowTargets HasTrait Soccer && HasMarker
+		ChooseCharacterFromTargets
+		TargetMarkersUnderTargets
+		Message Choose a marker to move
+		ChooseCardsFromTargets 1 1 Any
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 of your <Soccer> characters underneath marker, and choose 1 of your <Soccer> characters does not have a marker underneath it, put it underneath that card face-up as marker.
+Auto: OnGainMarker
+{
+	GainPower 2000
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When a marker is placed underneath face-up this card, this card gets +2000 power until end of turn.
+EndCard
+
+Character: CTB/W118-094
+Name Nankatsu Middle School Defender, Ryo Ishizaki
+Color B
+Level 1
+Cost 1
+Power 3500
+Trait1 Soccer
+Trait2 Nankatsu MS
+Cont: Assist
+{
+	If HasTrait Soccer
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST All of your <Soccer> characters in front of this card get +X power. X is equal to that character's level ×500.
+Auto: StartAttackPhase
+{
+	*GiveCharacterPower(1000,Soccer)
+}
+Text Auto: At the start of your attack phase, choose 1 of your <> character, it gets +1000 power until end of turn.
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 IsClimax
+	{
+		*CheckAndAdd(2)
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When your character's trigger check reveals a climax, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: CTB/W118-095
+Name Drive Shot, Tsubasa Oozora
+Color B
+Level 2
+Cost 1
+Power 6000
+Trait1 Soccer
+Trait2 Japan Team
+Combo Drive Shot
+Auto: OnPlay
+{
+	SetXValue 0
+	Repeat 2
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			AddToXValue 1
+		}
+	}
+	Discard X Any
+}
+Text Auto: When this card is placed on the stage from your hand, you may draw 2 card and discard number of you drew.
+Auto: OnSpecificClimaxPlay Drive Shot
+{
+	If Phase Climax &&& Compare MyLevel 2 OrMore
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets Hand 0 1 NameEquals Japan Jr. Youth Representative, Taro Misaki
+			Change
+		}
+	}
+}
+Text Auto: CxCombo During your climax phase, when "Drive Shot" is placed on your climax area, and your level is 2 or higher, you may pay the cost. If you do, choose up to 1 "Japan Jr. Youth Representative, Taro Misaki" in your hand, and put it in the stage position that this card was in.
+EndCard
+
+Character: CTB/W118-096
+Name Facial block, Ryo Ishizaki
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Soccer
+Trait2 Japan Team
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue 1000
+	MultiplyXValue TargetCount
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is 1000 times the number of characters your opponent has.
+Auto: OnFrontalAttacked
+{
+	PayCost Discard 3 HasTrait Soccer
+	{
+		Question Choose your opponent's character in battle to gain -4 soul? (Press no will choose yours)
+		If Yes
+		{
+			TargetBattleOpponent
+			LoseSoul 4
+		}
+		If No
+		{
+			TargetMyCharacterInBattle
+			LoseSoul 4
+		}
+		TargetSelf
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: [Put 3 <Soccer> characters from your hand into the waiting room] When this card is frontal attacked, you may pay the cost. If you do, choose 1 character in battle, it gets -4 soul until end of turn, put this card into your waiting room.
+EndCard
+
+Event: CTB/W118-097
+Name Roberto Note
+Color B
+Level 1
+Cost 1
+Requirement StageContains 1 HasTrait Soccer
+Effect:
+{
+	If Compare MyLevel 1 Exactly
+	{
+		SearchDeck IsCharacter && HasTrait Soccer || NameEquals Soccer Ball
+	}
+	If Compare MyLevel 2 Exactly
+	{
+		TargetLocation OpponentStage
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+		Bounce
+	}
+	If Compare MyLevel 3 Exactly
+	{
+		SearchLocationForTargets Clock 1 1 IsCharacter && HasTrait Soccer
+		MoveCard Hand
+	}
+}
+Text If you do not have a <Soccer> character, this card cannot be played from your hand. If you are level 1, search your deck for up to 1 <Soccer> character or "Soccer Ball" and add it to your hand, shuffle your deck. If you are level 2, choose 1 of your opponent's characters, and return it to their hand. If you are level 3, choose 1 <Soccer> character in your clock and return it to your hand. If you are level 4, you can talk about the joy of soccer. (Be careful with your voice and movements)
+EndCard
+
+Climax: CTB/W118-098
+Name Overhead Kick
+*GateClimax 
+EndCard
+
+Climax: CTB/W118-099
+Name Twin Shoot
+*BookClimax 
+EndCard
+
+Climax: CTB/W118-100
+Name Drive Shot
+*GateClimax 
+EndCard

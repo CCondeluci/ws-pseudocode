@@ -1,0 +1,3206 @@
+Character: AGS/W108-001
+Name "Pure Flower-Loving Girl" Aika
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Compare ThatCardsLevel 1 OrMore
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your level 1 or higher characters, and that character gets +1500 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Alicegear)
+EndCard
+
+Character: AGS/W108-002
+Name "Overly Self-Confident Tsundere Ojou" Ayaka
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Combo Local Ice Cream Challenge
+*GainPowerForEachOther(500, Alicegear)
+Auto: OnSpecificClimaxPlay Local Ice Cream Challenge
+{
+	If InLocation CenterStage &&& StageContains 2 Other && HasTrait Alicegear
+	{
+		Message Choose 2 《Alicegear》 characters.
+		SearchLocationForTargets Deck 0 2 HasTrait Alicegear
+		SaveTargets
+		RevealTargets
+		OpponentMessage Choose one of the characters and put it into the WaitingRoom, the rest will be added to your opponent's hand.
+		OpponentChooseCardsFromTargets 1 1 Any
+		ReverseTargets Revealed
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		ShuffleLocation Deck
+	}
+}
+Text Auto: CxCombo When "Local Ice Cream Challenge" is placed into your climax area, if this card is in your center stage and you have 2 or more other <Alice Gear> characters, search your deck for up to 2 <Alice Gear> characters and reveal them. Your opponent then chooses 1 of those characters and puts it into your waiting room, put the rest into your hand and shuffle your deck.
+EndCard
+
+Character: AGS/W108-003
+Name "Modern Urban Female High Schooler Ninja" Raiya
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 Other && NameEquals "Modern Urban Female High Schooler Ninja" Raiya
+	{
+		GainEffect
+		{
+			*GainPowerForEachOther(500,Alicegear)
+		}
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+	}
+}
+Text Cont: If you have another ""Modern Urban Female High Schooler Ninja" Raiya" in the centerstage, this card gets the 2 following abilities. "Cont: This card gets +500 power for each of your other <Alicegear> characters." "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*SearchDeckToPlaceOnStage(NameEquals "Modern Urban Female High Schooler Ninja" Raiya, False)
+	}
+}
+Text Auto: [Discard 1 into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 ""Modern Urban Female High Schooler Ninja" Raiya", and put it in any position of your stage.
+EndCard
+
+Character: AGS/W108-004
+Name "Narukozaka's Loud Otaku" Sitara
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Combo Let's Join a Survival Game!
+*Healer
+Auto: OnAttack
+{
+	If Climax Let's Join a Survival Game! &&& StageContains 2 Other && HasTrait Alicegear
+	{
+		PayCost Discard 1 HasTrait Alicegear
+		{
+			Burn 2
+			PeekTop Deck
+			MultipleChoiceQuestion Place this card to the WaitingRoom or on the bottom of the deck?\n1. Place it to the WaitingRoom \n2. Place it on the bottom of the deck \n3. Return it to the top|1|2|3
+			If Answer 0
+			{
+				MoveCard WaitingRoom
+			}
+			If Answer 1
+			{
+				MoveCardToBottom Deck
+			}
+			If Answer 2
+			{
+				EndPeek Deck
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Discard 1 <Alice Gear> character] When this card attacks, if "Let's Join a Survival Game!" is in your climax area and you have 2 or more other <Alice Gear> characters, you may pay the cost. If you do, deal 2 damage to your opponent, look at the top card of your deck, and put it either on top or bottom of your deck or into your waiting room.
+EndCard
+
+Character: AGS/W108-005
+Name "Angel in Coveralls" Rita
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Alicegear
+	{
+		RevealUpTo Deck 5
+		ChooseCardsFromTargets 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 <Alicegear> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 1 character from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+*YellowLevel0Bomb
+EndCard
+
+Character: AGS/W108-006
+Name Raiya Kaeruzaka
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your opponent's characters and that character gains the following ability until the end of your opponent's turn. "Cont: This card cannot move to another position on your stage."
+Act: Discard 1 Any SendSelf BottomOfDeck
+{
+	SearchDeck IsCharacter && HasTrait Alicegear
+}
+Text Act: [Discard a card and put this card on the bottom of your deck] Search your deck for up to 1 <Alice Gear> character and add it to your hand.
+EndCard
+
+Character: AGS/W108-007
+Name Loves Games, Sitara
+Color Y
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Combo Southern Vacation
+*GainPowerForEachOther(1000, Alicegear)
+Auto: OnSpecificClimaxPlay Southern Vacation
+{
+	If InLocation CenterStage &&& StageContains 4 Other && HasTrait Alicegear
+	{
+		Message Choose a character to put in hand.
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+		}
+		Message Choose an Alicegear character to put into stock
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Alicegear
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: CxCombo When "Southern Vacation" is placed on your climax area, if this card is in your center stage, and you have 4 or more other 《Alice Gear》 characters, choose up to 1 or character in your waiting room, return it to your hand, choose up to 1 《Alice Gear》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: AGS/W108-008
+Name "Familiar Face From the News! Idol Announcer" Anna
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Combo Sand Art Contest
+Auto: OnPlay|PlacedBy "Photojournalist Dashing Across the Universe" Mari
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on stage from your hand or by the effect of a card named ""Photojournalist Dashing Across The Universe" Mari", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax Sand Art Contest && StageContains 3 Other
+	{
+		PayCost Discard 2 Any
+		{
+			MillOpponentBottom 6
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			If HasTarget
+			{
+				Repeat X
+				{
+					Burn 1
+				}
+			}	
+		}
+	}
+}
+Text Auto: CxCombo [Discard 2 cards from your hand] When this card attacks, if "Sand Art Contest" is in your climax area and you have 3 or more other characters, you may pay the cost. If you do, put 6 cards from the bottom of your opponent's deck into their waiting room and deal 1 damage to your opponent X times. X is equal to the number of climax cards sent by this effect.
+EndCard
+
+Character: AGS/W108-009
+Name Aika Aikawa
+Color Y
+Level 3
+Cost 2
+Power 10500
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*GlobalPower(1500,Alicegear)
+*Act1Rest2BurnBrainstorm
+EndCard
+
+Character: AGS/W108-010
+Name Story of Charging Work, Rita
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost Discard 2 IsColor Yellow
+	{
+		DrawCard
+		DrawCard
+	}
+}
+Text Auto: [Discard 2 <b> YELLOW </b> cards from your hand] When this card is placed on stage from your hand, you may pay the cost. If you do, draw 2 cards.
+EndCard
+
+Character: AGS/W108-011
+Name Live Reporter, Anna
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gains +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Alicegear
+	{
+		Question Put this card underneath this as a marker?
+        If Yes
+        {
+            Marker_FaceUp
+        }
+        }
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is an <Alice Gear> character, you may put it face-up underneath this card as a marker.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		Question Put the battle opponent into your opponent's stock?
+		If Yes
+		{
+			MoveCard OpponentStock
+			TargetBottom OpponentStock 1
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+EndCard
+
+Character: AGS/W108-012
+Name Sotara Kaneshiya
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Combo Southern Vacation
+Auto: StartEncoreStep
+{
+	If Climax Southern Vacation
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom HasTrait Alicegear
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Southern Vacation" from your climax area into your waiting room] At the start of your encore phase, you may pay the cost. If you do, choose an <Alice Gear> character in your waiting room and return it to your hand.
+Act: 1 RestSelf Resonate "Narukozaka's Loud Otaku" Sitara
+{
+	RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 HasTrait Alicegear && IsCharacter
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: RESONATE [(1) Reveal a card named ""Narukozaka's Loud Otaku" Sitara" in your hand and rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: AGS/W108-013
+Name Actress Cafe, Aika
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	TargetLocation CenterStage
+	NarrowTargets Other && NameEquals Actress Cafe, Ayaka
+	If HasTarget
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: If there is another "Actress Cafe, Ayaka" in your center stage, this card gains +1000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*SearchDeckToPlaceOnStage(NameEquals Actress Cafe\, Ayaka, False)
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Actress Cafe, Ayaka", put it on any position of your stage, and shuffle your deck.
+EndCard
+
+Character: AGS/W108-014
+Name Actress Cafe, Ayaka
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	TargetLocation CenterStage
+	NarrowTargets Other && NameEquals Actress Cafe, Aika
+	If HasTarget
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: If there is another "Actress Cafe, Aika" in your center stage, this card gains +1000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*SearchDeckToPlaceOnStage(NameEquals Actress Cafe\, Aika, False)
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Actress Cafe, Aika", put it on any position of your stage, and shuffle your deck.
+EndCard
+
+Character: AGS/W108-015
+Name Ayaka Ichijou
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Text Cont: All of your climax cards with a <b> CHOICE </b> trigger gain a soul trigger icon in all zones.
+Auto: OnTriggerCheck
+{
+	IfOther HasTrigger Soul 
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500
+	}
+}
+Text Auto: When you trigger a card with a <b> SOUL </b> trigger, choose 1 of your characters and that character gains +1500 power until end of the turn.
+EndCard
+
+Character: AGS/W108-016
+Name Anna Usamoto
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+*OnPlayGainPower(3000)
+Auto: OnOpponentClimaxPlay
+{
+	Question Put this card into your stock?
+	If Yes
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Auto: When your opponent's climax is placed in their climax area, you may put this card into your stock.
+EndCard
+
+Character: AGS/W108-017
+Name Actress Cafe, Sitara
+Color Y
+Level 1
+Cost 1
+Power 2000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*LevelAssistTrait(Alicegear)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck NameEquals Loves Games, Sitara
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Loves Games, Sitara" and add it to your hand.
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax &&& HasTrigger Shot &&& StageContainsOrLess 0 Other && NameEquals Actress Cafe, Sitara
+	{
+		Message Choose an Alicegear character to put to the bottom of the stock
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Alicegear
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard BottomOfStock
+		}
+	}
+}
+Text Auto: When you trigger a cliamx with a <b> SHOT </b> trigger, if you do not have another "Actress Cafe, Sitara", choose up to 1 <Alice Gear> character in your waiting room and put it into your stock.
+EndCard
+
+Character: AGS/W108-018
+Name Rita Henschel
+Color Y
+Level 2
+Cost 1
+Power 6500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*Level3Assist
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsClimax && SameNameAsCardInWaitingRoom
+	}
+}
+Text Auto: [(1) Discard 1 card] When this is placed on stage from hand, you may pay cost. If you do, search your deck for up to 1 climax that has the same name as a climax in your waiting room, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: AGS/W108-019
+Name Escaping From Kaoruko, Raiya
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+*OnPlayGivePower(1500, Alicegear)
+Auto: StartOpponentDrawPhase
+{
+	Mill 2
+	NarrowToHighestLevel
+	If Compare TargetCardsLevel 2 OrHigher
+	{
+		TargetSelf
+		Question Return "Escaping From Kaoruko, Raiya" to your hand?
+		If Yes && OnStage
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: At the start of your opponent's draw phase, put the top 2 cards of your deck into your waiting room. If there is at least 1 level 2 or higher card among them, you may return this card to your hand.
+EndCard
+
+Character: AGS/W108-020
+Name Narukozaka Manufacturing (Beta) Maintenance Crew
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 HasTrait Alicegear
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Discard an <Alice Gear> character] When this card is placed on stage from your hand or when this card is sent from the stage to your waiting room, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it into your hand, then put the rest into your waiting room.
+EndCard
+
+Character: AGS/W108-021
+Name Summer Memories, Ayaka
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Alicegear
+Trait2 Actress
+*ClimaxExchange
+EndCard
+
+Character: AGS/W108-022
+Name Sleeping Over at the Office, Aika
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameEquals Ayaka Ichijou
+	If HasTarget
+	{
+		GainPower 6000
+	}
+}
+Text Cont: If you have another "Ayaka Ichijou", this card gains +6000 power.
+EndCard
+
+Character: AGS/W108-023
+Name Dangerous Mountain Climbing, Rita
+Color Y
+Level 1
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*YellowEarlyPlayBomb
+EndCard
+
+Character: AGS/W108-024
+Name What She Can Do, Ayaka
+Color Y
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains OpponentClimax 1 IsClimax
+	{
+		TargetMyCharacterInBattle
+		IfTarget HasTrait Alicegear
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Auto: When you use this card's <b> BACKUP </b>, if there is a climax in your opponent's cliamx area, choose 1 of your <Alice Gear> characters in battle and that character gains +2000 power until end of turn.
+Backup 2500
+EndCard
+
+Character: AGS/W108-025
+Name Summer Memories, Aika
+Color Y
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*GainPowerForEachOther(1000, Alicegear)
+Auto: OnOpponentClimaxPlay
+{
+	GainPower 2000
+}
+Quick
+Text Auto: When a climax card is placed into your opponent's climax area, this card gains +2000 power until end of turn.
+EndCard
+
+Character: AGS/W108-026
+Name What She Can Do, Raiya
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*Healer
+Auto: OnAttack
+{
+	If Compare CardsInHand 5 OrLess && LocationContainsOrLess Climax 0 Any
+	{
+		PayCost 1 Discard 1 HasTrait Alicegear
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Alicegear || IsEvent
+			{
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: [(1) Discard an <Alice Gear> character] When this card attacks, if there is not a cliamx in your climax area and there are 5 or less cards in your hand, you may pay the cost. If you do, reveal the top card of your deck. If that card is either an <Alice Gear> character or an event, deal 2 damage to your opponent.
+EndCard
+
+Event: AGS/W108-027
+Name Angel HasArrived
+Color Y
+Level 1
+Cost 0
+Effect: 
+{
+    Mill 4  
+    *CountSoulTriggers
+    SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Alicegear
+}
+Text Put the top 4 cards of your deck into your waiting room, choose up to 1 level X or lower 《Alice Gear》 character in your waiting room, and return it to your hand. X is equal to the total number of <b> SOUL </b> in the trigger icons of those cards.
+EndCard
+
+Climax: AGS/W108-028
+Name Let's Join a Survival Game!
+*ShotClimax
+EndCard
+
+Climax: AGS/W108-029
+Name Southern Vacation
+*ShotClimax
+EndCard
+
+Climax: AGS/W108-030
+Name Local Ice Cream Challenge
+*ChoiceClimax
+ConditionalTrigger Soul StageContains 1 NameEquals Ayaka Ichijou
+ConditionalTrigger Soul StageContains 2 NameEquals Ayaka Ichijou 
+ConditionalTrigger Soul StageContains 3 NameEquals Ayaka Ichijou
+ConditionalTrigger Soul StageContains 4 NameEquals Ayaka Ichijou
+EndCard
+
+Climax: AGS/W108-031
+Name Sand Art Contest
+*ChoiceClimax 
+ConditionalTrigger Soul StageContains 1 NameEquals Ayaka Ichijou
+ConditionalTrigger Soul StageContains 2 NameEquals Ayaka Ichijou 
+ConditionalTrigger Soul StageContains 3 NameEquals Ayaka Ichijou
+ConditionalTrigger Soul StageContains 4 NameEquals Ayaka Ichijou
+EndCard
+
+Character: AGS/W108-032
+Name "Wild Wild Moodmaker" Rin
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+*ScryOnPlay
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Alicegear
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on stage from your hand or put into your waiting room from your stage, you may pay the cost. If you do, choose an <Alice Gear> character in your waiting room and return it to your hand.
+EndCard
+
+Character: AGS/W108-033
+Name "Idol of Egota" Momoka
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Combo I Had a Hit~
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets IsCharacter
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, this card gains +X power until end of turn. X is equal to the number of your opponent's characters times 1000.
+Auto: OnAttack
+{
+	If Climax I Had a Hit~
+	{
+		If StageContains 1 Other && HasTrait Alicegear
+		{
+			Peek Deck 3
+			Message Choose a card to add to your hand.
+			ChooseCardsFromTargets 0 1 HasTrait Alicegear
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "I Had a Hit~" is in your climax area and you have another <Alice Gear> character, look at up to 3 cards from the top of your deck, choose 1 <Alice Gear> character to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: AGS/W108-034
+Name What She Can Do, Yotsuyu
+Color R
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Combo Let's Go Back, Together
+Auto: OnAttack
+{
+	If AllYourCharacters HasTrait Alicegear
+	{
+		PayCost 1
+		{
+			MultipleChoiceQuestion Choose an effect:\n1. Put the top of your clock into your waitingroom. \n2. Deal one damage to your opponent.|1|2
+			If Answer 0
+			{
+				Heal
+			}
+			If Answer 1
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: [(1)] When this card attacks, if all of your characters are <Alice Gear>, you may pay the cost. If you do, either deal 1 damage to your opponent or put the top card of your clock into your waiting room.
+Auto: StartAttackPhase
+{
+	If Climax Let's Go Back, Together && InLocation CenterStage
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchLocationForTargets Hand 0 1 NameEquals What She Can Do, Yotsuyu
+			PlaceOnStage False True True False
+			GainPower 3000
+			TargetSelf
+			GainPower 3000
+			PeekTop OpponentDeck
+			MultipleChoiceQuestion Put the card to|Topdeck|Waitingroom
+			If Answer 0
+			{
+				EndPeek
+			}
+			Else
+			{
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Let's Go Back, Together" from your climax area into your waiting room] At the start of your attack phase, if this card is in your center stage, you may pay the cost. If you do, choose up to 1 "What She Can Do, Yotsuyu" in your hand and place it on any position of your stage, that character and this card gain +3000 power until end of turn, look at the top card of your opponent's deck and put it either on top of their deck or into their waiting room.
+EndCard
+
+Character: AGS/W108-035
+Name Overflowing Emotions, Nodoka
+Color R
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay|PlacedBy FUSION
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by the effect of "Fusion", you may put the top card of your clock into your waiting room.
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals Overflowing Emotions, Nodoka
+	{
+		If MyTurn
+		{
+			GainPower 1000
+		}
+		GainEffect
+		{
+			*PayToExchange(Alicegear)
+		}
+	}
+}
+Text Cont: EXPERIENCE If there is an "Overflowing Emotions, Nodoka" in your level, this card gains the following 2 abilities. "Cont: During your turn, this card gains +1000 power." "Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost, choose one of your <Alice Gear> characters and this card and exchange them as standing."
+EndCard
+
+Character: AGS/W108-036
+Name "Volunteer Squad" Yotsuyu
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Auto: At the start of your opponent's attack phase, choose 1 of your characters and that character gains +500 power until end of turn.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 5
+	TargetBrainstormed
+	NarrowTargets HasTrigger Standby
+	SetXValue TargetCount
+	Repeat X
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over the top 5 cards of your deck and put them into your waiting room. For each climax with a <b> STANDBY </b> trigger revealed by this effect, choose up to 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: AGS/W108-037
+Name Rin Himukai
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is level 2 or higher, put it into your stock.
+Auto: OnAttack
+{
+	If Not StageContains 1 IsCharacter && InLocation Backstage
+	{
+		Question Put the top card of your deck in your waiting room?
+		If Yes
+		{
+			Mill 1
+			IfTarget InLocation WaitingRoom && IsCharacter && Compare ThatCardsLevel 0 OrLess
+			{
+				PlaceOnStage False False True False
+			}
+		}
+	}
+}
+Text Auto: When this card attacks, if you have no characters in your backstage, you may put the top card of your deck into your waiting room, if it is a level 0 character put it on any position of your backstage.
+EndCard
+
+Character: AGS/W108-038
+Name Nodoka Gone Berserk
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Combo Together With Someone She Admires
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharactersFromTargets 0 2 Choose up to 2 of your characters, this turn, they get +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [Return this card to your hand] When a climax is placed into your climax area, you may pay the cost. If you do, choose up to 2 of your characters and those characters gain +1000 power until end of turn.
+Auto: OnSpecificClimaxPlay Together With Someone She Admires
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Alicegear
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			Peek Deck 1
+			Message Choose a card to add to your hand.
+			ChooseCardsFromTargets 0 1 HasTrait Alicegear
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		Text Auto: When this card attacks, look at the top card of your deck, choose up to 1 <Alicegear> character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room.
+	}
+}
+Text Auto: CxCombo When "Together With Someone She Admires" is placed into your climax area, choose 1 of your other <Alice Gear> characters and that character gains the following ability until end of turn. "Auto: When this card attacks, reveal the top card of your deck and if that card is an <Alice Gear> character, you may put it in your hand or put it into your waiting room."
+EndCard
+
+Character: AGS/W108-039
+Name "Bastard File" Yasuri
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Alicegear
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Alicegear
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Alice Gear》 character in your waiting room, return it to your hand, choose 1 of your other 《Alice Gear》 characters, it gets +1000 power until end of turn.
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: During battles involving this card, when damage taken by you is cancelled, you may return this card to your hand.
+EndCard
+
+Character: AGS/W108-040
+Name Touka Shimoochiai
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals "Idol of Egota" Momoka
+		SetXValue TargetCount
+		SearchWaitingRoom IsCharacter && ColorIs Red && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 level X or lower <b> RED </b> character in your waiting room and return it to your hand. X is equal to the number of '"Idol of Egota" Momoka' in your waiting room.
+*OnAttackGivePower(1500,Alicegear)
+EndCard
+
+Character: AGS/W108-041
+Name Nodoka Takahata
+Color R
+Level 2
+Cost 1
+Power 1500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	Message Choose up to 2 "Overflowing Emotions, Nodoka" in your waiting room and put them on the bottom of your deck
+	SearchLocationForTargets WaitingRoom 0 2 NameEquals Overflowing Emotions, Nodoka
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 2 "Overflowing Emotions, Nodoka" in your waiting room, and put them at the bottom of your deck in any order.
+Act: MarkerOtherUnderThis 1 NameEquals To Catch Up to the One She Admires, Nodoka
+{
+	TargetLocation Marker
+	FlipFaceUp
+	SearchLocationForTargets Deck 0 1 NameEquals Overflowing Emotions, Nodoka
+	Fusion
+	ShuffleLocation Deck
+}
+Text Act: FUSION [Put 1 "To Catch Up to the One She Admires, Nodoka" from your stage face up underneath this card as a marker] Search your deck for up to 1 "溢れ出る気持ち のどか", put it on this card's stage position, put this card and all markers underneath this card face up in any order underneath that "Magnificent Subawaal Sculpture" as markers, and shuffle your deck.
+EndCard
+
+Character: AGS/W108-042
+Name Chain of Helping Hands, Yotsuyu
+Color R
+Level 2
+Cost 2
+Power 1500
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay|PlacedBy Standby
+{
+	SearchLocationForTargets WaitingRoom 0 2 NameEquals What She Can Do, Yotsuyu
+	RevealTargets
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is placed on stage from your hand or via the effect of <b> STANDBY </b>, choose up to 2 "What She Can Do, Yotsuyu" in your waiting room and put them on the bottom of your deck in any order.
+Act: MarkerOtherUnderThis 1 NameEquals "Volunteer Squad" Yotsuyu
+{
+	SearchLocationForTargets Deck 0 1 NameEquals What She Can Do, Yotsuyu
+	Fusion
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+	ShuffleLocation Deck
+}
+Text Act: FUSION [Put 1 "To Catch Up to the One She Admires, Nodoka" from your stage face up underneath this card as a marker] Search your deck for up to 1 "What She Can Do, Yotsuyu", put it on this card's stage position, put this card and all markers underneath this card face up in any order underneath that "What She Can Do, Yotsuyu" as markers, that character gains +1500 power until the end of your opponent's turn, and shuffle your deck.
+EndCard
+
+Character: AGS/W108-043
+Name "Model Metaphysics" Sugumi
+Color R
+Level 3
+Cost 2
+Power 9500
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Tag EarlyPlay
+Cont: InHand
+{
+	If LocationContains Stage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have a level 3 or higher character, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [Put another character from your stage to your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 climax in your waiting room and return it to your hand.
+EndCard
+
+Character: AGS/W108-044
+Name To Catch Up to the One She Admires, Nodoka
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TotalLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+	}
+}	
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+EndCard
+
+Character: AGS/W108-045
+Name Sugumi Kanagata
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+*OnOtherAttackedSacrificeToGivePower(1000,Alicegear)
+Act: 1
+	{
+		Brainstorm 4
+		If Compare BrainstormedClimax 1 OrMore
+		{
+			SetXValue BrainstormedClimax
+			Repeat X
+			{
+				Peek Deck 3
+				ChooseCard Choose a card to add to your hand (Will not be revealed)
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+				Discard 1 Any
+			}
+		}
+	}
+Text Act: BRAINSTORM [(1)] Flip over 4 cards from the top of your deck, and put them into the waiting room, for each climax revealed perform the following action. "Look at up to 3 cards from the top of your deck, choose up to 1 to add to your hand, put the rest into the waiting room, and discard a card".
+EndCard
+
+Character: AGS/W108-046
+Name As Ally, Yotsuyu
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+*PowerOnMyTurn(1000)
+*CleanCut(Alicegear)
+EndCard
+
+Character: AGS/W108-047
+Name Special Live, Touka
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other
+	{
+		SearchLocationForTargets Deck 0 1 IsClimax
+		Reveal
+		SaveTargets
+		SearchLocationForTargets Hand 0 1 IsClimax
+		Reveal
+		AddSavedToCurrentTargets
+		Exchange
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put another character from your stage to your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 climax and reveal it, choose up to 1 climax in your hand and reveal it, exchange those climaxes and shuffle your deck.
+EndCard
+
+Character: AGS/W108-048
+Name Midsummer Sand Art, Sugumi
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+*GainPowerForEachOther(500, Alicegear)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Alicegear && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a level 0 or lower <Alice Gear> character in your waiting room and place it on any position on your stage.
+EndCard
+
+Character: AGS/W108-049
+Name Simon
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Alicegear
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1  NameEquals New Ally, Nodoka
+	SaveTargets
+	Change
+	TargetLocation Stage
+	NarrowTargets HasTrait Alicegear
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	LoadTargets
+	GainPower X
+}
+Text Act: [(1) Put this card into your waiting room] Choose 1 "New Ally, Nodoka" in your waiting room and place it on any position on your stage and that character gains +X power until end of turn. X is equal to 1000 times the number of your <Alice Gear> characters.
+EndCard
+
+Character: AGS/W108-050
+Name Special Seeding, Sugumi
+Color R
+Level 2
+Cost 1
+Power 3000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			TargetBattleOpponent
+			SetXValue OpponentsLevel
+			AddToXValue 1
+			IfThatCard Compare ThatCardsLevel X OrMore && OnStage
+			{
+				MoveCard OpponentMemory
+			}
+		}
+		Text Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, put that character to your opponent's memory."
+	}
+}
+Text Auto: When you use this card's <b> BACKUP </b>, your character in battle gains the following ability until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, put that character to your opponent's memory."
+Backup 2500
+EndCard
+
+Character: AGS/W108-051
+Name Eriko Henmi
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Alicegear
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gains +1 soul.
+Auto: OnPlay
+{
+	Question Put a card in your clock into your hand and put a card from your hand to your clock?
+	If Yes
+	{
+		Message Choose a card in your clock to put into your hand
+		SearchLocationForTargets Clock 0 1 Any
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			Message Choose a card in your hand to put into your clock
+			SearchLocationForTargets Hand 1 1 Any
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose a card in your clock and return it to your hand. If you do, put a card in from your hand into your clock.
+EndCard
+
+Character: AGS/W108-052
+Name Yotsuyu Hirasaka
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on stage from your hand, you may pay the cost. If you do, return all cards in your waiting room to your deck and shuffle your deck.
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Alicegear
+	{
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		SetXValue TargetCount
+		MoveCard Hand
+		If Compare X 1 OrMore
+		{
+			Discard 1 Any
+		}
+	}
+}
+Alarm
+Text Auto: ALARM If this card is on top of your clock and you have 4 or more <Alice Gear> characters, at the start of your climax phase you may choose a character in your waiting room and return it to your hand. If you do, discard a card.
+EndCard
+
+Character: AGS/W108-053
+Name Position Reversed, Rin
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Alicegear
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Alice Gear> character, this card gains +3000 power.
+Auto: OnAttack
+{
+	If LocationContainsOrLess Climax 0 Any
+	{
+		If StageContains 1 Other && HasTrait Alicegear
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget Compare ThatCardsLevel 1 OrMore
+			{
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card attacks, if there is not a climax in your climax area and you have another <Alice Gear> character, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+EndCard
+
+Character: AGS/W108-054
+Name Midsummer Sand Art, Yasuri
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Alicegear
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Alice Gear>, this card gains +2000 power.
+Auto: OnReverseOpponent
+{
+	If Compare LocationContainsOrLess Climax 0 Any
+	{
+		If StageContains 1 Other && HasTrait Alicegear
+		{
+			Question Put the battle opponent onto the top of opponent's deck?
+			If Yes
+			{
+				IfOther OnStage
+				{
+					TargetOther
+					MoveCard OpponentDeck
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is not a climax in your climax area and you have another <Alice Gear> character, you may put that character on top of your opponent's deck.
+EndCard
+
+Character: AGS/W108-055
+Name Bond with "Allies", Nodoka
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Alicegear
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Alice Gear> characters, this card gains +1500 power and the following ability. "Auto: ENCORE [Discard a character]"
+Auto: StartDrawPhase
+{
+	If Compare TurnNumber 2 OrLess
+	{
+		*CheckAndAdd(2)
+	}
+}
+InWaitingRoom
+Text Auto: [Discard a card] If this card is in your waiting room, at the start of your first turn, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 of them and put it into your hand and put the rest into your waiting room.
+EndCard
+
+Character: AGS/W108-056
+Name Yasuri Araime
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Alicegear
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Alice Gear> characters, this card gains +1500 power and the following ability. "Auto: ENCORE [Discard a character]"
+EndCard
+
+Character: AGS/W108-057
+Name "Nakano Love" Touka
+Color R
+Level 2
+Cost 1
+Power 3000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*PowerOnMyTurn(10000)
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		Question Put the battle opponent into your opponent's memory?
+		If Yes
+		{
+			MoveCard OpponentMemory
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+EndCard
+
+Character: AGS/W108-058
+Name Meaningless Signpost, Rin
+Color R
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*GainPowerForEachOther(1000, Alicegear)
+Auto: OnSpecificClimaxPlay Rin-chan Exploration Squad
+{
+	UntilEndOfOpponentsTurn
+	GainSpecialEffect DoubleTrigger
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If OpponentsTurn
+			{
+				GainPower 2000
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Rin-chan Exploration Squad" is placed into your climax area, this card gains the following 2 abilities until end of your opponent's turn. "Text Cont: During your opponent's turn, this card gains +2000 power." "Auto: When this card attacks, perform the trigger check twice during this attack's trigger step."
+EndCard
+
+Character: AGS/W108-059
+Name Special Seeding, Yasuri
+Color R
+Level 2
+Cost 2
+Power 6000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*GainPowerForEachOther(1000,Alicegear)
+*HandEncore
+EndCard
+
+Event: AGS/W108-060
+Name Present From the One She Admires
+Color R
+Level 2
+Cost 1
+Counter
+Effect:
+{
+	PayCost Discard 1 NameEquals New Ally, Nodoka
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to give -3 soul.
+		LoseSoul 3
+	} 
+}
+Text Counter You may discard 1 "New Ally, Nodoka" from your hand. If you do, choose 1 of your opponent's characters and that character gets -3 soul until end of turn.
+EndCard
+
+Climax: AGS/W108-061
+Name Let's Go Back, Together
+*StandbyClimax
+EndCard
+
+Climax: AGS/W108-062
+Name Together With Someone She Admires
+*StandbyClimax 
+EndCard
+
+Climax: AGS/W108-063
+Name I Had a Hit~
+*DoorClimax 
+EndCard
+
+Climax: AGS/W108-064
+Name Rin-chan Exploration Squad
+*DoorClimax 
+EndCard
+
+Character: AGS/W108-065
+Name "Sweet Temptation, Painful Surge" Yumi
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+*DropSearch(Alicegear)
+Auto: StartOpponentAttackPhase
+{
+	If CanMove
+	{
+		TargetFacing
+		If HasTarget
+		{
+			TargetSelf
+			Question Move this card to an open position of your center stage?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}		
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: AGS/W108-066
+Name "Carrot and Stick and Encyclopedia" Fumika
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Combo Let's Finish This Neatly!
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Alicegear
+	{
+		Message Choose up to 1 card in your clock to put into your memory.
+		SearchLocationForTargets Clock 0 1 IsCharacter
+		MoveCard Memory
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 2 or more other <Alice Gear> characters, you may choose a character in your clock and put it into your memory.
+Auto: OnAttack
+{
+	If Climax Let's Finish This Neatly!
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation Memory
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [Discard a card] When this card attacks, if "Let's Finish This Neatly!" is in your climax area, you may pay the cost. If you do, deal X damage to your opponent. X is equal to the number of cards in your memory.
+EndCard
+
+Character: AGS/W108-067
+Name Kaoruko Yamano
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Alicegear
+    ChooseCharacterFromTargets Choose a character to give +1500 power.
+    GainPower 1500
+	If Not HasMarker
+	{
+		Message Choose up to 1 《Alicegear》 character in your waiting room, and put it face down underneath this card as a marker.
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Alicegear
+		RevealTargets
+		Marker_FaceUp
+	}
+}
+Text Act: [Rest this card] Choose 1 of your <Alice Gear> characters and that character gains +1500 power until end of turn, then if there is no marker underneath this card, choose 1 <Alice Gear> character in your waiting room and put it face-up underneath this card as a marker.
+Act: 1 RestSelf SendMarker WaitingRoom
+{
+	Peek Deck 4
+	Message Choose a card to add to your hand.
+	ChooseCardsFromTargets 0 1 HasTrait Alicegear
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Put a marker from underneath this in your waiting room and rest this card] Look at up to 4 cards from the top of your deck, choose up to 1 <Alice Gear> character and add it to your hand.
+EndCard
+
+Character: AGS/W108-068
+Name Calm and Posed, Fumika
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Act: 1 SendSelf Memory
+{
+	Peek Deck 3
+	ChooseCardsFromTargets 0 1 HasTrait Alicegear
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Put this card into your memory] Look at up to 3 cards from the top of your deck and choose up to 1 <Alice Gear> character and add it to your hand.
+Auto: OnOtherAttacks
+{
+	PayCost SendFromMemoryToWaitingRoom 1 Not Other
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+InMemory
+Text Auto: MEMORY [Put this card in your waiting room] If this card is in your memory, when your character attacks, you may pay the cost. If you do, choose 1 of your characters and that character gains +2000 power until end of turn.
+EndCard
+
+Character: AGS/W108-069
+Name "Japanese Lady of Conviction" Kaede
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax && HasTrigger Gate
+	{
+		PayCost Discard 1 IsClimax
+		{
+			*CheckAndAdd(2)
+		}
+	}
+}
+Text Auto: [Discard a climax] When one of your character's trigger check reveals a climax with a <b> GATE </b> trigger, you may pay the cost. If you do, look at up 2 cards from the top of your deck and choose up to 1 card from among them and add it to your hand.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: AGS/W108-070
+Name Serina Niiya
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Auto: StartDrawPhase
+{
+	If Compare TurnNumber 2 OrLess
+	{
+		*OptionalBlindStock
+	}
+}
+InWaitingRoom
+Text Auto: If this card is in your waiting room, at the start of your first turn, you may put the top card of your deck into your stock.
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	PutTheRestIntoTheWaitingRoom
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Serina Niiya
+	SetXValue TargetCount
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		If Compare TargetCardsLevel X OrLess
+		{
+			Question put the battle opponent to bottom of deck?
+			If Yes
+			{
+				MoveCardToBottom OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, put up to 3 cards from the top of your deck into your waiting room, and if the level of this card's battle opponent is X or lower, you may put that card on the bottom of your opponent's deck. X is equal to the number of "Serina Niiya" in your waiting room.
+EndCard
+
+Character: AGS/W108-071
+Name "Actress with Two Faces" Serina
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Alicegear
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, if you have another <Alice Gear> character, this card gains +2000 power until end of turn.
+Auto: OnUseAct
+{
+	TargetSelf
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget Compare ThatCardsLevel 1 OrMore
+			{
+				MoveCard Stock
+			}
+		}
+		Text Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an <b> ACT </b> ability, this card gains the following ability until end of turn. "Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock."
+EndCard
+
+Character: AGS/W108-072
+Name "Barrel in Blue Moon" Aoi
+Color B
+Level 1
+Cost 1
+Power 6000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Alicegear
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If MyTurn
+				{
+					SetXToNumberOfCharacters Other && HasTrait Alicegear
+					MultiplyXValue 1000
+					GainPower X
+				}
+			}
+			Text Cont: During your turn, this card gains +1000 power for each of your other <Alice Gear> characters.
+		}
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If all of your characters are <Alice Gear>, this card gains the following two abilities. "Cont: During your turn, this card gains +1000 power for each of your other <Alice Gear> characters." "Auto: ENCORE [Discard a character]"
+EndCard
+
+Character: AGS/W108-073
+Name "Hardened Supervisor" Kaoruko
+Color B
+Level 3
+Cost 2
+Power 9000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*EarlyPlay4OrMore(Alicegear)
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If Not StageContains 1 Not HasTrait Alicegear
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, if all of your characters are <Alice Gear>, this card gains +2000 power.
+*StockHealer
+EndCard
+
+Character: AGS/W108-074
+Name Yumi Yotsuya
+Color B
+Level 3
+Cost 2
+Power 9000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Alicegear
+	Peek Deck X
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck. Choose up to 1 to add to your hand and put the rest into the waiting room. X is the number of <Alicegear> characters you have.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		GainPower 3500
+	}
+}
+Text Auto: [Discard a card] When this card attacks, you may pay the cost. If you do, this card gains +3500 power until end of turn.
+EndCard
+
+Character: AGS/W108-075
+Name "Photojournalist Dashing Across the Universe" Mari
+Color B
+Level 3
+Cost 2
+Power 10500
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals "Familiar Face From the News! Idol Announcer" Anna
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a ""Familiar Face From the News! Idol Announcer" Anna" in your waiting room and place it on any position on your stage.
+Auto: OnAttack
+{
+	PayCost 1
+	{
+		PeekTop OpponentDeck
+		MultipleChoiceQuestion Place this card to the deck of|top|bottom
+		If Answer 0
+		{
+			EndPeek
+		}
+		Else
+		{
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, look at the top card of your opponent's deck and put it either on top or bottom of their deck.
+EndCard
+
+Character: AGS/W108-076
+Name Mari Jinguji
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Alicegear
+Trait2 Actress
+ConditionalTrigger LoneGate LocationContains Climax 1 HasTrigger Gate
+Text Cont: If there is a climax with a <b> GATE </b> trigger icon in your climax area, this card gains <b> GATE </b> while in all areas.
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	IfTarget Compare TargetCardsLevel 0 OrLess && OnStage && AllYourCharacters HasTrait Alicegear
+	{
+		Question Put the battle opponent on the bottom of the deck?
+		If Yes
+		{
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if this card's battle opponent is level 0 or lower and all your characters are <Alicegear>, you may put that character on the bottom of your opponent's deck.
+EndCard
+
+Character: AGS/W108-077
+Name "Phantom Thief Chat Noir" Serina
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnOtherAttacks
+{
+	PayCost SendFromMemoryToWaitingRoom 1 Not Other
+	{
+		Peek Deck 2
+		Message put up to 2 cards to top of deck in any order
+		ChooseCardsFromTargets 0 2 Any
+		Reorder
+		MoveCard Deck
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+InMemory
+Text Auto: MEMORY [Put this card into your waiting room] If this card is in your memory, when your character attacks, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 of them and put them back on top of your deck in any order, then put the rest into your waiting room.
+Auto: OnReversed
+{
+	If InLocation Stage
+	{
+		PayCost HandClock Any SendSelf Memory
+		{
+			SearchDeck HasTrait Alicegear
+		}
+	}
+}
+Text Auto: [Put a card from your hand into your clock and put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Alice Gear> character and add it to your hand.
+EndCard
+
+Character: AGS/W108-078
+Name Enjoying the Summer, Yumi
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into your waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may put the top 3 cards of your deck into your waiting room.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Alicegear
+}
+Text Act: [Discard a card and put this card into your waiting room] Choose an <Alice Gear> character in your waiting room and return it to your hand.
+EndCard
+
+Character: AGS/W108-079
+Name Aoi Matoba
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Discard a card] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck and add 1 level 1 or higher card from among them to your hand.
+EndCard
+
+Character: AGS/W108-080
+Name Weird Smile, Mari
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveAll
+{
+	If OpponentsTurn && Other && HasTrait Alicegear
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, all of your other <Alice Gear> characters gain +1000 power.
+Act: 1 RestSelf Discard 1 IsClimax
+{
+	OpponentMessage Put 1 card to stock
+	OpponentSearchLocationForTargets Hand 1 1 Any
+	MoveCard OpponentStock
+}
+Text Act: [(1) Discard a climax and rest this card] Your opponent chooses a card in their hand and puts it into their stock.
+EndCard
+
+Character: AGS/W108-081
+Name Kaede as Vapor Haze
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Combo Girls Armed with Alice Gear
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Alicegear
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Alice Gear>, this card gains +2000 power.
+Auto: OnSpecificClimaxPlay Girls Armed with Alice Gear
+{
+	If StageContains 2 Other && HasTrait Alicegear
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If OpponentsTurn
+				{
+					GainPower 4500
+				}
+			}
+			Text Cont: This card gains +4500 power on your opponent's turn.
+		}
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				If MyTurn
+				{
+					Message Choose a 《Alicegear》 character to return to your hand
+					SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Alicegear
+					RevealTargets
+					MoveCard Hand
+					Discard 1 Any
+				}
+			}
+			Text Auto: During your turn, when this card's battle opponent becomes reversed, choose 1 <Alice Gear> character in your waiting room and add it to your hand, then discard a card.
+		}
+	}
+}
+Text Auto: CxCombo When "Girls Armed With Alice Gear" is placed into your climax area, this card gains the following 2 abilities until the end of your opponent's turn. "Cont: This card gains +4500 power on your opponent's turn." "Auto: During your turn, when this card's battle opponent becomes reversed, choose 1 <Alice Gear> character in your waiting room and add it to your hand, then discard a card."
+EndCard
+
+Character: AGS/W108-082
+Name Kaede Agatsuma
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Alicegear
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have another <Alice Gear> character, this card gains +2000 power until end of turn.
+Auto: OnAttack
+{
+	If LocationContains Climax 1 HasTrigger Gate
+	{
+		Message Choose a 《Alicegear》 character to return to your hand
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, if there is a climax in your climax area with a <b> GATE </b> trigger icon, choose up to 1 character in your waiting room and discard a card.
+EndCard
+
+Character: AGS/W108-083
+Name The Last Barrier, Fumika
+Color B
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Combo Is This It!?
+*GainPowerWithEnoughCharacters(4000,2,Alicegear)
+Auto: OnSpecificClimaxPlay Is This It!?
+{
+    If Compare MyLevel 2 OrHigher && StageContains 3 Other
+    {
+		PlaceOnStage True True True False
+	}
+}
+InWaitingRoom
+Text Auto: CxCombo While this card is in your waiting room, when "Is This It!?" is placed into your climax area, if you are level 2 or higher and you have 3 or more other characters, put this in an empty position on your stage.
+EndCard
+
+Character: AGS/W108-084
+Name Can't Beat the Fluffy, Aoi
+Color B
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	SearchLocationForTargets WaitingRoom 0 1 IsCharacter || NameEquals How About One?
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Memory
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may choose 1 character or "How About One?" in your waiting room and put it into your memory.
+EndCard
+
+Character: AGS/W108-085
+Name Cassette Showing, Aoi
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	Question Exchange a card in your level with a card in your waiting room?
+	If Yes
+	{
+		*ExchangeCardInLevelWithWaitingRoom(HasTrait Alicegear,HasTrait Alicegear)
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose 1 <Alice Gear> character in your level and 1 <Alice Gear> character in your waiting room and exchange them.
+*BlueLevel0Bomb
+EndCard
+
+Character: AGS/W108-086
+Name Offering Advice, Mari
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Alicegear
+Trait2 Actress
+*OnPlayGivePower(1500,Alicegear)
+*OnAttackGivePower(1500,Alicegear)
+EndCard
+
+Character: AGS/W108-087
+Name Work to Do, Serina
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom HasTrait Alicegear && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Discard a card] When this card is placed into your waiting room from your stage, you may pay the cost. If you do, reveal the top card of your deck and choose 1 level X or lower <Alice Gear> character in your waiting room and return it to your hand. X is equal to the level of the card revealed by this effect.
+EndCard
+
+Character: AGS/W108-088
+Name Everyone's Caretaker, Kaoruko
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+*GiveAllOpponentsEncore2
+EndCard
+
+Character: AGS/W108-089
+Name Gathering Evidence, Kaoruko
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+*BackupBonus1000(Alicegear)
+Backup 1000
+EndCard
+
+Character: AGS/W108-090
+Name Actress Cafe, Yumi
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Combo Secret Strategy for Victory
+*GainPowerWithEnoughCharacters(2000,2,Alicegear)
+Auto: OnAttack
+{
+	If Climax Secret Strategy for Victory &&& StageContains 1 Other && HasTrait Alicegear
+	{
+		CostOptions Pay 1 stock|Send the climax to the waiting room.
+		PayCost 1 OR SendClimax WaitingRoom
+		{
+			Repeat 2
+			{
+				TargetTop Deck 1
+				Reveal
+				IfTarget HasTrait Alicegear || IsEvent
+				{
+					MoveCard Hand
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put the top card of your stock into your waiting room OR put 1 "Secret Strategy for Victory" from your climax area into your waiting room] When this card attacks, if "Secret Strategy for Victory" is in your climax area and you have another <Alice Gear> character, you may pay the cost. If you do, perform the following action twice. "Reveal the top card of your deck. If that card is an <Alice Gear> character or an event, put it into your hand."
+EndCard
+
+Character: AGS/W108-091
+Name Promotional Shoot, Mari
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Alicegear
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have another <Alice Gear> character, this card gains +2000 power until end of turn.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: AGS/W108-092
+Name Fumika Momoshina
+Color B
+Level 1
+Cost 1
+Power 1000
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax && HasTrigger Gate
+	{
+		PayCost Discard 1 IsClimax
+		{
+			Heal
+		}
+	}
+}
+Text Auto: [Discard a climax] When you trigger a climax with a <b> GATE </b> trigger icon, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+Auto: OnOtherFrontalAttacked
+{
+	PayCost Discard 1 IsClimax
+	{
+		TargetOther
+		GainPower 3000
+	}
+}
+Text Auto: [Discard a climax] When your other character in frontal attacked, you may pay the cost. If you do, your character in battle gains +3000 power until end of turn.
+*RestGivePower(2000,Alicegear)
+EndCard
+
+Character: AGS/W108-093
+Name Story of Charging Work, Serina
+Color B
+Level 2
+Cost 1
+Power 500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		MoveCard BottomOfOpponentDeck
+	}
+}
+Text Auto: [Discard 2 cards] When you use this card's <b> BACKUP </b>, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it on the bottom of your opponent's deck.
+Backup 2500
+EndCard
+
+Character: AGS/W108-094
+Name Infiltration Operation, Kaede
+Color B
+Level 2
+Cost 1
+Power 4500
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*GainPowerWithEnoughCharacters(6000,4,Alicegear)
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrLess
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a level 1 or lower card, put it into your stock.
+EndCard
+
+Character: AGS/W108-095
+Name Starting Operation, Kaoruko
+Color B
+Level 2
+Cost 1
+Power 5500
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 2 HasTrait Alicegear
+	{
+		SearchLocationForTargets WaitingRoom 0 2 IsCharacter && HasTrait Alicegear
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard 2 <Alice Gear> characters] When this card is placed into your waiting room from your stage, you may pay the cost. If you do, choose up to 2 <Alice Gear> characters in your waiting room and return them to your hand.
+EndCard
+
+Event: AGS/W108-096
+Name How About One?
+Color B
+Level 2
+Cost 1
+Effect:
+{
+	SearchLocationForTargets WaitingRoom 0 2 IsCharacter
+	RevealTargets
+	MoveCard Hand
+	Discard 1 Any
+	TargetSelf
+	MoveCard Memory
+}
+ActivationRequirement StageContains 1 HasTrait Alicegear
+Text If you don't have an <Alice Gear> character, you cannot play this card from your hand.
+Text Choose up to 2 <Alice Gear> characters in your waiting room and return them to your hand, then discard a card and put this card in your memory.
+Auto: OnOtherAttacks
+{
+	PayCost SendFromMemoryToWaitingRoom 1 Not Other
+	{
+		TargetLocation Stage
+    	ChooseCharacterFromTargets Choose a character to give +1 Soul.
+    	GainSoul 1
+	}
+}
+InMemory
+Text Auto: MEMORY [Put this card into your waiting room] If this card is in your memory, when your character attacks, you may pay the cost. If you do, choose 1 of your characters and that character gains +1 soul until end of turn.
+EndCard
+
+Climax: AGS/W108-097
+Name Let's Finish This Neatly!
+*GateClimax 
+EndCard
+
+Climax: AGS/W108-098
+Name Is This It!?
+Color B
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	AIChoice RemoveFromWaitingRoom
+	SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 1 OrLess && IsCharacter
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Climax: AGS/W108-099
+Name Secret Strategy for Victory
+Color B
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	AIChoice RemoveFromWaitingRoom
+	SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 1 OrLess && IsCharacter
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Climax: AGS/W108-100
+Name Girls Armed with Alice Gear
+*GateClimax 
+EndCard
+
+Character: AGS/W108-101
+Name "Dash and Go!" Yotsuyu
+Color R
+Level 2
+Cost 1
+Power 500
+Trait1 Alicegear
+Trait2 Actress
+Cont: Assist
+{
+	If MyTurn
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: ASSIST During your turn, all of your characters in front of this card gain +X power. X is equal to 1000 times the level of that character.
+Backup 3000
+EndCard
+
+Character: AGS/W108-102
+Name "Dash and Go!" Sitara
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Alicegear
+Trait2 Actress
+*PowerInMiddle(3000)
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetLocation OpponentStage 
+		NarrowTargets Compare ThatCardsLevel 0 OrLess
+		ChooseCharacterFromTargets_Optional Choose up to 1 level 0 or lower character to put on the bottom of your opponent's deck
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a cliamx, you may choose 1 of your opponent's level 0 or lower characters and put it on the bottom of their deck.
+EndCard
+
+Character: AGS/W108-103
+Name "Dash and Go!" Fumika
+Color B
+Level 1
+Cost 1
+Power 500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnAttack
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to get -3000 power
+		LosePower 3000
+	}
+	If Not HasTarget
+	{
+		TargetLocation OpponentStage
+		LosePower 500
+	}
+}
+Text Auto: When this card attacks, put the top 3 cards of your deck into your waiting room. If there is a climax among those cards, choose a character in your opponent's center stage and that character gets -3000 power until end of turn. Otherwise, all of your opponent's characters get -500 power until end of turn.
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: AGS/W108-104
+Name "Dash and Go!" Nodoka
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+*OnAttackGainPowerForEachOther(1000,Alicegear)
+Act: Rest 2 Any
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question draw one?
+			If Yes
+			{
+				DrawCard
+				Discard 1 Any
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may draw a card. If you do, discard a card.
+	}
+}
+Text Act: [Rest 2 of your characters] Choose 1 of your characters and that character gains the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw a card. If you do, discard a card."
+EndCard
+
+Character: AGS/W108-P01
+Name Glittering Eyes, Nodoka
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnClimaxPlay
+{
+	*GiveCharacterPower(1500,Alicegear)
+}
+Text Auto: When your climax is placed in the climax place, you choose one of your Alice Gear characters and increase their power to +1500 for the duration of the turn.
+Auto: OnClimaxPlay
+{
+	If LocationContains Climax 1 HasTrigger Door
+	{
+		PeekTop Deck
+		MultipleChoiceQuestion put the card to|Top|Bottom
+		If Answer 0
+		{
+			EndPeek
+		}
+		Else
+		{
+			MoveCardToBottom Deck
+		}
+		TargetSelf
+		GainEffect
+		{
+			*OnReverseBlindStock
+		}
+	}
+}
+Text Auto: When a doorclimax is placed in the climax placement, you look at one of your cards from the top and place it on the deck or in the anteroom, and during that turn, this card gains the next ability. "When the opponent of this card reverses, you can place one of the cards from the top of your deck in the stock deposit."
+EndCard
+
+Character: AGS/W108-P06
+Name SD Yotsuyu
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf 
+{
+	If Compare MyLevel 3 OrMore 
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				TargetLocation Hand
+				NarrowTargets NameEquals "Narukozaka Manufacturing (Beta)" Yotsuyu
+				FirstTarget
+				Change
+			}
+			Text Act: [Send this card to waiting room] Choose up to 1 ""Narukozaka Manufacturing (Beta)" Yotsuyu" in your hand, and put it in the stage position that this card was in.
+		}
+	}
+}
+Text Cont: If your level is 3 or higher, this card gets the following ability. "Act: [Send this card to waiting room] Choose up to 1 ""Narukozaka Manufacturing (Beta)" Yotsuyu" in your hand, and put it in the stage position that this card was in."
+Act: 1 SendSelf WaitingRoom
+{
+	SearchWaitingRoom NameEquals "Narukozaka Manufacturing (Beta)" Yotsuyu
+}
+Text Act: [(1) Put this card into your waiting room] Choose a ""Narukozaka Manufacturing (Beta)" Yotsuyu" in your waiting room and return it to your hand.
+EndCard
+
+Character: AGS/W108-P07
+Name SD Nodoka
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your opponent's characters and that character gains the following ability until the end of your opponent's turn. "Cont: This card cannot move to another position on your stage."
+Auto: StartClimaxPhase
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsClimax && HasTrigger Door
+	If HasTarget
+	{
+		TargetSelf
+		GainEffect
+		{
+			*EarlyPlayMemoryBomb
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, if your waiting room has a climax with Door in its trigger icon, this card gets the following ability until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may put that card into your opponent's memory."
+EndCard
+
+Character: AGS/W108-T01
+Name Last Stand, Rita
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 IsCharacter && HasTrait Alicegear
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard an <Alice Gear> character] When this card is placed on stage from your hand or from the stage into your waiting room, you may pay the cost. If you do, draw a card.
+*RestGivePower(2000,Alicegear)
+EndCard
+
+Character: AGS/W108-T02
+Name Modeler Team, Sugumi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnDamageCancel
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		TargetSelf
+		Bounce
+	}
+}
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you take is cancelled or damage dealt by this card has been cancelled, you may return this card to your hand.
+EndCard
+
+Character: AGS/W108-T03
+Name Instructor, Sitara
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	Message Choose up to 1 climax to add to your hand.
+	ChooseCardsFromTargets 0 1 IsClimax
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, look at up to 3 cards from the top of your deck, choose up to 1 climax and add it to your hand, then put the rest into your waiting room. If you put a card in your hand by this effect, discard a card.
+EndCard
+
+Character: AGS/W108-T04
+Name "Tokyo Actress News" Anna
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameEquals Close Coverage, Mari
+	If HasTarget
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have another "Candid Shots, Mari", this card gains +1000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Alicegear
+	{
+		SearchDeck NameEquals Close Coverage, Mari
+	}
+}
+Text Auto: [Discard an <Alice Gear> character] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Candid Shots, Mari" and add it to your hand.
+EndCard
+
+Character: AGS/W108-T05
+Name Modeler Team, Yasuri
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Alicegear
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Alicegear
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose an <Alice Gear> character in your waiting room, return it to your hand, then choose one of your other <Alice Gear> characters to gain the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room."
+EndCard
+
+Character: AGS/W108-T06
+Name Urban style ninjutsu instruction, Raiya
+Color Y
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: AGS/W108-T07
+Name "Narukozaka Manufacturing (Beta)" Sitara
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	Question Yes or No？
+	If Yes
+	{
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentRevealed
+		OpponentRefresh
+		TargetLocation OpponentRevealed
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may take the following action. "Your opponent chooses a climax in their waiting room, returns all cards in their waiting room other than the chosen card to their deck, and shuffles their deck."
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		MillOpponent 6
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, your opponent puts the top 6 cards of their deck into their waiting room.
+EndCard
+
+Character: AGS/W108-T08
+Name Senior Actress, Aika
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveAll
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Guidance on the tastes of the upper class, Ayaka
+	GainEffect
+	{
+		*OnAttackGainPowerForEachOther(500,Alicegear)
+	}
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: All of your other "Guidance in Elegant Tastes, Ayaka" gain the following 2 abilites. "When this card attacks, this gets +X power until end of turn. X is the number of other <Alice Gear> characters you have times 500." "Auto: ENCORE [Discard a character]".
+*Bond1(Guidance in Elegant Tastes\, Ayaka)
+EndCard
+
+Character: AGS/W108-T09
+Name Idol Guidance, Momoka
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Alicegear
+Trait2 Actress
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Alicegear
+	{
+		TargetTop Deck 1
+		Reveal 
+		IfTarget HasTrait Alicegear
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 other <Alice Gear> from your stage into your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, reveal the top card of your deck. If that card is an <Alice Gear> character, put it into your hand.
+Auto: OnAttack
+{
+	If Not StageContains 1 Not HasTrait Alicegear
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +2000 power
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if all of your characters are <Alice Gear>, choose one of your characters and that character gains +2000 power until end of turn.
+EndCard
+
+Character: AGS/W108-T10
+Name New Ally, Nodoka
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Alicegear
+Trait2 Actress
+Combo Peaceful Daily Life
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 2 Other && HasTrait Alicegear
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Alice Gear> characters, this card gains +2000 power.
+Auto: OnReverseOpponent
+{
+	If Climax Peaceful Daily Life
+	{
+		Peek Deck 3
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 HasTrait Alicegear || IsEvent
+		RevealTargets
+		MoveCard Hand
+		TargetLocation ScryArea
+		Reorder
+		ChooseCardsFromTargets 0 2
+		MoveCardToBottom Deck
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Idyllic Daily Life" is in your climax area, look up to 3 cards from the top of your deck and choose up to 1 <Alice Gear> character or an event, add it to your hand, choose up to 2 of the remaining cards to go on the bottom of your deck in any order, then put the rest into your waiting room.
+EndCard
+
+Character: AGS/W108-T11
+Name Guidance on the tastes of the upper class, Ayaka
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Alicegear
+Trait2 Actress
+EndCard
+
+Character: AGS/W108-T12
+Name Game of Tag, Rin
+Color R
+Level 1
+Cost 1
+Power 5000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Alicegear
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other <Alicegear> characters in your back stage.
+*GlobalPower(500,Alicegear)
+EndCard
+
+Character: AGS/W108-T13
+Name "Narukozaka Manufacturing (Beta)" Yotsuyu
+Color R
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+Combo I'll be with you for special training!
+*Healer
+Auto: OnEndOfAttack
+{
+	If Climax I'll be with you for special training!
+	{
+		PayCost 1
+		{
+			MillOpponentBottom 5
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			If HasTarget
+			{
+				Burn X
+			}
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					If InBattle
+					{
+						GainSpecialEffect ReceiveNoDamageFromAutoEffects
+					}
+				}
+				Text: During this card's battle, you cannot receive damage by the Auto effects of your opponent's characters.
+			}	
+		}
+	}
+}
+Text Auto: CxCombo [(1)] At the end of this card's attack, if "Special Training Together!" is in your climax area, you may pay the cost. If you do, put the bottom 5 cards of your opponent's deck into their waiting room, deal X damage to your opponent, and until the end of your opponent's next turn you take no damage from auto effects. X is equal to the number of climax sent by this effect.
+EndCard
+
+Climax: AGS/W108-T14
+Name Peaceful Daily Life
+*DoorClimax 
+EndCard
+
+Climax: AGS/W108-T15
+Name I'll be with you for special training!
+*DoorClimax 
+EndCard
+
+Character: AGS/W108-T16
+Name "Narukozaka Manufacturing (Beta)" Fumika
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Alicegear
+Trait2 Actress
+Combo Peaceful Daily Life|I'll be with you for special training!
+Auto: StartMainPhase
+{
+	PayCost Discard 1 NameEquals Peaceful Daily Life | I'll be with you for special training!
+	{
+		SearchDeck NameEquals Peaceful Daily Life | I'll be with you for special training!
+	}
+}
+Text Auto: CxCombo [Discard a "Idyllic Daily Life" or "Special Training Together!" from your hand] At the start of your main phase, you may pay the cost. If you do, search your deck for up to 1 "Idyllic Daily Life" or "Special Training Together!" and add it to your hand.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: AGS/W108-T17
+Name Kenjutsu Instruction, Kaede
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 1 Other && HasTrait Alicegear
+		{
+			GainPower 1500
+		}
+	}
+}
+Text Cont: During your turn, if you have another <Alice Gear> character, this card gains +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If AllYourCharacters HasTrait Alicegear
+	{
+		Peek Deck 2
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if all of your characters are <Alice Gear>, look at up to 2 cards from the top of your deck, choose up to 1 of them and add it to your hand, put the rest into your waiting room and discard a card.
+EndCard
+
+Character: AGS/W108-T18
+Name Close Coverage, Mari
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Alicegear
+Trait2 Actress
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 2000
+	}
+}
+Text Cont: 【永】你的费用在3张以下的话，这张卡的战斗力+2000。
+EndCard
+
+Character: AGS/W108-T19
+Name Celebrity appearance, Yumi
+Color B
+Level 2
+Cost 1
+Power 500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*LevelAssistTrait(Alicegear)
+Act: RestSelf
+{
+	DrawCard
+	DrawCard
+	Discard 2 Any
+	TargetSelf 
+	DontStand
+}
+Text Act: [Rest this card] Draw 2 cards and discard 2 cards. This card does not stand during your next stand phase.
+EndCard
+
+Character: AGS/W108-T20
+Name Actress suitability judgment moderator, Serina
+Color B
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*PowerOnMyTurn(10000)
+Auto: OnPlay
+{
+	Peek Deck 2
+	EndPeek
+}
+Text Auto: When this card is placed on stage from your hand, look at up to 2 cards from the top of your deck and place them on top of your deck in the original order.
+Auto: OnPlay
+{
+	Peek OpponentDeck 2
+	EndPeek
+}
+Text Auto: When this card is placed on stage from your hand, look at up to 2 cards from the top of your opponent's deck and place them back on top of their deck in the original order.
+EndCard
+
+Character: AGS/W108-T21
+Name Veteran Actress, Kaoruko
+Color B
+Level 2
+Cost 1
+Power 5500
+Trigger Soul
+Trait1 Alicegear
+Trait2 Actress
+*OnAttackGainPowerForEachOther(1500,Alicegear)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Alicegear
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Celebrity appearance, Yumi
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: Text Auto: [Discard an <Alice Gear> character] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 "Celebrity, Yumi" in your waiting room and place it on any position on your stage.
+EndCard
+
+Event: AGS/W108-T22
+Name BAR Blue Moon
+Color B
+Level 2
+Cost 1
+Requirement Not MyTurn
+Counter
+Effect:
+{
+	Refresh
+}
+Text Counter This card cannot be played from your hand during your turn. Return all cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Climax: AGS/W108-T23
+Name Encounter with Moff
+Color B
+*2SoulClimax
+EndCard
+

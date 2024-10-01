@@ -1,0 +1,324 @@
+Character: Gss/WS02-077
+Name Feeling Loved, Shana
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Melon Bread
+Combo Blue Flame
+*Healer
+Auto: OnAttack
+{
+	If Climax Blue Flame && Compare Experience 6 OrMore && StageContains 2 Other
+	{
+		PayCost Discard 2 Any
+		{
+			Burn 4
+			If LastDamageCanceled
+			{
+				SetXToNumberOfCharacters HasTrait Dengeki Bunko|Flame && Other
+				Message Choose up to X cards to shuffle back into your opponent's deck
+				SearchLocationForTargets OpponentWaitingRoom 0 X Any
+				MoveCard OpponentDeck
+				ShuffleLocation OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE [Discard 2 cards] When this card attacks, if "Blue Flame" is in your climax area and the total level of cards in your level is 6 or more, and you have 2 or more other characters, you may pay the cost. If you do, deal 4 damage to your opponent. If this damage is cancelled, choose up to X cards in your opponent's waiting room, return them to your opponent's deck then your opponent shuffles their deck. X is equal to the number of your other <Dengeki Bunko> or <Flame> characters.
+EndCard
+
+Character: Gss/WS02-079
+Name Walking Together on the Path Towards Hope, Yuji & Shana
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Weapon
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is 1000 times the number of your opponent's characters.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is cancelled, you may return this card to your hand.
+EndCard
+
+Character: Gss/WS02-083
+Name Beloved Bonds, Shana & Wilhelmina
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Weapon
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 IsEvent
+	If HasTarget
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on stage from your hand, look at up to 3 cards from the top of your deck and choose up to 1 event from among them, reveal it and put it into your hand then put the rest into your waiting room. If you put a card into your hand by this effect, discard a card.
+Auto: StartOpponentAttackPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Dengeki Bunko|Flame
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [Put a <Dengeki Bunko> or <Flame> character from your waiting room on the bottom of your clock] At the start of your opponent's attack phase, you may pay the cost. If you do, move this card to an empty position in your back stage.
+EndCard
+
+Character: Gss/WS02-097
+Name New Future, Margery & Kazumi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Love
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnOpponentReverse
+{
+	If Compare Experience 5 OrMore
+	{
+		Question Put the top 6 cards of your opponent's deck into their waiting room?
+		If Yes
+		{
+			MillOpponent 6
+		}
+	}
+}
+Text Auto: EXPERIENCE When this card's battle opponent becomes reversed, if the total level of cards in your level is 5 or more, you may perform the following action. "Your opponent puts the top 6 cards of their deck into their waiting room."
+EndCard
+
+Character: Gss/WS02-100
+Name Rest for the Flame Haze, Shana
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Weapon
+*GiveMiddlePower(1500, Dengeki Bunko|Flame)
+Auto: OnTriggerCheckClimax
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		SearchWaitingRoom HasTrait Dengeki Bunko|Flame
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your character's trigger check reveals a climax, you may pay the cost. If you do, choose a <Dengeki Bunko> or <Flame> character in your waiting room and return it to your hand.
+EndCard
+
+Character: Gss/WS02-106
+Name Earnest Wish, Shana
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Melon Bread
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1
+		{
+			*Check4Add1(Dengeki Bunko|Flame)
+			*GiveCharacterPower(1000,Any)
+		}
+	}
+}
+Text Auto: [(1)] During the turn that this card is placed on stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, look at up to 4 cards from the top of your deck and choose up to 1 <Dengeki Bunko> or <Flame> character, add it to your hand, put the rest into your waiting room and choose 1 of your characters, and that character gains +1000 power until end of turn.
+Auto: OnReversed
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Feeling Loved, Shana
+	SetXValue TargetCount
+	TargetBattleOpponent
+	If Compare TargetCardsLevel X OrLess
+	{
+		IfTarget OnStage
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if this card's battle opponent is level X or lower, you may reverse this card's battle opponent. X is equal to the number of "Feeling Loved, Shana" in your waiting room.
+EndCard
+
+Climax: Gss/WS02-115
+Name Blue Flame
+*DoorClimax
+EndCard
+
+Character: Gss/WS02-132
+Name Fulfilling Wish, Hecate
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Miko
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters HasTrait Dengeki Bunko|Flame || NameContains Konoe
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gains +1000 power for each <Dengeki Bunko> or <Flame> character, or character with "Konoe" in it's card name.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: Gss/WS02-145
+Name "Snake of the Festival" Yuji Sakai
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Snake
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetSelf
+	GainSpecialEffect FreeSideAttack
+}
+Text Auto: When this card is placed on stage from your hand, draw up to 1 card and this card may side attack without soul penalty this turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Dengeki Bunko|Flame || NameContains Konoe
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			GainPower 4500
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other <Dengeki Bunko> or <Flame> character or character with "Konoe" in it's card name is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle and that character gains +4500 power until end of turn.
+EndCard
+
+Character: Gss/WS02-T01
+Name Anniversary, Shana
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Weapon
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 && LocationContains OpponentCenterStage 1
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if there is 1 or less characters in your opponent's center stage, you may choose a cost 0 or lower character in your opponent's center stage and put it into their waiting room.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: Gss/WS02-T07
+Name Unyielding Determination, Shana
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Dengeki Bunko
+Trait2 Flame
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko|Flame
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Auto: If you have 2 or more other <Dengeki Bunko> or <Flame> characters, this card gains +1500 power and the following ability. "Auto: ENCORE [Discard a character]"
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Dengeki Bunko|Flame && IsCharacter
+	{
+		SearchDeck NameEquals Anniversary, Shana
+	}
+}
+Text Auto: [Discard a <Dengeki Bunko> or <Flame> character] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Anniversary, Shana" and add it to your hand.
+EndCard
+
+Event: Gss/WS02-T09
+Name Crispy Fluffy Melon Bread
+Color Y
+Level 2
+Cost 0
+Requirement StageContains 1 HasTrait Dengeki Bunko|Flame
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect \n1. Search your deck for up to 1 <Dengeki Bunko> or <Flame> character and add it to your hand \n2. Choose 1 of your characters and that character gets +3000 power until end of turn. Put this card into your stock |1|2
+	If Answer 0
+	{
+		SearchDeck HasTrait Dengeki Bunko|Flame
+	}
+	If Answer 1
+	{
+		*GiveCharacterPower(3000,Any)
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text If you do not have a <Dengeki Bunko> or <Flame> character, you cannot play this card from your hand.
+Text Choose 1 of the following 2 effects to activate
+Text "Search your deck for up to 1 <Dengeki Bunko> or <Flame> character and add it to your hand."
+Text "Choose 1 of your characters and that character gets +3000 power until end of turn. Put this card into your stock"
+EndCard
+

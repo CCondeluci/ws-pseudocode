@@ -1,0 +1,3344 @@
+Character: PAD/S105-001
+Name Amaterasu & Tsukuyomi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 God
+Trait2 Healer
+Trait3 Attacker
+Auto: OnPlay
+{
+    PayCost HandClock Any
+    {
+        SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+    }
+}
+Text Auto: [Put 1 card from your hand in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it, put it in your hand, and shuffle your deck.
+*OnAttackGivePower(1500,Any)
+EndCard
+
+Character: PAD/S105-002
+Name Ideal, Bonding Colorful Dragon Caller
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Dragon
+Trait2 Healer
+Trait3 Attacker
+Combo Overjoyed Ash Phantom Demon, Ilmina
+Cont: GiveSelf
+{
+    If StageContains 2 Other
+    {
+        GainPower 1500
+        GainColor Red
+    }
+}
+Text Cont: If the number of other characters you have is 2 or more, this card gets +1500 and Red color.
+*Healer
+Auto: OnAttack
+{
+    TargetLocation Stage
+    *CountColors
+    If Climax Overjoyed Ash Phantom Demon, Ilmina && Compare X 4 OrMore
+    {
+        SearchWaitingRoom NameEquals Colorful Dragon Caller's Son, Artura
+        TargetSelf
+        UntilEndOfOpponentsTurn
+        GainPower 1500
+        PayCost 2 Discard 1 Any
+        {
+            Burn 2
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Overjoyed Ash Phantom Demon, Ilmina" is in your climax area and the the number of colors you have is 4 or more, choose up to 1 "Colorful Dragon Caller's Son, Artura" in your waiting room and return it to your hand, this card gets +1500 power until the end of your opponent's next turn, and perform the following action. "[(2) Put 1 card from your hand to the waiting room] You may pay the cost. If you do, deal 2 damage to your opponent." 
+EndCard
+
+Character: PAD/S105-003
+Name Ney, Sweet Cipher Dragon Caller
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Dragon
+Trait2 Balance
+Combo Super Reincarnated Ra Dragon
+Auto: OnPlay
+{
+	Question_Obvious Send a character in your clock to the bottom of the deck?
+	If Yes
+	{
+		TargetLocation Clock
+		NarrowTargets IsCharacter
+		ChooseCharacterFromTargets Choose a character to send to the bottom of the deck.
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a character in your clock and put it on the bottom of the deck.
+Auto: OnAttack
+{
+    If Climax Super Reincarnated Ra Dragon
+    {
+        PayCost 1 Discard 1 Any
+        {
+            Mill 7
+            NarrowTargets HasTrigger Soul
+            SetXValue TargetCount
+            If Compare X 3 OrMore
+            {
+                Burn 4
+            }
+            If Compare X 4 OrMore
+            {
+                Message Choose cards to return to your opponent's deck.
+                SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+                RevealTargets
+                MoveCard OpponentDeck
+                ShuffleLocation OpponentDeck
+            }
+            If Compare X 6 OrMore
+            {
+                Burn 4
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(1) Put 1 card from your hand to the waiting room] When this card attacks, if "Super Reincarnated Ra Dragon" is in your climax area, you may pay the cost. If you do, put the top 7 cards of your deck in the waiting room. If there are 3 or more cards with a soul trigger icon among them, deal 4 damage to your opponent. If there are 4 or more cards with a soul trigger icon among them, choose up to 3 cards in your opponent's waiting room, return them to the deck, and your opponent shuffles their deck. If there are 6 or more cards with a soul trigger icon among them, deal 4 damage to your opponent 
+Text <color=red> * This card is limited to 1 copy in the JP format. </color>
+EndCard
+
+Character: PAD/S105-004
+Name Phenom, Bridal Symphony Draconic Songstress on Trumpet
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Dragon
+Trait2 Healer
+Cont: GiveAll
+{
+    If Other && HasTrait Dragon || IsColor Yellow
+    {
+        GainPower 500
+    }
+}
+Text Cont: All your other Yellow or «Dragon» characters get +500 power.
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets HasTrait Dragon || IsColor Yellow
+    ChooseCharacterFromTargets Choose a character to give +500 power until end of your opponent's next turn.
+    UntilEndOfOpponentsTurn
+    GainPower 500
+}
+Text Act: [Rest this card] Choose 1 of your Yellow or «Dragon» characters, and that character gets +500 power until the end of your opponent's next turn.
+EndCard
+
+Character: PAD/S105-005
+Name Kio, Soccer Club's Striker
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Dragon
+Trait2 Attacker
+Trait3 Physical
+*OnPlayScryToBottom
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    If Compare BrainstormedClimax 1 OrMore
+    {
+        SetXValue BrainstormedClimax
+        Repeat X
+        {
+            SearchWaitingRoom IsCharacter && IsColor Yellow || HasTrait Dragon
+        }
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, choose up to 1 Yellow or «Dragon» character in your waiting room and return it to your hand.
+EndCard
+
+Character: PAD/S105-006
+Name Fagan - Rai, Supreme Kouryu Emperor
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Soul 1
+Trait1 Dragon
+Combo Super Reincarnated Ra Dragon
+Cont: GiveAllYourCards
+{
+    If NameEquals Super Reincarnated Ra Dragon
+    {
+        GainTriggerIcon Soul
+    }
+}
+Text Cont: CxCombo All of your "Super Reincarnated Ra Dragon" in all your zones get a soul trigger icon.
+*LevelAssist
+Act: RestSelf
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrigger Soul
+    {
+        TargetLocation Stage
+        ChooseCharactersFromTargets 0 2 Choose 2 characters to give +2000 power.
+        GainPower 2000
+    }
+}
+Text Act: [Rest this card] Reveal the top card of your deck. If that card has at least 1 soul trigger icon, choose up to 2 of your characters, and those characters get +2000 power until end of turn. 
+EndCard
+
+Character: PAD/S105-007
+Name Reeche, Great Witch of Fresh Snow
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Demon
+Trait2 Balance
+Cont: InHand
+{
+    TargetLocation Stage
+    *CountColors
+    If Compare X 4 OrMore
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If the the number of colors you have is 4 or more, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+    If StageContains 3 Other
+    {
+        GainPower 3500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If the number of other characters you have is 3 or more, this card gets +3500 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+*Healer
+EndCard
+
+Character: PAD/S105-008
+Name Sakuya, Incarnation of Kirin
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 God
+Cont: GiveSelf
+{
+    If StageContainsOrLess 1 Other
+    {
+        GainPower 2500
+        GainLevel 1
+    }
+}
+Text Cont: If you have 1 or fewer other character, this card gets +1 level and +2500 power.
+EndCard
+
+Character: PAD/S105-009
+Name Castor & Pollux, Holy Night Siblings
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Machine
+Trait2 God
+Cont: GiveSelf
+{
+    If InLocation MiddleCenterStage
+    {
+        GainSoul 1
+    }
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+Auto: OnPlay
+{
+    RevealUpTo Deck 3
+    If HasTarget
+    {
+        ChooseCardsFromTargets 0 1 IsCharacter && IsColor Yellow
+        Discard 1 Any
+    }
+}
+Text Auto: When this card is placed from the stage to the waiting room, you may reveal up to 3 cards from the top of your deck. If you reveal at least 1 card this way, choose up to 1 Yellow character among them, put it in your hand, put the rest into your waiting room, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: PAD/S105-010
+Name Mille, Mellow Keyboardist
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 500
+Soul 1
+Trait1 Dragon
+Trait2 Machine
+Trait3 God
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && EarlyPlay
+        If HasTarget
+        {
+            ChooseCharacterFromTargets Choose 1 of your opponent's characters whose level is higher than your opponent.
+            If HasTarget
+            {
+                MoveCard OpponentStock
+                TargetBottom OpponentStock 1
+                MoveCard OpponentWaitingRoom
+            }
+        }
+	}
+}
+Text Auto: [Put 2 cards from your hand to the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than the level of your opponent and put it in stock. If you do, put the bottom card of your opponent's stock in the waiting room.
+Backup 1000
+EndCard
+
+Character: PAD/S105-011
+Name Maeda Keiji, New Year's Dandy
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Soul 1
+Trait1 God
+Trait2 Balance
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        SetXToNumberOfCharacters Other && IsColor Yellow
+        MultiplyXValue 1000
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +1000 power for each of your other Yellow characters.
+Auto: OnPlay
+{
+    PayCost ShuffleFromWaitingRoom 2 IsCharacter
+    {
+        GainPower 1000
+        GainEffect
+        {
+            *OnAttackPay1ToDoubleTrigger
+        }
+    }
+}
+Text Auto: [Return 2 characters from your waiting room to the deck, shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card gets +1000 power and the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, perform trigger check twice during this card attack's trigger Step."
+EndCard
+
+Character: PAD/S105-012
+Name Cotton, Cheerful Toy Dragon Caller
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Dragon
+Trait2 Balance
+Cont: Assist
+{
+    If IsColor Yellow
+    {
+        SetXValue ThatCardsLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: ASSIST Your Yellow characters in front of this card get +X power. X equals 500 times level of that character.
+Auto: OnPlay
+{
+    If StageContains 4 Other && IsColor Yellow
+    {
+        *PutCardFromWaitingRoomIntoStock(IsCharacter && IsColor Yellow)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other Yellow characters you have is 4 or more, you may choose a Yellow character in your waiting room and put it in your stock.
+Auto: OnTriggerCheckClimax
+{
+    IfOther HasTrigger Choice
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1000 power.
+        UntilEndOfOpponentsTurn
+        GainPower 1000
+    }
+}
+Text Auto: When your character's trigger check reveals a climax with a Choice trigger icon, choose 1 of your characters, and that character gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: PAD/S105-013
+Name Aten, Sunset God of New Year's Wishes
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 God
+Trait2 Balance
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        TargetLocation Stage
+        *CountColors
+        If Compare X 4 OrMore
+        {
+            GainPower 6000
+        }
+    }
+}
+Text Cont: During your turn, if the the number of colors you have is 4 or more, this card gets +6000 power.
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+{
+    TargetLocation Stage
+    *CountColors
+    If Compare X 4 OrMore
+    {
+        *OptionalDraw
+    }
+}
+Text Auto: When a level 2 or higher battle opponent of this card becomes reversed, if the the number of colors you have is 4 or more, draw up to 1 card.
+EndCard
+
+Character: PAD/S105-014
+Name Brigid, Sacred Flame Bride
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 God
+Trait2 Physical
+Combo Silverwing White Conqueror, Daytona
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters NameEquals Brigid, Sacred Flame Bride
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other "Brigid, Sacred Flame Bride".
+Auto: OnAttack
+{
+    If Climax Silverwing White Conqueror, Daytona && StageContains 4 Other && IsColor Yellow
+    {
+        MultipleChoiceQuestion Choose an effect to resolve.\n1:Choose up to 1 Yellow character in your waiting room and return it to your hand, choose up to 1 Yellow character in your waiting room and put it in your stock.\n2:[(2)] You may pay the cost. If you do, deal 1 damage to your opponent, and this card gets +5000 power until end of turn.|1|2
+        If Answer 0
+        {
+            SearchWaitingRoom IsCharacter && IsColor Yellow
+            *PutCardFromWaitingRoomIntoStock(IsCharacter && IsColor Yellow)
+        }
+        If Answer 1
+        {
+            PayCost 2
+            {
+                Burn 1
+                GainPower 5000
+            }
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Silverwing White Conqueror, Daytona" is in your climax area and the number of other Yellow characters you have is 4 or more, choose 1 of the following 2 effects and perform it. "Choose up to 1 Yellow character in your waiting room and return it to your hand, choose up to 1 Yellow character in your waiting room and put it in your stock." "[(2)] You may pay the cost. If you do, deal 1 damage to your opponent, and this card gets +5000 power until end of turn." 
+EndCard
+
+Character: PAD/S105-015
+Name Shynee
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Balance
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        *CheckAndAdd(3)
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 cards among them and put it in your hand, and put the rest into your waiting room.
+*ClockShift(0,yellow)
+EndCard
+
+Character: PAD/S105-016
+Name Gold Dragon
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Enhance Material
+Act: 1 SendSelf WaitingRoom
+{
+    SearchLocationForTargets Hand 0 1 IsCharacter && IsColor Yellow && Compare ThatCardsLevel MyLevel OrLess
+    If HasTarget
+    {
+        Change
+    }
+}
+Text Act: [(1) Put this card in the waiting room] Choose up to 1 Yellow character in your hand whose level is less or equal to your level and put it in the position this card was in.
+Act: SendSelf WaitingRoom
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Yellow
+    ChooseCharacterFromTargets Choose a character to give +1 soul.
+    GainSoul 1
+}
+Text Act: [Put this card in the waiting room] Choose 1 of your Yellow characters, and that character gets +1 soul until end of turn.
+EndCard
+
+Character: PAD/S105-017
+Name Super Reincarnated Hathor
+Color Y
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 God
+Trait2 Attacker
+Trait3 Physical
+*GiveAllOpponentsEncore2
+Auto: OnPlay
+{
+    TargetLocation Hand
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Stock
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your hand and put it in your stock.
+EndCard
+
+Character: PAD/S105-018
+Name Angelion
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Dragon
+*OnPlayGainPower(3000)
+Auto: OnDamageDealtByCharacterFacingThisCanceled
+{
+    Question Return this card to your hand ?
+    If Yes
+    {
+        MoveCard Hand
+    }
+}
+Text Auto: During battles involving this card, when damage taken by you is canceled, you may return this card to your hand.
+EndCard
+
+Character: PAD/S105-019
+Name Elia, Angel of the Masquerade
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 God
+Trait2 Healer
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        TargetLocation Stage
+        NarrowTargets Other
+        NarrowTargets HasTrait God || ColorIs Yellow
+        If Compare TargetCount 2 OrMore
+        {
+            GainPower 2000
+        }
+    }
+}
+Text Cont: During your turn, if the number of other Yellow or «God» characters you have is 2 or more, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+    If PlayedThisTurn
+    {
+        PayCost 1 Rest 1 Other && IsColor Yellow || Other && HasTrait God
+        {
+            SearchDeck IsCharacter && IsColor Yellow || HasTrait God
+        }
+    }
+}
+Text Auto: [(1) Rest 1 of your other standing Yellow or «God» characters] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, search your deck for up to 1 Yellow or «God» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: PAD/S105-020
+Name Super Reincarnated Sun Wukong
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 God
+Trait2 Physical
+Trait3 Attacker
+Auto: OnPlay
+{
+    PayCost Discard 3 IsColor Yellow
+    {
+        TargetLocation Stage
+        ChooseCharactersFromTargets 0 3 Choose up to 3 characters to give +2000 power and the effect.
+        UntilEndOfOpponentsTurn
+        GainPower 2000
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            *HexProof
+        }
+    }
+}
+Text Auto: [Put 3 Yellow cards from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 3 of your characters, and those characters get +2000 power and the following ability until the end of your opponent's next turn. "Cont: This cannot be chosen as target of opponent's effects."
+*YellowEarlyPlayBomb
+EndCard
+
+Character: PAD/S105-021
+Name Reincarnated Diaochan
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Dragon
+Trait2 Demon
+Trait3 God
+Auto: OnPlay
+{
+    TargetLocation Stage
+    ChooseCharactersFromTargets 0 2 Choose up to 3 characters to give +1500 power.
+    GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 2 of your characters, and those characters get +1500 power until end of turn.
+Act: SendSelf BottomOfDeck
+{
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to bounce.
+    Bounce
+}
+Text Act: [Put this card on the bottom of the deck] Choose 1 of your opponent's characters and return it to their hand.
+EndCard
+
+Event: PAD/S105-022
+Name Colorful Dragon Caller's Son, Artura
+Color Y
+Level 3
+Cost 0
+Counter
+Effect: 
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a "Ideal, Bonding Colorful Dragon Caller" to give the effect.
+    GainEffect
+    {
+        Cont: GiveFacing
+        {
+            LoseSoul 3
+        }
+        Text Cont: Character facing this card gets -3 soul.
+    }
+}
+Text [Counter] Choose 1 of your "Ideal, Bonding Colorful Dragon Caller", and that character gets the following ability for the turn. "Cont:Character facing this card gets -3 soul."
+EndCard
+
+Climax: PAD/S105-023
+Name Overjoyed Ash Phantom Demon, Ilmina
+*ChoiceClimax
+EndCard
+
+Climax: PAD/S105-024
+Name Super Reincarnated Ra Dragon
+*ChoiceClimax
+EndCard
+
+Climax: PAD/S105-025
+Name Silverwing White Conqueror, Daytona
+*ChoiceClimax
+EndCard
+
+Character: PAD/S105-026
+Name Diamond & Gold & Green REMDra
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Dragon
+Trait2 Machine
+Auto: OnAttack
+{
+    TargetLocation Backstage
+    If Not HasTarget
+    {
+        Question_Obvious Put the top card of your deck into waiting room ?
+        If Yes
+        {
+            Mill 1
+            IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+            {
+                PlaceOnStage false false true false
+            }
+        }
+    }
+}
+Text Auto: When this card attacks, if there isn't another character in your backstage, you may put the top card of your deck in the waiting room. If it's a level 0 or lower character, put that character in any position in the backstage.
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 Any
+    {
+        *Check4Add1Level1OrHigher
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: PAD/S105-027
+Name Alexander the Commander
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 God
+Trait2 Balance
+Combo Mega Awoken Goddess of power, Kali
+Auto: OnEndOfAttack
+{
+    If Climax Mega Awoken Goddess of power, Kali
+    {
+        MultipleChoiceQuestion Choose an effect to resolve.\n1:Choose up to 2 characters in your waiting room and return them to your hand, choose up to 1 level 1 or lower characters in your waiting room and put it in your stock, and this card gets +1000 power until the end of your opponent's next turn.\n2:[(1) Put 1 card from your hand to the waiting room] If you have 2 or more other Charactres, you may pay the cost. If you do, stand this card.|1|2
+        If Answer 0
+        {
+            SearchWaitingRoom IsCharacter
+            SearchWaitingRoom IsCharacter
+            *PutCardFromWaitingRoomIntoStock(IsCharacter && Compare ThatCardsLevel 1 OrLess)
+            TargetSelf
+            UntilEndOfOpponentsTurn
+            GainPower 1000
+        }
+        If Answer 1
+        {
+            If StageContains 2 Other
+            {
+                PayCost 1 Discard 1 Any
+                {
+                    TargetSelf
+                    Stand
+                }
+            }
+        }
+    }
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to once per turn. At the end of this card's attack, if "Mega Awoken Goddess of power, Kali" is in your climax area, choose 1 of the following 2 effects and perform it. "Choose up to 2 characters in your waiting room and return them to your hand, choose up to 1 level 1 or lower characters in your waiting room and put it in your stock, and this card gets +1000 power until the end of your opponent's next turn." "[(1) Put 1 card from your hand to the waiting room] If you have 2 or more other characters, you may pay the cost. If you do, stand this card."
+EndCard
+
+Character: PAD/S105-028
+Name Aljae, Great Witch of the Forest Cloak
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Demon
+Trait2 Healer
+Cont: GiveSelf
+{
+    If StageContains 2 Other
+    {
+        GainColor Yellow
+    }
+}
+Text Cont: If the number of other characters you have is 2 or more, this card gets Yellow.
+Auto: StartClimaxPhase
+{
+    If Compare ColorsOnStage 4 OrMore
+    {
+        *GiveCharacterPower(1500,Any)
+    }
+}
+Text Auto: At the beginning of your climax phase, if the the number of colors you have is 4 or more, choose 1 of your characters, and that character gets +1500 power until end of turn.
+*RestGivePower(1000,Any)
+EndCard
+
+Character: PAD/S105-029
+Name Zela, Solitary Peak Bride
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Demon
+Trait2 Attacker
+Combo Drillspear Jade Conqueror, Nautilus
+*PowerOnMyTurn(2000)
+Auto: OnSpecificClimaxPlay Drillspear Jade Conqueror, Nautilus
+{
+    If StageContains 2 Other
+    {
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            *OnAttackCheck2ChooseTrigger
+        }
+        UntilEndOfOpponentsTurn
+        *GainBounceWhenFrontalAttacked
+    }
+}
+Text Auto: CxCombo When "Drillspear Jade Conqueror, Nautilus" is placed on your climax area, if the number of other characters you have is 2 or more, this card gets the following 2 abilities until the end of your opponent's next turn. "Auto: When this card attacks, look at up to the top 2 cards of your deck, choose 1 of them and put it on top of the deck, and put the rest into your waiting room." "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: PAD/S105-030
+Name Artemis, Hopeful Hunting Princess
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 God
+Trait2 Attacker
+*OnPlayGainPower(1500)
+Auto: OnAttack
+{
+    TargetLocation Climax
+    IfTarget HasTrigger Bar
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget Compare ThatCardsLevel 1 OrMore
+        {
+            TargetSelf
+            GainSpecialEffect DoubleTrigger
+        }
+    }
+}
+Text Auto: When this card attacks, if there is a climax with a Bar trigger icon in your climax area, reveal the top card of your deck. If it's level 1 or higher, perform trigger check twice during that attack's trigger Step.
+EndCard
+
+Character: PAD/S105-031
+Name Atelie, Florid Fairy Illusionary Artist
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Balance
+Cont: GiveSelf
+{
+    If StageContains 2 Other
+    {
+        GainColor Blue
+    }
+}
+Text Cont: If the number of other characters you have is 2 or more, this card gets Blue.
+Cont: GiveAll
+{
+    If Compare ColorsOnStage 4 OrMore && Other
+    {
+        SetXValue ThatCardsLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: If the the number of colors you have is 4 or more, all your other characters get +X power. X equals 500 times level of that character.
+Act: 1 RestSelf
+{
+    If Compare ColorsOnStage 4 OrMore
+    {
+        TargetLocation Clock
+        ChooseCardsFromTargets 1 1 Any
+        MoveCard Hand
+        TargetTop Deck 1
+        MoveCard Clock
+    }
+}
+Text Act: [(1) Rest this card] If the the number of colors you have is 4 or more, choose a card in your clock and return it to your hand, and put the top card of your deck in your clock.
+EndCard
+
+Character: PAD/S105-032
+Name Alynna, Watchful Grove Dragon Healer
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Healer
+Trait2 Dragon
+Auto: OnPlay
+{
+    MultipleChoiceQuestion Choose an effect to resolve.\n1:Put up to 1 card from the top of your clock in the waiting room, and this card gets +3000 power until end of turn.\n2:Your opponent puts all of their stock in the waiting room, then puts the same number of cards from top of their deck in their stock.|1|2
+    If Answer 0
+    {
+        *OptionalHeal
+        TargetSelf
+        GainPower 3000
+    }
+    If Answer 1
+    {
+        StockSwap
+    }
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of the following 2 effects and perform it. "Put up to 1 card from the top of your clock in the waiting room, and this card gets +3000 power until end of turn." "Your opponent puts all of their stock in the waiting room, then puts the same number of cards from top of their deck in their stock."
+EndCard
+
+Character: PAD/S105-033
+Name Bequeathing Ancient Dragon Knight - Rex
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Dragon
+Trait2 Machine
+Trait3 Balance
+Cont: InHand
+{
+    If LocationContains Memory 2 NameEquals Raving Bassist, Roche
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: MEMORY If there are 2 or more "Raving Bassist, Roche" in your memory, this card gets -1 level while in your hand.
+Auto: OnAttack
+{
+    Question Put the top card of your deck into waiting room ?
+    If Yes
+    {
+        Mill 1
+        IfTarget HasTrigger Soul || NameEquals Raving Bassist, Roche
+        {
+            Burn 1
+        }
+    }
+}
+Text Auto: When this card attacks, you may put the top card of your deck in the waiting room. If it's either a card with at least 1 soul trigger icon or "Raving Bassist, Roche", deal 1 damage to your opponent. 
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrMore
+{
+    *PutCardFromWaitingRoomIntoStock(HasTrait Dragon)
+}
+Text Auto: When a level 2 or higher battle opponent of this card becomes reversed, you may choose a «Dragon» character in your waiting room and put it in your stock.
+EndCard
+
+Character: PAD/S105-034
+Name Scarlet, Holy Night Hell Demon
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Demon
+Trait2 Physical
+*PowerInMiddle(3000)
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost 1 SendFromLocationToLocation WaitingRoom Clock 1 false IsCharacter && IsColor Green
+    {
+        RevealUpTo Deck 2
+        ChooseCardsFromTargets IsCharacter && IsColor Green
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: [(1) Choose a Green character in your waiting room and put it on the bottom of your clock] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 2 cards of your deck, choose up to 2 Green characters among them, reveal them, put them in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: PAD/S105-035
+Name Athena, Homebound Class Monitor
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 God
+Trait2 Healer
+Trait3 Attacker
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 IsClimax
+    {
+        SearchWaitingRoom Compare ThatCardsLevel 1 OrMore && IsCharacter
+    }
+
+}
+Text Auto: [Put 1 climax from your hand to the waiting room] When this card is placed on the stage from your hand or from the stage to the waiting room, you may pay the cost. If you do, choose a level 1 or higher character in your waiting room and return it to your hand.
+EndCard
+
+Character: PAD/S105-036
+Name Meimei, North Loving Goddess
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 God
+Trait2 Healer
+Cont: GiveSelf
+{
+    If Compare MyLevel 2 OrMore
+    {
+        GainEffect
+        {
+            Act: 1 Discard 1 Any &&& SendSelf WaitingRoom
+            {
+                SearchLocationForTargets Hand 0 1 NameEquals Alexander the Commander
+                Change
+            }
+            Text Act: [(1) Discard a card from your hand into waiting room, put this card into waiting room] Choose up to 1 "Alexander the Commander" in your hand and put that card in the position this card was in.
+        }
+    }
+}
+Text Cont: If you are level 2 or higher, this card gets the following ability. "Act:[(1) Discard a card from your hand into waiting room, put this card into waiting room] Choose up to 1 "Alexander the Commander" in your hand and put that card in the position this card was in."
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: PAD/S105-037
+Name Pattie, Holy Feast Fairy Maid
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Healer
+Trait2 Attacker
+Auto: OnUseThisCardsBackup
+{
+    *ScryToBottom
+}
+Text Auto: When you use this card's "BACKUP", look at the top card of your deck and put it either on top or bottom of the deck.
+Backup 2500
+EndCard
+
+Character: PAD/S105-038
+Name Rushana, All Illuminating Bride
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 God
+Trait2 Balance
+*GreenEarlyPlayBomb
+Act: SendSelf BottomOfDeck
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            GainSpecialEffect CanAttackBackstage
+        }
+        Text Cont: When this card attacks, you may instead choose a character in your opponent's backstage and have this card frontal attack that character as Defending character.
+    }
+}
+Text Act: [Put this card on the bottom of the deck] Choose 1 of your characters, and that character gets the following ability until end of turn. "Cont: When this card attacks, you may instead choose a character in your opponent's backstage and have this card frontal attack that character as Defending character."
+EndCard
+
+Character: PAD/S105-039
+Name Romia, Holy Festival's Hell Phantom Heiress
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Demon
+Trait2 Physical
+Trait3 Attacker
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        TargetLocation OpponentBackstage
+        SetXValue TargetCount
+        MultiplyXValue 3000
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +3000 power for each of your opponent's backstage characters.
+Auto: OnAttack
+{
+    PayCost Discard 3 IsColor Green
+    {
+        GainPower 2500
+        GainSoul 1
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                TargetFacing
+                IfTarget OnStage
+                {
+                    Question_Obvious Put that character into clock ?
+                    If Yes
+                    {
+                        MoveCard OpponentClock
+                    }
+                }
+            }
+            Text Auto: When this card's battle opponent becomes reverse, you may put that character in clock.
+        }
+    }
+}
+Text Auto: [Put 3 Green cards from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, this card gets +2500 power, +1 soul, and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may put that character in clock."
+EndCard
+
+Character: PAD/S105-040
+Name Emerald Dragon
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Enhance Material
+Act: 1 SendSelf WaitingRoom
+{
+    SearchLocationForTargets Hand 0 1 IsCharacter && IsColor Green && Compare ThatCardsLevel MyLevel OrLess
+    If HasTarget
+    {
+        Change
+    }
+}
+Text Act: [(1) Put this card in the waiting room] Choose up to 1 Green character in your hand whose level is less or equal to your level and put it in the position this card was in.
+Act: SendSelf WaitingRoom
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Green
+    ChooseCharacterFromTargets Choose a character to give +2000 power.
+    GainPower 2000
+}
+Text Act: [Put this card in the waiting room] Choose 1 of your Green characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: PAD/S105-041
+Name Alraune, Mystical Forest Pixie
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Healer
+Cont: Assist
+{
+    If IsColor Green
+    {
+        SetXValue ThatCardsLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: ASSIST Your Green characters in front of this card get +X power. X equals 500 times level of that character.
+Auto: OnClimaxPlay
+{
+    IfOther HasTrigger Bar
+    {
+        TargetLocation Stage
+        ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +1500 power.
+        GainPower 1500
+    }
+}
+Text Auto: When your climax with a Bar trigger icon is placed on your climax area, choose up to 2 of your characters, and those characters get +1500 power until end of turn.
+EndCard
+
+Character: PAD/S105-042
+Name Woodsie
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Balance
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        TargetLocation Clock
+        ChooseCardsFromTargets 1 1 Any
+        MoveCard Hand
+        TargetTop Deck 1
+        MoveCard Clock
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card in your clock and return it to your hand, and put the top card of your deck in your clock.
+*ClockShift(0,green)
+EndCard
+
+Character: PAD/S105-043
+Name Zeroag Infinity, Sweet Tooth Phantom Dragon King
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Dragon
+Trait2 Demon
+Auto: OnPlay
+{
+    PayCost ShuffleFromWaitingRoom 2 HasTrait Dragon
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to give -1000 power.
+        LosePower 1000
+    }
+}
+Text Auto: [Return 2 «Dragon» characters from your waiting room to your deck, shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a character in your opponent's center stage, and that character gets -1000 power until end of turn.
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom NameEquals Raving Bassist, Roche
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Raving Bassist, Roche" in your waiting room and return it to your hand.
+EndCard
+
+Character: PAD/S105-044
+Name Bastet, Old Castle Watchcat
+Color G
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 God
+Trait2 Demon
+*GreenCost0Bomb
+Act: 1 SendSelf WaitingRoom
+{
+    Mill 2
+    SetXValue TotalLevel
+    SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+}
+Text Act: [(1) Put this card in the waiting room] Put the top 2 cards of your deck in the waiting room, choose a level X or lower character in your waiting room and return it to your hand. X equals sum of levels of those cards. 
+EndCard
+
+Character: PAD/S105-045
+Name Reincarnated Oichi
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Attacker
+Trait2 Demon
+Trait3 God
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 2 Other && IsColor Green || Other && HasTrait God
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your turn, if the number of other Green or «God» characters you have is 2 or more, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+    If PlayedThisTurn
+    {
+        PayCost 1
+        {
+            SearchWaitingRoom IsColor Green && IsCharacter || HasTrait God
+        }
+    }
+}
+Text Auto: [(1)] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, choose a Green or «God» character in your waiting room and return it to your hand.
+Text <color=red> * This card is part of a 3C1 restriction alongside PAD/S105-T02 and PAD/S105-053 in JP. </color>
+EndCard
+
+Character: PAD/S105-046
+Name Super Reincarnated Osiris
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 God
+Trait2 Physical
+Trait3 Demon
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait God
+    {
+        GainPower 2000
+        GainEffect
+        {
+            *GainPowerWhenAttackingLevel2(6000)
+        }
+    }
+}
+Text Cont: During your turn, if the number of other «God» characters you have is 2 or more, this card gets +2000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+*OnPlayTradeClimaxForCharacter(God)
+EndCard
+
+Event: PAD/S105-047
+Name Raving Bassist, Roche
+Color G
+Level 1
+Cost 1
+Effect: 
+{
+    Mill 4
+    SetXValue TotalSoulTriggers
+    SearchWaitingRoom HasTrait Dragon && Compare ThatCardsLevel X OrLess
+    TargetSelf
+    MoveCard Memory
+}
+Text Put the top 4 cards of your deck in the waiting room, choose up to 1 level X or less «Dragon» character in your Waiting Room and return it to your hand. X equals tottal of Soul trigger icons among those cards. Put this card into memory.
+Auto: StartAttackPhase
+{
+    PayCost 1 FlipCardsFaceDown 1 Memory Other && NameEquals Raving Bassist, Roche &&& FlipSelfFaceDown
+    {
+        Peek Deck 6
+		Message Choose 3 cards to put into your waiting room
+		ChooseCardsFromTargets 3 3 Any
+		MoveCard WaitingRoom
+		TargetLocation ScryArea
+		SetXValue TargetCount
+		MoveCard Deck
+		TargetTop Deck X
+		Message Select order to return cards, (first on top)
+		Reorder
+    }
+}
+InMemory
+Text Auto: MEMORY [(1) Turn another face-up "Raving Bassist, Roche" and this card in your memory face-down] If this card is in memory, at the beginning of your attack phase, you may pay the cost. If you do, look at up to the top 6 cards of your deck, choose 3 of them and put them in the waiting room, and put the rest on top of the deck in any order.
+EndCard
+
+Climax: PAD/S105-048
+Name Mega Awoken Goddess of Power, Kali
+*BarClimax
+EndCard
+
+Climax: PAD/S105-049
+Name Drillspear Jade Conqueror, Nautilus
+*BarClimax
+EndCard
+
+Climax: PAD/S105-050
+Name Head of the Ministry of Mystics, Mikage
+*BarClimax
+EndCard
+
+Character: PAD/S105-051
+Name Madoo, Great Witch of the Lower Castle
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Demon
+Trait2 Attacker
+Cont: GiveSelf
+{
+    If LocationContains Hand 5 Any
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If there are 5 or more cards in your hand, this card gets +1500 power.
+Auto: StartOpponentAttackPhase
+{
+    MultipleChoiceQuestion Choose an effect to perform.\n1:Move this card to an empty center stage middle position.\n2:this card get the following effect: "Auto:[(1)] At the beginning of encore step, if you have no other rested characters in the center stage, you may pay the cost. If you do, rest this card."|1|2
+    If Answer 0
+    {
+        TargetLocation MiddleCenterStage
+        If Not HasTarget
+        {
+            TargetSelf
+            MoveCard MiddleCenterStage
+        }
+    }
+    If Answer 1
+    {
+        TargetSelf
+        GainEffect
+        {
+            *EncoreStepIfNoneRestedPayToRest
+        }
+    }
+}
+Text Auto: At the beginning of your opponent's attack phase, you may either move this card to an empty center stage middle position or this card gets the following effect. "Auto:[(1)] At the beginning of encore step, if you have no other rested characters in the center stage, you may pay the cost. If you do, rest this card."
+EndCard
+
+Character: PAD/S105-052
+Name Ra & Horus
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 God
+Combo Blazearm Scarlet Conqueror, Sea Wolf
+Auto: OnAttack
+{
+    If StageContains 3 Other
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When this card attacks, if the number of other characters you have is 3 or more, this card gets +2000 power until end of turn.
+Auto: StartEncoreStep
+{
+    If Climax Blazearm Scarlet Conqueror, Sea Wolf && InLocation CenterStage
+    {
+        MultipleChoiceQuestion Choose an effect to perform.\n1:If the the number of colors you have is 4 or more and the character facing this card is reversed, look at up to the top 3 cards of your deck, choose up to 1 cards among them and put it in your hand, choose up to 1 of them and put it in your stock, and put the rest into your waiting room.\n2:Choose a level 2 or higher character in your waiting room and return it to your hand.|1|2
+        If Answer 0
+        {
+            If Compare ColorsOnStage 4 OrMore
+            {
+                TargetFacing
+                IfTarget CardPosition Reverse
+                {
+                    Peek Deck 3
+                    SaveTargets
+                    Message Choose a card to put in your hand.
+                    ChooseCardsFromTargets 0 1 Any
+                    MoveCard Hand
+                    RemoveCurrentFromSavedTargets
+                    LoadTargets
+                    Message Choose a card to put in your stock.
+                    ChooseCardsFromTargets 0 1 Any
+                    MoveCard Stock
+                    PutTheRestIntoTheWaitingRoom
+                }            
+            }
+        }
+        If Answer 1
+        {
+            SearchWaitingRoom Compare ThatCardsLevel 2 OrMore && IsCharacter
+        }
+    }
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Blazearm Scarlet Conqueror, Sea Wolf" is in your climax area and this card is in the center stage, choose 1 of the following 2 effects and perform it. "If the the number of colors you have is 4 or more and the character facing this card is reversed, look at up to the top 3 cards of your deck, choose up to 1 cards among them and put it in your hand, choose up to 1 of them and put it in your stock, and put the rest into your waiting room." "Choose a level 2 or higher character in your waiting room and return it to your hand."
+EndCard
+
+Character: PAD/S105-053
+Name Seina, Avenging Exorcist
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Attacker
+Trait2 God
+Combo Head of the Ministry of Mystics, Mikage
+Auto: OnSpecificClimaxPlay Head of the Ministry of Mystics, Mikage
+{
+    If StageContains 2 Other && HasTrait God
+    {
+        *Check4Add1(God)
+    }
+}
+Text Auto: CxCombo When "Head of the Ministry of Mystics, Mikage" is placed on your climax area, if the number of other «God» characters you have is 2 or more, look at up to the top 4 cards of your deck, choose up to 1 «God» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+Auto: OnTriggerCheckClimax
+{
+    IfOther HasTrigger Bar
+    {
+        PayCost Discard 1 Any
+        {
+            TargetLocation Clock
+            ChooseCardsFromTargets 1 1 Any
+            MoveCard Hand
+            TargetTop Deck 1
+            MoveCard Clock
+        }
+    }
+}
+Text Auto: [Put 1 card from hand to the waiting room] When your character's trigger check reveals a climax with a Bar trigger icon, you may pay the cost. If you do, choose a card in your clock and return it to your hand, and put the top card of your deck in your clock.
+Text <color=red> * This card is part of a 3C1 restriction alongside PAD/S105-045 and PAD/S105-T02 in JP. </color>
+EndCard
+
+Character: PAD/S105-054
+Name Rikuu & Distel, Rival Dragonbounds
+Color R
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Dragon
+Trait2 Balance
+*PowerOnMyTurn(3000)
+Auto: OnPlay
+{
+    If Compare ColorsOnStage 4 OrMore
+    {
+        PayCost Discard 1 Any
+        {
+            *CheckAndAdd(3)
+        }
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, if the the number of colors you have is 4 or more, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 cards among them and put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: PAD/S105-055
+Name Remu, Great Witch of the Dream Beasts
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Balance
+Trait2 Demon
+Combo Super Reincarnated Shiva Dragon
+Cont: GiveSelf
+{
+    If Compare Experience 2 OrMore
+    {
+        GainPower 1000
+    }
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level is 2 or higher, this card gets +1000 power.
+Auto: StartAttackPhase
+{
+    If Climax Super Reincarnated Shiva Dragon && InLocation CenterStage && LocationContainsOrLess Hand 5 Any
+    {
+        PayCost SendClimax WaitingRoom
+        {
+            TargetLocation Stage
+            NarrowTargets Other
+            ChooseCharacterFromTargets Choose a character to stand.
+            Stand
+        }
+    }
+}
+Text Auto: CxCombo [Put a "Super Reincarnated Shiva Dragon" from your climax area in the waiting room] At the beginning of your attack phase, if this card is in the center stage and there are 5 or fewer cards in your hand, you may pay the cost. If you do, choose 1 of your other characters and stand it.
+EndCard
+
+Character: PAD/S105-056
+Name Kamimusubi, Mega Awoken Primordial Divinity
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 God
+Trait2 Healer
+Auto: StartMyEncorePhase
+{
+    If PlayedThisTurn && StageContains 3 Other && HasTrait God &&& LocationContainsOrLess Deck 6 Any
+    {
+        Question_Obvious Return all cards from waiting room to your deck ?
+        If Yes
+        {
+            TargetLocation WaitingRoom
+            MoveCard Deck
+            ShuffleLocation Deck
+            UntilEndOfOpponentsTurn
+            *GiveCharacterPower(2500,Any)
+        }
+    }
+}
+Text Auto: During the turn this card is placed on the stage from your hand, at the beginning of your encore step, if the number of other «God» characters you have is 3 or more and there are 6 or fewer cards in your deck, you may return all cards in your waiting room to your deck. If you do, shuffle your deck, choose 1 of your characters, and that character gets +2500 power until the end of your opponent's next turn.
+EndCard
+
+Character: PAD/S105-057
+Name Gremory, Holy Night Greeter
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Demon
+Trait2 God
+Trait3 Balance
+*StockHealer
+Auto: OnAttack
+{
+    PayCost 3
+    {
+        TargetLocation Stage
+        NarrowTargets Other
+        ChooseCharacterFromTargets Choose a character to give the effect.
+        GainEffect
+        {
+            Auto: OnDamageCancel
+            {
+                *OptionalBurn(2)
+            }
+            TimesPerTurn 1
+            Text Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may deal 2 damage to your opponent.
+        }
+    }
+}
+Text Auto: [(3)] When this card attacks, you may pay the cost. If you do, choose 1 of your other characters, and that character gets the following ability until end of turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may deal 2 damage to your opponent." 
+EndCard
+
+Character: PAD/S105-058
+Name Ruka & Mitsuki, Water Shrine Beast Princess
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Healer
+Combo Flaming Wonderbloom Empress, Echidna - Sara
+Cont: GiveSelf
+{
+    If Compare Experience 4 OrMore
+    {
+        GainPower 1000
+    }
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level is 4 or higher, this card gets +1000 power.
+Auto: StartAttackPhase
+{
+    If Climax Flaming Wonderbloom Empress, Echidna - Sara && LocationContains Level 1 NameEquals Ruka & Mitsuki, Water Shrine Beast Princess
+    {
+        PayCost SendClimax WaitingRoom
+        {
+            Stand
+            MillOpponent 10
+        }
+    }
+}
+Text Auto: CxCombo EXPERIENCE [Put a "Flaming Wonderbloom Empress, Echidna - Sara" from your climax area in the waiting room] At the beginning of your attack phase, if there is a 'Ruka & Mitsuki, Water Shrine Beast Princess' in your level, you may pay the cost. If you do, stand this card, and your opponent puts the top 10 cards of their deck in the waiting room.
+Auto: OnReverseOpponent
+{
+    If MyTurn
+    {
+        PayCost 1
+        {
+            Heal
+        }
+    }
+}
+Text Auto: [(1)] During your turn, when this card's battle opponent becomes reverse, you may pay the cost. If you do, put the top card of your clock in the waiting room.
+EndCard
+
+Character: PAD/S105-059
+Name Leilan, Daylight Suzaku Princess
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 God
+Trait2 Dragon
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 2 OrMore
+    {
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's level 2 or higher, put it in your stock. 
+*ClimaxExchange
+EndCard
+
+Character: PAD/S105-060
+Name Leilan, Daylight Suzaku Princess
+Color R
+Level 1
+Cost 0
+Power 500
+Soul 1
+Trait1 Dragon
+Trait2 Attacker
+Trait3 Healer
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen && Compare ThatCardsLevel 2 OrLess
+        ChooseCharacterFromTargets Choose a character to put into waiting room.
+        MoveCard WaitingRoom
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is a climax among them, choose a level 2 or lower character in your opponent's center stage and put it in the waiting room.
+*RedLevel1Bomb
+EndCard
+
+Character: PAD/S105-061
+Name Inahime, Masquerade Vampire Princess
+Color R
+Level 1
+Cost 0
+Power 1500
+Soul 1
+Trait1 God
+Trait2 Demon
+Trait3 Attacker
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+        If HasTarget
+        {
+            PlaceOnStage false true true false
+        }
+    }
+}
+Text Auto: [Put 1 card from hand to waiting room] When this card is placed from hand to stage, you may pay the cost. If you do, choose a level 0 or lower character in your waiting room and place it to any slot on the stage.
+Auto: OnAttack
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to put give -2000 power.
+    LosePower 2000
+}
+Text Auto: When this card attacks, choose a character in your opponent's center stage, and that character gets -2000 power until end of turn.
+EndCard
+
+Character: PAD/S105-062
+Name Akine, Beloved Crimson Dracoblader
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Dragon
+Trait2 Attacker
+Cont: GiveSelf
+{
+    If Compare ColorsOnStage 4 OrMore
+    {
+        GainPower 2000
+        GainEffect
+        {
+            *GainPowerWhenAttackingLevel2(6000)
+        }
+    }
+}
+Text Cont: If the the number of colors you have is 4 or more, this card gets +2000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+Auto: OnAttack
+{
+    If LocationContains Climax 1 Any
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget Compare ThatCardsLevel 1 OrMore
+        {
+            MoveCard Stock
+        }
+    }
+}
+Text Auto: When this card attacks, if there's a climax in your climax area, reveal the top card of your deck. If it's level 1 or higher, put it in your stock. 
+EndCard
+
+Character: PAD/S105-063
+Name Senri, Sweet Shop Owner Komainu Princess
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Balance
+Cont: Assist
+{
+    If ColorIs Red
+    {
+        GainPower 1500
+    }
+}
+Text Cont: ASSIST Your Red characters in front of this card get +1500 power.
+Act: SendSelf BottomOfDeck
+{
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to move to an open position on stage.
+    MoveToOpenPosition true true
+}
+Text Act: [Put this card on bottom of the deck] Choose 1 of your opponent's characters and move it to another open position on your opponent's stage.
+EndCard
+
+Character: PAD/S105-064
+Name Sonia, Beloved Red Dragon Caller
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Dragon
+Trait2 Demon
+Cont: InHand
+{
+    TargetLocation OpponentStage
+    NarrowTargets Compare ThatCardsLevel 3 OrMore
+    If HasTarget
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Auto: StartAttackPhase
+{
+    If InLocation CenterStage
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && Compare ThatCardsLevel 1 OrMore
+        ChooseCharacterFromTargets Choose a character to shrink.
+        *Downgrade
+    }
+}
+Text Auto: At the beginning of your attack phase, if this card is in the center stage, you may choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses a level X or lower character in their waiting room and swaps the chosen characters. X equals level of the character you chose this way -1.
+Auto: OnReverseOpponent
+{
+    PayCost Discard 3 IsColor Red
+    {
+        Repeat 2
+        {
+            Burn 1
+        }
+    }
+}
+Text Auto: [Put 3 Red cards from your hand to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 1 damage to your opponent twice. 
+EndCard
+
+Character: PAD/S105-065
+Name Ruby Dragon
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Enhance Material
+Act: 1 SendSelf WaitingRoom
+{
+    SearchLocationForTargets Hand 0 1 IsCharacter && IsColor Red && Compare ThatCardsLevel MyLevel OrLess
+    If HasTarget
+    {
+        Change
+    }
+}
+Text Act: [(1) Put this card in the waiting room] Choose up to 1 Red character in your hand whose level is less or equal to your level and put it in the position this card was in.
+Act: SendSelf WaitingRoom
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Red
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            TargetLocation OpponentCenterStage
+            NarrowTargets CanBeChosen && Compare ThatCardsLevel 1 OrLess
+            ChooseCharacterFromTargets Choose a character to move to put into waiting room.
+            MoveCard WaitingRoom
+        }
+    }
+}
+Text Act: [Put this card in the waiting room] Choose 1 of your Red characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may choose a level 1 or lower character in your opponent's center stage and put it in the waiting room."
+EndCard
+
+Character: PAD/S105-066
+Name Red Riding Hood, Happy Forest Maiden
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Healer
+Trait2 Physical
+Auto: OnPlay
+{
+    PayCost Discard 1 IsColor Red
+    {
+        DrawCard
+    }
+}
+Text Auto: [Put a Red card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw a card.
+Auto: OnPlay
+{
+    If Compare Experience 2 OrMore
+    {
+        *CheckAndAdd(2)
+        Discard 1 Any
+    }
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, if the sum of levels of cards in your level is 2 or higher, look at up to the top 2 cards of your deck, choose up to 1 card and put it in your hand, put the rest into your waiting room, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: PAD/S105-067
+Name Awoken Hera-Ur
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Demon
+Trait2 God
+Auto: OnPlay
+{
+    Question Exchange a card of your level with a card in waiting room ?
+    If Yes
+    {
+        *ExchangeCardInLevelWithWaitingRoom(Any, Any)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your level and a card in your waiting room and swap them.
+Auto: OnClimaxPlay 
+{
+    PayCost 1 SendSelf Hand
+    {
+        *GiveCharacterPower(1500,Any)
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                SearchWaitingRoom IsCharacter && IsColor Red
+            }
+            Text Auto: When this card's battle opponent becomes reverse, you may choose a Red character in your waiting room and return it to your hand.
+        }
+    }
+}
+Text Auto: [(1) Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +1500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may choose a Red character in your waiting room and return it to your hand."
+EndCard
+
+Character: PAD/S105-068
+Name Reiwa, Observer of Upheavals
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Attacker
+Trait2 Machine
+Act: 1 SendSelf WaitingRoom
+{
+    *Check4Add1Level1OrHigher
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room. 
+*RestGivePower(1000,Any)
+EndCard
+
+Character: PAD/S105-069
+Name Flamie
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Balance
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom NameEquals Spring Orchid Virtue, Xiang Mei
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Spring Orchid Virtue, Xiang Mei" in your waiting room and return it to your hand.
+*ClockShift(0,red)
+EndCard
+
+Character: PAD/S105-070
+Name Super Reincarnated Hino Kagutsuchi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 God
+Trait2 Dragon
+Trait3 Physical
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: PAD/S105-071
+Name Belial, Surging Demon Lord
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Demon
+Trait2 Physical
+Cont: GiveSelf
+{
+    If Compare Experience 3 OrMore
+    {
+        GainPower 3500
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                If MyTurn
+                {
+                    *ScryToBottom
+                }
+            }
+            Text Auto: During your turn, when this card's battle opponent becomes reverse, look at the top card of your deck and put it either on top of the deck or in the waiting room.
+        }
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level is 3 or higher, this card gets +3500 power and the following 2 abilities. "Auto: During your turn, when this card's battle opponent becomes reverse, look at the top card of your deck and put it either on top of the deck or in the waiting room." "Auto: ENCORE [Put 1 character from your hand to the waiting room]"
+EndCard
+
+Event: PAD/S105-072
+Name Spring Orchid Virtue, Xiang Mei
+Color R
+Level 3
+Cost 1
+Requirement StageContains 1 IsColor Red
+Counter
+Effect: 
+{
+    *OptionalHeal
+    *GiveCharacterPower(2000,Any)
+    TargetSelf
+    MoveCard Memory
+}
+Text [Counter] If you don't have a Red character, you cannot play this card from hand. You may put the top card of your clock into waiting room.
+Text Choose 1 of your characters, and that character gains +2000 power until end of turn. Send this card to memory.
+Auto: StartMainPhase
+{
+    PayCost Discard 1 IsClimax
+    {
+        MoveCard Hand
+    }
+}
+InMemory
+Text Auto: MEMORY [Put 1 climax from your hand to the waiting room] If this card is in memory, at the beginning of your main phase, you may pay the cost. If you do, return this card to your hand.
+EndCard
+
+Climax: PAD/S105-073
+Name Super Reincarnated Shiva Dragon
+*StandbyClimax
+EndCard
+
+Climax: PAD/S105-074
+Name Blazearm Scarlet Conqueror, Sea Wolf
+*DoorClimax
+EndCard
+
+Climax: PAD/S105-075
+Name Flaming Wonderbloom Empress, Echidna - Sara
+*StandbyClimax
+EndCard
+
+Character: PAD/S105-076
+Name Carat & Silk & Cameo
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Attacker
+Trait2 Healer
+Auto: OnClimaxPlay
+{
+    TargetLocation Stage
+    NarrowTargets Not HasMarker
+    ChooseCharacterFromTargets_Optional Choose a character to put this card underneath as marker.
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        MarkerTargetsUnderSavedTarget_FaceUp
+        LoadTargets
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                *OptionalBlindStock
+            }
+            Text Auto: When this card's battle opponent becomes reverse, you may put the top card of your deck in your stock.
+        }
+    }
+}
+Text Auto: When your climax is placed on your climax area, you may choose 1 of your characters without markers and put this card face-up underneath that character as marker. If you do, that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may put the top card of your deck in your stock."
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: PAD/S105-077
+Name Minaka, Cooling Draconic Songstress on Koto
+Color B
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Soul 1
+Trait1 Healer
+Trait2 Dragon
+Combo Floating Draconic Songstress on Euphonium, Mariel
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 2 Other
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if the number of other characters you have is 2 or more, this card gets +3000 power.
+Auto: OnAttack
+{
+    If Climax Floating Draconic Songstress on Euphonium, Mariel && StageContains 3 Other
+    {
+        TargetTop Deck 1
+        Reveal
+        SearchWaitingRoom Compare ThatCardsLevel TargetCardsLevel OrLess && IsCharacter
+        IfTarget Compare ThatCardsLevel 2 OrMore
+        {
+            Question_Obvious Put the bottom card of your deck into stock ?
+            If Yes
+            {
+                TargetBottom Deck 1
+                MoveCard Stock
+            }
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Floating Draconic Songstress on Euphonium, Mariel" is in your climax area and the number of other characters you have is 3 or more, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand. If X is 2 or higher, put up to 1 card from the bottom of your deck in your stock. X equals level of the card revealed this way. 
+EndCard
+
+Character: PAD/S105-078
+Name Fallen Angel Lucifer & Seraph Lucifer
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 God
+Trait2 Demon
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    TargetLocation OpponentBackstage
+    SetXValue TargetCount
+    MultiplyXValue 1500
+    GainPower X
+}
+Text Cont: This card gets +1500 power for each of your opponent's backstage characters.
+*Healer
+EndCard
+
+Character: PAD/S105-079
+Name Sonia Clea, Poised Guitarist
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Dragon
+Trait2 Physical
+Trait3 Machine
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        TargetTop Deck 1
+        Reveal
+        SearchWaitingRoom Compare ThatCardsLevel TargetCardsLevel OrLess && IsCharacter
+        IfTarget HasTrigger Soul
+        {
+            TargetSelf
+            GainPower 2000
+        }
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand. If the revealed card has at least 1 soul trigger icon, this card gets +2000 power until end of turn. X equals level of the card revealed this way. 
+EndCard
+
+Character: PAD/S105-080
+Name Uruka, Darkstar Goddess of Bliss
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 God
+Trait2 Dragon
+Cont: GiveSelf
+{
+    If MyTurn && LocationContainsOrLess Stock 3 Any
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your turn, if there are 3 or fewer cards in your stock, this card gets +2000 power.
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: PAD/S105-081
+Name Qilin, Club Manager
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Physical
+Trait2 Attacker
+Auto: OnAttack
+{
+    SetXToNumberOfCharacters Other && IsColor Blue
+    MultiplyXValue 1000
+    GainPower X    
+}
+Text Auto: When this card attacks, this card gets +X power until end of turn. X equals 1000 times the number of your other Blue characters.
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 Any
+    {
+        RevealUpTo Deck 4
+        ChooseCardsFromTargets 0 1 IsColor Blue && IsCharacter
+        RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 Blue character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: PAD/S105-082
+Name Siren & Lilith, Harmonic Temptresses of the Night Sea
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Healer
+Trait2 Demon
+Combo Greatsword Cobalt Conqueror, Royal Oak
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 3 Other
+    {
+        GainPower 4000
+        GainSoul 1
+    }
+}
+Text Cont: During your turn, if the number of other characters you have is 3 or more, this card gets +4000 power and +1 soul.
+Auto: OnDamageCanceled
+{
+    If Climax Greatsword Cobalt Conqueror, Royal Oak && StageContains 3 Other
+    {
+        *OptionalHeal
+        SearchWaitingRoom IsCharacter
+        TargetSelf
+        GainPower 1000
+    }
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to once per turn. When damage dealt by this card is canceled, if "Greatsword Cobalt Conqueror, Royal Oak" is in your climax area and the number of other characters you have is 3 or more, put up to 1 card from the top of your clock in the waiting room, choose up to 1 character in your waiting room and return it to your hand, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: PAD/S105-083
+Name Veroah, Great Witch of the Beach
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Demon
+Trait2 Balance
+Combo Thousand-Armed Dragon, Senkyo
+*OnPlayDraw2Discard1
+Auto: OnSpecificClimaxPlay Thousand-Armed Dragon, Senkyo
+{
+    If InLocation CenterStage
+    {
+        PayCost Discard 3 IsColor Blue
+        {
+            TargetLocation Stage
+            NarrowTargets Other
+            ChooseCharacterFromTargets Choose a character to give the effect.
+            AddSelfToTargets
+            GainEffect
+            {
+                Auto: OnDamageCanceled
+                {
+                    *OptionalBurn(3)
+                }
+                Text Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, you may deal 3 damage to your opponent.
+            }
+        }
+    }
+}
+Text Auto: CxCombo [Put 3 Blue cards from your hand to the waiting room] When "Thousand-Armed Dragon, Senkyo" is placed on your climax area, if this card is in the center stage, you may pay the cost. If you do, choose 1 of your other characters and this card, and those characters get the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, you may deal 3 damage to your opponent." 
+EndCard
+
+Character: PAD/S105-084
+Name Karin, Dancing Seiryuu Princess
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 God
+Trait2 Dragon
+Auto: OnPlay
+{
+    TargetLocation Clock
+    ChooseCardsFromTargets 0 1 Any
+    If HasTarget
+    {
+        MoveCard Hand
+        TargetLocation Hand
+        ChooseCardsFromTargets 1 1 Any
+        MoveCard Clock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your clock and return it to your hand. If you do, put a card from your hand in your clock.
+Act: 1 RestSelf
+{
+    If Compare ColorsOnStage 4 OrMore
+    {
+        Brainstorm 5
+		If Compare BrainstormedClimax 1 OrMore
+		{
+			SetXValue BrainstormedClimax
+			Repeat X
+			{
+				SearchWaitingRoom IsCharacter
+                *GiveCharacterPower(1000,Any)
+			}
+		}
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this card] If the the number of colors you have is 4 or more, flip over the top 5 cards of your deck and put them in the waiting room. For each climax revealed this way, choose up to 1 character in your waiting room and return it to your hand, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: PAD/S105-085
+Name Yuri, Ice Knife Bride
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Healer
+Trait2 God
+Auto: StartClimaxPhase
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Blue || HasTrait God
+    ChooseCharacterFromTargets Choose a charcter to give +1000 power.
+    GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your Blue or «God» characters, and that character gets +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+    *GiveCharacterPower(1000,Any)
+    GainSoul 1
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, and that character gets +1000 power and +1 soul until end of turn.
+EndCard
+
+Character: PAD/S105-086
+Name Barbara & Julie, Summer Vacation's Promise
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Dragon
+Trait2 Machine
+Auto: OnReversed
+{
+    PayCost 1 Discard 1 Any SendSelf Memory
+    {
+        SearchDeck HasTrait Dragon
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to waiting room, put this card into memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 «Dragon» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: PAD/S105-087
+Name Metatron, Watcher of Paradise
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 God
+Trait2 Healer
+Trait3 Physical
+*DropSalvage
+Auto: OnOpponentClimaxPlay
+{
+    Question Put this card into stock ?
+    If Yes
+    {
+        MoveCard Stock
+    }
+}
+Text Auto: When your opponent's climax is placed on your climax area, you may put this card in your stock.
+EndCard
+
+Character: PAD/S105-088
+Name Blackbeard, Plundering Pirate Dragon
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Dragon
+Trait2 Demon
+Trait3 Attacker
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Blue || HasTrait Dragon
+    SetXToNumberOfCharacters IsColor Blue || HasTrait Dragon
+    MultiplyXValue 500
+    ChooseCharacterFromTargets Choose a charcter to give +X power.
+    GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other Blue or «Dragon» characters, and that character gets +X power until end of turn. X equals 500 times the number of your other Blue or «Dragon» characters.
+Auto: OnAttack
+{
+    TargetLocation Stage
+    GainEffect
+    {
+        Auto: OnTriggerCheckClimax
+        {
+            If HasTrigger Gate
+            {
+                *OptionalDrawDiscard
+            }
+        }
+        Text Auto: When the trigger check of this card reveals a climax with a Gate trigger icon, you may draw a card. If you do, discard a card from your hand to the waiting room.
+    }
+}
+Quick
+Text Auto: When this card attacks, all your characters get the following ability until end of turn. "Auto: When the trigger check of this card reveals a climax with a Gate trigger icon, you may draw a card. If you do, discard a card from your hand to the waiting room."
+EndCard
+
+Character: PAD/S105-089
+Name Ryuunsai, Yin and Yang Dragon of Rivalry
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Dragon
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 1 OrLess
+    {
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's level 1 or lower, put it in your stock.
+*OnPlayFlicker
+*BlueEarlyPlayBomb
+EndCard
+
+Character: PAD/S105-090
+Name Awilda, Blue Pirate Dragon
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Dragon
+Auto: OnUseThisCardsBackup
+{
+    SetXToNumberOfCharacters InLocation OpponentStage
+    TargetBottom OpponentDeck X
+    MoveCard WaitingRoom
+}
+Text Auto: When you use this card's "BACKUP", put the bottom X cards of your opponent's deck in the waiting room. X equals the number of your opponent's characters.
+Backup 3000
+EndCard
+
+Character: PAD/S105-091
+Name Sapphire Dragon
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Enhance Material
+Act: 1 SendSelf WaitingRoom
+{
+    SearchLocationForTargets Hand 0 1 IsCharacter && IsColor Blue && Compare ThatCardsLevel MyLevel OrLess
+    If HasTarget
+    {
+        Change
+    }
+}
+Text Act: [(1) Put this card in the waiting room] Choose up to 1 Blue character in your hand whose level is less or equal to your level and put it in the position this card was in.
+Act: SendSelf WaitingRoom
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Blue
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            GainSpecialEffect FreeSideAttack
+        }
+        Text Cont: This card's soul does not decrease during side attack.
+    }
+}
+Text Act: [Put this card in the waiting room] Choose 1 of your Blue characters, and that character gets the following ability until end of turn. "Cont: This card's soul does not decrease during side attack."
+EndCard
+
+Character: PAD/S105-092
+Name Baddie
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Balance
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom NameEquals Dark Gleam Divine Queen, Hera
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Dark Gleam Divine Queen, Hera" in your waiting room and return it to your hand.
+*ClockShift(0,blue)
+EndCard
+
+Character: PAD/S105-093
+Name Drawn Joker
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Dragon
+Trait2 Demon
+Cont: GiveSelf
+{
+    TargetLocation OpponentBackstage
+    SetXValue TargetCount
+    MultiplyXValue 2000
+    GainPower X
+}
+Text Cont: This card gets +2000 power for each of your opponent's backstage characters.
+Act: Discard 1 Any SendSelf BottomOfDeck
+{
+    SearchWaitingRoom IsCharacter
+}
+Text Act: [Put 1 card from your hand to the waiting room, put this card on the bottom of the deck] Choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: PAD/S105-094
+Name Wicked Lady
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Soul 1
+Trait1 Demon
+Cont: GiveSelfEverywhere
+{
+    If LocationContains Climax 1 HasTrigger Gate
+    {
+        GainTriggerIcon LoneGate
+    }
+}
+Text Cont: If there is a climax with a Gate trigger icon in your climax area, this card gets Gate trigger icon while in any zone.
+Cont: Assist
+{
+    If IsColor Blue
+    {
+        SetXValue ThatCardsLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: ASSIST Your Blue characters in front of this card get +X power. X equals 500 times level of that character.
+Auto: OnClimaxPlay
+{
+    IfOther HasTrigger Gate
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to give -1000 power.
+        LosePower 1000
+    }
+}
+Text Auto: When your climax with a Gate trigger icon is placed on your climax area, choose a character in your opponent's center stage, and that character gets -1000 power until end of turn.
+EndCard
+
+Character: PAD/S105-095
+Name Super Reincarnated Nut
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 God
+Trait2 Physical
+Trait3 Attacker
+*Level3Assist
+Auto: OnTriggerCheckClimax
+{
+    TargetTop Deck 2
+    Reorder
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +1 soul.
+    GainSoul 1
+}
+Text Auto: When your character's trigger check reveals a climax card, look at up to the top 2 cards of your deck, put them on top of the deck in any order, choose 1 of your characters, and that character gets +1 soul until end of turn.
+EndCard
+
+Character: PAD/S105-096
+Name Sea Deity Neptune
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 God
+Cont: InHand
+{
+    If StageContains 4 HasTrait God || IsColor Blue
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If the number of Blue or «God» characters you have is 4 or more, this card gets -1 level while in your hand.
+Auto: OnOpponentUseEvent|OnOpponentUsesAct
+{
+    If MyTurn && InLocation CenterStage
+    {
+        TargetTop OpponentStock
+        MoveCard OpponentWaitingRoom
+    }
+}
+Text Auto: During your turn, when your opponent uses an event or "BACKUP", if this card is in the center stage, your opponent puts the top card of their stock in the waiting room.
+Auto: OnPlay
+{
+    UntilEndOfOpponentsTurn
+    GainPower 4500
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        Auto: OnReversed
+        {
+            GainSpecialEffect CannotEncoreThis
+        }
+        //Text effect in next effect.
+    }
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            TargetBattleOpponent
+            GainSpecialEffect CannotEncoreThis
+        }
+        Text Auto: When this card or this card's battle opponent becomes reverse, that character cannot use 'Auto: ENCORE' until end of turn.
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability until the end of your opponent's next turn. "Auto: When this card or this card's battle opponent becomes reverse, that character cannot use 'Auto: ENCORE' until end of turn." 
+EndCard
+
+Event: PAD/S105-097
+Name Dark Gleam Divine Queen, Hera
+Color B
+Level 1
+Cost 1
+Effect: 
+{
+    TargetSelf
+    MoveCard Memory
+    TargetTop Deck 1
+    Reveal
+    IfTarget IsColor Blue && IsCharacter || IsEvent
+    {
+        MoveCard Hand
+    }
+}
+Text Put this card into memory.
+Text Reveal the top card of your deck. If it's a Blue character or an event, put it in your hand.
+Auto: StartEncoreStep
+{
+    PayCost 2 SendSelf WaitingRoom SendFromMemoryToWaitingRoom 2 NameEquals Dark Gleam Divine Queen, Hera
+    {
+        Burn 2
+    }
+}
+InMemory
+Text Auto: MEMORY [(2) Put 2 other "Dark Gleam Divine Queen, Hera" and this card from your memory in the waiting room] If this card is in memory, at the beginning of your encore step, you may pay the cost. If you do, deal 2 damage to your opponent. 
+EndCard
+
+Climax: PAD/S105-098
+Name Floating Draconic Songstress on Euphonium, Mariel
+*GateClimax
+EndCard
+
+Climax: PAD/S105-099
+Name Greatsword Cobalt Conqueror, Royal Oak
+*GateClimax
+EndCard
+
+Climax: PAD/S105-100
+Name Thousand-Armed Dragon, Senkyo
+*GateClimax
+EndCard
+
+Character: PAD/S105-T01
+Name TAMADRA, Starry Night Gift
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Dragon
+*RestGivePower(2500,Any)
+EndCard
+
+Character: PAD/S105-T02
+Name Mille, Playful Time Dragonbound
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Dragon
+Trait2 Machine
+Trait3 God
+Auto: OnAttack
+{
+    GainSpecialEffect DoubleTrigger
+    GainEffect 
+    {
+        Auto: OnTriggerCheck
+        {
+            TargetTop Stock 1
+            MoveCard WaitingRoom
+        }
+        TimesPerTurn 1
+        Slow
+    }
+}
+Quick
+Text Auto: When this card attacks, perform trigger check twice during this card attack's trigger step. After the 2 trigger checks are made, put the top card of your stock in the waiting room.
+*FreeRunner
+Text <color=red> * This card is part of a 3C1 restriction alongside PAD/S105-045 and PAD/S105-053 in JP. </color>
+EndCard
+
+Character: PAD/S105-T03
+Name Satsuki, Flame Cloud Moon Dragon Caller
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Dragon
+Trait2 Attacker
+Auto: OnPlay
+{
+    Question Put the top 3 cards of your deck into waiting room ?
+    If Yes
+    {
+        Mill 3
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck in the waiting room.
+*OnAttackGivePowerTimesSoul
+EndCard
+
+Character: PAD/S105-T04
+Name Princess Valkyrie
+Color Y
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Healer
+*PowerOnMyTurn(4000)
+Auto: OnReversed
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 2 OrMore
+    {
+        TargetSelf
+        Rest
+    }
+}
+Text Auto: This ability activates up to once per turn. When this card becomes reversed in battle, reveal the top card of your deck. If it's level 2 or higher, you may rest this card. 
+EndCard
+
+Character: PAD/S105-T05
+Name Fasca, Great Witch of the Star Jumper
+Color Y
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Demon
+Trait2 Attacker
+Combo Zero Dimension Creator, Big Bang
+*CannotSideAttack
+Auto: OnReverseOpponent
+{
+    If Climax Zero Dimension Creator, Big Bang
+    {
+        RevealUpTo Deck 4
+        ChooseCardsFromTargets 0 2 Compare ThatCardsLevel 1 OrMore
+        RevealTargets
+        PutTheRestIntoTheWaitingRoom
+        Message Choose a card to put in hand. (The other will go in stock)
+        SaveTargets
+        ChooseCardsFromTargets 1 1 Any
+        MoveCard Hand
+        RemoveCurrentFromSavedTargets
+        LoadTargets
+        MoveCard Stock
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Zero Dimension Creator, Big Bang" is in your climax area, look at up to the top 4 cards of your deck, choose up to 2 level 1 or higher cards among them, reveal them, choose 1 of them and put it in your hand, choose 1 of them and put it in your stock, and put the rest into your waiting room. 
+EndCard
+
+Character: PAD/S105-T06
+Name Dragon Caller Sonia Gran, Ancient Castle Apparition
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Dragon
+Trait2 Demon
+Auto: OnUseThisCardsBackup
+{
+    If StageContains 3 Any
+    {
+        *OptionalBlindStock
+    }
+}
+Text Auto: When you use this card's "BACKUP", if you have 3 or more characters, you may put the top card of your deck in your stock.
+Backup 2000
+EndCard
+
+Character: PAD/S105-T07
+Name Metatron, Keeper of the Holy Scriptures
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 God
+Trait2 Healer
+Trait3 Physical
+Cont: GiveSelf
+{
+    TargetLocation OpponentBackstage
+    SetXValue TargetCount
+    MultiplyXValue 2500
+    GainPower X
+}
+Text Cont: This card gets +2500 power for each of your opponent's backstage characters.
+Auto: OnReverseOpponent
+{
+    *GiveCharacterPower(1000,Any)
+}
+Text Auto: When battle opponent of this card is reversed, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: PAD/S105-T08
+Name Zeus Verse, World's Omnipotent God
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 God
+Trait2 Balance
+*Healer
+Auto: OnAttack
+{
+    PayCost 1 Discard 2 Any
+    {
+        MillOpponentBottom 3
+        NarrowTargets Compare ThatCardsLevel 0 OrLess
+        Burn X
+    }
+}
+Text Auto: [(1) Put 2 cards from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, put the bottom 3 cards of your opponent's deck in the waiting room, and deal X damage to your opponent. X equals the number of level 0 or lower cards among those cards. 
+EndCard
+
+Event: PAD/S105-T09
+Name Resonant Vocalist, Ideal
+Color Y
+Level 1
+Cost 0
+Requirement StageContains 2 Any
+Effect: 
+{
+    If LocationContains WaitingRoom 2 IsClimax
+    {
+        TargetLocation WaitingRoom
+        NarrowTargets NameEquals Fasca, Great Witch of the Star Jumper
+        SearchWaitingRoom Compare ThatCardsLevel TargetCount OrLess && IsCharacter
+    }
+}
+Text If you have 1 or fewer character, you cannot play this card from hand. If there are 2 or more climax cards in your waiting room, choose a level X or lower character in your waiting room and return it to your hand. X equals the number of "Fasca, Great Witch of the Star Jumper" in your waiting room.
+EndCard
+
+Climax: PAD/S105-T10
+Name Zero Dimension Creator, Big Bang
+*ChoiceClimax
+EndCard
+
+Character: PAD/S105-T11
+Name Sonia, Sky Splitting Marvelous Red Dragon Caller
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Dragon
+Trait2 Demon
+Cont: GiveAll
+{
+    If Other && NameEquals Meteor Volcano Dragon
+    {
+        GainPower 2000
+        GainEffect
+        {
+            Auto: OnReversed
+            {
+                TargetFacing
+                If Not MyTurn && Compare TargetCardsLevel 1 OrLess
+                {
+                    Question_Obvious Reverse that character ?
+                    If Yes
+                    {
+                        Reverse
+                    }
+                }
+            }
+        }
+    }
+}
+Text Cont: All your other "Meteor Volcano Dragon" get +2000 power and the following ability. "Auto: During your opponent's turn, when this card becomes reversed, if the battle opponent of this card is 1 or lower, you may reverse that character."
+*BondDiscard(Meteor Volcano Dragon)
+EndCard
+
+Character: PAD/S105-T12
+Name Haku, Powder Snow Byakko
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 God
+Trait2 Dragon
+Auto: OnTriggerCheckClimax
+{
+    *GiveCharacterPower(1000,Any)
+}
+Text Auto: When your character's trigger check reveals a climax card, choose 1 of your characters, and that character gets +1000 power until end of turn.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: PAD/S105-T13
+Name Alynna, Beloved Healer
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Healer
+Trait2 Dragon
+Cont: GiveFacing
+{
+    GainEffect
+    {
+        Auto: Encore 2
+        {
+        }
+        Text Auto: ENCORE [(2)]
+    }
+}
+Text Cont: character facing this card gets "Auto: ENCORE [(2)]".
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost 1 Clock
+    {
+        *Check4Add1Level1OrHigher
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: PAD/S105-T14
+Name Deena, Beloved Martial Artist
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Attacker
+Trait2 Dragon
+*OnPlayGainPower(4500)
+EndCard
+
+Character: PAD/S105-T15
+Name Meteor Volcano Dragon
+Color R
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Dragon
+EndCard
+
+Character: PAD/S105-T16
+Name Gileon, Flaming Magic Key Hero
+Color R
+Level 1
+Cost 1
+Power 3500
+Soul 1
+Trait1 Attacker
+Trait2 Physical
+*PowerOnMyTurn(6000)
+*HandEncore
+EndCard
+
+Character: PAD/S105-T17
+Name Ilmina, Ash Phantom Demon of Friendship
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Demon
+Trait2 Attacker
+Trait3 Physical
+*LevelAssist
+Act: 2 RestSelf
+{
+    SearchWaitingRoom IsCharacter
+}
+Text Act: [(2) Rest this card] Choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: PAD/S105-T18
+Name Suou, Enraptured Devil Dragonbound
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Dragon
+Trait2 Demon
+Auto: OnAttack
+{
+    SetXToNumberOfCharacters InLocation OpponentStage
+    MultiplyXValue 1500
+    GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X equals 1500 times the number of opponent's characters.
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrMore
+{
+    PayCost 1
+    {
+        SearchWaitingRoom IsCharacter
+    }
+}
+Text Auto: [(1)] When a level 2 or higher battle opponent of this card becomes reversed, you may pay the cost. If you do, choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: PAD/S105-T19
+Name Saline, Great Witch of the Holy Gates
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Demon
+Trait2 Balance
+Combo Daybreak Primordial Divinity, Kamimusubi
+Auto: OnPlay
+{
+    SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+    If HasTarget
+    {
+        PlaceOnStage false true true false
+        TargetSelf
+        GainPower 2000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character in your hand whose level is equal to or lower than your level and put it in any position on the stage, and this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+    If Climax Daybreak Primordial Divinity, Kamimusubi
+    {
+        PayCost 2
+        {
+            Burn 2
+            TargetFacing
+            If OnStage
+            {
+                MoveCard OpponentDeck
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(2)] When this card's battle opponent becomes reverse, if "Daybreak Primordial Divinity, Kamimusubi" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent, and put that character on top of the deck. 
+EndCard
+
+Climax: PAD/S105-T20
+Name Daybreak Primordial Divinity, Kamimusubi
+*DoorClimax
+EndCard
+
+Climax: PAD/S105-T21
+Name Vivacious Drummer, Valeria
+Color R
+*2SoulClimax
+EndCard
+
+Character: PAD/S105-101
+Name Ukei's Key Hero, Ferul
+Image pad_s105_101
+Color B
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Physical 
+Trait2 Attack
+*CannotSideAttack
+Auto: OnDamageDealtByCharacterFacingThisNotCanceled
+{
+    If InBattle
+    {
+        GainPower 1500
+    }
+}
+Quick
+Text Auto: During this card's battle, if the damage you received is not canceled, this card gets +1500 power until end of turn.
+
+Character: PAD/S105-102
+Name Valentine's Night Goddess, Noktaria
+Image pad_s105_102
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 God 
+Trait2 Devil
+*EarlyPlayMemoryBomb
+
+Character: PAD/S105-103
+Name Renri's Hidragon Caller, Tsubaki
+Image pad_s105_103
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Dragon
+Trait2 Stamina
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        PayCost Discard 1 Any
+        {
+            SearchWaitingRoom IsCharacter
+        }
+    }
+}
+Text Auto: [Put 1 card from your hand into waiting room] When this card is placed on the stage from your hand, put the top 2 card of your deck into waiting room. If there is a climax among them, you pay the cost. If you do, search your waiting room for up to 1 character and return it to your hand.
+*RedLevel0Bomb
+
+Character: PAD/S105-104
+Name Bright Rainbow Bride, Eskamari
+Image pad_s105_104
+Color Y 
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Machine
+Trait2 God
+*EarlyPlay2OrLessClimax
+*OnPlayCheckX(Any)
+Auto: OnPlay
+{
+    UntilEndOfOpponentsTurn
+    GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 until the end of your opponent's next turn. 
+
+Character: PAD/S105-105
+Name Great Witch of the Western Mansion, Nere
+Image pad_s105_105
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Balance 
+Trait2 Devil
+Auto: OnAttack
+{
+    *GiveCharacterPower(5000,Any)
+}
+Text Auto: When this card attacks, choose 1 of your character and that character gets +5000 power until end of turn.
+
+Character: PAD/S105-P01
+Name Secret Ninja, Blackbird
+Image pad_s105_p01
+Color B
+Level 2 
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Machine 
+Trait2 Balance
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+    If LocationContains Climax 1 Any
+    {
+        TargetFacing
+        If OnStage
+        {
+            Question Put that character at the bottom of your opponent's deck ?
+            If Yes
+            {
+                MoveCardToBottom OpponentDeck
+            }
+        }
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, if you have a climax in your climax area, you may put that character at the bottom of your opponent's deck.
+
+Character: PAD/S105-P02
+Name The Original Great Witch, Rafine
+Image pad_s105_p02
+Color R
+Level 3
+Cost 2
+Trigger Soul 
+Power 4500
+Soul 1
+Trait1 Demon
+Trait2 Balance
+*2000Assist
+*Healer
+
+Character: PAD/S105-P03
+Name Frozen Dessert King, Miada
+Image pad_s105_p03
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Healer 
+Trait2 Attack
+Auto: StartOpponentAttackPhase
+{
+    PayCost 1
+    {
+        TargetFacing
+        If HasTarget
+        {
+            SaveTargets
+            TargetLocation OpponentCenterStage
+            NarrowTargets Not InSavedTargets
+            ChooseCharacterFromTargets Choose a character to swap with the character facing this card.
+            AddSavedToCurrentTargets
+            Stand
+            Exchange
+        }   
+    }
+}
+Text Auto: [(1)] At the begining of your opponent's attack phase, you may pay the cost. If you do, choose the character facing this card and another character in your opponent's center stage, stand them and swap them.
+*BlueLevel0Bomb
+
+Character: PAD/S105-P04
+Name First Day of Suzaku Princess, Raylan
+Image pad_s105_p04
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 God
+Trait2 Dragon
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 2 OrMore
+    {
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 2 or higher, put that card into stock.
+*ClimaxExchange

@@ -1,0 +1,2680 @@
+Character: SMP/W60-001
+Name Umi Katou
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+*OnPlayGainPower(1500)
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1 
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore 
+	{
+		TargetSelf 
+		MoveCard Hand
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If it is level 1 or higher, you may return this card to your hand
+EndCard 
+
+Character: SMP/W60-002
+Name "What I Can Do" Shiroha
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Summer Pockets
+Trait2 Time
+Combo A Beam of Light
+*GainPowerForEachOther(500, Summer Pockets)
+Auto: OnReverseOpponent
+{
+	If Climax A Beam of Light
+	{
+		*OptionalBlindStock 
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "A Beam of Light" is in your climax area, put up to 1 card from top of your deck into your stock, choose up to 1 character in your waiting room and return it to your hand.
+Auto: OnReversed 
+{
+	If InLocation Stage && Not StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		MoveCard Clock
+	}
+	
+}
+Text Auto: When this card becomes Reversed in battle, if you have 1 or fewer other <Summer Pockets> characters, put this card into your Clock. 
+EndCard 
+
+Character: SMP/W60-003
+Name "Summer Pockets" Shiroha
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnAttack 
+{
+	*GiveCharacterPower(1500,Summer Pockets)
+}
+Text Auto When this card attacks, choose 1 of your <Summer Pockets> characters, it gets +1500 power until end of turn.
+*MusashiEffect 
+EndCard
+
+Character: SMP/W60-004
+Name "Family Eating Together" Umi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveAll
+{
+	If MyTurn && Other && InLocation MiddleCenterStage && HasTrait Summer Pockets 
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, your other <Summer Pockets> character in the middle position of your center stage gets +1000 power.
+*Act1RestSelfDraw2Discard1Brainstorm
+EndCard
+
+Character: SMP/W60-005
+Name "Colors of Wings of Future" Shiroha
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnReversed
+{
+	If StageContains 1 Other && HasTrait Time &&& Not LocationContains Memory 3 Any
+	{
+		PayCost Discard 1 HasTrait Time &&& SendSelf Memory
+		{
+			SearchWaitingRoom HasTrait Time
+		}
+	}
+}
+Text Auto: [Discard a <Time> character, Put this card into your memory] When this card becomes reversed in battle, if you have another <Time> character and there are 2 or fewer cards in your memory, you may pay the cost. If you do, choose a <Time> character in your waiting room and return it to your hand. 
+EndCard
+
+Character: SMP/W60-006
+Name "Hinge Ceremony" Shiroha
+Color Y
+Level 1
+Cost 0
+Power 3000
+Combo A Beam of Light
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnPlay 
+{
+	DrawCard 
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, draw a card, then discard a card.
+Auto: OnSpecificClimaxPlay A Beam of Light
+{
+	PayCost SendSelf WaitingRoom 
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals "What I Can Do" Shiroha
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card into your waiting room] When "A Beam of Light" is placed in your climax area, you may pay the cost. If you do, choose up to 1 ""What I Can Do" Shiroha" in your hand, and put it in this card's previous position. 
+EndCard
+
+Character: SMP/W60-007
+Name "Injured but Together" Shiroha
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnPlay 
+{
+	If StageContains 1 Other && HasTrait Summer Pockets
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another <Summer Pockets> character, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +1000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-008
+Name "Place for Each Other" Shiroha
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnAttack 
+{
+	If StageContains 2 Other && HasTrait Summer Pockets
+	{
+		Peek Deck 2
+		If HasTarget
+		{
+			Message Choose a card to put back on top. 
+			AIChoice If Not IsClimax
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Deck
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other <Summer Pockets> characters, look at up to 2 cards from top of your deck, choose 1 of them and put it on top of the deck, and put the rest into the waiting room.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: SMP/W60-009
+Name Shiroha Naruse
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Summer Pockets
+Trait2 Time
+Combo I Have Started Loving You
+Auto: OnSpecificClimaxPlay I Have Started Loving You
+{
+	If InLocation CenterStage 
+	{
+		PayCost Send 1 Hand Other 
+		{
+			Message Choose a character to place on stage.
+			SearchLocationForTargets Hand 0 1 Compare ThatCardsLevel MyLevel OrLess && HasTrait Time
+			PlaceOnStage False True True False 
+			TargetSelf 
+			GainPower 3000
+		}
+	}
+}
+Text Auto: CxCombo [Return another character from your stage to your hand] When "I Have Started Loving You" is placed in your climax area, if this card in on your center stage, you may pay the cost. If you do, choose up to 1 <Time> character in your hand whose level is less than or equal to your level, put it in any position of your stage, and this card gets +3000 power until end of turn.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: SMP/W60-010
+Name "Resonanting Memories" Hairi
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveSelf 
+{
+	If LocationContains Memory 1 NameEquals "Colors of Wings of Future" Shiroha
+	{
+		GainPower 2500
+		GainEffect 
+		{
+			Auto: OnAttack
+			{
+				PayCost Resonate "Colors of Wings of Future" Shiroha
+				{
+					GainSoul 1
+				}
+			}
+			Text Auto: RESONATE [Reveal a ""Colors of Wings of Future" Shiroha" in your hand] When this card attacks, you may pay the cost. If you do, this card gets +1 soul until end of turn." 
+		}
+	}
+}
+Text Cont: MEMORY If ""Colors of Wings of Future" Shiroha" is in your memory, this card gets +2500 power and the following ability. "Auto: RESONATE [Reveal a ""Colors of Wings of Future" Shiroha" in your hand] When this card attacks, you may pay the cost. If you do, this card gets +1 soul until end of turn." 
+EndCard
+
+Character: SMP/W60-011
+Name "A Pocket-like Place" Kyouko
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Summer Pockets
+Trait2 Book
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Summer Pockets
+		TargetSelf 
+		GainPower 1000
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 1 "Summer Pockets" in your memory, return it to hand, and this card gets +1000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 1 
+	{
+		Message Choose a card to put into your memory.
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Summer Pockets 
+		MoveCard Memory
+		TargetSelf 
+		GainPower 500
+	}
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, choose up to 1 "Summer Pockets" in your waiting room, put it into your memory, and this card gets +500 power until end of turn. 
+EndCard
+
+Character: SMP/W60-012
+Name "Beast Talk During Test of Courage" Shiroha
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		ChooseCharacters 1 1 Not MyCard && EarlyPlay 
+		MoveCard OpponentStock 
+	}
+}
+Text Auto: [(2) Put a character from your stage into the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put into your opponent's stock.
+Backup 2500
+EndCard
+
+Character: SMP/W60-013
+Name "Both Alone" Shiroha
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Summer Pockets
+Trait2 Time
+*GainPowerForEachOther(500,Summer Pockets)
+*Healer
+EndCard
+
+Character: SMP/W60-014
+Name "Good Enough" Umi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveAll
+{
+	IfOwner Not MyTurn && InLocation LeftBackstage && StageContains 1 Other && NameEquals "Good Enough?" Shiroha
+	{
+		If Other 
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: During your Opponent's turn, if this card is in the left position of your backstage and you have another ""Good Enough?" Shiroha", all of your other characters get +1000 power.
+*RestGivePower(500,Any)
+EndCard
+
+Character: SMP/W60-015
+Name "Good Enough?" Shiroha
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveAll
+{
+	IfOwner MyTurn && InLocation RightBackstage && StageContains 1 Other && NameEquals "Good Enough" Umi
+	{
+		If Other 
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: During your turn, if this card is in the right position of your backstage and you have another ""Good Enough" Umi", all of your other characters get +1000 power.
+Act: 1
+{
+	MillOpponent 1 
+	Message Choose a card to put on top of your oppoennt's deck.
+	SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+	MoveCard OpponentDeck 
+}
+Text Act: [(1)] Put the top card of your opponent's deck into the waiting room, and choose a card in your opponent's waiting room and put it on top of the deck. 
+EndCard
+
+Character: SMP/W60-016
+Name "Lost in the Summer" Umi & Shiroha
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Time
+Combo Precious Time
+Auto: OnAttack 
+{
+	If Climax Precious Time 
+	{
+		PayCost 1 
+		{
+			SearchWaitingRoom HasTrait Summer Pockets 
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Precious Time" is in your climax area, you may pay the cost. If you do, choose a <Summer Pockets> character in your waiting room, and return it to your hand.
+Auto: OnEndOfAttack
+{
+	If Climax Precious Time && Not LocationContains Memory 3 Any && InLocation Stage
+	{
+		MoveCard Memory
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if "Precious Time" is in your climax area, and there are 2 or fewer cards in your memory, Put this card into your memory.
+*YellowLevel0Bomb
+EndCard
+
+Character: SMP/W60-017
+Name "Father" Hairi
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Summer Pockets
+Trait2 Time
+*500Assist 
+Auto: OnTriggerCheckClimax
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +2000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-018
+Name "Mother" Shiroha
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Summer Pockets
+Trait2 Time
+EndCard
+
+Character: SMP/W60-019
+Name Kobato Naruse
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Summer Pockets
+Trait2 Wrestling 
+Cont: GiveSelf 
+{
+	TargetLocation Stage 
+	NarrowTargets Other && NameContains Shiroha
+	SetXValue 1000
+	MultiplyXValue TargetCount 
+	GainPower X
+}
+Text Cont: For each of your other characters with "Shiroha" in its name, this card gets +1000 power.
+*HandEncoreTrait(Summer Pockets)
+EndCard
+
+Event: SMP/W60-020
+Name Magical Picture Diary
+Color Y
+Level 1
+Cost 0
+Effect: 
+{
+	Message Choose a character to give +5500 power and the abiltiy to.
+	ChooseCharacters 1 1 MyCard && HasTrait Summer Pockets 
+	GainPower 5500
+	GainEffect
+	{
+		*HexProof
+	}
+}
+Text Choose 1 of your <Summer Pockets> characters, it gets +5500 power and the following ability until end of turn. "Cont: This cannot be chosen by your opponent's effects." 
+EndCard
+
+
+Event: SMP/W60-021
+Name Summer Pockets 
+Color Y
+Level 1
+Cost 1
+Effect: 
+{
+	Brainstorm 3 
+	TargetBrainstormed 
+	NarrowTargets HasTrait Summer Pockets
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel TargetCount OrLess 
+	*GiveCharacterPower(2000,Any)
+	TargetSelf 
+	MoveCard Memory
+}
+Text BRAINSTORM Flip over 3 cards from the top of your deck and put them into the waiting room. Choose a level X or lower <Summer Pockets> character in your waiting room and return it to your hand. X is the number <Summer Pockets> character cards revealed.\nChoose 1 of your characters, it gets +2000 power until end of turn.\nPut this card into your memory. 
+EndCard
+
+Event: SMP/W60-022
+Name The Last Summer Vacation
+Color Y
+Level 2
+Cost 2
+Effect: 
+{
+	TargetLocation Stage 
+	NarrowTargets NameContains Shiroha|Hairi
+	If StageContains 1 NameContains Shiroha &&& StageContains 1 NameContains Hairi &&& Compare TargetCount 2 OrMore
+	{
+		*OptionalDraw
+		*OptionalHeal
+		TargetSelf 
+		MoveCard Memory
+	}
+}
+Text If you have a character with "Shiroha" in its name and a character with "Hairi" in its name, draw up to 1 card, put up to 1 card from top of your clock in the waiting room, and put this card into your memory. 
+//Cont: InHand
+//{
+//	GainName The Best Summer Vacation
+//}
+EndCard
+
+Climax: SMP/W60-023
+Name A Beam of Light
+*WindClimax
+EndCard
+
+Climax: SMP/W60-024
+Name I Have Started Loving You
+*ShotClimax 
+EndCard
+
+Climax: SMP/W60-025
+Name Precious Time
+*ShotClimax
+EndCard
+
+Character: SMP/W60-026
+Name "Summer Pockets" Tsumugyu
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Summer Pockets
+Trait2 Plushie
+Combo Something Lovers-Like
+Cont: GiveSelf 
+{
+	If MyTurn 
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If Climax Something Lovers-Like
+	{
+		*Check4Add1(Summer Pockets)
+		Message Choose a character to give +1000 power.
+		ChooseCharacters 1 1 MyCard
+		UntilEndOfOpponentsTurn 
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Something Lovers-Like" is in your climax area, look at up to 4 cards from the top of your deck, choose up to 1 <Summer Pockets> character, put it into your hand, put the rest into the waiting room, choose 1 of your characters, it gets +1000 power until the end of your opponent's turn. 
+EndCard
+
+Character: SMP/W60-027
+Name "Summer Pockets" Kamome
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Summer Pockets
+Trait2 Pirate
+Combo Starting Point
+*Healer 
+Auto: OnSpecificClimaxPlay StartingPoint 
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			GainPower 1000
+			MultipleChoiceQuestion Choose an effect\n1. Put all of your Opponent's stock into the waiting room, and your opponent puts the same number of cards from top of his or her deck into their stock.\n2. This card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock."|Effect 1|Effect 2
+			If Answer 0
+			{
+				StockSwap
+			}
+			Else
+			{
+				GainEffect
+				{
+					Auto: OnReverseOpponent
+					{
+						TargetBattleOpponent
+						IfTarget InLocation OpponentStage
+						{
+							MoveCard OpponentClock 
+						}
+					}
+					Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock.
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Starting Point" is placed in your climax area, if this card in on your center stage, you may pay the cost. If you do, this card gets +1000 power until end of turn, select and perform one of the following actions. "Put all of your Opponent's stock into the waiting room, and your opponent puts the same number of cards from top of his or her deck into their stock." "This card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock."" 
+EndCard
+
+Character: SMP/W60-028
+Name "Hard-Working Maid-san" Kamome
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Summer Pockets
+Trait2 Pirate
+Auto: OnReversed
+{
+	PayCost 1 Clock SendSelf Memory
+	{
+		SearchDeck HasTrait Pirate
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock, Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Pirate> character, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SMP/W60-029
+Name "Start of an Adventure" Kamome
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Pirate
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Summer Pockets> characters, this card gets +1000 power.
+*OnPlayTradeClimaxForCharacter(Summer Pockets)
+EndCard
+
+Character: SMP/W60-030
+Name "How to Enjoy Summer Vacation" Tsumugyu
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Summer Pockets
+Trait2 Plushie
+Cont: GiveSelf 
+{
+	If LocationContains Memory 1 Any
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If there's a card in your memory, this card gets +3000 power.
+Act: Discard 1 IsClimax 
+{
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent becomes reversed, draw up to 1 card.
+	}
+}
+Text Act: [Discard a climax] this card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, draw up to 1 card." 
+EndCard
+
+Character: SMP/W60-031
+Name "A Dream Always Seen" Kamome
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Summer Pockets
+Trait2 Pirate
+Combo Words of Farewell
+Auto: OnAttack 
+{
+	If Climax Words of Farewell && StageContains 2 Other && HasTrait Summer Pockets
+	{
+		TargetTop Deck 2
+		RevealTargets
+		OpponentChooseCardsFromTargets 1 1 IsCharacter || IsEvent
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Words of Farewell" is in your climax area and you have 2 or more other <Summer Pockets> characters, reveal the top 2 cards of your deck, your opponent chooses a character or an event among those cards, put it into your hand, and put the rest into the waiting room.
+Auto: OnAttack 
+{
+	If StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		GainPower 2000
+	}
+}
+Quick 
+Text Auto: When this card attacks, if you have 2 or more other <Summer Pockets> characters, this card gets +2000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-032
+Name "Loves Taking It Easy" Tsumugyu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Summer Pockets
+Trait2 Plushie
+Cont: GiveSelf 
+{
+	If StageContains 1 Other && NameContains Hairi|Shizuku
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another character with "Shizuku" or "Hairi" in its name, this card gets +1500 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Summer Pockets 
+	{
+		SearchLocationForTargets Clock 1 1 HasTrait Summer Pockets
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard a <Summer Pockets> character] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a <Summer Pockets> character in your clock and put it on any position of your stage. 
+EndCard
+
+Character: SMP/W60-033
+Name "Realized Reality" Hairi
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveAll
+{
+	If Other && NameEquals "Speculation" Kamome
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other ""Speculation" Kamome" get +2000 power.
+Act: RestSelf 
+{
+	ChooseCharacters 1 1 MyCard && NameContains Kamome
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Kamome" in its name, it gets +1500 power until end of turn. 
+EndCard
+
+Character: SMP/W60-034
+Name "Sorry for the Wait!" Kamome
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Pirate
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+Auto: OnClimaxPlay 
+{
+	PayCost 1
+	{
+		*Check4Add1(Pirate)
+	}
+}
+Text Auto: [(1)] When a climax is placed in your climax area, you may pay the cost. If you do, look at up to 4 cards from top of your deck, choose up to 1 <Pirate> character, add it to your hand, and put the rest into the waiting room. 
+EndCard
+
+Character: SMP/W60-035
+Name "Memory Recalled" Kamome
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Summer Pockets
+Trait2 Pirate
+*500Assist 
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar 
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose a card to return to your hand.
+			SearchLocationForTargets Clock 1 1 Any
+			RevealTargets
+			MoveCard Hand 
+			TargetTop Deck 1 
+			MoveCard Clock 
+		}
+	}
+}
+Text Auto: [Discard a card] When your character's trigger check reveals a climax, if that card has a gold bar trigger icon, you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock. 
+EndCard
+
+Character: SMP/W60-036
+Name "Memories Together" Shizuku
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Summer Pockets
+Trait2 Boobs 
+Cont: GiveSelf 
+{
+	GainName Oppai-san
+}
+Cont: GiveAll
+{
+	If NameContains Hairi
+	{
+		GainName Pairi
+	}
+}
+Text Cont: If this card is on the stage, this card's name is also treated as "Oppai-san", and the names of all of your characters with "Hairi" in its name are also treated as "Pairi".
+Cont: GiveAll
+{
+	If NameEquals "Loves Taking It Easy" Tsumugyu|"Something I Want to Talk About" Tsumugyu
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other ""Loves Taking It Easy" Tsumugi" and ""Something I Want to Talk About" Tsumugi" get +500 power.
+Cont: Assist 
+{
+	TargetLocation Stage
+	NarrowTargets With ASSIST 
+	SetXValue 500
+	MultiplyXValue TargetCount 
+	GainPower X
+}
+Text Cont: ASSIST All of your characters in front of this get +X power. X is 500 times then number of characters with "ASSIST" you have.
+EndCard
+
+Character: SMP/W60-037
+Name "Finding Something She Wants to Do" Tsumugyu
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Summer Pockets
+Trait2 Plushie
+*500Assist
+Act: 1 RestSelf
+{
+	Text Choose a card to return to your hand.
+	SearchLocationForTargets Clock 1 1 Any
+	RevealTargets
+	MoveCard Hand
+	Message Choose a card to put into your clock
+	SearchLocationForTargets Hand 1 1 Any
+	MoveCard Clock
+} 
+Text Act: [(1) Rest this card] Choose a card in your clock and return it to your hand, and choose a card in your hand and put it into your clock. 
+EndCard
+
+Character: SMP/W60-038
+Name "Something I Couldn't Do" Tsumugi
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Summer Pockets
+Trait2 Plushie
+Auto: OnPlay
+{
+	If Compare CardsInClock 1 OrMore
+	{
+		Question Exchage the bottom card of your clock with a character in your waiting room.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Summer Pockets 
+		If HasTarget
+		{
+			SaveTargets 
+			TargetBottom Clock 1
+			AddSavedToCurrentTargets 
+			Exchange 
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose the bottom card of your clock and a <Summer Pockets> character in your waiting room and exchange them.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Picture Found in Storage
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Picture Found in the Storage" in your waiting room and return it to your hand.
+EndCard
+
+Character: SMP/W60-039
+Name "Cow Pajama" Shizuku
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Boobs
+Cont: GiveAll
+{
+	If MyTurn && Other && NameEquals "Cat Pajama" Tsumugyu 
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, all of your other ""Cat Pajama" Tsumugyu" get +2000 power.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchDeck IsCharacter && With ASSIST
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 character with "ASSIST", put it into your hand, and shuffle your deck. 
+EndCard
+
+Character: SMP/W60-040
+Name "The Name of Takahara-san" Tsumugyu
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Summer Pockets
+Trait2 Plushie
+Auto: OnPlay
+{
+	If LocationContains OpponentWaitingRoom 3 IsClimax
+	{
+		Rest
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if there are 3 or more climax in your opponent's waiting room, rest this card. 
+EndCard
+
+Character: SMP/W60-041
+Name "Lyrics They Wrote Together" Tsumugyu
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Summer Pockets
+Trait2 Plushie
+Cont: GiveSelf 
+{
+	If LocationContains Memory 1 NameEquals Picture Found in Storage 
+	{
+		GainEffect
+		{
+			*OnReverseBlindStock 
+		}
+	}
+}
+Text Cont: MEMORY If "Picture Found in the Storage" is in your memory, this card gets the following ability. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck in your stock." 
+EndCard
+
+Character: SMP/W60-042
+Name "Speculation" Kamome
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Summer Pockets
+Trait2 Pirate
+EndCard
+
+Character: SMP/W60-043
+Name "Pressure and Reaction" Kamome
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Summer Pockets
+Trait2 Pirate
+Auto: StartClimaxPhase 
+{
+	If StageContains 4 HasTrait Summer Pockets
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 2 Any
+	}
+}
+Alarm
+Text Auto: ALARM If this is the top card of your clock and you have 4 or more <Summer Pockets> characters, At the beginning of your climax phase, draw up to 2 cards and discard 2 cards.
+Backup 3000
+EndCard
+
+Character: SMP/W60-044
+Name "Despite Summer Vacation Ending" Tsumugyu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Summer Pockets
+Trait2 Plushie
+Combo The Days That Won't Come 
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnAttack
+{
+	If Climax The Days That Won't come 
+	{
+		PayCost 1 
+		{
+			GainEffect 
+			{
+				Auto: OnReverseOpponent
+				{
+					TargetBattleOpponent
+					IfTarget InLocation OpponentStage
+					{
+						MoveCard OpponentClock 
+					}
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "The Days That Won't Come" is in your climax area, you may pay the cost. If you do, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock." 
+EndCard
+
+Event: SMP/W60-045
+Name The Letter That Found It's Way
+Color G
+Level 1
+Cost 0
+Effect: 
+{
+	BlindStock 
+	Brainstorm 3
+	TargetBrainstormed
+	If TargetsContain 1 IsClimax
+	{
+		TargetSelf 
+		MoveCard Stock 
+	}
+}
+Text BRAINSTORM Put the top card of your deck into your stock. Flip over the top 3 cards of your deck and put them into the waiting room. If there is at least 1 climax among them, put this card into your stock. 
+EndCard
+
+Event: SMP/W60-046
+Name Picture Found in Storage
+Color G
+Level 1
+Cost 1
+Requirement StageContains 1 HasTrait Summer Pockets
+Effect: 
+{
+	SearchLocationForTargets Clock 1 1 IsCharacter 
+	MoveCard Hand
+	TargetTop Deck 1
+	MoveCard Clock 
+	TargetSelf
+	MoveCard Memory
+}
+Text If you have no <Summer Pockets> characters, this card cannot be played from your hand.\nChoose a character in your clock, return it to your hand, and put the top card of your deck in your Ccock.\nPut this card into your memory.
+Cont: Memory 
+{
+	If MyTurn && HasTrait Summer Pockets && MyCard
+	{
+		GainPower 500
+	}
+}
+Text Cont: MEMORY During your turn, if this card is in your memory, all of your <Summer Pockets> characters get +500 power. 
+EndCard
+
+Climax: SMP/W60-047
+Name Starting Point 
+*BarClimax
+EndCard
+
+Climax: SMP/W60-048
+Name Something Lovers-Like
+*BarClimax
+EndCard
+
+Climax: SMP/W60-049
+Name Words of Farewell
+*BarClimax
+EndCard
+
+Climax: SMP/W60-050
+Name Days That Won't Come
+*GreenStockSoul
+EndCard
+
+Character: SMP/W60-051
+Name "Summer Pockets" Ao
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Summer Pockets
+Trait2 Twins
+Combo End of a Long Dream
+*Healer
+Auto: OnEndOfAttack
+{
+	If Climax End of a Long Dream
+	{
+		PayCost 2 MarkerFromMemory 1 NameEquals "Thinking of her Little Sister" Ai
+		{
+			ChooseCharacters 1 1 MyCard && NameEquals Ai Sorakado 
+			SaveTargets
+			TargetLocation Marker
+			FirstTarget 
+			MarkerTargetsUnderSavedTarget_FaceUp
+			LoadTargets 
+			Stand 
+			TargetSelf 
+			DontStand
+		}	
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo MEMORY [(2) Choose a ""Thinking of her Little Sister" Ai" in your memory and put it face-up underneath this card as a marker] This ability activates up to once per turn. At the end of this card's attack, if "End of a Long Dream" is in your climax area, you may pay the cost. If you do, choose 1 of your other "Ai Sorakado", put a marker from underneath this card face-up underneath that character, stand that character, and this does card not stand during your next stand phase. 
+EndCard
+
+Character: SMP/W60-052
+Name "Summer Pockets" Nanami
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Summer Pockets
+Trait2 Time
+Combo A Future Sewn-Closed
+*OnPlayCheck3
+Auto: OnAttack 
+{
+	If Climax A Future Sewn-Closed
+	{
+		PayCost 2 Discard 2 Any
+		{
+			SearchLocationForTargets Memory 0 50 Any
+			MoveCard WaitingRoom
+			SetXValue TargetCount
+			MultiplyXValue 2
+			Burn X
+			TargetSelf 
+			GainPower 5000
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [(2) Discard 2 cards] When this card attacks, if "A Future Sewn-Closed" is in your climax area, you may pay the cost. If you do, choose any number of cards in your memory and put them into your waiting room, deal X damage to your opponent, and this card gets +5000 power until end of turn. X is 2 times the number of of cards put from memory to the waiting room by this effect. 
+EndCard
+
+Character: SMP/W60-053
+Name "Shiroha's Oral Tradition" Shiroha
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+*OnPlayScry
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SMP/W60-054
+Name "Memories in Glass Beads" Ao
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Summer Pockets
+Trait2 Twins
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Summer Pockets
+	SetXValue 1000
+	MultiplyXValue TargetCount
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, and this card gets +X power until end of turn. X is equal to 1000 times the number of <Summer Pockets> characters revealed.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Summer Pockets
+		*GiveOtherCharacterPower(1000,Summer Pockets)
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a <Summer Pockets> character in your waiting room, and return it to your hand, choose 1 of your other <Summer Pockets> characters, it gets +1000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-055
+Name "The Dish That Came to Mind" Nanami
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 HasTrait Summer Pockets 
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+		GainTrait Fried Rice
+	}	
+}
+Text Auto: When you use this card's "BACKUP", if you have a <Summer Pockets> character, choose 1 of your characters in battle, it gets +1000 power and <Fried Rice> until end of turn.
+Backup 1000
+EndCard
+
+Character: SMP/W60-056
+Name "Warm Summer" Shiroha
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveSelf 
+{
+	If LocationContains Memory 1 Any 
+	{
+		GainEffect 
+		{
+			*RedLevel1Bomb
+		}
+	}
+}
+Text Cont: MEMORY If there is a card in your memory, this card gets the following ability. "Auto: When this card becomes reversed, if this card's battle opponent is level 1 or lower, you may reverse that character."
+Auto: OnPlay
+{
+	Message Choose a character to give +X power.
+	ChooseCharacters 1 1 Other && MyCard
+	SetXValue 500
+	MultiplyXValue TargetCardsLevel 
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other characters, it gets +X power until end of turn. X is 500 times the level of that character. 
+EndCard
+
+Character: SMP/W60-057
+Name "Time with Onee-chan" Ao
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Summer Pockets
+Trait2 Twins 
+Cont: GiveSelf 
+{
+	If StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Summer Pockets> characters, this card gets +2000 power.
+*HandEncore 
+EndCard
+
+Character: SMP/W60-058
+Name "Future We Will See Someday" Umi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Summer Pockets
+Trait2 Time
+*EarlyPlay2OrLessClimax 
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Time
+	{
+		Message Choose up to 1 card in your clock to put into your memory.
+		SearchLocationForTargets Clock 0 1 IsCharacter
+		MoveCard Memory
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Time> characters, you may choose a character in your clock and put it into your memory. 
+EndCard
+
+Character: SMP/W60-059
+Name "Memories in the Sunflower Field" Nanami
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Summer Pockets
+Trait2 Time
+Combo The Reason I Came
+Cont: GiveSelf 
+{
+	If StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Summer Pockets> characters, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If Climax The Reason I Came
+	{
+		SearchWaitingRoom IsCharacter || NameEquals Summer Pockets 
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "The Reason I Came" is in your climax area, choose a character or "Summer Pockets" in your waiting room, and return it to your hand. 
+EndCard
+
+Character: SMP/W60-060
+Name "No Mercy" Miki
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Summer Pockets
+Trait2 Weapon
+Auto: OnOpponentBrainstormSuccess
+{
+	Message Choose a character to make unable to stand.
+	ChooseCharacters 1 1 Not MyCard && Compare ThatCardsLevel 0 OrLess
+	DontStand
+}
+Text Auto: When your opponent uses "BRAINSTORM" and the effect puts at least 1 climax into the waiting room, choose 1 of your opponent's level 0 or lower characters. That character does not stand during your opponent's next stand phase. 
+EndCard
+
+Character: SMP/W60-061
+Name "Joke" Ao
+Color R
+Level 1
+Cost 1
+Power 2000
+Trait1 Summer Pockets
+Trait2 Twins
+Auto: OnUseThisCardsBackup 
+{
+	If StageContains 2 HasTrait Summer Pockets 
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "Thinking of her Little Sister" Ai 
+		MoveCard Memory
+	}
+}
+Text Auto: When you use this card's "BACKUP", if you have 2 or more <Summer Pockets> characters, you may choose a ""Thinking of Little Sister" Ai" in your waiting room and put it into your memory.
+Backup 2000
+EndCard
+
+Character: SMP/W60-062
+Name "Time Remaining" Ao
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Summer Pockets
+Trait2 Twins
+Combo End of a Long Dream
+*GlobalPower(500, Summer Pockets)
+Auto: OnSpecificClimaxPlay End of a Long Dream
+{
+	PayCost 1 
+	{
+		ChooseCharacters 1 1 MyCard && HasTrait Twins 
+		Stand
+	}
+}
+Text Auto: CxCombo [(1)] When "End of a Long Dream" is placed in your climax area, you may pay the cost. If you do, choose 1 of your other <Twins> characters, and stand it.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SMP/W60-063
+Name "Three Paper Airplanes" Umi
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveAll
+{
+	If NameEquals "Mother" Shiroha 
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other ""Mother" Shiroha" get +2000 power.
+Cont: GiveAll
+{
+	If NameContains Shiroha
+	{
+		GainEffect 
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your other characters with "Shiroha" in its name get "Auto: ENCORE [(2)]". 
+EndCard
+
+Character: SMP/W60-064
+Name "Hydro Gladiator Kai" Miki
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Weapon
+*Level0Assist 
+*Act1SalvageBrainstorm(Any)
+EndCard
+
+Character: SMP/W60-065
+Name "Eyes That Tell Time" Kyouko
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Book
+Cont: GiveSelf 
+{
+	If InLocation MiddleCenterStage
+	{
+		GainPower 2500
+		GainLevel 1
+	}
+}
+Text Cont: if this card is in the middle position of your center stage, this card gets +1 Level and +2500 power. 
+EndCard
+
+Character: SMP/W60-066
+Name "Special Fried Rice" Shiroha
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Summer Pockets
+Trait2 Time
+*OnPlayGainPower(1500)
+EndCard
+ 
+Character: SMP/W60-067
+Name "Sparrow of the Island" Ao
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Summer Pockets
+Trait2 Twins
+EndCard
+
+Character: SMP/W60-068
+Name "Unneeded Question" Ao
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Summer Pockets
+Trait2 Twins
+Cont: GiveSelf 
+{
+	If Not StageContains 1 Other && HasTrait Summer Pockets 
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you have no other <Summer Pockets> Characters, this does not stand during your stand phase. 
+EndCard
+
+Character: SMP/W60-069
+Name "On the Lap" Umi & Shiroha
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Summer Pockets
+Trait2 Time
+*500Assist
+Act: RestSelf
+{
+	Peek OpponentDeck 2
+	Reorder 
+	EndPeek 
+}
+Text Act: [Rest this card] Look at up to 2 cards from top of your opponent's deck and put them on top of the deck in any order. 
+EndCard
+
+Event: SMP/W60-070
+Name Overlowing Memories 
+Color R
+Level 2
+Cost 1
+Requirement StageContains 1 NameContains Ao|Ai
+Effect: 
+{
+	Message Choose a character in your hand to put into your memory.
+	SearchLocationForTargets Hand 1 1 IsCharacter
+	MoveCard Memory
+	SearchLocationForTargets WaitingRoom 0 2 NameContains Ao|Ai && IsCharacter
+	RevealTargets
+	MoveCard Hand 
+}
+Text If you do not have a character with "Ao" or "Ai" in its name, this card cannot be played from your hand.\nChoose a character in your hand and put it into your memory. If you do, choose up to 2 characters in your waiting room with "Ao" or "Ai" in its name, and return them to your hand.
+EndCard
+
+Event: SMP/W60-071
+Name To the Other Side of the Cradle
+Color R
+Level 2
+Cost 1
+Requirement StageContains 1 NameContains Umi|Nanami
+Effect:
+{
+	MoveCard Memory
+}
+Text If you do not have a character with either "Umi" or "Nanami" in its name, this card cannot be played from your hand.\nPut this card into your memory.
+Auto: StartMyEncoreStep 
+{
+	TargetSelf
+	MoveCard WaitingRoom
+	MultipleChoiceQuestion Choose an effect.\n1. Draw up to 1 card, choose 1 of your characters, it gets +3000 power until the end of your opponent's turn.\n2.Deal 1 damage to your opponent.|Effect 1|Effect 2
+	If Answer 0
+	{
+		*OptionalDraw
+		Message Choose a character to give +3000 power.
+		ChooseCharacters 1 1 MyCard
+		UntilEndOfOpponentsTurn 
+		GainPower 3000
+	}
+	Else 
+	{
+		Burn 1
+	}
+}
+InMemory
+Text Auto: MEMORY At the beginning of your encore step, if this card is in your memory, Put this card into your waiting room, select and perform one of the following actions.\n"Draw up to 1 card, choose 1 of your characters, it gets +3000 power until the end of your opponent's turn."\n"Deal 1 damage to your opponent." 
+EndCard
+
+Event: SMP/W60-072
+Name Bye-bye for a Little While
+Color R
+Level 1
+Cost 0
+Effect: 
+{
+	Refresh
+	OpponentRefresh 
+}
+Text All players return all cards in their waiting rooms to their decks and shuffle those decks.
+EndCard
+
+Climax: SMP/W60-073
+Name A Future Sewn-Closed
+*DoorClimax
+EndCard
+
+Climax: SMP/W60-074
+Name End of a Long Dream
+*StandbyClimax 
+EndCard
+
+Climax: SMP/W60-075
+Name The Reason I Came
+*RedStockSoul
+EndCard
+
+Character: SMP/W60-076
+Name "Special Adventure" Kamome
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Pirate
+Auto: OnPlay
+{
+	Mill 2
+	If TargetsContain 1 IsClimax
+	{
+		Question Put the top card of your opponent's deck into the waiting room?
+		If Yes
+		{
+			MillOpponent 1
+			Message Choose a card to put on top of your opponent's deck.
+			SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+			MoveCard OpponentDeck 
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If a climax was sent, you may put the top card of your opponent's deck into the waiting room. If you do, choose a card in your opponent's waiting room and put it on top of the deck.
+Auto: OnReversed 
+{
+	PayCost 1 Clock 
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card becomes reversed in battle, you may pay the cost. If you do, choose a level 1 or lower character in your waiting room, and return it to your hand. 
+EndCard
+
+Character: SMP/W60-077
+Name "Mysterious Scene" Ao
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Summer Pockets
+Trait2 Twins 
+Auto: OnPlay 
+{
+	If LocationContains Memory 1 NameEquals "Thinking of her Little Sister" Ai
+	{
+		PayCost Discard 1 Any
+		{
+			*Check4Add1(Summer Pockets)
+		}
+	}
+}
+Text Cont: MEMORY If ""Thinking of Little Sister" Ai" is in your memory, this card gets the following ability. "Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from top of your deck, choose up to 1 <Summer Pockets> character, put it into your hand, and put the rest into the waiting room." 
+EndCard
+
+Character: SMP/W60-078
+Name "Something I Want to Talk About" Tsumugyu
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Summer Pockets
+Trait2 Plushie
+Combo Lots of Memories
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Picture Found in Storage
+	{
+		GainPower 1500
+	}
+}
+Text Cont: MEMORY If "Picture Found in the Storage" is in your memory, this card gets +1500 power.
+*OnPlayDraw2Discard2BlindStock
+Auto: OnAttack 
+{
+	If Climax Lots of Memories && StageContains 1 Other && HasTrait Summer Pockets 
+	{
+		PayCost 1 Discard 1 Any
+		{
+			UntilEndOfOpponentsTurn
+			GainPower 2000
+			UntilEndOfOpponentsTurn 
+			GainEffect 
+			{
+				Auto: StartOpponentAttackPhase
+				{
+					TargetLocation Memory 
+					NarrowTargets NameEquals Picture Found in Storage
+					SetXValue TargetCount 
+					ChooseCharacters 0 X Not MyCard 
+					LoseSoul 1
+				}
+				Text Auto: At the beginning of your opponent's attack phase, choose up to X of your opponent's characters, and they get -1 soul until end of turn. X is 1 + the number of "Picture Found in the Storage" in your memory.
+			}
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [(1) Discard a card] When this card attacks, if "Lots of Memories" is in your climax area and you have another <Summer Pockets> character, you may pay the cost. If you do, this card gets +2000 power and the following ability until the end of your opponent's turn. "Auto: At the beginning of your opponent's attack phase, choose up to X of your opponent's characters, and they get -1 soul until end of turn. X is 1 + the number of "Picture Found in the Storage" in your memory." 
+EndCard
+
+Character: SMP/W60-079
+Name "My Plan of Attack" Tsumugyu
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Plushie
+*500Assist
+*Act1Rest2SearchBrainstorm(Summer Pockets)
+EndCard
+
+Character: SMP/W60-080
+Name "Thinking of her Little Sister" Ai
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Summer Pockets
+Trait2 Twins
+Auto: OnReversed 
+{
+	PayCost 1 Discard 1 Any SendSelf Memory
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "Time with Onee-chan" Ao
+		ChangeRested
+	}
+}
+Text Auto: [(1) Discard a card, Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, choose up to 1 ""Time with Onee-chan" Ao" in your waiting room and put it rested in this card's previous position.
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals "Summer Pockets" Ao
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(1) Put this standing card into your memory] Choose up to 1 ""Summer Pockets" Ao" in your waiting room and return it to your hand. 
+EndCard
+
+Character: SMP/W60-081
+Name "Veranding" Tsumugyu
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Summer Pockets
+Trait2 Plushie
+*OnPlayGainPowerForEach(500,Summer Pockets)
+EndCard
+
+Character: SMP/W60-082
+Name Ai Sorakado
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Summer Pockets
+Trait2 Twins
+Cont: GiveSelf
+{
+	If HasMarker 
+	{
+		GainPower 2500
+	}
+}
+Text Cont: If this card has a marker, this card gets +2500 power.
+*GlobalPower(1500,Summer Pockets)
+Cont: GiveSelf 
+{
+	GainSpecialEffect NoBackupOnAttack
+	GainSpecialEffect NoEventsOnAttack
+}
+Text Cont: During battles involving this, your opponent cannot play events cards or "BACKUP" from hand.
+Auto: OnAttack 
+{
+	If StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		Message Choose a character to give +1 soul.
+		ChooseCharacters 1 1 MyCard
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other <Summer Pockets> characters, choose 1 of your characters, it gets +1 soul until end of turn. 
+EndCard
+
+Character: SMP/W60-083
+Name "Realized Reality" Kamome
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Summer Pockets
+Trait2 Pirate
+Cont: GiveSelf 
+{
+	If MyTurn && LocationContains Memory 1 NameEquals "Hard-Working Maid-san" Kamome
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY During your turn, if ""Hard-Working Maid-san" Kamome" is in your memory, this card gets +3000 power.
+Auto: StartMyEncoreStep
+{
+	If PlayedThisTurn && InLocation CenterStage 
+	{
+		*OptionalBlindStock
+		SearchLocationForTargets Hand 0 1 IsClimax && HasTrigger Bar
+		RevealTargets
+		MoveCard Deck
+		ShuffleLocation Deck 
+	}
+}
+Text Auto: During the turn this card is placed on the stage from your hand, At the beginning of your encore step, if this card in on your center stage, put up to 1 card from top of your deck into your stock, choose up to 1 climax in your hand with gold bar in its trigger icon, and shuffle it into your deck. 
+EndCard
+
+Character: SMP/W60-084
+Name Inari
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Summer Pockets
+Trait2 Animal
+*BlueLevel0Bomb
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsCharacter && With MEMORY 
+	}
+}
+Text Auto: [(1) Discard a card] When this card is put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 character with "MEMORY", put it into your hand, and shuffle your deck. 
+EndCard
+
+Character: SMP/W60-085
+Name "Reason to Seek Memories" Ao
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Summer Pockets
+Trait2 Twins 
+Cont: GiveSelf 
+{
+	If LocationContains Memory 1 "Thinking of her Little Sister" Ai
+	{
+		GainPower 3000
+	}
+}
+Text Auto: MEMORY If ""Thinking of Little Sister" Ai" is in your memory, this card gets +3000 power. 
+EndCard
+
+Character: SMP/W60-086
+Name "Sleeping Over" Kamome
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Summer Pockets
+Trait2 Pirate
+Combo Chasing a Dream
+Auto: OnPlay
+{
+	PayCost 2 
+	{
+		SearchDeck IsClimax && SameNameAsCardInWaitingRoom 
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 climax with the same name as a climax in your waiting room, put it into your hand, and shuffle your deck.
+Auto: StartOpponentAttackPhase 
+{
+	PayCost Discard 1 NameEquals Chasing a Dream
+	{
+		*GiveCharacterPower(4000,Any)
+	}
+}
+Text Auto: CxCombo [Discard a "Chasing Dream"] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your characters, it gets +4000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-087
+Name "Morning Water Bath" Kamome
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Summer Pockets
+Trait2 Pirate
+*1000Assist
+Cont: GiveSelf 
+{
+	If LocationContains Memory 2 HasTrait Pirate
+	{
+		GainEffect 
+		{
+			*1000Assist
+		}
+		Text Cont: ASSIST Your characters in front of this card get +1000 power.
+	}
+}
+Text Cont: MEMORY If there are 2 or more <Pirate> characters in your memory, this card gets "Cont: ASSIST Your characters in front of this card get +1000 power."
+EndCard
+
+Character: SMP/W60-088
+Name "Role of the Sorakado Household" Ao
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Summer Pockets
+Trait2 Twins
+Combo Weight of Memories
+Cont: GiveSelf 
+{
+	If StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		GainPower 2500
+		GainEffect 
+		{
+			*HandEncoreTrait(Summer Pockets)
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Summer Pockets> characters, this card gets +2500 power and "Auto: "ENCORE" [Discard a <Summer Pockets> character]".
+Auto: OnAttack 
+{
+	If Climax Weight of Memories && AllYourCharacters HasTrait Summer Pockets
+	{
+		RevealUpTo Deck 2
+		ChooseCardsFromTargets 0 2 HasTrait Summer Pockets
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		TargetSelf 
+		GainPower 2000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Weight of Memories" is in your climax area and all of your characters are <Summer Pockets>, look at up to 2 cards from top of your deck, search for up to 2 <Summer Pockets> characters, reveal them, put them into your hand, put the rest in the waiting room, and this card gets +2000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-089
+Name Chibi Hairi
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Summer Pockets
+Trait2 Time
+*500Assist
+Auto: OnPlay 
+{
+	TargetTop Deck 1 
+	Reveal
+	IfTarget HasTrait Summer Pockets
+	{
+		MoveCard Hand 
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is a <Summer Pockets> character, put it into your hand, and discard a card.
+EndCard
+
+Character: SMP/W60-090
+Name "Naked Anniversary" Ryouichi
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Clothes
+Cont: GiveSelf 
+{
+	If Not LocationContains AnyStage 1 Other && HasTrait Weapon
+	{
+		LoseTrait Clothes 
+		GainEffect 
+		{
+			*GlobalPower(500,Summer Pockets)
+		}
+	}
+}
+Text Cont: If there are no other <Weapon> characters, this loses <Clothes> and gets the following ability. "Cont: All of your other <Summer Pockets> characters get +500 power."
+Cont: GiveSelf 
+{
+	If LocationContains AnyStage 1 Other && HasTrait Weapon && MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is another <Weapon> character, this card gets the following ability. "Cont: During your turn, this card gets +2000 power." 
+EndCard
+
+Character: SMP/W60-091
+Name "Tenzen Zone" Tenzen
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Sports
+Auto: OnPlacedOnStageFromWaitingRoom 
+{
+	TargetTop Deck 1
+	Marker_FaceDown 
+}
+Text Auto: When this is placed on the stage from your waiting room, you may put the top card of your deck underneath this card as a marker.
+Auto: OnAttack
+{
+	If HasMarker 
+	{
+		PayCost 2
+		{
+			Message Choose a character to put on the bottom of your opponent's deck.
+			ChooseCharacters 1 1 Not MyCard && Compare ThatCardsCost 0 OrLess
+			MoveCard BottomOfOpponentDeck
+		}
+	}
+}
+Text Auto: [(2)] When this card attacks, if this card has a marker, you may pay the cost. If you do, choose 1 of your opponent's cost 0 or lower characters and put it on the bottom of the deck.
+Auto: OnAttack 
+{
+	If Not HasMarker
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose a character to put on the bottom of your opponent's deck.
+			ChooseCharacters 1 1 Compare ThatCardsCost 0 OrLess && InLocation OpponentCenterStage 
+			MoveCard BottomOfOpponentDeck
+		}
+	}
+}
+Text Auto: [Discard a card] When this card attacks, if this card does not have a marker, you may pay the cost. If you do, choose a cost 0 or lower character on your opponent's center stage and put it on the bottom of the deck. 
+EndCard
+
+Character: SMP/W60-092
+Name "Wrong Idea as She Wakes Up" Ao
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Twins
+Cont: GiveAll 
+{
+	If Other && NameEquals "Sparrow of the Island" Ao
+	{
+		GainPower 500
+		GainLevel 1
+	}
+}
+Text Cont: All of your other ""Sparrow of the Island" Ao" get +1 Level and +500 power.
+*GlobalPower(500,Summer Pockets)
+EndCard
+
+Character: SMP/W60-093
+Name "Sky Is Blue" Kamome
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Pirate
+*GlobalPower(500,Summer Pockets)
+Auto: OnTriggerCheckClimax
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +1000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-094
+Name "Pinky Promise" Tsumugyu
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Summer Pockets
+Trait2 Plushie
+Auto: OnOtherAttacks 
+{
+	IfOther HasTrait Summer Pockets 
+	{
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other <Summer Pockets> character attacks, this card gets +1000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-095
+Name "Cat Pajama" Tsumugyu
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Summer Pockets
+Trait2 Plushie
+EndCard
+
+Event:: SMP/W60-096
+Name A Certain Guy's Talk
+Color B
+Level 1
+Cost 1
+Effect: 
+{
+	ForcePayCost Rest 1 HasTrait Summer Pockets 
+	{
+		SearchLocationForTargets WaitingRoom 0 2 IsCharacter && Compare ThatCardsLevel 0 OrLess
+		PlaceOnStage False True True False
+	}
+	TargetSelf 
+	MoveCard Memory
+}
+Text Choose 1 of your standing <Summer Pockets> characters and rest it. If you do, choose up to 2 level 0 or lower characters in your waiting room and put them in separate positions of your stage.\nPut this card into your memory. 
+EndCard
+
+Event: SMP/W60-097
+Name My Sin
+Color B
+Level 1
+Cost 1
+Counter 
+Requirement StageContains 1 HasTrait Summer Pockets 
+Effect: 
+{
+	Message Choose a character to give the ability to.
+	ChooseCharacters 1 1 MyCard 
+	GainEffect 
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotBeReversed 
+		}
+		Text Cont: This card cannot become reversed.
+	}
+}
+Text Counter: If you do not have a <Summer Pockets> character, you cannot play this card from your hand. Choose 1 of your characters, it gets the following ability until end of turn. "Cont: This card cannot become reversed." 
+EndCard
+
+Climax: SMP/W60-098
+Name Weight of Memories
+*BookClimax 
+EndCard
+
+Climax: SMP/W60-099
+Name Chasing a Dream
+*GateClimax
+EndCard
+
+Climax: SMP/W60-100
+Name Lots of Memories
+*BookClimax 
+EndCard
+
+Character: SMP/W60-101
+Name Chibi Shiroha
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Summer Pockets
+Trait2 Time
+*HexProof 
+*GlobalPower(1000,Summer Pockets)
+EndCard
+
+Character: SMP/W60-102
+Name Chibi Ao
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Summer Pockets
+Trait2 Twins
+*LevelAssist
+Act: RestSelf 
+{
+	ChooseCharacters 1 1 MyCard 
+	GainEffect 
+	{
+		Auto: OnReverseOpponent
+		{
+			*Scry
+		}
+		Text Auto: When this card's battle opponent becomes reversed, look at the top card of your deck, and put it on top of the deck or into the waiting room.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, look at the top card of your deck, and put it on top of the deck or into the waiting room." 
+EndCard
+
+Character: SMP/W60-103
+Name Chibi Kamome
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Pirate
+*GreenLevel0Bomb
+EndCard
+
+Character: SMP/W60-104
+Name Chibi Tsumugyu
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Summer Pockets
+Trait2 Plushie
+Auto: OnAttack 
+{
+	If StageContains 2 Other && HasTrait Summer Pockets 
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other <Summer Pockets> characters, this card gets +2000 power until end of turn. 
+EndCard
+
+Character: SMP/W60-105
+Name Chibi Umi
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Summer Pockets
+Trait2 Time
+*CannotBeReversedByCost0 
+EndCard
+
+Character: SMP/W60-T01
+Name "For the Time Being, I Am......" Hairi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveAll
+{
+	If  NameEquals "Something I Want to Ask" Shiroha
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other ""Something I Want to Ask" Shiroha" get +1000 power.
+Auto: OnPlay 
+{
+	MultipleChoiceQuestion Choose a name:|"Injured Migratory Bird" Hairi|"Canary That Can't Sing" Hairi|"Boxer Who Broke His Fists" Hairi|"Host Who Forgot How to Flirt" Hairi
+	If Answer 0
+	{
+		GainEffectUntil OnSentFromStageToWaitingRoom
+		{
+			Cont: GiveSelf
+			{
+				GainName "Injured Migratory Bird" Hairi
+			}
+		}
+	}
+	If Answer 1
+	{
+		GainEffectUntil OnSentFromStageToWaitingRoom
+		{
+			Cont: GiveSelf
+			{
+				GainName "Canary That Can't Sing" Hairi
+			}
+		}
+	}
+	If Answer 2
+	{
+		GainEffectUntil OnSentFromStageToWaitingRoom
+		{
+			Cont: GiveSelf
+			{
+				GainName "Boxer Who Broke His Fists" Hairi
+			}
+		}
+	}
+	If Answer 3
+	{
+		GainEffectUntil OnSentFromStageToWaitingRoom
+		{
+			Cont: GiveSelf
+			{
+				GainName "Host Who Forgot How to Flirt" Hairi
+			}
+		}
+	}
+	
+}
+Text Auto: When this card is placed on the stage from your hand, declare one of the following card names: ""Injured Migratory Bird" Hairi", ""Canary That Can't Sing" Hairi", ""Boxer Who Broke His Fists" Hairi", or ""Host Who Forgot How to Flirt" Hairi". This card gains the chosen name as long as it is on the stage.
+*BondClock("Something I Want to Ask" Shiroha)
+EndCard
+
+Character: SMP/W60-T02
+Name "Distance Between Friends" Shiroha
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnPlay
+{
+	Peek Deck 2
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from top of your deck and put them on top of the deck in the original order.
+*YellowLevel0Bomb
+EndCard
+
+Character: SMP/W60-T03
+Name "Unrivaled Passion" Umi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+*GlobalPower(500,Summer Pockets)
+Auto: OnPlay
+{
+	*GiveOtherCharacterPower(1000,Summer Pockets)
+	GainTrait Fried Rice
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Summer Pockets> characters, it gets +1000 power and <Fried Rice> until end of turn. 
+EndCard
+
+Character: SMP/W60-T04
+Name "Something I Want to Ask" Shiroha
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Summer Pockets
+Trait2 Time
+EndCard
+
+Character: SMP/W60-T05
+Name "Something I Want to Ask" Shiroha
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Summer Pockets
+Trait2 Book
+*LevelAssist
+*ClimaxExchange
+EndCard
+
+Character: SMP/W60-T06
+Name "Future Yet to Be Seen" Shiroha
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Trait1 Summer Pockets
+Trait2 Time
+Soul 2
+Combo The Dat They First Met
+*Healer
+Auto: OnAttack
+{
+	If Climax The Dat They First Met
+	{
+		ChooseCharacters 0 1 Not MyCard
+		MoveCard OpponentHand 
+		TargetSelf 
+		GainPower 3000
+	}
+}
+Text Auto: CxCombo  When this card attacks, if "The Day They First Met" is in your climax area, choose up to 1 of your opponent's characters and return it to hand, and this card gets +3000 power until end of turn. 
+EndCard
+
+Climax: SMP/W60-T07
+Name The Day They First Met
+*ShotClimax
+EndCard
+
+Climax: SMP/W60-T08
+Name Welcome! To Toshirojima!
+Color Y
+*2SoulClimax 
+EndCard
+
+Character: SMP/W60-T09
+Name "I Won't Tell You!" Kamome
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Summer Pockets
+Trait2 Pirate
+Cont: GiveAll
+{
+	If Not MyTurn && Other 
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all of your other characters get +500 power.
+*Act1RestSelfDrawBrainstorm 
+EndCard
+
+Character: SMP/W60-T10
+Name "Twilight Lighthouse" Tsumugyu
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Summer Pockets
+Trait2 Plushie
+*FreeRunner 
+EndCard
+
+Character: SMP/W60-T11
+Name "Large Suitcase" Kamome
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Summer Pockets
+Trait2 Pirate
+*DropSearch(Summer Pockets)
+EndCard
+
+Character: SMP/W60-T12
+Name "In Sync" Ao
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Summer Pockets
+Trait2 Twins
+Auto: OnOpponentClimaxPlay 
+{
+	MoveCard WaitingRoom
+}
+Slow
+Text Auto: When a climax is placed on your opponent's climax area, Put this card into your waiting room. 
+EndCard
+
+Character: SMP/W60-T13
+Name "It Was a Goddess" Tsumugyu
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Plushie
+Backup 1500
+EndCard
+
+Character: SMP/W60-T14
+Name "Feelings Are Important" Kamome
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Summer Pockets
+Trait2 Pirate
+*GainPowerForEachOther(500,Summer Pockets)
+EndCard
+
+Character: SMP/W60-T15
+Name "Defenseless Sleeping Face" Ao
+Color B
+Level 1
+Cost 0
+Power 5000
+Combo Lucky Accident
+Trait1 Summer Pockets
+Trait2 Twins
+Auto: OnReverseOpponent
+{
+	If Climax Lucky Accident
+	{
+		SearchDeck HasTrait Summer Pockets
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Lucky Accident" is in your climax area, search your deck for up to 1 <Summer Pockets> character, put it into your hand, and shuffle your deck. 
+EndCard
+
+Character: SMP/W60-T16
+Name "Introducing Friends" Tsumugyu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Summer Pockets
+Trait2 Plushie
+Cont: GiveSelf 
+{
+	TargetLocation OpponentBackstage 
+	SetXValue 1000
+	MultiplyXValue TargetCount
+	GainPower X
+}
+Text Cont: For each character in your opponent's back stage, this card gets +1000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		RevealUpTo Deck 4
+		ChooseCardsFromTargets 0 1 HasTrait Summer Pockets 
+		MoveCard Hand 
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from top of your deck, choose up to 1 <Summer Pockets> character, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: SMP/W60-T17
+Name "It's Because of Summer" Ao
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Summer Pockets
+Trait2 Twins
+*OnPlayDraw2Discard1
+Auto: OnAttack 
+{
+	PayCost Discard 2 Any
+	{
+		MillOpponentBottom 4
+		NarrowTargets IsClimax 
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [Discard 2 cards] When this card attacks, you may pay the cost. If you do, put the bottom 4 cards of your opponent's deck into the waiting room, and deal X damage to your opponent. X is the number of climax revealed.
+EndCard
+
+Event: SMP/W60-T18
+Name Summer Pockets
+Color B
+Level 1
+Cost 1
+Effect: 
+{
+	SearchDeck HasTrait Summer Pockets 
+	TargetSelf 
+	MoveCard Memory
+}
+Text Search your deck for up to 1 <Summer Pockets> character, put it into your hand, and shuffle your deck. Put this card into your memory. 
+EndCard
+
+Climax: SMP/W60-T19
+Name Lucky Accident
+*GateClimax 
+EndCard
+
+Character: SMP/W60-P01
+Name "Heiress Seeking the Pirate Ship" Kamome
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Summer Pockets
+Trait2 Pirate
+Auto: OnAttack
+{
+	TargetFacing 
+	IfTarget Compare ThatCardsLevel 3 OrMore
+	{
+		GainPower 4000
+		GainSoul 1
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this is level 3 or higher, this card gets +4000 power and +1 soul until end of turn. 
+EndCard
+
+Character: SMP/W60-P02
+Name "Girl Who Forgot Summer Vacation" Shiroha
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+Backup 1500
+EndCard
+
+Character: SMP/W60-P03
+Name "Self-Discovering Girl" Tsumugyu
+Color G
+Level 1
+Cost 0
+Power 6500
+Trait1 Summer Pockets
+Trait2 Plushie
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents 
+	GainSpecialEffect CannotUseBackup 
+}
+Text Cont: You cannot play event cards or "BACKUP" from hand. 
+EndCard
+
+Character: SMP/W60-P04
+Name "Girl Chasing the Tradition of the Island" Ao
+Color B
+Level 0 
+Cost 0
+Power 2000
+Trait1 Summer Pockets
+Trait2 Twins
+*OnPlayGivePower(1500, Summer Pockets)
+EndCard
+
+Character: SMP/W60-P05
+Name "Operation Obtaining Watermelon Pop" Shiroha
+Color Y
+Level 0 
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+Auto: OnPlay 
+{
+	Mill 3
+	If TargetsContain 1 IsClimax
+	{
+		GainTrait Watermelon Pop
+		BlockOpponentEncore
+	}
+	Else 
+	{
+		GainTrait Melon Pop
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into the waiting room. If there is at least 1 climax among them, until end of turn, this card gets <Watermelon Pop> and your opponent cannot use "Auto: "ENCORE"" until end of turn. If not, this card gets <Melon Pop> until end of turn. 
+EndCard
+
+Character: SMP/W60-P06
+Name "Uniform on Off-Day" Shiroha
+Color Y
+Level 2 
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Summer Pockets
+Trait2 Time
+*OnPlayGainPowerForEach(1000, Summer Pockets)
+EndCard
+
+Character: SMP/W60-P07
+Name "Watermelon Pop-san" Shiroha
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Summer Pockets
+Trait2 Time
+Cont: GiveAll
+{
+	If MyTurn && InLocation MiddleCenterStage
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, your other character in the middle position of your center stage gets +1000 power.
+*Act1SearchBrainstorm(Summer Pockets)
+EndCard
+
+Character: SMP/W60-P08
+Name "Morning Routine" Umi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Summer Pockets
+Trait2 Time
+*OnPlayGivePower(1500, Summer Pockets)
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals "Summer Pockets" Nanami
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(1) Put this standing card into your memory] Choose up to 1 ""Summer Pockets" Nanami" in your waiting room and return it to your hand. 
+EndCard
+

@@ -1,0 +1,1493 @@
+Character: JJ/SE41-01
+Name Supreme Power, DIO
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Stand User
+Auto: OnReversed
+{
+	PayCost Clock
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess && HasTrait Stand User|Stand
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card becomes reversed in battle, you may pay the cost. If you do, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower <Stand User> or <Stand> character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect.
+EndCard
+
+Character: JJ/SE41-02
+Name Gatekeeper of Hell, Pet Shop
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Stand User
+Trait2 Stand
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position on your stage
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your opponent's characters and that character gains the following ability until the end of your opponent's turn. "Cont: This card cannot move to another position on your stage"
+EndCard
+
+Character: JJ/SE41-03
+Name "God Set" Alessi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Stand User
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into your waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may put the top 3 cards of your deck into your waiting room.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	Message Choose a <Stand User> or <Stand> character to return to your hand
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Stand User|Stand
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [Discard a card and send this card to your waiting room] Choose 1 <Stand User> or <Stand> character in your waiting room and return it to your hand.
+EndCard
+
+Character: JJ/SE41-04
+Name Terence T. D'arby & Atum
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Stand User
+Trait2 Stand
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if you have 5 or more cards in your hand, this card gains +2000 power.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+	Else
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: At the start of your opponent's draw phase, reveal the top card of your deck. If that card is a level 1 or higher card, you may return this card to your hand. If it is not, send this card to your waiting room.
+EndCard
+
+Character: JJ/SE41-05
+Name Arrogance, DIO
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Stand User
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*CheckAndAddOne(3,IsColor Yellow && IsCharacter)
+	}
+}
+Text Auto: [Discard a card] When this card is sent from your stage to the waiting room, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 yellow character from among them and add it to your hand.
+EndCard
+
+Character: JJ/SE41-06
+Name Miasma of the Void, Vanilla Ice
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Stand User
+Trait2 Stand
+Cont: GiveSelf
+{
+	If InBattle
+	{
+		GainSpecialEffect CannotUseBackup
+		GainSpecialEffect CannotUseEvents
+	}
+}
+Text Cont: During this card's battle, you cannot play event cards or "BACKUP" from your hand.
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		MoveCard OpponentMemory
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, put that character into your opponent's memory.
+EndCard
+
+Character: JJ/SE41-07
+Name "The Gun is Mightier than the Sword" Hol Horse
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Stand User
+Trait2 Stand
+Combo Hol Horse's Way of Life
+Auto: StartAttackPhase
+{
+	*GiveCharacterPower(1500,Stand User|Stand)
+}
+Text Auto: At the start of your attack phase, choose 1 of your <Stand User> or <Stand> characters and that character gains +1500 power until end of turn.
+Auto: OnSpecificClimaxPlay Hol Horse's Way of Life
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom HasTrait Stand User|Stand && IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reversed, choose up to 1 <Stand User> or <Stand> character in your waiting room and return it to your hand.
+	}
+}
+Text Auto: CxCombo When "Hol Horse's Way of Life" is placed into your climax area, choose 1 of your other <Stand User> or <Stand> characters and that character gains the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, choose up to 1 <Stand User> or <Stand> character in your waiting room and return it to your hand."
+EndCard
+
+Character: JJ/SE41-08
+Name "God Geb" N'dul
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Stand User
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Stand User|Stand
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*CannotSideAttack
+		}
+	}
+}
+Text Cont: During your turn, all of your other <Stand User> or <Stand> characters gain +1000 power and the following ability. "Cont: This card cannot side attack."
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Choice
+	{
+		PayCost Discard 1 HasTrait Stand User|Stand && IsCharacter
+		{
+			*CheckAndAdd(2)
+		}
+	}
+}
+Text Auto: [Discard a <Stand User> or <Stand> character from your hand] When your character's trigger check reveals a climax with a choice trigger icon, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them to add to your hand and put the rest into your waiting room.
+EndCard
+
+Character: JJ/SE41-09
+Name "God Bastet" Mariah
+Color Y
+Level 1
+Cost 1
+Power 3500
+Trait1 Stand User
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	IfThatCard Compare ThatCardsCost 1 OrLess && OnStage
+	{
+		Question Put the battle opponent into your opponent's stock?
+		If Yes
+		{
+			MoveCard OpponentStock
+			TargetBottom OpponentStock 1
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Quick
+Text Auto: When this card becomes reversed, if this card's battle opponent is cost 1 or lower, you may put that character into your opponent's stock, if you do, put a card from the bottom of your opponent's stock into his or her waiting room.
+EndCard
+
+Character: JJ/SE41-10
+Name Invincible Brothers, Oingo & Boingo
+Color Y
+Level 1
+Cost 1
+Power 3500
+Trait1 Stand User
+*PowerOnMyTurn(6000)
+*HandEncore
+EndCard
+
+Character: JJ/SE41-11
+Name God of the Underworld, Anubis
+Color Y
+Level 1
+Cost 1
+Power 4000
+Trait1 Stand
+*CannotBeReversedByCost0
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each marker underneath this card, this card gains +1000 power.
+Auto: OnAttack
+{
+	If AllYourCharacters HasTrait Stand User|Stand
+	{
+		Question Look at the top card of your deck and put it under this card as a marker?
+		If Yes
+		{
+			Peek Deck 1
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card attacks, if all of your characters are <Stand User> or <Stand>, you may look at the top card of your deck. If you do, place that card underneath this card face-down as a marker.
+EndCard
+
+Character: JJ/SE41-12
+Name Daniel J. D'arby & Osiris
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Stand User
+Trait2 Stand
+Auto: OnPlay
+{
+	Mill 1
+	SetXValue TargetCardsLevel
+	TargetTop OpponentDeck
+	MoveCard OpponentWaitingRoom
+	If Compare X TargetCardsLevel OrLower
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to put into your waiting room
+		MoveCard WaitingRoom
+	}
+	Else
+	{
+		TargetLocation OpponentStage
+		OpponentChooseCharactersFromTargets 1 1 Choose a character to put into your waiting room
+	}
+}
+Text Auto: When this card is placed on stage from your hand, both players choose 1 of their characters and then put the top card of their deck into their waiting room. If the level of the card you sent to the waiting room by this effect is lower than the level of the card your opponent sent to the waiting room by this effect, put your chosen character intto the waiting room. If it was not, then your opponent puts their chosen character to the waiting room.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to put into your stock
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 of your other characters and put it into your stock.
+EndCard
+
+Character: JJ/SE41-13
+Name Final Attack, DIO
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Stand User
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 4 Other && HasTrait Stand User|Stand
+	{
+		GainPower 6000
+	}
+}
+Text Cont: During your turn, if you have 4 or more other <Stand User> or <Stand> characters, this card gets +6000 power.
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Stand User|Stand
+	{
+		Question Draw 2 and discard 2?
+		If Yes
+		{
+			DrawCard
+			DrawCard
+			Discard 2 Any
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 2 or more other <Stand User> or <Stand> characters, you may draw 2 cards. If you do, discard 2 cards.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Stand User|Stand
+	{
+		Message Choose up to 1 <Stand User> or <Stand> character in your waiting room to put into your stock
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Stand User|Stand && IsCharacter
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 4 or more other <Stand User> or <Stand> characters, you may choose 1 <Stand User> or <Stand> character in your waiting room and put it into your stock.
+EndCard
+
+Character: JJ/SE41-14
+Name Absolute Being, DIO
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Stand User
+Cont: Assist
+{
+	If IsColor Yellow
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST Your yellow characters in front of this card gain +1500 power.
+Auto: OnPlay
+{
+	If LocationContains WaitingRoom 1 NameEquals The Ultimate Ability, DIO & The World
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals The Ultimate Ability, DIO & The World
+		If HasTarget
+		{
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose up to 1 "The Ultimate Ability, DIO & The World" in your waiting room and put it underneath this card face-up as a marker.
+Requirement Compare MyLevel 2 OrMore
+Act: 2 Discard 1 IsCharacter
+{
+	TargetSelf
+	TargetMarkersUnderTargets
+	ChooseCardsFromTargets 1 1 NameEquals The Ultimate Ability, DIO & The World
+	PlaceOnStage False True True False
+	RememberTargets
+	TargetSelf
+	ScheduleEffectForTargets EndOfTurn
+	{
+		If StageContains 1 RememberedByThisCard
+		{
+			TargetRemembered
+			Question Put your The Ultimate Ability, DIO & The World under this card as a marker?
+			If Yes
+			{
+				Marker_FaceUp
+			}
+		}
+	}
+	Text At the end of your turn, you may put that character underneath this card face-up as a marker.
+}
+Text Act: [(2) Discard 1 character] If you are level 3 or higher, choose 1 "The Ultimate Ability, DIO & The World" underneath this card as a marker and place it on any position on your stage. At the end of your turn, you may put that character underneath this card face-up as a marker.
+EndCard
+
+Character: JJ/SE41-15
+Name Diabolical Execution, DIO
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Stand User
+Combo Stand Rush!!
+*GainPowerWithEnoughCharacters(4000,2,Stand User|Stand)
+Auto: OnSpecificClimaxPlay Stand Rush!!
+{
+	If Compare MyLevel 2 OrMore && AllYourCharacters HasTrait Stand User|Stand
+	{
+		PayCost Discard 1 Any
+		{
+			TargetSelf
+			PlaceOnStage False True True False
+			GainPower 1000
+			GainEffect
+			{
+				Auto: OnOpponentReverse
+				{
+					TargetBattleOpponent
+					IfTarget OnStage
+					{
+						Question Put this card's battle opponent on top of your opponent's deck?
+						If Yes
+						{
+							MoveCard OpponentDeck
+						}
+					}
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck.
+			}
+		}
+	}
+}
+InWaitingRoom
+Text Auto: CxCombo [Discard 1 card] While this card is in your waiting room, when "Stand Rush!!" is placed into your climax area, if you are level 2 or higher and all of your characters are <Stand User> or <Stand>, you may pay the cost. If you do, place this card on any position on your stage, and this card gains +1000 power and the following ability until end of turn. "When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck."
+EndCard
+
+Character: JJ/SE41-16
+Name Feeling Rejuvinated, DIO
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Stand User
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Stand User|Stand
+	{
+		GainPower 2500
+		GainEffect
+		{
+			Auto: Encore Discard 1 IsColor Yellow
+			{
+			}
+			Text Auto: ENCORE [Discard 1 yellow card]
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Stand User> or <Stand> characters, this card gains +2500 power and the following ability. "Auto: ENCORE [Discard 1 yellow card]"
+*Healer
+EndCard
+
+Character: JJ/SE41-17
+Name The Ultimate Ability, DIO & The World
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Stand User
+Trait2 Stand
+Combo The World of Stopped Time
+*PowerOnMyTurn(2000)
+*Healer
+Auto: StartEncoreStep
+{
+	If Climax The World of Stopped Time && InLocation CenterStage
+	{
+		If Not LocationContains OpponentCenterStage 1 CardPosition Rest || CardPosition Stand
+		{
+			PayCost 2 Discard 2 Any
+			{
+				TargetTop OpponentDeck 2
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard 2 cards] At the start of your encore step, if you have "The World of Stopped Time" in your climax area and this card is in your center stage and if your opponent does not have any characters on his or her center stage, or all characters on your opponent's center stage are reversed, you may pay the cost. If you do, put the top 2 cards of your opponent's deck into their clock.
+EndCard
+
+Event: JJ/SE41-18
+Name DIO's World
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	PayCost Send 1 WaitingRoom IsCharacter
+	{
+		SearchDeck HasTrait Stand User|Stand && IsCharacter
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text [Put 1 character from your stage into the waiting room] You may pay the cost. If you do, search your deck for up to 1 <Stand User> or <Stand> character and add it to your hand, then choose 1 of your characters and that character gains +1000 power until end of turn.
+EndCard
+
+Climax: JJ/SE41-19
+Name Hol Horse's Way of Life
+*ChoiceClimax
+EndCard
+
+Climax: JJ/SE41-20
+Name Stand Rush!!
+*ChoiceClimax
+EndCard
+
+Climax: JJ/SE41-21
+Name The World of Stopped Time
+*ChoiceClimax
+EndCard
+
+Character: JJ/SE41-22
+Name The Burning Flame, Avdol
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Stand User
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Discard 1 card] When this card is placed on stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them to add to your hand and put the rest into your waiting room.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Stand User|Stand && IsCharacter
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 <Stand User> or <Stand> character] When this card is placed on stage from your hand, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: JJ/SE41-23
+Name Life or Death Battle, Iggy
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Stand User
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters HasTrait Stand User|Stand && Other
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gains +1000 power for each of your other <Stand User> or <Stand> characters.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1)] At the start of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position in your back stage.
+EndCard
+
+Character: JJ/SE41-24
+Name Finding the Enemy, Polnareff
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Stand User
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to get -1000 power
+	LosePower 1000
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your opponent's characters in their center stage and that character gets -1000 power until end of turn.
+*OnAttackGiveOtherPower(1000,Stand User|Stand)
+EndCard
+
+Character: JJ/SE41-25
+Name Veteran Guide, Joseph & Hermit Purple
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Stand User
+Trait2 Hamon
+Auto: OnOtherPlacedOnStageFromMarker
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Auto: When your other character is placed on stage from a marker area, choose 1 of your characters and that character gains +2000 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Stand User|Stand|Hamon)
+EndCard
+
+Character: JJ/SE41-26
+Name Instant Reaction, Avdol
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Stand User
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 SendSelf Memory
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to return to your hand
+		MoveCard Hand
+	}
+}
+Text Auto: [(1) Send this card to your memory] At the start of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other characters and return that character to your hand.
+EndCard
+
+Character: JJ/SE41-27
+Name Hot and Cool, Jotaro
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Stand User
+*RunToCenter
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: JJ/SE41-28
+Name A Joestar Family Tradition, Jotaro
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Stand User
+Auto: OnPlay
+{
+	PayCost StockClock
+	{
+		SearchLocationForTargets Deck 0 1 Compare ThatCardsCost 0 OrLess && Compare ThatCardsLevel MyLevel OrLess && IsCharacter && HasTrait Stand User|Stand
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put the top card of your stock into your clock] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 cost 0 <Stand User> or <Stand> character whose level is equal or lower than your level, place it on any position on your stage and shuffle your deck.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Put "A Joestar Family Tradition, Jotaro" into your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, you may put this card into your stock.
+EndCard
+
+Character: JJ/SE41-29
+Name Favorite Cherry, Kakyoin
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Stand User
+*OnPlayReorderTop2
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Stand User|Stand
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Stand User|Stand
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Stand》 or 《Stand User》 character in your waiting room, return it to your hand, choose 1 of your other 《Stand》 or 《Stand User》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: JJ/SE41-30
+Name Ora Ora Ora! Jotaro & Star Platinum
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Stand User
+Trait2 Stand
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Stand User|Stand && IsCharacter
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a <Stand User> or <Stand> character, this card gains +2000 power until end of turn.
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Star of Hope, Jotaro & Star Platinum
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Send this card to your waiting room] Choose 1 "Star of Hope, Jotaro & Star Platinum" in your waiting room and add it to your hand.
+EndCard
+
+Character: JJ/SE41-31
+Name Breakthrough Solution, Kakyoin
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Stand User
+Combo Emerald Splash
+Auto: OnClimaxPlay
+{
+	PayCost Clock
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When a climax is placed into your climax area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+Auto: StartAttackPhase
+{
+	If Climax Emerald Splash
+	{
+		PayCost SendSelf Hand &&& SendClimax WaitingRoom
+		{
+			TargetLocation Stage
+			NarrowTargets Other && Not CardPosition Stand
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+	}
+}
+Text Auto: CxCombo [Return this card to your hand and send "Emerald Splash" from your climax into your waiting room] At the start of your attack phase, you may pay the cost. If you do, choose 1 of your other <Stand User> or <Stand> characters and stand that character.
+EndCard
+
+Character: JJ/SE41-32
+Name Seasoned Fighter, Joseph
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Stand User
+Trait2 Hamon
+Auto: OnAttack
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Discard 2 Any
+		{
+			SearchLocationForTargets Deck 0 2 HasTrait Stand User|Stand|Hamon && IsCharacter
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: [(1) Discard 2 cards] During the turn that this card was placed on stage from your hand, when this card attacks, you may pay the cost. If you do, search your deck for up to 2 <Stand User> or <Stand> or <Hamon> characters and add them to your hand.
+EndCard
+
+Character: JJ/SE41-33
+Name Unparalleled Speed, Polnareff & Silver Chariot
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Stand User
+Trait2 Stand
+Auto: StartAttackPhase
+{
+	Question Make this card get -1000 power to gain the effect?
+	If Yes
+	{
+		UntilEndOfOpponentsTurn
+		LosePower 1000
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*FreeRunner
+		}
+	}
+}
+Text Auto: At the start of your attack phase, you may have this card get -1000 power until the end of your opponent's turn. If you do, this card gains the following ability until the end of your opponent's turn. "Auto: At the start of your opponent's attack phase, you may move this card to an open position of your center stage."
+EndCard
+
+Character: JJ/SE41-34
+Name The Only Way, Jotaro
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Stand User
+*ClimaxExchange
+*RedLevel1Bomb
+EndCard
+
+Character: JJ/SE41-35
+Name Dependable Ally, Kakyoin
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Stand User
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Stand User|Stand
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: During your turn, if all of your characters are <Stand User> or <Stand>, this card gets +2000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther NameEquals The Only Way, Jotaro
+	{
+		PayCost Discard 1 Any
+		{
+			PlaceOnStage False True True False
+		}
+	}
+}
+InWaitingRoom
+Text Auto: [Discard 1 card] When your "The Only Way, Jotaro" is placed on stage from your hand, if this card is in your waiting room, you may pay the cost. If you do, place this card on any position on your stage.
+EndCard
+
+Character: JJ/SE41-36
+Name Remaining Strength, Iggy
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Stand User
+Trait2 Stand
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Instant Reaction, Avdol
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If you have a card named "Instant Reaction, Avdol" in your memory, this card gets +3000 power.
+Auto: OnReversed
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		Question_Obvious Put this card into your memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if you have 2 or less cards in your memory, you may send this card to your memory.
+EndCard
+
+Character: JJ/SE41-37
+Name "I Bet My Soul" Jotaro
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Stand User
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		ShuffleLocation Deck
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && HasTrait Stand User|Stand
+		{
+			SearchWaitingRoom IsCharacter
+			TargetSelf
+			GainPower 3000
+		}
+		Else
+		{
+			TargetSelf
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, play "Bet on your Soul" game, shuffle your deck then reveal the top card of your deck. If that card is a <Stand User> or <Stand> character, choose 1 character in your waiting room and add it to your hand, then until the end of the turn this card gets +3000 power. If it was not, send this card to your waiting room.
+EndCard
+
+Character: JJ/SE41-38
+Name Victory in Hand, Polnareff & Silver Chariot
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Stand User
+Trait2 Stand
+Combo The Sadness of Losing a Friend
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Stand User|Stand
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Stand User> or <Stand> character, this card gets +3000 power.
+Auto: OnOpponentReverse
+{
+	If Climax The Sadness of Losing a Friend &&& StageContains 2 Other && HasTrait Stand User|Stand
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose up to 2 <Stand User> or <Stand> characters
+			SearchLocationForTargets Deck 0 2 HasTrait Stand User|Stand && IsCharacter
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [Discard a card] When this card's battle opponent becomes reversed in battle, if you have "The Sadness of Losing a Friend" in your climax area, and you have 2 or more other <Stand User> or <Stand> characters, you may pay the cost. If you do, search your deck for up to 2 <Stand User> or <Stand> characters and add them to your hand.
+EndCard
+
+Character: JJ/SE41-39
+Name The Man Who Came Back, Avdol
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Stand User
+*GainPowerWhenOtherAttacks(1000,Stand User|Stand)
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Stand User|Stand && IsCharacter
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 1 OrLess
+		ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [(1) Discard a <Stand User> or <Stand> character] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 cost 1 or lower characters in your opponent's center stage and put it into their waiting room.
+EndCard
+
+Character: JJ/SE41-40
+Name Searching For Love, Polnareff
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Stand User
+*CannotSideAttack
+Auto: OnUseAct
+{
+	GainEffect
+	{
+		*OnReverseBlindStock
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability can only be activated up to once per turn. When you use an "ACT" ability, this card gains the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: JJ/SE41-41
+Name "Overdrive" Joseph
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Stand User
+Trait2 Hamon
+*ScryBackup(Stand User|Stand|Hamon)
+Backup 2000
+EndCard
+
+Character: JJ/SE41-42
+Name Last Minute Strength, Jotaro
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Stand User
+*GainPowerWithEnoughCharacters(2000,2,Stand User|Stand)
+*HandEncore
+EndCard
+
+Character: JJ/SE41-43
+Name "Star Finger" Jotaro
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Stand User
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: JJ/SE41-44
+Name In the Dream, Kakyoin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Stand User
+Cont: GiveAll
+{
+	If MyTurn && HasTrait Stand User|Stand && Other
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, all of your other <Stand User> or <Stand> characters gain +2000 power.
+Auto: OnPlay
+{
+	If LocationContains WaitingRoom 1 NameEquals In the Dream, Heirophant Green
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals In the Dream, Heirophant Green
+		If HasTarget
+		{
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose up to 1 "In the Dream, Heirophant Green" in your waiting room and put it underneath this card face-up as a marker.
+Act: Discard 1 IsCharacter
+{
+	TargetSelf
+	TargetMarkersUnderTargets
+	ChooseCardsFromTargets 1 1 NameEquals In the Dream, Heirophant Green
+	PlaceOnStage False True True False
+	RememberTargets
+	TargetSelf
+	ScheduleEffectForTargets EndOfTurn
+	{
+		Effect:
+		{
+			If StageContains 1 RememberedByThisCard
+			{
+				TargetRemembered
+				Question Put your "In the Dream, Heirophant Green" under this card as a marker?
+				If Yes
+				{
+					Marker_FaceUp
+				}
+			}
+		}
+		Text At the end of your turn, you may put that character underneath this card face-up as a marker.
+	}
+}
+Text Act: [Discard 1 character] Choose 1 "In the Dream, Heirophant Green" underneath this card as a marker and place it on any position on your stage. At the end of your turn, you may put that character underneath this card face-up as a marker.
+EndCard
+
+Character: JJ/SE41-45
+Name Spirit Photography, Joseph
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Stand User
+Trait2 Hamon
+*Level3Assist
+Act: RestSelf
+{
+	Peek OpponentDeck 2
+	Reorder
+	EndPeek
+}
+Text Act: [Rest this card] Look at up to 2 cards from the top of your opponent's deck and put them back on top in any order.
+EndCard
+
+Character: JJ/SE41-46
+Name Landing in Egypt, Jotaro
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Stand User
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to gain the effect
+	GainEffect
+	{
+		*RedEarlyPlayBomb
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose up to 2 of your characters and they gain the following ability until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may reverse that character."
+EndCard
+
+Character: JJ/SE41-47
+Name In the Dream, Heirophant Green
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Stand
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Stand User|Stand
+		MultiplyXValue 1500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gains +1500 power for each of your other <Stand User> or <Stand> characters.
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		Question Send this card's battle opponent to your opponent's memory?
+		If Yes
+		{
+			MoveCard OpponentMemory
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may send that character to your opponent's memory.
+EndCard
+
+Character: JJ/SE41-48
+Name Will in His Heart, Polnareff
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Stand User
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Instant Reaction, Avdol &&& LocationContains Memory 1 NameEquals Remaining Strength, Iggy
+	{
+		GainPower 3500
+		GainSoul 1
+	}
+}
+Text Cont: MEMORY If you have a "Instant Reaction, Avdol" and "Remaining Strength, Iggy" in your memory, this card gets +3500 power and +1 soul.
+EndCard
+
+Character: JJ/SE41-49
+Name Creator of Flames, Avdol & Magician's Red
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Stand User
+Trait2 Stand
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Stand User|Stand
+	{
+		GainPower 6000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Stand User> or <Stand>, this card gets +6000 power.
+Auto: OnReversed
+{
+	PayCost Discard 1 HasTrait Stand User|Stand &&& SendSelf Memory
+	{
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				Message Choose a Creator of Flames, Avdol & Magician's Red in your memory to place on stage
+				SearchLocationForTargets Memory 1 1 NameEquals Creator of Flames, Avdol & Magician's Red
+				PlaceOnStage False True True False
+			}
+			Quick
+			Text Place a "Creator of Flames, Avdol & Magician's Red" on stage from your memory
+		}
+	}
+}
+Text Auto: [Discard 1 <Stand User> or <Stand> character and send this card to your memory] When this card becomes reversed in battle, you may pay the cost. If you do, at the start of your next draw phase, choose a "Creator of Flames, Avdol & Magician's Red" in your memory and place it on any position on your stage.
+EndCard
+
+Character: JJ/SE41-50
+Name Unstoppable Pursuit, Jotaro
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Stand User
+Combo Declaration of Destruction
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters HasTrait Stand User|Stand && Other
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gains +1000 power for each of your other <Stand User> or <Stand> characters.
+*Healer
+Auto: StartAttackPhase
+{
+	If Climax Declaration of Destruction
+	{
+		PayCost 1 SendClimax WaitingRoom
+		{
+			TargetSelf
+			Stand
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					GainSpecialEffect CannotBeReversed
+				}
+				Text Cont: This card cannot be reversed.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Send "Declaration of Destruction" from your climax area to your waiting room] At the start of your attack phase, you may pay the cost. If you do, stand this card and this card gains the following ability until the end of your opponent's turn. "Cont: This card cannot be reversed."
+EndCard
+
+Character: JJ/SE41-51
+Name Strong Spirit, Kakyoin & Heirophant Green
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Stand User
+Trait2 Stand
+*GainPowerWithEnoughCharacters(2000,2,Stand User|Stand)
+*Healer
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+	{
+		MillOpponentBottom 4
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [Discard 2 cards] When this card attacks, you may pay the cost. If you do, put the bottom 4 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards.
+EndCard
+
+Character: JJ/SE41-52
+Name Free Way of Life, Iggy & The Fool
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Stand User
+Trait2 Stand
+Cont: GiveAll
+{
+	IfOwner InLocation CenterStage
+	{
+		If HasTrait Stand User|Stand
+		{
+			GainPower 1500
+		}
+	}
+}
+Text Cont: If this card is in your center stage, all of your <Stand User> and <Stand> characters gain +1500 power.
+Auto: OnAttack
+{
+	PayCost 2 Discard 2 Any
+	{
+		Burn 2
+	}
+}
+Text Auto: [(2) Discard 2 cards] When this card attacks, you may pay the cost. If you do, deal 2 damage to your opponent.
+*HandEncoreTrait(Stand User|Stand)
+EndCard
+
+Character: JJ/SE41-53
+Name Star of Hope, Jotaro & Star Platinum
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Stand User
+Trait2 Stand
+Combo The Joestar Family's Fate
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Stand User|Stand
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Send 1 of your other <Stand User> or <Stand> characters from your stage to the waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, send the top card of your clock into your stock.
+Auto: StartAttackPhase
+{
+	If Climax The Joestar Family's Fate &&& Not StageContains 1 Other && InLocation CenterStage
+	{
+		GainPower 11000
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				If Compare CardsInHand 6 OrMore
+				{
+					PayCost Discard 2 NameEquals Star of Hope, Jotaro & Star Platinum &&& Discard 4 Any
+					{
+						Repeat 7
+						{
+							Burn 1
+						}
+						Burn 7
+					}
+				}
+			}
+			Text Auto: [Discard 2 "Star of Hope, Jotaro & Star Platinum" and discard 4 cards] At the end of this card's attack, you may pay the cost. If you do, deal 1 damage to your opponent 7 times, then deal 7 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo At the start of your attack phase, if you have "The Joestar Family's Fate" in your climax area and you have no other characters in your center stage, this card gains +11000 power and the following ability until end of turn. "Auto: [Discard 2 "Star of Hope, Jotaro & Star Platinum" and discard 4 cards] At the end of this card's attack, you may pay the cost. If you do, deal 1 damage to your opponent 7 times, then deal 7 damage to your opponent."
+EndCard
+
+Character: JJ/SE41-54
+Name Chivalry, Polnareff
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 11000
+Soul 2
+Trait1 Stand User
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Stand User|Stand
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another <Stand User> or <Stand> character, this card does not stand during your stand phase.
+Auto: OnPlay
+{
+	Message Choose a <Stand User> or <Stand> character to put on the bottom of your deck
+	SearchLocationForTargets Clock 0 1 HasTrait Stand User|Stand
+	If HasTarget
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 <Stand User> or <Stand> character in your clock and you may put that character on the bottom of your deck.
+EndCard
+
+Event: JJ/SE41-55
+Name Journey to Distant Lands
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SetXValue CardsInHand
+	AddToXValue 1
+	TargetLocation Hand
+	MoveCard WaitingRoom
+	Repeat X
+	{
+		DrawCard
+	}
+}
+Text Discard your hand and then draw X cards. X is equal to the number of cards discarded +1.
+EndCard
+
+Event: JJ/SE41-56
+Name Farewell My Friends
+Color R
+Level 3
+Cost 6
+Effect:
+{
+	PayCost Discard 2 Any
+	{
+		Burn 4
+		Burn 4
+	}
+}
+Text [Discard 2 cards] You may pay the cost. If you do, deal 4 damage to your opponent twice.
+EndCard
+
+Climax: JJ/SE41-57
+Name Emerald Splash
+*StandbyClimax
+EndCard
+
+Climax: JJ/SE41-58
+Name The Sadness of Losing a Friend
+*DoorClimax
+EndCard
+
+Climax: JJ/SE41-59
+Name Declaration of Destruction
+*StandbyClimax
+EndCard
+
+Climax: JJ/SE41-60
+Name The Joestar Family's Fate
+*DoorClimax
+EndCard
+
+Character: JJ/SE41-p01
+Name Sparkling Jewel, Jotaro
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Stand User
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Stand User|Stand
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have another <Stand User> or <Stand> character, you may deal 1 damage to your opponent.
+EndCard
+

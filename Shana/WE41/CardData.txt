@@ -1,0 +1,1395 @@
+
+Character: SS/WE41-01
+Name Development of the Town, Shana
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Melon bread
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 Level 1 or lower character, put it into your hand, and shuffle your deck. 
+Auto: OnAttack
+{
+	If Compare Experience 2 OrMore
+	{
+		TargetLocation Stage
+		NarrowTargets IsCharacter
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: EXPERIENCE When this card attacks, if the total level of the cards in your level is 2 or higher, Choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: SS/WE41-02
+Name Shana in Maid Outfit
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Maid
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Slow
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+*OnAttackGivePowerForEachOther(500,Flame)
+EndCard
+
+Character: SS/WE41-03
+Name Puzzled Shana
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Melon bread
+*GlobalPower(500,Flame)
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain the effect
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			TargetBattleOpponent
+			IfThatCard OnStage
+			{
+				Question Put the battle opponent into your opponent's stock?
+				If Yes
+				{
+					MoveCard OpponentStock
+					TargetBottom OpponentStock 1
+					MoveCard OpponentWaitingRoom
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put a card from the bottom of your opponent's stock into his or her waiting room.
+	}
+}
+Text Act: [Rest this card] Choose one of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put a card from the bottom of your opponent's stock into his or her waiting room."
+EndCard
+
+Character: SS/WE41-04
+Name Shana in Swimsuits
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Flame
+Trait2 Melon bread
+Combo Feeling helpless
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets HasTrait Flame
+	SetXValue TargetCount
+        GainLevel X
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: For each <Flame> character in your level, this card gains +2000 power and +1 level.
+Auto: StartMyEncorePhase
+{
+	If Climax Feeling helpless && StageContains 2 Other && HasTrait Flame
+	{
+		*Check4Add1(Flame)
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Feeling helpless" is in your climax area, and you have 2 or more other <Flame> characters, look at up to 4 cards from the top of your deck, choose up to 1 <Flame> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: SS/WE41-05
+Name Shana in Chinese Dress
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Flame
+Trait2 Melon bread
+*PowerOnMyTurn(1000)
+*MoveOtherWithTraitToBackstageOnReverse(Flame)
+EndCard
+
+Character: SS/WE41-06
+Name Dressed up, Shana
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Flame
+Trait2 Weapon
+Auto: OnPlay
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+*ClimaxExchange
+EndCard
+
+Character: SS/WE41-07
+Name Shana in Distress
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trigger Soul
+Trait1 Flame
+Trait2 Melon bread
+*OnAttackGainPowerForEachOther(1000,Flame)
+EndCard
+
+Character: SS/WE41-08
+Name Fumina Konoe
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Mystery
+Trait2 Animal
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Flame || NameContains Konoe
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Flame> or either "Konoe" in name characters, and that character gets +1500 power until end of turn.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Moment of Confrontation, Hecate
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Moment of Confrontation, Hecate" in your waiting room and put it in this card's previous position.
+EndCard
+
+Character: SS/WE41-09
+Name Awkward Shana
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Flame
+Trait2 Melon bread
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Flame
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are 《Flame》, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: SS/WE41-10
+Name Changed "Torch", Yuji
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Flame
+Trait2 Treasure
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Flame
+	{
+		GainSpecialEffect ReceiveNoDamageFromAutoEffects
+	}
+}
+Text Cont: If the number of other <Flame> characters you have is two or more, you cannot take damage from your opponent character's Auto: effects.
+Cont: Assist
+{
+	If Compare ThatCardsLevel 2 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: ASSIST All of your level 2 or higher characters in front of this card get +1000 power.
+EndCard
+
+Character: SS/WE41-11
+Name Student of Misaki High School, Shana
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Flame
+Trait2 Melon bread
+Auto: OnOtherCharacterAttacks
+{
+	TargetOther
+	IfThatCard HasTrait Flame
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Flame
+		SetXValue TargetCount
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When your other <Flame> character attacks, this card gets +X power until end of turn. X is the 500 of other <Flame> characters you have times.
+*HandEncore
+EndCard
+
+Character: SS/WE41-12
+Name Kazumi Yoshida
+Color Y
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Love
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: SS/WE41-13
+Name First Time Feeling This, Shana
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Flame
+Trait2 Melon bread
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 2 HasTrait Flame &&& SendSelf Hand
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Great Vessel, Shana
+		Change
+	}
+}
+Text Auto: CHANGE [(1) Put 2 <Flame> characters from your hand into your waiting room & Return this card to your hand] At the beginning of your climax phase, you may pay the cost, choose 1 "Great Vessel, Shana" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: SS/WE41-14
+Name Shana in Summer Outfit
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Flame
+Trait2 Melon bread
+Cont: InHand
+{
+	If StageContains 1 NameEquals Changed "Torch", Yuji && StageContains 1 NameEquals Shana & Alastor
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have another "Changed "Torch", Yuji" and "Shana & Alastor", this gets -1 level while in your hand.
+*GainPowerForEachOther(500, Flame)
+*Healer
+EndCard
+
+Character: SS/WE41-15
+Name "Flame Haze" Shana
+Color Y
+Level 3
+Cost 2
+Power 9500
+Trigger Soul
+Soul 2
+Trait1 Flame
+Trait2 Melon bread
+Combo Wanting to make sure
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Flame
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other <Flame> characters.
+*Healer
+Auto: OnOpponentReverse
+{
+	If Climax Wanting to make sure
+	{
+		GainColor Red
+		SetXValue 1
+		PayCost 1 Discard 1 Any
+		{
+			AddToXValue 1
+			PayCost 1 Discard 1 Any
+			{
+				AddToXValue 1
+				PayCost 1 Discard 1 Any
+				{
+					AddToXValue 1
+					PayCost 1 Discard 1 Any
+					{
+						AddToXValue 1
+						PayCost 1 Discard 1 Any
+						{
+							AddToXValue 1
+						}
+					}
+				}
+			}
+		}
+		Repeat X
+		{
+			MillOpponentBottom 3
+			NarrowTargets IsClimax
+			If HasTarget
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, if "Wanting to make sure" is in your climax area, this card gets the color red until end of turn, and you may pay the cost up to 5 times. Perform the following action X number of times. "Put the bottom 3 cards of your opponent's deck into their waiting room. If there is a climax among those cards, deal 1 damage to your opponent." X is equal to the number of times you paid the cost +1.
+EndCard
+
+Event: SS/WE41-16
+Name Start of Seishuu Festival
+Color Y
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	*Check4Add1(Flame|Love)
+}
+ActivationRequirement StageContains 1 HasTrait Flame|Love
+Text If you don't have <Flame> or <Love> character, this cannot be played from hand. Look at up to 4 cards from the top of your deck, choose up to 1 <Flame> or <Love> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Event: SS/WE41-17
+Name On the Day which Yuji Disappeared
+Color Y
+Level 2
+Cost 1
+Effect:
+{
+	SearchLocationForTargets Deck 0 2 HasTrait Flame
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Deck
+	Discard 1 Any
+	TargetSelf
+	MoveCard Memory
+}
+Text Search your deck for up to 2 <Flame> characters, reveal them to your opponent, add them to your hand, and discard a card.Put this card into your memory.
+EndCard
+
+Climax: SS/WE41-18
+Name Feeling helpless
+*ChoiceClimax
+EndCard
+
+Climax: SS/WE41-19
+Name Wanting to make sure
+*ChoiceClimax
+EndCard
+
+Character: SS/WE41-20
+Name Shana & Alastor
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Flame
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	If StageContains 1 NameEquals Changed "Torch", Yuji
+	{
+		*GiveCharacterPower(1000,Flame)
+	}
+}
+Text Auto: At the beginning of your climax phase,If you have another card named "Changed "Torch", Yuji", choose 1 <Flame> of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: SS/WE41-21
+Name Margery & Marchosias
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Flame
+Trait2 Book
+*FreeRunner
+*RedLevel0Bomb
+EndCard
+
+Character: SS/WE41-22
+Name Apostle of Extermination, Shana
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Weapon
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters, and that character gets +1000 power until end of turn.
+*Act1SalvageBrainstorm(Flame)
+EndCard
+
+Character: SS/WE41-23
+Name Unparalleled melon bread lover, Shana
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Melon bread
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		SetXToNumberOfCharacters Other && HasTrait Flame
+		Peek Deck X
+		ChooseCard Choose a card to add to your hand.
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of other 《Flame》 characters you have.
+Auto: OnOpponentClimaxPlay
+{
+	Question Put "Unparalleled melon bread lover, Shana" into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When a climax is placed in your opponent's climax area, you may put this card into your stock.
+EndCard
+
+Character: SS/WE41-24
+Name Love Is All, Shana
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Weapon
+Combo To the New World
+Cont: GiveAll
+{
+	If Other && HasTrait Flame
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other <Flame> characters get +500 power.
+Auto: OnSpecificClimaxPlay To the New World
+{
+	If StageContains 2 Other && HasTrait Flame
+	{
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess && HasTrait Flame
+		PlaceOnStage False True True False 
+	}
+}
+Text Auto: CxCombo When "To the New World" is placed on your climax area, if you have another 2 or more <Flame> character, you may choose 1 level 0 or lower <Flame> character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: SS/WE41-25
+Name Unyielding heart, Shana
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Weapon
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Discard a card] When this card is put into your waiting room from the stage, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Flame
+	}
+}
+Text Auto: [(2)] When this card is placed from the stage to the waiting room, you may pay the cost. If so, choose 1 character in your waiting room with either <Flame> and return it to your hand.
+EndCard
+
+Character: SS/WE41-26
+Name Beautiful Princess of "Unrivaled Battle Techniques", Wilhelmina
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Maid
+Act 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Flame)
+}
+Text Act: [(1) Put this card into the waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Flame> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Act RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to get X power. X is 500 times its level.
+	If HasTarget
+	{
+		SetXValue TargetCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +X power until end of turn. X is equal to that character's level ×500.
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	ChooseCharacterFromTargets Choose a character to send to the waiting room.
+	MoveCard OpponentWaitingRoom
+}
+Text Act: [(1)] Choose a level 0 character on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: SS/WE41-27
+Name "Mobilizer of Ceremonial Equipment" Khamsin Nbh'w
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Flame
+Trait2 Relics
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseBackup
+	GainSpecialEffect CannotUseEvents
+}
+Text Cont: You cannot play event cards or backup from your hand.
+EndCard
+
+Character: SS/WE41-28
+Name "Improvisational Poem of Slaughter" Margery
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Flame
+Trait2 Book
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put two cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room.
+Backup 1000
+EndCard
+
+Character: SS/WE41-29
+Name Contractor of Alastor, Shana
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Flame
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Flame
+	{
+		GainLevel 1
+		GainPower 500
+	}
+}
+Text Cont: If you have 2 or more other <Flame> characters, this card gets +1 level and +500 power.
+Cont: GiveSelf
+{
+	If Compare ThisCardsLevel 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If this card is level 2 or higher, this card gets +3000 power.
+EndCard
+
+Character: SS/WE41-30
+Name Trust in the Blade, Shana
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Flame
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, if you do, reveal the top card of your deck, choose a level X or lower character in your waiting room, and return it to your hand. X is the level of the revealed card.
+EndCard
+
+Character: SS/WE41-31
+Name "Flame Haze" Wilhelmina
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Flame
+Trait2 Maid
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 2 OrMore
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 2 or higher, this card gets +2000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+Auto: OnPlay
+{
+	PayCost Rest 1 Other && HasTrait Flame
+	{
+		SearchLocationForTargets Level 1 1 Any
+		If HasTarget
+		{
+			SaveTargets 
+			SearchLocationForTargets WaitingRoom 1 1 Any
+			AddSavedToCurrentTargets 
+			Exchange
+			TargetLocation Stage 
+			ChooseCharacterFromTargets Choose a Character
+			GainLevel 1
+		}
+	}
+}
+Text Auto: [Rest 1 of your other <Flame> characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 card in your level and 1 card in your waiting room, and exchange them, choose 1 of your characters, it gets +1 level until end of turn.
+EndCard
+
+Character: SS/WE41-32
+Name Wings of Crimson, Shana
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Flame
+Trait2 Weapon
+Combo Anything Is Possible
+*StockOnCancel
+Auto: OnDamageCancel
+{
+	If Climax Anything Is Possible &&& StageContains 1 Other && HasTrait Flame
+	{
+		RevealUpTo Deck 2
+		NarrowTargets HasTrait Flame || IsEvent
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "Anything Is Possible" is in your climax are, you have another <Flame> character ,look at up to 2 cards from the top of your deck, choose up to 2 <Flame> characters or event from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SS/WE41-33
+Name Something to Protect, Shana
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Flame
+Trait2 Weapon
+Combo Power of Will
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Flame
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Flame>, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Compare Experience 2 OrMore && Climax Power of Will
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Flame && Compare ThatCardsLevel X OrLower
+		If Compare X 2 OrMore
+		{
+			TargetSelf
+			GainSoul 1
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE When this card attacks, if a card named "Power of Will" is in your climax area, the total level of the cards in your level is 2 or higher, put the top 2 cards of your deck into your waiting room, choose up to 1 Level X or lower <Flame> Character in your Waiting Room and return it to your hand. If X is 2 or higher, this gets +1 soul until end of turn. X is equal to the total level of the cards put into your waiting room by this effect.
+EndCard
+
+Character: SS/WE41-34
+Name "Manipulator of Objects" Wilhelmina Carmel
+Color R
+Level 2
+Cost 1
+Power 2000
+Trigger Soul
+Trait1 Flame
+Trait2 Maid
+*BackupBonus1000(Flame)
+Backup 2500
+EndCard
+
+Character: SS/WE41-35
+Name "Chanter of Elegies" Margery Daw
+Color R
+Level 2
+Cost 1
+Power 3500
+Trigger Soul
+Trait1 Flame
+Trait2 Book
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Flame
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost, choose 1 <Flame> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SS/WE41-36
+Name Prideful, Shana
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Flame
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Flame
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +1000 power for each other <Flame> character in your stage.
+*GainPowerWhenOtherAttacks(1500,Flame)
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrHigher
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may put the top card of your deck into stock.
+EndCard
+
+Character: SS/WE41-37
+Name Path to Walk with Yuji, Shana
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Flame
+Trait2 Weapon
+Cont: InHand
+{
+	If StageContains 4 HasTrait Flame
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more <Flame> characters, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If Compare Experience 6 OrMore
+	{
+		GainPower 500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetLocation Stage
+				NarrowTargets HasTrait Flame
+				AIChoice GainPower 1500
+				ChooseCharacterFromTargets Choose a character to give +1500 power
+				GainPower 1500
+			}
+			Text Auto: When this card attacks, choose 1 of your <Flame> characters, and that character gets +1500 power until end of turn.
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 6 or higher, this card gets +500 power and the following ability. "Auto: When this card attacks, choose 1 of your <Flame> characters, and that character gets +1500 power until end of turn."
+*StockHealer
+EndCard
+
+Character: SS/WE41-38
+Name Shana and Yuji
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Flame
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare Experience 6 OrMore
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost 3 Discard 1 HasTrait Flame
+				{
+					Burn 2
+				}
+			}
+			Text Auto: EXPERIENCE If the sum of levels of cards in your level zone is 6 or more, this gets +1500 power and the following ability, "Auto: [(3) Put 1 a <Flame> character cards from your hand into your waiting room] When this card attacks,you may pay the cost. If you do, deal 2 damage to your opponent."
+		}
+	}
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level zone is 6 or more, this gets +1500 power and the following ability, "Auto: [(3) Put 1 a <Flame> character cards from your hand into your waiting room] When this card attacks,you may pay the cost. If you do, deal 2 damage to your opponent."
+*Healer
+EndCard
+
+Character: SS/WE41-39
+Name Great Vessel, Shana
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Flame
+Trait2 Weapon
+Combo Heaven-and-Earth Sundering
+Auto: OnEndOfAttack
+{
+	If Climax Heaven-and-Earth Sundering &&& StageContains 2 Other && HasTrait Flame
+	{
+		PayCost 2
+		{
+			MultipleChoiceQuestion Choose an ability :\n1: Stand this card.\n2: Choose up to 3 characters in your waiting room, and return it to your hand, shuffle your deck.|1|2
+			If Answer 0 
+			{
+				Stand
+			}
+			Else 
+			{
+				Message Choose up to 3 characters.
+				SearchLocationForTargets WaitingRoom 0 3 IsCharacter
+				MoveCard Hand
+				Refresh
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2)] This ability activates up to once per turn. At the end of this card's attack, if "Heaven-and-Earth Sundering" is in your climax area, if you have another 2 <Flame> Character, you may pay the cost, if you do, choose 1 of the following 2 effects and perform it. "Stand this card." "Choose up to 3 characters in your waiting room, and return it to your hand, shuffle your deck."
+EndCard
+
+Character: SS/WE41-40
+Name Contractor to Tiamat, Wilhelmina
+Color R
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Flame
+Trait2 Maid
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Flame
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power. X is equal to the number of <Flame> characters you have x500.
+Auto: OnPlay
+{
+	PayCost Rest 1 CardPosition Stand
+	{
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		ReverseTargets OpponentWaitingRoom
+		MoveCards OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [Rest one of your standing characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent chooses a climax in your opponent's waiting room, return all cards in your opponent's waiting room except those cards into your opponent's deck, and your opponent shuffles his or her deck.
+Act: Discard 1 Any
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Flame
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power
+	GainPower 1500
+}
+Text Act: [Discard a cards] Choose 1 of your <Flame> characters, and that character gets +1500 power until end of turn.
+EndCard
+
+Character: SS/WE41-41
+Name "Lovely Goblet" Margery
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Flame
+Trait2 Book
+*HexProof
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, if you do, choose a climax in your waiting room, and return it to your hand.
+Act: Discard 1 HasTrait Flame
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 3000
+}
+Text Act: [Discard 1 <Flame> character] Choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Event: SS/WE41-42
+Name Unwavering heart
+Color R
+Level 1
+Cost 1
+Requirement StageContains 1 HasTrait Flame
+Effect:
+{
+	TargetLocation OpponentBackstage
+	NarrowTargets Compare ThatCardsCost 1 OrLess
+	ChooseCharacterFromTargets Choose a character to send to your opponent's waiting room
+	MoveCard OpponentWaitingRoom
+}
+Text If you do not have an 《Flame》 character, this card cannot be played from your hand.
+Text Choose a cost 1 or lower character in your opponent's back stage, and put it into his or her waiting room.
+EndCard
+
+Climax: SS/WE41-43
+Name To the New World
+*DoorClimax
+EndCard
+
+Climax: SS/WE41-44
+Name Anything Is Possible
+Color R
+*2SoulClimax
+EndCard
+
+Climax: SS/WE41-45
+Name Power of Will
+*DoorClimax
+EndCard
+
+Climax: SS/WE41-46
+Name Heaven-and-Earth Sundering
+*DoorClimax
+EndCard
+
+Character: SS/WE41-47
+Name Hecate in Yukata
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Flame
+Trait2 Miko
+*500Assist
+*SacrificeToSave(Any)
+Text Auto: [Put this card into your waiting room] When your other characters is put into the waiting room from your stage, if this card in backstage, you may pay the cost. If you do, return that character to its previous position rested.
+EndCard
+
+Character: SS/WE41-48
+Name "Master Throne" Hecate
+Color B
+Level 0
+Cost 0
+Power 1000
+Cont: Assist
+Trait1 Flame
+Trait2 Miko
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to lose -500 power
+	LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -500 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SS/WE41-49
+Name Empty Existence, Hecate
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Flame
+Trait2 Miko
+Cont: GiveSelf
+{
+	If OpponentsTurn && Compare CardsInHand 5 OrMore
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: During your opponent's turn, if the number of cards in your hand is 5 or more,, this card gets +1 level and +1500 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: SS/WE41-50
+Name "Beautiful Whim" Pheles
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Flame
+Trait2 Love
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: <b>Encore</b> [(2)]".
+*DropSearch(Flame)
+EndCard
+
+Character: SS/WE41-51
+Name "Strategist" Bel Peol
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Flame
+Cont: Assist
+{
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: ASSIST Your characters in front of this card get "Auto: Encore [Discard a character]"
+Act: 1
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [(1)] Draw a card, choose a card in your hand and put it into your waiting room.
+EndCard
+
+Character: SS/WE41-52
+Name Reason and Feeling, Yuji
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Flame
+Trait2 Snake
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Flame || NameContains Konoe
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power. X is equal to the number of <Flame> or either "Konoe" in name characters you have x500.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Flame || NameContains Konoe
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your <Flame> or either "Konoe" in name characters, and that character gets +1500 power until end of turn.
+EndCard
+
+Character: SS/WE41-53
+Name Moment of Confrontation, Hecate
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Flame
+Trait2 Miko
+Combo Direct Confrontation!
+Cont: GiveSelf
+{
+	TargetLocation Backstage && HasTrait Flame || NameContains Konoe
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each <Flame> or either "Konoe" in name characters in your back stage.
+Auto: OnOpponentReverse
+{
+	If Climax Direct Confrontation!
+	{
+		If StageContains 2 Other
+		{	
+			PayCost Discard 1 Any
+			{
+				SearchLocationForTargets WaitingRoom 0 2 HasTrait Flame || NameContains Konoe
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, if "Direct Confrontation!" is in your climax area, and you have 2 or more other characters, you may pay the cost. If you do, choose up to 2 <Flame> or either "Konoe" in name characters in your waiting room, return them to your hand.
+EndCard
+
+Character: SS/WE41-54
+Name Maiden of Oracle, Hecate
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Flame
+Trait2 Miko
+*Level3Assist
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		PayCost Discard 1 Any
+		{
+			TargetTop Deck 2
+			If Compare TargetCount 2 OrMore
+			{
+				Reorder
+			}
+			Else
+			{
+				View
+			}
+			Question Draw a card then discard a card?
+			If Yes
+			{
+				DrawCard
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with gate in its trigger icon, you may pay the cost. If you do, look at up to 2 cards from the top of your deck and return them in any order, you may draw 1 card.
+EndCard
+
+Character: SS/WE41-55
+Name Result of Thousands of Wishes, Hecate
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Flame
+Trait2 Miko
+Auto: StartClimaxPhase
+{
+	MultipleChoiceQuestion Choose one \n1. Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +6000 power until end of turn.\n2. Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than your opponent's level, you may put that character on the bottom of your opponent's deck.|1|2
+	If Answer 0
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel3(6000)
+		}
+	}
+	Else
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*BlueEarlyPlayBomb
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, choose 1 of the following 2 abilities and this card gets that ability until the end of your opponent's turn. "Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +6000 power until end of turn." "Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than your opponent's level, you may put that character on the bottom of your opponent's deck."
+EndCard
+
+Character: SS/WE41-56
+Name "General" Sydonay
+Color B
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Flame
+Trait2 Weapon
+*OnAttackGainPowerForEachOther(1000,Flame)
+Auto: OnOpponentReverse
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Flame
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power
+	GainPower 2000
+}
+Text Auto: When this card's battle opponent becomes reversed, choose 1 of your <Flame> characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: SS/WE41-57
+Name "Priestess" Hecate
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Flame
+Trait2 Miko
+*Healer
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost, deal 1 damage to your opponent.
+EndCard
+
+Character: SS/WE41-58
+Name Divine Summoning, Hecate
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Flame
+Trait2 Miko
+Combo Until the Next Time Wishes Come to Fruitation
+*StockHealer
+Auto: OnAttack
+{
+	If Climax Until the Next Time Wishes Come to Fruitation
+	{
+		PayCost 2
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Until the Next Time Wishes Come to Fruitation" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent.
+Endcard
+
+Climax: SS/WE41-59
+Name Direct Confrontation!
+*GateClimax
+EndCard
+
+Climax: SS/WE41-60
+Name Until the Next Time Wishes Come to Fruitation
+Color B
+*GateClimax
+EndCard
+
+Character: SS/WE41-P02
+Name Spiral of Struggles, Shana
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Flame
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation OpponentStage
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+		Bounce
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Flame
+		AIChoice GainPower 1000
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Flame
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Flame> character in your waiting room, return it to your hand, choose 1 of your other <Flame> characters, and that character gets +1000 power until end of turn.
+EndCard

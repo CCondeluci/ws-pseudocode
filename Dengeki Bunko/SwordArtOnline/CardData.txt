@@ -1,0 +1,352 @@
+﻿Character: Gso/WS02-003
+Name A Certain Day Off, Asuna
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Net
+Combo On Floor 5 "Karluin"
+*Healer
+Auto: OnAttack
+{
+	If Climax On Floor 5 "Karluin" && StageContains 2 Other
+	{
+		PayCost Discard 1 HasTrait Dengeki Bunko|Avatar|Net
+		{
+			GainEffect
+			{
+				Auto: OnDamageCanceled
+				{
+					*OptionalBurn(2)
+				}
+				TimesPerTurn 2
+				Text Auto: This ability activates up to twice per turn. When damage dealt by this card is cancelled, you may deal 2 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Discard a <Dengeki Bunko> or <Avatar> or <Net> character] When this card attacks, if ""On Floor 5 "Karluin"" is in your climax area and you have 2 or more other characters, you may pay the cost. If you do, this card gains the following ability until end of turn. "This ability activates up to twice per turn. When damage dealt by this card is cancelled, you may deal 2 damage to your opponent."
+Text (This card does not have "Asuna" (アスナ) in its name.)
+EndCard
+
+Character: Gso/WS02-006
+Name Travelers in the Virtual World, Asuna
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Avatar
+Cont: GiveAll
+{
+	If NameEquals A Certain Day Off, Asuna
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other "A Certain Day Off, Asuna" gain +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Dengeki Bunko|Avatar|Net
+	{
+		SearchDeck NameEquals A Certain Day Off, Asuna
+	}
+}
+Text Auto: [Discard a <Dengeki Bunko> or <Avatar> or <Net> character] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "A Certain Day Off, Asuna" and add it to your hand.
+EndCard
+
+Character: Gso/WS02-016
+Name Resting by the Waters, Alice
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Fluctlight
+Trait3 Integrity Knight
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Dengeki Bunko|Fluctlight
+	SetXValue TargetCount
+	MultiplyXValue 500
+	ChooseCharacterFromTargets Choose a character to gain +X power
+	GainPower X
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your <Dengeki Bunko> or <Fluctlight> characters, and that character gains +X power until end of turn. X is equal to 500 times the number of your <Dengeki Bunko> or <Fluctlight> characters.
+*StockOnCancel
+EndCard
+
+Character: Gso/WS02-028
+Name Goddess of Creation Stacia, Asuna
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Fluctlight
+Trait3 Goddess
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Dengeki Bunko|Fluctlight
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gains +1000 power for each of your other <Dengeki Bunko> or <Fluctlight> characters.
+Auto: OnDamageCanceled
+{
+	Question Choose a card in your opponent's waiting room and put it on top of their deck?
+	If Yes
+	{
+		*Saboutage
+	}
+}
+Text Auto: When damage dealt by this card is cancelled, you may choose a card in your opponent's waiting room and put it on top of their deck.
+EndCard
+
+Climax: Gso/WS02-037
+Name On Floor 5 "Karluin"
+*ChoiceClimax
+EndCard
+
+Character: Gso/WS02-124
+Name Fated Meeting, Kirito & Asuna
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Avatar
+Trait3 Weapon
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Dengeki Bunko|Avatar|Net
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, if you have another <Dengeki Bunko> or <Avatar> or <Net> character, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 1 Clock Discard 1 Any
+	{
+		Message Choose up to 2 <Dengeki Bunko> or <Avatar> or <Net> characters to add to your hand
+		SearchLocationForTargets Deck 0 2 HasTrait Dengeki Bunko|Avatar|Net && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		ShuffleLocation Deck
+	}
+}
+Text Auto: ACCELERATE [(1) Put the top card of your deck into your clock and discard a card] When this card attacks, you may pay the cost. If you do, search your deck for up to 2 <Dengeki Bunko> or <Avatar> or <Net> characters and add them to your hand.
+EndCard
+
+Character: Gso/WS02-128
+Name Travelers in the Virtual World, Kirito
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Fluctlight
+*OnPlayFlicker
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		SetXToNumberOfCharacters HasTrait Dengeki Bunko|Fluctlight
+		*CheckAndAdd(X)
+	}
+}
+Text Auto: [Put a card from your hand into your clock] When this card is placed on stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 of them to put into your hand and put the rest into your waiting room. X is equal to the number of your <Dengeki Bunko> or <Fluctlight> characters.
+EndCard
+
+Character: Gso/WS02-138
+Name Get Together Event, Eugeo & Tiese
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Fluctlight
+Trait3 Weapon
+*OnPlayGivePower(1500,Dengeki Bunko|Fluctlight)
+*OnAttackGivePower(1500,Dengeki Bunko|Fluctlight)
+EndCard
+
+Character: Gso/WS02-144
+Name Gondola Ride, Asuna & Kirito
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Avatar
+Trait3 Progressive
+*LevelAssist
+Act: RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrLess && IsCharacter
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to get +2000 power and +1 soul
+		GainPower 2000
+		GainSoul 1
+	}
+}
+Text Act: [Rest this card] Reveal the top card of your deck. If that card is a level 1 or lower character, choose 1 of your characters and that character gains +2000 power and +1 soul until end of turn.
+EndCard
+
+Character: Gso/WS02-T34
+Name Still Under the Moonlight, Kirito
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Avatar
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If there are 5 or more cards in your hand, this card gains +1000 power.
+Auto: OnAttack
+{
+	GainSpecialEffect DoubleTrigger
+	GainEffect
+	{
+		Auto: OnEndOfAttack
+		{
+			TargetTop Stock 1
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: When this card attacks, during the attack, perform a trigger check twice during the trigger step. Afterwards, put the top card of your stock into your waiting room.
+EndCard
+
+Character: Gso/WS02-T36
+Name Anniversary, Alice
+Color B
+Level 1
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Fluctlight
+Trait3 Integrity Knight
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Dengeki Bunko|Fluctlight && IsCharacter ||| NameEquals Get Together Event, Kirito & Ronye
+	{
+		TargetLocation OpponentCenterStage
+		LosePower 1500
+	}
+}
+Text Cont: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is either a <Dengeki Bunko> or <Fluctlight> character, or "Get Together Event, Kirito & Ronye", all of the characters in your opponent's center stage get -1500 power until end of turn.
+Auto: OnClimaxPlay
+{
+	GainPower 4500
+}
+Quick
+Text Auto: When a climax is placed into your climax area, this card gains +4500 power until end of turn.
+EndCard
+
+Character: Gso/WS02-T37
+Name Irreplaceable Time, Asuna & Yuuki
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Avatar
+Trait3 Weapon
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Dengeki Bunko|Avatar|Net
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: For each other <Dengeki Bunko> or <Avatar> or <Net> character in your backstage, this card gains +1500 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Dengeki Bunko|Avatar|Net
+	{
+		SearchDeck NameEquals Anniversary, Kuroyukihime
+	}
+}
+Text Auto: [Discard a <Dengeki Bunko> or <Avatar> or <Net> character] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Anniversary, Kuroyukihime" and add it to your hand.
+EndCard
+
+Event: Gso/WS02-T40
+Name Get Together Event, Kirito & Ronye
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	*Check4Add1(Dengeki Bunko|Fluctlight)
+}
+Text Look at up to 4 cards from the top of your deck and choose up to 1 character with either <Dengeki Bunko> or <Fluctlight> and add it to your hand.
+EndCard
+
+Character: Gso/WS02-P01
+Name Light of Creation, Asuna
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Fluctlight
+Trait3 Goddess
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Fluctlight|Dengeki Bunko
+	MillOpponentBottom X
+}
+Text Auto: When you use this card's backup, put up to X cards from the bottom of your opponent's deck into their waiting room. X is equal to the number of your <Dengeki Bunko> or <Fluctlight> characters.
+Backup 1000
+EndCard
+
+Character: Gso/WS02-P03
+Name Dengeki Bunko 30th Anniversary, Asuna
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Avatar
+Trait3 Weapon
+Cont: GiveAll
+{	
+	If NameEquals A Certain Day Off, Asuna
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your "A Certain Day Off, Asuna" gain +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Dengek Bunko|Avatar|Net
+	{
+		SearchDeck NameEquals A Certain Day Off, Asuna
+	}
+}
+Text Auto: [Discard 1 <Dengeki Bunko> or <Avatar> or <Net> character] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "A Certain Day Off, Asuna" and add it to your hand.
+EndCard
+

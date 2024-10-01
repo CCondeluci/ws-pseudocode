@@ -1,0 +1,458 @@
+Character SKS/W62-002
+Name Dragonslayer, Iris
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sneaker Bunko
+Trait2 Royalty
+Trait3 Weapon
+Combo Iris' Request
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrigger Soul
+	SetXValue TargetCount
+	Burn X
+}
+Text Auto: When this card is placed on the stage from your hand, put 2 cards from the top of your deck into the waiting room, and deal X damage to your opponent, X is the number of cards with soul trigger icons revealed.
+Auto: OnAttack
+{
+	If Climax Iris' Request
+	{
+		PayCost 2
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Iris' Request" is in your climax area, you may pay the cost, deal 2 damage to your opponent.
+EndCard
+
+Character: SKS/W62-004
+Name Iris, First Princess of Belzerg Kingdom
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Sneaker Bunko
+Trait2 Royalty
+Trait3 Weapon
+Auto: OnAttack
+{
+	Mill 2
+	SetXValue TotalLevel
+	MultiplyXValue 1500
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Sneaker Bunko | Royalty
+	If HasTarget
+	{
+		If Compare X 1 OrMore
+		{
+			AIChoice GainPower X
+			ChooseCharacterFromTargets Choose a character to give +X power.
+			GainPower X
+		}
+	}
+}
+Text Auto: When this card attacks, put 2 card from the top of your deck into the waiting room, choose 1 of your other <Sneaker Bunko> or <Royalty> characters. It gets +X power until end of turn. X is 1500 times the total level of the sent cards.
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncorePhase
+			{
+				Effect:
+				{
+					TargetSelf
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost, rest this card, and at the start of your next encore step put this card into the waiting room.
+EndCard
+
+Character: SKS/W62-007
+Name Daughter of the Dustiness Family, Darkness
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Worries
+*BackupBonus1000(Sneaker Bunko|Adventurer|Worries)
+Backup 1000
+EndCard
+
+Character: SKS/W62-012
+Name Thief, Chris
+Color Y
+Level 0
+Cost 0 
+Power 500
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Robber
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard IsEvent || HasTrait Sneaker Bunko | Adventurer
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is a <Sneaker Bunko> or <Adventurer> character or an event card, add it to your hand and discard a card.
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer|Sneaker Bunko
+	AIChoice GainSoul 1
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Act: [(1)] Choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: SKS/W62-023
+Name Pervert Crusader, Darkness
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Worries
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && HasTrait Sneaker Bunko|Adventurer|Worries
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each of your other <Sneaker Bunko> <Adventurer> or <Worries> character on your backstage.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+
+Climax: SKS/W62-027
+Name Iris' Request
+*WindClimax
+EndCard
+
+Character: SKS/W62-049
+Name Genius Crimson Demon, Megumin
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Magic
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1500 power.
+*DropSearch(Sneaker Bunko|Adventurer|Magic)
+EndCard
+
+Character: SKS/W62-053
+Name "To Further Heights" Megumin
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Magic
+Combo Real Explosion Magic
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: Whent this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Real Explosion Magic
+	{
+		*OptionalBlindStock
+		SearchWaitingRoom NameEquals Megumin
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Real Explosion Magic" is in your climax area, put up to 1 card from the top of your deck into your stock, and choose up to 1 card named "Megumin" in your waiting room and return it to your hand.
+EndCard
+
+Character: SKS/W62-060
+Name Yunyun, Chief Daughter of the Crimson Demon Clan
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Magic
+Auto: OnAttack
+{
+	TargetLocation Stage
+	AIChoice GainPower 2500
+	ChooseCharacterFromTargets Choose a character to give +2500 power.
+	GainPower 2500
+}
+Text Auto: When this card attacks, choose one of your characters, it gets +2500 power until end of turn.
+EndCard
+
+Character: SKS/W62-062
+Name Famous Shop Owner, Wiz
+Color R
+Level 2
+Cost 1
+Power 500
+Trigger Soul
+Trait1 Sneaker Bunko
+Trait2 Death
+Trait3 Magic
+Auto: OnPlay
+{
+	TargetLocation OpponentBackstage
+	NarrowTargets Compare ThatCardsLevel 3 OrLower
+	If HasTarget
+	{
+		ChooseCharacterFromTargets Choose a character to make unable to stand.
+		UntilEndOfOpponentsTurn
+		GainSpecialEffect CannotStand
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose a level 3 or lower character on your opponent's backstage, it cannot stand during your opponent's next stand phase.
+*RedLevel2Bomb
+EndCard
+
+Character: SKS/W62-064
+Name Rivalry, Megumin & Yunyun
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Magic
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Magic|Adventurer|Sneaker Bunko
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each of your other <Sneaker Bunko> <Adventurer> or <Magic> characters, this card gets +1000 power.
+Auto: Encore Discard 1 HasTrait Adventurer|Magic|Sneaker Bunko
+{
+}
+Text Auto: Encore [Discard a <Sneaker Bunko> <Adventurer> or <Magic> character]
+EndCard
+
+Character: SKS/W62-067
+Name Bearer of Blue Lightening, Yunyun
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Magic
+Cont: GiveSelf
+{
+	TargetFacing
+	If HasTarget
+	{
+		SetXValue TargetCardsLevel
+		MultiplyXValue 2000
+		GainPower X
+	}
+}
+Text Cont: This card gets +X power. X is 2000 times the level of the character facing this card.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets CardPosition Standing
+	Rest
+}
+Text Auto: When this card attacks, rest all of your other standing characters.
+EndCard
+
+Character: SKS/W62-084
+Name Archpriest, Aqua
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Goddess
+*OnPlayFlicker
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets_Optional Choose a character to remove a trait from.
+	RemoveTrait
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to one of your opponent's characters, and one of that character's traits, that character loses that trait until end of turn.
+EndCard
+
+Character: SKS/W62-089
+Name Real Goddess, Eris
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Sneaker Bunko
+Trait2 Goddess
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose up to 1 level 0 or lower character in your waiting room and place it on any position of your stage.
+EndCard
+
+Character: SKS/W62-099
+Name Aqua in Maid Uniform
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Goddess
+Act: 1 Discard 1 Any Rest 2 HasTrait Sneaker Bunko|Adventurer|Goddess
+{
+	Brainstorm 3
+	TargetBrainstormed
+	NarrowTargets HasTrait Sneaker Bunko|Adventurer|Goddess
+	SetXValue TargetCount
+	AIChoice PlaceOnStageStanding
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Sneaker Bunko|Adventurer|Goddess && Compare ThatCardsLevel X OrLower
+	PlaceOnStage False True True False
+}
+Text Act: BRAINSTORM [(1) Discard a card, Rest 2 of your <Sneaker Bunko> <Adventurer> or <Goddess> characters] Flip over 3 cards from the top of your deck and put them into the waiting room. Choose a level X or lower <Sneaker Bunko> <Adventurer> or <Goddess> character in your waiting room, and place it on any position of your stage. X is the number of <Sneaker Bunko> <Adventurer> or <Goddess> characters revealed.
+EndCard
+
+
+Character: SKS/W62-T03
+Name Arch-Wizard Who Hates to Lose, Megumin
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Magic
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Sneaker Bunko|Adventurer|Magic
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, and this card gets +X power until end of turn, X is 1000 times the number of <Sneaker Bunko> <Adventurer> or <Magic> characters revealed.
+Auto: OnReversed
+{
+	OpponentQuestion Draw 1 card then discard a card?
+	If Yes
+	{
+		TargetTop OpponentDeck 1
+		MoveCard OpponentHand
+		OpponentMessage Discard a card.
+		OpponentSearchLocationForTargets Hand 1 1 Any
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may draw a card, and if they do, discards a card.
+EndCard
+
+Character: SKS/W62-T18
+Name Goddess Revered by the Axis Cult, Aqua
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 Goddess
+*OnPlayCheckX(Sneaker Bunko|Adventurer|Goddess)
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Sneaker Bunko|Adventurer|Goddess
+	MultiplyXValue 1000
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is 1000 times the number of other <Sneaker Bunko> <Adventurer> or <Goddess> characters you have.
+EndCard
+
+Character: SKS/W62-P03
+Name Aqua & Haruhi
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 SOS Brigade
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Adventurer|Sneaker Bunko|SOS Brigade
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another <Sneaker Bunko> <Adventurer> or <SOS Brigade> character, this card gets +2000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		TargetLocation OpponentStage
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose an opponent's character to send to memory until encore step.
+		If HasTarget
+		{
+			MoveCard OpponentMemory 
+			ScheduleEffectForTargets StartEncoreStep
+			{
+				Effect:
+				{
+					Message Your character returns from memory.
+					PlaceOnStage False True True False
+				}
+			}
+		}
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand, you may pay the cost, choose 1 of your opponent's characters, put it into your opponent's memory, and at the start of the encore step, your opponent places that character from memory onto any position of his or her stage.
+EndCard
+
+

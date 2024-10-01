@@ -1,0 +1,2488 @@
+Character: DC/W81-001
+Name "Special Day ~ God of the Sun" Nemu
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Judgement
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Anniversary|Magic|Banana
+	{
+		GainPower 1500
+		GainLevel 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Anniversary> <Magic> or <Banana> character, this card gets +1 level and +1500 power until end of turn.
+*MoveOtherWithTraitToBackstageOnReverse(Anniversary|Magic|Banana)
+EndCard
+
+Character: DC/W81-002
+Name Every Day is New, Miharu
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Anniversary
+Trait2 Banana
+Combo Miharu's Feelings
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: OnSpecificClimaxPlay Miharu's Feelings
+{
+	If InLocation CenterStage && StageContains 1 Other && HasTrait Banana
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			AIChoice Attacker
+			ChooseCharacterFromTargets Choose a character to give the effect and +1000 power to.
+			AddSelfToTargets
+			GainPower 1000
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					Burn 1
+				}
+				TimesPerTurn 1
+				Text Auto: Once per turn, when this card attacks, deal 1 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard a card] When "Miharu's Feelings" is placed in your climax area, if this card is on your center stage and you have another <Banana> character, choose 1 of your other characters and this card, they get +1000 power and the following effect until end of turn. "Auto: Once per turn, when this card attacks, deal 1 damage to your opponent."
+EndCard
+
+Character: DC/W81-003
+Name Expected Look, Miharu & Sakura
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Banana
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Anniversary|Magic|Banana
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP" if all of your characters are <Anniversary> <Magic> or <Banana>, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Climax: DC/W81-004
+Name Miharu's Feelings
+Color Y
+*ChoiceClimax
+EndCard
+
+Character: DC/W81-005
+Name Christmas in Love, Kotori & Yume
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Music
+Trait3 Magic
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Send a character from your stage to the waiting room] When you use this card's "BACKUP", you may pay the cost, choose an opponent's character whose level is higher than your opponent's level, and put it into the waiting room.
+Backup 2500
+EndCard
+
+Character: DC/W81-006
+Name "Trick or Trouble" Suginami
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Anniversary
+Trait2 Occult
+Army
+Cont: InHand
+{
+	If LocationContains WaitingRoom 6 NameEquals "Trick or Trouble" Suginami
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If there are 6 or more ""Trick or Trouble" Suginami" in your waiting room, this card gets -1 level in your hand.
+*Healer
+Auto: OnTriggerCheckClimax
+{
+	If InBattle
+	{
+		IfOther HasTrigger DoubleSoul
+		{
+			PayCost 1
+			{
+				MillOpponentBottom 4
+				NarrowTargets IsClimax
+				SetXValue TargetCount
+				Burn X
+			}
+		}
+	}
+}
+Text Auto: [(1)] When this card's trigger check reveals a climax with 2 soul trigger icons, you may pay the cost, put the bottom 4 cards of your opponent's deck into the waiting room, and deal X damage to your opponent. X is the number of climax sent.
+EndCard
+
+Event: DC/W81-007
+Name Kazami Academy "Conquest" Plan
+Color B
+Level 2
+Cost 2
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Suginami
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			GainSpecialEffect DoubleTrigger
+		}
+		Quick
+		Text Auto: When this card attacks, perform the trigger check twice.
+	}
+	GainEffect
+	{
+		Auto: OnTriggerCheckClimax
+		{
+			If InBattle
+			{
+				GainPower 12000
+			}
+		}
+		Quick
+		Text Auto: When this card's trigger check reveals a climax card, this card gets +12000 power until end of turn.
+	}
+}
+Text All of your characters with "Suginami" in its name get the following 2 abilities. "Auto: When this card attacks, perform the trigger check twice." and "Auto: When this card's trigger check reveals a climax card, this card gets +12000 power until end of turn.
+EndCard
+
+Character: DC/W81-008
+Name Perfect Affection, Otome
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Student Council
+Cont: GiveAll
+{
+	IfOwner InLocation CenterStage
+	{
+		If HasTrait Anniversary|Magic|Student Council
+		{
+			GainPower 1500
+		}
+	}
+}
+Text Cont: If this card is on your center stage, all of your <Anniversary> <Magic> or <Student Council> characters get +1500 power.
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 4 OrMore
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: MEMORY If you have 4 or more cards in memory, this card gets +1000 power and the following ability, "Cont: This card cannot be chosen by your opponent's effects."
+Auto: OnReverseOpponent
+{
+	If StageContains 2 Other HasTrait Anniversary|Magic|Student Council
+	{
+		PayCost 2 Discard 1 Any
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: [(2) Discard a card] When this card's battle opponent becomes reversed, if you have 2 or more other <Anniversary> <Magic> or <Student Council> characters, you may pay the cost, deal 2 damage to your opponent.
+EndCard
+
+Character: DC/W81-009
+Name Shining Treasure on the Cherry Blossom Road, Sakura
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Magic
+*GlobalPower(500,Anniversary|Magic)
+Act: RestSelf Discard 1 NameEquals Blessing to the Family, Yume
+{
+	DrawCard
+}
+Text Act: [Discard 1 "Blessing to the Family, Yume" and Rest this card] Draw a card.
+EndCard
+
+
+Character: DC/W81-010
+Name Miracle of the Holy Night, Aisia
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Toy
+*EarlyPlay4OrMore(Anniversary|Magic|Newspaper)
+Auto: OnPlay
+{
+	GainPower 4500
+	GainEffect
+	{
+		Auto: EndOfTurn
+		{
+			MoveCard WaitingRoom
+		}
+		Text Auto: At the end of your turn, put this card into the waiting room.
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability unitl end of turn. "Auto: At the end of your turn, put this card into the waiting room."
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: DC/W81-011
+Name Yuki in Uniform
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 HasTrait Anniversary|Magic
+	{
+		GainPower 2000
+	}
+}
+Text Cont: MEMORY If you have 2 or more <Anniversary> or <Magic> characters in your memory, this card gets +2000 power.
+Auto: OnAttack
+{
+	*GiveCharacterPower(4000,Any)
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +4000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	Question Put the battle opponent into memory?
+	If Yes
+	{
+		TargetOther
+		MoveCard Memory
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+EndCard
+
+Character: DC/W81-012
+Name Otome and a Story, Yuuki
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Magic
+*OnPlayFlicker
+*GiveTraitPowerOnAttack(1500,Anniversary|Magic)
+EndCard
+
+Character: DC/W81-015
+Name The Dream I Had, Yume
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+Cont: Assist
+{
+	GainPower 2000
+	GainEffect
+	{
+		*MaySendOpponentToMemoryOnReverse
+	}
+}
+Text Cont: ASSIST Your characters in front of this card get +2000 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory."
+*Healer
+Act: RestSelf Discard 1 NameEquals The Dream I Had, Yume
+{
+	TargetLocation OpponentStage
+	AIChoice Bounce
+	ChooseCharacterFromTargets Choose a character to return to your opponent's hand.
+	Bounce
+}
+Text Act: [Discard a "The Dream I Had, Yume", Rest this card] Choose one of your opponent's characters and return it to their hand.
+EndCard
+
+Character: DC/W81-016
+Name Nestled at Dusk, Yume
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Magic
+Combo Welcome Back
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: MEMORY If there are 2 or more cards in your memory, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Welcome Back && StageContains 2 Other && HasTrait Anniversary|Magic
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Welcome Back
+		SetXValue TargetCount
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Welcome Back" is in your climax area, and you have 2 or more other <Anniversary> or <Magic> characters, choose a level X or lower character in your waiting room and return it to your hand. X is the number of "Welcome Back" in your waiting room.
+EndCard
+
+
+Character: DC/W81-017
+Name Blessing to the Family, Yume
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Magic
+Auto: StartClimaxPhase
+{
+	If StageContains 1 NameEquals Shining Treasure on the Cherry Blossom Road, Sakura
+	{
+		*GiveCharacterPower(1000,Anniversary|Magic)
+	}
+}
+Text Auto: At the beginning of your climax phase, if you have another "Shining Treasure on the Cherry Blossom Road, Sakura", choose 1 of your <Anniversary> or <Magic> characters, it gets +1000 power until end of turn.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: DC/W81-018
+Name Session after a Long Absence, Nanaka
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Music
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+*DropSearch(None|Anniversary|Music|Play)
+EndCard
+
+Character: DC/W81-019
+Name New Scenery, Akane
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Auto: OnPlay|PlacedBy Ai Hanasaki
+{
+	TargetLocation Stage
+	GainPower 3000
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand or by the effect of "Ai Hanasaki", all of your characters get +3000 power until end of turn.
+Auto: OnPlacedBy Ai Hanasaki
+{
+	PayCost 1 Discard 1 Any
+	{
+	}
+	Else
+	{
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on the stage by the effect of "Ai Hanasaki" you may pay the cost, if you do not pay the cost, put this card into the waiting room.
+Auto: OnReverseOpponent
+{
+	If LocationContains Climax 1 ColorIs Green
+	{
+		PayCost 1 Discard 1 Any
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: [(1) Discard a card] When this card's battle opponent becomes reversed, if there is a green climax in your climax area, you may pay the cost, put that character into your opponent's clock.
+EndCard
+
+Character: DC/W81-020
+Name Loves Yuuki-chan, Yume
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Magic
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Anniversary|Magic
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When your other <Anniversary> or <Magic> character attacks, this card gets +2000 power until end of turn.
+EndCard
+
+Character: DC/W81-021
+Name Usual Smile, Mahiru
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Anniversary
+Trait2 Myth
+Auto: OnPlay
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 3 or more cards in your memory, you may put the top card of your deck into your stock.
+*GreenEarlyPlayBomb
+EndCard
+
+Climax: DC/W81-022
+Name Welcome Back
+*BarClimax
+EndCard
+
+Character: DC/W81-023
+Name Footprints of Kiseki, Otome
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a character in your waiting room and return it to your hand.
+*RedLevel0Bomb
+EndCard
+
+Character: DC/W81-024
+Name Longing Student Council President, Otome
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Student Council
+*CannotSideAttack
+*OnPlayTradeClimaxForCharacter(Anniversary|Magic|Student Council)
+EndCard
+
+Character: DC/W81-025
+Name "Magician of Justice" Otome
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Student Council
+Combo Foresight of Happiness
+Auto: OnSpecificClimaxPlay Foresight of Happiness
+{
+	If InLocation CenterStage && StageContains 4 Other && HasTrait Anniversary|Magic|Student Council
+	{
+		SearchWaitingRoom NameEquals Awkward Days, Otome|Perfect Affection, Otome
+		TargetSelf
+		GainPower 5000
+	}
+}
+Text Auto: CxCombo When "Foresight of Happiness" is placed in your climax area, if you have 4 or more other <Anniversary> <Magic> or <Student Council> characters, and this card is on your center stage, choose up to 1 "Awkward Days, Otome" or "Perfect Affection, Otome" in your waiting room, return it to your hand, and this card gets +5000 power until end of turn.
+Auto: StartMyEncorePhase
+{
+	If CardPosition Rest
+	{
+		PayCost 1 Discard 1 Any SendSelf Memory
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Awkward Days, Otome|Perfect Affection, Otome
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [(1) Discard a card, put this card into your memory] At the beginning of your encore step, if this card is rested, you may pay the cost, choose 1 " Awkward Days, Otome" or "Perfect Affection, Otome" in your waiting room and put it in the stage position this card was on.
+EndCard
+
+Character: DC/W81-026
+Name Feeling Happy, Otome
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Anniversary
+Trait2 Magic
+Combo Don't Forget This Day
+*500Assist
+Auto: StartMyEncoreStep
+{
+	If Climax Don't Forget This Day && StageContains 2 Other && HasTrait Anniversary|Magic
+	{
+		*Check4Add1(Anniversary|Magic)
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Don't Forget This Day" is in your climax area and you have 2 or more other <Anniversary> or <Magic> characters, look at up to 4 cards from the top of your deck, choose an <Anniversary> or <Magic> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: DC/W81-027
+Name Teacher Who Can't Card, Maika
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Science
+Trait3 Glasses
+*GlobalPower(500,Anniversary|Mecha|Chairman)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Bond Returned Smile, Minatsu|Eternal Chairman, Maya
+	}
+}
+Text Auto: BOND/<b>"Returned Smile, Minatsu" or "Eternal Chairman, Maya"</b> [Discard a card]
+EndCard
+
+Character: DC/W81-028
+Name Touching Heart, Erica
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Anniversary
+Trait2 Student Council
+Trait3 Royalty
+Combo Half Asleep Erica
+Cont: GiveAll
+{
+	If Other && HasTrait Anniversary|Royalty
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: Your other <Anniversary> or <Royalty> characters get +500 power and "Auto: ENCORE [Discard a character]"
+Auto: OnSpecificClimaxPlay Half Asleep Erica
+{
+	PayCost 2 Discard 1 Any
+	{
+		TargetLocation Hand
+		NarrowTargets NameEquals Going on a Trip, Erica
+		If HasTarget
+		{
+			FirstTarget
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard a card] When "Half Asleep Erica" is placed in your climax area, you may pay the cost, choose 1 "Going on a Trip, Erica" in your hand and put it on any position of your stage.
+*HandEncore
+EndCard
+
+Character: DC/W81-029
+Name Innocent Smile, Minatsu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Anniversary
+Trait2 Mecha
+Trait3 Banana
+*LevelAssist
+Act: Discard 1 Any Rest 2 Any
+{
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Anniversary|Mecha|Chairman && Compare ThatCardsLevel 0 OrLower
+	RevealTargets
+	PlaceOnStage False True True False
+}
+Text Act: [Discard a card, Rest 2 of your characters] Choose a level 0 or lower <Anniversary> <Mecha> or <Chairman> character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Event: DC/W81-030
+Name Amazake Party
+Color R
+Level 2
+Cost 1
+Effect
+{
+	MultipleChoiceQuestion Choose an effect:\n1. Rest 1 of your standing <Magic> characters, if you do, all of your characters get the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, choose a <Magic> character in your waiting room, and put it into your stock."\n2. Choose up to 4 cards in your opponents memory, and turn them face-down, at the end of your opponent's turn, turn those cards face-up."|1|2
+	If Answer 0
+	{
+		ForcePayCost Rest 1 HasTrait Magic
+		{
+			TargetLocation Stage
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					SearchLocationForTargets WaitingRoom 1 1 HasTrait Magic
+					RevealTargets
+					MoveCard Stock
+				}
+				Text Auto: When this card's battle opponent becomes reversed, choose a <Magic> character in your waiting room, and put it into your stock.
+			}
+		}
+	}
+	Else
+	{
+		SearchLocationForTargets OpponentMemory 0 4 Any
+		FlipFaceDown
+		ScheduleEffectForTargets EndOpponentsTurn
+		{
+			FlipFaceUp
+		}
+	}
+}
+Text Choose 1 of the following effects and perform it.\n"Rest 1 of your standing <Magic> characters, if you do, all of your characters get the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, choose a <Magic> character in your waiting room, and put it into your stock.""\n"Choose up to 4 cards in your opponents memory, and turn them face-down, at the end of your opponent's turn, turn those cards face-up."
+EndCard
+
+
+Climax: DC/W81-031
+Name Foresight of Happiness
+*DoorClimax
+EndCard
+
+Climax: DC/W81-032
+Name Don't Forget This Day
+*RedStockSoul
+EndCard
+
+
+Character: DC/W81-033
+Name Miraculous Event, Sakura
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Teacher
+Act: 1 SendSelf Memory
+{
+	*Check3Add1(Anniversary|Magic)
+}
+Text Act: [(1) Put this card into your memory] Look at up to 3 cards from the top of your deck, choose up to 1 <Anniversary> or <Magic> character, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: DC/W81-034
+Name Feelings that Run Together, Mayuki
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Anniversary
+Trait2 Student Council
+Trait3 Sports
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If you have 3 or more cards in your memory, this card gets +3000 power.
+Cont: GiveAll
+{
+	If Other && HasTrait Anniversary|Student Council|Sports
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: Your other <Anniversary> <Student Council> or <Sports> characters get "Auto: ENCORE [Discard a character]"
+*Give4000PowerAtStartOfOpponentsTurn
+EndCard
+
+Character: DC/W81-035
+Name Moonlight Confession, Koko
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Anniversary
+Trait2 Music
+Combo Passing Warmth
+*EarlyPlay4OrMore(None|Anniversary|Music|Play)
+Cont: GiveAll
+{
+	IfOwner InLocation CenterStage
+	{
+		If HasTrait None|Anniversary|Music|Play
+		{
+			GainPower 1500
+		}
+	}
+}
+Text Cont: If this card is on your center stage, all of your traitless, <Anniversary>, <Music>, or <Play> characters get +1500 power.
+Auto: OnAttack
+{
+	If Climax Passing Warmth
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalHeal
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your clock into the waiting room.
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Passing Warmth" is in your climax area, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your clock into the waiting room."
+EndCard
+
+Character: DC/W81-036
+Name Way to Walk Together, Maya
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Trait2 Chairman
+Trait3 Glasses
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 4500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupInBattle
+		}
+		Text Cont: During this card's battle, neither player may play "BACKUP" from hand.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability until the end of your opponent's next turn. "Cont: During this card's battle, neither player may play "BACKUP" from hand."
+Act: SendSelf Memory
+{
+	SearchLocationForTargets Deck 0 2 HasTrait Chairman|Mecha
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Deck
+}
+Text Act: [Put this card into your memory] Search your deck for up to 2 <Chairman> or <Mecha> characters and add them to your hand.
+EndCard
+
+Character: DC/W81-037
+Name Memories of Kazami Academy, Koko
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Music
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait None|Anniversary|Music|Play
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is 500 times the number of <Anniversary> <Magic> <Music> <Play> or characters with no trait you have.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	GainEffect
+	{
+		Auto: OnTriggerCheckClimax
+		{
+			If InBattle
+			{
+				IfOther HasTrigger Gate
+				{
+					*OptionalDrawDiscard
+				}
+			}
+		}
+		Text Auto: When this card's trigger check reveals a climax with a Gate trigger icon, you may draw 1 card, then discard a card.
+	}
+}
+Quick
+Text Auto: When this card attacks, all of your characters get the following ability until end of turn. "Auto: When this card's trigger check reveals a climax with a Gate trigger icon, you may draw 1 card, then discard a card."
+EndCard
+
+Character: DC/W81-038
+Name Eternal Chairman, Maya
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Chairman
+Trait3 Glasses
+*BackupBonus1000(Anniversary|Chairman|Mecha)
+Backup 1000
+EndCard
+
+Character: DC/W81-039
+Name Passionate Attack, Anzu
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Play
+Trait3 Sports
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	GainPower 500
+}
+//Slow
+Quick
+Text Auto: When a climax is placed in your climax area, all of your characters get +500 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Climax: DC/W81-040
+Name Passing Warmth
+*GateClimax
+EndCard
+
+Character: DC3/W81-042
+Name Gift of Magic, Charles
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Newspaper
+Auto: StartAttackPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary|Magic|Newspaper
+	AIChoice Attacker
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+}
+Text Auto: At the beginning of your attack phase, choose 1 of your <Anniversary> <Magic> or <Newspaper> characters, it gets the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice.
+Auto: StartMyEncorePhase
+{
+	If OnStage //Make sure this effect is not quick
+	{
+		If Compare CardsInMemory 2 OrMore
+		{
+			PayCost Discard 1 Any
+			{
+				TargetLocation Stage
+				NarrowTargets Other && Not CardPosition Reversed
+				ChooseCharacterFromTargets Choose a character to put into memory until next turn.
+				If HasTarget
+				{
+					MoveCard Memory
+					ScheduleEffectForTargets StartDrawPhase
+					{
+						Effect:
+						{	
+							IfTarget InLocation Memory
+							{
+								Message Character returns from memory.
+								PlaceOnStage False True True False
+								GainPower 3000
+							}
+						}
+						Text Auto: MEMORY [Discard a card] At the beginning of your encore step, if you have 2 or more cards in memory, you may pay cost, choose 1 of your other characters that is not reversed and put it into your memory. At the beginning of your next draw phase, if that character is in memory, put that character on any position of your stage, and it gets +3000 power until end of turn.
+					}
+				}
+			}
+		}
+	}
+}
+Slow
+Text Auto: MEMORY [Discard a card] At the beginning of your encore step, if you have 2 or more cards in memory, you may pay cost, choose 1 of your other characters that is not reversed and put it into your memory. At the beginning of your next draw phase, if that character is in memory, put that character on any position of your stage, and it gets +3000 power until end of turn.
+EndCard 
+
+Character: DC3/W81-043
+Name Speaking to the Cherry Blossoms, Ricca
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Newspaper
+Combo With You
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax With You && Compare CardsInMemory 2 OrMore
+	{
+		TargetLocation Stage
+		AIChoice CanReverseOpponent
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				PayCost 2
+				{
+					Burn 3
+				}
+			}
+			Text Auto: [(2) When this card's battle opponent becomes reversed, you may pay the cost, deal 3 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo MEMORY When this card attacks if "With You" is in your climax area, and you have 2 or more cards in your memory, choose 1 of your characters it gets the following ability until end of turn. "Auto: [(2) When this card's battle opponent becomes reversed, you may pay the cost, deal 3 damage to your opponent."
+EndCard
+
+Character: DC3/W81-044
+Name Wizard's Promise, Ricca
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Newspaper
+Cont: GiveSelf
+{
+	If Compare MyLevel 3 OrHigher
+	{
+		GainEffect
+		{
+			//Requirement LocationContains Hand 1 NameEquals Speaking to the Cherry Blossoms, Ricca
+			Act: SendSelf WaitingRoom
+			{
+				SearchLocationForTargets Hand 1 1 NameEquals Speaking to the Cherry Blossoms, Ricca
+				Change
+			}
+			ActivationRequirement LocationContains Hand 1 NameEquals Speaking to the Cherry Blossoms, Ricca
+			Text Act: [Put this card into the waiting room] Choose a "Speaking to the Cherry Blossoms, Ricca" in your hand and place it in the stage position this card was on.
+		}
+	}
+}
+Text Cont: If you are level 3 or higher this card gets the following ability. "Act: [Put this card into the waiting room] Choose a "Speaking to the Cherry Blossoms, Ricca" in your hand and place it in the stage position this card was on."
+Act: SendSelf WaitingRoom Discard 1 Any
+{
+	SearchWaitingRoom HasTrait Anniversary|Magic|Newspaper
+}
+Text Act: [Discard a card, put this card into the waiting room] Choose an <Anniversary> <Magic> or <Newspaper> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: DC3/W81-045
+Name Happy Time, Charles
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Newspaper
+Cont: GiveSelf
+{
+	If InBattle
+	{
+		GainSpecialEffect CannotUseBackup
+	}
+}
+Text Cont: During this card's battle you cannot play "BACKUP" from your hand.
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Anniversary|Magic|Newspaper
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is 500 times the number of <Anniversary> <Magic> or <Newspaper> characters you have.
+EndCard
+
+Climax: DC3/W81-046
+Name With You
+*ChoiceClimax
+EndCard
+
+
+Character: DC3/W81-047
+Name First Day of a Tense Part-time Job
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Anniversary
+Trait2 Newspaper
+Trait3 Sports
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Thank You for Raising Me
+	{
+		GainEffect
+		{
+			*OnReverseBlindStock
+		}
+	}
+}
+Text Cont: MEMORY If "Thank You for Raising Me" is in your memory, this card gets the following ability. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+EndCard
+
+Event: DC3/W81-048
+Name Thank You for Raising Me
+Color G
+Level 1
+Cost 1
+Effect:
+{
+	*Check4Add1(Newspaper|Sports)
+	TargetSelf
+	MoveCard Memory
+}
+Text Look at up to 4 cards from the top of your deck, choose a <Newspaper> or <Sports> character to add to your hand, and put the rest into the waiting room. Put this card into your memory.
+Cont: Memory
+{
+	If MyTurn && HasTrait Newspaper|Sports
+	{
+		GainPower 500
+	}
+}
+Text Cont: MEMORY During your turn, if this card is in your memory, your <Newspaper> or <Sports> characters get +500 power.
+EndCard
+
+Character: DC3/W81-049
+Name Morning Greeting, Himeno
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Anniversary
+Trait2 Newspaper
+Combo Talking by the Seaside
+Auto: OnAttack
+{
+	If Climax Talking by the Seaside && Compare CardsInMemory 3 OrMore
+	{
+		SearchWaitingRoom HasTrait Anniversary|Newspaper
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo MEMORY When this card attacks, if "Talking by the Seaside" is in your climax area, and you have 3 or more cards in memory, choose up to 1 <Anniversary> or <Magic> character in your waiting room, return it to your hand, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: DC3/W81-050
+Name Time Capsule, Ricca
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Anniversary
+Trait2 Newspaper
+Trait3 Student Council
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Anniversary|Newspaper|Student Council
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each <Anniversary> <Newspaper> or <Student Council> character on your backstage, this card gets +1000 power.
+*Healer
+EndCard
+
+Character: DC3/W81-051
+Name Pretty and Cute, Mikoto
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Newspaper
+Trait3 Love
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 1 OrMore && MyTurn
+	{
+		GainPower 1500
+	}
+}
+Text Cont: MEMORY During your turn, if there is a card in your memory, this card gets +1500 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 1 1 HasTrait Anniversary|Newspaper
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is put into the waiting room from the stage, reveal up to 3 cards from the top of your deck, if you revealed 1 or more cards, choose an <Anniversary> or <Newspaper> character to add to your hand, put the rest into the waiting room, and discard 1 card.
+EndCard
+
+Character: DC3/W81-052
+Name Let's Stay Together Forever, Mikoto
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Newspaper
+Trait3 Love
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost HandClock Any
+	{
+		SearchDeck HasTrait Anniversary|Newspaper
+	}
+}
+Text Auto: [Put a card from your hand into your clock] When this card is put into your waiting room from the stage, you may pay the cost, search your deck for up to 1 <Anniversary> or <Newspaper> character, and add it to your hand.
+Act: RestSelf HandClock HasTrait Anniversary|Newspaper
+{
+	AIChoice AddToHand
+	SearchLocationForTargets Clock 1 1 IsCharacter
+	MoveCard Hand
+}
+Text Act: [Put an <Anniversary> or <Newspaper> character from your hand into your clock and rest this card] Choose a character in your clock and return it to your hand.
+EndCard
+
+Climax: DC3/W81-053
+Name Talking by the Seaside
+*DoorClimax
+EndCard
+
+Character: DC3/W81-054
+Name Secret of a Secret, Sumomo
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Chairman
+Trait3 Play
+Cont: GiveSelf
+{
+	If Compare CardsInHand 6 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 6 or more cards in your hand, this card gets +1500 power.
+*ClimaxExchange
+EndCard
+
+Character: DC3/W81-055
+Name Power of Feelings, Aoi
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Newspaper
+Trait3 Waitress
+*ScryToBottomOnPlay
+*DropSearch(Anniversary|Newspaper)
+EndCard
+
+Character: DC3/W81-056
+Name Connection Between the Two, Sumomo
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Anniversary
+Trait2 Chairman
+Trait3 Play
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level on the stage.
+*OnAttackGivePowerForEachOther(500,Anniversary|Chairman|Play)
+EndCard
+
+Event: DC3/W81-057
+Name I'll Be With You Forever!
+Color B
+Level 2
+Cost 1
+Counter
+Requirement OpponentsTurn
+Effect:
+{
+	TargetMyCharacterInBattle
+	IfTarget HasTrait Anniversary|Newspaper
+	{
+		MoveCard Memory
+		ScheduleEffectForTargets StartDrawPhase
+		{
+			Effect:
+			{
+				IfTarget InLocation Memory
+				{
+					PlaceOnStage False True True False
+					GainPower 1000
+					GainSoul 1
+				}
+			}
+		}
+	}
+}
+Text Counter: Choose your <Anniversary> or <Newspaper> character in battle, and put it into your memory. At the start of your next draw phase, if that card is in your memory, place it on any position of your stage, and it gets +1000 power and +1 soul until end of turn.
+EndCard
+
+Character: DC4/W81-058
+Name Witch of "Love", Arisa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Magic
+Combo Moment When Love Begins
+Cont: InHand
+{
+	If Compare CardsInMemory 1 OrMore
+	{
+		GainSpecialEffect IgnoreColorRequirement
+	}
+}
+Text Cont: MEMORY If you have a card in your memory, this card may be played ignoring color requirement
+Cont: GiveHand
+{
+	If Compare CardsInMemory 1 OrMore
+	{
+		If NameEquals Moment When Love Begins
+		{
+			GainSpecialEffect IgnoreColorRequirement
+		}
+	}
+}
+Text Cont: MEMORY If you have a card in your memory, "Moment When Love Begins" may be played ignoring color requirement.
+Auto: OnAttack
+{
+	If Climax Moment When Love Begins
+	{
+		*Check4Add1(Anniversary|Magic)
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Moment When Love Begins" is in your climax area, look at up to 4 cards from the top of your deck, choose up to 1 <Anniversary> or <Magic> character to add to your hand, and put the rest into the waiting room, and this card gets +2000 power until end of turn.
+EndCard
+
+Character: DC4/W81-059
+Name One-day Wedding, Arisa
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Anniversary|Magic
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Discard an <Anniversary> or <Magic> character] When this card is placed on the stage from your hand, you may pay the cost. Look at up to 3 cards from the top of your deck, choose up to 1 to add to your hand, and put the rest into the waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	If Compare CardsInMemory 2 OrLess && LocationContains WaitingRoom 1 NameEquals Special Time for Two, Arisa
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Special Time for Two, Arisa
+		MoveCard Memory
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, if you have 2 or less cards in your memory, you may choose a "Special Time for Two, Arisa" in your waiting room, and put it into your memory.
+EndCard
+
+Character: DC4/W81-060
+Name New Story, Sakura
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Magic
+Combo Unwithering Cherry Blossom
+*GivePowerOnAttack(1000)
+Auto: OnAttack
+{
+	If Climax Unwithering Cherry Blossom && StageContains 1 Other && HasTrait Anniversary|Magic
+	{
+		TargetLocation Stage
+		AIChoice CanReverseOpponent
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchWaitingRoom IsCharacter
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Unwithering Cherry Blossom" is in your climax area, and you have another <Anniversary> or <Magic> character, choose 1 of your characters, it gets the following ability until end of turn "Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room, and return it to your hand."
+EndCard
+
+Character: DC4/W81-061
+Name Special Time for Two, Arisa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 11000
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Auto: OnPlay|OnPlacedOnStageFromMemory
+{
+	TargetLocation OpponentStage
+	AIChoice Bounce
+	ChooseCharacterFromTargets Choose a character to return to your opponent's hand.
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand or from memory, choose one of your opponent's characters and return it to their hand.
+Auto: OnReversed
+{
+	MoveCard Memory
+}
+Text Auto: When this card becomes reversed, put this card into your memory.
+Auto: StartClimaxPhase
+{
+	If Compare MyLevel 3 OrHigher && LocationContainsOrLess Stage 4 Any
+	{
+		PayCost Discard 2 Any
+		{
+			PlaceOnStage True True True False
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY [Discard 2 cards] At the beginning of your climax phase, if this card is in your memory, you may pay the cost, put this card on an open position of your stage.
+EndCard
+
+Climax: DC4/W81-062
+Name Moment When Love Begins
+*ChoiceClimax
+EndCard
+
+Climax: DC4/W81-063
+Name Unwithering Cherry Blossom
+*ChoiceClimax
+EndCard
+
+Character: DC4/W81-064
+Name Repeated Memories, Sorane
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Cooking
+*GivePowerOnAttack(500)
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 1 1 HasTrait Anniversary|Magic
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal up to 3 cards from the top of your deck, if you revealed 1 or more cards, choose an <Anniversary> or <Magic> character to add to your hand, put the rest into the waiting room, and discard a card.
+EndCard
+
+Character: DC4/W81-065
+Name Only One Promise, Nino
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Family
+Combo From Sister to Sister
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Anniversary|Magic
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Anniversary> or <Magic> characters, this card gets +1000 power.
+Auto: StartMyEncorePhase
+{
+	If Climax From Sister to Sister && FacingIsEmptyOrReversed && StageContains 2 Other && HasTrait Anniversary|Magic
+	{
+		SearchDeck HasTrait Anniversary|Magic
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "From Sister to Sister" is in your climax area, this card is on your center stage, you have 2 or more other <Anniversary> or <Magic> characters, and there is either no character facing this card or the character facing this card is reversed, search your deck for up to 1 <Anniversary> or <Magic> character and add it to your hand.
+EndCard
+
+Character: DC4/W81-066
+Name Good at Cooking, Sorane
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Cooking
+Auto: OnPlay
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: DC4/W81-067
+Name My Special Seat, Chiyoko
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Anniversary
+Trait2 Net
+*GlobalPower(1500,Anniversary|Magic|Net)
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+				GainSpecialEffect CannotUseEvents
+				GainSpecialEffect CannotUseBackup
+			}
+		}
+		Text Cont: During this card's battle you cannot play event cards or "BACKUP" from your hand.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose 1 of your opponent's characters, it gets the following effect until end of turn. "Cont: During this card's battle you cannot play event cards or "BACKUP" from your hand."
+EndCard
+
+Character: DC4/W81-068
+Name Morning Happenings, Nino
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Family
+Cont: InHand
+{
+	If LocationContains Memory 3 HasTrait Anniversary|Magic
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: MEMORY If there are 3 or more <Anniversary> or <Magic> characters in your memory, this card gets -1 level in your hand.
+*StockHealer
+EndCard
+
+Character: DC4/W81-069
+Name Little Devil Mode, Nino
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Family
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 500
+	ChooseCharacterFromTargets Choose a character to give -500 power.
+	LosePower 500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets -500 power until end of turn.
+*DropSearch(Anniversary|Magic)
+EndCard
+
+
+Character: DC4/W81-070
+Name Charge! Interview, Chiyoko
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Anniversary
+Trait2 Net
+Combo Warmth
+Cont: InHand
+{
+	If LocationContains Memory 1 NameEquals Pale Feeling, Shiina
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: MEMORY If "Shiina, Pale Feeling" is in your memory, this card gets -1 level in your hand.
+Auto: OnReverseOpponent
+{
+	If Climax Warmth && AllYourCharacters HasTrait Anniversary|Magic|Music
+	{
+		SetXValue MyLevel
+		AddToXValue 1
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Anniversary|Magic|Music && Compare ThatCardsLevel X OrLower
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Warmth" is in your climax area, and all of your characters are <Anniversary> <Magic> or <Music>, choose an <Anniversary> <Magic> or <Music> character in your waiting room whose level is less than or equal to your level plus 1 and place it on any position of your stage rested.
+EndCard
+
+Character: DC4/W81-071
+Name Dazzling Full Moon, Sorane
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Cooking
+Combo Awakening Kiss
+*EarlyPlay2OrLessClimax
+Auto: OnSentFromStageToWaitingRoom
+{
+	If InLocation WaitingRoom
+	{
+		Question_Obvious Return "Dazzling Full Moon, Sorane" to your hand?
+		If Yes
+		{
+			MoveCard Hand
+			Message Choose a card to put into your stock.
+			SearchLocationForTargets WaitingRoom 0 1 ColorIs Green
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is put into the waiting room from the stage, you may return this card to your hand, if you do, choose up to 1 green card in your waiting room and put it into your stock.
+Auto: OnSpecificClimaxPlay Awakening Kiss
+{
+	If InLocation CenterStage
+	{
+		Message Choose 2 characters to give +2500 power.
+		AIChoice GainPower 2500
+		ChooseMultipleCharacters 0 2 HasTrait Anniversary|Magic
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+	}
+}
+Text Auto: CxCombo When "Awakening Kiss" is placed in your climax area, if this card is on your center stage, choose up to 2 of your <Anniversary> or <Magic> characters, they get +2500 power until the end of your opponent's turn.
+EndCard
+
+Character: DC4/W81-072
+Name Naughty Wind, Chiyoko
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Net
+Auto: OnTriggerCheckClimax
+{
+	If StageContains 1 Other && HasTrait Anniversary|Magic|Music
+	{
+		PayCost Discard 1 IsClimax
+		{
+			*CheckAndAdd(2)
+		}
+	}
+}
+Text Auto: [Discard a climax] When your character's trigger check reveals a climax card, if you have another <Anniversary> <Magic> or <Music> character, you may pay the cost, look at up to 2 cards from the top of your deck, choose up to 1 to add to your hand, and put the rest into the waiting room.
+Act: RestSelf
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Act: [Rest this card] Choose a character on your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: DC4/W81-074
+Name Cooking Together, Nino
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Family
+*LevelAssistTrait(Anniversary|Magic)
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Anniversary|Magic
+	MoveCard Memory
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose an <Anniversary> or <Magic> character in your waiting room, and put it into your memory.
+Auto: OnLevelUp
+{
+	PayCost 1
+	{
+		SearchLocationForTargets Memory 1 1 HasTrait Anniversary|Magic
+		MoveCard Hand
+	}
+}
+Text Auto: [(1)] When you level up, you may pay the cost, choose an <Anniversary> or <Magic> character in your memory, and return it to your hand.
+EndCard
+
+Character: DC4/W81-075
+Name Wonderland Rabbit, Sorane
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Cooking
+*BackupBonus1000(Anniversary|Magic)
+Backup 2500
+EndCard
+
+Climax: DC4/W81-076
+Name From Sister to Sister
+*BarClimax
+EndCard
+
+Climax: DC4/W81-077
+Name Warmth
+*BarClimax
+EndCard
+
+Climax: DC4/W81-078
+Name Awakening Kiss
+*BarClimax
+EndCard
+
+
+Character: DC4/W81-079
+Name Flag of Love Born from Zero, Hiyori
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Gun
+*OnAttackPay1ToDoubleTrigger
+*FreeRunner
+EndCard
+
+Character: DC4/W81-080
+Name Confession in the Setting Sun, Miu
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Judgement
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInMemory 1 OrMore
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: MEMORY During your turn, if you have a card in memory, this card gets +2500 power and the following ability, "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn.
+*RedEarlyPlayBomb
+EndCard
+
+Character: DC4/W81-081
+Name Rough Romance Contractor, Hiyori
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Gun
+*GlobalPower(500,Anniversary|Magic)
+Auto: OnPlay
+{
+	Question Put the top card of your deck under this card as a marker?
+	If Yes
+	{
+		TargetTop Deck 1
+		View
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may look at the top card of your deck and put it face-down underneath this card as a marker.
+Act: SendMarker WaitingRoom
+{
+	*GiveCharacterPower(1500,Anniversary|Magic)
+}
+Text Act: [Put a marker from underneath this card into the waiting room].Choose 1 of your <Anniversary> or <Magic> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: DC4/W81-082
+Name No-Nonsense Committee Member, Miu
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Judgement
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any SendSelf Memory
+	{
+		SearchWaitingRoom HasTrait Anniversary|Magic
+	}
+}
+Text Auto: [(1) Discard a card, Put this card into your memory] When this card becomes reversed in battle, you may pay the cost, choose an <Anniversary> or <Magic> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: DC4/W81-083
+Name Battle Date Extension Decision! Hiyori
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Gun
+Combo Nice Catch!
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 2 Other && HasTrait Anniversary|Magic
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Anniversary> or <Magic> characters, this card gets +4000 power.
+Auto: OnEndOfAttack
+{
+	If Climax Nice Catch!
+	{
+		RevealExactly Deck 3
+		*CountColors
+		MoveCard Deck
+		ShuffleLocation Deck
+		If Compare X 2 Exactly
+		{
+			Burn 1
+		}
+		If Compare X 3 Exactly
+		{
+			Burn 3
+			Burn 3
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if "Nice Catch!" is in your climax area, reveal the top 3 cards of your deck, return them to your deck, and shuffle your deck. If exactly 2 different colors were revealed, deal 1 damage to your opponent. If 3 different colors were revealed, deal 3 damage to your opponent two times.
+EndCard
+
+Character: DC4/W81-084
+Name Quiet Determination, Miu
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Judgement
+Combo Mirror Maze
+Auto: OnAttack
+{
+	If Climax Mirror Maze && StageContains 1 Other && HasTrait Anniversary|Magic
+	{
+		GainPower 1000
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Anniversary|Magic
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Mirror Maze" is in your climax area, and you have another <Anniversary> or <Magic> character, this card gets +1000 power until end of turn, and reveal the top card of your deck, if it is an <Anniversary> or <Magic> character, add it to your hand.
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther NameEquals Flag of Love Born from Zero, Hiyori
+	{
+		TargetSelf
+		If InLocation WaitingRoom
+		{
+			PayCost Discard 1 Any
+			{
+				PlaceOnStage False True True True
+			}
+		}
+	}
+}
+Quick //So that it won't queue every time any card is sent
+InWaitingRoom
+Text Auto: [Discard a card] When "Flag of Love Born from Zero, Hiyori" is put into your waiting room from the stage, if this card is in your waiting room, you may pay the cost, put this card on any position of your stage rested.
+EndCard
+
+Character: DC4/W81-085
+Name Gentle Moment, Kotori
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Anniversary
+Trait2 Music
+*GlobalPower(1000,Anniversary|Magic)
+Act: Discard 2 Any RestSelf
+{
+	Peek Deck 6
+	Message Choose 3 cards to put into the waiting room.
+	ChooseCardsFromTargets 3 3 Any
+	MoveCard WaitingRoom
+	TargetLocation ScryArea
+	MoveCards Deck
+	SetXValue TargetCount
+	TargetTop Deck X
+	Message Choose order.
+	Reorder
+}
+Text Act: [Discard 2 cards, Rest this card] Look at up to 6 cards from the top of your deck, choose 3 to put into the waiting room, and return the rest in any order.
+EndCard
+
+Climax: DC4/W81-086
+Name Nice Catch!
+*DoorClimax
+EndCard
+
+Climax: DC4/W81-087
+Name Mirror Maze
+*DoorClimax
+EndCard
+
+Character: DC4/W81-088
+Name Pale Feeling, Shiina
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Music
+Auto: OnReversed
+{
+	If AllYourCharacters HasTrait Anniversary|Magic|Music|Net
+	{
+		PayCost 1 Clock SendSelf Memory
+		{
+			*Check4Add1(Any)
+		}
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock, Put this card into your memory] When this card becomes reversed in battle, if all of your characters are <Anniversary> <Magic> <Music> or <Net>, you may pay the cost, look at up to 4 cards from the top of your deck, choose a character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: DC4/W81-089
+Name Beginning of Love, Arisu
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Heiress
+Tag Healer
+Combo This Love Changes The World
+Auto: OnPlay
+{
+	*OptionalHeal
+	TargetSelf
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your clock into the waiting room, and this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax This Love Changes The World
+	{
+		PayCost 1
+		{
+			MillOpponentBottom 5
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+			TargetSelf
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "This Love Changes The World" is in your climax area, you may pay the cost, put the bottom 5 cards of your opponent's deck into the waiting room, deal X damage to your opponent, and this card gets +1000 power until end of turn. X is the number of climax sent.
+EndCard
+
+Character: DC4/W81-090
+Name Going Out Together, Arisu
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Heiress
+Auto: StartMainPhase
+{
+	If LocationContains WaitingRoom 1 IsCharacter
+	{
+		Question Put a character from your waiting room on the bottom of your clock?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+			If HasTarget
+			{
+				MoveCardToBottom Clock
+				ScheduleEffectForTargets StartEncoreStep
+				{
+					Effect:
+					{
+						If InLocation Clock
+						{
+							MoveCard WaitingRoom
+						}
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your main phase, you may choose a character in your waiting room and put it on the bottom of your clock, if you do, at the beginning of your encore step, put that card into the waiting room.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 5
+	TargetBrainstormed
+	*CountColors
+	If Compare X 3 OrMore
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 5 cards from the top of your deck, and put them into the waiting room, if 3 or more colors were revealed, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: DC4/W81-091
+Name Full Moon Night Magic, Shiina
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Music
+Combo Moment of Farewell
+Auto: StartMyEncoreStep
+{
+	If Climax Moment of Farewell
+	{
+		Question Put "Full Moon Night Magic, Shiina" into your memory?
+		If Yes
+		{
+			MoveCard Memory
+			ScheduleEffectForTargets StartDrawPhase
+			{
+				Effect
+				{
+					Message "Full Moon Night Magic, Shiina" returns from memory.
+					PlaceOnStage False True True False
+					GainPower 1500
+					GainSoul 1
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Moment of Farewell" is in your climax area, you may put this card into your memory, if you do, at the beginning of your climax phase, choose a "Full Moon Night Magic, Shiina" in your memory, place it on any position of your stage, and it gets +1500 power and +1 soul until end of turn.
+EndCard
+
+Character: DC4/W81-092
+Name Tone that Resonates in the Chest, Shiina
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Music
+Auto: OnPlay|PlacedBy Charge! Interview, Chiyoko
+{
+	*CheckAndAdd(3)
+}
+Text Auto: When this card is placed on the stage from your hand or by the effect of "Charge! Interview, Chiyoko" look at up to 3 cards from the top of your deck, choose 1 to add to your hand, and put the rest into the waiting room.
+Auto: OnReverseOpponent
+{
+	PayCost 3 Discard 1 Any
+	{
+		Burn 2
+		*ScryToBottom
+	}
+}
+Text Auto: [(3) Discard a card] When this card's battle opponent becomes reversed, you may pay the cost, deal 2 damage to your opponent, and look at the top card of your deck, return it to the top or bottom of your deck.
+EndCard
+
+Character: DC4/W81-094
+Name Time Spent With You, Arisu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Heiress
+*Level3Assist
+Auto: StartMainPhase
+{
+	If Compare MyLevel 2 OrMore
+	{
+		PayCost 1 SendFromHand 1 Memory IsCharacter && NameContains Arisa
+		{
+			PlaceOnStage False True True False
+		}
+	}
+}
+InWaitingRoom
+Text Auto: [(1) Send a character with "Arisa" in its name from your hand to memory] At the beginning of your main phase, if this card is in your waiting room, and you are level 2 or higher, you may pay the cost, place this card on any position of your stage.
+EndCard
+
+Climax: DC4/W81-095
+Name This Love Changes The World
+*GateClimax
+EndCard
+
+Climax: DC4/W81-096
+Name Moment of Farewell
+*GateClimax
+EndCard
+
+Character: DC/W81-116
+Name Miharu & Nemu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Banana
+Cont: GiveAll
+{
+	If Other && NameContains Miharu|Nemu
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other characters with "Miharu" or "Nemu" in its name get +1000 power.
+*Act1Rest2SalvageBrainstorm(Any)
+EndCard
+
+
+Event: DC/W81-117
+Name Cat Eared Maid-san
+Color Y
+Level 2
+Cost 0
+Effect:
+{
+	*CheckAndAddOne(3,ColorIs Yellow)
+	*GiveCharacterPower(2000,Any)
+	GainTrait Cat Ears
+}
+Text Look at up to 3 cards from the top of your deck, choose up to 1 yellow card to add to your hand, and put the rest into the waiting room. Choose 1 of your characters, it gets +2000 power and <Cat Ears> until end of turn.
+EndCard
+
+Event: DC/W81-118
+Name Erase Memory
+Color Y
+Level 2
+Cost 0
+Effect
+{
+	If Compare CardsInOpponentsMemory 5 OrMore
+	{
+		TargetLocation OpponentMemory
+		NarrowTargets IsCharacter
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text If your opponent has 5 or more cards in memory, your opponent puts all characters from their memory into the waiting room.
+EndCard
+
+Character: DC/W81-119
+Name Tamaki Konomiya
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Miko
+*ScryBackup(Anniversary|Magic)
+Backup 2000
+EndCard
+
+Event: DC/W81-120
+Name Transfer Student
+Color G
+Level 1
+Cost 0
+Requirement StageContains 1 ColorIs Green
+Effect:
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+}
+Text If you do not have a green character this card cannot be played from your hand. Put the top 2 cards of your deck into the waiting room. Choose a level X or lower character in your waiting room and return it to your hand. X is the total level of the sent cards.
+EndCard
+
+Event: DC/W81-121
+Name Nanako and Goat
+Color R
+Level 1
+Cost 0
+Effect
+{
+	ForcePayCost Discard 2 Any
+	{
+		TargetLocation CenterStage
+		NarrowTargets HasTrait Anniversary|Manga
+		GainEffect
+		{
+			Auto: OnReversed
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					If Compare TargetCardsLevel ThisCardsLevel OrLower
+					{
+						Question Reverse the battle opponent?
+						If Yes
+						{
+							Reverse
+						}
+					}
+				}
+			}
+			Text Auto: When this card becomes reversed, if the level of this card's battle opponent is less than or equal to this card's level, you may reverse that character.
+		}
+		GainEffect
+		{
+			*FreeEncore
+		}
+	}
+}
+Text Discard 2 cards. If you do, all your <Anniversary> or <Manga> characters on your center stage get the following 2 abilities until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is less than or equal to this card's level, you may reverse that character." and "When this card is put into the waiting room from your stage, you may return it to its previous position rested."
+EndCard
+
+Character: DC/W81-122
+Name Poker Face, Alice
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Doll
+Trait3 Gloves
+Auto: OnPlay
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, it gets +1000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 2 OrHigher
+	If HasTarget
+	{
+		TargetSelf
+		If InLocation WaitingRoom
+		{
+			Question_Obvious Put "Poker Face, Alice" into your stock?
+			If Yes
+			{
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, put the top 2 cards of your deck into the waiting room. If a level 2 or higher card was sent, you may put this card into your stock.
+EndCard
+
+Event: DC/W81-123
+Name Always Together, Always Smiling
+Color B
+Level 1
+Cost 1
+Effect:
+{
+	SearchLocationForTargets Memory 1 1 IsCharacter && Compare ThatCardsCost 0 OrLower
+	PlaceOnStage False True True False
+	GainPower 6000
+	ScheduleEffectForTargets EndOfTurn
+	{
+		Effect:
+		{
+			If OnStage
+			{
+				MoveCard Memory
+			}
+		}
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Choose a cost 0 or lower character in your memory, put it on any position of your stage, it gets +6000 power until end of turn, and at the end of your turn put that character into your memory.\nPut this card into your memory.
+EndCard
+
+Event: DC/W81-124
+Name Private Lesson
+Color B
+Level 2
+Cost 1
+Effect:
+{
+	SearchDeck IsClimax
+	UntilEndOfOpponentsTurn
+	*GiveCharacterPower(2000,Anniversary|Magic)
+}
+Text Search your deck for up to 1 climax and add it to your hand. Choose 1 of your <Anniversary> or <Magic> characters, it gets +2000 power until the end of your opponent's turn.
+EndCard
+
+
+Event: DC3/W81-P03
+Name Horrible at Horror
+Color B
+Level 2
+Cost 3
+Counter
+Requirement OpponentsTurn
+Effect
+{
+	TargetLocation OpponentInBattle
+	NarrowTargets CanBeChosen
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotDealDamage
+		}
+		Text Cont: This card cannot deal damage to players.
+	}	
+}
+Text Counter: Choose your opponent's character in battle, it gets the following ability until end of turn. "Cont: This card cannot deal damage to players."
+EndCard
+
+Character: DC4/W81-P05
+Name Melting Smile, Arisu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Anniversary
+Trait2 Magic
+Trait3 Heiress
+*CannotSideAttack
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Anniversary|Magic
+	MultiplyXValue 1000
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is 1000 times the number of <Anniversary> or <Magic> characters you have.
+EndCard
+
+Character: DC4/W81-P06
+Name "Fortunate Departures" A Girl in Love
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Magic
+*OnPlayGivePower(1500,Anniversary|Magic)
+EndCard
+
+Event: DC4/W81-P07
+Name Cherry Blossoms Floating in the Sky
+Color Y
+Level 3
+Cost 7
+Counter
+Effect:
+{
+	TargetLocation OpponentStage
+	GainSoul 5
+	GainEffect
+	{
+		*CannotSideAttack
+	}
+}
+Text Counter: All of your opponent's characters get +5 soul and the following ability until end of turn. "Cont: This card cannot side attack."
+EndCard
+
+
+
+Character: DC/W81-WC118
+//Promo from the reprint
+Name Fluffy Spring, Otome
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInMemory 1 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: MEMORY During your turn, if there is a card in your memory, this card gets +1500 power.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Magic|Student Council && Compare ThatCardsCost 0 OrLower
+		PlaceOnStage False True True False
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				If OnStage
+				{
+					MoveCard Memory
+				}
+			}
+			Text At the end of this turn, put that character into your memory.
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a cost 0 or lower <Magic> or <Student Council> character in your waiting room, put it on any position of your stage, and at ehd of turn, put that character into your memory.
+EndCard
+
+
+

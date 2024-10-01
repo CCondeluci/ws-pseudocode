@@ -1,0 +1,3157 @@
+Character: PRD/W100-001
+Name Weiß Flugel, Monika
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: StartClimaxPhase
+{
+    If InLocation CenterStage && AllYourCharacters HasTrait Landosol
+    {
+        *GiveCharacterPower(1000,Any)
+        GainEffect
+        {
+            *OnAttackPay1ToDoubleTrigger
+        }
+    }
+}
+Text Auto: At the beginning of your climax phase, if this card is in the center stage and all your characters are «Landosol», choose 1 of your characters, and that character gets +1000 power and the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, perform trigger check twice during this card attack's trigger Step."
+*FreeRunner
+EndCard
+
+Character: PRD/W100-002
+Name Battle to Retake What Was Lost, Pecorine
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Combo Full power! Princess Strike!
+*Healer
+Auto: OnAttack
+{
+    TargetLocation Level
+    *CountColors
+    If Climax Full power! Princess Strike! && Compare X 3 OrMore
+    {
+        PayCost 1 Discard 1 Any
+        {
+            TargetSelf
+            GainPower 4000
+            Repeat 3
+            {
+                MillOpponent 2
+                NarrowTargets IsClimax
+                Burn TargetCount
+            }
+        }
+    }
+}
+Text Auto: CxCombo EXPERIENCE [(1) Put 1 card from your hand to the waiting room] When this card attacks, if "Full power! Princess Strike!" is in your climax area and there are 3 or more colors among cards in your level, you may pay the cost. If you do, this card gets +4000 power until end of turn, and perform the following action 3 times. "Put the top 2 cards of your opponent's deck in the waiting room, and deal X damage to your opponent. X equals the number of climax cards among those cards."
+EndCard
+
+Character: PRD/W100-003
+Name Seeking the Next Delicious Food, Pecorine
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If LocationContainsOrLess Stock 2 Any
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1500 power.
+Auto: OnAttack
+{
+    TargetLocation Backstage
+    NarrowTargets Other
+    If Not HasTarget
+    {
+        Question_Obvious Put the top card of your deck in waiting room ?
+        If Yes
+        {
+            Mill 1
+            IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+            {
+                Question_Obvious Place the milled character in backstage ?
+                If Yes
+                {
+                    PlaceOnStage false false true false
+                }
+            }
+        }
+    }
+}
+Text Auto: When this card attacks, if there is no other characters in your backstage, you may put the top card of your deck in your waiting room. If it's a level 0 or lower character, you may put that character in any position in the backstage.
+EndCard
+
+Character: PRD/W100-004
+Name the Cute Me, Yuki
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*GlobalPower(500,Landosol)
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets HasTrait Landosol
+    ChooseCharacterFromTargets Choose a character to give +500 power.
+    UntilEndOfOpponentsTurn
+    GainPower 500
+}
+Text Act: [Rest this card] Choose 1 of your «Landosol» characters, and that character gets +500 power until the end of your opponent's next turn.
+EndCard
+
+Character: PRD/W100-005
+Name Perverted Way of Thinking, Kuuka
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If StageContainsOrLess 0 Other
+    {
+        GainPower 1500
+        GainLevel 1
+    }
+}
+Text Cont: If you have no other characters, this card gets +1 level and +1500 power.
+Auto: OnReversed
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 2 OrMore
+    {
+        TargetSelf
+        Rest
+    }
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When this card becomes reverse in battle, reveal the top card of your deck. If it's level 2 or higher, you may rest this card.
+EndCard
+
+Character: PRD/W100-006
+Name Bribe with Toys, Ninon
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*OnPlayMill2GainPowerForEachCharacter(1000,Landosol)
+Auto: OnAttack
+{
+    PayCost Discard 1 Any
+    {
+        TargetLocation Stage
+        NarrowTargets Other && HasTrait Landosol
+        ChooseCharacterFromTargets Choose a character to return to hand.
+        Bounce
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other «Landosol» characters and return it to your hand.
+EndCard
+
+Character: PRD/W100-007
+Name Taste of Happiness, Pecorine
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Tons of Allies
+Auto: StartMyEncoreStep
+{
+    If Climax Tons of Allies && InLocation CenterStage && Compare Experience 2 OrMore
+    {
+        *Check4Add1(Landosol)
+        TargetSelf
+        UntilEndOfOpponentsTurn
+        GainPower 1000
+    }
+}
+Text Auto: CxCombo EXPERIENCE At the beginning of your encore step, if "Tons of Allies" are in your climax area, this card is in the center stage, and the sum of levels of cards in your level is 2 or higher, look at up to the top 4 cards of your deck, choose up to 1 «Landosol» character among them, reveal it, put it in your hand, put the rest into your waiting room, and this card gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: PRD/W100-008
+Name Controller of the Problem Children, Ruka
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Combo Zero Blade: Suigetsu Kyouka
+Auto: OnAttack
+{
+    If Climax Zero Blade: Suigetsu Kyouka && StageContains 4 Other && HasTrait Landosol
+    {
+        PayCost 2 Discard 1 Any
+        {
+            UntilEndOfOpponentsTurn
+            GainEffect
+            {
+                Auto: OnDamageCancel
+                {
+                    *OptionalBurn(3)
+                }
+                TimesPerTurn 1
+                Text Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may deal 3 damage to your opponent.
+            }
+            UntilEndOfOpponentsTurn
+            GainEffect
+            {
+                Auto: OnFacingAttacks
+                {
+                    *OptionalBurn(2)
+                }
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(2) Put 1 card from your hand to the waiting room] When this card attacks, if "Zero Blade: Suigetsu Kyouka" is in your climax area and the number of other «Landosol» characters you have is 4 or more, you may pay the cost. If you do, this card gets the following 2 abilities until the end of your opponent's next turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may deal 3 damage to your opponent." "Auto: When character facing this card attacks, you may deal 2 damage to your opponent.
+EndCard
+
+Character: PRD/W100-009
+Name Continuing the Adventure, Pecorine
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelfEverywhere
+{
+    If StageContains 1 Other && NameEquals For Somebody, Pecorine
+    {
+        GainTriggerIcon Soul
+        GainEffect
+		{
+			Act_Backup: 0
+			{
+				TargetMyCharacterInBattle
+				GainPower 1000
+			}
+			Text Act:<b> BACKUP 1000 Level 0</b> [Put this card from your hand into your waiting room]
+		}
+        GainEffect
+        {
+            Auto: OnUseThisCardsBackup
+            {
+                PayCost Discard 3 HasTrait Landosol
+                {
+                    TargetBattleOpponent
+                    SaveTargets
+                    TargetMyCharacterInBattle
+                    AddSavedToCurrentTargets
+                    ChooseCharacterFromTargets Choose a character to give "Cont: This cannot deal damage to players."
+                    GainEffect
+                    {
+                        Cont: GiveSelf
+                        {
+                            GainSpecialEffect CannotDealDamage
+                        }
+                        Text Cont: This card cannot deal damage to players.
+                    }                    
+                }                
+            }
+            Text Auto: [Put 3 «Landosol» character cards from your hand to the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose a character in battle, and that character gets the following ability until end of turn. "Cont: This card cannot deal damage to players."
+        }
+    }
+}
+Text Cont: If you have another "For Somebody, Pecorine", this card in all zones gets a soul trigger icon and the following 2 abilities. "Auto: [Put 3 «Landosol» characters from your hand to the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose a character in battle, and that character gets the following ability until end of turn. 'Cont: This card cannot deal damage to players.'" "Act: "BACKUP" 1000, Level 0 [Put this card from your hand into your waiting room]"
+EndCard
+
+Character: PRD/W100-010
+Name True Motives, Eriko
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If LocationContains Hand 5 Any
+    {
+        GainPower 2000
+        GainEffect
+        {
+            Cont: GiveFacing
+            {
+                GainSpecialEffect CannotSideAttack
+            }
+            //No text. Effect from effect below
+        }
+        GainEffect
+        {
+            Cont: GiveSelf
+            {
+                GainSpecialEffect CannotSideAttack
+            }
+            Text Cont: Character facing this card and this card cannot side attack.
+        }
+    }
+}
+Text Cont: If you have 5 or more cards in your hand, this card gets +2000 power and the following ability. "Cont:Character facing this card and this card cannot side attack."
+Auto: StartOpponentAttackPhase
+{
+    TargetFacing
+    If InLocation CenterStage && Not HasTarget
+    {
+        If StageContainsOrLess 0 Other
+        {
+            MoveToOpenPositionWithOpponent
+        }
+        Else
+        {
+            If StageContains 4 Other
+            {
+                TargetLocation CenterStage
+                NarrowTargets CanMove && Other && HasTrait Landosol
+                ChooseCharacterFromTargets Choose a character to exchange it with.
+                AddSavedToCurrentTargets
+                Exchange
+                Stand
+            }
+            Else
+            {
+                MultipleChoiceQuestion Move to an open position with a character facing this or exchange with another character in center stage ?|Move|Exchange
+                If Answer 0
+                {
+                    MoveToOpenPositionWithOpponent
+                }
+                If Answer 1
+                {
+                    TargetLocation CenterStage
+                    NarrowTargets CanMove && Other && HasTrait Landosol
+                    ChooseCharacterFromTargets Choose a character to exchange it with.
+                    AddSavedToCurrentTargets
+                    Exchange
+                    Stand
+                }
+            }
+        }
+    }
+}
+Text Auto: At the beginning of your opponent's attack phase, if this card is in the center stage and there is no character facing this card, either move this card to an open position in the center stage with a character facing that position or choose a «Landosol» character in your center stage and this card, stand and swap those characters.
+EndCard
+
+Character: PRD/W100-011
+Name Leader of The Order of Gehenna Immortals, Anna
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    GainName Hecate of the Gale
+    GainJPName 疾風の冥姫
+}
+Text Cont: While on the stage, this card's name is also regarded as "Hecate of the Gale".
+Auto: OnPlay
+{
+    GainPower 3500
+    GainSoul 1
+    GainEffect
+    {
+        Auto: EndOfMyTurn
+        {
+            MoveCard WaitingRoom
+        }
+        Quick
+        Text Auto: At the end of the turn, put this card in the waiting room.
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +3500 power, +1 soul, and the following ability until end of turn. "Auto: At the end of the turn, put this card in the waiting room."
+EndCard
+
+Character: PRD/W100-012
+Name Final Battle at the Capital, Shiori
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Bond of Sisters
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && HasTrait Landosol
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Cont: During your turn, this card gets +1000 power for each of your other «Landosol» characters.
+Auto: OnSpecificClimaxPlay Bond of Sisters
+{
+    If InLocation CenterStage
+    {
+        *OptionalBlindStock
+        SearchWaitingRoom NameEquals Younger Sister's Supernatural Power, Hatsune
+    }
+}
+Text Auto: CxCombo When "Bond of Sisters" is placed on your climax area, if this card is in the center stage, put up to 1 card from the top of your deck in your stock, and choose up to 1 "Younger Sister's Supernatural Power, Hatsune" in your waiting room and return it to your hand.
+EndCard
+
+Character: PRD/W100-013
+Name Being Treated Like a Kid, Monika
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+*EarlyPlayInClock(WeiB Flugel\, Monika)
+Auto: OnAttack
+{
+    If PlayedThisTurn
+    {
+        TargetLocation Stage
+        GainPower 3500
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                TargetFacing
+                If OnStage
+                {
+                    Question Put that character in stock ?
+                    If Yes
+                    {
+                        MoveCard OpponentStock
+                        TargetBottom OpponentStock
+                        MoveCard OpponentWaitingRoom
+                    }
+                }
+            }
+            Text Auto: When this card's battle opponent becomes reverse, you may put that character in stock. If you do, put the bottom card of your opponent's stock in the waiting room.
+        }
+    }
+}
+Text Auto: During the turn this card is placed on the stage from your hand, when this card attacks, all your characters get +2500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may put that character in stock. If you do, put the bottom card of your opponent's stock in the waiting room."
+EndCard
+
+Character: PRD/W100-014
+Name Celebratory Fireworks, Ninon
+Color Y
+Level 1
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Landosol
+    {
+        TargetLocation OpponentCenterStage
+        LosePower 1500
+    }
+}
+Text Auto: When this card placed on the stage from your hand, reveal the top card of your deck. If it's a «Landosol» character, all characters in your opponent's center stage gets -1500 power until end of turn.
+Auto: OnClimaxPlay
+{
+    GainPower 4500
+}
+Quick
+Text Auto: When your climax is placed on your climax area, this card gets +4500 power until end of turn.
+EndCard
+
+Character: PRD/W100-015
+Name Courage to Take the Next Step Forward, Pecorine
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If Compare Experience 2 OrMore
+    {
+        GainPower 500
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                TargetLocation Climax
+                If HasTarget
+                {
+                    *OptionalBlindStock
+                }
+            }
+            Text Auto: When this card's battle opponent becomes reverse, if there's a climax in your climax area, you may put the top card of your deck in your stock.
+        }
+    }
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level are 2 or higher, this card gets +500 power and the following ability. "Auto: When this card's battle opponent becomes reverse, if there's a climax in your climax area, you may put the top card of your deck in your stock."
+EndCard
+
+Character: PRD/W100-016
+Name Where the Responsibility Is, Monika
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnUseThisCardsBackup
+{
+    TargetLocation Hand
+    Repeat TargetCount
+    {
+        PayCost Discard 1 Any
+        {
+            *Scry
+        }
+        Else
+        {
+            StopLoop
+        }
+    }
+}
+Text Auto: When you use this card's "BACKUP", perform the following action. "You may discard a card from your hand to the waiting room. If you do, look at the top card of your deck and put it either on top of the deck or in the waiting room." You may repeat this card action as many times as desired.
+Backup 2000
+EndCard
+
+Character: PRD/W100-017
+Name Magical Girl, Nanaka
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*PowerOnMyTurn(4000)
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: PRD/W100-018
+Name A Step Off the Path?, Kuuka
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*YellowEarlyPlayBomb
+Auto: OnReversed
+{
+    PayCost Discard 2 Any
+    {
+        Heal
+    }
+}
+Text Auto: [Put 2 cards from your hand to the waiting room] When this card becomes reverse in battle, you may pay the cost. If you do, put the top card of your clock in the waiting room.
+EndCard
+
+Character: PRD/W100-019
+Name Fierce Battle Below the Castle, Mitsuki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveAll
+{
+    If NameEquals Controller of the Problem Children, Ruka
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *HexProof
+        }
+    }
+}
+Text Cont: All of your other "Controller of the Problem Children, Ruka" get +1500 power and the following ability. "Cont: This cannot be chosen as target of opponent's effects."
+Act: RestSelf
+{
+    TargetLocation OpponentStage
+    ChooseTraitFromTarget
+    LoseTrait CHOSEN_TRAIT
+}
+Text Act: [Rest this card] Choose 1 of the traits on 1 of your opponent's characters, and all your opponent's characters lose all instances of that trait until end of turn.
+EndCard
+
+Character: PRD/W100-020
+Name One Shot for Reversal, Yuki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    TargetLocation Marker
+    If HasTarget
+    {
+        GainEffect
+        {
+            Auto: StartOpponentAttackPhase
+            {
+                TargetLocation OpponentStage
+                NarrowTargets CanBeChosen
+                ChooseCharacterFromTargets Choose a character to give the effect.
+                GainEffect
+                {
+                    Auto: OnAttack
+                    {
+                        TargetTop Deck 1
+                        Reveal
+                        IfTarget Compare ThatCardsLevel 0 OrLess
+                        {
+                            TargetSelf
+                            LoseSoul 2
+                        }
+                    }
+                    Quick
+                    Text Auto: When this card attacks, reveal the top card of your deck. If it's level 0 or lower, this card gets -2 soul until end of turn.
+                }
+            }
+            Text Auto: At the beginning of your opponent's attack phase, choose 1 of your opponent's characters, and that character gets the following ability until end of turn. "Auto: When this card attacks, reveal the top card of your deck. If it's level 0 or lower, this card gets -2 soul until end of turn."
+        }
+    }
+}
+Text Cont: If there's a marker underneath this card, this card gets the following ability. "Auto: At the beginning of your opponent's attack phase, choose 1 of your opponent's characters, and that character gets the following ability until end of turn. 'Auto: When this card attacks, reveal the top card of your deck. If it's level 0 or lower, this card gets -2 soul until end of turn.'"
+Auto: OnPlay
+{
+    SearchLocationForTargets WaitingRoom 0 1 NameEquals One Shot for Reversal, Yuki
+    If HasTarget
+    {
+        Marker_FaceUp
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a "One Shot for Reversal, Yuki" in your waiting room and put it face-up underneath this card as marker.
+EndCard
+
+Character: PRD/W100-021
+Name My Name, Pecorine
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If Compare Experience 5 OrMore
+    {
+        GainPower 1000
+        GainEffect
+        {
+            *HandEncoreTrait(Landosol)
+        }
+    }
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level is 5 or higher, this card gets +1000 power and the following ability. "Auto: ENCORE [Put a «Landosol» character from your hand to the waiting room]".
+*OnAttackGainPowerForEachOther(1000,Landosol)
+EndCard
+
+Climax: PRD/W100-022
+Name Full Power! Princess Strike!
+*ChoiceClimax
+EndCard
+
+Climax: PRD/W100-023
+Name Tons of Allies
+*ChoiceClimax
+EndCard
+
+Climax: PRD/W100-024
+Name Zero Blade: Suigetsu Kyouka
+*ChoiceClimax
+EndCard
+
+Character: PRD/W100-025
+Name As a Detective, Kasumi
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Act: 1 RestSelf
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    GainEffect
+    {
+        Auto: OnReverseOpponent
+        {
+            *Check4Add1Level1OrHigher
+        }
+        Text Auto: When this card's battle opponent becomes reverse, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room.
+    }
+}
+Text Act: [(1) Rest this card] Choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room."
+Act: RestSelf
+{
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to give the effect.
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            GainSpecialEffect CannotMove
+        }
+        Text Cont: This card cannot move to another position.
+    }
+}
+Text Act: [Rest this card] Choose 1 of your opponent's characters, and that character gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position."
+EndCard
+
+Character: PRD/W100-026
+Name Downer Type Girl, Chloe
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*GainPowerWhenOtherAttacks(1000,Landosol)
+Auto: OnOtherFrontalAttacked
+{
+    IfOther HasTrait Landosol
+    {
+        PayCost SendSelf Clock
+        {
+            TargetOther
+            Bounce
+        }
+    }
+}
+Text Auto: [Put this card in your clock] When your other «Landosol» characters is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: PRD/W100-027
+Name Whenever And Wherever, Kokkoro
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Landosol
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If all your characters are «Landosol», this card gets +1000 power.
+Auto: OnPlay
+{
+    MultipleChoiceQuestion Choose the effect to resolve.\n1:Look at up to X cards from the top of your deck and search for up to 1 card, put it in your hand, and put the rest into your waiting room. X equals the number of your «Landosol» characters.\n2:You may put the top card of your clock in the waiting room.|1|2
+    If Answer 0
+    {
+        TargetLocation Stage
+		NarrowTargets HasTrait Landosol
+		SetXToNumberOfCharacters
+		Peek Deck X
+		ChooseCard Choose a card to add to your hand.
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+    }
+    If Answer 1
+    {
+        *OptionalHeal
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of the following 2 effects and perform it. "Look at up to X cards from the top of your deck and search for up to 1 card, put it in your hand, and put the rest into your waiting room. X equals the number of your «Landosol» characters." "You may put the top card of your clock in the waiting room."
+EndCard
+
+Character: PRD/W100-028
+Name Self-Proclaimed Beautiful Girl in the World, Chieru
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Cont: InHand
+{
+    If LocationContains Level 1 NameEquals Downer Type Girl, Chloe &&& LocationContains Level 1 NameEquals Self-Proclaimed Beautiful Girl in the World, Chieru
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: EXPERIENCE If "Downer Type Girl, Chloe" and "Self-Proclaimed Beautiful Girl in the World, Chieru" are in your level, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters InLocation Backstage && HasTrait Landosol
+    MultiplyXValue 500
+    GainPower X
+}
+Text Cont: This card gets +500 power for each of your other «Landosol» characters in the backstage.
+Auto: OnPlay
+{
+    PayCost 1
+    {
+        SearchLocationForTargets WaitingRoom 1 1 NameEquals Single Truth, Yuni
+        PlaceOnStage false true true false
+    }
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Single Truth, Yuni" in your waiting room and put it in any position on the stage.
+EndCard
+
+Character: PRD/W100-029
+Name Single Truth, Yuni
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Combo To the Fictitious World
+Auto: OnPlay|PlacedBy Self-Proclaimed Beautiful Girl in the World, Chieru
+{
+    *OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by effect of Auto: ability of your "Self-Proclaimed Beautiful Girl in the World, Chieru" to the stage, you may put the top card of your clock in the waiting room.
+Auto: OnAttack
+{
+    If Climax To the Fictitious World && LocationContains Memory 2 NameEquals Pet Golem Rosetta
+    {
+        PayCost 1
+        {
+            Peek OpponentDeck 3
+            Message Choose up to 3 cards to put on top of your opponent's deck in any order.
+            ChooseCardsFromTargets 0 3 Any
+            MoveCard OpponentDeck
+            Reorder
+            PutTheRestIntoTheWaitingRoom
+        }
+    }
+}
+Text Auto: CxCombo MEMORY [(1)] When this card attacks, if "To the Fictitious World" is in your climax area and there are 2 or more "Pet Golem Rosetta" in your memory, you may pay the cost. If you do, look at up to the top 3 cards of your opponent's deck, choose up to 3 cards among them and put them on top of their deck in any order, and put the rest into waiting room.
+EndCard
+
+Character: PRD/W100-030
+Name Smile Is the Best, Kaori
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Landosol
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you have another «Landosol» character, this card gets +3000 power.
+Auto: StartOpponentAttackPhase
+{
+    PayCost 1
+    {
+        MoveToOpenPosition false true
+    }
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position in the backstage.
+EndCard
+
+Character: PRD/W100-031
+Name Friendship Club, Yuni
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    If LocationContainsOrLess Memory 2 Any
+    {
+        SearchLocationForTargets WaitingRoom 0 1 NameEquals Pet Golem Rosetta
+        MoveCard Memory
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or fewer cards in memory, you may choose a "Pet Golem Rosetta" in your waiting room and send it to memory.
+*OnPlayTradeClimaxForCharacter(Landosol)
+EndCard
+
+Character: PRD/W100-032
+Name Taste of Happiness, Kokkoro
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*500Assist
+*Act1SalvageBrainstorm(Landosol)
+EndCard
+
+Character: PRD/W100-033
+Name Fluffy Airy Princess, Maho
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveAll
+{
+    If Other && InLocation MiddleCenterStage && HasTrait Landosol
+    {
+        GainPower 1000
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                *Scry
+            }
+            Text Auto: When this card attacks, look at the top card of your deck and put it either on top of the deck or in the waiting room.
+        }
+    }
+}
+Text Cont: Your other «Landosol» character in the middle position of your center stage gets +1000 power and the following ability. "Auto: When this card attacks, look at the top card of your deck and put it either on top of the deck or in the waiting room."
+Act: 2 RestSelf
+{
+    SearchWaitingRoom HasTrait Landosol
+}
+Text Act: [(2) Rest this card] Choose a «Landosol» character in your waiting room and return it to your hand.
+EndCard
+
+Character: PRD/W100-034
+Name Strong-minded Personality, Makoto
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Landosol
+    {
+        TargetSelf
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Landosol» character, this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent 
+{
+    TargetFacing
+    IfTarget OnStage
+    {
+        TargetLocation OpponentClock
+        If HasTarget
+        {
+            Question Put that top card of your opponent's clock to waiting room ?
+            If Yes
+            {
+                TargetTop OpponentClock 1
+                MoveCard OpponentWaitingRoom
+                TargetFacing
+                MoveCard OpponentClock
+            }
+        }
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, you may put the top card of your opponent's clock in the waiting room. If you do, put that character in clock.
+EndCard
+
+Character: PRD/W100-035
+Name Seeking the Next Delicious Food, Kokkoro
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: PRD/W100-036
+Name Famous Detective, Kasumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnOtherPlacedOnStageFromHand
+{
+    IfOther HasTrait Landosol
+    {
+        *ScryToBottom
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When your other «Landosol» character is placed on the stage from your hand, look at the top card of your deck and put it either on top or bottom of your deck.
+Act: RestSelf
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to give -2000 power and the effect.
+    LosePower 2000
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            If InBattle
+            {
+                GainSpecialEffect CannotUseEvents
+            }
+        }
+    }
+}
+Text Act: [Rest this card] Choose a character in your opponent's center stage, and that character gets -2000 power and the following ability until end of turn. "Cont: During battles involving this card, you cannot play events from hand."
+EndCard
+
+Character: PRD/W100-037
+Name Shining Youth, Aoi
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*OnPlayCheckTopTraitOrEventAddDiscard(Landosol)
+*OnPlayFlicker
+EndCard
+
+Character: PRD/W100-038
+Name Final Battle at the Capital, Hatsune
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveAll
+{
+    If Other && NameEquals My Wish, Shiori
+    {
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                TargetTop Deck 2
+                If Compare TargetCount 2 OrMore
+                {
+                    Reorder
+                }
+                Else
+                {
+                    View
+                }
+            }
+            Text Auto: When this card attacks, look at up to 2 cards from the top of your deck and put them on top of the deck in any order.
+        }
+    }
+}
+Text Cont: All your other "My Wish, Shiori" get the following ability. "Auto: When this card attacks, look at up to 2 cards from the top of your deck and put them on top of the deck in any order."
+*BondDiscard(My Wish\, Shiori)
+EndCard
+
+Character: PRD/W100-039
+Name Wish Entrusted, Kokkoro
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveAll
+{
+    If MyTurn && Other && HasTrait Landosol
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your turn, all your other «Landosol» characters get +1000 power.
+Auto: OnClimaxPlay
+{
+    PayCost 1
+    {
+        SearchWaitingRoom NameEquals Entrusted Wish
+    }
+}
+Text Auto: [(1)] When you climax is placed on your climax area, you may pay the cost. If you do, choose an "Entrusted Wish" in your waiting room and return it to your hand.
+EndCard
+
+Character: PRD/W100-040
+Name Thief, Tamaki
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        PayCost Discard 1 Any
+        {
+            SearchWaitingRoom IsCharacter
+        }
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there's at least 1 climax among them, you may pay the cost. If you do, choose a character in your waiting room and return it to your hand.
+Auto: OnAttack
+{
+    If StageContains 2 Other && HasTrait Landosol
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When this card attacks, if the number of other «Landosol» characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: PRD/W100-041
+Name Friendship Club, Chieru
+Color G
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    TargetLocation Marker
+    SetXValue TargetCount
+    MultiplyXValue 2000
+    GainPower X
+    GainTrait Cheru
+}
+Text Cont: This card gets +2000 power and «Cheru» for each marker under this card.
+Auto: OnReverseOpponent
+{
+    Question Look at the top card of your deck ?
+    If Yes
+    {
+        PeekTop Deck
+        Marker_FaceDown
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, you may look at the top card of your deck. If you do, put that card face-down underneath this card as marker.
+EndCard
+
+Character: PRD/W100-042
+Name Friendship Club, Chloe
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveAll
+{
+    If NameEquals Single Truth, Yuni || NameEquals Self-Proclaimed Beautiful Girl in the World, Chieru
+    {
+        GainPower 1000
+    }
+}
+Text Cont: All your other "Single Truth, Yuni" and "Self-Proclaimed Beautiful Girl in the World, Chieru" get +1000 power.
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Landosol
+    {
+        *PutCardFromWaitingRoomIntoStock(HasTrait Landosol)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Landosol» characters you have is 4 or more, you may choose a «Landosol» character in your waiting room and put it in your stock.
+Auto: OnAttack
+{
+    If StageContains 2 Other && HasTrait Landosol
+    {
+        GainPower 3500
+        GainLevel 1
+    }
+}
+Text Auto: When this card attacks, if the number of other «Landosol» characters you have is 2 or more, this card gets +1 level and +3500 power until end of turn.
+EndCard
+
+Character: PRD/W100-043
+Name Horror Experience, Chieru
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    If Compare MyLevel 1 OrMore
+    {
+        SearchLocationForTargets Level 0 1 Any
+        If HasTarget
+        {
+            SaveTargets
+            SearchLocationForTargets WaitingRoom 1 1 Any
+            If HasTarget
+            {
+                AddSavedToCurrentTargets
+                Exchange
+            }
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your level and a card in your waiting room and swap them.
+Auto: OnAttack
+{
+    PayCost Discard 1 Any
+    {
+        GainSpecialEffect DoubleTrigger
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, perform trigger check twice during this card attack's trigger step.
+EndCard
+
+Character: PRD/W100-044
+Name Continuing the Adventure, Kokkoro
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Thrilling Adventure
+Auto: OnSpecificClimaxPlay Thrilling Adventure
+{
+    PayCost SendSelf Hand
+    {
+        *PutCardFromWaitingRoomIntoStock(HasTrait Landosol)
+    }
+}
+Text Auto: CxCombo [Return this card to your hand] When "Thrilling Adventure" is placed on your climax area, you may pay the cost. If you do, choose a «Landosol» character in your waiting room and put it in your stock.
+Act: 2 RestSelf
+{
+    Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock in the waiting room.
+EndCard
+
+Character: PRD/W100-045
+Name Green Protector Incident, Chloe
+Color G
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay    
+{
+    SearchLocationForTargets Clock 0 1 Any
+    If HasTarget
+    {
+        MoveCard Hand
+        SearchLocationForTargets Hand 1 1 Any
+        MoveCard Clock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your clock and return it to your hand. If you do, put a card from your hand in your clock.
+Auto: OnAttack
+{
+    If StageContains 1 Other && HasTrait Landosol
+    {
+        TargetSelf
+        GainPower 3000
+    }
+}
+Quick
+Text Auto: When this card attacks, if you have another «Landosol» character, this card gets +3000 power until end of turn.
+EndCard
+
+Character: PRD/W100-046
+Name Retake Operation, Kaori
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Ryukyuan Hound's Knuckle Arrow
+*PowerOnMyTurn(3000)
+Auto: OnReverseOpponent
+{
+    If Climax Ryukyuan Hound's Knuckle Arrow
+    {
+        *PutCardFromWaitingRoomIntoStock(HasTrait Landosol)
+        TargetTop Deck 1
+        Reveal
+        IfTarget Compare ThatCardsLevel 1 OrMore
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Ryukyuan Hound's Knuckle Arrow" is in your climax area, choose up to 1 «Landosol» character in your waiting room and put it in your stock, then reveal the top card of your deck. If it's level 1 or higher, put it in your hand.
+EndCard
+
+Character: PRD/W100-047
+Name Unladylike Look, Kokkoro
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnAttack
+{
+    TargetLocation Level
+    *CountColors
+    MultiplyXValue 1500
+    *GiveCharacterPower(X,Landosol)
+}
+Text Auto: EXPERIENCE When this card attacks, choose 1 of your «Landosol» characters, and that character gets +X power until end of turn. X equals 1500 times the number of different colors among cards in your level.
+EndCard
+
+Character: PRD/W100-048
+Name Island Investigation, Kasumi
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Ryukyuan Hound's Knuckle Arrow
+Combo To the Fictitious World
+Auto: OnPlay
+{
+    PayCost Discard 1 NameEquals To the Fictitious World || NameEquals Ryukyuan Hound's Knuckle Arrow
+    {
+        SearchWaitingRoom NameEquals To the Fictitious World || NameEquals Ryukyuan Hound's Knuckle Arrow
+    }
+}
+Text Auto: CxCombo [Put a "Ryukyuan Hound's Knuckle Arrow" or "To the Fictitious World" from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose either a "Ryukyuan Hound's Knuckle Arrow" or "To the Fictitious World" in your waiting room and return it to your hand.
+EndCard
+
+Character: PRD/W100-049
+Name Mystery of the Shadow, Maho
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*LevelAssistTrait(Landosol)
+Auto: OnClimaxPlay
+{
+    TargetLocation Stage
+    ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +1000 power.
+    GainPower 1000
+}
+Text Auto: When your climax is placed on your climax area, choose up to 2 of your characters, and those characters get +1000 power until end of turn.
+EndCard
+
+Character: PRD/W100-050
+Name Neighborhood Watch Protecting the Beast Tribe, Makoto
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnUseThisCardsBackup
+{
+    SetXToNumberOfCharacters HasTrait Landosol
+    MillOpponentBottom X
+}
+Text Auto: When you use this card's "BACKUP", put X cards from the bottom of your opponent's deck in the waiting room. X equals the number of your «Landosol» characters.
+Backup 3000
+EndCard
+
+Character: PRD/W100-051
+Name Following Her Spirit of Inquiry, Yuni
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: Assist
+{
+    If LocationContains Memory 2 NameEquals Pet Golem Rosetta &&& Compare ThatCardsLevel 3 OrMore
+    {
+        GainPower 2000
+    }
+}
+Text Cont: ASSIST MEMORY If there are 2 or more "Pet Golem Rosetta" in your memory, your level 3 or higher characters in front of this card get +2000 power.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Event: PRD/W100-052
+Name Pet Golem Rosetta
+Color G
+Level 1
+Cost 1
+Requirement StageContains 1 HasTrait Landosol
+Effect: 
+{
+    Mill 2
+    SearchWaitingRoom IsCharacter && Compare ThatCardsLevel TotalLevel OrLess
+    TargetSelf
+    MoveCard Memory
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 2 OrMore
+    {
+        MoveCard Stock
+    }
+}
+Text If you don't have a «Landosol» character, you cannot play this card from hand.\nPut the top 2 cards of your deck in the waiting room, choose a level X or lower character in your waiting room and return it to your hand. X equals sum of levels of cards put in the waiting room by this card effect.\nPut this card into memory.\nReveal the top card of your deck. If it is level 2 or higher, put it in your stock.
+EndCard
+
+Climax: PRD/W100-053
+Name To the Fictitious World
+*BarClimax
+EndCard
+
+Climax: PRD/W100-054
+Name Thrilling Adventure
+*BarClimax
+EndCard
+
+Climax: PRD/W100-055
+Name Ryukyuan Hound's Knuckle Arrow
+*BarClimax
+EndCard
+
+Character: PRD/W100-056
+Name Courage to Extend the Hand, Karyl
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Combo Woven Bond
+Auto: OnAttack
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Landosol
+    {
+        SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+        MoveCard OpponentDeck
+        ShuffleLocation OpponentDeck
+    }
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If it's a «Landosol» character, choose up to 2 cards in your opponent's waiting room and return them to the deck, and your opponent shuffles that deck.
+Auto: OnAttack
+{
+    If Climax Woven Bond && Compare Experience 6 OrMore
+    {
+        PayCost 2
+        {
+            Burn 4
+        }
+    }
+}
+Text Auto: CxCombo EXPERIENCE [(2)] When this card attacks, if "Woven Bond" is in your climax area and the sum of levels of cards in your level is 6 or higher, you may pay the cost. If you do, deal 4 damage to your opponent.
+EndCard
+
+Character: PRD/W100-057
+Name Metamorregnant, Neneka
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Act: 3 SendSelf WaitingRoom
+{
+    SearchLocationForTargets WaitingRoom 1 1 HasTrait Landosol && Compare ThatCardsLevel MyLevel OrLess
+    Change
+}
+Text Act: [(3) Put this card in the waiting room] Choose a «Landosol» character in your waiting room whose level is equal to or lower than your level and put it in the position this card was in.
+*Act1RestSelfSalvageBrainstorm(Landosol)
+EndCard
+
+Character: PRD/W100-058
+Name Seeking the Next Delicious Food, Karyl
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to give -1000 power.
+        LosePower 1000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in your waiting room. If there were at least 1 climax among them, choose a character in your opponent's center stage, and that character gets -1000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost 1 SendFromLocationToLocation WaitingRoom Clock 1 false HasTrait Landosol
+    {
+        SearchLocationForTargets Deck 0 1 Compare ThatCardsLevel MyLevel OrLess && Compare ThatCardsCost 0 OrLess && HasTrait Landosol
+        PlaceOnStage false true true true
+        ShuffleLocation Deck
+    }
+}
+Text Auto: [(1) Put a «Landosol» character from your waiting room on the bottom of your clock] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, search your deck for up to 1 cost 0 or lower «Landosol» character whose level is equal to or lower than your level, put it rest in any position on the stage, and shuffle your deck.
+EndCard
+
+Character: PRD/W100-059
+Name Bond with Allies, Karyl
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    If Compare Experience 2 OrMore
+    {
+        PayCost Discard 1 Any
+        {
+            TargetTop Deck 1
+            Reveal
+            SearchWaitingRoom HasTrait Landosol && Compare ThatCardsLevel TargetCardsLevel OrLess
+        }
+    }
+}
+Text Auto: EXPERIENCE [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, if the sum of levels of cards in your level is 2 or higher, you may pay the cost. If you do, reveal the top card of your deck, choose a level X or lower «Landosol» character in your waiting room and return it to your hand. X equals level of the revealed card.
+EndCard
+
+Character: PRD/W100-060
+Name Guardian of the Country, Jun
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Inferno Shield
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait Landosol
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If the number of other «Landosol» characters you have is 2 or more, this card gets +1500 power and the following effect. "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+Auto: OnAttack
+{
+    If Climax Inferno Shield && AllYourCharacters HasTrait Landosol
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give the effect.
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            Cont: GiveSelf
+            {
+                If Not MyTurn
+                {
+                    GainSpecialEffect CannotBeReversed
+                }
+            }
+            Text Cont: During your opponent's turn, this card does cannot be reverse.
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Inferno Shield" is in your climax area and all your characters are «Landosol», choose 1 of your characters, and that character gets the following ability until the end of your opponent's next turn. "Cont: During your opponent's turn, this card does cannot be reverse."
+EndCard
+
+Character: PRD/W100-061
+Name Teacher Caring About Her Students, Io
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen
+        ChooseCharactersFromTargets 2 2 Choose 2 characters.
+        If Compare TargetCount 2 Exactly
+        {
+            PushTargets
+            SaveTargets
+            FirstTarget
+            SetXValue ThatCardsPower
+            RemoveCurrentFromSavedTargets
+            LoadTargets
+            If Compare X ThatCardsPower Exactly
+            {
+                PopTargets
+                MoveCard WaitingRoom
+                //Put both card in waiting
+            }
+            Else
+            {
+                If Compare X ThatCardsPower OrMore
+                {
+                    MoveCard WaitingRoom
+                    //Put 2nd card (already targeted) in waiting
+                }
+                Else
+                {
+                    PopTargets
+                    FirstTarget
+                    MoveCard WaitingRoom
+                    //Put 1st card (First target) in waiting
+                }
+            }
+        }
+    }
+}
+Text Auto: [Put a «Landosol» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 2 level 1 or lower characters in your opponent's center stage. If you chose 2 characters this way, choose 1 of the following 2 effects and perform it. "Choose 1 of the chosen characters with the lowest power among them and put it in the waiting room." "If all of them have the same power, put all of them in the waiting room."
+EndCard
+
+Character: PRD/W100-062
+Name Lucent Academy Dropout, Suzuna
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay|PlacedBy Adult's Charm?, Misaki
+{
+    PayCost 1 Discard 1 HasTrait Landosol
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget HasTrait Landosol
+        {
+            TargetLocation OpponentCenterStage
+            NarrowTargets CanBeChosen && Compare ThatCardsLevel 3 OrLess
+            ChooseCharacterFromTargets Choose a character to put to bottom deck.
+            MoveCardToBottom OpponentDeck
+        }
+    }
+}
+Text Auto: [(1) Put a «Landosol» character from your hand to the waiting room] When this card is placed on the stage from your hand or by effect of Auto: ability of your "Adult's Charm?, Misaki" to the stage, you may pay the cost. If you do, reveal the top card of your deck. If it's a «Landosol» character, choose a level 3 or lower character in your opponent's center stage and put it on the bottom of the deck.
+EndCard
+
+Character: PRD/W100-063
+Name Lucent Academy Dropout, Misaki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+*GainPowerForEachOther(500,Landosol)
+*Healer
+EndCard
+
+Character: PRD/W100-064
+Name Peace in the Streets, Matsuri
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals Teaching of the Chivalry, Tomo
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If you have another "Teaching of the Chivalry, Tomo", this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+    If StageContains 1 Other && HasTrait Landosol
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen && Compare ThatCardsLevel 0 OrLess
+        ChooseCharacterFromTargets Choose a character to put in waiting room
+        MoveCard WaitingRoom
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, if you have another «Landosol» character, you may choose a level 0 or lower character in your opponent's center stage and put it in the waiting room.
+EndCard
+
+Character: PRD/W100-065
+Name Final Battle at the Capital, Miyako
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets Compare ThatCardsLevel 0 OrLess
+    If HasTarget
+    {
+        TargetSelf
+        GainSpecialEffect FreeSideAttack
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 level 0 or lower character among them, this card's soul does not decrease when doing a side attack until end of turn.
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        SearchWaitingRoom HasTrait Landosol
+        *GiveOtherCharacterPower(1000,Landosol)
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Landosol» character in your waiting room and return it to your hand, choose 1 of your other «Landosol» characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: PRD/W100-066
+Name People to Protect, Tomo
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnAttack
+{
+    If StageContains 1 Other && HasTrait Landosol
+    {
+        GainPower 1500
+    }
+}
+Quick
+Text Auto: When this card attacks, if you have another «Landosol» character, this card gets +1500 power until end of turn.
+*MoveOtherWithTraitToBackstageOnReverse(Landosol)
+EndCard
+
+Character: PRD/W100-067
+Name Scream of the Soul, Karyl
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*ScryBackup(Landosol)
+Backup 2000
+EndCard
+
+Character: PRD/W100-068
+Name Commencement of the Party, Christina
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnUseThisCardsBackup
+{
+    PayCost 2 Send 1 WaitingRoom Any
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && EarlyPlay
+        If HasTarget
+        {
+            ChooseCharacterFromTargets Choose 1 of your Opponent's Characters whose Level is higher than your Opponent and put it in the Waiting Room.
+            MoveCard WaitingRoom
+        }
+    } 
+}
+Text Auto: [(2) Put 1 character from your stage in the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than the level of your opponent and put it in the waiting room.
+Backup 2500
+EndCard
+
+Character: PRD/W100-069
+Name Being Positive, Jun
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Auto: StartOpponentAttackPhase
+{
+    If InLocation CenterStage
+    {
+        *GiveCharacterPower(3500,Any)
+        GainEffect
+        {
+            Cont: GiveSelf
+            {
+                If InBattle
+                {
+                    GainSpecialEffect ReceiveNoDamageFromAutoEffects
+                }
+            }
+        }
+    }
+}
+Text Auto: At the beginning of your opponent's draw phase, if this card is in the center stage, choose 1 of your characters, and that character gets +3500 power and the following ability until end of turn. "Cont: During battles involving this card, you do not take damage from effects of Auto: abilities of your opponent's characters."
+EndCard
+
+Character: PRD/W100-070
+Name Move of Reversal, Suzuna
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnDamageNotCanceled
+{
+    GainPower 6000
+}
+Quick
+Text Auto: When damage dealt by this card is not canceled, this card gets +6000 power until end of turn.
+EndCard
+
+Character: PRD/W100-071
+Name Happy Time, Karyl
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to give -500 power.
+        LosePower 500
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Landosol» character, choose a character in your opponent's center stage, and that character gets -500 power until end of turn.
+Auto: OnClimaxPlay
+{
+    PayCost SendSelf Hand
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1 soul.
+        GainSoul 1
+    }
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +1 soul until end of turn.
+EndCard
+
+Character: PRD/W100-072
+Name Teaching of the Chivalry, Tomo
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Landosol
+    {
+        SearchDeck NameEquals Peace in the Streets, Matsuri
+    }
+}
+Text Auto: [Put a «Landosol» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Peace in the Streets, Matsuri", reveal it, put it in your hand, and shuffle your deck.
+Auto: OnDirectAttack
+{
+    GainSoul 1
+}
+Quick
+Text Auto: When this card direct attacks, this card gets +1 soul until end of turn.
+EndCard
+
+Character: PRD/W100-073
+Name Regina Geas, Christina
+Color R
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: Global
+{
+    If Not MyCard
+    {
+        GainEffect
+        {
+            Auto: Encore 2
+            {
+            }
+            Text Auto: ENCORE [(2)]
+        }
+    }
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]".
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Landosol
+    {
+        DrawCard
+    }
+}
+Text Auto: [Put a «Landosol» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: PRD/W100-074
+Name Duty of the Knights, Matsuri
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnOtherAttacks
+{
+    IfOther HasTrait Landosol
+    {
+        SetXToNumberOfCharacters Other && HasTrait Landosol
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Quick
+Text Auto: When your other «Landosol» character attacks, this card gets +X power until end of turn. X equals 500 times the number of your other «Landosol» characters.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: PRD/W100-075
+Name Adult's Charm?, Misaki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals Lucent Academy Dropout, Suzuna
+    {
+        GainPower 6000
+    }
+}
+Text Cont: If you have another "Lucent Academy Dropout, Suzuna", this card gets +6000 power.
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Landosol
+    {
+        SearchLocationForTargets WaitingRoom 1 1 NameEquals Lucent Academy Dropout, Suzuna
+        PlaceOnStage false true true false
+    }
+}
+Text Auto: [Put a «Landosol» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Lucent Academy Dropout, Suzuna" in your waiting room and put it in any position on the stage.
+EndCard
+
+Character: PRD/W100-076
+Name Continuing the Adventure, Karyl
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Landosol
+    MultiplyXValue 2000
+    GainPower X
+}
+Text Cont: This card gets +2000 power for each of your other «Landosol» characters in the backstage.
+EndCard
+
+Event: PRD/W100-077
+Name Utopia Taken
+Color R
+Level 1
+Cost 1
+Effect: 
+{
+    MoveCard Memory
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Landosol || IsEvent
+    {
+        MoveCard Hand
+    }
+}
+Text Put this card into memory.\nReveal the top card of your deck. If that cards is either a «Landosol» character or and event, put that card in your hand.
+Auto: StartClimaxPhase
+{
+    *ScryToBottom
+}
+InMemory
+Text Auto: MEMORY At the beginning of your climax phase, if this card is in your memory, look at the top card of your deck and put it either on top of bottom of the deck.
+EndCard
+
+Climax: PRD/W100-078
+Name Woven Bond
+*StandbyClimax
+EndCard
+
+Climax: PRD/W100-079
+Name Inferno Shield
+*StandbyClimax
+EndCard
+
+Character: PRD/W100-080
+Name Queen Labyrinth, Labyrista
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Landosol
+    {
+        *GiveCharacterPower(2000,Any)
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Landosol» character, choose 1 of your characters, that character gets +2000 power until end of turn.
+*DropSearch(Landosol)
+EndCard
+
+Character: PRD/W100-081
+Name Joy of Singing, Chika
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Wind-Covered Song
+Auto: StartMyEncoreStep
+{
+    If Climax Wind-Covered Song && StageContains 1 Other && HasTrait Landosol
+    {
+        PayCost SendClimax WaitingRoom
+        {
+            SearchDeck HasTrait Landosol
+        }
+    }
+}
+Text Auto: CxCombo [Put a "Wind-Covered Song" from your climax area in the waiting room] At the beginning of your encore step, if you have another «Landosol» character, you may pay the cost. If you do, search your deck for up to 1 «Landosol» character, reveal it, put it in your hand, and shuffle your deck.
+*Act1RestSelfSearchBrainstorm(Landosol)
+EndCard
+
+Character: PRD/W100-082
+Name Best Outfit, Tsumugi
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Carmina! On stage!
+Auto: OnAttack
+{
+    If StageContains 2 Other && HasTrait Landosol
+    {
+        *GiveCharacterPower(1500,Landosol)
+    }
+}
+Text Auto: When this card attacks, if the number of other «Landosol» characters you have is 2 or more, choose 1 of your «Landosol» characters, and that character gets +1500 power until end of turn.
+Auto: OnSpecificClimaxPlay Carmina! On stage!
+{
+    If StageContains 1 Other && HasTrait Landosol
+    {
+        TargetLocation Stage
+        NarrowTargets HasTrait Landosol
+        ChooseCharacterFromTargets Choose a character to give the effect.
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                SearchWaitingRoom HasTrait Landosol
+            }
+            Text Auto: When this card's battle opponent becomes reverse, you may choose a «Landosol» character in your waiting room and return it to your hand.
+        }
+    }
+}
+Text Auto: CxCombo When "Carmina! On stage!" is placed on your climax area, if you have another «Landosol» character, choose 1 of your «Landosol» characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may choose a «Landosol» character in your waiting room and return it to your hand."
+EndCard
+
+Character: PRD/W100-083
+Name Smile to Everyone, Nozomi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+*EarlyPlay4OrMore(Landosol)
+Auto: OnPlay
+{
+	Question_Obvious Send a character in your clock to the bottom of the deck?
+	If Yes
+	{
+		TargetLocation Clock
+		NarrowTargets HasTrait Landosol
+		ChooseCharacterFromTargets Choose a character to send to the bottom of the deck.
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 «Landosol» character in your clock and put it on the bottom of your deck.
+Auto: OnPlay
+{
+    UntilEndOfOpponentsTurn
+    GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: PRD/W100-084
+Name Childlike Big Sister, Ayane
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If StageContains 1 Other && HasTrait Landosol
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If you have another «Landosol» character, this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+    If StageContains 1 Other && HasTrait Landosol
+    {
+        *OptionalDrawDiscard
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, if you have another «Landosol» character, you may draw a card. If you do, discard a card from your hand to the waiting room.
+EndCard
+
+Character: PRD/W100-085
+Name Oath, Yuuki
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*ClimaxExchange
+Auto: OnPlay
+{
+    If Compare Experience 2 OrMore
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1000 power.
+        UntilEndOfOpponentsTurn
+        GainPower 1000
+    }
+}
+Quick
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, if the sum of levels of cards in your level is 2 or higher, choose 1 of your characters, and that character gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: PRD/W100-086
+Name Trusting the Bond, Labyrista
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrHigher
+		ChooseCharacterFromTargets Choose 1 character to downgrade.
+		*Downgrade
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's level 1 or higher characters, your opponent chooses a level X or lower character in their waiting room and swap the chosen characters. X equals level of the character you chose this way -1.
+EndCard
+
+Character: PRD/W100-087
+Name Timid And Shy, Kurumi
+Color B
+Level 1
+Cost 1
+Power 5000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveAll
+{
+    If Not MyTurn && StageContains 2 Other && HasTrait Landosol
+    {
+        If Other && HasTrait Landosol
+        {
+            GainPower 1000
+        }
+    }
+}
+Text Cont: During your opponent's turn, if the number of other «Landosol» characters you have is 2 or more, all your other «Landosol» characters get +1000 power.
+Cont: GiveSelf
+{
+    TargetFacing
+    IfTarget Compare ThatCardsCost 0 OrLess
+    {
+        GainSpecialEffect CannotBeReversed
+    }
+}
+Text Cont: If the cost of the character facing this card is 0 or lower, this card cannot be reverse.
+EndCard
+
+Character: PRD/W100-088
+Name Final Battle at the Capital, Misogi
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to gain the effect.
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            GainSpecialEffect CannotReturnToHand
+            GainSpecialEffect CannotGoToMemory
+        }
+        Text Cont: This card cannot return to hand and cannot be sent to memory.
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets the following ability until end of turn. "Cont: This card cannot return to hand and cannot be sent to memory."
+Auto: OnDamageDealtByCharacterFacingThisCanceled
+{
+    Question Return this card to hand ?
+    If Yes
+    {
+        MoveCard Hand
+    }
+}
+Text Auto: During battles involving this card, when damage taken by you is canceled, you may return this card to hand.
+EndCard
+
+Character: PRD/W100-089
+Name Continuing the Adventure, Yuuki
+Color B
+Level 1
+Cost 0
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: InHand
+{
+    GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: You may play this card from your hand without meeting the color requirement.
+Cont: GiveAll
+{
+    If NameEquals Taste of Happiness, Pecorine || NameEquals Mission to Guide the Lord, Kokkoro || NameEquals For Whom, Karyl
+    {
+        GainEffect
+        {
+            *OnAttackCheck2ChooseTrigger
+        }
+    }
+}
+Text Cont: All your other "Taste of Happiness, Pecorine", "Mission to Guide the Lord, Kokkoro" and "For Whom, Karyl" get the following ability. "Auto: When this card attacks, look at up to the top 2 cards of your deck, choose 1 of them and put it on top of the deck, and put the rest into your waiting room."
+Auto: OnPlayedNormally
+{
+    PayCost 1
+    {
+        Bond Taste of Happiness, Pecorine|Mission to Guide the Lord, Kokkoro|For Whom, Karyl
+    }
+}
+Text Auto: BOND/"Taste of Happiness, Pecorine" "Mission to Guide the Lord, Kokkoro" "For Whom, Karyl" [(1)]
+EndCard
+
+Character: PRD/W100-090
+Name Singing-and-Dancing Fighting Idol, Nozomi
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Carmina! On stage!
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Landosol
+    {
+        PayCost Discard 1 Any
+        {
+            SearchLocationForTargets Deck 0 1 NameEquals Joy of Singing, Chika || NameEquals Best Outfit, Tsumugi
+            PlaceOnStage false true true false
+            ShuffleLocation Deck
+        }
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, if you have another «Landosol» character, you may pay the cost. If you do, search your deck for up to 1 "Joy of Singing, Chika" or "Best Outfit, Tsumugi", put it in any position on the stage, and shuffle your deck.
+Auto: OnSpecificClimaxPlay Carmina! On stage!
+{
+    If InLocation CenterStage && LocationContainsOrLess Hand 5 Any
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1000 power.
+        UntilEndOfOpponentsTurn
+        GainPower 1000
+    }
+}
+Text Auto: CxCombo When "Carmina! On stage!" is placed on your climax area, if this card is in the center stage and there are 5 or fewer cards in your hand, choose 1 of your other characters and this card, and they get +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: PRD/W100-091
+Name Final Battle at the Capital, Kyouka
+Color B
+Level 1
+Cost 1
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: StartAttackPhase
+{
+    *GiveCharacterPower(1500,Landosol)
+}
+Text Auto: At the beginning of your attack phase, choose 1 of your «Landosol» characters, and that character gets +1500 power until end of turn.
+Act: RestSelf
+{
+    TargetLocation Marker
+    If Not HasTarget
+    {
+        SearchLocationForTargets WaitingRoom 1 1 HasTrait Landosol
+        If HasTarget
+        {
+            Reveal
+            Marker_FaceDown
+        }
+    }
+}
+Text Act: [Rest this card] If there is no marker under this card, choose a «Landosol» character in your waiting room and put it face-down underneath this card as marker.
+Act: 1 SendMarker WaitingRoom RestSelf
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen && Compare ThatCardsLevel 2 OrLess
+    ChooseCharacterFromTargets Choose a character to put to waiting room.
+    MoveCard OpponentWaitingRoom
+}
+Text Act: [(1) Put a marker from underneath this card in the waiting room, rest this card] Choose a level 2 or lower character in your opponent's center stage and put it in the waiting room.
+EndCard
+
+Character: PRD/W100-092
+Name Singing-and-Dancing Fighting Idol, Chika
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Carmina! On stage!
+*LevelAssistTrait(Landosol)
+Auto: OnSpecificClimaxPlay Carmina! On stage!
+{
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        *GlobalPower(500,Landosol)
+    }
+}
+Text Auto: CxCombo When "Carmina! On stage!" is placed on your climax area, this card gets the following ability until next end of your opponent's turn. "Cont: All your other «Landosol» characters get +500 power."
+Act: 1 Discard 1 IsClimax
+{
+    SearchWaitingRoom IsCharacter
+}
+Text Act: [(1) Put 1 climax from your hand to the waiting room] Choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: PRD/W100-093
+Name Rookie Waiter, Saren
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnUseThisCardsBackup
+{
+    PayCost 1
+    {
+        SearchWaitingRoom NameEquals Rookie Waiter, Saren
+    }
+}
+Text Auto: [(1)] When you use this card's "BACKUP", you may pay the cost. If you do, choose a "Rookie Waiter, Saren" in your waiting room and return it to your hand.
+Backup 2500
+EndCard
+
+Character: PRD/W100-094
+Name My Happiness, Tsumugi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*GainPowerWithEnoughCharacters(1000,2,Landosol)
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: PRD/W100-095
+Name Power to Construct the World, Labyrista
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Combo Seven Crowns' Fierce battle
+*StockHealer
+Auto: OnEndOfAttack
+{
+    If Climax Seven Crowns' Fierce battle
+    {
+        PayCost 10
+        {
+            SearchLocationForTargets OpponentWaitingRoom 0 4 Any
+            MoveCard OpponentDeck
+            Burn 6
+        }
+    }
+}
+Text Auto: CxCombo [(10)] At the end of this card's attack, if "Seven Crowns' Fierce battle" is in your climax area and you have another «Landosol» character, you may pay the cost. If you do, choose up to 4 cards in your opponent's waiting room and put them on top of the deck in any order, and deal 6 damage to your opponent.
+EndCard
+
+Character: PRD/W100-096
+Name Final Battle at the Capital, Mimi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+	*PlayCharacterFromHand(Compare ThatCardsLevel MyLevel OrLess)
+    TargetSelf
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character in your hand whose level is equal to or lower than your level and put it in any position on the stage, and this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+    If StageContains 2 Other && HasTrait Landosol
+    {
+        PayCost 3 Discard 1 Any
+        {
+            TargetLocation OpponentBackstage
+            NarrowTargets CanBeChosen && Compare ThatCardsLevel 2 OrLess
+            ChooseCharacterFromTargets Choose a character to put in clock.
+            MoveCard Clock
+        }
+    }
+}
+Text Auto: [(3) Put 1 card from your hand to the waiting room] When this card's battle opponent becomes reverse, if the number of other «Landosol» characters you have is 2 or more, you may pay the cost. If you do, choose a level 2 or lower character in your opponent's backstage and put it in clock.
+EndCard
+
+Character: PRD/W100-097
+Name Shocked, Rino
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnUseAct
+{
+    TargetLocation Stage
+    NarrowTargets HasTrait Landosol
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    GainPower 1000
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an "Act:" ability, choose 1 of your «Landosol» characters, and that character gets +1000 power until end of turn.
+Act: RestSelf
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen
+    ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give -500 power.
+    LosePower 500
+}
+Text Act: [Rest this card] Choose up to 2 characters in your opponent's center stage, and those characters get -500 power until end of turn.
+EndCard
+
+Character: PRD/W100-098
+Name To Not Lose a Second Tme, Yuuki
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Combo Connecting the Pieces with You Once More
+*GiveMiddlePower(1500,Landosol)
+Auto: StartAttackPhase
+{
+    TargetLocation Climax
+    If Not HasTarget
+    {
+        PayCost 2
+        {
+            SearchLocationForTargets Deck 0 1 NameEquals Connecting the Pieces with You Once More
+            PlayClimax
+        }
+    }
+}
+Text Auto: CxCombo [(2)] At the beginning of your attack phase, if there are no climax cards in your climax area, you may pay the cost. If you do, search your deck for up to 1 "Connecting the Pieces with You Once More" and put it in your climax area, and shuffle your deck.
+EndCard
+
+Character: PRD/W100-099
+Name Singing-and-Dancing Fighting Idol, Tsumugi
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveFacing
+{
+    GainSpecialEffect CannotMove
+}
+Text Cont: character facing this card cannot move to another position.
+*OnAttackGivePowerForEachOther(500,Landosol)
+EndCard
+
+Character: PRD/W100-100
+Name Memory of the Books, Kurumi
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsCost 0 OrLower
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if there is 1 or fewer characters in your opponent's center stage, you may choose a cost 0 or lower character in your opponent's center stage and put it on the bottom of the deck.
+EndCard
+
+Character: PRD/W100-101
+Name Essence of the Idol, Nozomi
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    TargetLocation Marker
+    If Not MyTurn && HasTarget
+    {
+        GainLevel 1
+        GainPower 1500
+    }
+}
+Text Cont: During your opponent's turn, if there's a marker under this card, this card gets +1 level and +1500 power.
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Landosol
+    {
+        Question Put that card underneath this card as marker ?
+        If Yes
+        {
+            Marker_FaceDown
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Landosol» character, you may put it face-down underneath this card as marker.
+EndCard
+
+Character: PRD/W100-102
+Name Fateful Encounter, Shizuru
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If Not StageContains 1 Other && NameContains ユウキ
+    {
+        GainSpecialEffect CannotStand
+    }
+}
+Text Cont: If you don't have another character with "Yuuki" in its card name, this card does not stand during your stand phase.
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameContains ユウキ
+    {
+        GainPower 2500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If you have another character with "Yuuki" in its card name, this card gets +2500 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+Auto: OnReverseOpponent
+{
+    If MyTurn && StageContains 1 Other && NameContains ユウキ
+    {
+        TargetFacing
+        IfTarget OnStage
+        {
+            Question Put that character to bottom deck ?
+            If Yes
+            {
+                MoveCardToBottom OpponentDeck
+            }
+        }
+    }
+}
+Text Auto: During your turn, when this card's battle opponent becomes reverse, if you have another character with "Yuuki" in its card name, you may put that character on the bottom of the deck.
+EndCard
+
+Character: PRD/W100-103
+Name Bond with Allies, Yuuki
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    TargetLocation Marker
+    If HasTarget
+    {
+        IfTarget Not FaceDown
+        {
+            GainPower 4000
+            GainSoul 1
+        }
+    }
+}
+Text Cont: If there's a face-up marker under this card, this card gets +4000 power and +1 soul.
+EndCard
+
+Character: PRD/W100-104
+Name Searching for Memories, Chika
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnAttack
+{
+    If StageContains 4 Other && HasTrait
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +2 souls.
+        GainSoul 2
+    }
+}
+Text Auto: When this card attacks, if the number of other «Landosol» characters you have is 4 or more, choose 1 of your characters, and that character gets +2 soul until end of turn.
+*OnOtherAttackedSacrificeToGivePower(3000,Landosol)
+EndCard
+
+Character: PRD/W100-105
+Name Close Friends And Family, Ayane
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Cont: InHand
+{
+    If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && HasTrait Landosol && InLocation CenterStage
+    MultiplyXValue 1500
+    GainPower X
+}
+Text Cont: This card gets +1500 power for each of your other «Landosol» characters in the center stage.
+Auto: OnPlay
+{
+    *PutCardFromWaitingRoomIntoStock(HasTrait Landosol)
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to put to memory.
+    MoveCard OpponentMemory
+    ScheduleEffectWithTargets StartEncoreStep
+    {
+        Effect:
+        {
+            Message place the card from memory on the stage
+            OpponentPlaceOnStage false true true false
+        }
+    }
+    Text At the beginning of the encore step, your opponent put that character from their memory to any position on the stage.
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 «Landosol» character in your waiting room and put it in your stock, choose up to 1 of your opponent's characters and send it to memory, and at the beginning of the encore step, your opponent put that character from their memory to any position on the stage.
+EndCard
+
+Event: PRD/W100-106
+Name Entrusted Wish
+Color B
+Level 2
+Cost 0
+Requirement StageContains 1 NameContains コッコロ
+Effect: 
+{
+    MultipleChoiceQuestion Perform 1 of the following effects.\n1:Draw a card\n2:Choose up to 1 'Bond with Allies, Yuuki' in your waiting room and put it in any position on the stage, and that character gets +1000 power until end of turn."|1|2
+    If Answer 0
+    {
+        DrawCard
+    }
+    If Answer 1
+    {
+        SearchLocationForTargets WaitingRoom 0 1 NameEquals Bond with Allies, Yuuki
+        PlaceOnStage false true true false
+        GainPower 1000
+    }
+    TargetLocation Stage
+    NarrowTargets NameContains ユウキ && Not HasMarker
+    ChooseCharacterFromTargets Choose a character to put this card underneath it as marker.
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        MarkerTargetsUnderSavedTarget_FaceUp
+    }
+}
+Text If you don't have a character with "Kokkoro" in its card name, you cannot play this card from hand.\nChoose 1 of the 2 following effects and perform it.\n"draw a card."\n"Choose up to 1 'Bond with Allies, Yuuki' in your waiting room and put it in any position on the stage, and that character gets +1000 power until end of turn."\nChoose 1 of your characters with "Yuuki" in its card name that doesn't have any markers and put this card face-up under that character as marker.
+EndCard
+
+Climax: PRD/W100-107
+Name Carmina! On Stage!
+*GateClimax
+EndCard
+
+Climax: PRD/W100-108
+Name Connecting the Pieces with You Once More
+*BookClimax
+EndCard
+
+Climax: PRD/W100-109
+Name Seven Crowns' Fierce Battle
+*GateClimax
+EndCard
+
+Climax: PRD/W100-110
+Name Wind-Covered Song
+*GateClimax
+EndCard
+
+Character: PRD/W100-111
+Name Idol Costume, Pecorine
+Color Y
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    If Compare Experience 2 OrMore
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: EXPERIENCE If the sum of the level of the cards in your level is 2 or more, this card gets +1500 power and the following effect. "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets HasTrait Landosol
+    ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +500 power.
+    GainPower 500
+}
+Text Auto: When this card attacks, choose up to 2 of your «Landosol» characters and those characters get +500 power until end of turn.
+EndCard
+
+Character: PRD/W100-112
+Name Idol Costume, Kokkoro
+Color G
+Level 2
+Cost 1
+Power 6500
+Trigger Soul
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnTriggerCheckClimax
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +1 soul.
+    GainSoul 1
+}
+Text Auto: When your characters' trigger check reveals a climax, choose of your characters and that character gets +1 soul until end of turn.
+Act: RestSelf
+{
+    TargetTop Deck 2
+    If Compare TargetCount 2 OrMore
+    {
+        Reorder
+    }
+    Else
+    {
+        View
+    }
+}
+Text Act: [Rest this card] Look at up to 2 cards from the top of your deck and return them in any order.
+EndCard
+
+Character: PRD/W100-113
+Name Idol Costume, Karyl
+Color R
+Level 2
+Cost 1
+Power 3500
+Trigger Soul
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom HasTrait Landosol
+    }
+}
+Text Auto: [Put a card from your hand into waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Landosol» character in your waiting room and return it to your hand.
+*RevengeTrait(3000,Landosol)
+EndCard
+
+Character: PRD/W100-114
+Name Idol Costume, Yuuki
+Color B
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+    {
+        TargetSelf
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a level 0 or lower character, put this card into stock.
+Auto: OnDamageDealtByCharacterFacingThisCanceled
+{
+    Question Put this card into stock ?
+    If Yes
+    {
+        MoveCard Stock
+    }
+}
+Text Auto: During battles involving this card, if damage taken by you is canceled, you may put this card into stock.
+EndCard
+
+Character: PRD/W100-P01
+Name New Adventure, Pecorine
+Color Y
+Level 2
+Cost 2
+Power 6000
+Trigger Soul
+Soul 2
+Trait1 Landosol
+Trait2 Guild
+Cont: GiveSelf
+{
+    TargetLocation OpponentBackstage
+    SetXValue TargetCount
+    MultiplyXValue 2500
+    GainPower X
+}
+Text Cont: This card gets +2500 for each characters in your opponent's backstage
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Landosol
+    {
+        PayCost Send 1 WaitingRoom Other && HasTrait Landosol
+        {
+            *OptionalBlindStock
+            *OptionalBlindStock
+        }
+    }
+}
+Text Auto: [Put 1 other «Landosol» character from your stage to waiting room] When this card is placed on the stage from your hand, if the number of other «Landosol» characters you have is 4 or more, you may pay the cost. If you do, put up to the top 2 card of your deck into stock.
+EndCard
+
+Character: PRD/W100-P02
+Name Hikikomori in the Invory Tower, Yuni
+Color G
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: OnPlay
+{
+    OpponentChooseNumber 0 1 Declare a number.
+    Mill 1
+    IfTarget Compare ThatCardsLevel Answer Exactly
+    {
+        SetXValue Answer
+        AddToXValue 1
+        Repeat X
+        {
+            *OptionalDraw
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent declares a number between 0 and 1. Put the top card of you deck into waiting room. If the level of that card is equal to the declared number, draw up to X cards. X equals the declared number plus 1.
+*SacrificeToSave(HasTrait Landosol)
+Text Auto: [Put this card from your stage into waiting room] When your other «Landosol» character is placed from stage to waiting room, if this card in your backstage, you may pay the cost. If you do, put that character in the position this was in rest.
+EndCard
+
+//Character: PRD/W100-P03
+//Name 
+//Color 
+//Level 
+//Cost 
+//Power 
+//Soul 
+//Trait1 Landosol
+//Trait2 Guild
+//EndCard
+//Card does not exist
+
+Character: PRD/W100-P04
+Name Pricone Festival 2023 Gourmet
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+*DropSalvage
+*FreeRunner
+EndCard
+
+Character: PRD/W100-P05
+Name Pricone Festival 2023 Wish
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Landosol
+Trait2 Guild
+Auto: StartClimaxPhase
+{
+    TargetLocation Level
+    *CountColors
+    MultiplyXValue 500
+    *GiveCharacterPower(X,Landosol)
+}
+Text Auto: EXPERIENCE At the beginning of your climax phase, choose 1 of your «Landosol» characters, and that character gets +X power until end of turn. X equals the number of colors among the cards in your level times 500.
+*Act1RestSelfSearchBrainstorm(Landosol)
+EndCard

@@ -1,0 +1,1679 @@
+Character: MDE/SE45-01
+Name "New Face That Loves Apples" Freyja
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Walkure
+Auto: StartClimaxPhase
+{
+	Message Looking at the top card of the deck.
+	TargetTop Deck 1
+	View
+}
+Text Auto: At the start of your Climax Phase, you may look at the top card of your deck.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: MDE/SE45-02
+Name "Song is Hope" Makina
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Walkure
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+EndCard
+
+Character: MDE/SE45-03
+Name Immelmann Dance Hayate
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Pilot
+Trait2 Delta Flight
+*BondDiscard("New Face That Loves Apples" Freyja)
+Auto: StartOpponentAttackPhase
+{
+	PayCost Resonate "New Face That Loves Apples" Freyja
+	{
+		TargetLocation CenterStage
+		If Compare TargetCount 2 OrLess
+		{
+			TargetSelf
+			Question Move this card to an open position of your center stage?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: RESONATE [Reveal "New Face That Loves Apples" Freyja from your hand] At the start of your opponent's Attack Phase, you may pay cost. If you do, move this to an empty Front Row slot.
+EndCard
+
+Character: MDE/SE45-04
+Name "Song is Mystery" Mikumo
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Walkure
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Music|Pilot
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put 1 <Music> or <Pilot> character from your Waiting Room on the bottom of your Clock] When this is placed on stage from hand, you may pay cost. If you do, search your deck for up to 1 Level 1 or lower character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: MDE/SE45-05
+Name "Strongest Diva Mysterious Venus" Mikumo
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+	If AllYourCharacters HasTrait Music|Pilot
+	{
+		GainPower 2000
+	}
+}
+Text Cont: This cannot side attack. If all of your characters are <Music> or <Pilot>, this gets +2000 power.
+Auto: StartOpponentAttackPhase
+{
+	If AllYourCharacters HasTrait Music|Pilot
+	{
+		Question Put the top card of your deck into your waiting room?
+		If Yes
+		{
+			Mill 1
+			IfTarget Compare ThatCardsLevel 2 OrLess && IsCharacter
+			{
+				TargetSelf
+				GainEffect
+				{
+					Auto: OnFrontalAttacked
+					{
+						Question Return the attack target to your hand?
+						If Yes
+						{
+							MoveCard Hand
+						}
+					}
+					Text Auto: When this card is frontal attacked, you may return this card to your hand.
+				}
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if all of your characters are <Music> or <Pilot>, you may put the top card of your deck into your waiting room. If that card is a level 2 or lower character, this card gains the following ability until end of turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: MDE/SE45-06
+Name "Song is Love" Reina
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Walkure
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		RevealUpTo Deck 4
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Music|Pilot
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1)] When your climax is placed on your climax area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Music> or <Pilot> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		Message Choose a character to get +1500 power and +1 level.
+		ChooseCharacterFromTargets
+		GainPower 1500
+		GainLevel 1
+		
+	}
+}
+Text Auto: [Return this card to your hand] When your Climax is placed on the Climax Area, you may pay cost. If you do, choose 1 of your characters, this turn, it gets +1 Level and +1500 power.
+EndCard
+
+Character: MDE/SE45-07
+Name Their Feelings Freyja & Mirage
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Music
+Trait2 Pilot
+*GiveAllOpponentsEncore2
+*DropSearch(Music|Pilot)
+EndCard
+
+Character: MDE/SE45-08
+Name "Song is Life" Kaname
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trigger Soul
+Trait1 Music
+Trait2 Walkure
+Combo AXIA ~Daisuki de Daikirai~
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Music|Pilot
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Music> or <Pilot> character, this gets +3000 power.
+Auto: OnAttack
+{
+	  TargetLocation Climax
+  	  If HasTarget && Not NameEquals Diva In Abyss
+  	  {
+   		If Climax AXIA ~Daisuki de Daikirai~ ||| LocationContains Memory 2 NameEquals Flying Goddess &&& LocationContains WaitingRoom 1 NameEquals AXIA ~Daisuki de Daikirai~
+			{
+				SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsCost 0 OrLess
+				PlaceOnStage True True False False
+				//ScheduleRepeatingEffect OnEndOfOtherCharactersAttack|OnEndOfAttack
+				//{
+				//	Effect:
+				//	{
+				//		If Compare AttacksThisTurn 3 OrMore
+				//		{
+				//			TargetLocation Stage
+				//			GainSpecialEffect CannotAttack
+				//		}
+				//	}
+				//	Slow
+				//}
+				ApplyEffectToPlayerUntil CannotAttack EndOfTurn Compare AttacksThisTurn 3 OrMore
+			}
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "AXIA ~Daisuki de Daikirai~" in your Climax Area, choose up to 1 Cost 0 or lower character in your Waiting Room, place it on an empty front row slot on your Stage, this turn, you cannot attack 4 or more times this turn.
+EndCard
+
+Character: MDE/SE45-09
+Name Silent Hacker Reina
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Music|Pilot
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Music> or <Pilot> characters, this gets +2000 power.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: MDE/SE45-10
+Name Onyanoko Girl Makina
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Music|Pilot
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+*OnPlayGainPowerForEach(500,Music|Pilot)
+EndCard
+
+Character: MDE/SE45-11
+Name "By the Great Wind" Aerial Knights
+Color Y
+Level 1
+Cost 1
+Power 1000
+Trait1 Pilot
+Trait2 Windermere Kingdom
+Trigger Soul
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters HasTrait Music|Pilot
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are <Music> or <Pilot>, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: MDE/SE45-12
+Name Hayate, the Boy Riding the Wind
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Pilot
+Trait2 Delta Flight	
+*LevelAssistTrait(Music|Pilot)
+Auto: StartClimaxPhase
+{
+	If StageContains 2 Other && HasTrait Music|Pilot
+	{
+		PayCost 1 Discard 2 Any
+		{
+			If StageContainsOrLess 0 Other && NameEquals Hayate, the Boy Riding the Wind 
+			{
+				TempLabel ActiveCont
+			}
+		}
+	}
+}
+Text Auto: [(1) Discard 2 cards] At the start of your Climax Phase, if you have 2 or more other <Music> or <Pilot> characters, you may pay cost. If you do, this turn, this gains the following ability, "Cont: If you do not have another "Hayate, the Boy Riding the Wind", after performing the effect of ""Singing is Living" Freyja and Hayate"'s Climax Combo, perform 1 of the effects that was not chosen."
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Choice
+	{
+		PayCost 1
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: [(1)] When you Trigger a Climax with a Choice Trigger, you may pay cost. If you do, draw 1 card. 
+EndCard
+
+Character: MDE/SE45-13
+Name Ikenai Borderline Mikumo
+Color Y
+Level 2
+Cost 0
+Trigger Soul
+Power 2500
+Trait1 Music
+Trait2 Walkure
+Combo Ikenai Borderline
+Cont: InHand
+{
+	If Compare CardsInDeck 5 OrLess ||| LocationContainsOrLess WaitingRoom 2 IsClimax
+	{
+		LoseLevel 1
+	}
+}	
+Text Cont: If you have 5 or less cards in your deck or 2 or less Climaxes in your Waiting Room, this gets -1 Level in hand.
+*PowerOnMyTurn(6000)
+Auto: StartMyEncoreStep
+{
+	If InLocation CenterStage &&& StageContains 1 Other && HasTrait Music|Pilot
+	{
+		  TargetLocation Climax
+  		  If HasTarget && Not NameEquals Diva In Abyss
+  		  {
+			If Climax Ikenai Borderline ||| LocationContains Memory 2 NameEquals Flying Goddess &&& LocationContains 	WaitingRoom 1 NameEquals Ikenai Borderline
+        		    {
+           			     If FacingIsEmptyOrReversed
+             				   {
+              				      PayCost SendClimax WaitingRoom
+                 				   {
+                  				      SearchWaitingRoom HasTrait Music|Pilot
+                 				       SearchWaitingRoom HasTrait Music|Pilot
+                    				   }
+                			   }
+            		     }
+		}
+	}
+}
+Text Auto: CxCombo [Send "Ikenai Borderline" from your Climax Area to Waiting Room] At the start of your Encore Step, if this is in your Front Row, and you have another <Music> or <Pilot> character, and the slot across from this is either empty or has a Reversed character, you may pay cost. If you do, choose up to 2 <Music> or <Pilot> characters in your Waiting Room, add them to hand.
+EndCard
+
+Character: MDE/SE45-14
+Name "Reaper" Messer
+Color Y
+Level 2
+Cost 0
+Trigger Soul
+Power 6000
+Trait1 Pilot
+Trait2 Delta Flight
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseBackup
+	GainSpecialEffect CannotUseEvents
+}
+Text Cont: You cannot play Events or BACKUPs from hand.
+*EarlyPlayInLevel("Reaper" Messer)
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals "Song is Life" Kaname
+	{
+		GainEffect
+		{
+			*PowerOnMyTurn(3000)
+		}
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				Question Put "Reaper" Messer into memory?
+				If Yes
+				{
+					MoveCard Memory
+					ScheduleEffect StartDrawPhase
+					{
+						Effect:
+						{
+							TargetLocation Memory
+							NarrowTargets NameEquals "Reaper" Messer
+							FirstTarget
+							If HasTarget
+							{
+								Message "Reaper" Messer returns from memory.
+								PlaceOnStage false true true false
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+Text Cont: If you have another ""Song is Life" Kaname", this gains the following 2 abilities, "Cont: During your turn, this gets +3000 power." "Auto: When this card's battle opponent is Reversed, you may send this to Memory. If you do, at the start of your next Draw Phase, choose 1 ""Reaper" Messer" from Memory, and place it on stage in any slot."
+EndCard
+
+Character: MDE/SE45-15
+Name Genius Bloodline Mirage
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Pilot
+Trait2 Delta Flight
+*Level3Assist
+Act: RestSelf
+{
+   PeekTop OpponentDeck
+	Question Place this card to bottom deck? (Press no to return it to the top)
+	If Yes
+	{
+		MoveCard BottomDeck
+	}
+	If No
+	{
+		EndPeek Deck
+	}
+   *ScryToBottom
+}
+Text Act: [Rest this] Look at the top card of your opponent's deck, and put it on top or bottom of their deck, then look at the top card of your deck, and put it on top of your deck or into your Waiting Room. 
+EndCard
+
+Character: MDE/SE45-16
+Name For Complaints Contact PR Mirage
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Pilot
+Trait2 Delta Flight
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Send 1 WaitingRoom HasTrait Music|Pilot
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		LoseSoul 1
+	}
+}
+Text Auto: [(1) Send 1 of your <Music> or <Pilot> characters from stage to Waiting Room] When you use this card's BACKUP, you may pay cost. If you do, choose 1 of your opponent's characters, this turn, it gets -1 Soul.
+Backup 2500
+EndCard
+
+Character: MDE/SE45-17
+Name "Genius" Max
+Color Y
+Level 2
+Cost 1
+Soul 0
+Power 9500
+Trait1 Pilot
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music|Pilot
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Repeat 2
+			{
+				TargetLocation OpponentStage
+				NarrowTargets Compare ThatCardsLevel 1 OrHigher
+				AIChoice SendToWaitingRoom
+				ChooseCharacterFromTargets_Optional Choose a character to downgrade.
+				If HasTarget
+				{
+					*Downgrade
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1) Discard 1 card] When this is placed on stage from hand, if you have another <Music> or <Pilot> character, you may pay cost. If you do, perform the following effect twice, "You may choose 1 of your opponent's Level 1 or higher characters. If you do, your opponent chooses 1 Level X or lower character from their Waiting Room, and swap them. X equals the Level of the character chosen by you -1."
+EndCard
+
+Character: MDE/SE45-18
+Name "Singing is Living" Freyja and Hayate
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Trait2 Pilot
+Combo ALIVE ~Inori no Uta~
+Auto: OnAttack
+{
+
+	
+	  TargetLocation Climax
+  	  If HasTarget && Not NameEquals Diva In Abyss
+  	  {
+		If Climax ALIVE ~Inori no Uta~ ||| LocationContains Memory 2 NameEquals Flying Goddess &&& LocationContains WaitingRoom 1 NameEquals ALIVE ~Inori no Uta~
+		{
+		MultipleChoiceQuestion Choose an effect:\n1. Draw up to 1 card, heal up to 1.\n2. Your opponent chooses 2 Climax from their Waiting Room, and shuffles all other cards from their Waiting Room into their deck, and this turn, this gets +5000 power.\n3. Deal 2 damage to your opponent.|1|2|3
+		If Answer 0
+		{
+			*OptionalDraw
+			*OptionalHeal 
+			TargetLocation Stage
+			NarrowTargets NameEquals Hayate, the Boy Riding the Wind
+			SetXValue TargetCount
+			If Compare X 1 Exactly
+			{
+				IfTarget HasTempLabel ActiveCont
+				{
+					MultipleChoiceQuestion Choose another effect to resolve.\n1. Your opponent chooses 2 Climax from their Waiting Room, and shuffles all other cards from their Waiting Room into their deck, and this turn, this gets +5000 power.\n2. Deal 2 damage to your opponent.|Choice 1|Choice 2
+					If Answer 0
+					{
+						OpponentSearchLocationForTargets WaitingRoom 2 2 IsClimax
+						ReverseTargets OpponentWaitingRoom
+						MoveCards OpponentDeck
+						ShuffleLocation OpponentDeck
+						TargetSelf
+						GainPower 5000
+					}
+					If Answer 1
+					{
+						Burn 2
+					}
+				}
+			}
+		}
+		If Answer 1
+		{
+			OpponentSearchLocationForTargets WaitingRoom 2 2 IsClimax
+			ReverseTargets OpponentWaitingRoom
+			MoveCards OpponentDeck
+			ShuffleLocation OpponentDeck
+			TargetSelf
+			GainPower 5000
+			TargetLocation Stage
+			NarrowTargets NameEquals Hayate, the Boy Riding the Wind
+			SetXValue TargetCount
+			If Compare X 1 Exactly
+			{
+				IfTarget HasTempLabel ActiveCont
+				{
+					MultipleChoiceQuestion Choose another effect to resolve.\n1. Draw up to 1 card, heal up to 1.\n2. Deal 2 damage to your opponent.|Choice 1|Choice 2
+					If Answer 0
+					{
+						*OptionalDraw
+						*OptionalHeal 
+					}
+					If Answer 1
+					{
+						Burn 2
+					}
+				}
+			}
+		}
+		If Answer 2
+		{
+			Burn 2
+			TargetLocation Stage
+			NarrowTargets NameEquals Hayate, the Boy Riding the Wind
+			SetXValue TargetCount
+			If Compare X 1 Exactly
+			{
+				IfTarget HasTempLabel ActiveCont
+				{
+					MultipleChoiceQuestion Choose another effect to resolve.\n1. Draw up to 1 card, heal up to 1.\n2. Your opponent chooses 2 Climax from their Waiting Room, and shuffles all other cards from their Waiting Room into their deck, and this turn, this gets +5000 power.|Choice 1|Choice 2
+					If Answer 0
+					{
+						*OptionalDraw
+						*OptionalHeal 
+					}
+					If Answer 1
+					{
+						OpponentSearchLocationForTargets WaitingRoom 2 2 IsClimax
+						ReverseTargets OpponentWaitingRoom
+						MoveCards OpponentDeck
+						ShuffleLocation OpponentDeck
+						TargetSelf
+						GainPower 5000
+					}
+				}
+			}
+		}
+	}
+    }
+}					
+Text Auto: CxCombo When this attacks, if you have "ALIVE ~Inori no Uta~" in your Climax Area, choose 1 of the following 3 effects and resolve it, "Draw up to 1 card, heal up to 1." "Your opponent chooses 2 Climax from their Waiting Room, and shuffles all other cards from their Waiting Room into their deck, and this turn, this gets +5000 power." "Deal 2 damage to your opponent."
+EndCard
+
+Character: MDE/SE45-19
+Name "Song is Energy" Freyja
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Trait2 Walkure
+Combo Ikenai Borderline
+*Healer
+Auto: OnAttack
+{
+	
+	  TargetLocation Climax
+  	  If HasTarget && Not NameEquals Diva In Abyss
+  	  {
+		If Climax Ikenai Borderline ||| LocationContains Memory 2 NameEquals Flying Goddess &&& LocationContains WaitingRoom 1 NameEquals Ikenai Borderline
+		{
+			PayCost 1 Discard 1 Any 
+				{
+				Peek OpponentDeck 3
+				SaveTargets 
+				ForEachTarget 
+					{
+					LoadTargets 
+					Message Choose cards to return to the top of the deck.
+					ChooseCardsFromTargets 0 1 Any
+					If HasTarget
+						{
+						MoveCard OpponentDeck
+						RemoveCurrentFromSavedTargets
+						}
+						Else 
+						{
+						StopLoop
+						}
+					}
+				PutTheRestIntoTheWaitingRoom
+				TargetSelf 
+				GainPower 1000
+				}
+		}
+	}
+}
+Text Auto: [(1) Discard 1 card] When this attacks, if you have "Ikenai Borderline" in your Climax Area, you may pay cost. if you do, look at up to 3 cards from the top of your opponent's deck, choose up to 3 cards from among them, put them on top of your opponent's deck in any order, and send the rest to Waiting Room, and this turn, this gets +1000 power. 
+EndCard
+
+Character: MDE/SE45-20
+Name Tears of Explosive Sound, Kaname
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Music
+Trait2 Walkure
+Cont: GiveAll
+{
+	If Compare Experience 4 OrMore
+	{
+		If Other &&& HasTrait Pilot || NameEquals Tears of Explosive Sound, Kaname
+		{
+			GainEffect
+			{
+				*HandEncore
+			}
+		}
+	}
+}
+Text Cont: EXPERIENCE If the sum of Levels of cards in your Level Zone is 4 or more, all of your other <Pilot> and "Tears of Explosive Sound, Kaname" gains "Auto: ENCORE [Discard 1 character]".
+*StockHealer
+EndCard
+
+Event: MDE/SE45-21
+Name Until the Day When This Voice Ends
+Color R
+Level 2
+Cost 0
+Text If you don't have a <Music> or <Pilot> character, this cannot be played from hand.
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect:\n1. Search your deck for up to 1 <Music> or <Pilot> character, show it to your opponent, add it to hand, and shuffle your deck afterwards. \n2. Choose 1 of your characters, this turn, it gets +3000 power. Send this to Stock.|1|2
+	If Answer 0
+	{
+		SearchDeck HasTrait Music|Pilot
+	}
+	If Answer 1
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 3000
+		TargetSelf
+		MoveCard Stock
+	}
+}
+ActivationRequirement StageContains 1 HasTrait Music|Pilot	
+Text Choose 1 of the following 2 effects and resolve it, "Search your deck for up to 1 <Music> or <Pilot> character, show it to your opponent, add it to hand, and shuffle your deck afterwards." "Choose 1 of your characters, this turn, it gets +3000 power. Send this to Stock."
+EndCard
+
+Climax: MDE/SE45-22
+Name AXIA ~Daisuki de Daikirai~
+*ChoiceClimax
+Trait1 Link: Super Dimension Venus
+EndCard
+
+Climax: MDE/SE45-23
+Name Ikenai Borderline
+*ChoiceClimax
+Trait1 Link: Super Dimension Venus
+EndCard
+
+Climax: MDE/SE45-24
+Name ALIVE ~Inori no Uta~
+*ChoiceClimax
+Trait1 Link: Super Dimension Venus
+EndCard
+
+Character: MDE/SE45-25
+Name Super Dimension Witch Reina
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Walkure
+Act: 1 RestSelf
+{
+	If Compare CardsInDeck 6 OrMore
+	{
+		SetXValue CardsInDeck
+		SubtractFromXValue 5
+		Mill X
+		If LocationContainsWithDifferentNames WaitingRoom 4 IsClimax
+		{
+			TargetSelf
+			GainEffect
+			{
+				Auto: StartMyEncoreStep
+				{
+					Refresh
+				}
+				Text Auto: At the start of your Encore Step, shuffle all cards from your Waiting Room into your deck.
+			}
+		}
+		Else
+		{
+			TargetSelf
+			MoveCard Clock
+		}
+	}
+}
+Text Act: [(1) Rest this] If your deck has 6 or more cards, mill until you have 5 cards left, if your Waiting Room has 4 or more Climaxes with different names, this turn, this gains the following ability, "Auto: At the start of your Encore Step, shuffle all cards from your Waiting Room into your deck." If your Waiting Room has 3 or less Climaxes with different names, instead send this to Clock.
+*Act1RestSelfSalvageBrainstorm(Music|Pilot)
+EndCard
+
+Character: MDE/SE45-26
+Name Mandarin Noble Kaname
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Walkure
+*OnAttackGivePower(1000,Any)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: MDE/SE45-27
+Name "Battle is OK, Former Solo Idol" Kaname
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Walkure
+Auto: StartClimaxPhase
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Music|Pilot
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}
+Text Auto: At the start of your Climax Phase, choose 1 of your <Music> or <Pilot> characters, this turn, it gets +1000 power.
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music|Pilot
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent is Reversed, choose 1 character in your Waiting Room, you may add it to hand.
+	}
+}
+Text: Act: [(1) Rest this] Choose 1 of your <Music> or <Pilot> characters, this turn, it gains the following ability, "AUTO - When this card's battle opponent is Reversed, choose 1 character in your Waiting Room, you may add it to hand."
+EndCard
+
+Character: MDE/SE45-28
+Name New Face And Ace Freyja and Mikumo
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Walkure
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music|Pilot
+	{
+		MultipleChoiceQuestion Choose 1 of the following effects and resolve it.\n1. Look at up to 3 cards from the top of your deck, choose up to 1 Event from among them, show it to your opponent, add it to hand, and send the rest to Waiting Room. If you added a card to hand, discard 1 card.\n2. [Discard 1 card] You may pay cost. If you do, choose 1 "Flying Goddess" in your Waiting Room, add it to hand.|Choice 1|Choice 2
+		If Answer 0
+		{
+			RevealUpTo Deck 3
+			ChooseCardsFromTargets 0 1 IsEvent
+			If HasTarget
+			{
+				RevealTargets
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+				CheckForEmptyDeck
+				Discard 1 Any
+			}
+			PutTheRestIntoTheWaitingRoom
+		}
+		If Answer 1
+		{
+			PayCost Discard 1 Any
+			{
+				SearchWaitingRoom NameEquals Flying Goddess
+			}
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have another <Music> or <Pilot> character, choose 1 of the following 2 effects and resolve it,"Look at up to 3 cards from the top of your deck, choose up to 1 Event from among them, show it to your opponent, add it to hand, and send the rest to Waiting Room. If you added a card to hand, discard 1 card." "[Discard 1 card] You may pay cost. If you do, choose 1 "Flying Goddess" in your Waiting Room, add it to hand."
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it into your hand, then put the rest into your waiting room.
+EndCard
+
+Character: MDE/SE45-29
+Name The Future is for Us Walkure
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Walkure
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 IsCharacter
+	{
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: [Shuffle 2 characters from your Waiting Room into your deck] When this is placed on stage from hand, you may pay cost. If you do, this turn, this does not suffer Soul Penalty when Side Attacking.
+*OnAttackGivePower(1500,Any)
+EndCard
+
+Character: MDE/SE45-30
+Name Super Dimension Venus Walkure Freyja
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 2 or less Stock, this gets +1500 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: MDE/SE45-31
+Name Scarlet Noble Freyja
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Walkure
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Music|Pilot
+		*GiveOtherCharacterPower(1000,Music|Pilot)
+	}
+}
+Text Auto: [(1) Discard 1 card] When this is placed on stage from hand, you may pay cost. If you do, choose 1 <Music> or <Pilot> character from your Waiting Room, add it to hand, then choose 1 of your other <Music> or <Pilot> characters, this turn, it gets +1000 power.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Music|Pilot
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [(1) Send this to Waiting Room] When your other <Music> or <Pilot> character is Front Attacked, you may pay cost. If you do, return that character to hand.
+EndCard
+
+Character: MDE/SE45-32
+Name Super Dimension Witch Kaname
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Walkure
+*PowerOnMyTurn(1000)
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 IsClimax
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		CheckForEmptyDeck
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this is sent from Stage to Waiting Room, look at up to 3 cards from the top of your deck, choose up to 1 climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: MDE/SE45-33
+Name "Lovely" Reina and "Mechanically Cute" Makina
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Walkure
+Combo Giritic BEGINNER
+Auto: StartMyEncoreStep
+{
+	  TargetLocation Climax
+  	  If HasTarget && Not NameEquals Diva In Abyss
+  	  {
+		If Climax Giritic BEGINNER ||| LocationContains Memory 2 NameEquals Flying Goddess &&& LocationContains WaitingRoom 1 NameEquals Giritic BEGINNER
+		{
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+			If HasTarget
+			{
+			RevealTargets
+			MoveCard Hand
+			Discard 1 Any
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the start of your Encore Step, if you have "Giritic BEGINNER" in your Climax Area, choose 1 character in your Waiting Room, you may add it to hand. If you do, discard 1 card.
+*SacrificeToSave(HasTrait Music|Pilot)
+Text Auto: [Send this to Waiting Room] When your other <Music> or <Pilot> character is sent from stage to Waiting Room, if this is in your Back Row, you may pay cost. If you do, return that character to stage in its former slot Rested.
+EndCard
+
+Character: MDE/SE45-34
+Name Super Dimension Venus Walkure Makina
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Walkure
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		*CheckAndAddAll(2, HasTrait Music|Pilot)
+	}
+}
+
+Text Auto: [(1) Put the top card of your deck into Clock] When this is sent from stage to Waiting Room, you may pay cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 <Music> or <Pilot> characters from among them, show them to your opponent, add them to hand, and send the rest to Waiting Room.
+EndCard
+
+Character: MDE/SE45-35
+Name "Instantaneous Complete Combustion" Mikumo
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Walkure
+*ClimaxExchange
+EndCard
+
+Character: MDE/SE45-36
+Name "Singing is Joy" Dark Kaname
+Color R
+Level 1
+Cost 0
+Power 1000
+Soul 2
+Trait1 Music
+Trait2 Darkness
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music|Pilot
+	{
+		Mill 2
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 2 OrLess
+			ChooseCharacterFromTargets_Optional
+			MoveCard OpponentMemory
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have another <Music> or <Pilot> character, mill 2. If there is a Climax(es) among those cards, choose 1 of your opponent's level 2 or lower front row characters, you may send it to Memory.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: During this card's battle, when the damage you received is canceled, you may return this card to your hand.
+EndCard
+
+Character: MDE/SE45-37
+Name Super Dimension Venus Walkure Kaname
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 2
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Music|Pilot
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Music> or <Pilot> character, this gets +3000 power.
+*OnOtherAttackedSacrificeToGivePower(1500,Music|Pilot)
+EndCard
+
+Character: MDE/SE45-38
+Name Super Dimension Venus Walkure Mikumo
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Music
+Trait2 Walkure
+*OnPlayGivePower(1500, Music|Pilot)
+*OnAttackGivePower(1500, Music|Pilot)
+EndCard
+
+Character: MDE/SE45-39
+Name Super Dimension Witch Freyja
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Stand User
+Trait1 Music
+Trait2 Walkure
+Combo Fukakuteisei COSMIC MOVEMENT
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, this card gets +2000 power.
+Auto: OnAttack
+{
+	  TargetLocation Climax
+  	  If HasTarget && Not NameEquals Diva In Abyss
+  	  {
+		If Climax Fukakuteisei COSMIC MOVEMENT ||| LocationContains Memory 2 NameEquals Flying Goddess &&& LocationContains WaitingRoom 1 NameEquals Fukakuteisei COSMIC MOVEMENT &&& StageContains 2 Other && HasTrait Music|Pilot
+		{
+			MultipleChoiceQuestion Choose an effect.\n1. Look at up to 4 cards from top of your Deck and search for up to 1 Character with either <Music> or <Pilot>, reveal it, put it in your hand, and put the rest in the Waiting Room.\n2. Choose a Level 2 or higher Character in your Waiting Room with either <Music> or <Pilot> and return it to your hand.|1|2
+			If Answer 0
+			{
+				*Check4Add1(Music|Pilot)
+			}
+			Else
+			{
+				SearchWaitingRoom HasTrait Music|Pilot && Compare ThatCardsLevel 2 OrHigher
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Fukakuteisei COSMIC MOVEMENT" is in your climax area and you have 2 or more other <Music> or <Pilot> characters, choose 1 of the following 2 effects and perform it. "Look at up to 4 cards from top of your deck and choose up to 1 <Music> or <Pilot> character, reveal it, put it in your hand, and put the rest into your waiting room." "Choose a Level 2 or higher character in your waiting room with either <Music> or <Pilot> and return it to your hand."
+EndCard
+
+Character: MDE/SE45-40
+Name "Song is Desire" Dark Reina
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Darkness
+*Act1RestSelfSalvageBrainstorm(Any)
+*Act1Rest2BurnBrainstorm
+EndCard
+
+Character: MDE/SE45-41
+Name Rose Noble Machina
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Power 4500
+Trait1 Music
+Trait2 Walkure
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Devil Hunter|Demon
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this is placed on stage from hand, if you have 2 or more other <Music> or <Pilot> characters, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 Other && HasTrait Music|Pilot
+		{
+			SearchDeck HasTrait Music|Pilot
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other Standing <Music> or <Pilot> characters] During the turn this is placed on stage from hand, when this card's battle opponent is Reversed, you may pay cost. If you do, search your deck for up to 1 <Music> or <Pilot> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: MDE/SE45-42
+Name "Song is Despair" Dark Makina
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Soul 2
+Trait1 Music
+Trait2 Darkness
+Auto: OnPlay
+Auto: OnPlay
+{
+    TargetLocation OpponentHand
+    ChooseRandomTarget
+    RevealTargets
+    MoveCard OpponentMemory
+    RememberTargets
+    UntilEndOfOpponentsTurn
+    ScheduleEffect EndOfOpponentsTurn
+    {
+        Effect:
+        {
+            If LocationContains OpponentMemory 1 RememberedByThisCard
+            {
+                TargetRemembered
+                MoveCard OpponentHand
+            }
+        }
+    }
+}
+Text Auto: When this card is placed on stage from hand, randomly choose 1 card from your opponent's hand, reveal it, send it to memory, and at the end of your opponent's next turn, return that card to your opponent's hand.
+*OnOtherAttackedSacrificeToGivePower(2500,Music|Pilot)
+EndCard
+
+Character: MDE/SE45-43
+Name "Have Fun at the Risk of Your Life" Kaname
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	If Compare MyLevel 3 OrMore
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets Choose a character
+				PushX
+				If HasTarget
+				{
+					IfTarget CanMove
+					{
+						FirstTarget //safety check
+						SaveTargets
+						TargetLocation OpponentStage
+						If Compare TargetCount 5 OrMore
+						{
+							//You can only exchange
+							SetXValue 1
+						}
+						Else
+						{
+							MultipleChoiceQuestion Move to open position, or exchange with another character.|Move|Exchange
+							SetXValue Answer
+						}
+						If Compare X 0 Exactly
+						{
+							//Move to an open 
+							LoadTargets
+							MoveToOpenPosition True True
+							Stand
+						}
+						Else
+						{
+							//Exchange with another card
+							TargetLocation OpponentStage
+							NarrowTargets CanMove && Not InSavedTargets
+							ChooseCharacterFromTargets Choose a character to exchange it with.
+							AddSavedToCurrentTargets
+							Exchange
+							Stand
+						}
+					}
+				}
+				PopX
+			}
+			Text Act: [Send this to Waiting Room] choose 1 of your opponent's characters, Stand it and move it to an opponent's empty slot or choose another 1 of your opponent's characters, stand them and swap them.
+		}
+	}
+}
+Text Cont: If you are Level 3 or higher, this gains the following ability, "Act: [Send this to Waiting Room] choose 1 of your opponent's characters, Stand it and move it to an opponent's empty slot or choose another 1 of your opponent's characters, stand them and swap them."
+*EarlyPlayMemoryBomb
+EndCard
+
+Character: MDE/SE45-44
+Name Dazzling Stage Walkure
+Color R
+Level 1
+Cost 1
+Trait1 Music
+Trait2 Walkure
+Power 5000
+*CannotBeReversedByCost0
+*GainPowerWhenOtherAttacks(1000,Music|Pilot)
+EndCard
+
+Character: MDE/SE45-45
+Name "For Someone" Reina
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Music|Pilot
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Music> or <Pilot> characters, this gets +2000 power.
+*HandEncore
+EndCard
+
+Character: MDE/SE45-46
+Name "Now Us" Freyja
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Music
+Trait2 Walkure
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+
+}
+Text Auto: [(2) Put 1 character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 2500
+EndCard
+
+Character: MDE/SE45-47
+Name Super Dimension Venus Walkure Reina
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Music
+Trait2 Walkure
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose up to 1 of your other characters and put it into your stock
+	MoveCard Stock
+}
+Text Act: [Rest this] Choose 1 of your other characters, send it to Stock.
+EndCard
+
+Character: MDE/SE45-48
+Name Violet Noble Mikumo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Music
+Trait2 Walkure
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Music|Pilot
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this is placed on stage from hand, you may pay cost. If you do, choose 1 <Music> or <Pilot> character from your Waiting Room, add it to hand.
+Act: SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	Bounce
+}
+Text Act: [Put this card into your waiting room] Choose 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+Character: MDE/SE45-49
+Name "For the Galaxy" Makina
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Music
+Trait2 Walkure
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage &&& Other && HasTrait Music|Pilot
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: For each of your other front row <Music> or <Pilot> characters, this gets +2000 power.
+*HandEncore
+EndCard
+
+Character: MDE/SE45-50
+Name "Song is Darkness" Dark Mikumo
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 9500
+Trait1 Music
+Trait2 Darkness
+Combo Diva In Abyss
+Auto: OnSpecificClimaxPlay Diva in Abyss
+{
+	If InLocation CenterStage &&& StageContains 1 Other && HasTrait Music
+	{
+		Question Put all characters except this "Dark Mikumo" into the waiting room?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			MoveCard WaitingRoom
+			TargetLocation OpponentStage
+			MoveCard OpponentWaitingRoom
+			TargetSelf
+			GainEffect
+			{
+				Auto: OnDamageCanceled
+				{
+					*OptionalBurn(3)
+				}
+				TimesPerTurn 1
+				Text Auto: Once per turn, when damage dealt by this card is canceled, you may deal 3 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Diva In Abyss" is placed in your Climax Area, if this is in your front row, and you have another <Music> character, you may send all other characters from both player’s stage to Waiting Room. If you do, this turn, this gain the following ability, Auto: This ability activates up to once per turn. When damage dealt by this is cancelled, you may deal 3 damage to your opponent.”
+EndCard
+
+Character: MDE/SE45-51
+Name Super Dimension Witch Makina
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Music
+Trait2 Walkure
+*EarlyPlay4OrMore(Music|Pilot)
+*Healer
+Auto: OnPlay
+{
+	If StageContains 1 Other HasTrait Music|Pilot
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this is placed on stage from hand, if you have another <Music> or <Pilot> character, until the end of your opponent's next turn, this gets +2000 power.
+EndCard
+
+Character: MDE/SE45-52
+Name Super Dimension Witch Mikumo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Walkure
+Combo Koi! Halation THE WAR
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+		TargetSelf
+		GainPower 1500
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand, you may pay cost. If you do, put the top card of your Clock into Stock, and this turn, this gets +1500 power.
+Auto: OnAttack
+{
+	  TargetLocation Climax
+  	  If HasTarget && Not NameEquals Diva In Abyss
+  	  {
+		If Climax Koi! Halation THE WAR ||| LocationContains Memory 2 NameEquals Flying Goddess &&& LocationContains WaitingRoom 1 NameEquals Koi! Halation THE WAR
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					SetXValue LastDamageGiven
+					Burn X
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may deal the same amount of damage to your opponent.
+			}
+		}
+	  }
+}
+Text Auto: CxCombo When this attacks, if you have Koi! Halation THE WAR in your Climax Area, choose 1 of your characters, this turn, it gains the following ability, "Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may deal the same amount of damage to your opponent."
+EndCard
+
+Character: MDE/SE45-53
+Name Emerald Noble Reina
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Walkure
+Auto: StartAttackPhase
+{
+	If StageContains 2 Other && HasTrait Music|Pilot
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: Global
+			{
+				If InLocation OpponentCenterStage
+				{
+					LosePower 1000
+				}
+			}
+			Text Cont: All of your opponent's Front Row characters get -1000 power.
+		}
+	}
+}  
+Quick
+Text Auto: At the start of your Attack Phase, if you have 2 or more other <Music> or <Pilot> characters, until the end of your opponent's next turn, this gains the following ability, "CONT - All of your opponent's Front Row characters get -1000 power."
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+		{
+			
+			MillOpponentBottom 4
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			If HasTarget
+			{
+				Burn X
+			}
+		}
+}
+Text Auto: [Discard 2 cards] When this attacks, you may pay cost. If you do, send the bottom 4 cards of your opponent's deck to Waiting Room, then deal X damage to your opponent. X equals the number of Climaxes sent to Waiting Room by this effect.
+EndCard
+
+Character: MDE/SE45-54
+Name "Singing is Madness" Dark Freyja
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 3
+Trait1 Music
+Trait2 Darkness
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose an effect:\n1. Reveal the top card of your deck. If that card is a <Music> or <Pilot> character, you may deal 1 damage to your opponent. \n2. [Rest 1 of your Standing characters] You may pay cost. If you do, your opponent chooses 1 Climax from their Waiting Room, and shuffles all other cards from their Waiting Room into their deck. |1|2
+	If Answer 0
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Music|Pilot
+		{
+			*OptionalBurn(1)
+		}
+	}
+	If Answer 1
+	{
+		PayCost Rest 1 CardPosition Stand
+		{
+			OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+			If HasTarget
+			{
+				ReverseTargets OpponentWaitingRoom
+				MoveCard OpponentDeck
+				ShuffleLocation OpponentDeck
+			}
+			Else
+			{
+				OpponentRefresh
+			}
+		}
+	}
+}					
+Text Auto: When this is placed on stage from hand, choose 1 of the following 2effects and resolve it, "Reveal the top card of your deck. If that card is a <Music> or <Pilot> character, you may deal 1 damage to your opponent." "[Rest 1 of your Standing characters] You may pay cost. If you do, your opponent chooses 1 Climax from their Waiting Room, and shuffles all other cards from their Waiting Room into their deck."
+EndCard
+
+Event: MDE/SE45-55
+Name Flying Goddess
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect:\n1. Draw 1 \n2. Send this to Memory|1|2
+	If Answer 0
+	{
+		DrawCard
+	}
+	If Answer 1
+	{
+		MoveCard Memory
+	}		
+}	
+ActivationRequirement StageContains 1 HasTrait Music|Pilot
+Text If you don't have a <Music> or <Pilot> character, this cannot be played from hand. Choose 1 of the following 2 effects and resolve it, "Draw 1 card." "Send this to Memory."
+Cont: InHand
+{
+	If LocationContains Memory 2 NameEquals Flying Goddess
+	{
+		ChangeCost -1	
+	}
+}
+Text Cont: MEMORY If you have 2 or more "Flying Goddess" in your memory, this card gets -1 cost in your hand.
+Text Cont: CxCombo MEMORY If this is in your Memory, and you have 2 or more of "Flying Goddess" in your Memory, card names of Climaxes with "LINK Super Dimension Venus" in your Climax Area is also treated as the same card name as Climaxes with "LINK Super Dimension Venus" in your Waiting Room.
+EndCard
+
+Event: MDE/SE45-56
+Name Galaxy Contest Song Battle
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	Refresh
+	OpponentRefresh
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			TargetBattleOpponent
+			IfTarget Compare ThatCardsLevel ThisCardsLevel OrLess
+			{
+				Question Reverse the battle opponent?
+				If Yes
+				{
+					Reverse
+				}
+			}
+		}
+	}
+}	
+Text Each player returns all cards in the waiting room to his or her deck. Each player shuffles his or her deck afterwards.
+Text Choose 1 of your characters, this turn, it gains the following ability. "Auto: When this is Reversed, if the battle opponent's Level is equal to or lower than this card's Level, you may Reverse that character."
+EndCard
+
+Climax: MDE/SE45-57
+Name Giritic BEGINNER
+*StandbyClimax
+Trait1 Link: Super Dimension Venus
+EndCard
+
+Climax: MDE/SE45-58
+Name Fukakuteisei COSMIC MOVEMENT
+*DoorClimax
+Trait1 Link: Super Dimension Venus
+EndCard
+
+Climax: MDE/SE45-59
+Name Diva In Abyss
+Color R
+*2SoulClimax
+EndCard
+
+Climax: MDE/SE45-60
+Name Koi! Halation THE WAR
+*DoorClimax
+Trait1 Link: Super Dimension Venus
+EndCard
+

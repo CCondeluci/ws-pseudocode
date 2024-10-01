@@ -1,0 +1,2983 @@
+// Love Live Nijigasaki Booster
+
+Character: LNJ/W85-001
+Name Now! To the Open Seas! Shizuku Osaka
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this is placed on stage from hand, reveal the top card of your deck. If that card is a <Music> character, this turn, this gets +2000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Discard 1 card] When this is sent from stage to waiting room, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: LNJ/W85-002
+Name I'll make your heart bloom ♪ Kasumi Nakasu
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Music
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put 1 <Music> character from your waiting room on the bottom of your clock] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: LNJ/W85-003
+Name Let's Get Started, Shioriko Mifune
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Combo Sudden Visitor, Shioriko Mifune
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Music
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	UntilEndOfOpponentsTurn
+	GainPower X
+}
+Quick
+Text Auto: When your climax is placed on the climax area, until the end of your opponent's next turn, this gets +X power. X equals the number of your <Music> characters times 500.
+Auto: StartMyEncoreStep
+{
+	If Climax Sudden Visitor, Shioriko Mifune &&& StageContains 2 Other && HasTrait Music &&& FacingIsEmptyOrReversed
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo At the start of your encore step, if you have "Sudden Visitor, Shioriko Mifune" in the climax area, this is in your center stage, you have 2 or more other <Music> characters, and the slot across from this has either no character or a Reversed character, choose 1 character from your waiting room, you may add it to hand.
+EndCard
+
+Character: LNJ/W85-004
+Name Thoughts I Want to Convey, Rina Tennoji
+Color Y
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Combo Rainbow Rose, Rina Tennoji
+Trait1 Music
+Auto: OnDamageCancel
+{
+	If PlayedThisTurn
+	{
+		Mill 1
+		SetXValue TargetCardsLevel
+		AddToXValue 1
+		Burn X
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. During the turn this is placed on stage from hand, when this card's damage is cancelled, put the top card of your deck into the waiting room, then deal X damage to your opponent. X equals the level of the card put into the waiting room by this effect +1.
+Auto: OnEndOfAttack
+{
+	If Climax Rainbow Rose, Rina Tennoji &&& LocationContains Memory 2 NameEquals Connected Melody, Rina Tennoji
+	{
+		PayCost 1 Discard 2 Any
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo MEMORY [(1) Discard 2 card] This ability activates up to once per turn. At the end of this card's attack, if "Rainbow Rose, Rina Tennoji" is in your climax area, you have 2 or more "Connected Melody, Rina Tennoji" in your memory, you may pay the cost. If you do, Stand this. 
+EndCard
+
+Character: LNJ/W85-005
+Name Milky Honey, Kasumi Nakasu
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Cont: InHand
+{
+	If LocationContains Memory 1 NameEquals Milky Honey, Kasumi Nakasu
+	{
+		TargetLocation Stage
+		NarrowTargets NameContains Kasumi
+		CopyNamesFromTargets
+	}
+
+}
+Text Cont: MEMORY If you have "Milky Honey, Kasumi Nakasu" in your memory, while this card is in your hand, this card’s name is treated as the same as the names of all your characters on your stage with "Kasumi" in its name.
+Auto: OnReversed
+{
+	If LocationContainsOrLess Memory 2 Any
+	{
+		If OnStage
+		{
+			Question Send this card to memory?
+			If Yes
+			{
+				MoveCard Memory
+			}
+		}
+	}
+}
+Text Auto: When this is Reversed, if you have 2 or less cards in memory, you may send this to memory.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Music
+}
+Text Act: [Discard 1 card, Send this to waiting room] Choose 1 <Music> character from your waiting room, add it to hand.
+EndCard
+
+Character: LNJ/W85-006
+Name Glittering Melody, Shizuku Osaka
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*GainPowerWithEnoughCharacters(2000,2,Music)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Music
+	{
+		SearchWaitingRoom IsCharacter && With Auto: CHANGE
+	}
+}
+Text Auto: [Discard 1 <Music> character] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 character with CHANGE from your waiting room, add it to hand.
+EndCard
+
+Character: LNJ/W85-007
+Name Looking for a Dream, Shioriko Mifune
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotBeReversedByAutoEffects
+		}
+		Text Cont: This cannot be Reversed by your opponent's Auto: effects.
+	}
+}
+Text Auto: When this is placed on stage from hand, choose 1 of your characters, this turn, it gains the following ability, "Cont: This cannot be Reversed by your opponent's Auto: effects."
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: LNJ/W85-008
+Name I Will Not Betray My Efforts! Shioriko Mifune
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*PowerInMiddle(2000)
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: LNJ/W85-009
+Name Connected Melody, Rina Tennoji
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	If LocationContainsOrLess Memory 2 Any
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Connected Melody, Rina Tennoji
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have 2 or less memory, choose 1 "Connected Melody, Rina Tennoji" from your waiting room, you may send it to memory.
+Act: 2 SendSelf Memory
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		*CheckAndAdd(3)
+	}
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(2) Send this Standing card to memory] If you have 2 or more other <Music> characters, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: LNJ/W85-010
+Name Rhythm to Play, Rina Tennoji
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayScryToBottom
+*DropSearch(Music)
+EndCard
+
+Character: LNJ/W85-011
+Name Kasumi Nakasu, Kasumin March
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Combo Rainbow Rose, Kasumi Nakasu
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartMyEncoreStep
+{
+	If Climax Rainbow Rose, Kasumi Nakasu &&& InLocation CenterStage &&& StageContains 2 Other && Music
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			SearchWaitingRoom HasTrait Music
+			SearchLocationForTargets Hand 1 1 IsCharacter && Compare ThatCardsLevel 3 OrLess
+			If HasTarget
+			{
+				RevealTargets
+				Change
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Send this to waiting room] At the start of your encore phase, if you have "Rainbow Rose, Kasumi Nakasu" in your climax area, this card is in your center stage and you have 2 or more other <Music> characters, you may pay the cost. If you do, choose 1 <Music> character in your waiting room, return it to hand, then choose 1 level 3 or lower character in your hand, and place it on stage in this card's former slot.
+EndCard
+
+Character: LNJ/W85-012
+Name Blue Drop, Shizuku Osaka
+Color Y
+Level 3
+Cost 2
+Power 9000
+Trigger Soul
+Soul 2
+Trait1 Music
+*EarlyPlay2OrLessClimax
+*GainPowerWithEnoughCharacters(2000,2,Music)
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 2
+			}
+			Text Cont: The character across from this gets -2 soul.
+		}
+	}
+}
+Quick
+Text Auto: When this is placed on stage from hand, if you have 2 or more other <Music> characters, until the end of your opponent's next turn, this gains the following ability, "Cont: The character across from this gets -2 soul."
+EndCard
+
+Character: LNJ/W85-013
+Name Bear Smile, Shizuku Osaka
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Combo Rainbow Rose, Shizuku Osaka
+*500Assist
+Auto: OnSpecificClimaxPlay Rainbow Rose, Shizuku Osaka
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Music && Compare ThatCardsLevel 0 OrLess
+		If HasTarget
+		{
+			RevealTargets
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo When "Rainbow Rose, Shizuku Osaka" is placed on your climax area, if you have 2 or more other <Music> characters, choose 1 level 0 or lower <Music> character from your waiting room, you may place it on stage in any slot.
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Music
+}
+Text Act: [(2) Rest this] Search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: LNJ/W85-014
+Name I'll Make a Fool of You, Kasumi Nakasu
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnSentFromStageToWaitingRoom
+{
+	Peek Deck 4
+	NarrowTargets IsColor Y && IsClimax
+	If HasTarget
+	{
+		Question Add a yellow climax to hand?
+		If Yes
+		{
+			ChooseCardFromTargets 1 1 IsClimax
+			MoveCard Hand
+			Discard 1 Any
+		}
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this is sent from stage to waiting room, look at up to 4 cards from the top of your deck, choose up to 1 yellow climax card from among them, show it to your opponent, add it to hand, and send the rest to waiting room. If you added a card to hand, discard 1 card.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate I'll Make a Fool of You, Kasumi Nakasu
+	{
+		GainPower 2000
+		GainSoul 1
+	}
+}
+Text Auto: RESONANCE [Reveal 1 "I'll Make a Fool of You, Kasumi Nakasu" in your hand] At the start of your climax phase, you may pay the cost. If you do, this turn, this gets +2000 power and +1 soul.
+EndCard
+
+Character: LNJ/W85-015
+Name Rina Tennoji
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*GlobalPower(500,Music)
+Act: 1 Clock RestSelf
+{
+	SearchDeck IsCharacter &&& With Cont: MEMORY || With Auto: MEMORY || With Act: MEMORY
+}
+Text Act: [(1) Put the top card of your deck into clock, rest this] Search your deck for up to 1 character with MEMORY, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: LNJ/W85-016
+Name Doki Doki Nyan Nyan, Rina Tennoji
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Connected Melody, Rina Tennoji &&& MyTurn
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: MEMORY During your turn, if you have "Connected Melody, Rina Tennoji" in your memory, this gets +1 level and +1500 power.
+Auto: OnReverseOpponent
+{
+	Question Put Doki Doki Nyan Nyan, Rina Tennoji into memory?
+	If Yes
+	{
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals Doki Doki Nyan Nyan, Rina Tennoji
+				FirstTarget
+				If HasTarget
+				{
+					Message Doki Doki Nyan Nyan, Rina Tennoji returns from memory.
+					PlaceOnStage false true true false
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent is Reversed, you may send this to memory. If you do, at the start of your next draw phase, choose 1 "Doki Doki Nyan Nyan, Rina Tennoji" from memory, and place it on stage in any slot.
+EndCard
+
+Character: LNJ/W85-017
+Name Shizuku Osaka
+Color Y
+Level 1
+Cost 1
+Power 3500
+Trigger Soul
+Soul 1
+Trait1 Music
+*YellowEarlyPlayBomb
+Auto: StartMyEncoreStep
+{
+	If InLocation CenterStage
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+			If HasTarget
+			{
+				RevealTargets
+				MoveCard Stock
+			}
+			*ChangeWaitingRoom(A Certain Light\, Shizuku Osaka)
+		}
+	}
+}
+Text Auto: CHANGE [Send this to waiting room] At the start of your encore step, if this is in the center stage, you may pay the cost. If you do, choose up to 1 <Music> character in your waiting room, put it into stock, then choose 1 "A Certain Light, Shizuku Osaka" from your waiting room, and place it on stage in this card's previous slot.
+EndCard
+
+Character: LNJ/W85-018
+Name Heartfelt Words? Shioriko Mifune
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Put 1 character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 2500
+EndCard
+
+Character: LNJ/W85-019
+Name Shioriko Mifune
+Color Y
+Level 3
+Cost 2
+Power 9000
+Soul 2
+Trigger Soul
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Music
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have 4 or more other <Music> characters, you may put the top card of your deck into stock.
+*Healer
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 2000
+	}
+}
+Text Auto: When this attacks, if you have 2 or more other <Music> characters, choose 1 of your characters, this turn, it gets +2000 power.
+EndCard
+
+Character: LNJ/W85-020
+Name Kasumi Nakasu
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*OnPlayDraw2Discard2BlindStock
+*OnAttackGainPowerForEachOther(500,Music)
+Auto: OnReverseOpponent
+{
+	PayCost Discard 1 Any Resonate Kasumi Nakasu
+	{
+		Heal
+	}
+}
+Text Auto: RESONANCE [Discard 1 card, Reveal 1 "Kasumi Nakasu" in your hand] When this card's battle opponent becomes Reversed, you may pay the cost. If you do, put the top card of your clock into the waiting room.
+EndCard
+
+Character: LNJ/W85-021
+Name Good Luck, Shioriko Mifune
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: OnOtherAttacks
+{
+	IfOther NameEquals Steps Taken, Ayumu Uehara
+	{
+		If InLocation CenterStage
+		{
+			PayCost Discard 1 Any
+			{
+				SearchLocationForTargets WaitingRoom 0 1 IsClimax && HasTrigger Standby
+				If HasTarget
+				{
+					RevealTargets
+					MoveCard Deck
+					ShuffleLocation Deck
+				}
+			}
+		}
+	}
+}
+Text Auto: [Discard 1 card] When your other "Steps Taken, Ayumu Uehara" attacks, if this is in the center stage, you may pay the cost. If you do, choose up to 1 climax with Standby trigger icon from your waiting room, and shuffle it into your deck.
+EndCard
+
+Character: LNJ/W85-022
+Name I Want to Connect with Everyone, Rina Tennoji
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayMill2GainPowerForEachCharacter(1000,Music)
+Auto: OnReverseOpponent
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	ChooseCharacterFromTargets
+	GainPower 2000
+}
+Text Auto: When this card's battle opponent is Reversed, choose 1 of your <Music> characters, this turn, it gets +2000 power.
+EndCard
+
+Character: LNJ/W85-023
+Name A Certain Light, Shizuku Osaka
+Color Y
+Level 1
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: OnFrontalAttacked
+{
+	*Scry
+}
+Text Auto: When this is frontal attacked, look at the top card of your deck, and put it on top of your deck or into your waiting room.
+*HandEncore
+Act: 1 SendSelf WaitingRoom
+{
+	*ChangeWaitingRoom(Shizuku Osaka)
+}
+Text Act: [(1) Send this to waiting room] Choose 1 "Shizuku Osaka" from your waiting room, and place it on stage in this card's previous slot.
+EndCard
+
+Character: LNJ/W85-024
+Name My Seriousness, Shioriko Mifune
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+*GainPowerForEachOther(500,Music)
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 IsCharacter
+	{
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: [Shuffle 2 characters from your waiting room into your deck] When this is placed on stage from hand, you may pay the cost. If you do, this turn, this does not suffer soul penalty when side attacking.
+*HandEncore
+EndCard
+
+Character: LNJ/W85-025
+Name Don't Look Away! Kasumi Nakasu
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 1 Discard 2 Any
+	{
+		*OptionalDraw
+		SearchDeck HasTrait Music
+	}
+}
+Text Auto: [(1) Discard 2 cards] When this is placed on stage from hand, you may pay the cost. If you do, draw up to 1, then search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Don't Look Away! Kasumi Nakasu
+	{
+		GainPower 2000
+	}
+}
+Text Auto: RESONANCE [Reveal 1 "Don't Look Away! Kasumi Nakasu" in your hand] At the start of your climax phase, you may pay the cost. If you do, this turn, this gets +2000 power.
+EndCard
+
+Character: LNJ/W85-026
+Name Negotiator Rina! Rina Tennoji
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+*OnPlayGainPowerForEach(500,Music)
+Auto: OnReverseOpponent
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card's battle opponent is Reversed, if you have another <Music> character, you may draw 1 card. If you do, discard 1 card.
+EndCard
+
+Character: LNJ/W85-027
+Name Naughtly Little Devil, Kasumi Nakasu
+Color Y
+Level 1
+Cost 1
+Power 1500
+Trigger Soul
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	*ScryToBottom
+}
+Text Auto: When you use this card's BACKUP, look at the top card of your deck, and put it on top or on the bottom of your deck.
+Backup 1500
+EndCard
+
+Character: LNJ/W85-028
+Name Homepage Launched! Kasumi Nakasu
+Color Y
+Level 1
+Cost 1
+Power 4500
+Soul 1
+Trigger Soul
+Trait1 Music
+*LevelAssistTrait(Music)
+Act: 1 RestSelf &&& Resonate Homepage Launched! Kasumi Nakasu
+{
+	*Check3Add1(Music)
+}
+Text Act: RESONATE [(1) Rest this, reveal "Homepage Launched! Kasumi Nakasu" from your hand] Look at up to 3 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: LNJ/W85-029
+Name Shioriko Mifune, Reunion with the Past
+Color Y
+Level 2
+Cost 1
+Power 5000
+Soul 1
+Trigger Soul
+Trait1 Music
+Combo Trusting, In You
+*1000Assist
+Auto: OnSpecificClimaxPlay Trusting, In You
+{
+	PayCost 1
+	{
+		SearchWaitingRoom HasTrait Music
+		TargetLocation Stage
+		NarrowTargets Other && NameEquals It's Fun With Lots of Sounds, Ayumu Uehara
+		GainPower 1000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Trusting, In You" is placed on your climax area, you may pay the cost. If you do, choose up to 1 <Music> character in your waiting room, add it to hand, then this turn, all of your other "It's Fun With Lots of Sounds, Ayumu Uehara" gets +1000 power and the following ability, "Auto: [(1)] When this attacks, you may pay the cost. If you do, during the trigger step of this attack, perform trigger check twice."
+EndCard
+
+Character: LNJ/W85-030
+Name Shizuku Osaka, Awareness of a Kouhai
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Not MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Music
+		MultiplyXValue 1500
+		GainPower X
+	}
+}
+Text Cont: During your opponent's turn, for each of your other <Music> characters, this gets +1500 power.
+Act: SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Music
+}
+Text Act: [Send this to waiting room] Choose 1 <Music> character from your waiting room, add it to hand.
+Act: SendSelf WaitingRoom
+{
+	*ChangeWaitingRoom(I'm Excited\, Shizuku Osaka)
+}
+Text Act: [Send this to waiting room] Choose 1 "I'm Excited, Shizuku Osaka" from your waiting room, and place it on stage in this card's previous slot.
+EndCard
+
+Character: LNJ/W85-031
+Name I'm Excited, Shizuku Osaka
+Color Y
+Level 2
+Cost 1
+Power 6000
+Soul 1
+Trigger Soul
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Music
+		MultiplyXValue 1000
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, for each of your other <Music> characters, this gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card's battle opponent is Reversed, if you have another <Music> character, you may draw 1 card. If you do, discard 1 card.
+Auto: StartMyEncoreStep
+{
+	If InLocation CenterStage
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			*ChangeWaitingRoom(Awareness of a Kouhai\, Shizuku Osaka)
+		}
+	}
+}
+Text Auto: CHANGE [Send this to waiting room] At the start of your encore step, if this is in the center stage, you may pay the cost. If you do, choose 1 "Awareness of a Kouhai, Shizuku Osaka" from your waiting room, and place it on stage in this card's previous slot.
+EndCard
+
+Character: LNJ/W85-032
+Name Connection Through the Board, Rina Tennoji
+Color Y
+Level 2
+Cost 1
+Power 6500
+Soul 1
+Trigger Soul
+Trait1 Music
+Cont: InHand
+{
+	TargetLocation OpponentWaitingRoom
+	NarrowTargets IsClimax
+	SetXValue TargetCount
+	If Compare X 5 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has 5 or more climaxes in their waiting room, this gets -1 Level in hand.
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 NameEquals Connected Melody, Rina Tennoji &&& StageContains 2 Other && HasTrait Music
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*GreatPerformance
+		}
+	}
+}
+Text Cont: MEMORY If you have 2 or more other <Music> characters and 2 or more "Connected Melody, Rina Tennoji" in your memory, this gets +1500 power and the following ability, "Cont: Great Performance".
+EndCard
+
+Event: LNJ/W85-033
+Name Nijigasaki High First Years
+Color Y
+Level 1
+Cost 0
+Text If you do not have a <Music> character, you cannot play this from hand.
+Effect:
+{
+	PayCost Discard 1 HasTrait Music
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+ActivationRequirement StageContains 1 HasTrait Music
+Text You may discard 1 <Music> character. If you do, choose a climax in your waiting room, add it to hand.
+EndCard
+
+Event: LNJ/W85-034
+Name The Place Where You Are
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	*Check4Add1(Music)
+}
+Text Look at up to 4 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, and put the rest into the waiting room.
+EndCard
+
+Event: LNJ/W85-035
+Name To the Main Stage of Dreams!
+Color Y
+Level 3
+Cost 2
+Effect:
+{
+
+	OpponentSearchLocationForTargets WaitingRoom 2 2 Any
+	ReverseTargets OpponentWaitingRoom
+	MoveCard OpponentDeck
+	ShuffleLocation OpponentDeck
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 5000
+}		
+Text Your opponent chooses 2 climaxes from their waiting room, and shuffles all other cards from their waiting room into their deck. Then choose 1 of your characters, this turn, it gets +5000 power.
+EndCard
+
+Climax: LNJ/W85-036
+Name Sudden Visitor, Shioriko Mifune
+*ChoiceClimax
+EndCard
+
+Climax: LNJ/W85-037
+Name Rainbow Rose, Rina Tennoji
+*ChoiceClimax
+EndCard
+
+Climax: LNJ/W85-038
+Name Rainbow Rose, Kasumi Nakasu
+*WindClimax
+EndCard
+
+Climax: LNJ/W85-039
+Name Rainbow Rose, Shizuku Osaka
+*ShotClimax
+EndCard
+
+Character: LNJ/W85-040
+Name Creamy Berry, Ayumu Uehara
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Auto: When your climax is placed on the climax area, look at up to 2 cards from the top of your deck, and put them back on top of your deck in any order.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: LNJ/W85-041
+Name Ai Miyashita, Welcome to Ryugu Castle
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+*EarlyPlay4OrMore(Music)
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Music>, this gets +2000 power.
+*StockHealer
+EndCard
+
+Character: LNJ/W85-042
+Name Setsuna Yuki, Emotional Power
+Color R
+Level 3
+Cost 2
+Power 9000
+Trigger Soul
+Soul 2
+Trait1 Music
+Combo Rainbow Rose, Setsuna Yuki
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Music>, this gets +2000 power.
+*Healer
+Auto: StartMyEncoreStep
+{
+	If Climax Rainbow Rose, Setsuna Yuki &&& Compare CardsInHand 6 OrLess
+	{
+		PayCost 2 Discard 1 Any
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard 1 card] At the start of the encore step, if you have "Rainbow Rose, Setsuna Yuki" in the climax area, and you have 6 or less cards in your hand, you may pay the cost. If you do, deal 2 damage to your opponent.
+EndCard
+
+Character: LNJ/W85-043
+Name Passion Red! Setsuna Yuki
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayScry
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainSoul 1
+	}
+}
+Text Auto: [Return this to hand] When your climax is placed on the climax area, you may pay the cost. If you do, choose 1 of your characters, this turn, it gets +1 soul.
+EndCard
+
+Character: LNJ/W85-044
+Name Going All Out! Ai Miyashita
+Color R
+Level 1
+Cost 0
+Power 1000
+Trigger Soul
+Soul 1
+Trait1 Music
+*500Assist
+Auto: OnTriggerCheck
+{
+	IfOther HasTrigger Soul
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Music
+		ChooseCharacterFromTargets
+		GainPower 2000
+	}
+}
+Text Auto: When your character's trigger check reveals a soul trigger, choose 1 of your <Music> characters, this turn, it gets +2000 power.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Act: [Rest this] Choose 1 of your characters, this turn, it gets +500 power.
+EndCard
+
+Character: LNJ/W85-045
+Name Make a Powerful Sound! Setsuna Yuki
+Color R
+Level 1
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	PayCost Clock
+	{
+		*Check4Add1(Music)
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into Clock] When you use this card's "BACKUP", you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, send the rest to waiting room, then choose 1 of your battling characters, this turn, it gets +1000 power.
+Backup 1000
+EndCard
+
+Character: LNJ/W85-046
+Name Daily Progress, Ayumu Uehara
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Combo Rainbow Rose, Ayumu Uehara
+Auto: OnAttack
+{
+	If Climax Rainbow Rose, Ayumu Uehara &&& StageContains 2 Other && HasTrait Music
+	{
+		TargetTop Deck 2
+		Reveal
+		OpponentChooseCardsFromTargets 1 1 IsCharacter || IsEvent
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "Rainbow Rose, Ayumu Uehara" in the climax area, and you have 2 or more other <Music> characters, reveal the top 2 cards of your deck. Your opponent chooses 1 character or event from among them, you add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: LNJ/W85-047
+Name Ai! Love! You! Ai Miyashita
+Color R
+Level 2
+Cost 2
+Power 5500
+Trigger Soul
+Soul 2
+Trait1 Music
+*GainPowerForEachOther(1000,Music)
+*OnAttackPay1ToDoubleTrigger
+*HandEncoreTrait(Music)
+EndCard
+
+Character: LNJ/W85-048
+Name Ayumu Uehara, It's Fun With Lots of Sounds
+Color R
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Music
+Combo Trusting, In You
+Cont: GiveAll
+{
+	If Compare Experience 4 OrMore && HasTrait Music
+	{
+		IfOwner InLocation CenterStage
+		{
+			GainPower 1500
+		}
+	}
+}
+Text Cont: EXPERIENCE 4 If the sum of levels of cards in your level zone is 4 or more, and this is in the center stage, all of your <Music> characters get +1500 power.
+Auto: PlacedBy Trusting, In You
+{
+	PayCost 1 Discard 2 Any
+	{
+		Stand
+	}
+}
+Text Auto: CxCombo [(1) Discard 2 cards] When this is placed on stage via the effect of the "Trusting, In You", you may pay the cost. If you do, Stand this.
+EndCard
+
+Character: LNJ/W85-049
+Name Ayumu Uehara
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*GiveNamePower(1000,Stair to Dreams\, Ayumu Uehara)
+*GlobalPower(500,Music)
+Act: RestSelf
+{
+	If StageContains 1 Other &&& With Auto: EXPERIENCE || Cont: EXPERIENCE || Act: EXPERIENCE
+	{
+		*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+	}
+}
+Text Act: [Rest this] If you have another character with EXPERIENCE, choose 1 card from your level zone and 1 card from your waiting room, exchange them.
+EndCard
+
+Character: LNJ/W85-050
+Name Setsuna Yuki
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*GlobalPower(500,Music)
+Auto: OnUseAccelerate
+{
+	If Compare CardsInClock 4 OrMore
+	{
+		PayCost 1
+		{
+			Heal
+		}
+	}
+}
+Text Auto: [(1)] When you use ACCELERATE, if you have 4 or more cards in clock, you may pay the cost. If you do, put the top card of your clock into the waiting room.
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, this turn, it gets +1000 power.
+EndCard
+
+Character: LNJ/W85-051
+Name Hey! Let's Go, Ai Miyashita
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Combo Rainbow Rose, Ai Miyashita
+Auto: OnAttack
+{
+	If Climax Rainbow Rose, Ai Miyashita &&& StageContains 1 Other && HasTrait Music
+	{
+		PayCost Clock
+		{
+			Mill 3
+			NarrowTargets HasTrigger Soul
+			SetXValue TargetCount
+			Repeat X
+			{
+				SearchWaitingRoom HasTrait Music
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put the top card of your deck into clock] When this attacks, if you have "Rainbow Rose, Ai Miyashita" in your climax area and you have another <Music> character, you may pay the cost. If you do, put the top 3 cards of your deck into the waiting room, then choose up to X <Music> characters in your waiting room, return them to hand. X is equal to the number of cards with a soul trigger put into the waiting room by this effect. 
+EndCard
+
+Character: LNJ/W85-052
+Name Let's Do Monochrome! Setsuna Yuki
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+*OnPlayGainPower(1500)
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		*CheckAndAddOne(1, HasTrait Music)
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into clock] At the start of your climax phase, you may pay the cost. If you do, look at up to 1 card from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, send the rest to waiting room, this turn, this gets +2000 power.
+EndCard
+
+Character: LNJ/W85-053
+Name Ai Miyashita
+Color R
+Level 1
+Cost 1
+Power 4500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have another <Music> character, this gets +1500 power and the following 2 abilities, "Auto: [(1)] When this attacks, you may pay the cost. If you do, during the Trigger Step of this attack, perform Trigger Check twice" "Auto: ENCORE [Discard 1 character]".
+Auto: OnThisTriggerCheck
+{
+	IfOther HasTrigger Soul
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When this card's trigger check reveals a soul trigger, this gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: LNJ/W85-054
+Name Pyon Pyon Heart, Ayumu Uehara
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Music
+Auto: OnAttack
+{
+	Repeat 2
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Music
+		ChooseCharacterFromTargets
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, resolve the following effect twice, "Choose 1 of your <Music> characters, this turn, it gets +1 soul."
+Auto: OnReversed
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		TargetBattleOpponent
+		IfTarget Compare ThatCardsLevel 3 OrLess
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+Text Auto: When this is Reversed, if you have 2 or more other <Music> characters, and the battle opponent's level is 3 or lower, you may Reverse that character.
+EndCard
+
+Character: LNJ/W85-055
+Name Let's Get Those Spirits Up! Ai Miyashita
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	SetXValue TotalSoulTriggers
+	Repeat X
+	{
+		TargetLocation OpponentCenterStage
+		LosePower 1000
+	}
+}
+Text Auto: When this is placed on stage from hand, reveal the top card of your deck, for each soul trigger icon on the revealed card, all your opponent's characters in the center stage gets -1000 power.
+Auto: OnReversed
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		TargetBattleOpponent
+		IfTarget Compare ThatCardsLevel 0 OrLess && OnStage && Not CardPosition Reverse
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+Text Auto: When this is Reversed, if the battle opponent's level is 0 or lower, and you have another <Music> character, you may Reverse that character.
+EndCard
+
+Character: LNJ/W85-056
+Name I Want You to Check, Ayumu Uehara
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Act: 1 RestSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		MultipleChoiceQuestion Choose 1 of the following effects and resolve it.\n1. Choose up to 2 of your <Music> characters, this turn, they get +1 soul.\n2. Reveal the top card of your deck. If that card is an <Music> character or event, add it to hand.|Choice 1|Choice 2
+		If Answer 0
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Music
+			ChooseCharactersFromTargets 0 2
+			GainSoul 1
+		}
+		If Answer 1
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Music || IsEvent
+			{
+				MoveCard Hand
+			}
+		}
+	}
+	Else
+	{
+		OpponentMultipleChoiceQuestion Choose 1 of the following effects and your opponent resolves it.\n1. Choose up to 2 of your <Music> characters, this turn, they get +1 soul.\n2. Reveal the top card of your deck. If that card is an <Music> character or event, add it to hand.|Choice 1|Choice 2
+		If Answer 0
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Music
+			ChooseCharactersFromTargets 0 2
+			GainSoul 1
+		}
+		If Answer 1
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Music || IsEvent
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Act: EXPERIENCE [(1) Rest this] If the sum of Levels of cards in your level zone is 5 or more, perform 1 of the following 2 effects, otherwise perform 1 of the 2 following effects your opponent chooses, "Choose up to 2 of your <Music> characters, this turn, they get +1 soul." "Reveal the top card of your deck. If that card is an <Music> character or event, add it to hand."
+EndCard
+
+Character: LNJ/W85-057
+Name Accomplished in Both Literary and Military Arts, Setsuna Yuki
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 1500
+	}
+}
+Text Auto: When this is placed on stage from hand, put the top 2 cards of your deck into the waiting room. If there is a climax among those cards, choose 1 of your characters, this turn, it gets +1500 power.
+*OnPlayGivePower(1500,Music)
+EndCard
+
+Character: LNJ/W85-058
+Name Love Love Beam, Ai Miyashita
+Color R
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play events or "BACKUP" from hand.
+EndCard
+
+Character: LNJ/W85-059
+Name Together With You, Ayumu Uehara
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn &&& Compare Experience 1 OrMore
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the sum of levels of cards in your level zone is 1 or more, this gets +2500 power, and gains the following ability, "Auto: When this attacks, if the level of the character across from this is 2, this turn, this gets +6000 power."
+EndCard
+
+Character: LNJ/W85-060
+Name Come On, Together With You Too! Setsuna Yuki
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Music
+*GainPowerWhenOtherAttacks(1500,Music)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: LNJ/W85-061
+Name My Words, My Feelings, Ai Miyashita
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Music
+*BackupBonus1000(1000)
+Backup 2500
+EndCard
+
+Character: LNJ/W85-062
+Name Once More, Start! Setsuna Yuki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Music
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, for each of your other <Music> characters, this gets +1000 power.
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchDeck HasTrait Music
+			}
+			Text Auto: When this card's battle opponent is Reversed, search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+		}
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into clock] At the start of your climax phase, you may pay the cost. If you do, this turn, this gets +1000 power and the following ability, "Auto: When this card's battle opponent is Reversed, search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards."
+EndCard
+
+Character: LNJ/W85-063
+Name Ayumu Uehara, Steps Taken
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+EndCard
+
+Event: LNJ/W85-064
+Name Nijigasaki High Second Years
+Color R
+Level 2
+Cost 2
+Text COUNTER If you have 2 or less <Music> characters, you cannot play this from hand.
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	GainPower 1500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalBurn(2)
+		}
+		Text Auto: When this card's battle opponent is Reversed, deal 2 damage to your opponent.
+	}
+}
+ActivationRequirement StageContains 3 HasTrait Music
+Text Choose 1 of your <Music> characters, this turn, it gets +1500 power and the following ability: "Auto: When this card's battle opponent is Reversed, deal 2 damage to your opponent."
+EndCard
+
+Event: LNJ/W85-065
+Name Impact
+Color R
+Level 2
+Cost 1
+Effect:
+{
+	If Compare Experience 2 OrMore
+	{
+		SearchWaitingRoom IsCharacter
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text COUNTER EXPERIENCE If the sum of levels of cards in your level zone is 2 or more, choose a character in your waiting room, add it to hand. Send this to memory.
+Auto: StartMainPhase
+{
+	PayCost Discard 1 Any
+	{
+		MoveCard Hand
+	}
+}
+InMemory
+Text Auto: MEMORY [Discard 1 card] At the start of your main phase, if this is in your memory, you may pay the cost. If you do, add this to hand.
+EndCard
+
+Event: LNJ/W85-066
+Name Let Me Sing!
+Color R
+Level 3
+Cost 3
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+	GainEffect
+	{
+		Auto: StartMyEncoreStep
+		{
+			If FacingIsEmptyOrReversed
+			{
+				Burn 1
+				Burn 1
+			}
+		}
+		Text Auto: At the start of your encore step, if this is in the center stage, and the slot across from this has either a Reversed character or no character, deal 1 damage to your opponent twice.
+	}
+}
+ActivationRequirement StageContains 1 HasTrait Music
+Text If you do not have a <Music> character, you cannot play this from hand. Choose 1 of your characters, this turn, it gets +1000 power and the following ability, "Auto: At the start of your encore step, if this is in the center stage, and the slot across from this has either a Reversed character or no character, deal 1 damage to your opponent twice."
+EndCard
+
+Climax: LNJ/W85-067
+Name Rainbow Rose, Setsuna Yuki
+*StandbyClimax
+EndCard
+
+Climax: LNJ/W85-068
+Name Rainbow Rose, Ayumu Uehara
+*StandbyClimax
+EndCard
+
+Climax: LNJ/W85-069
+Name Rainbow Rose, Ai Miyashita
+*DoorClimax
+EndCard
+
+Climax: LNJ/W85-070
+Name Trusting, In You
+*StandbyClimax
+EndCard
+
+Character: LNJ/W85-071
+Name Let's Sing Together, Emma Verde
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play events or "BACKUP" from hand.
+Auto: StartClimaxPhase
+{
+	MultipleChoiceQuestion Choose 1 of the following effects and this card gains that effect until the end of your opponent's next turn.\n1. Auto: When this card's battle opponent is Reversed, you may draw 1 card. If you do, discard 1 card.\n2. At the start of your opponent's attack phase, you may move this to an empty center stage slot.|Choice 1|Choice 2
+	If Answer 0
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalDrawDiscard
+			}
+			Text Auto: When this card's battle opponent is Reversed, you may draw 1 card. If you do, discard 1 card.
+		}
+	}
+	If Answer 1
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*FreeRunner
+		}
+	}
+}
+Text Auto: At the start of your climax phase, until the end of your opponent's next turn, this gains 1 of the 2 following effects of your choice, "Auto: When this card's battle opponent is Reversed, you may draw 1 card. If you do, discard 1 card." "Auto: At the start of your opponent's attack phase, you may move this to an empty center stage slot."
+EndCard
+
+Character: LNJ/W85-072
+Name I Wonder if You Can Follow Me, Karin Asaka
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Rainbow Rose, Karin Asaka
+Cont: GiveSelf
+{
+	CanSendMarkerInsteadOfStockForEventCostIf Any
+}
+Text Cont: When you would pay the cost for an event being played from your hand, you may use 1 marker from underneath this card instead of 1 stock.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsEvent
+		Peek Deck 2
+		If HasTarget
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: [(1) Discard 1 card] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 event, show it to your opponent, add it to hand, and shuffle your deck afterwards. Then you may look at the top 2 top cards of your deck and place them underneath this card face-down as markers.
+Auto: OnReverseOpponent
+{
+	If Climax Rainbow Rose, Karin Asaka
+	{
+		TargetBattleOpponent
+		Question Put the opponent into clock?
+		If Yes
+		{
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent is Reversed, if you have "Rainbow Rose, Karin Asaka" in the climax area, you may send that character to clock.
+EndCard
+
+Character: LNJ/W85-073
+Name Welcome to the World of Dreams~ Kanata Konoe
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Music
+*Healer
+Auto: StartAttackPhase
+{
+	If InLocation CenterStage &&& CardPosition Stand
+	{
+		Rest
+		PayCost Discard 1 HasTrait Music
+		{
+			MultipleChoiceQuestion Choose the order of effects to resolve.\n1. Deal 1 damage, then deal 3 damage.\n2. Deal 3 damage, then deal 1 damage.|Choice 1|Choice 2
+			If Answer 0
+			{
+				Burn 1
+				Burn 3
+			}
+			If Answer 1
+			{
+				Burn 3
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: [Discard 1 <Music> character] At the start of your Attack Phase, if this is in the center stage and is Standing, and you have another <Music> character, Rest this. If you do, you may pay the cost. If you do, resolve the following 2 effects, once each, in the order of your choosing, "Deal 1 damage to your opponent." "Deal 3 damage to your opponent."
+EndCard
+
+Character: LNJ/W85-074
+Name Dream Journey, Kanata Konoe
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Not MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your opponent's turn, this gets +2000 power.
+Auto: StartMainPhase
+{
+	GainEffect
+	{
+		Auto: StartMyEncoreStep
+		{
+			If InLocation CenterStage &&& CardPosition Stand
+			{
+				Rest
+				TargetTop Deck 1
+				Reveal
+				SetXValue TotalSoulTriggers
+				AddToXValue 1
+				MoveCard Stock
+				Burn X
+			}
+		}
+		Text Auto: At the start of your encore step, if this card is in the center stage in Stand, Rest this, reveal the top card of your deck, send that card to stock, then deal X damage to your opponent, X is equal to the total number of soul trigger revealed +1.
+	}
+}
+Text Auto: At start of your main phase, this gains the following ability, "Auto: At the start of your encore step, if this card is in the center stage in Stand, Rest this, reveal the top card of your deck, send that card to stock, then deal X damage to your opponent, X is equal to the total number of soul trigger revealed +1."
+EndCard
+
+Character: LNJ/W85-075
+Name Enveloping Sound, Kanata Konoe
+Color B
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*BackupBonus1000(1000)
+Backup 1000 
+EndCard
+
+Character: LNJ/W85-076
+Name Secret Lady, Karin Asaka
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this is placed on stage from hand, if you have another <Music> character, this turn, this gets +2000 power.
+Auto: OnReverseOpponent
+{
+	PayCost Discard 1 HasTrait Music
+	{
+		Peek Stock 4
+		ChooseCardsFromTargets 0 1 Any
+		If HasTarget
+		{
+			MoveCard Hand
+		}
+		TargetLocation ScryArea
+		MoveCard Stock
+		ShuffleLocation Stock
+	}
+}
+Text Auto: [Discard 1 <Music> character] When this card's battle opponent is Reversed, you may pay the cost. If you do, look at up to 4 cards from the top of your stock, choose up to 1 card from among them, add it to hand, put the rest back into your stock, and shuffle your stock afterwards.
+EndCard
+
+Character: LNJ/W85-077
+Name Now, March~! Emma Verde
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent is Reversed, if you have a climax in your climax area, you may put the top card of your deck into stock.
+EndCard
+
+Character: LNJ/W85-078
+Name Attractive Tone, Karin Asaka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Music
+	MillOpponentBottom X
+}
+Text Auto: When you use this card's "BACKUP", send X cards from the bottom of your opponent's deck to waiting room. X equals the number of your <Music> characters.
+Backup 3000
+EndCard
+
+Character: LNJ/W85-079
+Name Wish to the Rainbow, Emma Verde
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Music
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, for each of your other <Music> characters, this gets +500 power.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		RevealUpTo Deck 4
+		ChooseCardsFromTargets 0 2 HasTrait Music
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: During the turn this is placed on stage from hand, when this card's battle opponent is Reversed, look at up to 4 cards from the top of your deck, choose up to 2 <Music> characters from among them, show them to your opponent, add them to hand, and send the rest to waiting room.
+EndCard
+
+Character: LNJ/W85-080
+Name I Will Possess It, Karin Asaka
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Music
+	{
+		TargetMyCharacterInBattle
+		SetXValue TargetCardsPower
+		TargetBattleOpponent
+		SubtractFromXValue TargetCardsPower
+		If Compare X 2000 OrMore
+		{
+			TargetMyCharacterInBattle
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					If InBattle
+					{
+						GainSpecialEffect NoBackupInBattle
+						GainSpecialEffect OpponentCannotUseEvents
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: When your other <Music> character attacks, if that character's power is over the opposing character's power by 2000 or more, during that character's battle, your opponent cannot play events or backups.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Act: [Rest this] Choose 1 of your characters, this turn, it gets +500 power. 
+EndCard
+
+Character: LNJ/W85-081
+Name Mellow Step, Emma Verde
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Combo Rainbow Rose, Emma Verde
+*GlobalPower(500,Music)
+Auto: OnSpecificClimaxPlay Rainbow Rose, Emma Verde
+{
+	PayCost RestSelf
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: CxCombo [Rest this] When "Rainbow Rose, Emma Verde" is placed on your climax area, you may pay the cost. If you do, choose up to 1 <Music> character from your waiting room, put it into stock. 
+EndCard
+
+Character: LNJ/W85-082
+Name Karin Asaka
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*FreeRunner
+EndCard
+
+Character: LNJ/W85-083
+Name Kanata Konoe
+Color B
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayTradeClimaxForCharacter(Music)
+*BlueCost0Bomb
+EndCard
+
+Character: LNJ/W85-084
+Name Easygoing Time, Kanata Konoe
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo Rainbow Rose, Kanata Konoe
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this is placed on stage from hand, if you have another <Music> character, this turn, this gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Rainbow Rose, Kanata Konoe &&& StageContains 1 Other && HasTrait Music
+	{
+		GainPower 1000
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "Rainbow Rose, Kanata Konoe" is placed on your climax area, if you another <Music> character, this turn, this gets +1000 power, and until the end of your opponent's next turn, this gains the following ability, "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: LNJ/W85-085
+Name Emma Verde
+Color B
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Soul 1
+Trait1 Music
+*Level3Assist
+Auto: StartOpponentClimaxPhase
+{
+	PayCost 5
+	{
+		*OptionalHeal
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		LoseSoul 2
+	}
+}
+Text Auto: [(5)] At the start of your opponent's climax phase, you may pay the cost. If you do, you may put the top card of your clock into the waiting room, then choose 1 of your opponent's characters, and it gets -2 soul until the end of turn.
+EndCard
+
+Character: LNJ/W85-086
+Name It Rains and the Ground Hardens, Kanata Konoe
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*Level0Assist
+*Act1Rest2Check3Add1Brainstorm
+EndCard
+
+Character: LNJ/W85-087
+Name Gentle Feelings, Connected World, Emma Verde
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: OnReversed
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals My Image, Your Image, Karin Asaka
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: When this is Reversed, choose 1 "My Image, Your Image, Karin Asaka" in your waiting room, you may send it to stock.
+EndCard
+
+Character: LNJ/W85-088
+Name Quiet Fighting Spirit, Karin Asaka
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 5 or more hand, this gets +2000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: LNJ/W85-089
+Name I'm Not Sleepy at All~ Kanata Konoe
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayFlicker
+EndCard
+
+Character: LNJ/W85-090
+Name Are You Ready~? Emma Verde
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If Other && InLocation MiddleCenterStage
+		{
+			GainPower 1000
+			GainEffect
+			{
+				*HexProof
+			}
+		}
+	}
+}
+Text Cont: During your turn, your other character in the middle position of the center stage gets +1000 power and the following ability, "Cont: This cannot be targeted by your opponent's effects."
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: LNJ/W85-091
+Name My Image, Your Image, Karin Asaka
+Color B
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Music
+EndCard
+
+Character: LNJ/W85-092
+Name Napping Princess, Kanata Konoe
+Color B
+Level 2
+Trigger Soul
+Cost 1
+Power 5000
+Soul 2
+Trait1 Music
+*BlueEarlyPlayBomb
+*HandEncoreTrait(Music)
+EndCard
+
+Character: LNJ/W85-093
+Name I'll Show You the Best Performance, Karin Asaka
+Color B
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Soul 1
+Trait1 Music
+*OnAttackGainPowerForEachOther(1000,Music)
+Auto: OnReverseOpponent
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: When this card's battle opponent is Reversed, reveal the top card of your deck. If that card is a <Music> character, add it to hand.
+EndCard
+
+Character: LNJ/W85-094
+Name Calm Days, Emma Verde
+Color B
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainLevel 1
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Music> characters, this gets +1 level and this cannot be chosen by your opponent's card effects.
+*OnAttackGainPowerForEachOther(1000,Music)
+EndCard
+
+Event: LNJ/W85-095
+Name Nijigasaki High Third Years
+Color B
+Level 2
+Cost 3
+Counter
+Cont: InHand
+{
+	GainSpecialEffect IgnoreColorRequirement
+}
+Text COUNTER You can play this without meeting color requirement.
+Effect:
+{
+	If StageContains 5 HasTrait Music
+	{
+		TargetBattleOpponent
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotDealDamage
+			}
+			Text Cont: This cannot deal damage to players.
+		}
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}	
+}
+Text If you have 5 or more <Music> characters, choose 1 battling character, this turn, it gains the following ability, "Cont: This cannot deal damage to players." Choose 1 of your characters, this turn, it gets +1000 power.
+EndCard
+
+Event: LNJ/W85-096
+Name Nijigasaki High School Idol Club
+Color B
+Level 3
+Cost 1
+Effect:
+{
+	Repeat 2
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsEvent
+		}
+	}
+}
+Text Perform the following effect 2 times, "You may discard 1 card. If you do, choose an event in your waiting room, add it to hand."
+EndCard
+
+Event: LNJ/W85-097
+Name Where Enthusiasm Is
+Color B
+Level 3
+Cost 2
+Counter
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotBeReversed
+		}
+		Text Cont: This card cannot be Reversed.
+	}
+}
+Text COUNTER Choose up to 2 of your characters, this turn, they gain the following ability, "Cont: This card cannot be Reversed."
+EndCard
+
+Climax: LNJ/W85-098
+Name Rainbow Rose, Karin Asaka
+*GateClimax
+EndCard
+
+Climax: LNJ/W85-099
+Name Rainbow Rose, Emma Verde
+*GateClimax
+EndCard
+
+Climax: LNJ/W85-100
+Name Rainbow Rose, Kanata Konoe
+*BookClimax
+EndCard
+
+Character: LNJ/W85-101
+Name Then the Curtain Rises, Shizuku Osaka
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If this is in the middle position of the center stage, this gets +1 level and +2500 power.
+EndCard
+
+Character: LNJ/W85-102
+Name What Was Beyond the Secret, Shioriko Mifune
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Music
+	ChooseCharacterFromTargets Choose a character to give power to.
+	SetXValue TargetCardsSoul
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Music> characters, it gets +X power until end of turn. X is 1000 times that character's soul.
+EndCard
+
+Character: LNJ/W85-103
+Name Surf the Web Forever! Rina Tennoji
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+*LevelAssist
+Auto: OnPlay
+{
+	Peek Deck 2
+	EndPeek
+}
+Text Auto: When this is placed on stage from hand, look at up to 2 cards from the top of your deck, and put them back on top in the original order.
+Auto: OnPlay
+{
+	Peek OpponentDeck 2
+	EndPeek
+}
+Text Auto: When this is placed on stage from hand, look at up to 2 cards from the top of your opponent's deck, and put them back on top in the original order.
+EndCard
+
+Character: LNJ/W85-104
+Name There's No Need to Ask! Kasumi Nakasu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 9000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Music
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, for each of your other <Music> characters, this gets +1000 power.
+Cont: GiveFacing
+{
+	GainSoul 2
+}
+Text Cont: The character across from this gets +2 soul.
+EndCard
+
+Character: LNJ/W85-105
+Name Deliver Your Energy! Ai Miyashita
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand, put the top 2 cards of your deck into the waiting room, if a climax was put into the waiting room this way, you may pay the cost. If you do, choose 1 character from your waiting room, add it to hand.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Music
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Music
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Discard 1 card] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 <Music> character from your waiting room, add it to hand, then choose 1 of your other <Music> characters, this turn, it gets +1000 power.
+EndCard
+
+Character: LNJ/W85-106
+Name The World I Make! Setsuna Yuki
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnAttackGivePowerForEachOther(500,Music)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Music
+	}
+}
+Text Auto: [(2)] When this is sent from stage to waiting room, you may pay the cost. If you do, choose 1 <Music> character from your waiting room, add it to hand.
+EndCard
+
+Character: LNJ/W85-107
+Name A New Journey with New Friends! Ayumu Uehara
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Music
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all your characters are <Music>, this gets +1000 power.
+*RedLevel1Bomb
+EndCard
+
+Character: LNJ/W85-108
+Name Not Funny, Karin Asaka
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music || IsEvent
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 3000
+	}
+}
+Text Auto: When this attacks, reveal the top card of your deck. If that card is a <Music> character or event, choose 1 of your characters, this turn, it gets +3000 power.
+EndCard
+
+Character: LNJ/W85-109
+Name When to Step, Emma Verde
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+*OnPlayGiveOtherPower(2000, Music)
+Auto: OnPlay
+{
+	PayCost Rest 2 CardPosition Stand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBlindStock
+			}
+			Text Auto: When this card's battle opponent is Reversed, you may put the top card of your deck into stock.
+		}
+	}
+}
+Text Auto: [Rest 2 of your Standing characters] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 of your characters, this turn, it gains the following ability, "Auto: When this card's battle opponent is Reversed, you may put the top card of your deck into stock."
+EndCard
+
+Character: LNJ/W85-110
+Name A Playground for Me, Kanata Konoe
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Music
+*GlobalPower(1000,Music)
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			Question Put the battle opponent to the bottom of their deck?
+			If Yes
+			{	
+				MoveCardToBottom OpponentDeck
+			}
+		}
+		Text Auto: When this card's battle opponent is Reversed, you may send that character to the bottom of your opponent's deck.
+	}
+}
+Text Act: [Rest this] Choose 1 of your characters, this turn, it gains the following ability, "Auto: When this card's battle opponent is Reversed, you may send that character to the bottom of your opponent's deck."
+EndCard
+
+// Niji TD
+
+Character: LNJ/W85-T01
+Name Shadow of Effort, Kasumi Nakasu
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*PowerOnMyTurn(3000)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Music
+	}
+}
+Text Auto: [(2)] When this is sent from stage to waiting room, you may pay the cost. If you do, choose 1 <Music> character from your waiting room, add it to hand.
+EndCard
+
+Character: LNJ/W85-T02
+Name Power to Become True, Shizuku Osaka
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*500Assist
+*SacrificeToSave(Any)
+Text Auto: [Send this to waiting room] When your other <Music> character is sent from stage to waiting room, if this is in your backstage, you may pay the cost. If you do, return that character to stage in its former slot, Rested. 
+EndCard
+
+Character: LNJ/W85-T03
+Name Occurrence of a Serious Bind, Rina Tennoji
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*GiveNamePower(1000, Proud Lunch! Ai Miyashita)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Music
+	{
+		SearchDeck NameEquals Proud Lunch! Ai Miyashita
+	}
+}
+Text Auto: [Discard 1 <Music> character] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Proud Lunch! Ai Miyashita", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: LNJ/W85-T04
+Name Feeling Sympathy, Rina Tennoji
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 2 or less cards in your stock, this gets +1500 power.
+EndCard
+
+Character: LNJ/W85-T05
+Name Overcome Weaknesses? Shizuku Osaka
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Music
+*GainPowerForEachOther(1000,Music)
+EndCard
+
+Character: LNJ/W85-T06
+Name Airy Beloved, Kasumi Nakasu
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets_Optional
+	Bounce
+	TargetSelf
+	GainPower 2000
+}
+Text Auto: When this is placed on stage from hand, choose up to 1 of your opponent's characters, return it to hand, and this turn, this gets +2000 power.
+*OnAttackGivePower(1500,Music)
+EndCard
+
+Character: LNJ/W85-T07
+Name Familiar Taste, Ayumu Uehara
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*OnAttackGivePower(2500,Any)
+EndCard
+
+Character: LNJ/W85-T08
+Name Proud Lunch! Ai Miyashita
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+EndCard
+
+Character: LNJ/W85-T09
+Name Because She's My Companion! Setsuna Yuki
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+*GainPowerWhenOtherAttacks(1500,Music)
+*HandEncore
+EndCard
+
+Character: LNJ/W85-T10
+Name Stair to Dreams, Ayumu Uehara
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo TOKIMEKI Runners
+*OnPlayGainPower(1500)
+Auto: OnReverseOpponent
+{
+	If Climax TOKIMEKI Runners
+	{
+		*Check4Add1(Music)
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Auto: CxCombo When this card's battle opponent is Reversed, if you have "TOKIMEKI Runners" in the climax area, look at up to 4 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, send the rest to waiting room, then choose 1 of your characters, this turn, it gets +1 Level and +1500 power.
+EndCard
+
+Character: LNJ/W85-T11
+Name Pun Attack, Ai Miyashita
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+*GainPowerForEachOther(500,Music)
+EndCard
+
+Character: LNJ/W85-T12
+Name LOVE & PEACE, Setsuna Yuki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 4 Other && HasTrait Music
+	{
+		GainPower 5000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoBackupOnAttack
+				GainSpecialEffect NoEventsOnAttack
+			}
+			Text Cont: During this card’s battle, your opponent cannot play event cards and "BACKUP" from hand.
+		}
+	}
+}
+Text Cont: During your turn, if the number of other <Music> characters you have is four or more, this card gets +5000 power and the following ability, "Cont: During this card’s battle, your opponent cannot play event cards and "BACKUP" from hand."
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a <Music> character, you may deal one damage to your opponent.
+EndCard
+
+Event: LNJ/W85-T13
+Name Once More, Start!
+Color R
+Level 2
+Cost 3
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalBurn(3)
+		}
+		Text Auto: When this card's battle opponent is Reversed, you may deal 3 damage to your opponent.
+	}
+}
+Text Choose 1 of your characters, this turn, it gains the following ability, "Auto: When this card's battle opponent is Reversed, you may deal 3 damage to your opponent."
+EndCard
+
+Climax: LNJ/W85-T14
+Name TOKIMEKI Runners
+*DoorClimax
+EndCard
+
+Climax: LNJ/W85-T15
+Name Thinking of Everyone
+Color R
+Trigger DoubleSoul
+Auto: OnPlay
+{
+    SearchWaitingRoom HasTrigger Soul && IsCharacter
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with in its trigger icon in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Character: LNJ/W85-T16
+Name Aiming for the Top, Karin Asaka
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 5 or more cards in hand, this gets +1000 power.
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: LNJ/W85-T17
+Name Breath of Nature, Emma Verde
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*OnClimaxPlayGivePower(1500)
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: LNJ/W85-T18
+Name Beyond Circumstances, Kanata Konoe
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this is placed on stage from hand, if you have another <Music> character, this turn, this gets +2000 power.
+EndCard
+
+Character: LNJ/W85-T19
+Name Dream Story, Kanata Konoe
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 2 RestSelf Rest 1 Other && NameEquals Breath of Nature, Emma Verde
+			{
+				SearchLocationForTargets Hand 0 1 NameEquals Sometimes a Kind of Holiday, Karin Asaka
+				If HasTarget
+				{
+					RevealTargets
+					PlaceOnStage False True True False
+				}
+			}
+			Text Act: [(2) Rest this and Rest 1 of your other "Breath of Nature, Emma Verde"] Choose up to 1 "Sometimes a Kind of Holiday, Karin Asaka" from your hand, and place it on stage in any slot.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this gains the following ability, "Act: [(2) Rest this and Rest 1 of your other "Breath of Nature, Emma Verde"] Choose up to 1 "Sometimes a Kind of Holiday, Karin Asaka" from your hand, and place it on stage in any slot."
+*LevelAssist
+EndCard
+
+Character: LNJ/W85-T20
+Name Room Visit! Emma Verde
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Backup 3000
+EndCard
+
+Character: LNJ/W85-T21
+Name Sometimes a Kind of Holiday, Karin Asaka
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 1000
+Soul 2
+Trait1 Music
+*Healer
+*HandEncore
+EndCard
+
+// Other Niji PRs
+
+Character: LNJ/W85-P01
+Name 2nd Year Nijigasaki High Students, Ayumu & Ai & Setsuna
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If this has a marker underneath it, this gets +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music
+	{
+		Question Put the revealed card under this as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Music》 character, you may put it face down underneath this card as a marker.
+EndCard
+
+Character: LNJ/W85-P02
+Name Thank You All, Ayumu Uehara
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Music
+Backup 2000
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your deck into the waiting room.
+EndCard
+
+Character: LNJ/W85-P03
+Name 1st Year Nijigasaki High Students, Kasumi & Shizuku & Rina & Shioriko
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	If Compare TargetCount 1 OrLess
+	{
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets_Optional
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: When this is placed on stage from hand, if your opponent has 1 or less characters in their center stage, choose 1 cost 0 or lower character in your opponent's center stage, you may send it to the bottom of your opponent's deck.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		Question Return this card to hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: At the start of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to hand.
+EndCard
+
+Character: LNJ/W85-P04
+Name 3rd Year Nijigasaki High Students, Kanata & Karin & Emma
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*GiveMiddlePower(500,Any)
+*500Assist
+EndCard
+

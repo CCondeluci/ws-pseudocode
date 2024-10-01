@@ -1,0 +1,2788 @@
+
+Character: CCS/W66-001
+Name "Chinese Costume" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Trait2 Magic
+Cont: Assist
+{
+	If MyTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: ASSIST During your turn, Your characters in front of this get +500 power.
+Tag Backstage
+Act: 1 RestSelf Resonate Secure
+{
+	*CheckAndAddOne(3,HasTrait Clear Card || NameEquals Secure)
+}
+Text Act: [(1) Reveal a "Secure" from your hand, and rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 <Clear Card> character or 1 "Secure" to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: CCS/W66-002
+Name "Guardian of the Clow Cards" Kero-chan
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of cards in your stock is 3 or less, this card gets +1000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 level 1 or lower character in your waiting room, and return it to your hand.
+EndCard
+
+Character: CCS/W66-003
+Name "Cheerleader" Sakura Kinomoto
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Clear Card
+Trait2 Magic
+Combo Every Day is Cherry Blossom Colored
+*GainPowerWithEnoughCharacters(2000,2,Clear Card)
+Auto: OnAttack
+{
+	If Climax Every Day is Cherry Blossom Colored &&& StageContains 2 Other && HasTrait Clear Card
+	{
+		Peek Deck 3 
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Every Day is Cherry Blossom Colored" is in your climax area and you have 2 or more other <Clear Card> characters, look at up to 3 cards from top of your deck, choose up to 1 of them, put it into your hand, and put the rest in the waiting room. 
+EndCard
+
+Character: CCS/W66-004
+Name "Trump Card" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Clear Card
+Trait2 Magic
+Auto: StartOpponentAttackPhase
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget HasTrait Clear Card || NameEquals Secure
+		{
+			TargetLocation CenterStage
+			If Compare TargetCount 2 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your center stage?
+				If Yes
+				{
+					MoveToOpenPosition True False
+				}
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may put the top card of your deck into the waiting room, if it is a $TRAITLIST character, you may move this card to an open position of your center stage.
+EndCard
+
+Character: CCS/W66-005
+Name "Mysterious Card" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		SearchDeck NameEquals Secure
+	}
+}
+Text Auto: [Put a card from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 "Secure", and add it to your hand.
+EndCard
+
+Character: CCS/W66-006
+Name "Communicating Together" Sakura & Kero-chan
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	GainPower 1000
+}
+Quick
+Text Auto: When you use this card's "Backup", if you have a <Clear Card> character, your character in battle gets +1000 power.
+Backup 1000
+EndCard
+
+Character: CCS/W66-007
+Name Sakura & Kero-chan
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Clear Card
+Trait2 Magic
+*OnAttackGivePowerForEachOther(500,Clear Card)
+EndCard
+
+Character: CCS/W66-008
+Name "Making Sweets" Sakura Kinomoto
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Clear Card
+Trait2 Magic
+Combo It's Delicious
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax It's Delicious
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			ChooseCharacterFromTargets Choose a character to give the effect to.
+			AddSelfToTargets
+			GainEffect
+			{
+				*OnCancelBurn1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)]When this card attacks, if a card named "It's Delicious" is in your climax area, you may pay the cost. If you do, choose one of your other characters and this card, and those cards get the following ability until end of turn. "Auto: Once per turn, when damage dealt by this card is canceled, you may deal one damage to your opponent."
+EndCard
+
+Character: CCS/W66-009
+Name "Just a Meanie" Touya Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+*GlobalPower(500,Clear Card)
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Clear Card
+	{
+		TargetTop Deck 1
+		View
+	}
+}
+Text Auto: When this card or your other <Clear Card> character is placed on the stage from your hand, you may look at the top card of your deck.
+EndCard
+
+Character: CCS/W66-010
+Name "Barely OK" Sakura Kinomoto
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Tomoyo
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another character with "Tomoyo" in its name, this card gets +3000 power.
+EndCard
+
+Character: CCS/W66-011
+Name "Let's! Change!!" Kero-chan
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlacedOnStageFromWaitingRoom
+{
+	If StageContains 1 HasTrait Clear Card
+	{
+		ChooseCharacter InLocation Stage
+		GainSoul 1
+	}
+}
+Text Auto: When this card is placed on the stage from your waitingroom, choose up to 1 of your characters, and that card gets +1 soul until end of turn.
+Auto: StartClimaxPhase
+{
+	PayCost 1 SendSelf WaitingRoom Discard 1 Any
+	{
+		*ChangeWaitingRoom("When it Comes" Kero-chan)
+	}
+}
+Text Auto: CHANGE [(1) Put this card into your waiting room and discard one hand] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""When it Comes" Kero-chan" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: CCS/W66-012
+Name "When it Comes" Kero-chan
+Color Y
+Level 3
+Cost 2
+Power 10000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Clear Card
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Clear Card》, this card gets +1000 power.
+Auto: OnPlay|PlacedBy Change
+{
+	GainEffect
+	{
+		*OnCancelBurn1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or by a "CHANGE" effect, gain the ability "Auto: Once per turn, when damage dealt by this card is canceled, you may deal 1 damage to your opponent.".
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf Stock
+	{
+		*ChangeWaitingRoom("Let's! Change!!" Kero-chan)
+	}
+}
+Text Auto: CHANGE [Put this card into your stock] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""Let's! Change!!" Kero-chan" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: CCS/W66-013
+Name "From Within the Backpack" Kero-chan
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: SendSelf WaitingRoom
+			{
+				TargetLocation Hand
+				NarrowTargets NameEquals "Feelings to Convey" Sakura Kinomoto
+				FirstTarget
+				Change
+			}
+			Text Act: [Put this card into the waiting room] Choose up to 1 ""Feelings to Convey" Sakura Kinomoto" in your hand and place it in the position that this card was on.
+		}
+	}
+}
+Text Cont: If you are level 2 or higher, this card gets the following ability. "Act: [Put this card into the waiting room] Choose up to 1 ""Feelings to Convey" Sakura Kinomoto" in your hand and place it in the position that this card was on."
+*BondDiscard("Feelings to Convey" Sakura Kinomoto)
+EndCard
+
+Character: CCS/W66-014
+Name "Father" Fujitaka Kinomoto
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Clear Card
+*BondDiscard("Cheerleader" Sakura Kinomoto)
+*BondDiscard("Reliable Brother" Touya Kinomoto)
+EndCard
+
+Character: CCS/W66-015
+Name "Good Friends? Brother and Sister" Sakura & Touya
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Clear Card
+Trait2 Magic
+Cont: Assist
+{
+	TargetLocation Stage
+	NarrowTargets With ASSIST
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: ASSIST Your characters in front of this get +X power where X is 500 times the number of characters with assist.
+Tag Backstage
+Auto: OnUseEvent 
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets_Optional Choose a character to give 1 soul.
+	If HasTarget
+	{
+		GainSoul 1
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when you play an event card, choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: CCS/W66-016
+Name "Morning Landscape" Sakura Kinomoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameEquals "Omp Omp" Kero-chan
+	GainSoul X
+}
+Text Cont: This card gets +1 soul for each of your other ""Omp Omp" Kero-chan".
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Clear Card
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals "Omp Omp" Kero-chan
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 <Clear Card> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 ""Omp Omp" Kero-chan" in your waiting room, and put it on any position of your stage.
+*GainPowerWhenOtherAttacks(1500,Clear Card)
+EndCard
+
+Character: CCS/W66-017
+Name "Mother" Nadeshiko Kinomoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Clear Card
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Clear Card
+	{
+		PayCost Discard 1 NameEquals "Mother" Nadeshiko Kinomoto
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLower
+			ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand.
+			Bounce
+		}
+	}
+}
+Text Auto: [Put 1 ""Mother" Nadeshiko Kinomoto" from your hand into your waiting room] When this card is placed on the stage from your hand, if there is one other <Clear Card> character, you may pay the cost. If you do, choose up to 1 of your opponent's level 3 or lower characters, and return it to his or her hand.
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Clear Card
+	{
+		ChooseCharacter InLocation Stage
+		GainPower 2000
+		GainSoul 1
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and the number of <Clear Card> characters you have is four or more, at the beginning of your climax phase, choose one of your characters to get +2000 power and +1 soul this turn.
+EndCard
+
+Character: CCS/W66-018
+Name "Reliable Brother" Touya Kinomoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Clear Card
+Combo Fellow Protectors
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each marker underneath this card.
+Auto: OnAttack
+{
+	If Climax Fellow Protectors
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand.
+			Bounce
+			TargetSelf
+			GainPower 3000
+		}
+	}
+}
+Text Auto: [(1)] When this card attacks, if Fellow Protectors is in your climax area, you may pay the cost. If you do, choose up to 1 of your opponent's characters, and return it to his or her hand, and this card gets +3000 power this turn.
+Auto: OnReverseOpponent
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Clear Card
+	If HasTarget
+	{
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may choose a <Clear Card> character in your waiting room, and put it face-down underneath this card as a marker.
+EndCard
+
+Character: CCS/W66-019
+Name "Omp Omp" Kero-chan
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Clear Card
+Trait2 Magic
+EndCard
+
+Event: CCS/W66-020
+Name Instant Defense
+Color Y
+Level 2
+Cost 3
+Counter
+Effect: 
+{
+	If StageContains 5 HasTrait Clear Card
+	{
+		Question Choose your opponent's character? (Pressing no will choose your character)
+		If Yes
+		{
+			TargetBattleOpponent
+			GainSpecialEffect CannotDealDamage
+		}
+		If No
+		{
+			TargetMyCharacterInBattle
+			GainSpecialEffect CannotDealDamage
+		}
+	}
+	*GiveCharacterPower(1500,Any)
+}
+Text COUNTER IF you have 5 or more <Clear Card> characters, choose a character in battle and that character gains the following ability until end of turn. "Cont: This card cannot deal damage to players"
+Text Choose 1 of your characters and that character gains +1500 power until end of turn.
+EndCard
+
+Event: CCS/W66-021
+Name Secure
+Color Y
+Level 1
+Cost 1
+Requirement StageContains 1 NameContains Sakura
+Effect:
+{
+	SearchDeck HasTrait Clear Card
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1000 power until the end of your opponent's next turn.
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+}
+Text If you do not have a character with "Sakura" in its card name, this card cannot be played from your hand.
+Text Search up to 1 <Clear Card> character in your deck and add it into your hand. Choose one of your character to get + 1000 power and the ability "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack." until the end of your opponent's turn. 
+EndCard
+
+Event: CCS/W66-022
+Name Precious Bears
+Color Y
+Level 1
+Cost 2
+Requirement StageContains 1 HasTrait Clear Card
+Text If you do not have a <Clear Card> character, this card cannot be played from your hand.
+Effect:
+{
+	*OptionalDraw
+	*OptionalDraw
+	*OptionalDraw
+	Discard 2 Any
+}
+Text Draw up to 3 card and discard 2 hand.
+EndCard
+
+Climax: CCS/W66-023
+Name Every Day is Cherry Blossom Colored
+*WindClimax
+EndCard
+
+Climax: CCS/W66-024
+Name It's Delicious
+*ShotClimax
+EndCard
+
+Climax: CCS/W66-025
+Name Fellow Protectors
+*YellowStockSoul
+EndCard
+
+Character: CCS/W66-026
+Name "Serious Expression" Syaoran Li
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Clear Card
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 other <Clear Card> characters, this card gets +2000 power.
+Cont: GiveAll
+{
+	If NameEquals "Flapping Wings" Sakura Kinomoto &&& LocationContains Level 1 NameEquals "Flapping Wings" Sakura Kinomoto
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is one ""Flapping Wings" Sakura Kinomoto" in your level, Your ""Flapping Wings" Sakura Kinomoto" gets +2000 power.
+Auto: OnPlay|PlacedBy "Flapping Wings" Sakura Kinomoto
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand or the effect of ""Flapping Wings" Sakura Kinomoto", you may pay the cost, put the top card of your clock into your stock.
+EndCard
+
+Character: CCS/W66-027
+Name "Flapping Wings" Sakura Kinomoto
+Color G
+Level 3
+Cost 2
+Power 10000
+Trait1 Clear Card
+Trait2 Magic
+Combo Aerial Walk
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals “真剣なまなざし” Syaoran
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "“真剣なまなざし” Syaoran" in your waiting room, and put it in any position of your stage.
+Auto: OnAttack
+{
+	If Climax Aerial Walk && AllYourCharacters HasTrait Clear Card
+	{
+		PayCost 2 Discard 2 Any
+		{
+			TargetLocation Stage
+			NarrowTargets Other && NameContains Syaoran
+			ChooseCharacterFromTargets Choose a character to give the effect to.
+			AddSelfToTargets
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					*OptionalBurn(2)
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may deal 2 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: [(2) Discard 2 hand]CxCombo When this card attacks, if a card named "Aerial Walk" is in your climax area, and all of your character have trait <Clear Card>, you may pay the cost. If you do, choose one of your other characters with "Syaoran" in its name and this card, and those cards get the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 2 damage to your opponent."
+EndCard
+
+Character: CCS/W66-028
+Name "Record!" Sakura Kinomoto
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Secure
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Secure" in your waiting room, and return it to your hand.
+Auto: OnAttack
+{
+	Question Mill 1?
+	If Yes
+	{
+		Mill 1
+		IfTarget IsClimax
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card attacks, put the top card of your deck into the waiting room, if that card is a climax, draw a card, then discard a card.
+EndCard
+
+Character: CCS/W66-029
+Name "Fire God, Come Forth!" Syaoran Li
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Clear Card
+Trait2 Magic
+Combo Power to Protect
+Cont: GiveSelf
+{
+	If Compare CardsInStock 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 other <Clear Card> characters, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Power to Protect
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Clear Card
+				RevealTargets
+				MoveCard Stock
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may choose a <Clear Card> Character in your waiting room and put it into your stock.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Power to Protect" is in your climax area, this card gets +1000 power and the ability "Auto: When this card's battle opponent becomes reversed, you may choose a <Clear Card> Character in your waiting room and put it into your stock."
+EndCard
+
+Character: CCS/W66-030
+Name "If it's the Two of Us" Sakura & Syaoran
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Clear Card
+Trait2 Magic
+*LevelAssist
+Act: Rest 1 Other &&& RestSelf 
+{
+	If LocationContains WaitingRoom 1 IsEvent
+	{
+		TargetLocation Stage
+		AIChoice GainPower 500
+		ChooseCharacterFromTargets Choose a character to give +500 power and the effect to.
+		GainPower 500
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoBackupOnAttack
+				GainSpecialEffect NoEventsOnAttack
+			}
+			Text Cont: During this card's battle, your opponent cannot play event cards and "BACKUP" from hand.
+		}
+	}
+}
+Text Act: [Rest one of your other characters and this card] If there is an event card in your waiting room, choose one of your characters, and until end of turn, that character gets +500 power and the following ability. "Cont: During this card's battle, your opponent cannot play event cards and "BACKUP" from hand."
+EndCard
+
+Character: CCS/W66-031
+Name "Feelings to Convey" Sakura Kinomoto
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 6500
+Trait1 Clear Card
+Trait2 Magic
+*GainPowerForEachOther(1000,Clear Card)
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Clear Card
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If the number of other <Clear Card> characters you have is 2 or more, this card gets the ability "Auto: ENCORE [Discard a character]".
+EndCard
+
+Character: CCS/W66-032
+Name "Going to School Together" Sakura & Tomoyo
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Clear Card
+Trait2 Magic
+*EarlyPlay4OrMore(Clear Card)
+*Healer
+EndCard
+
+Character: CCS/W66-033
+Name "All-Around Athlete" Sakura Kinomoto
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetTop Deck 2
+	Reorder
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+*Act1SearchBrainstorm(Clear Card)
+EndCard
+
+Character: CCS/W66-034
+Name "Good Friends with 'Flight'" Sakura Kinomoto
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Clear Card
+Trait2 Magic
+*500Assist
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation Clock
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax, if that card's trigger icon is Bar, you may pay the cost. If you do, choose 1 card in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: CCS/W66-035
+Name "Ridiculous Screaming" Sakura Kinomoto
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the total level of the cards in your level is 2 or higher, this card gets +2000 power.
+EndCard
+
+Character: CCS/W66-036
+Name "Hiding Embarrassment" Syaoran Li
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the total level of the cards in your level is 2 or higher, this card gets +1000 power.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Clear Card
+	{
+		PayCost Sendself WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			GainPower 1500
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other «Grisaia» character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, it gets +1500 power until end of turn.
+EndCard
+
+Character: CCS/W66-037
+Name "New Uniform" Syaoran Li
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Rest 1 Other && HasTrait Clear Card
+	{
+		Message Choose a card in your waiting room to exchange with a card in your level.
+		SearchLocationForTargets WaitingRoom 1 1 Any
+		If HasTarget
+		{
+			SaveTargets
+			Message Choose a card in your level to swap with it
+			SearchLocationForTargets Level 1 1 Any
+			If HasTarget
+			{
+				AddSavedToCurrentTargets
+				Exchange
+			}
+		}
+	}
+}
+Text Auto: [Rest 1 of your other <Clear Card> characters] When this card is placed on the stage from your hand, you may pay the cost, choose a card in your level and a card in your waiting room and exchange them.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: CCS/W66-038
+Name "D Magician" Yuna D. Kaito
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Clear Card
+Trait2 Clock
+Combo Moment of Calm
+Auto: OnPlay
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		PayCost SendSelf WaitingRoom Discard 1 NameEquals Moment of Calm
+		{
+			MultipleChoiceQuestion Pick an effect to choose first. \n1. Refresh your deck and search your deck for “恋する” Akiho or “廻る歯車”フードの少女 to place on the position this card is on. \n2. Choose 1 card in your clock, return it to your hand, and put the top card of your deck into your clock. |First 1 Second 2|First 2 Second 1
+			If Answer 0
+			{
+				TargetLocation WaitingRoom
+        			MoveCard Deck
+        			ShuffleLocation Deck
+        			SearchDeck NameEquals “恋する” Akiho|“廻る歯車”フードの少女
+        			Change
+				TargetLocation Clock
+				ChooseCardsFromTargets 0 1 Any
+				If HasTarget
+				{
+					MoveCard Hand
+					TargetTop Deck 1
+					MoveCard Clock
+				}
+			}
+			Else
+			{
+				TargetLocation Clock
+				ChooseCardsFromTargets 0 1 Any
+				If HasTarget
+				{
+					MoveCard Hand
+					TargetTop Deck 1
+					MoveCard Clock
+				}
+				TargetLocation WaitingRoom
+        			MoveCard Deck
+        			ShuffleLocation Deck
+        			SearchDeck NameEquals “恋する” Akiho|“廻る歯車”フードの少女
+        			Change
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Discard 1 Moment of Calm and send this card into your waitingroom]When this card is placed on the stage from your hand, if your deck has 5 or less cards, you may pay the cost. If you do, perform the following actions once in any order. "Refresh your deck and search your deck for “恋する” Akiho or “廻る歯車”フードの少女 to place on the position this card is on" "Choose 1 card in your clock, return it to your hand, and put the top card of your deck into your clock."
+Auto: StartClimaxPhase|StartOpponentClimaxPhase 
+{
+	TargetLocation Stage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Alarm
+Text Auto: ALARM If this is on top of your clock, at the start of the climax phase, choose 1 of your characters, this turn, it gains "Auto: ENCORE [Discard 1 character]".
+EndCard
+
+Character: CCS/W66-039
+Name "Stuffed Bear" Sakura Kinomoto
+Color G
+Level 0
+Cost 0
+Power 1000
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals "Stuffed Bear" Syaoran Li
+	{
+		GainTrait Stuffed Toy
+	}
+}
+Text Cont: If you have ""Stuffed Bear" Syaoran Li", this card gains trait <Stuffed Toy>.
+Cont: GiveAll
+{
+	If Other && NameEquals "Stuffed Bear" Syaoran Li
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: All of your other ""Stuffed Bear" Syaoran Li" get +1500 power and "Auto: ENCORE [Discard 1 character]".
+Act: RestSelf
+{
+	ChooseCharacter InLocation Stage
+	GainPower 1000
+}
+Text Act: [Rest self]Choose one of your characters to get +1000 power this turn.
+EndCard
+
+Character: CCS/W66-040
+Name "Serious" Yuna D. Kaito
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Trait2 Clock
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLower
+	ChooseCharacterFromTargets Choose a character to send to the waiting room.
+	MoveCard OpponentWaitingRoom
+}
+Text Act: [(1)] Choose a level 0 or lower character on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: CCS/W66-041
+Name "Comedy Duo Dialogue?" Chiharu & Yamazaki
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 1 or higher, put it into your hand, choose 1 card in your hand, and put it into your waiting room.
+*OnAttackMill1PutLevel0OnField
+EndCard
+
+Character: CCS/W66-042
+Name "Watching Cherry Blossoms Together" Chiharu & Naoko
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Peek Deck 3
+		ChooseCard Choose a card to add to your hand.
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: CCS/W66-043
+Name "Book Lover" Rika Sasaki
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+*GlobalPower(500,Clear Card)
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give +1 level.
+	GainLevel 1
+	GainTrait Book
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other characters, it gets +1 level and trait <book> until end of turn.
+EndCard
+
+Character: CCS/W66-044
+Name "Time Magic" Yuna D. Kaito
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Clear Card
+Trait2 Clock
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, return all cards from your waiting room to your deck and shuffle your deck.
+Auto: StartEncoreStep
+{
+	If StageContains 4 HasTrait Clear Card
+	{
+		SearchWaitingRoom IsCharacter
+		If HasTarget
+		{
+			Discard 1 Any
+		}
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and the number of <Clear Card> characters you have is four or more, at the beginning of your encore step, you may choose one of your characters in your waitingroom to return to your hand, if you do, discard 1 hand.
+EndCard
+
+Character: CCS/W66-045
+Name "Butler" Yuna D. Kaito
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Clear Card
+Trait2 Clock
+Cont: Assist
+{
+	If Compare ThatCardsLevel 0 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST Your level 0 or lower characters in front of this card get +1500 power.
+Tag Backstage
+*Act1Rest2SearchBrainstorm(Clear Card)
+EndCard
+
+Character: CCS/W66-046
+Name "Stuffed Bear" Syaoran Li
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Clear Card
+Trait2 Magic
+EndCard
+
+Character: CCS/W66-047
+Name Akiho & Kaito
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Clear Card
+Trait2 Clock
+Auto: StartMainPhase
+{
+	Question Switch "Akiho ＆ Kaito" in your clock with a character in your waiting room?
+	If Yes
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+		}
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, at the beginning of your main phase, you may choose a character in your waiting room and this card, and exchange them.
+Backup 3000
+EndCard
+
+Event: CCS/W66-048
+Name Secure
+Color G
+Level 1
+Cost 0
+Counter
+Requirement StageContains 1 NameContains Sakura
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +X power
+	SetXValue 500
+	MultiplyXValue CardsInStock
+	GainPower X
+}
+Text If you do not have a character with "Sakura" in its card name, this card cannot be played from your hand.
+Text Choose 1 of your characters, it gets +X power until end of turn. X is 500 times the number of cards in your stock. 
+EndCard
+
+Event: CCS/W66-049
+Name Go Out Together
+Color G
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck NameContains Sakura
+	SearchDeck NameContains Syaoran
+	Discard 1 Any
+	ShuffleLocation Deck
+}
+Text Search your deck for up to 1 character with "Sakura" in its name and 1 character with "Syaoran" in its name, reveal it to your opponent, put it into your hand, discard 1 hand and shuffle your deck.
+EndCard
+
+Climax: CCS/W66-050
+Name Aerial Walk
+*BarClimax
+EndCard
+
+Climax: CCS/W66-051
+Name Power to Protect
+*BarClimax
+EndCard
+
+Climax: CCS/W66-052
+Name Moment of Calm
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom Compare ThatCardsLevel MyLevel OrLess
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to two characters to gain +1 soul
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character in your waiting room with level equal to or lower than your level, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Character: CCS/W66-053
+Name "Best Friends" Tomoyo Daidouji
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+Trait2 Camera
+Auto: OnUseEvent
+{
+	Question Draw a card then discard a card?
+	If Yes
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you play an event, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		SearchLocationForTargets WaitingRoom 0 X IsCharacter
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, choose up to 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: CCS/W66-054
+Name "Swallow-Tailed Coat Costume" Sakura Kinomoto
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Clear Card
+Trait2 Magic
+Combo Every Day is a Treasure
+Auto: OnReverseOpponent
+{
+	If Climax Every Day is a Treasure
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Every Day is a Treasure" is in your climax area, put up to 1 card from the top of your deck into your stock, reveal the top card of your deck, if it is level 1 or higher add it to your hand.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Secure
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 3000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Secure" in your hand]  At the beginning of your climax phase, you may pay the cost, this card gets +3000 power until end of your opponent's turn.
+EndCard
+
+Character: CCS/W66-055
+Name “CLEAR” Sakura
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Clear Card
+Trait2 Magic
+Combo Transparent Feelings
+*GiveAll1500OnCenterStage(Clear Card)
+Auto: OnAttack
+{
+	If Climax Transparent Feelings
+	{
+		PayCost 2 Discard 1 HasTrait Clear Card || NameEquals Secure
+		{
+			TargetLocation Waitingroom
+			NarrowTargets NameEquals Secure
+			SetXValue TargetCount
+			Burn X
+			TargetSelf
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					*OptionalHeal
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put the top card in the clock into your waitingroom.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 1 <Clear Card> character or "Secure" from your hand into your waiting room] When this card attacks, if "Transparent Feelings" is in your climax area, you may pay the cost. If you do, deal X damage to your opponent and this card gains the ability "Auto: When this card's battle opponent becomes reversed, you may put the top card in the clock into your waitingroom.". X is equal to the number of "Secure" in your waitingroom. 
+EndCard
+
+Character: CCS/W66-056
+Name "Important Things" Tomoyo Daidouji
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Clear Card
+Trait2 Camera
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Maison de Tomoyo
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Maison de Tomoyo" in your waiting room, and return it to your hand.
+*Bond1(“CLEAR” Sakura)
+EndCard
+
+Character: CCS/W66-057
+Name "Authentic Dumplings" Sakura Kinomoto
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Clear Card
+Trait2 Magic
+*DropSearch(Clear Card)
+Auto: OnAttack
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		ChooseCharacter InLocation Stage
+		GainPower 1500
+	}
+}
+Text Auto: When this card attacks, if you have 5 or more hands, choose one of your characters to get +1500 power this turn.
+EndCard
+
+Character: CCS/W66-058
+Name "Pierrot Costume" Sakura Kinomoto
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Clear Card
+Trait2 Magic
+*OnPlayTradeClimaxForCharacter(Clear Card)
+*RedLevel1Bomb
+EndCard
+
+Character: CCS/W66-059
+Name "Good Friends Together" Sakura & Tomoyo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Clear Card
+Trait2 Magic
+*GlobalPower(1000,Clear Card)
+Act: RestSelf
+{
+	ChooseCharacter InLocation Stage
+	GainPower 1000
+}
+Text Act: [Rest self]Choose one of your characters to get +1000 power this turn.
+EndCard
+
+Character: CCS/W66-060
+Name "Leave it to Me!" Tomoyo Daidouji
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Clear Card
+Trait2 Camera
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Clear Card
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your have other <Clear Card> character, this card gets +1500 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget NameContains Tomoyo
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a character with "Tomoyo" in its name, this card gains +2000 power until end of turn.
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget NameContains Sakura
+	{
+		SetXValue TargetCardsLevel
+		Burn X
+	}
+}
+Text Auto: WHen this card attacks, reveal the top card of your deck. If that card is a character with "Sakura" in its name, deal X damage to your opponent. X is equal to the revealed character's level.
+EndCard
+
+Character: CCS/W66-061
+Name "Majestic Prince" Sakura Kinomoto
+Color R
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Clear Card
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 4 or more other <Clear Card> characters, you may put the top card on the deck into your stock.
+*Healer
+EndCard
+
+Character: CCS/W66-062
+Name "Exquisite Timing" Meiling Li
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Clear Card
+Trait2 Kempo
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		AIChoice GainSoul 1
+		ChooseCharacterFromTargets Choose a character to give +1 soul.
+		GainSoul 1
+	}
+}
+Text Auto: [Return this card to your hand] When a climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +1 soul until end of turn.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: CCS/W66-063
+Name "Desire to Become Stronger" Sakura Kinomoto
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room.
+Backup 2500
+EndCard
+
+Character: CCS/W66-064
+Name "Shooting Anywhere, Anytime" Tomoyo Daidouji
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Clear Card
+Trait2 Camera
+Combo The Best One
+Auto: OnSpecificClimaxPlay The Best One
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Clear Card
+		ChooseCharacterFromTargets Choose a character to stand and give +1000 Power
+		Stand
+	}
+}
+Text Auto:CxCombo When "The Best One" is placed on your climax area, if this card is in the center stage, choose 1 of your other <Clear Card> characters and stand it.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: CCS/W66-065
+Name "Memories and Entertainment" Sakura Kinomoto
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Tomoyo
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If your have other character with "Tomoyo" in its name, this card gets +1 level and +2500 power.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals "Gifted at Sewing" Tomoyo Daidouji
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 ""Gifted at Sewing" Tomoyo Daidouji", put it on any position of your stage, and shuffle your deck.
+EndCard
+
+Character: CCS/W66-066
+Name "Barricade" Tomoyo Daidouji
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+Trait2 Camera
+*GlobalPower(500,Clear Card)
+Auto: OnTriggerCheckClimax
+{
+	*Scry
+}
+Text Auto: When your character's trigger check reveals a climax card, look at the top card of your deck, put it on the top of your deck or into the waiting room.
+EndCard
+
+Character: CCS/W66-067
+Name "Secretly Scheming" Tomoyo Daidouji
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Clear Card
+Trait2 Camera
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Clear Card || NameEquals Secure
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of turn. X is POWER times the number of <Clear Card> characters and "Secure" revealed.
+EndCard
+
+Character: CCS/W66-068
+Name "Gifted at Sewing" Tomoyo Daidouji
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Clear Card
+Trait2 Magic
+EndCard
+
+Character: CCS/W66-069
+Name "Hong Kong Friends" Meiling Li
+Color R
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Clear Card
+Trait2 Kempo
+Combo Transparent Feelings
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnAttack
+{
+	If Climax Transparent Feelings && StageContains 1 NameContains Sakura
+	{
+		GainPower 5000
+		GainSoul 1
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Transparent Feelings" is in your climax area, you have other character with "sakura" in its name, this card gets +5000 power and +1 soul until end of turn.  
+EndCard
+
+Event: CCS/W66-070
+Name Secure
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Sakura
+Text Counter: If you do not have character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	DrawCard
+}
+Text Draw 1 card.
+EndCard
+
+Event: CCS/W66-071
+Name Maison de Tomoyo
+Color R
+Level 3
+Cost 1
+Combo Transparent Feelings
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect.\n1: Put 1 character with "sakura" in its name to place on the stage from your hand and gets +3500 power and trait <コスチューム> until end of your opponent's turn.\n2: Choose 1 "Transparent Feelings" in your waiting room and return it to your hand, reveal the top of your deck, if it is a character with "sakura" in its name, choose up to 2 of your characters to get +4000 power and trait <コスチューム> this turn.|1|2
+	If Answer 0
+	{
+		SearchLocationForTargets Hand 0 1 NameContains Sakura
+		PlaceOnStage False True True False
+		UntilEndOfOpponentsTurn
+		GainPower 3500
+		GainTrait Costume
+	}
+	If Answer 1
+	{
+		SearchWaitingRoom NameEquals Transparent Feelings
+		TargetTop Deck 1
+		Reveal
+		IfTarget NameContains Sakura
+		{
+			SearchLocationForTargets Stage 0 2 IsCharacter
+			GainPower 4000
+			GainTrait Costume
+		}
+	}
+}
+Text CxCombo Choose 1 of the following effects and perform it. "Put 1 character with "sakura" in its name to place on the stage from your hand and gets +3500 power and trait <Costume> until end of your opponent's turn." "Choose 1 "Transparent Feelings" in your waiting room and return it to your hand, reveal the top of your deck, if it is a character with "sakura" in its name, choose up to 2 of your characters to get +4000 power and trait <Costume> this turn."
+EndCard
+
+Climax: CCS/W66-072
+Name Transparent Feelings
+*DoorClimax
+EndCard
+
+Climax: CCS/W66-073
+Name Every Day is a Treasure
+*StandbyClimax
+EndCard
+
+Climax: CCS/W66-074
+Name The Best One
+*StandbyClimax
+EndCard
+
+Character: CCS/W66-075
+Name "Souvenir Cookies" Sakura Kinomoto
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Clear Card
+Trait2 Magic
+*CleanCut(Clear Card)
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Secure
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Secure" in your hand]  At the beginning of your climax phase, you may pay the cost, this card gets +1 level and +1500 power until end of your turn.
+EndCard
+
+Character: CCS/W66-076
+Name "Clockland" Akiho Shinomoto
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Clear Card
+Trait2 Book
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Clear Card
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another <Clear Card> character, this card cannot Stand during your stand phase.
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Clear Card
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 《Clear Card》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: CCS/W66-077
+Name "Clock Dream" Sakura Kinomoto
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Clear Card
+Trait2 Magic
+Combo Chance Meeting in a Dream
+Auto: StartAttackPhase|StartOpponentAttackPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals Secure
+	{
+		GainPower 3000
+	}
+}
+Text Auto: At the start of all player's attack phase, if you have "Secure" in your waitingroom, this card +3000 power this turn.
+Auto: OnAttack
+{
+	If Climax Chance Meeting in a Dream
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Clear Card || NameEquals Secure
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Night of the Star Festival" is in your climax area, reveal the top card of your deck. If that card is a 《Clear Card》 character or "Secure", put it into your hand. 
+EndCard
+
+Character: CCS/W66-078
+Name "Great Adviser" Yue
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Clear Card
+Trait2 Magic
+Combo Completely Opposite People
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 4500
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +4500 power.
+Auto: OnPlay|PlacedBy Change
+{
+	Message Choose a ""Gentle" Yukito Tsukishiro" in your waiting room to put as a marker
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals "Gentle" Yukito Tsukishiro
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand or by a "CHANGE" effect, you may choose a card named ""Gentle" Yukito Tsukishiro" in your waiting room, and put it face up underneath this card as a marker.
+Auto: OnReverseOpponent
+{
+	If Climax Completely Opposite People
+	{
+		*OptionalBlindStock
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Completely Opposite People" is in your climax area, you may put the top of your deck into your stock, and choose up to 1 character in your waitingroom return to your hand.
+EndCard
+
+Character: CCS/W66-079
+Name "Froggy Costume" Sakura Kinomoto
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Clear Card
+Trait2 Magic
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: StartClimaxPhase|StartOpponentClimaxPhase
+{
+	If LocationContains WaitingRoom 2 NameEquals Secure
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*FreeRunner
+		}
+	}
+}
+Text Auto: At the start of all player's climax phase, if you have 2 "Secure" in your waitingroom, this card +1000 power and the ability "Auto: At the start of your opponent's attack phase, you may move this card to an open position of your center stage." this turn.
+EndCard
+
+Character: CCS/W66-080
+Name "Fall in Love" Akiho Shinomoto
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Clear Card
+Trait2 Book
+Cont: GiveSelf
+{
+	LoseLevel 3
+}
+Text Cont: This card gets -3 level while in the stage.
+*GlobalPower(1500,Clear Card)
+*OnPlayCheck3
+EndCard
+
+Character: CCS/W66-081
+Name "Rotating Gears" Hooded Girl
+Color B
+Level 3
+Cost 2
+Power 11000
+Trigger Soul
+Soul 2
+Trait1 Clear Card
+Trait2 Magic
+Combo Prohibited Magic
+Cont: GiveSelf
+{
+	LoseLevel 3
+	GainSpecialEffect CannotBeChosen
+}
+Text Cont: This card gets -3 levels while on stage. This card cannot be chosen by your opponent's card effects.
+*Healer
+Auto: OnAttack
+{
+	If Climax Prohibited Magic
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnAttacked
+			{
+				PayCost Discard 2 Any
+				{
+					Burn 4
+				}
+			}
+			Text Auto: [Discard 2 hand] When the character facing this card attacks, you may pay cost. If you do, deal 4 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Prohibited Magic" is in your Climax area, this card gains +1000 power and the following ability until the next end of your opponent's turn. "Auto: [Discard 2 hand] When the character facing this card attacks, you may pay cost. If you do, deal 4 damage to your opponent."
+Auto: OnAttack
+{
+	PayCost 2
+	{
+		DrawCard
+	}
+}
+Text Auto: [(2)] When this card attacks, you may pay the cost, draw a card.
+EndCard
+
+Character: CCS/W66-082
+Name "Similar Two" Sakura & Akiho
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If LocationContains OpponentStage 1 HasTrait konjac
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotAttack
+			}
+			Text Cont: This card can not attack.
+		}
+	}
+}
+Text Cont: If your opponent has a <konjac> character, this card gains "Cont: This card can not attack.".card effects.
+*OnPlayScry
+*BlueLevel0Bomb
+EndCard
+
+Character: CCS/W66-083
+Name "First Class" Akiho Shinomoto
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Clear Card
+Trait2 Book
+Act: Discard 1 Any
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1000 power until the end of your opponent's next turn.
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}
+Text Act: [Discard 1 hand] Choose 1 of your characters, it gets +1500 power until the end of your opponent's next turn.
+*Act1RestSelfReviveBrainstorm
+EndCard
+
+Character: CCS/W66-084
+Name "Absolutely Together" Momo
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+Trait2 Book
+Auto: OnOtherFrontalAttacked
+{
+	IfOther NameContains Akiho
+	{
+		TargetOther
+		PayCost 1 SendSelf WaitingRoom
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other character with "Akiho" in its name is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+*BondDiscard("Butler" Yuna D. Kaito)
+EndCard
+
+Character: CCS/W66-085
+Name "British Friends" Eriol Hiiragizawa
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Clear Card
+Trait2 Magic
+*500Assist
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +1 level and +1500 power
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Clear Card || NameEquals Secure
+	{
+		Question Put the revealed card as a marker?
+		If Yes
+		{
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Clear Card》 character or "Secure", you may put it face up underneath this card as a marker. 
+EndCard
+
+Character: CCS/W66-086
+Name "Mysterious Dream" Akiho Shinomoto
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Clear Card
+Trait2 Book
+Combo Prohibited Magic
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level while on the stage.
+Auto: OnAttack
+{
+	If Climax Prohibited Magic
+	{
+		TargetLocation OpponentsHand
+		SetXValue TargetCount
+		TargetLocation Hand
+		If Compare TargetCount X OrMore
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: When this card attacks, if "Prohibited Magic" is in your climax area, If the number of your hand is not less than the number of opponent's hand, draw 1 card.
+EndCard
+
+Character: CCS/W66-087
+Name "Cool Eyes" Suppi
+Color B
+Level 2
+Cost 1
+Power 2000
+Trigger Soul
+Trait1 Clear Card
+*ScryBackup(Clear Card)
+Backup 2500
+EndCard
+
+Character: CCS/W66-088
+Name "Late-Night Visit" Yue
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Clear Card
+Trait2 Magic
+Act: RestSelf
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest self]Draw a card then discard a card.
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2)Rest self]Put the top of your clock into your waitingroom.
+Act: RestSelf
+{
+	ChooseCharacter InLocation Stage && HasTrait Clear Card
+	GainPower 3000
+}
+Text Act: [Rest self]Choose one of your <Clear Card> characters to get +3000 power this turn.
+EndCard
+
+Character: CCS/W66-089
+Name "Melty" Sakura Kinomoto
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another position on the stage.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: CCS/W66-090
+Name "Smiling" Yukito Tsukishiro
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Trait2 Glasses
+*500Assist
+Auto: OnUseEvent
+{
+	*GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you play an event, choose 1 of your caracters, it gets +1000 power until end of turn.
+EndCard
+
+Character: CCS/W66-091
+Name "New Friends" Sakura Kinomoto
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+Trait2 Maigc
+Auto: OnPlay
+{
+	SearchLocationForTargets Deck 0 1 NameEquals Secure
+	MoveCard WaitingRoom
+	ShuffleLocation Deck
+}
+Text Auto: When this card is placed on the stage, search your deck for up to 1 "Secure" and put it into your waitingroom.
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 Any SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals “夢の時計” Sakura
+		Change
+	}
+}
+Text Auto: CHANGE [Discard a card and put this card into your waitingroom]  At the start of your climax phase, you may pay the cost. If you do, choose an "“夢の時計” Sakura" in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: CCS/W66-092
+Name "A Dream Progressing Little By Little" Akiho Shinomoto
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Clear Card
+Trait2 Book
+EndCard
+
+Character: CCS/W66-093
+Name "Gentle" Yukito Tsukishiro
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Clear Card
+Trait2 Glasses
+*GainPowerWhenOtherAttacks(1500,Clear Card)
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 1 Any SendSelf WaitingRoom
+	{
+		*ChangeWaitingRoom("Great Adviser" Yue)
+	}
+}
+Text Auto: CHANGE [(1) Discard 1 card and put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""Great Adviser" Yue" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: CCS/W66-094
+Name "Watching Cherry Blossoms Together" Sakura Kinomoto
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Clear Card
+Trait2 Magic
+Combo Fellow Protectors|Completely Opposite People
+*LevelAssist
+Auto: OnTriggerCheckClimax
+{
+	IfOther NameEquals Fellow Protectors|Completely Opposite People
+	{
+		PayCost 1
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: When your character's trigger check reveals a climax card, if that card's trigger is book, you may draw a card, and if you do, discard a card.
+EndCard
+
+Character: CCS/W66-095
+Name "From the Mysterious Dream" Hooded Girl
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnReverseOpponent
+{
+	TargetOther
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		PayCost 1
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed, you may pay the cost, draw 1 card.
+Act: Resonate "A Dream Progressing Little By Little" Akiho Shinomoto
+{
+	SearchLocationForTargets Hand 1 1 NameEquals "A Dream Progressing Little By Little" Akiho Shinomoto
+	MoveCard Stock
+	TargetSelf
+	GainPower 2000
+}
+Text Act: [Reveal a "Megumin" from your hand, and put it into your stock] This card gets +2000 power this turn.
+EndCard
+
+Event: CCS/W66-096
+Name Secure
+Color B
+Level 2
+Cost 2
+Requirement StageContains 1 NameContains Sakura 
+Text If you do not have a character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	SearchLocationForTargets Deck 0 2 HasTrait Clear Card
+	MoveCard Hand
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 2000
+}
+Text Search your deck and choose up to 2 <Clear Card> characters to add into your hand, choose one of your characters to get +2000 power this turn.
+EndCard
+
+Event: CCS/W66-097
+Name Rotating Gears
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	TargetSelf
+	MoveCard Memory
+}
+Text Put this card into your memory
+Auto: StartMainPhase
+{
+	SearchDeck HasTrait Clear Card
+	TargetSelf
+	MoveCard WaitingRoom
+}
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, search your deck for up to 1 <Clear Card> character, reveal it to your opponent, put it into your hand, and shuffle your deck, put this card into your waitingroom.
+EndCard
+
+Climax: CCS/W66-098
+Name Chance Meeting in a Dream
+*GateClimax
+EndCard
+
+Climax: CCS/W66-099
+Name Prohibited Magic
+*BookClimax
+EndCard
+
+Climax: CCS/W66-100
+Name Completely Opposite People
+*BookClimax
+EndCard
+
+Character: CCS/W66-101
+Name "Inside the Labyrinth" Sakura & Kero-chan
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard IsCharacter
+	{
+		If Compare TargetCardsLevel 0 OrLess
+		{
+			TargetSelf
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 0 or higher, put this card into your stock. 
+EndCard
+
+Character: CCS/W66-102
+Name "Raincoat" Sakura Kinomoto
+Color Y
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Clear Card
+Trait2 Magic
+*GainPowerWithEnoughCharacters(1000,2,Clear Card)
+*Healer
+EndCard
+
+Character: CCS/W66-103
+Name "Two Good Friends" Sakura & Syaoran
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+Trait2 Magic
+*GreenLevel0Bomb
+EndCard
+
+Character: CCS/W66-104
+Name "Going Out Together" Sakura & Tomoyo
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Clear Card
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another <Clear Card> character, this card cannot Stand during your stand phase.
+*OnPlayScry
+EndCard
+
+Character: CCS/W66-105
+Name "Precious Friends" Sakura & Akiho
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLess
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other level 0 or lower characters.
+EndCard
+
+Character: CCS/W66-T01
+Name "Room Without an Exit" Kero-chan
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Clear Card
+Trait2 Magic
+*500Assist
+*OnPlayCheckTopAddDiscard(Clear Card)
+EndCard
+
+Character: CCS/W66-T02
+Name "Believe in the Power" Sakura Kinomoto
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+Trait2 Magic
+*RedLevel0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Clear Card
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost, search your waitingroom for up to 1 <Clear Card> character, and add it to your hand.
+EndCard
+
+Character: CCS/W66-T03
+Name "New Uniform" Kinomoto Sakura
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Clear Card
+Trait2 Magic
+*OnPlayGainPower(1500)
+EndCard
+
+Character: CCS/W66-T04
+Name "Absolutely Defending to the Last!" Kinomoto Sakura
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Clear Card
+Trait2 Magic
+Backup 2500
+EndCard
+
+Character: CCS/W66-T05
+Name "What I Can Do" Sakura & Tomoyo
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Clear Card
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, If the number of other 《Clear Card》 characters you have is 2 or more, this card gets +2000 power.
+Auto: Encore Discard 1 IsCharacter
+{
+}
+Text Auto: ENCORE [Put 1 character from your hand into waiting room] (When this card is put into your waiting room from the stage, you may pay the cost. If you do, return this card to its previous stage position as rest)
+Tag Encore
+EndCard
+
+Character: CCS/W66-T06
+Name "Key of Dreams" Kinomoto Sakura
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Clear Card
+Trait2 Magic
+*GainPowerWithEnoughCharacters(2000,2,Clear Card)
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Clear Card
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 4 or more other <Clear Card> characters, you may put the top card of your deck into your stock.
+EndCard
+
+Character: CCS/W66-T07
+Name "Reunion Under the Cherry Blossoms" Syaoran Li
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 6000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Sakura
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have one character with "Sakura" in its name, this card gets +3000 power.
+*GainPowerWhenOtherAttacks(1500,Clear Card)
+EndCard
+
+Character: CCS/W66-T08
+Name "New Story" Kinomoto Sakura
+Color R
+Level 3
+Cost 2
+Power 10000
+Trait1 Clear Card
+Trait2 Magic
+Combo New Beginning
+*OnPlayCheck3
+Auto: OnSpecificClimaxPlay New Beginning
+{
+	If InLocation CenterStage
+	{
+		TargetSelf
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				If StageContains 4 Other && HasTrait Clear Card
+				{
+					PayCost 3 Discard 1 Any
+					{
+						TargetSelf
+						Stand
+					}
+				}
+			}
+			TimesPerTurn 1
+			Text Auto: [(3)Discard 1 hand]This ability activates up to 1 time per turn. When the opponent is reversed, if you have 4 or more other <Clear Card> characters, you may pay the cost, stand this card.
+		}
+	}
+}
+Text Auto: CxCombo When "New Beginning" is placed on your climax area, if this card is in the center stage, this card gets +2000 power and the ability "Auto: [(3)Discard 1 hand]This ability activates up to 1 time per turn. When the opponent is reversed, if you have 4 or more other <Clear Card> characters, you may pay the cost, stand this card.".
+EndCard
+
+Event: CCS/W66-T09
+Name Staff of Dreams
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Sakura 
+Text If you do not have a character with "Sakura" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect.\n1: All of your characters get +1000 and the ability "Cont: The character facing this card cannot move to another position on the stage.".\n2: Draw 1 card and discard 1 card, and put this card into your stock.|1|2
+	If Answer 0
+	{
+		TargetLocation Stage
+		GainPower 1000
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotMove
+			}
+			Text Cont: The character facing this card cannot move to another position on the stage.
+		}
+	}
+	If Answer 1
+	{
+		DrawCard
+		Discard 1 Any
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text: Choose 1 of the following 2 effects and perform it. "All of your characters get +1000 and the ability "Cont: The character facing this card cannot move to another position on the stage."." "Draw 1 card and discard 1 card, and put this card into your stock." 
+EndCard
+
+Climax: CCS/W66-T10
+Name New Beginning
+*DoorClimax
+EndCard
+
+Character: CCS/W66-T11
+Name "Next to Each Other" Tomoyo Daidouji
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Clear Card
+Trait2 Camera
+Cont: GiveAll
+{
+	If Other && NameEquals "Next to Each Other" Sakura Kinomoto &&& Not MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your ooponent's turn, all of your other ""Next to Each Other" Sakura Kinomoto" get +2000 power.
+*Bond1("Next to Each Other" Sakura Kinomoto)
+EndCard
+
+Character: CCS/W66-T12
+Name "Kind Heart" Tomoyo Daidouji
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Clear Card
+Trait2 Camera
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Clear Card
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose one of your <Clear Card> characters, and that character gets +1000 power until end of turn.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: CCS/W66-T13
+Name "Transfer Student from Hong Kong" Akiho Shinomoto
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Clear Card
+Trait2 Book
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your other characters, it gets +1500 power until end of turn.
+Act: Discard 1 Any &&& SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Clear Card
+}
+Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 《Clear Card》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: CCS/W66-T14
+Name "Key of Stars" Sakura Kinomoto
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			PayCost Rest 1 Other && HasTrait Clear Card && CardPosition Stand
+			{
+				BlindStock
+			}
+		}
+	}
+}
+Quick
+Text Auto: [Rest one of your other standing <Clear Card> characters] During the turn this card is placed on stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, put the top card of your deck into your stock.
+EndCard
+
+Character: CCS/W66-T15
+Name "Next to Each Other" Sakura Kinomoto
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Clear Card
+Trait2 Magic
+EndCard
+
+Character: CCS/W66-T16
+Name "Guardian of Cherry Blossoms" Yue
+Color B
+Level 1
+Cost 0
+Power 6500
+Trait1 Clear Card
+Trait2 Magic
+*CannotAttackHigherLevel
+EndCard
+
+Character: CCS/W66-T17
+Name "Room Without an Exit" Tomoyo Daidouji
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Clear Card
+Trait2 Camera
+Cont: GiveAll
+{
+	If Other && NameEquals "New Story" Kinomoto Sakura
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: All of your other ""New Story" Kinomoto Sakura" get +500 power and the ability "Cont: This card cannot be chosen by your opponent's effects.".
+*LevelAssist
+EndCard
+
+Character: CCS/W66-T18
+Name "If You're Prepared" Tomoyo Daidouji
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Clear Card
+Trait2 Camera
+*Healer
+*OnAttackGiveOtherPower(2000,Clear Card)
+EndCard
+
+Climax: CCS/W66-T19
+Name Happy End, Continued
+*GateClimax
+EndCard
+
+Climax: CCS/W66-T20
+Name Cardcaptor's Turn!
+Color B
+*2SoulClimax
+EndCard
+
+Character: CCS/W66-P01
+Name "Happiness Memoris" Sakura Kinomoto
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [Discard a character]"
+*HandEncore
+EndCard
+
+Character: CCS/W66-P02
+Name "In This Moment" Sakura Kinomoto
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Clear Card
+Trait2 Magic
+Cont: GiveAll
+{
+	If Other
+	{
+		GainSpecialEffect CannotSideAttack
+	}
+}
+Text Cont: All your other Characters gain the following ability. "Cont: This card cannot Side Attack".
+Auto: OnPlay
+{
+	If Compare ClimaxInOpponentsWaitingRoom 5 OrMore
+	{
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of climax in your opponent's waiting room is three or more, rest this card.
+EndCard
+
+Character: CCS/W66-P03
+Name New Season, Sakura Kinomoto
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Clear Card
+Trait2 Magic
+Auto: OnPlay
+{
+	ChooseCharacter InLocation Stage
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Tomoeda》 or 《Clear Card》 character, and that card gets +1500 power this turn.
+*OnAttackGainPowerForEachOther(1000,Clear Card)
+EndCard
+
+Character: CCS/W66-P04
+Name "I'm All Right" Sakura Kinomoto
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Clear Card
+Trait2 Magic
+*GainPowerWithEnoughCharacters(2000,2,Clear Card)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+

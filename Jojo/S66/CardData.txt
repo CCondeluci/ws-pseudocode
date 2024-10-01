@@ -1,0 +1,2904 @@
+﻿Character: JJ/S66-E001
+Name Seeker of Truth, Giorno
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsCost 0 OrLower
+	ChooseCharacterFromTargets Choose a character to return to hand.
+	Bounce
+}
+Text Act: [(1)] Choose 1 cost 0 or lower character on your opponent's center stage, and return it to his or her hand.
+*Act1RestSelfSearchBrainstorm(Golden Wind)
+EndCard
+
+Character: JJ/S66-E002
+Name Path Within the Darkness, Mista
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	Message Choose up to 1 card to put into your stock.
+	SearchLocationForTargets Hand 0 1 Any
+	MoveCard Stock
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Character: JJ/S66-E003
+Name The Path Ahead, Giorno
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+*OnPlayCheck3
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: JJ/S66-E004
+Name Final Form, G.W.R
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand
+Combo The World's "Truth"
+Auto: OnPlay|PlacedByIf NameEquals The One Chosen by Fate, Giorno
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or by the Act: ability of "The One Chosen by Fate, Giorno", you may pay the cost. If you do, put the top card of your clock into your stock.
+Auto: OnFrontalAttack
+{
+	If Climax The World's "Truth"
+	{
+		GainEffect
+		{
+			Auto: StartEncoreStep
+			{
+				PayCost 3
+				{
+					Burn 1
+					Burn 1
+				}
+			}
+			Text Auto: [(3)] At the beginning of your encore step, you may pay the cost. If you do, perform the following action 2 times. "Deal 1 damage to your opponent."
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card frontal attacks, if "The World's "Truth"" is in your climax area, this card gets the following ability until end of turn.  "Auto: [(3)] At the beginning of your encore step, you may pay the cost. If you do, perform the following action 2 times. "Deal 1 damage to your opponent."" 
+EndCard
+
+Character: JJ/S66-E005
+Name Embodiment of Justice, Giorno
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnDamageNotCanceled
+{
+	GainPower 3000
+}
+Quick
+Text Auto: When damage dealt by this card is not canceled, this card gets +3000 power until end of turn.
+*MoveOtherWithTraitToBackstageOnReverse(Golden Wind)
+EndCard
+
+Character: JJ/S66-E006
+Name Simmering Fury, Fugo
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Rampant Death
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Rampant Death && StageContains 1 Other && HasTrait Golden Wind
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Rampant Death" is in your climax area, and you have another 《Golden Wind》 character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Golden Wind》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: JJ/S66-E007
+Name The One Chosen by Fate, Giorno
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: Assist
+{
+	If HasTrait Golden Wind
+	{
+		GainPower 500
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: ASSIST All of your 《Golden Wind》 characters in front of this card get +500 power and "Auto: ENCORE [(2)]".
+Auto: OnPlay
+{
+	Message Choose up to 1 marker.
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Final Form, G.W.R
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card named "Final Form, G.W.R" in your waiting room and put it face down underneath this card as a marker.
+Act: 2 Discard 1 IsCharacter
+{
+	If Compare MyLevel 3 OrHigher && HasMarker
+	{
+		TargetLocation Marker
+		NarrowTargets NameEquals Final Form, G.W.R
+		FirstTarget
+		If HasTarget
+		{
+			PlaceOnStage False True True False
+			RememberTargets
+			TargetSelf
+			ScheduleEffectForTargets EndOfTurn
+			{
+				Effect:
+				{
+					TargetRemembered
+					IfTarget OnStage
+					{
+						Question Return "Final Form, G.W.R" to the marker area of "The One Chosen by Fate, Giorno"
+						If Yes
+						{
+							Marker_FaceUp
+						}
+					}
+				}
+			}
+		}
+	}
+}
+ActivationRequirement Compare MyLevel 3 OrHigher && HasMarker
+Text Act: [(2) Put 1 character from your hand into your waiting room] If you are level 3 or higher, choose 1 "Final Form, G.W.R" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+EndCard
+
+Character: JJ/S66-E008
+Name Heavy Gunshots, Mista
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+*EarlyPlayInClock(Path Within the Darkness\, Mista)
+*GainPowerForEachOther(500,Golden Wind)
+Auto: OnDamageCancel
+{
+	If PlayedThisTurn
+	{
+		*OptionalBurn(1)
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. During the turn that this card is placed on the stage from your hand, if the damage dealt by this card is canceled, you may deal 1 damage to your opponent. 
+EndCard
+
+Character: JJ/S66-E009
+Name Angry Lunatic Tendencies, Fugo
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	Message Choose up to 1 marker
+	SearchLocationForTargets Deck 0 1 NameEquals Savage Smoke, P.S
+	RevealTargets
+	Marker_FaceUp
+	ShuffleLocation Deck
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 "Savage Smoke, P.S", put it face up underneath this card as a marker, and shuffle your deck.
+Act: Discard 1 IsCharacter
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Savage Smoke, P.S
+	FirstTarget
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+		RememberTargets
+		TargetSelf
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "Savage Smoke, P.S" to the marker area of "Angry Lunatic Tendencies, Fugo"
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+	}
+}
+ActivationRequirement Compare MyLevel 1 OrHigher && HasMarker
+Text Act: [Put 1 character from your hand into your waiting room] If you are level 1 or higher, choose 1 "Savage Smoke, P.S" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+Act: 1 Clock RestSelf
+{
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrLower
+}
+Text Act: [(1) Put the top card of your deck into your clock & Rest this card] Choose 1 level 1 or lower character in your waiting room, and return it to your hand.
+EndCard
+
+Character: JJ/S66-E010
+Name Closing in on Death, Mista
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand User
+*GlobalPower(500,Golden Wind)
+Act: 0
+{
+	SearchLocationForTargets Hand 1 1 NameEquals 6 Together as 1, S.B
+	RevealTargets
+	Marker_FaceUp
+	DrawCard
+	Discard 1 Any
+}
+ActivationRequirement LocationContains Hand 1 NameEquals 6 Together as 1, S.B
+Text Act: [Reveal 1 "6 Together as 1, S.B" in your hand & Put it face up underneath this card as a marker] Draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+Act: RestSelf
+{
+	TargetLocation Marker
+	Message Choose markers to place on stage.
+	ChooseCardsFromTargets 1 5 NameEquals 6 Together as 1, S.B
+	RevealTargets //In case you overplay mista
+	PlaceOnStage False True True False
+	
+}
+ActivationRequirement Compare MyLevel 1 OrHigher
+Text Act: [Rest this card] If you are level 1 or higher, choose up to 5 "6 Together as 1, S.B" markers underneath this card, and put them on separate positions of your stage.
+EndCard
+
+Character: JJ/S66-E011
+Name Harbinger of Hope, Polnareff
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+*OnAttackGivePowerTimesSoul
+Act: 1 SendSelf WaitingRoom
+{
+	SearchWaitingRoom NameEquals Room in the Turtle
+}
+Text Act: [(1) Put this card into your waiting room] Choose 1 "Room in the Turtle" in your waiting room, and return it to your hand.
+EndCard
+
+Character: JJ/S66-E012
+Name Bizarre Investigation Request, Koichi & Reverb Act 3
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+*CharacterFacingThisCannotMove
+Auto: OnPlay
+{
+	GainLevel 1
+	GainPower 1000
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1 level and +1000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E013
+Name Abundance of Life, G.W
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Golden Wind
+Trait2 Stand
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: StartClimaxPhase
+			{
+				PayCost Clock
+				{
+					GainPower 2500
+				}
+			}
+			Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2500 power until end of turn.
+		}
+	}
+}
+Text Cont: All of your opponent's characters get the following ability. "Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2500 power until end of turn."
+EndCard
+
+Character: JJ/S66-E014a
+Name 6 Together as 1, S.B
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Golden Wind
+Trait2 Stand
+DeckLimit 6
+Text Cont: You can put up to 6 cards with the same card name as this card into your deck.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameEquals 6 Together as 1, S.B
+	GainSoul X
+}
+Text Cont: This card gets +1 soul for each of your other "6 Together as 1, S.B".
+EndCard
+
+Character: JJ/S66-E014b
+Clone JJ/S66-E014a
+Image JJ_S66_E014B
+EndCard
+
+Character: JJ/S66-E014c
+Clone JJ/S66-E014a
+Image JJ_S66_E014C
+EndCard
+
+Character: JJ/S66-E014d
+Clone JJ/S66-E014a
+Image JJ_S66_E014D
+EndCard
+
+Character: JJ/S66-E014e
+Clone JJ/S66-E014a
+Image JJ_S66_E014E
+EndCard
+
+Character: JJ/S66-E014f
+Clone JJ/S66-E014a
+Image JJ_S66_E014F
+EndCard
+
+
+Character: JJ/S66-E015
+Name Savage Smoke, P.S
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnPlay|PlacedBy Angry Lunatic Tendencies, Fugo
+{
+	SetXToNumberOfCharacters HasTrait Golden Wind
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand or by the Act: effect of "Angry Lunatic Tendencies, Fugo", this card gets +X power until end of turn. X is equal to the number of 《Golden Wind》 characters you have ×500.
+EndCard
+
+Character: JJ/S66-E016
+Name Smoke of Death, Fugo
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Golden Wind
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Golden Wind》, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost Discard 2 Any
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] During your turn, when this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 2 damage to your opponent. 
+EndCard
+
+Character: JJ/S66-E017
+Name Silent Dance, C.R
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharactersFromTargets 2 2 Choose 2 characters to exchange.
+		GainPower 6000
+		NarrowTargets CanMove
+		If Compare TargetCount 2 Exactly
+		{
+			Exchange
+			Stand
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 2 of your opponent's characters, exchange them as standing, and those characters get +6000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E018
+Name A New Power, G.W
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Golden Wind
+Trait2 Stand
+EndCard
+
+Character: JJ/S66-E019
+Name Determination of Life, Giorno
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your deck into your waiting room.
+Backup 3000
+EndCard
+
+Character: JJ/S66-E020
+Name A New Power, Giorno
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 7500
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +7500 power.
+Auto: OnPlay
+{
+	Message Choose a marker.
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals A New Power, G.W
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "A New Power, G.W" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Character: JJ/S66-E021
+Name Unexpected Clean Freak, P.S
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Golden Wind
+Trait2 Stand
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each character in your opponent's back stage.
+EndCard
+
+Character: JJ/S66-E022
+Name Determined Stand, S.B
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Golden Wind
+Trait2 Stand
+Combo "The Path" to Resolution
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	If Climax "The Path" to Resolution
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Golden Wind)
+		SearchDeck HasTrait Golden Wind
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if ""The Path" to Resolution" is in your climax area, choose up to 1 《Golden Wind》 character in your waiting room, put it into your stock, search your deck for up to 1 《Golden Wind》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Event: JJ/S66-E023
+Name Ladybug Brooch
+Color Y
+Level 1
+Cost 2
+Counter
+Effect:
+{
+	SearchDeck HasTrait Golden Wind
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the ability to.
+	GainEffect
+	{
+		*FreeEncore
+	}
+}
+Text Counter: Search your deck for up to 1 《Golden Wind》 character, reveal it to your opponent, put it into your hand, shuffle your deck, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to its previous stage position as resting."
+EndCard
+
+Event: JJ/S66-E024
+Name The "Arrow" of Hope
+Color Y
+Level 2
+Cost 0
+Effect
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to put into your stock.
+	MoveCard Stock
+	SaveTargets
+	If HasTarget
+	{
+		TargetTop Deck 1
+		RevealTargets
+		IfTarget SameTraitAsSavedTarget && IsCharacter
+		{
+			PlaceOnStage False True True False
+		}
+		EndPeek
+	}
+}
+Text Choose 1 of your characters, and put it into your stock. If you do, reveal the top card of your deck. If that card has 1 or more of the same trait as the character put into your stock by this effect, put that card on any position of your stage. 
+EndCard
+
+Climax: JJ/S66-E025
+Name The World's "Truth"
+*WindClimax
+EndCard
+
+Climax: JJ/S66-E026
+Name "The Path" to Resolution
+*ShotClimax
+EndCard
+
+Climax: JJ/S66-E027
+Name Rampant Death
+*WindClimax
+EndCard
+
+Character: JJ/S66-E028
+Name Fear of Shrinking, Formaggio & T.F
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	LosePower 500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all characters on your opponent's center stage get -500 power until end of turn.
+*DropSearch(Golden Wind)
+EndCard
+
+Character: JJ/S66-E029
+Name Crucial Compability Check, Melone & Bh
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnTriggerCheckClimax
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When your characters' trigger check reveals a climax, choose 1 of your characters, it gets +1000 power until end of turn.
+Act: 1 Rest 2 Any
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Golden Wind && Compare ThatCardsLevel X OrLower
+}
+Text Act: [(1) Rest 2 of your characters] Put the top 2 cards of your deck into your waiting room, choose 1 level X or lower 《Golden Wind》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: JJ/S66-E030
+Name Grand Teachings, Prosciutto
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	TargetLocation Memory
+	NarrowTargets NameEquals Grand Teachings, Prosciutto
+	SetXValue TargetCount
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: MEMORY This card gets +2000 power for each "Grand Teachings, Prosciutto" in your memory.
+Auto: OnReversed
+{
+	If Compare CardsInMemory 2 OrLess && OnStage
+	{
+		Question Put Grand Teachings, Prosciutto into your memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if you have 2 or less cards in your memory, you may put this card into your memory.
+EndCard
+
+Character: JJ/S66-E031
+Name Grand Teachings, Pesci & F.M
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Grand Death
+*CannotSideAttack
+Cont: GiveSelf
+{
+	TargetLocation Memory
+	NarrowTargets NameEquals Grand Teachings, Prosciutto
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: MEMORY This card gets +1500 power for each "Grand Teachings, Prosciutto" in your memory.
+Auto: OnReverseOpponent
+{
+	If Climax Grand Death
+	{
+		*OptionalBlindStock
+		SearchWaitingRoom NameEquals Significance of Resolution, Prosciutto & T.D
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Grand Death" is in your climax area, put up to 1 card from the top of your deck into your stock, choose up to 1 "Significance of Resolution, Prosciutto & T.D" in your waiting room, and return it to your hand.
+EndCard
+
+Character: JJ/S66-E032
+Name Freezing World, Ghiaccio & W.I
+Color G
+Level 1
+Cost 1
+Power 5500
+Trait1 Golden Wind
+Trait2 Stand User
+*GainPowerForEachOther(500,Golden Wind)
+*HandEncore
+EndCard
+
+Character: JJ/S66-E033
+Name Flipped World, Illuso & M.M
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: StartMyCounterStep
+{
+	TargetFacing
+	IfTarget CanBeChosen && Compare ThatCardsLevel 1 OrHigher && InBattle
+	{
+		PayCost 5 Discard 2 Any
+		{
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: [(5) Put 2 cards from your hand into your waiting room] At the beginning of the counter step during your opponent's turn, you may pay the cost. If you do, choose 1 level 1 or higher battle opponent facing this card, and put it at the bottom of your opponent's deck.
+EndCard
+
+Character: JJ/S66-E034
+Name Unavoidable Assassination, Risotto
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+*HexProof
+Auto: OnPlay
+{
+	SearchDeck HasTrait Golden Wind
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 《Golden Wind》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	PayCost 1 Discard 2 IsCharacter
+	{
+		Peek OpponentDeck 3
+		Message Choose cards to put into the waiting room.
+		ChooseCardsFromTargets 0 3 Any
+		MoveCard WaitingRoom
+		EndPeek
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [(1) Put 2 characters from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, look at up to 3 cards from the top of your opponent's deck, choose up to 3 cards from among them, put them into your opponent's waiting room, return the rest to your opponent's deck, and your opponent shuffles his or her deck.
+EndCard
+
+Character: JJ/S66-E035
+Name Man in the Mirror, Illuso
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]".
+EndCard
+
+Character: JJ/S66-E036
+Name Conception of the Two, Bh
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand
+*GlobalPower(500,Golden Wind)
+Act: 3 RestSelf Send 1 WaitingRoom Other
+{
+	SearchWaitingRoom IsClimax || IsEvent
+}
+Text Act: [(3) Put 1 character from your stage into your waiting room & Rest this card] Choose 1 event card or climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: JJ/S66-E037
+Name A Traitor's Dignity, Risotto & Mt
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Controller of Magnetism
+Auto: OnSpecificClimaxPlay Controller of Magnetism
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Auto: CxCombo When "Controller of Magnetism" is placed on your climax area, choose 1 of your opponent's characters, it gets -1000 power until end of turn.
+Act: RestSelf
+{
+	*PutCardFromWaitingRoomIntoStock(HasTrait Golden Wind)
+}
+Text Act: [Rest this card] Choose 1 《Golden Wind》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: JJ/S66-E038
+Name Resourceful Assassin, Formaggio
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Send 1 WaitingRoom Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AIChoice SendToWaitingRoom
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		If HasTarget
+		{
+			RememberSlot
+			MoveCard OpponentWaitingRoom
+			OpponentMessage Choose up to 1 level 0 character to place on stage.
+			OpponentSearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: [(1) Put 1 character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, put it into your opponent's waiting room, your opponent chooses up to 1 level 0 or lower character in his or her waiting room, and puts it on the stage position that character was on.
+Backup 2500
+EndCard
+
+Character: JJ/S66-E039
+Name Significance of Resolution, Prosciutto & T.D
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Grand Death
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ForEachTarget
+	{
+		SetXValue TargetCardsLevel
+		MultiplyXValue 1000
+		LosePower X
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all characters on your opponent's stage get -X power until end of turn. X is equal to that character's level ×1000.
+Auto: OnAttack
+{
+	If Climax Grand Death
+	{
+		PayCost 2 Discard 2 Any
+		{
+			Burn 4
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to give -3000 power.
+			LosePower 3000
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room] When this card attacks, if "Grand Death" is in your climax area, you may pay the cost. If you do, deal 4 damage to your opponent, choose 1 of your opponent's characters, it gets -3000 power until end of turn. 
+EndCard
+
+Character: JJ/S66-E040
+Name Mammoni, Pesci & F.M
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 0 OrLower && IsCharacter
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a level 0 or lower character among those cards, this card's soul does not decrease by side attacking until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		Message Choose up to 1 card to put into memory.
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Grand Teachings, Prosciutto
+		MoveCard Memory
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, if your memory has 2 or less cards, you may choose 1 "Grand Teachings, Prosciutto" in your waiting room, and put it into your memory.
+EndCard
+
+Character: JJ/S66-E041
+Name Targeting the Hidden Treasure, Zucchero & T.M
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Golden Wind
+	{
+		SearchDeck NameEquals Targeting the Hidden Treasure, Sale & A&C
+	}
+}
+Text Auto: [Put 1 《Golden Wind》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Targeting the Hidden Treasure, Sale & A&C", reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Targeting the Hidden Treasure, Sale & A&C
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 "Targeting the Hidden Treasure, Sale & A&C" in your waiting room, and put it on any position of your stage as resting.
+EndCard
+
+Character: JJ/S66-E042
+Name Targeting the Hidden Treasure, Sale & A&C
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Golden Wind
+Trait2 Stand User
+EndCard
+
+Character: JJ/S66-E043
+Name Gently Weeps, Ghiaccio & W.I.G.W
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnReversed
+{
+	PayCost 1 Discard 2 Any
+	{
+		Rest
+		TargetBattleOpponent
+		IfTarget OnStage
+		{
+			Reverse
+		}
+	}
+}
+Text Auto: [(1) Put 2 cards from your hand into your waiting room] When this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and reverse this card's battle opponent.
+EndCard
+
+Event: JJ/S66-E044
+Name The Disappearance of Sorbet and Gelato
+Color G
+Level 2
+Cost 0
+Effect:
+{
+	ForcePayCost Rest 1 HasTrait Golden Wind
+	{
+		TargetLocation OpponentStage
+		ChooseCharactersFromTargets 0 2 Choose 2 characters to give -1500 power.
+		LosePower 1500
+	}
+}
+Text Choose 1 of your standing 《Golden Wind》 characters, and Rest it. If you do, choose up to 2 of your opponent's characters, and those characters get -1500 power until end of turn.
+EndCard
+
+Climax: JJ/S66-E045
+Name Controller of Magnetism
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with level equal to or lower than your level in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Climax: JJ/S66-E046
+Name Grand Death
+*BarClimax
+EndCard
+
+Character: JJ/S66-E047
+Name Remnant of the Past, Diavolo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Eternal Ruler
+*GiveAll1500OnCenterStage(Golden Wind)
+Auto: PlacedByIf NameEquals Eternal Ruler
+{
+	PayCost 2 Discard 2 Any
+	{
+		Stand
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room] When this card is placed on the stage from the effect of "Eternal Ruler", you may pay the cost. If you do, Stand this card. 
+EndCard
+
+Character: JJ/S66-E048
+Name Erased World, E.C
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnPlay|PlacedBy Pride of a King, Diavolo
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by the Act: effect of "Pride of a King, Diavolo", you may put the top card of your clock into your waiting room.
+Auto: OnFrontalAttacked
+{
+	PayCost 4 Discard 3 HasTrait Golden Wind
+	{
+		SkipTheBattle
+	}
+}
+Text Auto: [(4) Put 3 《Golden Wind》 characters from your hand into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, terminate the attack and proceed to the next attack declaration step. 
+EndCard
+
+Character: JJ/S66-E049
+Name Predator of the Waters, Cr
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnUseAct
+{
+	GainPower 2000
+}
+TimesPerTurn 1
+Quick
+Text Auto: This ability activates up to 1 time per turn. When you use an Act: ability, this card gets +2000 power until end of turn.
+*RedLevel0Bomb
+EndCard
+
+Character: JJ/S66-E050
+Name "Movements" in the Future, Doppio & Eu
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: JJ/S66-E051
+Name Spinner of Lies, T.M
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation OpponentCenterStage
+	If Compare TargetCount 2 OrLess
+	{
+		NarrowTargets CanMove
+		ChooseCharacterFromTargets_Optional Choose up to 1 of your opponent's characters to move.
+		MoveToOpenPosition True False
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 character on your opponent's center stage, and move it to an open position of his or her center stage.
+EndCard
+
+Character: JJ/S66-E052
+Name Sowing Seeds of Despair, Cioccolata & G.T
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Cioccolata and Secco
+*OnPlayScry
+Auto: OnSpecificClimaxPlay Cioccolata and Secco
+{
+	PayCost 1 SendSelf Hand
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Golden Wind
+		ChooseCharacterFromTargets Choose a character to stand.
+		Stand
+	}
+}
+Text Auto: CxCombo [(1) Return this card to your hand] When "Cioccolata and Secco" is placed on your climax area, you may pay the cost. If you do, choose 1 of your other 《Golden Wind》 characters, and Stand it.
+EndCard
+
+Character: JJ/S66-E053
+Name Pride of a King, Diavolo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Golden Wind
+Trait2 Stand User
+*Level3Assist
+Auto: OnPlay
+{
+	Message Choose a marker.
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Erased World, E.C
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Erased World, E.C" in your waiting room, and put it face up underneath this card as a marker.
+Act: 2 Discard 1 IsCharacter
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Erased World, E.C
+	FirstTarget
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+		RememberTargets
+		TargetSelf
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "Erased World, E.C" to the marker area of "Pride of a King, Diavolo"
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+	}
+}
+ActivationRequirement Compare MyLevel 3 OrHigher && HasMarker
+Text Act: [(2) Put 1 character from your hand into your waiting room] If you are level 3 or higher, choose 1 "Erased World, E.C" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+EndCard
+
+Character: JJ/S66-E054
+Name He Who Sinks Into the Ground, Secco & Sa
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Cioccolata and Secco
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Golden Wind
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other 《Golden Wind》 characters, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Cioccolata and Secco
+	{
+		Question Return 3 characters from your waiting room to your hand, then discard 3 cards?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 3 3 IsCharacter
+			RevealTargets
+			MoveCard Hand
+			Discard 3 Any
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Cioccolata and Secco" is in your climax area, you may choose 3 characters in your waiting room, and return them to your hand. If you do, choose 3 cards in your hand, and put them into your waiting room.
+EndCard
+
+Character: JJ/S66-E055
+Name Tyrant Residing in Jail, Polpo
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand User
+*500Assist
+Auto: OnClimaxPlay
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When a climax is placed on your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E056
+Name 10 Hours Ago, Pericolo
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand
+Act: 1 RestSelf
+{
+	RevealUpTo Deck 2
+	ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrHigher
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Rest this card] Look at up to 2 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into the waiting room. 
+Act: SendSelf WaitingRoom Discard 1 Any
+{
+	SearchWaitingRoom HasTrait Golden Wind
+}
+Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 《Golden Wind》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: JJ/S66-E057
+Name Harmonized Teamwork, Tiziano
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+*BackupBonus1000(Golden Wind)
+Backup 1000
+EndCard
+
+Character: JJ/S66-E058
+Name Harmonized Teamwork, Squalo
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnUseAct
+{
+	GainEffect
+	{
+		*OnReverseBlindStock
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an Act: ability, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: JJ/S66-E059
+Name Restless Pursuer, N.C
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each marker underneath it.
+Auto: OnReverseOpponent
+{
+	If OnStage
+	{
+		Question Put the top card of your deck under "Restless Pursuer, N.C"
+		If Yes
+		{
+			TargetTop Deck 1
+			View
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may look at the top card of your deck. If you do, put that card face down underneath this card as a marker.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: JJ/S66-E060
+Name Leaky Eye Luca
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		Question Put the top card of your opponent's deck into the waiting room?
+		If Yes
+		{
+			MillOpponent 1
+			*Saboutage
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, you may put the top card of your opponent's deck into his or her waiting room. If you do, choose 1 card in your opponent's waiting room, and put it on the top of his or her deck.
+Auto: OnDamageCancel
+{
+	If OnStage
+	{
+		Question Put this card into your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may put this card into your stock.
+EndCard
+
+Character: JJ/S66-E061
+Name Eternal Ruler, E.C
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		RevealUpTo Deck X
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. X is equal to the number of characters your opponent has.
+EndCard
+
+Character: JJ/S66-E062
+Name Treat Time, Cioccolata
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveAll
+{
+	If NameEquals Treat Time, Secco & Sa
+	{
+		GainSoul 1
+	}
+}
+Text Cont: All of your other "Treat Time, Secco & Sa" get +1 soul.
+Act: RestSelf
+{
+	*GiveCharacterPower(2000,Golden Wind)
+}
+Text Act: [Rest this card] Choose 1 of your 《Golden Wind》 characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E063
+Name Split Personality, Diavolo
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnAttack
+{
+	*GiveCharacterPower(1500,Golden Wind)
+}
+Text Auto: When this card attacks, choose 1 of your 《Golden Wind》 characters, it gets +1500 power until end of turn.
+Auto: StartClimaxPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals Split Personality, Doppio
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Split Personality, Doppio
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Split Personality, Doppio" in your waiting room, and put it on the stage position that this card was on. 
+EndCard
+
+Character: JJ/S66-E064
+Name Split Personality, Doppio
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Golden Wind
+Combo 10 Seconds Into the Future
+Auto: OnAttack
+{
+	If Climax 10 Seconds Into the Future
+	{
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "10 Seconds Into the Future" is in your climax area, this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+Auto: StartClimaxPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals Split Personality, Diavolo
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Split Personality, Diavolo
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Split Personality, Diavolo" in your waiting room, and put it on the stage position that this card was on. 
+EndCard
+
+Character: JJ/S66-E065
+Name Revenge of the Dead, Carne
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Golden Wind
+Trait2 Stand User
+*OnPlayGainPowerForEach(500,Golden Wind)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Restless Pursuer, N.C
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [(2) Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 "Restless Pursuer, N.C" in your waiting room, and put it on any stage position as resting.
+EndCard
+
+Character: JJ/S66-E066
+Name Treat Time, Secco & Sa
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Golden Wind
+Trait2 Stand User
+EndCard
+
+Character: JJ/S66-E067
+Name Observer From the Shadows, S.S
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Golden Wind
+Trait2 Stand
+*OnPlayGainPowerForEach(1000,Golden Wind)
+Auto: OnOpponentClimaxPlay
+{
+	TargetLocation OpponentClimax
+	SaveTargets
+	If LocationContains OpponentWaitingRoom 1 SameNameAsSavedTarget
+	{
+		PayCost 1 Discard 1 Any
+		{
+			MillOpponent 1
+			SetXValue TargetCardsLevel
+			Burn X
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When a climax is placed on your opponent's climax area, if there is a climax in your opponent's waiting room with the same card name as the climax placed, you may pay the cost. If you do, put the top card of your opponent's deck into his or her waiting room, and deal X damage to your opponent. X is equal to that card's level. 
+EndCard
+
+Event: JJ/S66-E068
+Name Miraculous Public Telephone
+Color R
+Level 1
+Cost 2
+Counter
+Effect:
+{
+	Refresh
+}
+Text Counter: Return all cards from your waiting room to your deck, and shuffle your deck.
+EndCard
+
+Event: JJ/S66-E069
+Name Polpo's Entry Test
+Color R
+Level 1
+Cost 0
+Effect
+{
+	MoveCard Memory
+}
+Text Put this card into your memory.
+Auto: OnLevelUp
+{
+	MoveCard WaitingRoom
+}
+InMemory
+Text Auto: MEMORY When you level up, if this card is in your memory, put this card into your waiting room.
+Auto: StartMainPhase
+{
+	Message Choose up to 2 cards to put into stock.
+	SearchLocationForTargets WaitingRoom 0 2 HasTrait Golden Wind
+	MoveCard Stock
+	TargetLocation Stage
+	GainTrait Passione
+	TargetSelf
+	MoveCard WaitingRoom
+}
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, choose up to 2 《Golden Wind》 characters in your waiting room, put them in any order into your stock, and all of your characters get 《Passione》 until end of turn. Put this card into your waiting room.
+EndCard
+
+Climax: JJ/S66-E070
+Name Eternal Ruler
+*StandbyClimax
+EndCard
+
+Climax: JJ/S66-E071
+Name 10 Seconds Into the Future
+*DoorClimax
+EndCard
+
+Climax: JJ/S66-E072
+Name Cioccolata and Secco
+*StandbyClimax
+EndCard
+
+Character: JJ/S66-E073
+Name Guiding Fate, Trish
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Golden Wind
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Golden Wind》 characters, this card gets +1000 power.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Golden Wind
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Golden Wind》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: JJ/S66-E074
+Name Noble Resolutions, Bucciarati
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Golden Wind
+Trait2 Stand User
+Combo The Sound of Farewell
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax The Sound of Farewell
+	{
+		*Check4Add1(Golden Wind)
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "The Sound of Farewell" is in your climax area, look at up to 4 cards from the top of your deck, choose up to 1 《Golden Wind》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E075
+Name Soul's Will, Bucciarati
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost Discard 1 Any
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncoreStep
+			{
+				Effect:
+				{
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: JJ/S66-E076
+Name Replaying the Past, Abbacchio
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Under the Falling Sky
+Auto: OnEndOfAttack
+{
+	If Climax Under the Falling Sky && Compare CardsInStock 1 OrMore
+	{
+		PayCost Discard 1 Any &&& SendSelf WaitingRoom
+		{
+			TargetTop Stock 1
+			MoveCard Deck
+			*ChangeWaitingRoom(Playback Investigation\, M.J)
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room & Put the top card of your stock on the top of your deck & Put this card into your waiting room] At the end of this card's attack, if "Under the Falling Sky" is in your climax area, you may pay the cost. If you do, choose 1 "Playback Investigation, M.J" in your waiting room, and put it on the stage position this card was on.
+EndCard
+
+Character: JJ/S66-E077
+Name Beacon Dispelling the Darkness, Bucciarati
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	SearchLocationForTargets Deck 0 1 NameEquals The One Who Opens, Z.M
+	RevealTargets
+	Marker_FaceUp
+	ShuffleLocation Deck
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 "The One Who Opens, Z.M", put it face up underneath this card as a marker, and shuffle your deck.
+Act: Discard 1 IsCharacter
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals The One Who Opens, Z.M
+	FirstTarget
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+		RememberTargets
+		TargetSelf
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "The One Who Opens, Z.M" to the marker area of "Beacon Dispelling the Darkness, Bucciarati"
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+	}
+}
+ActivationRequirement Compare MyLevel 1 OrHigher
+Text Act: [Put 1 character from your hand into your waiting room] If you are level 1 or higher, choose 1 "The One Who Opens, Z.M" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+Act: RestSelf
+{
+	*GiveCharacterPower(1000,Golden Wind)
+}
+Text Act: [Rest this card] Choose 1 of your 《Golden Wind》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E078
+Name Choosing His Own Path, Narancia
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Golden Wind
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Golden Wind》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to give -1000 power.
+		LosePower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E079
+Name Awakened Power, Trish
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Golden Wind
+Trait2 Stand User
+*LevelAssistTrait(Golden Wind)
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Indestructible Flexibility, S.L
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Indestructible Flexibility, S.L" in your waiting room, and put it face up underneath this card as a marker.
+Act: Discard 1 IsCharacter
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Indestructible Flexibility, S.L
+	FirstTarget
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+		RememberTargets
+		TargetSelf
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "Indestructible Flexibility, S.L" to the marker area of "Awakened Power, Trish"
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+	}
+}
+Text Act: [Put 1 character from your hand into your waiting room] Choose 1 "Indestructible Flexibility, S.L" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+EndCard
+
+Character: JJ/S66-E080
+Name Pursuer of Information, Abbacchio
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Golden Wind
+Trait2 Stand User
+*GlobalPower(1000,Golden Wind)
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Playback Investigation, M.J
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Playback Investigation, M.J" in your waiting room, and put it face up underneath this card as a marker.
+Act: Discard 2 HasTrait Golden Wind
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Playback Investigation, M.J
+	FirstTarget
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+		RememberTargets
+		TargetSelf
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "Playback Investigation, M.J" to the marker area of "Pursuer of Information, Abbacchio"
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+	}
+}
+Text Act: [Put 2 《Golden Wind》 characters from your hand into your waiting room] Choose 1 "Playback Investigation, M.J" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+EndCard
+
+Character: JJ/S66-E081
+Name Aerial Hunter, Narancia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	Mill 5
+	NarrowTargets IsClimax
+	SetXValue TargetCount 
+	Burn X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 5 cards of your deck into your waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. 
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Act: [(1)] Choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E082
+Name Determination to Uncover Truth, M.J
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand
+Combo Under the Falling Sky
+Auto: OnOpponentLevelUp
+{
+	If Climax Under the Falling Sky
+	{
+		Question Return "Under the Falling Sky" from your climax area to your hand?
+		If Yes
+		{
+			TargetLocation Climax
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When your opponent levels up, you may choose 1 "Under the Falling Sky" in your climax area, and return it to your hand.
+*Act1RestSelfReviveBrainstorm
+EndCard
+
+Character: JJ/S66-E083
+Name Awakened Power, S.L
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Golden Wind
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 《Golden Wind》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: JJ/S66-E084
+Name The One Who Opens, Z.M
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Golden Wind
+	SetXValue TargetCount
+	MultiplyXValue 500
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other 《Golden Wind》 characters, it gets +X power until end of turn. X is equal to the number of other 《Golden Wind》 characters you have ×500.
+EndCard
+
+Character: JJ/S66-E085
+Name Indestructible Flexibility, S.L
+Color B
+Level 1
+Cost 0
+Power 6000
+Trait1 Golden Wind
+Trait2 Stand
+Combo Determination to Awaken
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]".
+Auto: OnAttack
+{
+	If Climax Determination to Awaken
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Golden Wind
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Determination to Awaken" is in your climax area, reveal the top card of your deck. If that card is a 《Golden Wind》 character, put it into your hand. 
+EndCard
+
+Character: JJ/S66-E086
+Name Rebelling Against Fate, Bucciarati
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to put into memory until end of turn.
+		MoveCard OpponentMemory
+		IfTarget InLocation OpponentMemory
+		{
+			ScheduleEffectForTargets StartEncoreStep
+			{
+				Effect:
+				{
+					PlaceOnStage False True True False
+				}
+				Text Character returns to the stage from memory.
+			}
+		}
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, put it into your opponent's memory, at the beginning of the encore step, your opponent puts that character from your opponent's memory on any position of his or her stage.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: JJ/S66-E087
+Name Rebelling, Trish
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+				GainSpecialEffect CannotUseBackup
+				GainSpecialEffect CannotUseEvents
+			}
+		}
+		Text Cont: During this card's battle, you cannot play "BACKUP" or event cards from hand.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: During this card's battle, you cannot play "BACKUP" or event cards from hand."
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Message Choose up to 2 cards to return to your opponent's deck.
+		SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 2 cards in your opponent's waiting room, return them to your opponent's deck, and your opponent shuffles his or her deck.
+EndCard
+
+Character: JJ/S66-E088
+Name Agile Aeroplane, L.B
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Golden Wind
+Trait2 Stand
+*BackupBonus1000(Golden Wind)
+Backup 500
+EndCard
+
+Character: JJ/S66-E089
+Name The Right Path, Bucciarati
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand User
+*OnAttackPay1ToDoubleTrigger
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncoreStep
+			{
+				Effect:
+				{
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, if this card becomes reversed, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: JJ/S66-E090
+Name Transforming Path, Z.M
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Golden Wind
+Trait2 Stand
+*RunToCenter
+EndCard
+
+Character: JJ/S66-E091
+Name Overwhelming Mental Strength, Narancia
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Destructive Tempest, L.B
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Destructive Tempest, L.B" in your waiting room, and put it face up underneath this card as a marker.
+Auto: OnUseAct
+{
+	*GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an "ACT" ability, choose 1 of your characters, it gets +1000 power until end of turn.
+Act: 1 Discard 1 IsCharacter
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Destructive Tempest, L.B
+	FirstTarget
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+		RememberTargets
+		TargetSelf
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "Destructive Tempest, L.B" to the marker area of "Overwhelming Mental Strength, Narancia"
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+	}
+}
+ActivationRequirement Compare MyLevel 2 OrHigher
+Text Act: [(1) Put 1 character from your hand into your waiting room] If you are level 2 or higher, choose 1 "Destructive Tempest, L.B" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+EndCard
+
+Character: JJ/S66-E092
+Name Heart of Justice, Abbacchio
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+	GainTrait Tea
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -1000 power and 《Tea》 until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals "Key" to the Safe "Vehicle"
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 ""Key" to the Safe "Vehicle"" in your waiting room, and return it to your hand.
+EndCard
+
+Character: JJ/S66-E093
+Name Destructive Tempest, L.B
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Golden Wind
+Trait2 Stand
+Combo Unflinching Spirit
+Auto: OnSpecificClimaxPlay Unflinching Spirit
+{
+	If InLocation CenterStage
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Golden Wind
+		{
+			SetXToNumberOfCharacters HasTrait Golden Wind
+			Repeat X
+			{
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets Choose a character to give -1000 power.
+				LosePower 1000
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Unflinching Spirit" is placed on your climax area, if this card is in your center stage, reveal the top card of your deck. If that card is a 《Golden Wind》 character, perform the following action X number of times. "Choose 1 of your opponent's characters, it gets -1000 power until end of turn." X is equal to the number of 《Golden Wind》 characters you have. 
+EndCard
+
+Character: JJ/S66-E094
+Name Playback Investigation, M.J
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand
+Cont: GiveSelf
+{
+	LoseLevel 2
+}
+Text Cont: This card gets -2 level while on the stage.
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		*CannotSideAttack
+	}
+}
+Text Cont: The character facing this card gets the following ability. "Cont: This card cannot side attack."
+EndCard
+
+Event: JJ/S66-E095
+Name "Key" to the Safe "Vehicle"
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	Mill 2
+	SearchWaitingRoom HasTrait Golden Wind && Compare ThatCardsLevel TotalLevel OrLower
+}
+Text Put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Golden Wind》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Event: JJ/S66-E096
+Name Room in the Turtle
+Color B
+Level 2
+Cost 0
+Counter
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to return to your hand.
+	MoveCard Hand
+}
+Text Counter: Choose 1 of your characters, and return it to your hand.
+EndCard
+
+Climax: JJ/S66-E097
+Name The Sound of Farewell
+*BookClimax
+EndCard
+
+Climax: JJ/S66-E098
+Name Determination to Awaken
+*GateClimax
+EndCard
+
+Climax: JJ/S66-E099
+Name Under the Falling Sky
+Color B
+*BlueStockSoul
+EndCard
+
+Climax: JJ/S66-E100
+Name Unflinching Spirit
+*GateClimax
+EndCard
+
+
+
+Character: JJ/S66-E101
+Name Pioneer of Fate, Mista
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	*GiveCharacterPower(1500,Golden Wind)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your 《Golden Wind》 characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: JJ/S66-E102
+Name Pioneer of Fate, Giorno
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your turn, all of your other characters get +500 power.
+Act: RestSelf
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: JJ/S66-E103
+Name Pioneer of Fate, Fugo
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, this card gets +2000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: JJ/S66-E104
+Name Pioneer of Fate, Narancia
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand User
+*BlueLevel0Bomb
+EndCard
+
+Character: JJ/S66-E105
+Name Pioneer of Fate, Bucciarati
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnUseAct
+{
+	*GiveCharacterPower(1000,Golden Wind)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an "Act" ability, choose 1 of your 《Golden Wind》 characters, it gets +1000 power until end of turn.
+Act: 1
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [(1)] Draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: JJ/S66-E106
+Name Pioneer of Fate, Abbacchio
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseBackup
+	GainSpecialEffect CannotUseEvents
+}
+Text Cont: You cannot play "BACKUP" or event cards from hand.
+Auto: OnDamageCancel
+{
+	PayCost 1
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1)] When damage dealt by this card is canceled, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: JJ/S66-E107
+Name Pioneer of Fate, Trish
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnAttack
+{
+	*GiveCharacterPower(500,Any)
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +500 power until end of turn.
+*BlueCost0Bomb
+EndCard
+
+Character: JJ/S66-PE01
+Name Carrying on the Bloodline, Giorno
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnAttack
+{
+	*GiveCharacterPower(1500,Golden Wind)
+}
+Text Auto: When this card attacks, choose 1 of your 《Golden Wind》 characters, it gets +1500 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Golden Wind
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 《Golden Wind》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: JJ/S66-PE02
+Name Beginning of Fate, Bucciarati
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+*OnPlayScryToBottom
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		*GiveCharacterPower(1500,Any)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax revealed among those cards, choose 1 of your characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: JJ/S66-PE04
+Name Golden Dream, Giorno & Bucciarati
+Image 
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Golden Wind
+Trait2 Stand User
+*ScryBackup(Golden Wind)
+Backup 2500
+EndCard
+
+
+
+
+
+Character: JJ/S66-TE01
+Name Bad at Studying, Narancia
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand User
+*500Assist
+*OnPlayScryToBottom
+EndCard
+
+Character: JJ/S66-TE02
+Name Kind Teacher, Fugo
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	//Other for OnPlay is now itself
+	IfOther HasTrait Golden Wind
+	{
+		TargetTop Deck 1
+		View
+	}
+}
+Text Auto: When your other 《Golden Wind》 character or this card is placed on the stage from your hand, you may look at the top card of your deck. 
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: JJ/S66-TE03
+Name Gang Newcomer, Giorno
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Golden Wind
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Golden Wind》, this card gets +1000 power.
+*OnPlayTradeClimaxForCharacter(Golden Wind)
+EndCard
+
+Character: JJ/S66-TE04
+Name Hazing the Newcomer, Abbacchio
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Golden Wind
+Trait2 Stand User
+*GainPowerForEachOther(500,Golden Wind)
+*ClockEncore
+EndCard
+
+Character: JJ/S66-TE05
+Name Accurate Shot, Mista
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Golden Wind
+Trait2 Stand User
+*LevelAssist
+*ClimaxExchange
+EndCard
+
+Character: JJ/S66-TE06
+Name Golden Experience, G.W
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand
+Cont: GiveAll
+{
+	If NameEquals Golden Intentions, Giorno
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Golden Intentions, Giorno" get +1000 power.
+*Healer
+*OnPlayGainPowerForEach(1000,Golden Wind)
+EndCard
+
+Character: JJ/S66-TE07
+Name Golden Intentions, Giorno
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Golden Wind
+Trait2 Stand User
+Combo Golden Experience
+*OnPlayDraw2Discard1
+Auto: OnSpecificClimaxPlay Golden Experience
+{
+	If InLocation CenterStage
+	{
+		SearchDeck HasTrait Golden Wind
+		Message Choose up to 1 "Golden Experience, G.W" to place on stage.
+		SearchLocationForTargets Hand 0 1 NameEquals Golden Experience, G.W
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: CxCombo When "Golden Experience" is placed on your climax area, if this card is in your center stage, search your deck for up to 1 《Golden Wind》 character, reveal it to your opponent, put it into your hand, choose up to 1 "Golden Experience, G.W" in your hand, put it on any position of your stage, and shuffle your deck.
+EndCard
+
+Event: JJ/S66-TE08
+Name Overflowing Life Force
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	SearchWaitingRoom IsCharacter
+	*GiveCharacterPower(1000,Any)
+}
+Text Choose up to 1 character in your waiting room, return it to your hand, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Climax: JJ/S66-TE09
+Name Golden Experience
+Color Y
+*WindClimax
+EndCard
+
+Climax: JJ/S66-TE10
+Name Last Bullet
+Color Y
+*2SoulClimax
+EndCard
+
+Character: JJ/S66-TE11
+Name Readiness to Die, Bucciarati
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveAll
+{
+	If NameEquals Future Comrade, Giorno
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Future Comrade, Giorno" get +1000 power.
+*Bond1(Future Comrade\, Giorno)
+EndCard
+
+Character: JJ/S66-TE12
+Name Interest in the Newcomer, Abbacchio
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, this card gets +1500 power.
+EndCard
+
+Character: JJ/S66-TE13
+Name Icebreaker, Mista
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Golden Wind
+Trait2 Stand User
+*OnPlayMill2GainPowerForEachCharacter(1000,Golden Wind)
+EndCard
+
+Character: JJ/S66-TE14
+Name Sudden Fury, Fugo
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnPlay
+{
+	*GiveCharacterPower(1500,Golden Wind)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your 《Golden Wind》 characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: JJ/S66-TE15
+Name Z.M
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Golden Wind
+Trait2 Stand
+Auto: OnReverseOpponent
+{
+	If OnStage
+	{
+		Question Put "Z.M" into your memory?
+		If Yes
+		{
+			MoveCard Memory
+			ScheduleEffect StartDrawPhase
+			{
+				Effect:
+				{
+					TargetLocation Memory
+					NarrowTargets NameEquals Z.M
+					FirstTarget
+					PlaceOnStage False True True False
+				}
+				Text "Z.M" returns from memory.
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Z.M" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: JJ/S66-TE16
+Name Pure and Innocent, Narancia
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Golden Wind
+Trait2 Stand User
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Golden Wind
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other 《Golden Wind》 characters, this card gets +2000 power until end of turn.
+EndCard
+
+Character: JJ/S66-TE17
+Name Unseen Attack, Bucciarati
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Golden Wind
+Trait2 Stand User
+Backup 2500
+EndCard
+
+Character: JJ/S66-TE18
+Name Sudden Attack, Bucciarati
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Golden Wind
+Trait2 Stand User
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 NameEquals Z.M
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have another "Z.M", this card gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals Z.M
+		PlaceOnStage False True True False
+		GainPower 2000
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Z.M", and put it on any position of your stage. Shuffle your deck afterwards, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: JJ/S66-TE19
+Name Future Comrade, Giorno
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Golden Wind
+Trait2 Stand User
+EndCard
+
+Climax: JJ/S66-TE20
+Name Permitted to Join
+*GateClimax
+EndCard
+
+
+
+

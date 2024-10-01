@@ -1,0 +1,244 @@
+Character: RG/WP03-01
+Name After School, Uiharu
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Psychic Ability
+Trait2 Judgment
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1 level and +500 power
+	GainLevel 1
+	GainPower 500
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, and that character gets +1 level and +500 power until end of turn.
+*Act1RestSelfSearchBrainstorm(None|Psychic Ability)
+EndCard
+
+Character: RG/WP03-02
+Name After School, Saten
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Auto: OnOtherAttacks
+{
+	IfOther InLocation MiddleCenterStage
+	{
+		If PlayedThisTurn
+		{
+			PayCost 2 Discard 2 Any Rest 1 Other && CardPosition Stand && HasTrait None|Psychic Ability
+			{
+				TargetSelf
+				Stand
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(2) Put 2 cards from your hand to the waiting room and rest 1 of your other standing characters that is either traitless or «Psychic Ability>] This ability activates up to once per turn. During the turn this card is placed on the stage from your hand, when the character in the middle position of your center stage attacks, you may pay the cost. If you do, stand this card.
+*OnAttackGivePower(2000,None|Psychic Ability)
+EndCard
+
+Character: RG/WP03-03
+Name Summer Fun, Kuroko
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Psychic Ability
+Trait2 Judgment
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Psychic Ability || NameContains Saten
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a character with either «Psychic Ability» or "Saten" in its card name, put it in your hand and discard a card from your hand to the waiting room. 
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: RG/WP03-04
+Name Good Coordination, Mikoto & Kuroko
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Psychic Ability
+Trait2 Judgment
+Auto: OnOtherReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Psychic Ability || NameContains Saten
+	ChooseCharacterFromTargets Choose a character to gain +1500 power
+	GainPower 1500
+}
+Text Auto: When your other character becomes reversed in battle, choose 1 of your characters with either «Psychic Ability» or "Saten" in its card name, and that character gets +1500 power until end of turn.
+Act: 2 RestSelf
+{
+	Message Choose a <Psychic Ability> or "Saten" to return to your hand
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Psychic Ability && IsCharacter || NameEquals Saten && IsCharacter
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(2) Rest this card] Choose a character in your waiting room with either «Psychic Ability» or "Saten" in its card name and return it to your hand.
+EndCard
+
+Character: RG/WP03-05
+Name Summer Fun, Mikoto
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Psychic Ability
+Trait2 Frog
+Combo Normal Life Regained
+*GainPowerWithEnoughCharacters(1000,2,Psychic Ability)
+Auto: OnSpecificClimaxPlay Normal Life Regained
+{
+	If InLocation CenterStage && Compare CardsInStock 5 OrLess
+	{
+		If LocationContains WaitingRoom 1 Compare ThatCardsCost 0 OrLess && IsCharacter && HasTrait None|Psychic Ability
+		{
+			Message Choose a cost 0 or lower <Psychic Ability> or traitless character to place on stage
+			SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsCost 0 OrLess && IsCharacter && HasTrait None|Psychic Ability
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo When "Normal Life Regained" is placed on your climax area, if this card is in the center stage and there are 5 or fewer cards in your stock, you may choose a cost 0 or lower character in your waiting room that is either traitless or «Psychic Ability» and put it in any position on the stage.
+EndCard
+
+Character: RG/WP03-06
+Name Not Being True to Herself, Mikoto
+Color R
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Psychic Ability
+Trait2 Frog
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: For each character in your opponent's backstage, this card gets +500 power.
+Auto: OnReversed
+{
+	BlockEncore
+}
+Text Auto: When this card becomes reversed in battle, you cannot use "Auto: ENCORE" until end of turn. 
+EndCard
+
+Character: RG/WP03-07
+Name "That is All" Mikoto
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Psychic Ability
+Trait2 Frog
+Combo Railgun
+*EarlyPlayInClock(Summer Fun\, Kuroko)
+Auto: OnSpecificClimaxPlay Railgun
+{
+	If InLocation CenterStage &&& StageContains 2 Other && HasTrait Psychic Ability
+	{
+		PayCost Discard 1 IsCharacter
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLess
+			ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+			MoveCard OpponentWaitingRoom
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait None|Psychic Ability && IsCharacter
+			{
+				TargetLocation OpponentBackstage
+				NarrowTargets Compare ThatCardsLevel 2 OrLess
+				ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 character from your hand to the waiting room] When "Railgun" is placed on your climax area, if this card is in your center stage and the number of other «Psychic Ability» characters you have is 2 or more, you may pay the cost. If you do, choose a level 3 or lower character in your opponent's center stage and put it in the waiting room, and reveal the top card of your deck. If it's a character that is either traitless or «Psychic Ability», choose a level 2 or lower character in your opponent's backstage and put it in the waiting room.
+*DefensiveScryOnCenterStage
+EndCard
+
+Climax: RG/WP03-08
+Name Normal Life Regained
+Color R
+*RedStockSoul
+EndCard
+
+Character: RG/WP03-09
+Name "Radio Noise" Sisters
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Clone
+Trait2 Psychic Ability
+Cont: GiveSelf
+{
+	GainName Sisters
+}
+Text Cont: If this card is on the stage, this card is also considered to have "Sisters" as the name.
+Auto: OnPlay
+{
+	PayCost Discard 2 Any
+	{
+		Message Choose up to 3 "Sisters" to put on stage
+		SearchLocationForTargets Deck 0 3 NameEquals Sisters
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put 2 cards from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 3 "Sisters", put them in separate positions on the stage, and shuffle your deck.
+EndCard
+
+Character: RG/WP03-10
+Name Feeling Great, Mikoto
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Psychic Ability
+Trait2 Frog
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1500 power.
+EndCard
+

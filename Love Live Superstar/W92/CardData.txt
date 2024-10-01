@@ -1,0 +1,2893 @@
+// Love Live Superstar
+
+Character: LSP/W92-001
+Name The Will to Never Give Up, Kanon
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+*YellowLevel0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		*CheckAndAddAll(2, HasTrait Music)
+	}
+}
+Text Auto: [(1) Put the top card of your deck into clock] When this is sent from stage to waiting room, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 <Music> characters from among them, show them to your opponent, add them to hand, and send the rest to waiting room.
+EndCard
+
+Character: LSP/W92-002
+Name General Course, Keke
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Cont: Assist
+{
+	If MyTurn && Compare ThatCardsLevel 1 OrMore
+	{
+		GainPower 500
+	}
+}
+Text Cont: ASSIST During your turn, all of your level 1 or higher characters in front of this gets +500 power.
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: LSP/W92-003
+Name Music Course, Ren
+Color Y
+Level 1
+Cost 0
+Power 4500
+Combo School Just Started
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Music>, this gets +2000 power.
+Auto: OnAttack
+{
+	If Climax School Just Started && Compare Experience 2 OrMore
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Music && Compare ThatCardsLevel X OrLess
+		If Compare X 2 OrMore
+		{
+			TargetSelf
+			GainSoul 1
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE When this attacks, if you have "School Just Started" in the climax area, and the sum of levels of cards in your level zone is 2 or more, mill 2, then choose up to 1 level X or lower <Music> character from your waiting room, and add it to hand. If X is 2 or higher, this turn, this gets +1 soul. X equals the sum of levels of cards milled by this effect.
+EndCard
+
+Character: LSP/W92-004
+Name General Course, Chisato
+Color Y
+Level 3
+Cost 2
+Power 9000
+Trigger Soul
+Soul 2
+Trait1 Music
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Music
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Music)
+		}
+	}
+}
+Text Cont: If all of your characters are <Music>, this gets +1500 power and “Auto: ENCORE [Discard 1 <Music> character]”.
+*Healer
+EndCard
+
+Character: LSP/W92-005
+Name Charisma Galaxy, Sumire
+Color Y
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Music
+Combo Galaxy Crossing
+*Healer
+Auto: OnSpecificClimaxPlay Galaxy Crossing
+{
+	If InLocation CenterStage && AllYourCharacters HasTrait Music
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		MultipleChoiceQuestion Choose one of the following effects, and that character gains the chosen effect:\n1. "Auto: This ability can only be activated up to once per turn. When damage dealt by this is canceled, you may deal 2 damage to your opponent."\n2. "Auto: [(1) Discard 2 cards] When this card’s battle opponent is reversed, you may pay the cost. If you do, stand this."|Choice 1|Choice 2
+		If Answer 0
+		{
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					*OptionalBurn(2)
+				}
+				TimesPerTurn 1
+				Text Auto: This ability can only be activated up to once per turn. When damage dealt by this is canceled, you may deal 2 damage to your opponent.
+			}
+		}
+		If Answer 1
+		{
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					PayCost 1 Discard 2 Any
+					{
+						Stand
+					}
+				}
+				Text Auto: [(1) Discard 2 cards] When this card’s battle opponent is reversed, you may pay the cost. If you do, stand this.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Galaxy Crossing" is placed in your climax area, if this is in the center stage, and all your characters are <Music>, choose 1 of your characters, this turn, it gains 1 of the following 2 abilities of your choice, “Auto: This ability can only be activated up to once per turn. When damage dealt by this is canceled, you may deal 2 damage to your opponent.” “Auto: [(1) Discard 2 cards] When this card’s battle opponent is reversed, you may pay the cost. If you do, stand this.”
+EndCard
+
+Character: LSP/W92-006
+Name This Unknown Feeling, Sumire
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Charisma Galaxy, Sumire
+		SetXValue TargetCount
+		SearchWaitingRoom HasTrait Music && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 level X or lower <Music> character from your waiting room, add it to hand. X equals the number of "Charisma Galaxy, Sumire" in your waiting room.
+*YellowLevel0Bomb
+EndCard
+
+Character: LSP/W92-007
+Name Open-air Island Bath, Keke
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Cont: GiveAll
+{
+	If MyTurn && LocationContains Memory 1 Any
+	{
+		If Other && HasTrait Music
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: MEMORY During your turn, if you have a card in memory, all of your other <Music> characters get +1000 power.
+Act: RestSelf
+{
+	If Not HasMarker
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Music
+		If HasTarget
+		{
+			RevealTargets
+			Marker_FaceUp
+		}
+	}
+}
+Text Act: [Rest this] If there is no marker underneath this card, choose a <Music> character in your waiting room and place it underneath this card face-up as a marker.
+Act: SendMarker WaitingRoom &&& RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameContains Keke
+	ChooseCharacterFromTargets
+	MoveCard Hand
+}
+Text Act: [Send 1 marker from underneath this card to waiting room and rest this] Choose 1 of your other characters with "Keke" in its name, return it to hand.
+EndCard
+
+Character: LSP/W92-008
+Name Liella! Chisato
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		If HasTrait Music
+		{
+			{
+				GainEffect
+				{
+					Auto: Encore Discard 1 Any
+					{
+					}
+					Text Auto: ENCORE [Discard 1 card]
+				}
+			}
+		}
+	}
+}
+Text Cont: Your other <Music> character in the center stage center slot gets "Auto: ENCORE [Discard 1 card]".
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		*CheckAndAddOne(4,NameContains Chisato || NameEquals Takoyaki)
+	}
+}
+Text Auto: (1) When your climax is placed on the climax area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 character with "Chisato" in its name or "Takoyaki" from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: LSP/W92-009
+Name Delivering Songs, Chisato
+Color Y
+Level 0
+Cost 1
+Power 3500
+Trait1 Music
+*PowerOnMyTurn(3000)
+Auto: OnReverseOpponent
+{
+	SearchLocationForTargets Hand 0 1 NameEquals Takoyaki
+	If HasTarget
+	{
+		If Compare MyLevel 1 OrMore && HaveColor Red
+		{
+			Message Play the event? Pay the cost if yes.
+			PayCost 1
+			{
+				PlayEvent
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent is reversed, choose up to 1 "Takoyaki" in your hand, if you meet the level and color requirements normally needed to play the card, you may immediately play that card without paying its normal cost.
+EndCard
+
+Character: LSP/W92-010
+Name This Unknown Feeling, Ren
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Music
+*LevelAssistTrait(Music)
+Auto: OnTriggerCheckClimax
+{
+	IfOther IsColor Yellow
+	{
+		TargetLocation Marker
+		If Compare TargetCount 1 OrLess
+		{
+			Message Choose up to 1 card to put as a marker.
+			SearchLocationForTargets WaitingRoom 0 1 Any
+			If HasTarget
+			{
+				RevealTargets
+				Marker_FaceUp
+			}
+		}
+	}
+}
+Text Auto: When your character's trigger check reveals a yellow climax, if there is 1 or less marker underneath this card, you may choose up to 1 card from waiting room and put it underneath this card face-up as a marker.
+Act: SendMarker WaitingRoom
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets
+	GainPower 1000
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+				GainSpecialEffect OpponentCannotUseEvents
+				GainSpecialEffect NoBackupInBattle
+			}
+		}
+		Text Cont: During this card's battle, your opponent cannot play events or "BACKUP" from hand.
+	}
+}
+Text Act: [Send 1 marker from underneath this card to waiting room] Choose 1 of your other characters, this turn, it gets +1000 power and the following ability, "Cont: During this card's battle, your opponent cannot play events or "BACKUP" from hand."
+EndCard
+
+Character: LSP/W92-011
+Name Open-air Island Bath, Sumire
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Music
+Backup 2500
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 1 Any Send 1 WaitingRoom Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		ChooseCharacterFromTargets Choose a character to send to stock.
+		If HasTarget
+		{
+			MoveCard OpponentStock
+			TargetBottom OpponentStock 1
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: [(1) Discard 1 card, and send 1 of your characters from stage to waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level, and send it to stock. If you do, put the bottom card of your opponent's stock into waiting room.
+EndCard
+
+Character: LSP/W92-012
+Name Open-air Island Bath, Kanon
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Music
+Combo I Can Fly Anywhere
+*GainPowerForEachOther(1000,Music)
+Auto: OnEndOfAttack
+{
+	If Climax I Can Fly Anywhere &&& StageContains 4 Other && HasTrait Music
+	{
+		SearchWaitingRoom IsCharacter
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's Attack, if you have "I Can Fly Anywhere" in your climax area, and you have 4 or more other <Music> characters, choose up to 1 character in your waiting room, add it to hand, then choose up to 1 <Music> character in your waiting room, and send it to stock.
+EndCard
+
+Character: LSP/W92-013
+Name This Unknown Feeling, Keke
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 4500
+Trait1 Music
+Cont: InHand
+{
+	If StageContains 1 NameEquals This Unknown Feeling, Ren &&& StageContains 1 NameEquals General Course, Keke
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have "General Course, Keke" and "This Unknown Feeling, Ren", this gets -1 level in hand.
+*2000Assist
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other
+	{
+		Peek Deck 3
+		Message Choose up to 1 card to add to hand.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		TargetLocation ScryArea
+		Message Choose up to 1 card to put to stock.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Stock
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Send 1 of your other characters on stage to waiting room] When this is placed on stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, add it to hand, then choose up to 1 card from among them, send it to stock, and send the rest to waiting room.
+EndCard
+
+Character: LSP/W92-014
+Name Liella! Ren
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Music
+		SetXValue TargetCount
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, for each of your other <Music> characters, this gets +500 power.
+Auto: OnPlay|PlacedBy CHANGE
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand or by CHANGE, you may pay the cost. If you do, put the top card of your clock into stock.
+EndCard
+
+Character: LSP/W92-015
+Name Cute Clothes, Kanon
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10500
+Trait1 Music
+Auto: OnEndOfAttack
+{
+	If PlayedThisTurn
+	{
+		If StageContains 1 Other && NameEquals Charisma Galaxy, Sumire &&& StageContains 1 Other && NameEquals General Course, Chisato
+		{
+			PayCost 2 Rest 1 NameEquals This Unknown Feeling, Keke &&& Rest 1 NameEquals This Unknown Feeling, Ren
+			{
+				TargetTop OpponentDeck 2
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: [(2) Rest 2 of your Standing "This Unknown Feeling, Keke" and "This Unknown Feeling, Ren"] During the turn this was placed on stage from hand, at the end of this card's attack, if you have another "General Course, Chisato" and "Charisma Galaxy, Sumire" you may pay the cost. If you do, send the top 2 cards of your opponent's deck to clock. 
+EndCard
+
+Character: LSP/W92-016
+Name Not Alone, Kanon
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+*OnPlayScry
+Auto: OnReversed
+{
+	If OnStage
+	{
+		PayCost 1 Discard 1 Any SendSelf Memory
+		{
+			SearchWaitingRoom HasTrait Music
+		}
+	}
+}
+Text Auto: [(1) Discard 1 card, send this to Memory] When this is reversed, you may pay the cost. If you do, choose 1 <Music> character from your raiting woom, and add it to hand.
+EndCard
+
+Character: LSP/W92-017
+Name Center Election, Chisato
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Music
+Backup 1000
+*BackupBonus1000(Music)
+EndCard
+
+Character: LSP/W92-018
+Name When Nothing's Going On, Kanon
+Color Y
+Level 1
+Cost 1
+Power 3500
+Trigger Soul
+Trait1 Music
+Cont: GiveAll
+{
+	If Other && NameEquals Early Morning on Board, Sumire
+	{
+		GainEffect
+		{
+			*OnAttackGainPowerForEachOther(1000,Music)
+		}
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: Give all of your other "Early Morning on Board, Sumire" the following 2 abilities, "Auto: When this card attacks, this gets +X power until end of turn. X is the number of other <Music> characters you have times 1000." "Auto: ENCORE [Discard 1 character]".
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther NameEquals Early Morning on Board, Sumire
+	{
+		*OptionalBlindStock
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When your other "Early Morning on Board, Sumire" is placed on stage from hand, you may put the top card of your deck into stock.
+EndCard
+
+Character: LSP/W92-019
+Name I Like It, Keke
+Color Y
+Level 1
+Cost 1
+Power 3500
+Trigger Soul
+Trait1 Music
+Cont: GiveAll
+{
+	If MyTurn &&& StageContains 1 Other && NameEquals First Step, Kanon
+	{
+		If Other && HasTrait Music
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, if you have another "First Step, Kanon", all of your other <Music> characters get +2000 power.
+Act: 1 RestSelf
+{
+	*Check3Add1(Music)
+}
+Text Act: [(1) Rest this] Look at up to 3 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: LSP/W92-020
+Name Early Morning on Board, Sumire
+Color Y
+Level 1
+Cost 1
+Soul 2
+Power 6000
+Trait1 Music
+EndCard
+
+Character: LSP/W92-021
+Name I Knew You Were Here! Mao
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Music
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 Other && NameEquals I Knew You Were Here! Yuuna
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If there is another "I Knew You Were Here! Yuuna" in your center stage, this gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Music
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals I Knew You Were Here! Yuuna
+		If HasTarget
+		{
+			RevealTargets
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: [Discard 1 <Music> character] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 "I Knew You Were Here! Yuuna" from your waiting room, and place it on stage in any slot.
+EndCard
+
+Character: LSP/W92-022
+Name I Knew You Were Here! Yuuna
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn &&& LocationContains CenterStage 1 Other && NameEquals I Knew You Were Here! Mao
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if there is another "I Knew You Were Here! Mao" in your center stage, this gets +4000 power.
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameEquals I Knew You Were Here! Mao && CanMove
+	Question Swap positions with a "I Knew You Were Here! Mao"?
+	If Yes
+	{
+		ChooseCharacterFromTargets
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, choose 1 of your "I Knew You Were Here! Mao" and this card, you may Stand them and swap their positions on stage.
+EndCard
+
+Character: LSP/W92-023
+Name Immediate Strength, Ren
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+*GlobalPower(500, Music)
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainSoul 1
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, this turn, it gets +1 soul.
+EndCard
+
+Character: LSP/W92-024
+Name Yae & Nanami & Kokono
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Auto: OnOpponentClimaxPlay
+{
+	Question Put this card to stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When a climax is placed in your opponent's climax area, you may send this to stock.
+Act: 1
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		Repeat X
+		{
+			*CheckAndAdd(3)
+			Discard 1 Any
+		}
+	}
+}
+Text Act: BRAINSTORM (1) Flip over the top 4 cards of your deck, then send them to waiting room. For each climax among them, resolve the following effect: "Look at up to 3 cards from the top of your deck, choose up to 1 card among them, add it to hand, and send the rest to waiting room, and discard 1 card."
+EndCard
+
+Character: LSP/W92-025
+Name ...I Like It, Kanon
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Combo I Can Fly Anywhere
+Auto: StartMyEncoreStep
+{
+	If Climax I Can Fly Anywhere
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom HasTrait Music
+		}
+	}
+}
+Text Auto: CxCombo [Send the "I Can Fly Anywhere" from your climax area to waiting room] At the start of your encore step, you may pay the cost. If you do, choose 1 <Music> character in your waiting room, add it to hand.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: LSP/W92-026
+Name Weaknesses... Chisato
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+*PowerOnMyTurn(1000)
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+		ScheduleEffectForTargets StartMyEncorePhase
+		{
+			If OnStage
+			{
+				MoveCard Memory
+			}
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, you may pay the cost. If you do, move this to an open position in your backstage, and at the start of your next encore step, send this to memory. 
+EndCard
+
+Character: LSP/W92-027
+Name Coincidental Sighting, Ren
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Combo All Members Gather!
+*OnPlayGainPower(3000)
+Auto: StartMyEncorePhase
+{
+	If Climax All Members Gather! &&& StageContains 1 Other && HasTrait Music
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Music
+			ChooseCharacterFromTargets
+			SaveTargets
+			TargetSelf
+			AddCurrentToSavedTargets
+			Bounce
+		}
+	}
+}
+Text Auto: CxCombo [Send "All Members Gather!" from your climax area to waiting room] At the start of your encore step, if you have another <Music> character, you may pay the cost. If you do, choose 1 of your other <Music> characters and this card, return them to hand.
+EndCard
+
+Character: LSP/W92-028
+Name Punishment Game, Sumire
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this is in the center stage center slot, this gets +1 soul.
+*DropSearch(Music)
+EndCard
+
+Character: LSP/W92-029
+Name Director of Yuigaoka Girls' High School
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Music
+*GiveAllOpponentsEncore2
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Music)
+}
+Text Act: [(1) Send this to waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: LSP/W92-030
+Name Disguise, Sumire
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Music
+Auto: OnLevelUp
+{
+	PayCost 1 SendSelf Memory
+	{
+		*Check4Add1(Music)
+	}
+}
+Text Auto: [(1) Send this to memory] When you level up, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+*RestGivePower(2000,Music)
+EndCard
+
+Character: LSP/W92-031
+Name Manmaru
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Music
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Music
+	{
+		*OptionalBlindStock
+	}
+}
+Alarm
+Text Auto: ALARM If this is on top of your clock, and you have 4 or more <Music> characters, at the start of your climax phase, you may put the top card of your deck into stock.
+EndCard
+
+Character: LSP/W92-032
+Name Worst Case Scenario, Keke
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Music
+*OnPlayCheck3
+*YellowEarlyPlayBomb
+EndCard
+
+Character: LSP/W92-033
+Name Pushed Back, Ren
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Music
+*Level3Assist
+Auto: StartMainPhase
+{
+	*OptionalDrawDiscard
+}
+Alarm
+Text Auto: ALARM If this is on top of your clock, at the start of your main phase, you may draw 1 card. If you do, discard 1 card.
+EndCard
+
+Character: LSP/W92-034
+Name Special Rookie of the Year Award, Keke
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Music
+Combo
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: For each of your opponent's backstage characters, this gets +2500 power.
+Auto: OnEndOfAttack
+{
+	If Climax Have a nice Day! &&& StageContains 1 Other && HasTrait Music
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Music
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if you have "Have a nice Day!" in the climax area, and you have another <Music> character, mill 2, then choose up to 1 Level X or lower <Music> character from your waiting room, and add it to hand, then choose up to 1 <Music> character in your waiting room, send it to stock. X equals the sum of Levels of cards milled by this effect. 
+EndCard
+
+Character: LSP/W92-035
+Name Meet in Secret, Chisato
+Color Y
+Level 2
+Cost 1
+Power 5500
+Trigger Soul
+Soul 2
+Combo The Joy of Finding Something New
+Trait1 Music
+*OnAttackGainPowerForEachOther(1500,Music)
+Auto: OnReverseOpponent
+{
+	If Climax The Joy of Finding Something New
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Music
+		SetXValue TargetCount
+		SearchLocationForTargets OpponentWaitingRoom 0 X Any
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent is reversed, if you have "The Joy of Finding Something New" in your climax area, choose up to X cards in your opponent’s waiting room, your opponent shuffles them into their deck. X equals the number of your <Music> characters.
+EndCard
+
+Event: LSP/W92-036
+Name The Beginning
+Color Y
+Level 1
+Cost 0
+Counter
+Text If you do not have a <Music> character, you cannot play this from hand.
+Effect:
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Music && Compare ThatCardsLevel X OrLess
+}
+ActivationRequirement StageContains 1 HasTrait Music
+Text Mill 2, then choose up to 1 level X or lower <Music> character from your waiting room, and add it to hand. X equals the sum of levels of cards sent to waiting room by this effect.
+EndCard
+
+Event: LSP/W92-037
+Name A Stage That Only We Can Do
+Color Y
+Level 2
+Cost 0
+Counter
+Effect:
+{
+	MultipleChoiceQuestion Choose one of the following effects and perform it,\n1. “Choose 1 of your <Music> characters, this turn, it gets +2500 power.\n2. If you have a <Music> character, choose 1 <Music> character in your waiting room, add it to hand.|Choice 1|Choice 2
+	If Answer 0
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Music
+		ChooseCharacterFromTargets
+		GainPower 2500
+	}
+	If Answer 1
+	{
+		If StageContains 1 HasTrait Music
+		{
+			SearchWaitingRoom HasTrait Music
+		}
+	}
+}
+Text Perform 1 of the following 2 effects, “Choose 1 of your <Music> characters, this turn, it gets +2500 power.” "If you have a <Music> character, choose 1 <Music> character in your waiting room, add it to hand."
+EndCard
+
+Event: LSP/W92-038
+Name Song for All!!
+Color Y
+Level 3
+Cost 0
+Effect:
+{
+	If StageContains 1 HasTrait Music
+	{
+		TargetTop OpponentDeck 3
+		Reveal
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		ShuffleLocation OpponentDeck
+		Repeat X
+		{
+			TargetTop OpponentDeck 1
+			MoveCard OpponentClock
+		}
+	}
+}
+Text If you have a <Music> character, your opponent reveals the top 3 cards of their deck, shuffles their deck, then send the top X cards of their deck to clock. X equals the number of climaxes revealed.
+EndCard
+
+Climax: LSP/W92-039
+Name School Just Started
+*ChoiceClimax
+EndCard
+
+Climax: LSP/W92-040
+Name Galaxy Crossing
+*ChoiceClimax
+EndCard
+
+Climax: LSP/W92-041
+Name I Can Fly Anywhere
+Color Y
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 1 OrLess && IsCharacter
+	RevealTargets
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it to stock, and all your characters get +1 soul until end of turn.
+EndCard
+
+Climax: LSP/W92-042
+Name All Members Gather!
+Color Y
+*2SoulClimax
+EndCard
+
+Climax: LSP/W92-043
+Name Have a nice Day!
+*WindClimax
+EndCard
+
+Climax: LSP/W92-044
+Name The Joy of Finding Something New
+*ChoiceClimax
+EndCard
+
+Character: LSP/W92-045
+Name General Course, Sumire
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Music
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If all of your characters are <Music>, this gets +1500 power.
+Auto: StartOpponentAttackPhase
+{
+	MultipleChoiceQuestion Choose one of the following options,\n1. Move this to your empty center stage center slot.\n2. This card gains the following effect: "Auto: [(1) Discard 1 card] When this is sent from stage to waiting room, you may pay the cost. If you do, search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards."|Choice 1|Choice 2
+	If Answer 0
+	{
+		If LocationContainsOrLess MiddleCenterStage 0 Any
+		{
+			MoveCard MiddleCenterStage
+		}
+	}
+	If Answer 1
+	{
+		GainEffect
+		{
+			Auto: OnSentFromStageToWaitingRoom
+			{
+				PayCost 1 Discard 1 Any
+				{
+					SearchDeck HasTrait Music
+				}
+			}
+			Text Auto: [(1) Discard 1 card] When this is sent from stage to waiting room, you may pay the cost. If you do, search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, move this to your empty center stage center slot, or this turn, this gains the following ability, "Auto: [(1) Discard 1 card] When this is sent from stage to waiting room, you may pay the cost. If you do, search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards."
+EndCard
+
+Character: LSP/W92-046
+Name Wow! Chisato
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Combo I've Always Dreamed About It
+*GainPowerWithEnoughCharacters(1000,2,Music)
+Auto: OnSpecificClimaxPlay I've Always Dreamed About It
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				GainSpecialEffect DoubleTrigger
+				GainEffect
+				{
+					Auto: OnTriggerCheck
+					{
+						If InBattle
+						{
+							TargetTop Stock 1
+							MoveCard WaitingRoom
+						}
+					}
+					TimesPerTurn 1
+					Quick
+				}
+			}
+			Quick
+			Text Auto: When this attacks, during the trigger step of this attack, perform trigger check twice. If you trigger checked twice, put the top card of your stock to waiting room.
+		}
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				*Check3Add1(Music)
+			}
+			Text Auto: At the end of this card’s attack, look at up to 3 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, send the rest to waiting room.
+		}
+	}
+}
+Quick
+Text Auto: When "I've Always Dreamed About It" is placed in your climax area, if you have another <Music> character, this turn, this gains the following 2 abilities, “Auto: When this attacks, during the trigger step of this attack, perform trigger check twice. If you trigger checked twice, put the top card of your stock to waiting room.” “Auto: At the end of this card’s attack, look at up to 3 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, send the rest to waiting room.”
+EndCard
+
+Character: LSP/W92-047
+Name General Course, Kanon
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Music
+Combo Lights of Various Colors
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each of your opponent's backstage characters, this gets +1000 power.
+*Healer
+Auto: OnAttack
+{
+	If Climax Lights of Various Colors
+	{
+		Peek OpponentDeck 2
+		Message Choose cards to keep on top of your opponent's deck.
+		ChooseCardsFromTargets 0 2 Any
+		SetXValue TargetCount
+		MoveCard OpponentDeck
+		If Compare X 2 OrMore
+		{
+			TargetTop OpponentDeck X
+			Message Choose order to return cards to the top of opponent's deck. (First is on top)
+			Reorder
+		}
+		TargetLocation OpponentScryArea
+		MoveCard OpponentWaitingRoom
+		TargetSelf
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				PayCost Discard 3 HasTrait Music
+				{
+					Burn 2
+				}
+			}
+			Text Auto: [Discard 3 <Music> characters] At the end of this card's attack, you may pay the cost. if you do, deal 2 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "Lights of Various Colors" in your climax area, look at up to 2 cards from the top of your opponent's deck, choose up to 2 cards from among them, put them on top of your opponent's deck in any order, and send the rest to waiting room, then this turn, this gains the following ability, "Auto: [Discard 3 <Music> characters] At the end of this card's attack, you may pay the cost. if you do, deal 2 damage to your opponent."
+EndCard
+
+Character: LSP/W92-048
+Name This Unknown Feeling, Chisato
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Auto: StartClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 2 Clock HasTrait Music
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Music && Compare ThatCardsLevel MyLevel OrLess
+		If HasTarget
+		{
+			RevealTargets
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: ACCELERATE [Put 2 <Music> character from your waiting room on the bottom of your clock in any order] At the start of your climax phase, if this is in the center stage, you may pay the cost. If you do, choose 1 <Music> character in your waiting room whose Level is equal to or lower than your level, place it on stage in any slot. 
+EndCard
+
+Character: LSP/W92-049
+Name Liella! Sumire
+Color R
+Level 1
+Cost 0
+Power 4500
+Combo The Dream is Waiting
+Trait1 Music
+*PowerOnMyTurn(1000)
+Auto: OnAttack
+{
+	If Climax The Dream is Waiting
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom IsCharacter || NameEquals A Dream in the Far Future
+		}
+	}
+}
+Text Auto: [Send "The Dream is Waiting" from your climax area to waiting room] When this attacks, you may pay the cost. If you do, choose up to 1 character or "A Dream in the Far Future" in your waiting room, add it to hand.
+EndCard
+
+Character: LSP/W92-050
+Name This Unknown Feeling, Kanon
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Music
+Cont: GiveHand
+{
+	If NameEquals The Will to Never Give Up, Kanon
+	{
+		GainEffect
+		{
+			Act_Backup: 1
+			{
+				TargetMyCharacterInBattle
+				GainPower 2500
+			}
+			Text Act: BACKUP 2500, Level 1 [(1) Put this card from your hand into your waiting room]
+		}
+	}
+}
+Text Cont: All of your "The Will to Never Give Up, Kanon" in your hand get "Act: BACKUP 2500, Level 1 [(1) Put this card from your hand to the waiting room]".
+*LevelAssistTrait(Music)
+EndCard
+
+Character: LSP/W92-051
+Name Show Business, Sumire
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 6000
+Trait1 Music
+*GainPowerForEachOther(1000,Music)
+*HandEncore
+EndCard
+
+Character: LSP/W92-052
+Name Liella! Kanon
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Music
+*EarlyPlay4OrMore(Music)
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 2500
+	UntilEndOfOpponentsTurn
+	GainSpecialEffect GreatPerformance
+}
+Text Auto: When this is placed on stage from hand, until the end of your opponent's next turn, this gets +2500 power and "Cont: Great Performance".
+EndCard
+
+Character: LSP/W92-053
+Name Good at Dancing, Chisato
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10500
+Combo This School is the Best
+Trait1 Music
+*GlobalPower(1500,Music)
+Auto: PlacedBy This School is the Best
+{
+	If Phase Climax && Climax This School is the Best
+	{
+		PayCost 1 SendClimax WaitingRoom
+		{
+			Stand
+			TargetLocation Stage
+			GainPower 500
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					Question Put the reversed battle opponent on top of your opponent's deck?
+					If Yes
+					{
+						TargetBattleOpponent
+						MoveCard OpponentDeck
+					}
+				}
+				Text Auto: When this card's battle opponent is reversed, you may send that character to the top of your opponent's deck.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Send "This School is the Best" from your climax area to waiting room] During your climax phase, when this is placed on stage by the effect of the "This School is the Best", you may pay the cost. If you do, stand this, then this turn, all of your characters get +500 power and the following ability, "Auto: When this card's battle opponent is reversed, you may send that character to the top of your opponent's deck."
+EndCard
+
+Character: LSP/W92-054
+Name First Step, Kanon
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Auto: OnUseResonate
+{
+	If Not Other
+	{
+		PayCost Resonate General Course, Sumire
+		{
+			TargetSelf
+			Stand
+		}
+	} 
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 1
+Text Auto: RESONATE [Reveal "General Course, Sumire" from your hand] This ability can only be activated up to once per turn. When you use this card's RESONATE ability, you may pay the cost. If you do, stand this card.
+Act: SendFromHand 1 Revealed NameEquals I Like It, Keke|Founder's Daughter, Ren|General Course, Chisato &&& RestSelf
+{
+	TargetSentToPayCost
+	MoveCard Hand
+	IfTarget NameEquals I Like It, Keke
+	{
+		DrawCard
+		Discard 1 Any
+	}
+	IfTarget NameEquals Founder's Daughter, Ren
+	{
+		TargetLocation Stage
+		NarrowTargets Music
+		ChooseCharacterFromTargets
+		GainPower 2500
+	}
+	IfTarget NameEquals General Course, Chisato
+	{
+		TargetLocation Stage
+		NarrowTargets Music
+		ChooseCharacterFromTargets
+		GainSoul 1
+	}
+}
+Text Act: RESONATE [Reveal 1 card from your hand, rest this] If the revealed card is "I Like It, Keke", draw 1 card, discard 1 card. If the revealed cards is "Founder's Daughter, Ren", choose 1 of your <Music> characters, this turn, it gets +2500 power. If the revealed card is "General Course, Chisato", choose 1 of your <Music> characters, this turn, it gets +1 soul.
+EndCard
+
+Character: LSP/W92-055
+Name Vacation? Sumire
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Act: 2 RestSelf
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	Bounce
+}
+Text Act: [(2) Rest this] Choose 1 of your opponent's characters, return it to hand.
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: LSP/W92-056
+Name First Step, Chisato
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+*OnAttackGainPowerForEachOther(500,Music)
+Auto: OnReverseOpponent
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}	
+}
+Text Auto: When this card's battle opponent is reversed, choose 1 of your characters, this turn, it gains the following ability, "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+EndCard
+
+Character: LSP/W92-057
+Name Bringing Smiles to Everyone With a Song, Kanon
+Color R
+Level 1
+Cost 0
+Power 7000
+Trait1 Music
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && NameEquals Fateful Reunion, Keke
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If you do not control another "Fateful Reunion, Keke", this cannot attack.
+EndCard
+
+Character: LSP/W92-058
+Name Delivering Songs, Sumire
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Music
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Auto: If you have 2 or more other <Music> characters, this gets +1500 power and "Auto: ENCORE [Discard 1 character]".
+Auto: OnThisTriggerCheck
+{
+	IfOther IsClimax
+	{
+		PayCost Discard 2 Any
+		{
+			SearchWaitingRoom IsCharacter
+			SearchWaitingRoom IsCharacter
+			TargetSelf
+			GainPower 3000
+		}
+	}
+}
+Text Auto: [Discard 2 cards] When this card's trigger check reveals a climax, you may pay the cost. if you do, choose 2 characters in your waiting room, add them to hand, then this turn, this gets +3000 power.
+EndCard
+
+Character: LSP/W92-059
+Name Stretching Her Wings, Kanon
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Music
+Backup 3000
+*MemoryBackup
+EndCard
+
+Character: LSP/W92-060
+Name It's Maru, Yo, Chisato
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Music
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	If Compare ThatCardsLevel 2 OrMore
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Music
+		{
+			SearchWaitingRoom HasTrait Music
+		}
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent is reversed, reveal the top card of your deck. If that character is a <Music> character, choose 1 <Music> character in your waiting room, you may add it to hand.
+EndCard
+
+Character: LSP/W92-061
+Name Towards the Same Goal, Chisato
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 8500
+Trait1 Music
+*PowerOnMyTurn(4000)
+Auto: OnReverseOpponent
+{
+	PayCost 1
+	{
+		Heal
+	}
+}
+Text Auto: [(1)] When this card's battle opponent is reversed, you may pay the cost. If you do, heal 1.
+EndCard
+
+Character: LSP/W92-062
+Name Galaxy, Sumire
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose one of the following effects and perform it.\n1. Your opponent chooses 1 climax from their waiting room, and shuffles all other cards from their waiting room into their deck.\n2. Send the bottom 3 cards of your opponent's deck to waiting room, then deal X damage to your opponent. X equals the number of climaxes sent to waiting room by this effect.|Choice 1|Choice 2
+	If Answer 0
+	{
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		ReverseTargets
+		MoveCard Deck
+		ShuffleLocation OpponentDeck
+	}
+	If Answer 1
+	{
+		MillOpponentBottom 3
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+	If Compare MyLevel 3 OrMore &&& Compare CardsInClock 6 OrMore
+	{
+		MultipleChoiceQuestion Choose one of the following effects and perform it.\n1. Your opponent chooses 1 climax from their waiting room, and shuffles all other cards from their waiting room into their deck.\n2. Send the bottom 3 cards of your opponent's deck to waiting room, then deal X damage to your opponent. X equals the number of climaxes sent to waiting room by this effect.|Choice 1|Choice 2
+		If Answer 0
+		{
+			OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+			ReverseTargets
+			MoveCard Deck
+			ShuffleLocation OpponentDeck
+		}
+		If Answer 1
+		{
+			MillOpponentBottom 3
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, perform 1 of the following 2 effects. If you are level 3 or higher and your have 6 cards in clock, perform 1 of the following 2 effects. "Your opponent chooses 1 climax from their waiting room, and shuffles all other cards from their waiting room into their deck." "Send the bottom 3 cards of your opponent's deck to waiting room, then deal X damage to your opponent. X equals the number of climaxes sent to waiting room by this effect." 
+EndCard
+
+Character: LSP/W92-063
+Name Want to Keep Singing, Kanon
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainSpecialEffect CannotMove
+}
+Text Auto: When this is placed on stage from hand, choose 1 of your opponent's characters, until the end of your opponent's next turn, it gains the following ability: "Cont: This cannot move to other slots."
+*OnAttackGivePowerForEachOther(500,Music)
+EndCard
+
+Character: LSP/W92-064
+Name Winner of the Dance Competition!! Chisato
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Takoyaki
+	}
+}
+Text Auto: [Discard 1 card] When this placed on stage from hand, you may pay the cost. If you do, choose 1 "Takoyaki" in your waiting room, add it to hand.
+*RedLevel0Bomb
+EndCard
+
+Character: LSP/W92-065
+Name Check It Out!! Kanon
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+*OnPlayGainPower(1500)
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Music
+		ChooseCharacterFromTargets
+		Bounce
+	}
+}
+Text Auto: [Discard 1 card] When this attacks, you may pay the cost. If you do, choose 1 of your other <Music> characters, and return it to hand.
+EndCard
+
+Character: LSP/W92-066
+Name New Activity Location, Chisato
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom HasTrait Music && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand, you may pay the cost. If you do, reveal the top card of your deck, then choose 1 level X or lower <Music> character from your waiting room, and add it to hand. X equals the level of the revealed card. 
+EndCard
+
+Character: LSP/W92-067
+Name Where are the Scouts? Sumire
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+*OthersCannotSideAttack
+Auto: OnOtherFrontalAttacked
+{
+	PayCost 1 SendSelf Memory
+	{
+		TargetMyCharacterInBattle
+		GainPower 2000
+	}
+}
+Text Auto: [(1) Send this to memory] When your other <Music> character is frontal attacked, you may pay the cost. If you do, choose 1 of your battling characters, this turn, it gets +2000 power.
+EndCard
+
+Character: LSP/W92-068
+Name Shaky Feelings, Sumire
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand, mill 2 cards, if you milled a climax, you may pay the cost. If you do, choose 1 character from your waiting room, add it to hand.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Music
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Music
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Discard 1 card] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 <Music> character from your waiting room, add it to hand, then choose 1 of your other <Music> characters, this turn, it gets +1000 power.
+EndCard
+
+Character: LSP/W92-069
+Name Songwriting, Kanon
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Music
+Auto: OnReversed
+{
+	TargetLocation OpponentClock
+	If HasTarget
+	{
+		Question Send a card in your opponent's clock to waiting room?
+		If Yes
+		{
+			SearchLocationForTargets OpponentClock 1 1 Any
+			MoveCard OpponentWaitingRoom
+			TargetTop OpponentDeck 1
+			MoveCard OpponentClock
+		}	
+	}
+}
+Text Auto: When this is reversed, choose 1 card in your opponent's clock, you may send it to waiting room. If you do, your opponent puts the top card of their deck to clock.
+*RedLevel1Bomb
+EndCard
+
+Character: LSP/W92-070
+Name Dung Dung Jiang, Chisato
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Music
+Auto: OnReverseOpponent
+{
+	PayCost 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		Bounce
+	}
+}
+Text Auto: (1) When this card's battle opponent is reversed, you may pay the cost. If you do, choose 1 of your opponent's characters, return it to hand.
+*RedEarlyPlayBomb
+EndCard
+
+Character: LSP/W92-071
+Name Letting Loose, Sumire
+Color R
+Level 2
+Cost 1
+Power 6500
+Trigger Soul
+Trait1 Music
+Combo Galaxy Interaction && The Dream is Waiting
+Cont: Assist
+{
+	If NameContains Sumire
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST Your characters in front of this with "Sumire" in its name get +1500 power.
+Act: RestSelf
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		SearchWaitingRoom NameEquals The Dream is Waiting|Galaxy Interaction
+		Discard 1 Any
+	}
+}
+Text Act: CxCombo BRAINSTORM [Rest this] Flip over the top 1 card of your deck, then send it to waiting room. If that card is a climax, choose 1 "Galaxy Interaction" or "The Dream is Waiting" in your waiting room, you may add it to hand. If you do, discard 1 card.
+EndCard
+
+Event: LSP/W92-072
+Name A Dream in the Far Future
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	TargetTop Deck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom HasTrait Music
+		}
+		Text Auto: When this card's battle opponent is reversed, choose 1 <Music> character in your waiting room, you may add it to hand.
+	}
+}
+Text Look at up to 2 cards from the top of your deck, and put them back on top in any order.
+Text Choose 1 of your characters, this turn, it gains the following ability, "Auto: When this card's battle opponent is reversed, choose 1 <Music> character in your waiting room, you may add it to hand."
+EndCard
+
+Event: LSP/W92-073
+Name Songwriting
+Color R
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	PayCost Discard 1 NameEquals The Will to Never Give Up, Kanon
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		LoseSoul 2
+	}
+}
+Text COUNTER You may discard 1 "The Will to Never Give Up, Kanon". If you do, choose 1 of your opponent's characters, this turn, it gets -2 soul.
+EndCard
+
+Event: LSP/W92-074
+Name Takoyaki
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchWaitingRoom HasTrait Music
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupInBattle
+			If InBattle
+			{
+				GainSpecialEffect OpponentCannotUseEvents
+			}
+		}
+		Text Cont: During this card's battle, your opponent cannot play events or BACKUPs from hand.
+	}
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question Send the battle opponent to memory?
+			If Yes
+			{
+				TargetBattleOpponent
+				MoveCard Memory
+			}
+		}
+		Text Auto: When this card's battle opponent is reversed, you may send it to memory.
+	}
+}
+Text Choose 1 <Music> character in your waiting room, add it to hand, choose 1 of your <Music> characters, this turn, it gains the following 2 abilities, "Cont: During this card's battle, your opponent cannot play events or BACKUPs from hand." "Auto: When this card's battle opponent is reversed, you may send it to memory."
+EndCard
+
+Climax: LSP/W92-075
+Name I've Always Dreamed About It
+*DoorClimax
+EndCard
+
+Climax: LSP/W92-076
+Name Lights of Various Colors
+*DoorClimax
+EndCard
+
+Climax: LSP/W92-077
+Name The Dream is Waiting
+*StandbyClimax
+EndCard
+
+Climax: LSP/W92-078
+Name This School is the Best
+*StandbyClimax
+EndCard
+
+Character: LSP/W92-079
+Name Founder's Daughter, Ren
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+*OnPlayGainPower(1500)
+*MoveOtherWithTraitToBackstageOnReverse(Music)
+Auto: OnReversed
+{
+	If OnStage
+	{
+		If LocationContainsOrLess Memory 0 IsColor Blue
+		{
+			Question Send this card to memory?
+			If Yes
+			{
+				MoveCard Memory
+			}
+		}
+	}
+}
+Text Auto: When this is reversed, if you don’t have a blue card in memory, you may send this to memory.
+EndCard
+
+Character: LSP/W92-080
+Name Chocolate Stains, Keke
+Color B
+Level 1
+Cost 0
+Power 4000
+Combo KeKa
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Music
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Music> character, this gets +3000 power.
+Auto: OnAttack
+{
+	If Climax KeKa &&& StageContains 1 Other && HasTrait Music
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchDeck HasTrait Music || NameEquals Study Session for Two
+			}
+			Text Auto: When this card’s battle opponent is reversed, search your deck for up to 1 <Music> character or "Study Session for Two", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+		}
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "KeKa" in your climax area, and you have another <Music> character, choose 1 of your characters, this turn, it gains the following ability, Auto: When this card’s battle opponent is reversed, search your deck for up to 1 <Music> character or "Study Session for Two", show it to your opponent, add it to hand, and shuffle your deck afterwards.”
+EndCard
+
+Character: LSP/W92-081
+Name For the Sake of Feelings, Ren
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Auto: OnPlay
+{
+	Question Swap a card in your level with a card in your waiting room?
+	If Yes
+	{
+		*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+	}
+}
+Text Auto: When this is placed on stage from hand, choose 1 card from your waiting room and 1 card from your level zone, you may swap them.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Music
+	}
+}
+Text Auto: [Discard 1 climax] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 <Music> character from your waiting room, and add it to hand.
+EndCard
+
+Character: LSP/W92-082
+Name It's Keke Tang!
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 2000
+	}
+}
+Text Auto: When this is placed on stage from hand, reveal the top card of your deck. If that card is a <Music> character, choose 1 of your characters, this turn, it gets +2000 power.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	GainEffect
+	{
+		Auto: OnThisTriggerCheck
+		{
+			IfOther IsClimax
+			{
+				PayCost 1
+				{
+					TargetTop Deck 1
+					MoveCard Stock
+					TargetLocation Stage
+					ChooseCharacterFromTargets
+					GainPower 2000
+				}
+			}
+		}
+		Text Auto: [(1)] When this card's trigger check reveals a climax, you may pay the cost. If you do, put the top card of your deck to stock, then choose 1 of your characters, this turn, it gets +2000 power.
+	}
+}
+Quick
+Text Auto: When this attacks, all of your characters gain the following ability, until the end of the turn: "Auto: [(1)] When this card's trigger check reveals a climax, you may pay the cost. If you do, put the top card of your deck to stock, then choose 1 of your characters, this turn, it gets +2000 power." 
+EndCard
+
+Character: LSP/W92-083
+Name Liella! Keke
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Auto: OnPlay
+{
+	SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: When this is placed on stage from hand, choose up to 3 cards in your opponent’s waiting room, your opponent shuffles them into their deck.
+EndCard
+
+Character: LSP/W92-084
+Name United Feelings, Ren
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10500
+Combo Under the Gentle Sunlight
+Trait1 Music
+Auto: OnAttack
+{
+	If Compare Experience 6 OrMore && Climax Under the Gentle Sunlight
+	{
+		PayCost 1
+		{
+			GainPower 3000
+			MultipleChoiceQuestion Choose one of the following effects and perform it.\n1. Choose up to 2 cards in your clock, send them to waiting room.\n2. Deal 3 damage to your opponent.|Choice 1|Choice 2
+			If Answer 0
+			{
+				SearchLocationForTargets Clock 0 2 Any
+				RevealTargets
+				MoveCard WaitingRoom
+			}
+			If Answer 1
+			{
+				Burn 3
+			}
+		}
+	}
+}
+Text Auto: EXPERIENCE [(1)] When this attacks, if you have "Under the Gentle Sunlight" in your climax area, and the sum of levels of cards in your level zone is 6 or more, you may pay the cost. If you do, this turn, this gets +3000 power, then perform 1 of the following 2 effects, "Choose up to 2 cards in your clock, send them to waiting room." "Deal 3 damage to your opponent."
+EndCard
+
+Character: LSP/W92-085
+Name It's Time For An Expedition, Keke
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 IsCharacter
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets_Optional
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, you may choose 1 cost 0 or lower character in their center stage, and put it to the bottom of their deck.
+*ClimaxExchange
+EndCard
+
+Character: LSP/W92-086
+Name First Step, Ren
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	TargetOther
+	IfTarget NameContains Ren|Sumire
+	{
+		Peek Deck 1
+		EndPeek
+	}
+}
+Text Auto: When your other characters with "Ren" or "Sumire" in its name or this card is placed on stage from hand, you may look at the top card of your deck.
+*Act1RestSelfSearchBrainstorm(TRAITLIST)
+EndCard
+
+Character: LSP/W92-087
+Name Looking Back, Ren
+Color B
+Level 1
+Cost 0
+Power 500
+Trait1 Music
+*OnPlayFlicker
+Backup 1500
+EndCard
+
+Character: LSP/W92-088
+Name Liella's Ace, Ren
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Music
+Cont: GiveAll
+{
+	If Other && NameEquals Looks Delicious, Keke
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other "Looks Delicious, Keke" gets +2000 power.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther NameEquals Looks Delicious, Keke
+	{
+		PayCost Discard 1 Any
+		{
+			*Check4Add1(Music)
+		}
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 1
+Text Auto: [Discard 1 card] This ability can only be activated up to once per turn. When your other "Looks Delicious, Keke" is placed on stage from hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Music> character among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: LSP/W92-089
+Name Looks Delicious, Keke
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Music
+EndCard
+
+Character: LSP/W92-090
+Name Letting Loose, Keke
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Music
+Cont: GiveAll
+{
+	If Other && NameEquals Keke Tang
+	{
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				PayCost SendFromLocationToLocation Memory Deck 2 False Any
+				{
+					Bounce
+				}
+			}
+			Text Auto: [Put 2 cards from your memory to the bottom of your deck in any order] When this is frontal attacked, you may pay the cost. If you do, return this to hand.
+		}
+	}
+}
+Text Cont: All of your other "Keke Tang" gains the following ability, "Auto: [Put 2 cards from your memory to the bottom of your deck in any order] When this is frontal attacked, you may pay the cost. If you do, return this to hand."
+*GlobalPower(1000,Music)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Study Session for Two
+	}
+}
+Text Auto: [Discard 1 card] When this placed on stage from hand, you may pay the cost. If you do, choose 1 "Study Session for Two" in your waiting room, add it to hand.
+EndCard
+
+Character: LSP/W92-091
+Name Sleepy, Keke
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have 2 or more other <Music> characters, you may draw 1 card. If you do, discard 1 card.
+*OnPlayGivePower(1500, Music)
+EndCard
+
+Character: LSP/W92-092
+Name Fateful Reunion, Keke
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Music
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals Bringing Smiles to Everyone With a Song, Kanon
+	{
+		GainPower 5000
+	}
+}
+Text Cont: If you have another "Bringing Smiles to Everyone With a Song, Kanon", this gets +5000 power.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		*SearchDeckToPlaceOnStage(NameEquals Bringing Smiles to Everyone With a Song\, Kanon, False)
+	}
+}
+Text Auto: [(1)] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Bringing Smiles to Everyone With a Song, Kanon", show it to your opponent, place it on stage in any slot, and shuffle your deck afterwards.
+EndCard
+
+Character: LSP/W92-093
+Name Regulation by School Rules, Ren
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 2000
+	}
+}
+Text Auto:  When this is placed on stage from hand, reveal the top card of your deck. If that card is a <Music> character, choose 1 of your characters, this turn, it gets +2000 power.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: LSP/W92-094
+Name Student Council President Candidate, Ren
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Music
+*BlueEarlyPlayBomb
+EndCard
+
+Character: LSP/W92-095
+Name Keke's Choice
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Music
+*BackupBonus1000(Music)
+Backup 2500
+EndCard
+
+Character: LSP/W92-096
+Name KeKa, Ren
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Music
+Cont: InHand
+{
+	If LocationContains Level 1 NameEquals Liella! Ren && LocationContains Level 1 NameEquals United Feelings, Ren
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: EXPERIENCE If you have 2 or more "Liella! Ren" or "United Feelings, Ren" in your level, this gets -1 level in hand.
+Cont: GiveSelf
+{
+	GainSpecialEffect DoubleTrigger
+}
+Text Cont: When this attacks, during the trigger step of this attack, perform trigger check twice.
+Auto: StartClimaxPhase
+{
+	If LocationContains Level 1 NameEquals Liella! Ren || LocationContains Level 1 NameEquals United Feelings, Ren
+	{
+		Question Swap this card with a "Liella! Ren" or "United Feelings, Ren" in your level?
+		If Yes
+		{
+			SearchLocationForTargets Level 1 1 NameEquals Liella! Ren|United Feelings, Ren
+			AddSelfToTargets
+			Exchange
+		}
+	}
+}
+Text Auto: CHANGE At the start of your climax phase, choose 1 "Liella! Ren" or "United Feelings, Ren" in your level and this card, you may swap them.
+EndCard
+
+Event: LSP/W92-097
+Name Video Distribution
+Color B
+Level 1
+Cost 0
+Text If you do not have a <Music> character, you cannot play this from hand.
+Effect:
+{
+	*Check4Add1(Music)
+	Question Swap a card in your level with a card in your waiting room?
+	If Yes
+	{
+		*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+	}
+}
+ActivationRequirement StageContains 1 HasTrait Music
+Text Look at up to 4 cards from the top of your deck, choose up to 1 <Music> character from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+Text Choose 1 card from your waiting room and 1 card from your level zone, you may swap them.
+EndCard
+
+Event: LSP/W92-098
+Name Study Session for Two
+Color B
+Level 2
+Cost 2
+Effect:
+{
+	PayCost Send 1 Memory NameEquals General Course, Keke
+	{
+		SearchLocationForTargets Hand 0 2 NameEquals Keke Tang
+		If HasTarget
+		{
+			RevealTargets
+			PlaceOnStage False True True False
+		}
+		TargetSelf
+		MoveCardToBottom Deck
+	}
+}
+Text Choose 1 of your "General Course, Keke", you may send it to memory. If you do, choose up to 2 "Keke Tang" in your hand, place them on stage in separate slots, and send this to the bottom of your deck.
+EndCard
+
+Climax: LSP/W92-099
+Name KeKa
+*GateClimax
+EndCard
+
+Climax: LSP/W92-100
+Name Under the Gentle Sunlight
+*GateClimax
+EndCard
+
+Character: LSP/W92-101
+Name Childhood, Kanon
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+*OnPlayCheckTopAddDiscard(Music)
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Auto: At the start of your climax phase, choose 1 of your characters, this turn, it gets +500 power.
+EndCard
+
+Character: LSP/W92-102
+Name Giant Isopod Role, Sumire
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Auto: OnPlay
+{
+	Mill 1
+	IfTarget HasTrait Music
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this is placed on stage from hand, mill 1. If that card is a <Music> character, this turn, this gets +2000 power.
+Auto: OnAttack
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When this attacks, you may mill 1. If that card is a climax, draw 1 card, then discard 1 card.
+EndCard
+
+Character: LSP/W92-103
+Name Childhood, Chisato
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Music
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 Any
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: MEMORY If you have a card in memory, this gets +2500 power and "Auto: ENCORE [Discard 1 character]"
+EndCard
+
+Character: LSP/W92-104
+Name Delivering Songs, Keke
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+*CharacterFacingThisCannotMove
+*BlueLevel0Bomb
+EndCard
+
+Character: LSP/W92-105
+Name Childhood, Ren
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Auto: OnAttack
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: EXPERIENCE When this attacks, the sum of levels of cards in your level zone is 2 or more, this turn, this gets +2000 power.
+Act: Discard 1 IsClimax
+{
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent is reversed, you may draw 1 card.
+	}
+}
+Text Act: [Discard 1 climax] This turn, this gets +1000 power, and gains the following ability: "Auto: When this card's battle opponent is reversed, you may draw 1 card."
+EndCard
+
+// PR Cards
+
+Character: LSP/W92-P01
+Name Because I'm Normal, Kanon Shibuya
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Music
+*BackupBonus1000(Music)
+Backup 2500
+EndCard
+
+Character: LSP/W92-P02
+Name Cheer Up Everyone, Kanon Shibuya
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+*EarlyPlay2OrLessClimax
+*OnPlayCheck3
+EndCard
+
+Character: LSP/W92-P03
+Name New Member, Kanon
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Music
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Rest this card?
+		If Yes
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability can be activated up to once per turn. When this card becomes reversed in battle, reveal the top of your deck. If that card's level is 2 or higher, you may rest this card. 
+EndCard
+
+Character: LSP/W92-P04
+Name New Member Joining, Keke
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Music
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		Peek Deck 2
+		If HasTarget
+		{
+			Message Choose a card to put back on top. 
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Deck
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other <Music> characters, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room.
+*YellowLevel1Bomb
+EndCard
+
+Character: LSP/W92-P05
+Name Our Name is Liella!
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Music
+*OnAttackGivePowerForEachOther(500,Music)
+EndCard
+
+Character: LSP/W92-P06
+Name School Idol, Liella!
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+*Level0Assist
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 2000
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: LSP/W92-P07
+Name Yuigaoka Girls' School Idol Club, Liella!
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Music
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have 4 or more other <Music> characters, you may put the top card of your deck to stock.
+*GainPowerWhenOtherAttacks(2000,Music)
+EndCard
+
+// Trial Deck Cards
+
+Character: LSP/W92-T01
+Name School Idol, Chisato Arashi
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Cont: GiveAll
+{
+	If Other && NameEquals School Idol, Kanon Shibuya
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "School Idol, Kanon Shibuya" gets +1000 power.
+*Bond1(School Idol\, Kanon Shibuya)
+EndCard
+
+Character: LSP/W92-T02
+Name Kanon Shibuya
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+*OnAttackGivePower(1000,Any)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Discard 1 card] When this is sent from stage to waiting room, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: LSP/W92-T03
+Name Chisato Arashi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	TargetOther
+	IfOther HasTrait Music
+	{
+		Peek Deck 1
+		EndPeek
+	}
+}
+Text Auto: When your other <Music> character or this card is placed on stage from hand, you may look at the top card of your deck.
+*RestGivePower(1500,Music)
+EndCard
+
+Character: LSP/W92-T04
+Name School Idol, Sumire Heanna
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Music
+*GiveAllOpponentsEncore2
+EndCard
+
+Character: LSP/W92-T05
+Name Sumire Heanna
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+*OnPlayGainPower(4500)
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	If OnStage &&& Compare CardsInStock 3 OrLess
+	{
+		Question Put the battle opponent on top of their deck?
+		If Yes
+		{
+			MoveCard OpponentDeck
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you have 3 or less stock, you may put that character on top of your opponent's deck. 
+EndCard
+
+Character: LSP/W92-T06
+Name 1st Year Student, Chisato Arashi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+*OnPlayGiveOtherPower(2000, Music)
+EndCard
+
+Character: LSP/W92-T07
+Name School Idol, Kanon Shibuya
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Music
+EndCard
+
+Character: LSP/W92-T08
+Name 1st Year Student, Sumire Heanna
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Music
+*PowerOnMyTurn(10000)
+EndCard
+
+Character: LSP/W92-T09
+Name 1st Year Student, Kanon Shibuya
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 7000
+Trait1 Music
+*GainPowerWhenOtherAttacks(2000,Music)
+*HandEncoreTrait(Music)
+EndCard
+
+Event: LSP/W92-T10
+Name Liella!
+Color R
+Level 2
+Cost 2
+Effect:
+{
+	SearchWaitingRoom IsCharacter
+	SearchWaitingRoom IsCharacter
+}
+Text Choose up to 2 characters in your waiting room, add them to hand.
+EndCard
+
+Climax: LSP/W92-T11
+Name Take Flight! We are Love Live!
+*DoorClimax
+EndCard
+
+Climax: LSP/W92-T12
+Name Girls With Unlimited Potential
+Color R
+*2SoulClimax
+EndCard
+
+Character: LSP/W92-T13
+Name School Idol, Ren Hazuki
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Music
+	}
+}
+Text Auto: [(2)] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 <Music> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: LSP/W92-T14
+Name School Idol, Keke Tang
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Music
+*CannotSideAttack
+*OnPlayMill2GainPowerForEachCharacter(1000,Music)
+EndCard
+
+Character: LSP/W92-T15
+Name School Idols
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Music
+Backup 2500
+EndCard
+
+Character: LSP/W92-T16
+Name 1st Year Student, Ren Hazuki
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Music
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Music>, this gets +2000 power.
+*ClockEncore
+EndCard
+
+Character: LSP/W92-T17
+Name 1st Year Student, Keke Tang
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Music
+*LevelAssist
+Act: RestSelf
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest this] Draw 1 card, discard 1 card.
+EndCard
+
+Character: LSP/W92-T18
+Name Ren Hazuki
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Music
+*OnPlayCheck3
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	ChooseCharacterFromTargets
+	GainSoul 1
+}
+Text Act: [(1)] Choose 1 of your <Music> characters, this turn, it gains +1 soul.
+EndCard
+
+Character: LSP/W92-T19
+Name Keke Tang
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Combo Yuigaoka Private Girls High School 1st Years
+*Healer
+Auto: OnAttack
+{
+	If Climax Yuigaoka Private Girls High School 1st Years
+	{
+		MillOpponentBottom 4
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "Yuigaoka Private Girls High School 1st Years" in the climax area, send the bottom 4 cards of your opponent's deck to waiting room, then deal X damage to your opponent. X equals the number of climaxes sent to waiting room by this effect.
+EndCard
+
+Climax: LSP/W92-T20
+Name Yuigaoka Private Girls High School 1st Years
+*GateClimax
+EndCard

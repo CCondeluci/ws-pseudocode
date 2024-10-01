@@ -1,0 +1,1095 @@
+
+Character: SW/SE47-01
+Name "The Two reunited" Mandalorian & Grogu
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand. X is the level of the revealed card.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, you may return this card to your hand.
+EndCard
+
+Character: SW/SE47-02
+Name "Leader of the Nite Owls" Bo-Katan Kryze
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Mandalorian
+Auto: StartClimaxPhase
+{
+	PeekTop Deck
+	EndPeek
+}
+Text Auto: At the beginning of your climax phase, you may look at the top card of your deck.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: SW/SE47-03
+Name Paz Vizsla
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Mandalorian
+*SacrificeToSave(Any)
+Text Auto: [Put this card into your waiting room] When your other characters is put into the waiting room from your stage, if this card in backstage, you may pay the cost. If you do, return that character to its previous position rested.
+*RestGivePower(1500,Any)
+EndCard
+
+Character: SW/SE47-04
+Name "Gunfight" Mandalorian
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Mandalorian
+*PowerOnMyTurn(2000)
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess CenterStage 2 Any
+	{
+		TargetFacing
+		If HasTarget
+		{
+			TargetSelf
+			Question Move ""Gunfight" Mandalorian" to another position?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: SW/SE47-05
+Name "Oath of Rebellion" Cassian Andor
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Cassian Andor
+Auto: OnSentFromStageToWaitingRoom
+{
+	*ScryToBottom
+}
+Text Auto: When this card is put into your waiting room from the stage, look at the top card of your deck, and put it on the top or bottom of your deck.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+EndCard
+
+Character: SW/SE47-06
+Name Din Djarin & Bo-Katan Kryze
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+*ClimaxExchange
+EndCard
+
+Character: SW/SE47-07
+Name "The Ruler who drives the Rancor" Boba Fett
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Boba Fett
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		Auto: Encore 2
+		{
+		}
+		Text Auto: ENCORE [(2)]
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [(2)]".
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this is sent from stage to waiting room, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: SW/SE47-08
+Name "Armor of Beskar" Mandalorian
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 1500
+Trait1 Mandalorian
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room.
+Backup 1000
+EndCard
+
+Character: SW/SE47-09
+Name "Lord of the Throne" Boba Fett
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 1500
+Trait1 Boba Fett
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+*YellowCost0Bomb
+EndCard
+
+Character: SW/SE47-10
+Name "To get back Mandalore" Bo-Katan Kryze
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Mandalorian
+Combo Great Warriors
+*GainPowerOnPlay(3000)
+Auto: OnAttack
+{
+	If Climax Great Warriors &&& StageContains 2 Other && IsCharacter
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Great Warriors" is in your climax area, and you have 2 or more other characters, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+EndCard
+
+Character: SW/SE47-11
+Name "Recovered Armor" Boba Fett
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Boba Fett
+*PowerOnMyTurn(4000)
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, you may return this card to your hand.
+EndCard
+
+Character: SW/SE47-12
+Name "Journey to a New Mission" Mandalorian & Grogu
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	If StageContains 1 Other && IsCharacter && ColorIs Yellow
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another yellow character, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If LocationContains Climax 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this attacks, if there is a climax in your climax area, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+EndCard
+
+Character: SW/SE47-13
+Name General Syndulla
+Color Y
+Level 2
+Cost 1
+Power 3000
+Trigger Soul
+Trait1 Ahsoka
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 10000
+	}
+}
+Text Cont: During your turn, this card gets +10000 power.
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrHigher
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may put the top card of your deck into stock.
+EndCard
+
+Character: SW/SE47-14
+Name "Operative" Cassian Andor
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Cassian Andor
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 of your other characters and put it into your stock.
+EndCard
+
+Character: SW/SE47-15
+Name "A Journey where we became Two people" Mandalorian & Grogu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainSoul 1
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, it gets +1 soul until end of turn.
+Act: SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	Bounce
+}
+Text Act: [Put this card in your waiting room] Choose 1 of your opponent's characters and return it to their hand.
+EndCard
+
+Character: SW/SE47-16
+Name Fennec Shand
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Boba Fett
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 Other && NameEquals "Battle of Farewell" Boba Fett
+	{
+		GainPower 5500
+		GainEffect
+		{
+			Auto: Encore Discard 1 ColorIs Yellow
+			{
+			}
+			Text Auto: ENCORE [Put 1 yellow card from your hand to the waiting room]
+		}
+	}
+}
+Text Cont: If you have another ""Battle of Farewell" Boba Fett" on your center stage, this card gets +5500 power and "Auto: ENCORE [Put 1 yellow card from your hand to the waiting room]".
+Cont: GiveAll
+{
+	If Other && NameEquals "Battle of Farewell" Boba Fett
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HexProof
+		}
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: All of your other ""Battle of Farewell" Boba Fett" gets +1500 power and the 2 following ability. "Cont: This card cannot be chosen by your opponent's effects." "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+EndCard
+
+Character: SW/SE47-17
+Name "Battle of Farewell" Boba Fett
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Boba Fett
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 4500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupInBattle
+		}
+		Text Cont: During this card's battle, all players cannot play "<b>Backup</b>" from their hands.
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability until the end of your opponent's next turn. "Cont: During this card's battle, all players cannot play "Backup" from their hands."
+Auto: OnReverseOpponent
+{
+	If Compare Experience 4 OrMore
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetOther
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: EXPERIENCE [(2) Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, if the total level of the cards in your level is 4 or higher, you may pay the cost. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: SW/SE47-18
+Name "Duel for the Darksaber" Mandalorian
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Boba Fett
+Combo Their Bond
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	*CheckAndAdd(X)
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck, choose up to 1 from among them, show it to your opponent, add it to hand, and send the rest to waiting room. X equals the number of your opponent's characters.
+Auto: OnAttack
+{
+	If Climax Their Bond &&& StageContains 3 Other && IsCharacter
+	{
+		PayCost Discard 2 Any
+		{
+			SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+			MoveCard OpponentDeck
+			Burn 4
+		}
+	}
+}
+Text Auto: CxCombo [Put 2 cards from your hand into your waiting room] When this card attacks, if "Their Bond" is in your climax area, and you have 3 or more other characters, you may pay the cost. If you do, choose up to 1 card in your opponent's waiting room and put them on top of your opponent's deck, deal 4 damage to your opponent.
+EndCard
+
+Character: SW/SE47-19
+Name "Oath to Doctrine" Mandalorian
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	PayCost Rest 1 CardPosition Stand
+	{
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentRevealed
+		OpponentRefresh
+		TargetLocation OpponentRevealed
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [Rest 1 of your characters] When this card is placed on stage from your hand, you may pay the cost. If you do, your opponent chooses a climax from their waiting room and returns every card except the chosen climax back into their deck and shuffles their deck.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		ChooseMultipleCharacters 1 3 InLocation Stage && IsCharacter && ColorIs Yellow
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose up to 3 of your yellow characters, and those characters get +500 power and +1 soul until end of turn.
+EndCard
+
+Climax: SW/SE47-20
+Name Great Warriors
+*ChoiceClimax
+EndCard
+
+Climax: SW/SE47-21
+Name Their Bond
+*ChoiceClimax
+EndCard
+
+Character: SW/SE47-22
+Name "Swelling Hatred" Darth Vader
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Obi-Wan Kenobi
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInStock 3 OrLess
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if your stock has 3 or less cards, this card gets +2000 power.
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: SW/SE47-23
+Name "Existence that brings fear" Darth Vader
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Obi-Wan Kenobi
+ConditionalTrigger Door LocationContains Climax 1 HasTrigger Door
+Text Cont: If a climax with a Door trigger is in your climax area, this card in any area gains Door trigger.
+Cont: Assist
+{
+	GainEffect
+	{
+		*OnAttackCheck2ChooseTrigger
+	}
+}
+Text Cont: ASSIST All of your characters in front of this card gains the following ability. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+EndCard
+
+Character: SW/SE47-24
+Name "Legendary Jedi" Luke
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Mandalorian
+Auto: OnAttack
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand to your waiting room] When this card attacks, put the top 2 cards of your deck into the waiting room. If there were at least 1 climax among them, you may pay the cost. If so, choose a character in your waiting room and return it to your hand.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		If CanMove
+		{
+			MoveToOpenPosition False True
+		}
+	}	
+}	
+Text Auto: [(1)] At the start of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+Character: SW/SE47-25
+Name "Eating a lot" Grogu
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Mandalorian
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SW/SE47-26
+Name "Meditation" Grogu
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	PeekTop Deck
+	MultipleChoiceQuestion Place this card to the WaitingRoom or on the bottom of the deck?\n1. Place it to the WaitingRoom \n2. Place it on the bottom of the deck \n3. Return it to the top|1|2|3
+	If Answer 0
+	{
+		MoveCard WaitingRoom
+	}
+	If Answer 1
+	{
+		MoveCardToBottom Deck
+	}
+	If Answer 2
+	{
+		EndPeek Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it either on top or bottom of your deck or into your waiting room.
+Auto: OnAttack
+{
+	If Not StageContains 1 IsCharacter && InLocation Backstage
+	{
+		Question Put the top card of your deck in your waiting room?
+		If Yes
+		{
+			Mill 1
+			NarrowTargets IsCharacter && Compare ThatCardsLevel 0 OrLess
+			If HasTarget
+			{
+				PlaceOnStage False False True False
+			}
+		}
+	}
+}
+Text Auto: When this card attacks, if you do not have another character in your back stage, you may put the top card of your deck into your waiting room. If that card is a level 0 or lower character, put that character in any position of your back stage.
+EndCard
+
+Character: SW/SE47-27
+Name "Small steps" Grogu
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Mandalorian
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrMore
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost, choose a level 1 or higher character in your waiting room and return it to your hand.
+EndCard
+
+Character: SW/SE47-28
+Name R2-D2
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Boba Fett
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 Level 1 or lower character, put it into your hand, and shuffle your deck.
+*GivePowerOnAttack(500)
+EndCard
+
+Character: SW/SE47-29
+Name "The Reclusive Jedi" Obi-Wan
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Obi-Wan Kenobi
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation OpponentCenterStage
+	If Compare TargetCount 2 OrLess
+	{
+		ChooseCharacterFromTargets Choose a character to move
+		MoveToOpenPosition True False
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 character in your opponent's center stage and move it to another open position in the center stage.
+EndCard
+
+Character: SW/SE47-30
+Name "To Survive" Obi-Wan
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Obi-Wan Kenobi
+*OnPlayReorderTop2
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your waiting room for 1 character, and return it to your hand.
+EndCard
+
+Character: SW/SE47-31
+Name "Dual Blade Saber" Ahsoka Tano
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Ahsoka
+Auto: OnPlay
+{
+	RevealUpTo Deck 4
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may reveal up to 4 cards from top of your deck. If you reveal at least 1 card this way, choose up to 1 Level 0 or lower character among them, put it in your hand, put the rest in the waiting room, and discard a card from your hand to the waiting room. 
+EndCard
+
+Character: SW/SE47-32
+Name "Light Side" Ahsoka Tano
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Ahsoka
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each character in your opponent's back stage.
+Act: Discard 1 Any SendSelf BottomOfDeck
+{
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+	RevealTargets
+	MoveCards Hand
+}
+Text Act: [Put 1 card from your hand into your waiting room, put this card on the bottom of your deck] Choose 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: SW/SE47-33
+Name "Surviving former Jedi" Ahsoka Tano
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Mandalorian
+*GainPowerOnPlay(1500)
+Auto: OnUseAct
+{
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			PayCost 1
+			{
+				SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+				RevealTargets
+				MoveCards Hand
+			}
+		}
+		Text Auto: [(1)] When this card's battle opponent is reversed, you may pay the cost. If you do, choose 1 character in your waiting room and return it to your hand.
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an Act, this card gets the following ability until end of turn. "Auto: [(1)] When this card's battle opponent is reversed, you may pay the cost. If you do, choose 1 character in your waiting room and return it to your hand."
+EndCard
+
+Character: SW/SE47-34
+Name "Determined to fulfill the Mission" Obi-Wan
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Obi-Wan Kenobi
+Combo Fate of the Duel
+Auto: OnAttack
+{
+	If StageContains 3 Other && IsCharacter
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if you have 3 or more other characters, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Fate of the Duel &&& StageContains 3 Other && IsCharacter
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchWaitingRoom IsCharacter
+			}
+			Text Auto: When this card's battle opponent becomes reverse, you may choose 1 character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Fate of the Duel" is in your climax area, and you have 3 or more other characters, look at up to 2 cards from the top of your deck and return them in any order, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: SW/SE47-35
+Name Sabine Wren
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Ahsoka
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets Choose up to 1 character to downgrade.
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		Message Choose a character in waiting room to exchange.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's level 1 or higher characters, your opponent chooses a level X or lower character in their waiting room and exchanges them. X is the level of the character you chose -1.
+EndCard
+
+Character: SW/SE47-36
+Name "A journey to find a Jedi" Grogu
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets	
+	GainSpecialEffect CannotReturnToHand
+	GainSpecialEffect CannotGoToMemory
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets the following ability until end of turn. "Cont: This card cannot return to hand and cannot be sent to memory."
+*BlueEarlyPlayBomb
+EndCard
+
+Character: SW/SE47-37
+Name "Armor Received" Grogu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Mandalorian
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 2000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				Question Put the battle opponent on top of your opponent's deck?
+				If Yes
+				{
+					MoveCard OpponentDeck
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character on top of the deck.
+	}
+	TargetSelf
+	DontStand
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on top of the deck." This card does not stand during your next stand phase.
+EndCard
+
+Character: SW/SE47-38
+Name "Force Training" Grogu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Boba Fett
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: SW/SE47-39
+Name "As a Master" Luke
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Mandalorian
+*LevelAssist
+Auto: OnPlay
+{
+	If Compare CardsInClock 1 OrMore &&& LocationContains WaitingRoom 1 IsCharacter && IsColor Blue
+	{
+		Question Exchange the bottom card of your clock with a blue character in your waiting room?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter && IsColor Blue
+			SaveTargets 
+			TargetBottom Clock 1
+			AddSavedToCurrentTargets 
+			Exchange 
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose the bottom card of your clock and a blue character in your waiting room and exchange them.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsColor Blue
+	{
+		SearchDeck NameEquals "Fate Encounter" Luke
+	}
+}
+Text Auto: [Put 1 blue card from your hand into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 ""Fate Encounter" Luke", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: SW/SE47-40
+Name "Back to Fight" Obi-Wan
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Obi-Wan Kenobi
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrHigher
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			RevealTargets
+			MoveCards Hand
+		}
+	}
+}
+Text Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed, you may pay the cost. If you do, search your waiting room for 1 character, and return it to your hand.
+EndCard
+
+Character: SW/SE47-41
+Name "Battle in another galaxy" Ahsoka Tano
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Ahsoka
+*EarlyPlay2OrLessClimax
+*GainPowerWithEnoughCharacters(1000,3,Any)
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose an ability :\n1: Look at up to X cards from the top of your deck, choose up to 1 from among them, show it to your opponent, add it to hand, and send the rest to waiting room. X equals the number of your opponent's characters.\n2: You may put the top card of your clock into the waiting room.|1|2
+	If Answer 0 
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		*CheckAndAdd(X)
+	}
+	Else 
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of the following 2 abilities and this card gets that ability until the end of your opponent's turn. "Look at up to X cards from the top of your deck, choose up to 1 from among them, show it to your opponent, add it to hand, and send the rest to waiting room. X equals the number of your opponent's characters." "You may put the top card of your clock into the waiting room."
+EndCard
+
+Character: SW/SE47-42
+Name "Togruta Warrior" Ahsoka Tano
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Ahsoka
+Combo Meeting of Force wielder
+*Healer
+Auto: OnAttack
+{
+	If Climax Meeting of Force wielder &&& StageContains 3 Other && IsCharacter
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Burn 3
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 card from your hand into your waiting room] When this card attacks, if "Meeting of Force wielder" is in your climax area, and you have 3 or more other characters, you may pay the cost. If you do, deal 3 damage to your opponent.
+EndCard
+
+Character: SW/SE47-43
+Name "Perfect Control!" Grogu
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Mandalorian
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other && IsCharacter
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsClimax
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Auto: [Put 1 other character from your stage into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your waiting room for 1 climax, and return it to your hand.
+Auto: OnReverseOpponent
+{
+	If StageContains 3 Other && IsCharacter
+	{
+		PayCost 2 Discard 1 Any
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: [(3) Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, if you have 3 or more other characters, you may pay the cost. If you do, deal 2 damage to your opponent.
+EndCard
+
+Climax: SW/SE47-44
+Name Fate of the Duel
+*GateClimax
+EndCard
+
+Climax: SW/SE47-45
+Name Meeting of Force wielder
+*GateClimax
+EndCard

@@ -1,0 +1,3092 @@
+Character: ZLS/W93-001
+Name Junko Konno
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GainPowerWhenOtherAttacks(1000,Saga)
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: ZLS/W93-002
+Image zls_w93_002
+Name Saki Nikaido
+Color Y
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Do You Dislike Windy Days?
+*PowerOnMyTurn(4000)
+Auto: OnReverseOpponent
+{
+    If Climax Do You Dislike Windy Days? && StageContains 2 Other && HasTrait Saga
+    {
+        MultipleChoiceQuestion Choose an effect to resolve first.\n1: Look at up to the top 4 cards of your deck, choose up to 1 «Saga» character or 1 'Revenge on Fate' among them, show it to your opponent, add it to your hand and put the rest into your waiting room.\n2: You may choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.|1|2
+        If Answer 0
+        {
+            RevealUpTo Deck 4
+            ChooseCardsFromTargets 0 1 HasTrait Saga && IsCharacter || NameEquals Revenge on Fate
+            RevealTargets
+            MoveCard Hand
+            PutTheRestIntoTheWaitingRoom
+            TargetLocation OpponentStage
+            NarrowTargets CanBeChosen && Compare ThatCardsLevel 1 OrMore
+            ChooseCharacterFromTargets Choose an opponent character.
+            *Downgrade
+        }
+        If Answer 1
+        {
+            TargetLocation OpponentStage
+            NarrowTargets CanBeChosen && Compare ThatCardsLevel 1 OrMore
+            ChooseCharacterFromTargets Choose an opponent character.
+            *Downgrade
+            RevealUpTo Deck 4
+            ChooseCardsFromTargets 0 1 HasTrait Saga && IsCharacter || NameEquals Revenge on Fate
+            RevealTargets
+            MoveCard Hand
+            PutTheRestIntoTheWaitingRoom
+        }
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Do You Dislike Windy Days?" is in your climax area and the number of other «Saga» characters you have is 2 or more, perform each of the following abilities 1 time in any order. "Look at up to the top 4 cards of your deck, choose up to 1 «Saga» character or 1 'Revenge on Fate' among them, show it to your opponent, add it to your hand and put the rest in the waiting room." "You may choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1."
+EndCard
+
+Character: ZLS/W93-003
+Name Lily Hoshikawa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Saga
+Trait2 Music
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && HasTrait Saga && InLocation Backstage
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other «Saga» characters in your backstage.
+Auto: OnPlay
+{
+    MultipleChoiceQuestion Choose 1 effect to resolve.\n1: Draw up to 1 card, choose up to 1 cost 1 or lower character in your hand and put it in any position of your stage.\n2: Put the top card of your clock into the waiting room.\n3:All your characters get +3000 power until end of turn.\n4: None|1|2|3|4
+    If Answer 0
+    {
+        *OptionalDraw        
+        SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsCost 1 OrLess
+        If HasTarget
+        {
+            PlaceOnStage false true true false
+        }
+    }
+    If Answer 1
+    {
+        Heal
+    }
+    If Answer 2
+    {
+        TargetLocation Stage
+        GainPower 3000
+    }
+    If Answer 3
+    {
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may perform 1 of the following abilities 1 time. "Draw up to 1 card, choose up to 1 cost 1 or lower character in your hand and put it in any position of your stage." "Put the top card of your clock into the waiting room." "All your characters get +3000 power until end of turn."
+EndCard
+
+Character: ZLS/W93-004
+Name Legendary Bousouzoku Leader, Saki Nikaido
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnReversed
+{
+    RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Saga
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 «Saga» character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: ZLS/W93-005
+Name Audition, Lily
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Perfect Smile
+*PowerOnMyTurn(1000)
+Auto: OnReverseOpponent
+{
+    If Climax Perfect Smile && LocationContainsOrLess Stock 5 Any
+    {
+        *Check4Add1(Saga)
+        TargetTop Deck 1
+        Reveal
+        IfTarget Compare ThatCardsLevel 1 OrMore
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Perfect Smile" is in your climax area and the number of card in your stock is 5 or less, look at up to the top 4 cards of your deck, choose up to 1 «Saga» character among them, show it to your opponent, add it to your hand, put the rest into your waiting room and reveal the top card of your deck. If that card is level 1 or higher, add it to your hand.
+EndCard
+
+Character: ZLS/W93-006
+Name Best Live, Saki
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Saga
+Trait2 Music
+Combo What Is This...
+Auto: OnPlay
+{
+    If LocationContains Level 1 NameEquals Revenge on Fate &&& StageContains 1 Other && HasTrait Saga
+    {
+        *OptionalDraw
+        *OptionalDraw
+        Discard 2 Any
+        Question_Obvious Put the top card of your deck into your stock?
+        If Yes
+        {
+            BlindStock
+        }
+        TargetSelf
+        GainPower 3000
+    }
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, if "Revenge on Fate" is in your level zone and you have another «Saga» character, draw up to 2 cards, discard 2 cards, put up to 1 card from the top of your deck into your stock and this card gets +3000 power until end of turn.
+Auto: OnEndOfAttack
+{
+    If Climax What Is This... && StageContains 1 Other && HasTrait Saga
+    {
+        PayCost 2 Discard 1 Any Resonate Revenge on Fate
+        {
+            TargetSelf
+            Stand
+        }
+    }
+}
+TimesPerTurn 1
+Text Auto: CxCombo RESONATE [(2) Discard a card, reveal 1 "Revenge on Fate" in your hand] This ability activates up to 1 time per turn. At the end of this card's attack, if "What Is This..." is in your climax area and you have another «Saga» character, you may pay the cost. If you do, stand this card.
+EndCard
+
+Character: ZLS/W93-007
+Name Best Live, Junko
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 4 Other && HasTrait Saga
+    {
+        GainPower 5000
+        GainSpecialEffect NoBackupOnAttack
+        GainSpecialEffect NoEventsOnAttack
+    }
+}
+Text Cont: During your turn, if the number of other «Saga» characters you have is 4 or more, this card gets +5000 power and the following ability. "Cont:During battles involving this card, your opponent cannot play events or "BACKUP" from their hand."
+Auto: OnPlay
+{
+    PayCost 1
+    {
+        If LocationContains WaitingRoom 1 NameEquals Legendary Heisei Idol, Ai Mizuno
+        {
+            SearchLocationForTargets WaitingRoom 1 1 NameEquals Legendary Heisei Idol, Ai Mizuno
+            If HasTarget
+            {
+                PlaceOnStage false true true false
+            }
+        }
+    }
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Legendary Heisei Idol, Ai Mizuno" in your waiting room and put it in any position of your stage.
+EndCard
+
+Character: ZLS/W93-008
+Name Sparkling Stage, Saki
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: Assist
+{
+    GainEffect 
+    {
+        *HexProof
+    }
+}
+Text Cont: ASSIST Your characters in front of this get the following ability "Cont:This card cannot be chosen by your opponent's effects."
+Act: RestSelf
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: ZLS/W93-009
+Name Before Encore, Saki
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnOtherOpponentReversed
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +500 power.
+    GainPower 500
+}
+Text Auto: When the battle opponent of your other characters becomes reverse, choose 1 of your characters and that character gets +500 power until end of turn.
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    If Compare BrainstormedClimax 1 OrMore
+    {
+        SetXValue BrainstormedClimax
+        SearchLocationForTargets WaitingRoom 0 X IsCharacter
+        RevealTargets
+        MoveCard Hand
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, choose up to 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: ZLS/W93-010
+Name Leader of Franchouchou, Saki
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Saga
+    {
+        TargetSelf
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Saga» character, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+    TargetFacing
+    If HasTarget
+    {
+        If Compare TargetCardsLevel 2 Exactly
+        {
+            TargetSelf
+            GainPower 6000
+        }
+    }
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn.
+EndCard
+
+Character: ZLS/W93-011
+Name Trying to Fulfill That Dream, Lily
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnAttack
+{
+    PayCost Resonate Revenge on Fate
+    {
+        TargetLocation Stage
+        ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +2000 power.
+        GainPower 2000
+    }
+}
+Text Auto: RESONATE [Reveal 1 "Revenge on Fate" in your hand] When this card attacks, you may pay the cost. If you do, choose up to 2 of your «Saga» characters and those characters get +2000 power until end of turn.
+EndCard
+
+Character: ZLS/W93-012
+Name Helping, Lily
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: ZLS/W93-013
+Name What We Can Do, Junko
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If MyTurn && LocationContains Memory 1 NameEquals Revenge on Fate
+    {
+        GainPower 10000
+    }
+}
+Text Cont: MEMORY During your turn, if "Revenge on Fate" is in your memory, this card gets +10000 power.
+Auto: OnPlay
+{
+    PayCost Discard 1 Any Resonate Revenge on Fate
+    {
+        TargetLocation WaitingRoom
+        MoveCard Deck
+        ShuffleLocation Deck
+        TargetSelf
+        GainPower 1500
+    }
+}
+Text Auto: RESONATE [Discard 1 card, reveal a "Revenge on Fate" in your hand] When this card is placed on the stage from your hand, you may pay the cost. If you do, so, return all cards in your waiting room to your deck, shuffle your deck and this card gets +1500 power until end of turn.
+EndCard
+
+Character: ZLS/W93-014
+Name "Little Bodda Bope" Lily
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Super Twinkle Star
+Auto: OnSpecificClimaxPlay Super Twinkle Star
+{
+    If StageContains 1 Other && HasTrait Saga
+    {
+        PayCost SendSelf Hand
+        {
+            If LocationContains WaitingRoom 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+            {
+                SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+                PlaceOnStage false true true false
+            }
+        }
+    }
+}
+Text Auto: CxCombo [Return this card to your hand] When "Super Twinkle Star" is placed in your climax area, if you have another «Saga» character, you may pay the cost. If you do, choose a level 0 or lower «Saga» character in your waiting room and put it in any position of your stage.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: ZLS/W93-015
+Name Reminiscing, Junko
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*OnPlayReorderTop2
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 IsCharacter && HasTrait Saga
+    {
+        *CheckAndAdd(3)
+    }
+}
+Text Auto: [(1) Discard 1 «Saga» character] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 card among them, add it to your hand and put the rest in the waiting room.
+EndCard
+
+Character: ZLS/W93-016
+Name Strength of Not Giving Up, Lily
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnReversed
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+    {
+        MoveCard Hand
+    }
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is a level 0 or lower character, add it to your hand.
+EndCard
+
+Character: ZLS/W93-017
+Name What We Can Do, Lily
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Saga
+    {
+        SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Saga
+        MoveCard Stock
+    }
+}
+Text Auto: When this is placed on stage from your hand, if the number of other «Saga» characters you have is 4 or more, you may choose a «Saga» character in your waiting room and put it in your stock.
+Auto: OnAttack
+{
+    If StageContains 2 Other && HasTrait Saga
+    {
+        TargetSelf 
+        GainPower 2000
+    }
+}
+Text Auto: When this card attacks, if the number of other «Saga» characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: ZLS/W93-018
+Name When She Becomes An Adult, Saki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GlobalPower(1000, Saga)
+Act: RestSelf
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters and that character gets +1000 power until end of turn.
+EndCard
+
+Event: ZLS/W93-019
+Name Live Concert Goods
+Color Y
+Level 1
+Cost 0
+Effect: 
+{
+    Brainstorm 3
+    TargetBrainstormed
+    NarrowTargets IsCharacter && HasTrait Saga
+    SetXValue TargetCount
+    SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X OrLess
+    MoveCard Hand
+}
+Text BRAINSTORM Flip over 3 cards from the top of your deck and put them into the waiting room. Choose a level X or lower «Saga» character in your waiting room and return it to your hand. X equals number of «Saga» character revealed this way.
+EndCard
+
+Event: ZLS/W93-020
+Name Romero
+Color Y
+Level 1
+Cost 1
+Counter
+Requirement StageContains 1 HasTrait Saga
+Effect: 
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give the effect "This card cannot be reversed".
+    GainSpecialEffect CannotBeReversed
+}
+Text [Counter] If you don't have a «Saga» character, you cannot play this card from your hand. Choose 1 of your characters and that character gets the following ability until end of turn. "Cont:This card cannot be reversed." 
+EndCard
+
+Climax: ZLS/W93-021
+Image zls_w93_021
+Name Do You Dislike Windy Days?
+*ChoiceClimax
+EndCard
+
+Climax: ZLS/W93-022
+Name What Is This...
+*ChoiceClimax
+EndCard
+
+Climax: ZLS/W93-023
+Name Perfect Smile
+*WindClimax
+EndCard
+
+Climax: ZLS/W93-024
+Name Super Twinkle Star
+*ShotClimax
+EndCard
+
+Character: ZLS/W93-025
+Name Ai Mizuno
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*FreeRunner
+Act: 1 SendSelf WaitingRoom
+{
+    *Check4Add1(Saga)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to the top 4 cards of your deck, choose 1 «Saga» character to add to your hand and put the rest into the waiting room
+EndCard
+
+Character: ZLS/W93-026
+Name Legendary Showa Idol, Junko Konno
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Spark of the Idol Boom
+*PowerOnMyTurn(1000)
+Auto: OnAttack
+{
+    If Climax Spark of the Idol Boom && StageContains 1 Other && HasTrait Saga
+    {
+        PayCost Discard 1 Any
+        {
+            SearchWaitingRoom IsCharacter && HasTrait Saga
+            TargetSelf
+            *GainBounceWhenFrontalAttacked
+        }
+    }
+}
+Text Auto: CxCombo [Discard 1 card] When this card attacks, if "Spark of the Idol Boom" is in your climax area and you have another «Saga» character, you may pay the cost. If you do, choose a «Saga» character in your waiting room, return it to your hand and this card gets the following ability until the end of your opponent's next turn. "Auto:When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: ZLS/W93-027
+Name Best Live, Ai
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveAll
+{
+    If Other && InLocation MiddleCenterStage
+    {
+        GainPower 500
+    }
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+*Act1RestSelfSearchBrainstorm(Saga)
+EndCard
+
+Character: ZLS/W93-028
+Name "Franchouchou" Junko
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Spark of the Idol Boom
+Combo Pretty Bride
+*LevelAssistTrait(Saga)
+*OnClimaxPlayGivePower(1000)
+Auto: OnTriggerCheckClimax
+{
+    IfOther NameEquals Spark of the Idol Boom || NameEquals Pretty Bride
+    {
+        PayCost Discard 1 IsClimax
+        {
+            SearchWaitingRoom IsCharacter
+            TargetLocation Stage
+            ChooseCharacterFromTargets Choose a character to give +1000 power.
+            GainPower 1000
+        }
+    }
+}
+Text Auto: CxCombo [Discard 1 climax] When your character's trigger check reveals "Spark of the Idol Boom" or "Pretty Bride", you may pay the cost. If you do, choose a character in your waiting room, return it to your hand, choose 1 of your characters and that character gets +1000 power until end of turn.
+EndCard
+
+Character: ZLS/W93-029
+Name "Franchouchou" Yugiri
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Saga
+Trait2 Music
+*GlobalPower(1500,Saga)
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Saga
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a «Saga» character in your waiting room and return it to your hand.
+Act: RestSelf
+{
+    TargetTop Deck 2
+    If Compare TargetCount 2 OrMore
+    {
+        Reorder
+    }
+    Else
+    {
+        View
+    }
+}
+Text Act: [Rest this card] Look at up to 2 cards from the top of your deck and return them in any order.
+EndCard
+
+Character: ZLS/W93-030
+Name Sudden Zombie Reveal, Junko
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Saga
+Trait2 Music
+Combo 54 Forgotten Things
+*Healer
+Auto: OnPlay
+{
+    SearchLocationForTargets WaitingRoom 0 1 NameEquals Repairing
+    If HasTarget
+    {
+        Marker_FaceUp
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Repairing" in your waiting room and put it face up underneath this card as a marker.
+Auto: OnEndOfAttack
+{
+    If Climax 54 Forgotten Things
+    {
+        PayCost SendMarker WaitingRoom
+        {
+            MillOpponentBottom 4
+            NarrowTargets IsClimax
+            SetXValue TargetCount
+            Repeat X
+            {
+                Burn 1
+            }
+        }
+    }
+}
+Text Auto: CxCombo [Put a marker from underneath this card in the waiting room] At the end of this card's attack, if "54 Forgotten Things" is in your climax area, you may pay the cost. If you do, put the bottom 4 cards of your opponent's deck into their waiting room, and deal 1 damage to your opponent X times. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: ZLS/W93-031
+Name Maimai Yuzuriha
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait Saga
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If the number of other «Saga» characters you have is 2 or more, this card gets +1000 power.
+Auto: OnPlay
+{
+    If LocationContainsOrLess Stock 5 Any
+    {
+        Mill 2
+        NarrowTargets IsClimax
+        If HasTarget
+        {
+            RevealExactly Deck 2
+            NarrowTargets IsCharacter || IsEvent
+            If HasTarget
+            {
+                OpponentChooseCardsFromTargets 1 1 Any
+                MoveCard Hand
+            }
+            PutTheRestIntoTheWaitingRoom
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if there are 5 or less cards in your stock, put the top 2 cards of your deck in the waiting room. If there's at least 1 climax among them, reveal the top 2 cards of your deck, your opponent chooses a character or an event among those cards, add it to your hand and put the rest in the waiting room.
+EndCard
+
+Character: ZLS/W93-032
+Name Sudden Comforting, Junko
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: StartClimaxPhase
+{
+    If InLocation CenterStage && LocationContains Memory 1 NameEquals Revenge on Fate
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give the effect "When this card's battle opponent becomes reversed, you may put the top card of your deck in your stock."
+    }
+}
+Text Auto: MEMORY At the start of your climax phase, if this card is in your center stage and "Revenge on Fate" is in your memory, choose 1 of your characters and that character gains the following ability until end of turn. "Auto:When this card's battle opponent becomes reversed, you may put the top card of your deck in your stock."
+EndCard
+
+Character: ZLS/W93-033
+Name Before Encore, Junko
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Put a character from your stage in the waiting room] When you use this card's "<b»Backup</b»" you may pay the cost, choose 1 of your opponent's characters whose level is higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 2500
+EndCard
+
+Character: ZLS/W93-034
+Name What We Can Do, Ai
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnReversed
+{
+    If Compare CardsInOpponentsClock 1 OrMore && LocationContains WaitingRoom 1 NameEquals Revenge on Fate
+    {
+        TargetBattleOpponent
+        IfTarget Compare ThatCardsLevel OpponentsLevel GreaterThan && OnStage
+        {
+            Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+            If Yes
+            {
+                TargetTop OpponentClock 1
+                MoveCard OpponentWaitingRoom
+                TargetBattleOpponent
+                MoveCard OpponentClock
+            }
+        }
+    }
+}
+Quick
+Text Auto: When this card becomes reversed, if you have "Revenge on Fate" in the waiting room and the level of this card's battle opponent is higher than your opponent's level, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into your opponent's clock.
+Auto: OnPlay
+{
+    If LocationContains Memory 2 NameEquals Revenge on Fate
+    {
+    	*Downgrade
+    }
+}
+Text Auto: Memory When this card is placed on the stage from your hand, if you have 2 or more "Revenge on Fate" in your memory, you may choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.
+EndCard
+
+Character: ZLS/W93-035
+Name Before Encore, Yugiri
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Saga
+Trait2 Music
+*GainPowerForEachOther(1000,Saga)
+*HandEncore
+EndCard
+
+Character: ZLS/W93-036
+Name Preparing Dinner, Yugiri
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*Revenge(1000)
+*SacrificeToSave(Any)
+Text Auto: [Put this card in the waiting room] When your other character is sent from stage to waiting room, if this is on the backstage you may pay the cost. If you do, return that character rested.
+EndCard
+
+Character: ZLS/W93-037
+Name When She Wants to Pick Herself Up, Junko
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	If Compare TargetCount 1 Exactly
+	{
+		LosePower 3000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if the number of characters in your opponent's center stage is 1 or less, choose a character in your opponent's center stage and that character gets -3000 Power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Saga && IsCharacter
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 «Saga» character] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: ZLS/W93-038
+Name Pajama Look, Junko
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveAll
+{
+	If MyTurn && NameEquals Tae Yamada && Other
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, all your other "Tae Yamada" get +4000 power.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +500 power and the effect "".
+	GainPower 500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+		    If Compare CardsInOpponentsClock 1 OrMore
+		    {
+                TargetBattleOpponent
+                IfTarget OnStage
+                {
+                    Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+                    If Yes
+                    {
+                    TargetTop OpponentClock 1
+                    MoveCard OpponentWaitingRoom
+                    TargetBattleOpponent
+                    MoveCard OpponentClock
+                    }
+                }
+		    }
+		}
+        Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room. If you do, put that character into your opponent's clock.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your «Saga» characters, it gets +500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room. If you do, put that character into your opponent's clock."
+EndCard
+
+Character: ZLS/W93-039
+Name Panic Before Live, Yugiri
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*OnPlayGainPowerForEach(1000, Saga)
+EndCard
+
+Character: ZLS/W93-040
+Name One-Day Idol, Maimai
+Color G
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Soul 2
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+	TargetSelf
+	GainPower 3500
+	GainEffect
+	{
+		Auto: EndOfTurn
+		{
+			TargetSelf
+			If OnStage
+			{
+				MoveCard Deck
+				ShuffleLocation Deck
+			}
+		}
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +3500 power and the following ability until end of turn. "Auto: At the end of the turn, return this card to your deck and shuffle your deck."
+EndCard
+
+Character: ZLS/W93-041
+Name Precious Things, Ai
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GainPowerWhenOtherAttacks(2000,Saga)
+EndCard
+
+Event: ZLS/W93-042
+Name Repairing
+Color G
+Level 3
+Cost 1
+Effect: 
+{
+	Burn 1
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +3000 power.
+	GainPower 3000
+}
+Text Deal 1 damage to your opponent. Choose 1 of your characters and that character gets +3000 power until end of turn.
+EndCard
+
+Climax: ZLS/W93-043
+Name Spark of the Idol Boom
+*BarClimax
+EndCard
+
+Climax: ZLS/W93-044
+Name 54 Forgotten Things
+*BarClimax
+EndCard
+
+Character: ZLS/W93-045
+Name Yugiri
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		*Check4Add1(Saga)
+	}
+}
+Text Auto: [(1)] When a climax is placed in your climax area, you may pay the cost, look at up to the top 4 cards of your deck, choose up to 1 «Saga» character to add to your hand, and put the rest into the waiting room.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		*GiveCharacterPower(1500,Any)
+		GainLevel 1
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets +1 level and +1500 power until end of turn.
+EndCard
+
+Character: ZLS/W93-046
+Name Tae Yamada
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Saga
+Trait2 Music
+*EarlyPlay4OrMore(Saga)
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Saga
+	{
+		TargetSelf
+		GainPower 4000
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Saga» character you have is 2 or more, this card gets +4000 power for the turn and you may draw 1 card. If you do, discard 1 card.
+*StockHealer
+EndCard
+
+Character: ZLS/W93-047
+Name Sakura Minamoto
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Saga
+Trait2 Music
+Combo Relaxing in Casual Wear
+*Healer
+Auto: OnAttack
+{
+    If Climax Relaxing in Casual Wear && StageContains 1 Other && HasTrait Saga
+    {
+        PayCost 1 Discard 1 Any
+        {
+            Question_Obvious Deal 1 damage to your opponent?
+            If Yes
+            {
+                TargetLocation OpponentDeck
+                SetXValue TargetCount
+                Burn 1
+                TargetLocation OpponentDeck
+                If Not Compare X TargetCount Exactly && LastDamageCanceled
+                {
+                    Question_Obvious Deal 2 damage to your opponent?
+                    If Yes
+                    {
+                        Burn 2
+                        If LastDamageCanceled
+                        {
+                            Question_Obvious Put the top 3 card of your opponent's deck in their clock ?
+                            If Yes
+                            {
+                                Repeat 3
+                                {
+                                    TargetTop OpponentDeck 1
+                                    MoveCard OpponentClock
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(1) Discard 1 card] When this card attacks, if "Relaxing in Casual Wear" is in your climax area and you have another «Saga» character, you may pay the cost. If you do, you may deal 1 damage to your opponent. If that damage is cancelled, you may deal 2 damage to your opponent. If that damage is cancelled, you may put the top 3 cards of your opponent's deck in their clock.
+EndCard
+
+Character: ZLS/W93-048
+Name On Her Way Home, Sakura
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnOtherOpponentReversed
+{
+	*GiveCharacterPower(500,Saga)
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your «Saga» characters and that character gets +500 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 5
+	TargetBrainstormed
+	NarrowTargets NameEquals Revenge on Fate
+	SetXValue TargetCount
+	Repeat X
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 5 cards from the top of your deck and put them into the waiting room. For each "Revenge on Fate" revealed, choose up to 1 character in your waiting room and return it to your hand.
+*Act1Rest2SalvageBrainstorm(Any)
+EndCard
+
+Character: ZLS/W93-049
+Name Best Live, Tae
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && HasTrait Saga
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a «Saga» character, choose 1 of your character and that character gets +2000 until end of turn.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards from your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: ZLS/W93-050
+Name "Franchouchou" Tae
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*ClimaxExchange
+EndCard
+
+Character: ZLS/W93-051
+Name "Franchouchou" Sakura
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Relaxing in Casual Wear
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Saga
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Saga» character, this card gets +2000 power until end of turn.
+Auto: OnSpecificClimaxPlay Relaxing in Casual Wear
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchWaitingRoom IsCharacter && HasTrait Saga
+			}
+			Text Auto: When this card's battle opponent becomes reverse, choose up to 1 «Saga» character in your waiting room and return it to your hand.
+		}
+		GainEffect
+		{
+			Auto: StartMyEncoreStep
+			{
+				If LocationContainsOrLess Memory 2 Any
+				{
+					TargetSelf
+					MoveCard memory
+				}
+			}
+			Text Auto: At the start of your encore step, if you have 2 or less cards in memory, put this card in your memory.
+		}
+	}
+}
+Text Auto: CxCombo When "Relaxing in Casual Wear" is placed in your climax area, if this is in your center stage, this card gets the following 2 abilities until end of turn. "Auto:When this card's battle opponent becomes reverse, choose up to 1 «Saga» character in your waiting room and return it to your hand." "Auto:At the start of your encore step, if you have 2 or less cards in memory, put this card in your memory."
+EndCard
+
+Character: ZLS/W93-052
+Name Best Live, Sakura
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Relaxing in Casual Wear
+Auto: StartAttackPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals Revenge on Fate
+	{
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*GlobalPower(2000,Saga)
+		}
+	}
+}
+Text Auto: At the start of your attack phase, if "Revenge on Fate" is in your waiting room, this gains the following ability until the end of your opponent's next turn. "Cont:All of your other «Saga» characters get +2000 power."
+Auto: OnSpecificClimaxPlay Relaxing in Casual Wear
+{
+	If StageContains 1 Other && HasTrait Saga &&& LocationContains Level 1 NameEquals Revenge on Fate
+	{
+		PayCost 1
+		{
+			TargetLocation Memory
+			NarrowTargets NameEquals "Franchouchou" Sakura
+            SetXValue TargetCount
+			Peek OpponentDeck X
+			Message Choose cards to put on top of your opponent's deck
+			ChooseCardsFromTargets 0 X Any
+			MoveCard OpponentDeck
+			Reorder
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo MEMORY EXPERIENCE[(1)] When "Relaxing in Casual Wear" is placed in your climax area, if you have another «Saga» character and you have "Revenge on Fate" in your level zone, you may pay the cost. If you do, look at up to the top X cards of your opponent's deck, choose up to X cards among them, put them on top of your opponent's deck in any order and put the rest in your waiting room. X equals to the number of "'Franchouchou' Sakura" in your memory.
+EndCard
+
+Character: ZLS/W93-053
+Name Best Live, Yugiri
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+	If MyTurn && LocationContains Memory 2 NameEquals Revenge on Fate
+	{
+		GainPower 5000
+	}
+}
+Text Cont: MEMORY During your turn, if there are 2 or more "Revenge on Fate" in your memory, this card gets +5000 power.
+Auto: OnReverseOpponent
+{
+	Question Put "Best Live, Yugiri" into memory?
+	If Yes
+	{
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals Best Live, Yugiri
+				FirstTarget
+				If HasTarget
+				{
+					Message "Best Live, Yugiri" returns from memory.
+					PlaceOnStage false true true false
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Best Live, Yugiri" in your memory, and put it on any position of your stage.
+Auto: OnPlay
+{
+	If LocationContains Level 1 NameEquals Revenge on Fate &&& StageContains 2 Other && HasTrait Saga
+	{
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Saga
+		MoveCard Stock
+	}
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, if the number of other «Saga» characters you have is 2 or more and there is a "Revenge on Fate" in your level zone, you may choose a «Saga» character in your waiting room and put that character in your stock.
+EndCard
+
+Character: ZLS/W93-054
+Name "Franchouchou" Saki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets CanBeChosen
+	If HasTarget
+	{
+		Question Return an opponent's character to hand ?
+		If Yes
+		{
+			ChooseCharacterFromTargets Choose an opponent's character to return to hand.
+			MoveCard Hand
+		}
+	}
+	Question Discard a card to return an opponent's character to hand ?
+	If yes
+	{
+		ForcePayCost Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			NarrowTargets CanBeChosen
+			If HasTarget
+			{
+				ChooseCharacterFromTargets Choose an opponent's character to return to hand.
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: When this card is placed to the stage from your hand, choose up to 1 of your opponent's characters and return that character to their hand. You may discard 1 card. if you do, choose 1 of your opponent's characters and return that character to their hand
+Auto: OnDirectAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [(1) Discard 1 card] When this card direct attacks, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: ZLS/W93-055
+Name Legendary Oiran, Yugiri
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Saga
+Trait2 Music
+Combo Vacationing in Swimsuits
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && HasTrait Saga || NameEquals Revenge on Fate
+	{
+		Burn 1
+	}
+}
+Text Auto: When this card is placed to the stage from your hand, reveal the top card of your deck. If that card is either a «Saga» character or "Revenge on Fate", you may deal 1 damage to your opponent.
+Auto: OnAttack
+{
+	If Climax Vacationing in Swimsuits
+	{
+		PayCost 2
+		{
+			Burn 1
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 3000
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Vacationing in Swimsuits" is in your climax area, you may pay the cost. If you do, deal 1 damage to your opponent and this card gets +3000 power until the end of your opponent's next turn.
+EndCard
+
+Character: ZLS/W93-056
+Name Not Giving Up, Sakura
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*RedLevel0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Revenge on Fate
+	}
+}
+Text Auto: [Discard 1 card] When this card is placed to the waiting room from your stage, you may pay the cost. If you do, choose 1 "Revenge on Fate" in your waiting room and return it to your hand.
+EndCard
+
+Character: ZLS/W93-057
+Name Sparkling Stage, Yugiri
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Standby
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When your character's trigger check reveals a climax with standby in its trigger icon, you may draw 1 card. If you do, discard 1 card.
+Act: RestSelf
+{
+	*GiveCharacterPower(1500,Saga)
+}
+Text Act: [Rest this] Choose 1 of your «Saga» Characters, and that Character gains +1500 Power for the turn.
+EndCard
+
+Character: ZLS/W93-058
+Name Kotaro Tatsumi
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+	If Phase Main
+	{
+		PayCost Discard 1 Compare ThatCardsLevel 1 OrMore
+		{
+			SetXValue MyLevel
+			SearchLocationForTargets WaitingRoom 1 1 && Compare ThatCardsLevel X OrLess
+			SaveTargets
+			If Compare TargetCardsCost CardsInStock OrLess
+			{
+				LoadTargets
+				SetXValue TargetCardsCost
+				TargetTop Stock X
+				MoveCard WaitingRoom
+				LoadTargets
+				PlaceOnStage False True True False
+			}
+		}
+	}
+}
+Text Auto: [Discard 1 level 1 or higher card] During your main phase, when this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 character with level equal to or lower than your level in your waiting room and, during that main phase, you may play that card from your waiting room without fulfilling color requirements (If cost is needed to play the card, pay the cost).
+EndCard
+
+Character: ZLS/W93-059
+Name the World Outside, Yugiri
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Guided Encounter
+Auto: OnAttack
+{
+	If Climax Guided Encounter && StageContains 2 Other && HasTrait Saga
+	{
+	    RevealExactly Deck 2
+	    NarrowTargets IsCharacter || IsEvent
+	    If HasTarget
+	    {
+            OpponentChooseCardsFromTargets 1 1 Any
+            MoveCard Hand
+	    }
+        PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Guided Encounter" is in your climax area and the number of other «Saga» characters you have is 2 or more, reveal the top 2 cards of your deck, your opponent chooses a character or an event among those cards, add it to your hand and put the rest in the waiting room.
+EndCard
+
+Character: ZLS/W93-060
+Name Jumping In, Tae
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Saga
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If the number of other «Saga» characters you have is 2 or more, this card gets +4000 power.
+Auto: OnOpponentBrainstormSuccess
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Auto: Whenever your opponent's "BRAINSTORM" sends 1 or more climax in the waiting room, choose 1 of your characters and that character gets +2000 power until end of turn.
+EndCard
+
+Character: ZLS/W93-061
+Name Before Encore, Sakura
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Kagayaite
+*500Assist
+Auto: StartMyEncoreStep
+{
+	If Climax Kagayaite
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Saga
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Kagayaite" from your climax area in the waiting room] At the start of your encore step, you may pay the cost. If you do, choose a «Saga» character in your waiting room and return it to your hand.
+EndCard
+
+Character: ZLS/W93-062
+Name Sudden Zombie Reveal, Saki
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveAll
+{
+    If Other && InLocation MiddleCenterStage
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your turn, your other character in the middle position of your center stage gets +1000 power.
+*OnAttackGivePower(1500,Saga)
+EndCard
+
+Character: ZLS/W93-063
+Name Someone to Express Her Feelings to, Saki
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If LocationContainsOrLess Stock 2 Any
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If you have 2 or fewer cards in stock, this card gets +1500 power.
+EndCard
+
+Character: ZLS/W93-064
+Name Day of the New Beginning, Yugiri
+Color R
+Level 1
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Saga
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			IfTarget OnStage
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [(1) Put this card in the waiting room] When your other «Saga» character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+Backup 1500
+EndCard
+
+Character: ZLS/W93-065
+Name Spending Her Rest Life, Yugiri
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GlobalPower(500,Saga)
+Auto: StartClimaxPhase
+{
+    *GiveCharacterPower(1000,Any)
+}
+Text Auto: At the start of your climax phase, choose 1 of your characters and that character gets +1000 Power until end of turn.
+EndCard
+
+Character: ZLS/W93-066
+Name What We Can Do, Sakura
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GainPowerForEachOther(500,Saga)
+Auto: OnReverseOpponent
+{
+    Peek Deck 2
+    Reorder
+    EndPeek
+}
+Text Auto: When this card's battle opponent becomes reverse, look at up to 2 cards from the top of your Library, and put them back on top of your Library in any order.
+EndCard
+
+Character: ZLS/W93-067
+Name Final Revenge, Saki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GainPowerWhenAttackingLevel3(6000)
+*OnOtherAttackedSacrificeToGivePower(3000,Saga)
+EndCard
+
+Event: ZLS/W93-068
+Name Revenge on Fate
+Color R
+Level 1
+Cost 1
+DeckLimit 7
+Cont: InHand
+{
+    GainSpecialEffect IgnoreColorRequirement
+}
+Effect: 
+{
+    RevealUpTo Deck 3
+    ChooseCardsFromTargets 0 1 HasTrait Saga && IsCharacter
+    Reveal
+    MoveCard Hand
+    PutTheRestIntoTheWaitingRoom
+    MultipleChoiceQuestion Choose an effect to perform once.\n1: You may discard 1 «Saga» character. If you do, return this card to your hand.\n2: You may choose a card in your level zone and put it in your waiting room. If you do, put this card in your level zone.\n3: Put this card in the waiting room.\n4: Put this card in your memory.|1|2|3|4
+    If Answer 0
+    {
+        PayCost Discard 1 HasTrait Saga
+        {
+            TargetSelf
+            MoveCard Hand
+        }
+    }
+    If Answer 1
+    {
+        SearchLocationForTargets Level 0 1 Any
+        If HasTarget
+        {
+            SaveTargets
+            TargetSelf
+            AddSavedToCurrentTargets
+            Exchange
+            TargetSelf
+            RemoveCurrentFromSavedTargets
+            LoadTargets
+            MoveCard WaitingRoom
+        }
+    }
+    If Answer 2
+    {
+        //Nothing to do
+    }
+    If Answer 3
+    {
+        TargetSelf
+        MoveCard Memory
+    }
+}
+Text You may have up to 7 copies of cards with the same name as this card. You may play this card from your hand without fullfilling color requirement. Look at up to the top 3 cards of your deck, choose to 1 «Saga» character among them, reveal it, put it in your hand, put the rest in the waiting room and choose 1 of the following 4 effects and perform it. "You may discard 1 «Saga» character. If you do, return this card to your hand." "You may choose 1 card in your level zone and put it in the waiting room. If you do, put this card in your level zone." "Put this card in the waiting room." "Put this card in your memory."
+EndCard
+
+Climax: ZLS/W93-069
+Name Relaxing in Casual Wear
+*DoorClimax
+EndCard
+
+Climax: ZLS/W93-070
+Name Kagayaite
+*DoorClimax
+EndCard
+
+Climax: ZLS/W93-071
+Name Vacationing in Swimsuits
+*StandbyClimax
+EndCard
+
+Climax: ZLS/W93-072
+Name Guided Encounter
+*StandbyClimax
+EndCard
+
+Character: ZLS/W93-073
+Name Franchouchou Number 1, Sakura Minamoto
+Color B
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*OnPlayGainPower(4500)
+Auto: OnPlay
+{
+    If LocationContainsOrLess Memory 2 Any
+    {
+        Message Choose up to 1 "Franchouchou" Sakura to put in memory.
+        SearchLocationForTargets WaitingRoom 0 1 NameEquals "Franchouchou" Sakura
+        If HasTarget
+        {
+            MoveCard Memory
+        }
+    }
+}
+Text Auto: When this card is placed ont the stage from your hand, if you have 2 or less cards in memory, you may choose 1 "'Franchouchou' Sakura" in your waiting room and put it in your memory.
+Auto: OnReverseOpponent
+{
+    If PlayedThisTurn
+    {
+        PayCost 1
+        {
+            RevealExactly Deck 2
+            NarrowTargets IsCharacter || IsEvent
+            If HasTarget
+            {
+                OpponentChooseCardsFromTargets 1 1 Any
+                MoveCard Hand
+            }
+            PutTheRestIntoTheWaitingRoom
+        }
+    }
+}
+Text Auto: [(1)] During the turn this card has been placed to the stage from your hand, when this card's battle opponent becomes reverse, you may pay the cost. If you do, reveal the top 2 cards of your deck, your opponent chooses a character or an event among those cards, add it to your hand and put the rest in the waiting room.
+EndCard
+
+Character: ZLS/W93-074
+Name Legendary Heisei Idol, Ai Mizuno
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Saga
+Trait2 Music
+Combo Pretty Bride
+Auto: OnPlay|PlacedBy Best Live, Junko
+{
+    *OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by the Auto: ability of your "Best Live, Junko", you may put the top card of your clock into the waiting room.
+Auto: OnSpecificClimaxPlay Pretty Bride
+{
+    If InLocation CenterStage && StageContains 2 Other && HasTrait Saga
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1000 power and the following ability. "[A] [(1) Discard 1 card] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 3 damage to your opponent."
+        GainPower 1000
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                PayCost 1 Discard 1 Any
+                {
+                    Burn 3
+                }
+            }
+            Text Auto: [(1) Discard 1 card] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 3 damage to your opponent.
+        }
+    }
+}
+Text Auto: CxCombo When "Pretty Bride" is placed in your climax area, if this card is in center stage and the number of your other «Saga» characters is 2 or more, choose 1 of your characters and that character gets +1000 power and the following ability until end of turn. "Auto:[(1) Discard 1 card] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 3 damage to your opponent."
+EndCard
+
+Character: ZLS/W93-075
+Name Legendary Genius Child Actor, Lily
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchLocationForTargets Deck 0 1 IsCharacter && HasTrait Saga && Compare ThatCardsCost 0 OrLess && Compare ThatCardsLevel MyLevel OrLess
+        If HasTarget
+        {
+            PlaceOnStage false true true false
+        }
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 cost 0 or less «Saga» character whose level is equal or lower than yours, put it in any position of your stage and shuffle your deck.
+Auto: OnOpponentClimaxPlay
+{
+    Question Put this card in stock ?
+    If Yes
+    {
+        TargetSelf
+        MoveCard Stock
+    }
+}
+Text Auto: When your opponent places a climax card in their climax area, you may put this card in your stock.
+EndCard
+
+Character: ZLS/W93-076
+Name "Franchouchou" Ai
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Mezame RETURNER
+Cont: GiveSelf
+{
+    If AllYourCharacters HasTrait Saga
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If all your characters are «Saga», this card gets +1000 power.
+Auto: OnSpecificClimaxPlay Mezame RETURNER
+{
+    If InLocation CenterStage && StageContains 1 Other && HasTrait Saga
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give the following effect. "[A] When this card's battle opponent becomes reverse, search your deck for up to 1 «Saga» character, reveal it, add it to your hand and shuffle your deck."
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                SearchDeck HasTrait Saga && IsCharacter
+            }
+            Text Auto: When this card's battle opponent becomes reverse, search your deck for up to 1 «Saga» character, reveal it, add it to your hand and shuffle your deck.
+        }
+
+    }
+}
+Text Auto: CxCombo When "Mezame RETURNER" is placed in your climax area, if this card is in center stage and you have another «Saga» haracter, choose 1 of your characters and that character gains the following ability until end of turn. "Auto:When this card's battle opponent becomes reverse, search your deck for up to 1 «Saga» character, reveal it, add it to your hand and shuffle your deck."
+EndCard
+
+Character: ZLS/W93-077
+Name Warm Cheers, Ai
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*Level3Assist
+Act: RestSelf
+{
+    DrawCard
+    Discard 1 Any
+}
+Text Act: [Rest this card] Draw 1 card and discard 1 card.
+EndCard
+
+Character: ZLS/W93-078
+Name "Franchouchou" Lily
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: StartAttackPhase
+{
+    If LocationContains WaitingRoom 1 NameEquals Revenge on Fate
+    {
+        TargetSelf
+        GainPower 7500
+    }
+}
+Text Auto: At the start of your attack phase, if "Revenge on Fate" is in your waiting room, this card gets +7500 power until end of turn.
+Auto: OnAttack
+{
+    PayCost Resonate Revenge on Fate
+    {
+        MultipleChoiceQuestion Choose an effect to perfrom.\n1: This card gets +2000 power until end of turn.\n2:You may choose a «Saga» character in your waiting room and return it to your hand. If you do, discard 1 card.|1|2
+        If Answer 0
+        {
+            TargetSelf
+            GainPower 2000
+        }
+        If Answer 1
+        {
+            SearchLocationForTargets WaitingRoom 0 1 HasTrait Saga && IsCharacter
+            If HasTarget
+            {
+                MoveCard Hand
+                Discard 1 Any
+            }
+        }
+    }
+}
+Text Auto: RESONATE [Reveal 1 "Revenge on Fate" in your hand] When this card attacks, you may pay the cost. If you do, choose 1 of the following 2 effects and perform it once. "This card gets +2000 power until end of turn." "You may choose a «Saga» character in your waiting room and return it to your hand. If you do, discard 1 card."
+EndCard
+
+Character: ZLS/W93-079
+Name Legendary Tae Yamada
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    GainPower 0
+    //Joke effect, left it to avoid confusion between picture and number of effects
+}
+Text Cont: If the local date is March 8th and both you and your Opponent are physically in the Saga Prefecture, this gains +10000 Power.
+Auto: OnPlay
+{
+    PayCost Rest 1 CardPosition Stand
+    {
+        TargetLocation OpponentWaitingRoom
+        Message Choose a climax card to not return to your deck.
+        OpponentChooseCardsFromTargets 0 1 IsClimax
+        ReverseTargets OpponentWaitingRoom
+        MoveCard OpponentDeck
+        ShuffleLocation OpponentDeck
+    }
+}
+Text Auto: [Rest 1 of your standing characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent chooses 1 climax card in their waiting room, returns all cards in their waiting room except the chosen card to their deck and they shuffle their deck.
+Auto: OnAttack
+{
+    PayCost 1 Discard 1 Any
+    {
+        TargetLocation Stage
+        NarrowTargets HasTrait Saga
+        ChooseCharactersFromTargets 0 3 Choose characters to give +500 power and +1 soul.
+        GainPower 500
+        GainSoul 1
+    }
+}
+Text Auto: [(1) Discard 1 card] When this card attacks, you may pay the cost. If you do, choose up to 3 of your «Saga» characters and those characters get +500 power and +1 soul until end of turn.
+EndCard
+
+Character: ZLS/W93-080
+Name Heartful Gratitude, Sakura
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*OnPlayGivePower(1500,Saga)
+*OnAttackGivePower(1500,Saga)
+EndCard
+
+Character: ZLS/W93-081
+Name Before Encore, Ai
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If StageContainsOrLess 0 Other
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have no other characters, this gets +2000 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: ZLS/W93-082
+Name Sparkling Stage, Tae
+Color B
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*BackupBonus1000(Saga)
+Backup 1000
+EndCard
+
+Character: ZLS/W93-083
+Name Cost of Failed Concert, Ai
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: StartAttackPhase|StartOpponentAttackPhase
+{
+    If LocationContains WaitingRoom 1 NameEquals Revenge on Fate
+    {
+        TargetSelf
+        GainPower 500
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                Question_Obvious Put the top card of your deck in stock ?
+                If Yes
+                {
+                    TargetTop Deck 1
+                    MoveCard Stock
+                }
+            }
+            Text Auto: When this card's battle opponent becomes reverse, you may put the top card of your deck in your stock.
+        }
+    }
+}
+Quick
+Text Auto: At the start of any player's attack phase, if "Revenge on Fate" is in your waiting room, this card gets +500 power and the following ability until end of turn. "Auto:When this card's battle opponent becomes reverse, you may put the top card of your deck in your stock."
+EndCard
+
+Character: ZLS/W93-084
+Name Call & Response, Tae
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*PowerOnMyTurn(1000)
+*OnAttackGivePowerForEachOther(500,Saga)
+EndCard
+
+Character: ZLS/W93-085
+Name Before Encore, Lily
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Saga
+Trait2 Music
+*EarlyPlay2OrLessClimax
+*GainPowerWithEnoughCharacters(2000,2,Saga)
+Auto: OnPlay
+{
+    If StageContains 2 Other && HasTrait Saga
+    {
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            Cont: GiveFacing
+            {
+                LoseSoul 2
+            }
+            Text Cont: The character facing this card gets -2 souls.
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Saga» characters you have is 2 or more, this card gets the following ability until the end of your opponent's next turn. "Cont:The character facing this card gets -2 souls."
+EndCard
+
+Character: ZLS/W93-086
+Name Continuing Her Revenge, Sakura
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*PowerInMiddle(2000)
+*GiveNamePower(1000,Munching\, Tae)
+*OnPlayTradeClimaxForCharacter(Saga)
+EndCard
+
+Character: ZLS/W93-087
+Name Moving Words, Ai
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*OnPlayReorderTop2
+EndCard
+
+Character: ZLS/W93-088
+Name Extremely Lucky, Tae
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: StartClimaxPhase
+{
+    *GiveCharacterPower(1000,Any)
+}
+Text Auto: At the start of your climax phase, choose 1 of your «Saga» characters and that character gets +1000 power until end of turn.
+*Act1Rest2SearchBrainstorm(Saga)
+EndCard
+
+Character: ZLS/W93-089
+Name Something She Doesn't Have, Lily
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Saga && IsCharacter
+    {
+        TargetSelf
+        GainSpecialEffect FreeSideAttack
+    }
+}
+Text Auto: When this card is placed on the stage from your hand or waiting room, reveal the top card of your deck. If that card is a «Saga» character, this character's soul does not decrease by side attacking until end of turn.
+*OnAttackGivePowerForEachOther(500,Saga)
+EndCard
+
+Character: ZLS/W93-090
+Name Doing Her Own Makeup, Tae
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Motivation Is Important
+Auto: OnAttack
+{
+    If Climax Motivation Is Important && StageContains 1 Other && HasTrait Saga
+    {
+        Repeat 2
+        {
+            MultipleChoiceQuestion Choose a number|0|1|2
+            Mill 1
+            SetXValue TargetCardsLevel
+            If Compare Answer X Exactly
+            {
+                Question_Obvious Put the top card of your deck in stock ?
+                If Yes
+                {
+                    TargetTop Deck 1
+                    MoveCard Stock
+                }
+            }
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Motivation Is Important" is in your climax area and you have another «Saga» character, perform the following effect twice. "Declare a number between 0, 1 and 2. Put the top card of your deck in the waiting room. If the Level of that card is the same as the number you declared, you may put the top card of your deck in your stock."
+EndCard
+
+Character: ZLS/W93-091
+Name Pajama Look, Ai
+Color B
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GlobalPower(500,Saga)
+Auto: StartAttackPhase
+{
+    If LocationContains WaitingRoom 2 NameEquals Revenge on Fate
+    {
+        TargetLocation Stage
+        NarrowTargets HasTrait Saga
+        ChooseCharacterFromTargets Choose characters to give +2500 power until the end of your opponent's next turn.
+        GainPower 2500
+    }
+}
+Text Auto: At the start of your attack phase, if you have 2 or more "Revenge on Fate" in the waiting room, choose 1 of your «Saga» characters and that character gets +2500 power until the end of your opponent's next turn.
+EndCard
+
+Character: ZLS/W93-092
+Name Munching, Tae
+Color B
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Saga
+Trait2 Music
+EndCard
+
+Character: ZLS/W93-093
+Name Doing Her All Even While Risking Her Life, Sakura
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Saga
+    {
+        Question_Obvious Put a «Saga» character from your waiting room to stock ?
+        If Yes
+        {
+            SearchLocationForTargets WaitingRoom 0 1 HasTrait Saga && IsCharacter
+            If HasTarget
+            {
+                MoveCard Stock
+            }
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Saga» characters you have is 4 or more, you may choose 1 «Saga» character in your waiting room and put it in your stock.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: ZLS/W93-094
+Name Running Errands, Tae
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Unexpected Errand Running
+*EarlyPlayInLevel(Revenge on Fate)
+Auto: OnAttack
+{
+    If Climax Unexpected Errand Running && StageContains 2 Other && HasTrait Saga &&& LocationContains WaitingRoom 1 NameEquals Revenge on Fate
+    {
+        PayCost Discard 1 IsCharacter && HasTrait Saga
+        {
+            TargetSelf
+            GainPower 2500
+            Peek Deck 2
+            Question Draw those cards ?
+            If Yes
+            {
+                MoveCard Hand
+            }
+            Else
+            {
+                PutTheRestIntoTheWaitingRoom
+                *OptionalDraw
+                *OptionalDraw
+            }
+        }
+    }
+}
+Text Auto: CxCombo [Discard 1 «Saga» character] When this card attacks, if "Unexpected Errand Running" is in your climax area, the number of other «Saga» characters you have is 2 or more and you have 1 "Revenge on Fate" in the waiting room, you may pay the cost. If you do, this card gets +2500 power until end of turn, look at up to the top 2 cards of your deck and choose 1 of the following 2 effects and perform it. "Put those cards in your hand." "Put those cards in the waiting room. If you do, draw up to 2 cards."
+EndCard
+
+Event: ZLS/W93-095
+Name Kotaro's Piggy Bank
+Color B
+Level 2
+Cost 1
+Counter
+Requirement StageContains 1 HasTrait Saga
+Effect: 
+{
+    PayCost Discard 1 Climax
+    {
+        TargetLocation AnyInBattle
+        ChooseCharacterFromTargets Choose a character in battle to give the following effect. "[C] This card cannot deal damage to players."
+        GainSpecialEffect CannotDealDamage
+    }
+}
+Text [Counter] If you don't have a «Saga» Character, this card cannot be played from hand. You may choose a Climax from your hand and place it in the Waiting Room. If so, choose a Character in Battle, and for the turn that Character gains the following ability. "Cont:This card cannot deal damage to players."
+EndCard
+
+Event: ZLS/W93-096
+Name Red Comb in Memories
+Color B
+Level 2
+Cost 1
+Requirement StageContains 1 HasTrait Saga
+Effect: 
+{
+    SearchWaitingRoom IsEvent
+}
+Text If you don't have a «Saga» character, this card cannot be played from hand. Choose 1 event in your waiting room and return it to your hand.
+EndCard
+
+Climax: ZLS/W93-097
+Name Pretty Bride
+*GateClimax
+EndCard
+
+Climax: ZLS/W93-098
+Name Mezame RETURNER
+*BookClimax
+EndCard
+
+Climax: ZLS/W93-099
+Name Unexpected Errand Running
+*GateClimax
+EndCard
+
+Climax: ZLS/W93-100
+Name Motivation Is Important
+*BookClimax
+EndCard
+
+Character: ZLS/W93-101
+Name "Revenge" Sakura
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*OnPlayScry
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetSelf
+        GainEffect
+        {
+            *RedCost0Bomb
+        }
+    }
+}
+Text Auto: When this card is placed to the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, this card gets the following ability until end of turn. "Auto: When this card becomes reversed, if this card's battle opponent is cost 0 or lower you may reverse that character."
+EndCard
+
+Character: ZLS/W93-102
+Name "Revenge" Saki
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetSelf
+        GainSoul 2
+    }
+}
+Text Auto: When this card is placed to the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, this card gets +2 soul until end of turn.
+Auto: OnDamageCancel
+{
+    Question Return this card to your hand ?
+    If Yes
+    {
+        TargetSelf
+        MoveCard Hand
+    }
+}
+Text Auto: When damage dealt by this card is canceled, you may put into your hand.
+EndCard
+
+Character: ZLS/W93-103
+Name "Revenge" Ai
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets CanBeChosen
+        If HasTarget
+        {
+            ChooseCharacterFromTargets Choose an opponent character to give -1000 power.
+            LosePower 1000
+        }
+    }
+
+}
+Text Auto: When this card is placed to the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, choose 1 of your opponent's center stage characters and that character gets -1000 power until end of turn.
+Auto: OnReversed
+{
+    PayCost 1 SendSelf Clock
+    {
+        *Check3Add1(Any)
+    }
+}
+Text Auto: [(1) Put this card in your clock] When this card becomes reverse in battle, you may pay the cost. If you do, look at up to the top 3 cards of your deck, choose up to 1 character among them, show it to your opponent, put it in your hand and put the remaining cards in the waiting room.
+EndCard
+
+Character: ZLS/W93-104
+Name "Revenge" Junko
+Color G
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetSelf
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed to the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, put this card in your stock.
+EndCard
+
+Character: ZLS/W93-105
+Name "Revenge" Yugiri
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        PayCost Discard 1 Any
+        {
+            SearchWaitingRoom IsCharacter
+        }
+    }
+}
+Text Auto: [Discard 1 card] When this card is placed to the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, you may pay the cost. If you do, choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: ZLS/W93-106
+Name "Revenge" Lily
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        TargetSelf
+        GainPower 3000
+    }
+}
+Text Auto: When this card is placed to the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, this card gets +3000 power until end of turn.
+Auto: StartOpponentDrawPhase
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 1 OrMore
+    {
+        Question Return this card to your hand ?
+        If Yes
+        {
+            TargetSelf
+            MoveCard Hand
+        } 
+    }
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: ZLS/W93-107
+Name "Revenge" Tae
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        *GiveCharacterPower(1500,Any)
+    }
+}
+Text Auto: When this card is placed to the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 climax among them, choose 1 of your characters, and that character gets +1500 power until end of turn.
+*GreenLevel0Bomb
+EndCard
+
+Character: ZLS/W93-P01
+Name Ai & Junko
+JPName 愛＆純子
+Color G
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If MyTurn && AllYourCharacters HasTrait Saga
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your turn, if all your characters are «Saga», this card gets +2000 power.
+EndCard
+
+Character: ZLS/W93-P02
+Name Past and Present Idols, Ai & Junko
+JPName 今も昔もアイドル 愛＆純子
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*PowerOnMyTurn(1000)
+*OnPlayGivePower(2000,Saga)
+EndCard
+
+Character: ZLS/W93-P03
+Name Zombie No.1, Sakura
+JPName ゾンビィ１号 さくら
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GlobalPower(500,Saga)
+Cont: GiveAllYourCards
+{
+    If NameEquals Revenge on Fate
+    {
+        GainTriggerIcon Soul
+    }
+}
+Text Cont: All your "Revenge on Fate" in all your other areas get a Soul trigger icon.
+Auto: StartMainPhase
+{
+    If AllYourCharacters HasTrait Saga
+    {
+        PayCost Discard 1 NameEquals Revenge on Fate
+        {
+            SearchWaitingRoom HasTrait Saga && IsCharacter
+        }
+    }
+}
+Text: [Discard 1 "Revenge on Fate"] At the beginning of your main phase, if all your characters are «Saga» you may pay the cost, if you do, choose a «Saga» character in your waiting room and return it to your hand.
+EndCard
+
+Character: ZLS/W93-T01
+Name Debt of EFS Live, Ai
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+    IfOther HasTrait Saga
+    {
+        PeekTop Deck
+        EndPeek
+    }
+}
+Text Auto: When your other «Saga» character or this card is placed on the stage from your hand, you may look at the top card of your deck.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: ZLS/W93-T02
+Name "Taiga yo Tomo ni Naite Kure" Junko
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GlobalPower(500,Saga)
+*DropSearch(Saga)
+EndCard
+
+Character: ZLS/W93-T03
+Name "Taiga yo Tomo ni Naite Kure" Tae
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If LocationContainsOrLess Stock 2 Any
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1500 power.
+Auto: OnAttack
+{
+    PayCost 2
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget HasTrait Saga && IsCharacter
+        {
+            TargetSelf
+            GainPower 11000
+        }
+    }
+}
+Text Auto: [(2)] When this card attacks, you may pay the cost. If you do, reveal the top card of your deck. If that card is a «Saga» character, this card gets +11000 power until end of turn.
+EndCard
+
+Character: ZLS/W93-T04
+Name Part-Time Job Life, Ai
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnUseThisCardsBackup
+{
+    If AllYourCharacters HasTrait Saga
+    {
+        Question_Obvious Put the top card of your deck in stock ?
+        If Yes
+        {
+            TargetTop Deck 1
+            MoveCard Stock
+        }
+    }
+}
+Text Auto: When you use this card's "BACKUP", if all your characters are «Saga», you may put the top card of your deck in stock.
+Backup 2000
+EndCard
+
+Character: ZLS/W93-T05
+Name Part-Time Job Life, Junko
+Color G
+Level 1
+Cost 1
+Power 5000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GainPowerWhenOtherAttacks(2000,Saga)
+*HandEncore
+EndCard
+
+Character: ZLS/W93-T06
+Name Acting on Instinct, Tae
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 2 Other && HasTrait Saga
+    {
+        GainPower 4000
+    }
+}
+Text Cont: During your turn, if the number of other «Saga» characters you have is 2 or more, this card gets +4000 power.
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Saga
+    {
+        Question_Obvious Put the top card of your deck in stock ?
+        If Yes
+        {
+            TargetTop Deck 1
+            MoveCard Stock
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Saga» characters you have is 4 or more, you may put the top card of your deck in your stock.
+EndCard
+
+Character: ZLS/W93-T07
+Name "Taiga yo Tomo ni Naite Kure" Ai
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 2 Other && HasTrait Saga
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your turn, if the number of other «Saga» characters you have is 2 or more, this card gets +2000 power.
+Auto: OnThisTriggerCheck
+{
+    IfOther HasTrigger Soul
+    {
+        Burn 3
+        TargetSelf
+        GainPower 2000
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. During the turn this card is placed on the stage from your hand, when this card's trigger check reveals a card with a soul trigger icon, deal 3 damage to your opponent, and this card gets +2000 power until end of turn.
+EndCard
+
+Climax: ZLS/W93-T08
+Name "Taiga yo Tomo ni Naite Kure"
+Color G
+*2SoulClimax
+EndCard
+
+Character: ZLS/W93-T09
+Name Part-Time Job Life, Sakura
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnAttack
+{
+    *ScryToBottom
+}
+Text When this card attacks, look at the top card of your deck and put it either on top or bottom or your deck.
+*BlueLevel0Bomb
+EndCard
+
+Character: ZLS/W93-T10
+Name Part-Time Job Life, Lily
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Auto: OnOtherPlacedOnStageFromHand
+{
+    IfOther NameEquals Part-Time Job Life, Saki
+    {
+        Question_Obvious Put the top card of your deck in stock ?
+        If Yes
+        {
+            TargetTop Deck 1
+            MoveCard Stock
+        }
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When your other "Part-Time Job Life, Saki" is placed on the stage from your hand, you may put the top card of your deck in your stock.
+*BondDiscard(Part-Time Job Life\, Saki)
+EndCard
+
+Character: ZLS/W93-T11
+Name "Taiga yo Tomo ni Naite Kure" Yugiri
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*MillRunner(Saga)
+EndCard
+
+Character: ZLS/W93-T12
+Name Part-Time Job Life, Yugiri
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*OnAttackGivePower(2500,Any)
+EndCard
+
+Character: ZLS/W93-T13
+Name "Taiga yo Tomo ni Naite Kure" Saki
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Saga
+Trait2 Music
+*GainPowerForEachOther(500,Saga)
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Saga
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed to waiting room from the stage, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 «Saga» character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: ZLS/W93-T14
+Name "Taiga yo Tomo ni Naite Kure" Sakura
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+Combo Yume o Te ni, Modoreru Basho mo Nai Hibi o
+Cont: GiveSelf
+{
+    TargetLocation Backstage
+    NarrowTargets HasTrait Saga
+    SetXValue TargetCount
+    MultiplyXValue 500
+    GainPower X
+}
+Text Cont: This card gets +500 power for each of your other «Saga» characters in backstage.
+Auto: OnAttack
+{
+    If Climax Yume o Te ni, Modoreru Basho mo Nai Hibi o && StageContains 1 Other && HasTrait Saga
+    {
+        *Check4Add1(Saga)
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Yume o Te ni, Modoreru Basho mo Nai Hibi o" is in your climax area and you have another «Saga» character, look at up to the top 4 cards from of your deck, choose up to 1 «Saga» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: ZLS/W93-T15
+Name "Taiga yo Tomo ni Naite Kure" Lily
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Saga
+Trait2 Music
+*LevelAssist
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        *Check4Add1(Saga)
+    }
+}
+Text Auto: [Discard 1 card] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 «Saga» character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: ZLS/W93-T16
+Name Part-Time Job Life, Saki
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Saga
+Trait2 Music
+EndCard
+
+Character: ZLS/W93-T17
+Name Zombie Idol, Sakura
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Saga
+Trait2 Music
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait Saga
+    {
+        GainPower 1500
+        GainEffect
+        {
+            Auto: OnSentFromStageToWaitingRoom
+            {
+                PayCost Discard 1 Any
+                {
+                    TargetSelf
+                    MoveCard Hand
+                }
+            }
+            Text Auto: When this card is placed from the stage to the waiting room, discard a card from your hand to the waiting room. If you do, return this card to hand.
+        }
+    }
+}
+Text Cont: If the number of other «Saga» characters you have is 2 or more, this card gets +1500 power and the following ability. "Auto: When this card is placed from the stage to the waiting room, discard a card from your hand to the waiting room. If you do, return this card to hand."
+*Healer
+EndCard
+
+Event: ZLS/W93-T18
+Name Idol Producer
+Color B
+Level 2
+Cost 1
+Effect: 
+{
+    RevealUpTo Deck 3
+    Message Choose up to 3 «Saga» characters.
+    ChooseCardsFromTargets 0 3 HasTrait Saga && IsCharacter
+    MoveCard Hand
+    PutTheRestIntoTheWaitingRoom
+}
+Text Look at up to the top 3 cards of your deck, choose up to 3 «Saga» characters among them, reveal them, put them in your hand, and put the rest into your waiting room.
+EndCard
+
+Climax: ZLS/W93-T19
+Name Yume o Te ni, Modoreru Basho mo Nai Hibi o
+*GateClimax
+EndCard
+
+Climax: ZLS/W93-T20
+Name EFS Live
+*BookClimax
+EndCard
+
+
+
+
+
+
+
+
+
+

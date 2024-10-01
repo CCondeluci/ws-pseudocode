@@ -1,0 +1,302 @@
+Character: KLK/SP03-E01
+Name Family and Bonds, Ryuko & Mako
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Family
+Trait2 Clothes
+Auto: OnCardGainsMarker
+{
+	PayCost 1 Rest 2 CardPosition Stand
+	{
+		*Check4Add1(Family|Clothes)
+	}
+}
+Text Auto: [(1) Rest 2 of your standing characters] This ability activates up to 1 time per turn. When your card is put into the marker area from any zone except the marker area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 《Clothes》 or 《Family》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +500 power
+	GainPower 500
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, it gets +500 power until end of turn.
+EndCard
+
+Character: KLK/SP03-E02
+Name "Life Fiber Synchronize" Senketsu
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Clothes
+Trait2 Blood
+*GlobalPower(500,Clothes|Family)
+Auto: OnPlay
+{
+	Question Marker the top card of your deck?
+	If Yes
+	{
+		Peek Deck 1
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may look at the top card of your deck. If you do, put that card face down underneath this card as a marker.
+Act: SendMarker WaitingRoom
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Act: [Put a marker from underneath this card into your waiting room] Choose 1 of your other characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: KLK/SP03-E03
+Name Scissor Blade Decapitation Mode, Ryuko
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Clothes
+Trait2 Weapon
+Combo Battle of Fate
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +4000 power.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Only Clothing Ryuko Has, Senketsu | "Life Fiber Synchronize" Senketsu
+	If HasTarget
+	{
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you can choose 1 "Only Clothing Ryuko Has, Senketsu" or ""Life Fiber Synchronize" Senketsu" in your waiting room, and put it face down underneath this card as a marker.
+Auto: OnOpponentReverse
+{
+	If Climax Battle of Fate
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Battle of Fate" is in your climax area, you may choose 1 character in your waiting room, and put it into your hand.
+EndCard
+
+Character: KLK/SP03-E04
+Name "Rampage" Ryuko
+Color R
+Level 1
+Cost 1
+Power 7500
+Trait1 Clothes
+Trait2 Weapon
+*CannotSideAttack
+Auto: OnPlay|PlacedBy Encounter with Senketsu, Ryuko
+{
+	Question Reveal the top card of your deck?
+	If Yes
+	{
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 0 OrLess
+		{
+			Question Put the revealed card into your stock?
+			If Yes
+			{
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or by the Auto: effect of "Encounter with Senketsu, Ryuko", you may reveal the top card of your deck. If that card is a level 0 or lower character, you may put that card into your stock.
+Auto: OnReversed
+{
+	TargetSelf
+	MoveCardToBottom Deck
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: KLK/SP03-E05
+Name "Changing Into Senketsu" Ryuko
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Clothes
+Trait2 Weapon
+Combo The time comes when a girl outgrows her sailor uniform
+*EarlyPlay2OrLessClimax
+*OnPlayCheck3
+Auto: OnSpecificClimaxPlay The time comes when a girl outgrows her sailor uniform
+{
+	If InLocation CenterStage
+	{
+		SearchWaitingRoom IsCharacter
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When "The time comes when a girl outgrows her sailor uniform" is placed on your climax area, if this card is in your center stage, choose up to 1 character in your waiting room, return it to your hand, and this card gets +3000 power until end of turn.
+EndCard
+
+Character: KLK/SP03-E06
+Name "Kamui Junketsu" Satsuki
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Clothes
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+*DropSearch(Clothes)
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 《Clothes》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KLK/SP03-E07
+Name For the Survival of the Human Race, Satsuki
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Clothes
+Trait2 Weapon
+*Level3Assist
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Junketsu
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Junketsu" in your waiting room, and put it face down underneath this card as a marker.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther NameEquals Conclusion After Wearing! Ryuko
+	{
+		PayCost SendMarker WaitingRoom
+		{
+			TargetOther
+			SaveTargets
+			Question Marker the top card of your deck?
+			If Yes
+			{
+				Peek Deck 1
+				MarkerTargetsUnderSavedTarget_FaceDown
+			}
+		}
+	}
+}
+Text Auto: [Put 1 marker underneath this card into your waiting room] When your other "Conclusion After Wearing! Ryuko" is placed on the stage from your hand, you may pay the cost. If you do, you may look at the top card of your deck. If you do, put that card underneath that character face down as a marker.
+EndCard
+
+Character: KLK/SP03-E08
+Name Clear Resolution, Satsuki
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Clothes
+Trait2 Weapon
+Combo Battle of Fate
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartOpponentAttackPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals Battle of Fate
+	{
+		GainPower 3000
+	}
+}
+Quick
+Text Auto: CxCombo At the beginning of your opponent's attack phase, if "Battle of Fate" is in your waiting room, this card gets +3000 power until end of turn.
+EndCard
+
+Character: KLK/SP03-E09
+Name For Her Desires, Nui
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Clothes
+Trait2 Eye Patch
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Clothes
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Clothes》 characters, you may put the top card of your deck into your stock.
+Auto: OnOtherReversed
+{
+	IfOther HasMarker && NameContains Ragyo
+	{
+		TargetMyCharacterInBattle
+		SaveTargets
+		PayCost 4 Discard 3 Any
+		{
+			TargetSelf
+			MarkerTargetsUnderSavedTarget_FaceDown
+			TargetOther
+			Stand
+		}
+	}
+}
+Text Auto: [(4) Put 3 cards from your hand into your waiting room & Put this card underneath your character in battle face down as a marker] When your other character in battle with marker and "Ragyo" in its card name becomes reversed, you may pay the cost. If you do, Stand it.
+EndCard
+
+Character: KLK/SP03-E10
+Name Winter Look, Ryuko
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Clothes
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 2 OrMore
+		ChooseCharacterFromTargets Choose a character to get -1 soul
+		LoseSoul 1
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's level 2 or higher characters, it gets -1 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: KLK/SP03-PE03
+Name Unfathomable Mankanshoku Family
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Family
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		GainPower 3500
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card gets +3500 power until end of turn.
+EndCard

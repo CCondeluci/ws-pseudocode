@@ -1,0 +1,1083 @@
+Character: KC/SE28-E01
+Name Wo-class Aircraft Carrier
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Fleet in the Deep Sea
+Trait2 Aircraft Carrier
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fleet in the Deep Sea
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose one of your 《Fleet in the Deep Sea》 characters, it gets +1000 power until end of turn.
+Act: 1 Clock RestSelf
+{
+	SearchDeck HasTrait Fleet in the Deep Sea
+}
+Text Act: [(1) Put the top card of your deck into your clock & Rest this card] Search your deck for up to one 《Fleet in the Deep Sea》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KC/SE28-E02
+Name Northern Princess in the Deep Sea
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Combo Sink!
+Auto: OnSpecificClimaxPlay Sink!
+{
+	If InLocation CenterStage
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 0 OrLess
+		ChooseCharacterFromTargets_Optional
+		MoveCard OpponentWaitingRoom
+		TargetTop Deck 1
+		IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When a card named "Sink!" is placed on your climax area, if this card is in your center stage, choose up to one of your opponent's level 0 or lower characters, put it into his or her waiting room, and reveal the top card of your deck. If that card is a level 0 or lower character, put it into your hand. 
+EndCard
+
+Character: KC/SE28-E03
+Name Final Mode, Northern Princess in the Deep Sea
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets HasTrait Fleet in the Deep Sea
+	SetXValue TargetCount
+	If Compare MyLevel X Exactly
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If all of the cards in your level are 《Fleet in the Deep Sea》 characters, this card gets +1500 power.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 1
+		{
+			TargetBattleOpponent
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [(1)] During the turn that this card was placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: KC/SE28-E04
+Name Ne-class Heavy Cruiser
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Fleet in the Deep Sea
+Trait2 Heavy Cruiser
+*CannotSideAttack
+Auto: OnReversed
+{
+	OpponentSearchLocationForTargets OpponentWaitingRoom 0 1 IsCharacter
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may choose a character in your waiting room, and put it on the top of your deck.
+EndCard
+
+Character: KC/SE28-E05
+Name Midway Princess in the Deep Sea
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fleet in the Deep Sea
+	ChooseCharacterFromTargets
+	GainPower 1500
+}
+Text Act: [(1)] Choose one of your 《Fleet in the Deep Sea》 characters, it gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	Peek Deck 2
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to two cards from the top of your deck, and put them on the top of your deck in the original order.
+*GainPowerWithEnoughCharacters(1000,2,Fleet in the Deep Sea)
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other && Compare ThatCardsLevel 0 OrLess
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other level 0 or lower characters.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Final Mode, Midway Princess in the Deep Sea
+		If HasTarget
+		{
+			RevealTargets
+			PlaceOnStage False True True True
+		}
+	}
+}
+Text Auto: [(1) Put a card from your hand into your waiting room] When this card is put into your waiting room from the stage from your hand, you may pay the cost. If you do, choose a card named "Final Mode, Midway Princess in the Deep Sea" in your waiting room, and put it on any position of your stage as resting.
+EndCard
+
+Character: KC/SE28-E06
+Name Aircraft Carrier Ogre in the Deep Sea
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Fleet in the Deep Sea
+Trait2 Ogre in the Deep Sea
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1(Fleet in the Deep Sea)
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to four cards from the top of your deck, choose up to one 《Fleet in the Deep Sea》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KC/SE28-E07
+Name Armored Aircraft Carrier Ogre in the Deep Sea
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet in the Deep Sea
+Trait2 Ogre in the Deep Sea
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Fleet in the Deep Sea
+	SetXValue TargetCount
+	MultiplyXValue 500
+	ChooseCharacterFromTargets
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your other 《Fleet in the Deep Sea》 characters, it gets +X power until end of turn. X is equal to 500 multiplied by the number of other 《Fleet in the Deep Sea》 characters you have.
+EndCard
+
+Character: KC/SE28-E08
+Name Armored Aircraft Carrier Princess in the Deep Sea
+Color G
+Level 1
+Cost 1
+Power 5500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+*GainPowerForEachOther(500, Fleet in the Deep Sea)
+*HandEncore
+EndCard
+
+Character: KC/SE28-E09
+Name Airfield Princess in the Deep Sea
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Combo I told you… it's hopeless…
+Cont: Assist
+{
+	If HasTrait Fleet in the Deep Sea
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST All of your 《Fleet in the Deep Sea》 characters in front of this card gets +1500 power.
+Auto: OnSpecificClimaxPlay I told you… it's hopeless…
+{
+	PayCost 3
+	{
+		SearchLocationForTargets Clock 1 1 IsCharacter
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo [(3)] When a card named "I told you… it's hopeless…" is placed on your climax area, you may pay the cost. If you do, choose a character in your clock, and return it to your hand.
+EndCard
+
+Character: KC/SE28-E10
+Name Tsu-class Light Cruiser
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Fleet in the Deep Sea
+Trait2 Light Cruiser
+Auto: OnUseAct
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When you use an Act:, choose one of your characters, it gets +1000 power until end of turn.
+Auto: OnOpponentPlacedOnStageFromHand
+{
+	IfOther HasTrait Aircraft Carrier|Aircraft Carrying|Light Aircraft Carrier|Aircraft Carrying Submarine|Armored Aircraft Carrier
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		LoseSoul 1
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When an opponent's character with "Aircraft Carrier" or "Aircraft Carrying" in its trait is placed on the stage from his or her hand, choose one of your opponent's characters, it gets -1 soul until end of turn.
+EndCard
+
+Character: KC/SE28-E11
+Name Ni-Class Destroyer
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet in the Deep Sea
+Trait2 Destroyer
+Auto: OnPlay
+{
+	If Compare CardsInOpponentsStock 1 OrMore
+	{
+		Question Put the top card of your opponent's stock into waiting room?
+		If Yes
+		{
+			TargetTop OpponentStock 1
+			MoveCard OpponentWaitingRoom
+			SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+			RevealTargets
+			MoveCard OpponentStock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your opponent's stock into your opponent's waiting room. If you do, choose a card in your opponent's waiting room, and put it into his or her stock.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Fleet in the Deep Sea
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: When this card attacks, choose one of your other 《Fleet in the Deep Sea》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: KC/SE28-E12
+Name Port Hydro Ogre in the Deep Sea
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Fleet in the Deep Sea
+Trait2 Hydro Ogre in the Deep Sea
+Auto: OnUseThisCardsBackup
+{
+	MillOpponent 3
+}
+Text Auto: When you use this card's "BACKUP", put the top three cards of your opponent's deck into his or her waiting room.
+Backup 3000
+EndCard
+
+Character: KC/SE28-E13
+Name Aircraft Carrier Hydro Ogre in the Deep Sea
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Fleet in the Deep Sea
+Trait2 Hydro Ogre in the Deep Sea
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Fleet in the Deep Sea
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other 《Fleet in the Deep Sea》 characters you have is four or more, you may put the top card of your deck into your stock.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchDeck HasTrait Fleet in the Deep Sea
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to one 《Fleet in the Deep Sea》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KC/SE28-E14
+Name Aircraft Carrier Princess in the Deep Sea
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+*GreenEarlyPlayBomb
+Auto: OnLevelUp
+{
+	GainEffect
+	{
+		Auto: Encore 1
+		{
+		}
+		Text Auto: ENCORE [(1)]
+	}
+}
+Text Auto: When you level up, this card gets "Auto: ENCORE [(1)]" until end of turn.
+EndCard
+
+Character: KC/SE28-E15
+Name Berserker Mode, Port Princess in the Deep Sea
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Combo Nothing… you don't understand anything at all…
+*EarlyPlayInClock(Port Princess in the Deep Sea)
+Auto: OnAttack
+{
+	If Climax Nothing… you don't understand anything at all…
+	{
+		SearchLocationForTargets Clock 0 1 Any
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: When this card attacks, if a card named "Nothing… you don't understand anything at all…" is in your climax area, you may choose a card in your clock, and return it to your hand. If you do, put the top card of your deck into your clock.
+EndCard
+
+Character: KC/SE28-E16
+Name Floating Fortress
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleet in the Deep Sea
+Trait2 Fortress
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchLocationForTargets Clock 1 1 Any
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+*RestGivePower(1500,Fleet in the Deep Sea)
+EndCard
+
+Character: KC/SE28-E17
+Name I-class Destroyer
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet in the Deep Sea
+Trait2 Destroyer
+Army
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets NameEquals I-class Destroyer
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: EXPERIENCE This card gets +2500 power for each card named "I-class Destroyer" in your level.
+EndCard
+
+Character: KC/SE28-E18
+Name So-class Submarine
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet in the Deep Sea
+Trait2 Submarine
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Other
+	{
+		GainPower 1500
+		GainSpecialEffect CannotBeReversedByAutoEffects
+	}
+}
+Text Cont: If you do not have any other characters, this card gets +1500 power and this card cannot become Reversed from your opponent character's Auto: effects.
+EndCard
+
+Character: KC/SE28-E19
+Name Chi-class Torpedo Cruiser
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet in the Deep Sea
+Trait2 Torpedo Cruiser
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		LosePower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a climax, choose one of your opponent's characters, it gets -1000 power until end of turn. 
+EndCard
+
+Character: KC/SE28-E20
+Name Ru-class Battleship
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet in the Deep Sea
+Trait2 Battleship
+Auto: OnPlay
+{
+	TargetLocation OpponentClock
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to 500 multiplied by the number of cards in your opponent's clock.
+EndCard
+
+Character: KC/SE28-E21
+Name Port Princess in the Deep Sea
+Color G
+Level 1
+Cost 0
+Power 6500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Cont: GiveSelf
+{
+	TargetLocation Clock
+	If Compare TargetCount 1 OrLess
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If the number of cards in your clock is one or less, this card cannot attack.
+EndCard
+
+Character: KC/SE28-E22
+Name Final Mode, Midway Princess in the Deep Sea
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Auto: StartDrawPhase
+{
+	If LocationContainsOrLess CenterStage 0 Other
+	{
+		GainPower 4000
+	}
+}
+Quick
+Text Auto: At the beginning of your draw phase, if you do not have any other characters in your center stage, this card gets +4000 power until end of turn.
+Auto: Encore Discard 1 IsColor Green
+{
+}
+Text Auto: ENCORE [Put a green card from your hand into your waiting room] 
+EndCard
+
+Climax: KC/SE28-E23
+Name Sink!
+*BarClimax
+EndCard
+
+Climax: KC/SE28-E24
+Name Nothing… you don't understand anything at all…
+*BarClimax
+EndCard
+
+Climax: KC/SE28-E25
+Name I told you… it's hopeless…
+*GreenStockSoul
+EndCard
+
+Character: KC/SE28-E26
+Name Anchorage Ogre in the Deep Sea
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleet in the Deep Sea
+Trait2 Ogre in the Deep Sea
+*GiveMiddlePower(500,Any)
+*Act1RestSelfSearchBrainstorm(Fleet in the Deep Sea)
+EndCard
+
+Character: KC/SE28-E27
+Name Final Mode, Light Cruiser Ogre in the Deep Sea
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet in the Deep Sea
+Trait2 Ogre in the Deep Sea
+*GainPowerForEachOther(500, Fleet in the Deep Sea)
+*NoEncoreIfReversed
+EndCard
+
+Character: KC/SE28-E28
+Name Battleship Hydro Ogre in the Deep Sea
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Fleet in the Deep Sea
+Trait2 Hydro Ogre in the Deep Sea
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If Not MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Fleet in the Deep Sea
+		SetXValue TargetCount
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your opponent's turn, this card gets +500 power for each of your other 《Fleet in the Deep Sea》 characters.
+*Healer
+EndCard
+
+Character: KC/SE28-E29
+Name Southern Battle Princess in the Deep Sea
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+*GlobalPower(500, Fleet in the Deep Sea)
+*OnPlayCheckTopAddDiscard(Fleet in the Deep Sea)
+EndCard
+
+Character: KC/SE28-E30
+Name Southern Ogre in the Deep Sea
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Fleet in the Deep Sea
+Trait2 Ogre in the Deep Sea
+*GlobalPower(500, Fleet in the Deep Sea)
+Act: RestSelf
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest this card] Draw a card, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: KC/SE28-E31
+Name Anchorage Princess in the Deep Sea
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Auto: OnCardSentFromAToB Hand WaitingRoom
+{
+	IfOther IsCharacter
+	{
+		TargetSelf
+		GainPower 2000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When your character is put into the waiting room from your hand, this card gets +2000 power until end of turn.
+EndCard
+
+Character: KC/SE28-E32
+Name Seaplane Carrier Princess in the Deep Sea
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 4 HasTrait Fleet in the Deep Sea
+	{
+		PayCost 2
+		{
+			*SendEarlyPlayToWaitingRoom
+		}
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", if the number of 《Fleet in the Deep Sea》 characters you have is four or more, you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room.
+Backup 2500
+EndCard
+
+Character: KC/SE28-E33
+Name Isolated Island Ogre in the Deep Sea
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Fleet in the Deep Sea
+Trait2 Ogre in the Deep Sea
+*GlobalPower(1000, Fleet in the Deep Sea)
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Fleet in the Deep Sea
+}
+Text Act: [(2) Rest this card] Search your deck for up to one 《Fleet in the Deep Sea》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KC/SE28-E34
+Name Air Defense Princess in the Deep Sea
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 13000
+Soul 2
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Combo Hehehe… Does it hurt?
+Cont: GiveSelf
+{
+	If InLocation CenterStage &&& Not InLocation MiddleCenterStage
+	{
+		LosePower 4000
+	}
+}
+Text Cont: If this card is in your center stage except the middle position, this card gets -4000 power.
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		TargetLocation LeftCenterStage
+		If Not HasTarget || CardPosition Reverse
+		{
+			LosePower 2000
+		}
+		TargetLocation RightCenterStage
+		If Not HasTarget || CardPosition Reverse
+		{
+			LosePower 2000
+		}
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets -2000 power for each of your other Reversed characters in the center stage or open position of your center stage.
+*OnPlayCheck3
+Auto: OnReverseOpponent
+{
+	If Climax Hehehe… Does it hurt?
+	{
+		PayCost 3 SendClimax WaitingRoom
+		{
+			Stand
+		}
+	}
+}
+Text Auto: [(3) Put a card named "Hehehe… Does it hurt?" from your climax area into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, Stand this card.
+EndCard
+
+Character: KC/SE28-E35
+Name Wa-class Supply Ship
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Fleet in the Deep Sea
+Trait2 Supply Ship
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Fleet in the Deep Sea
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Fleet in the Deep Sea》, this card gets +1000 power.
+Auto: OnAttack
+{
+	PayCost 1 Clock
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1) Put a card from the top of your deck into your clock] When this card attacks, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: KC/SE28-E36
+Name Ka-class Submarine
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet in the Deep Sea
+Trait2 Submarine
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 IsCharacter
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of characters in your opponent's center stage is one or less, choose a cost 0 or lower character in your opponent's center stage, and put it on the bottom of his or her deck.
+EndCard
+
+Character: KC/SE28-E37
+Name Light Cruiser Ogre in the Deep Sea
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet in the Deep Sea
+Trait2 Ogre in the Deep Sea
+Auto: OnPlay
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top card of your deck into your waiting room. If that card is a climax, put this card into your stock.
+Auto: OnFrontalAttacked
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals Final Mode, Light Cruiser Ogre in the Deep Sea
+		If HasTarget
+		{
+			RevealTargets
+			Change
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, choose up to one card named "Final Mode, Light Cruiser Ogre in the Deep Sea" in your hand, and put it on this card's stage position as the defending character.
+EndCard
+
+Character: KC/SE28-E38
+Name Nu-class Light Aircraft Carrier
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Fleet in the Deep Sea
+Trait2 Light Aircraft Carrier
+*BackupBonus1000(Fleet in the Deep Sea)
+Backup 1000
+EndCard
+
+Character: KC/SE28-E39
+Name Re-class Battleship
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Fleet in the Deep Sea
+Trait2 Battleship
+Cont: InHand
+{
+	TargetLocation OpponentStage
+	NarrowTargets HasTrait Fleet Girl
+	If HasTarget
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a 《Fleet Girl》 character, this card gets -1 level while in your hand.
+*GainPowerForEachOther(500, Fleet in the Deep Sea)
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets_Optional
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a climax, you may choose one of your opponent's level 0 or lower characters, and put it on the bottom of his or her deck. 
+EndCard
+
+Character: KC/SE28-E40
+Name Battleship Princess in the Deep Sea
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Combo Please sink!
+Auto: OnSpecificClimaxPlay Please sink!
+{
+	If InLocation CenterStage
+	{
+		PayCost 1 Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsCost 1 OrLess
+			ChooseCharacterFromTargets
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put a card from your hand into your waiting room] When a card named "Please sink!" is placed on your climax area, if this card is in your center stage, you may pay the cost. If you do, choose one of your opponent's cost 1 or lower characters, and put it on the bottom of his or her deck.
+*OnOtherAttackedSacrificeToGivePower(3000, Fleet in the Deep Sea)
+EndCard
+
+Character: KC/SE28-E41
+Name Destroyer Princess in the Deep Sea
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+Combo Fall!
+*OnPlayScryToBottom
+Auto: OnSpecificClimaxPlay Fall!
+{
+	If InLocation CenterStage
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Fleet in the Deep Sea
+		{
+			TargetSelf
+			GainPower 5000
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When a card named "Fall!" is placed on your climax area, if this card is in your center stage, reveal the top card of your deck. If that card is a 《Fleet in the Deep Sea》 character, this card gets +5000 power until end of turn. 
+EndCard
+
+Character: KC/SE28-E42
+Name Ri-class Heavy Cruiser
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet in the Deep Sea
+Trait2 Heavy Cruiser
+*DropSearch(Fleet in the Deep Sea)
+EndCard
+
+Character: KC/SE28-E43
+Name Ha-class Destroyer
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet in the Deep Sea
+Trait2 Destroyer
+Cont: GiveSelf
+{
+	If Compare CardsInHand 6 OrMore
+	{
+		GainLevel 1
+		GainPower 1000
+	}
+}
+Text Cont: If the number of cards in your hand is six or more, this card gets +1 level and +1000 power.
+EndCard
+
+Character: KC/SE28-E44
+Name Ho-class Light Cruiser
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet in the Deep Sea
+Trait2 Light Cruiser
+Auto: OnCardSentFromAToB Hand WaitingRoom
+{
+	IfOther IsCharacter
+	{
+		TargetSelf
+		GainPower 2500
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When your character is put into the waiting room from your hand, this card gets +2500 power until end of turn.
+EndCard
+
+Character: KC/SE28-E45
+Name Ta-class Battleship
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Fleet in the Deep Sea
+Trait2 Battleship
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to 500 multiplied by the number of your opponent's characters.
+*ClockEncore
+EndCard
+
+Character: KC/SE28-E46
+Name Southern Battle Ogre in the Deep Sea
+Color B
+Level 1
+Cost 1
+Power 8000
+Trait1 Fleet in the Deep Sea
+Trait2 Battle Ogre in the Deep Sea
+Cont: GiveFacing
+{
+	GainSoul 1
+}
+Text Cont: The character facing this card gets +1 soul.
+EndCard
+
+Character: KC/SE28-E47
+Name Anchorage Hydro Ogre in the Deep Sea
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Fleet in the Deep Sea
+Trait2 Hydro Ogre in the Deep Sea
+*EarlyPlay4OrMore(Fleet in the Deep Sea)
+Auto: OnCardSentFromAToB Hand WaitingRoom
+{
+	IfOther IsCharacter
+	{
+		TargetSelf
+		GainPower 1500
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When your character is put into the waiting room from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Climax: KC/SE28-E48
+Name Fall!
+*BlueStockSoul
+EndCard
+
+Climax: KC/SE28-E49
+Name Please sink!
+*BookClimax
+EndCard
+
+Climax: KC/SE28-E50
+Name Hehehe… Does it hurt?
+*GateClimax
+EndCard
+
+Character: KC/SE28-PE01
+Name Christmas, Northern Princess in the Deep Sea
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleet in the Deep Sea
+Trait2 Princess in the Deep Sea
+*GreenLevel0Bomb
+*ClockShift(0,Green)
+EndCard
+

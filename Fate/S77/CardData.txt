@@ -1,0 +1,2342 @@
+Character: FS/S77-E001
+Name Pristine Beauty, Saber
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2
+	GainPower 500
+}
+Text Auto: When your climax is placed on your climax area, choose up to 2 of your characters, and those characters get +500 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Master|Servant)
+EndCard
+
+Character: FS/S77-E002
+Name Trigger Off, Shirou
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Master
+Trait2 Weapon
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 Any
+	If HasTarget
+	{
+		RevealTargets
+		Marker_FaceUp
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your waiting room, and put it face up underneath this card as a marker.
+Auto: StartClimaxPhase
+{
+	TargetLocation Climax
+	If Not HasTarget
+	{
+		PayCost 1
+		{
+			TargetLocation Marker
+			IfTarget IsClimax
+			{
+				ChooseCardsFromTargets 1 1 IsClimax
+				MoveCard Climax
+			}
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your attack phase, if there is no climax in your climax area, you may pay the cost. If you do, choose 1 climax marker underneath this card, and put it on your climax area.
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Master|Servant
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other 《Master》 or 《Servant》 characters, choose 1 of your characters, it gets +2 soul until end of turn.
+EndCard
+
+Character: FS/S77-E003
+Name Oath of the Sword, Saber
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Combo Excalibur
+*Healer
+Auto: OnAttack
+{
+	If Climax Excalibur
+	{
+		PayCost Discard 3 HasTrait Master|Servant
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					*OptionalBurn(3)
+					*OptionalBurn(3)
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 3 damage to your opponent 2 times.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 3 《Master》 or 《Servant》 characters from your hand into your waiting room] When this card attacks, if "Excalibur" is in your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 3 damage to your opponent 2 times." 
+EndCard
+
+Character: FS/S77-E004
+Name Entrusted Arm, Shirou
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Weapon
+Combo Battle of Determination
+Auto: OnAttack
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 2500
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +2500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Battle of Determination
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				Question Bounce this and 1 other character to hand?
+				If Yes
+				{
+					TargetLocation Stage
+					NarrowTargets Other
+					ChooseCharacterFromTargets
+					AddSelfToTargets
+					Bounce
+				}
+			}
+			Text Auto: When this card is frontal attacked, you may choose this card and 1 of your other characters, and return them to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Battle of Determination" is in your climax area, this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may choose this card and 1 of your other characters, and return them to your hand."
+EndCard
+
+Character: FS/S77-E005
+Name 8th Heroic Spirit, Gilgamesh
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	TargetLocation Marker
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each marker underneath this card.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 3 NameEquals 8th Heroic Spirit, Gilgamesh
+	If HasTarget
+	{
+		RevealTargets
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 3 "8th Heroic Spirit, Gilgamesh" in your waiting room, and put them face down underneath this card in any order as markers.
+EndCard
+
+Character: FS/S77-E006
+Name Battle With Mages, Saber
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Servant
+Trait2 Weapon
+*GlobalPower(1000,Master|Servant)
+Act: 2 Discard 4 HasTrait Master|Servant
+{
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CanDirectAttackFromBackstage
+		}
+		Text Cont: If this card is standing in your back stage, you may choose this card as the character that performs an attack. If you do, this card direct attacks.
+	}
+}
+Text Act: [(2) Put 4 《Master》 or 《Servant》 characters from your hand into your waiting room] This card gets the following ability until end of turn. "Cont: If this card is standing in your back stage, you may choose this card as the character that performs an attack. If you do, this card direct attacks."
+EndCard
+
+Character: FS/S77-E007
+Name "Special Existence" Shirou
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Weapon
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Master|Servant
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of turn. X is equal to the number of 《Master》 or 《Servant》 characters among those cards ×1000.
+Auto: OnPlay
+{
+	If StageContains 1 NameEquals Continuing Rainfall, Sakura
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Duplicate Key to the Emiya Household
+		If HasTarget
+		{
+			RevealTargets
+			ChooseCharacterToPlaceMarkersUnder NameEquals Continuing Rainfall, Sakura
+			TargetSelf
+			GainSoul 1
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 of your "Continuing Rainfall, Sakura" and 1 "Duplicate Key to the Emiya Household" in your waiting room, and put that card face up underneath that character as a marker. If you do, this card gets +1 soul until end of turn.
+EndCard
+
+Character: FS/S77-E008
+Name Using All Her Strength, Saber
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Master|Servant
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each other 《Master》 or 《Servant》 character in your back stage.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: FS/S77-E009
+Name What Lies Beyond the Resolution, Shirou
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Weapon
+Auto: StartOpponentDrawPhase
+{
+	MultipleChoiceQuestion Choose 1 of the following effects, and perform it.\n1. You may choose 1 character in your center stage, and put it into your waiting room. If you do, all of your characters get +1500 power until end of turn.\n2. You may choose 2 characters in your center stage, and put them into your waiting room. If you put 2 characters into your waiting room, choose 1 of your other characters, it gets +6000 power until end of turn.|Choice 1|Choice 2
+	If Answer 0
+	{
+		TargetLocation CenterStage
+		ChooseCharacterFromTargets_Optional
+		If HasTarget
+		{
+			MoveCard WaitingRoom
+			TargetLocation Stage
+			GainPower 1500
+		}
+	}
+	If Answer 1
+	{
+		TargetLocation CenterStage
+		ChooseCharactersFromTargets 0 2
+		If Compare TargetCount 2 Exactly
+		{
+			MoveCard WaitingRoom
+			TargetLocation Stage
+			NarrowTargets Other
+			ChooseCharacterFromTargets
+			GainPower 6000
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, choose 1 of the following effects, and perform it. "You may choose 1 character in your center stage, and put it into your waiting room. If you do, all of your characters get +1500 power until end of turn." "You may choose 2 characters in your center stage, and put them into your waiting room. If you put 2 characters into your waiting room, choose 1 of your other characters, it gets +6000 power until end of turn."
+EndCard
+
+Character: FS/S77-E010
+Name Furious, Gilgamesh
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Other
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If you do not have another character, this card gets +1 level and +1500 power.
+Auto: OnAttack
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		LosePower 3000
+	}
+}
+Text Auto: When this card attacks, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets -3000 power until end of turn.
+EndCard
+
+Character: FS/S77-E011
+Name Preparing for Battle, Shirou
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Weapon
+Act: 1 Discard 1 IsEvent
+{
+	SearchWaitingRoom IsCharacter
+}
+Text Act: [(1) Put 1 event from your hand into your waiting room] Choose 1 character in your waiting room, and return it to your hand.
+Act: Rest 2 Any
+{
+	If Not HasMarker
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Jeweled Sword Zelretch
+		If HasTarget
+		{
+			RevealTargets
+			Marker_FaceUp
+		}
+	}
+}
+Text Act: [Rest 2 of your characters] If there are no markers underneath this card, choose 1 "Jeweled Sword Zelretch" in your waiting room, and put it face up underneath this card as a marker.
+Act: Rest 2 Any
+{
+	TargetLocation Marker
+	ChooseCardsFromTargets 1 1 Any
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Act: [Rest 2 of your characters] Return 1 marker from underneath this card to your hand.
+EndCard
+
+Character: FS/S77-E012
+Name Continuing to Advance, Shirou
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Master
+Trait2 Weapon
+Combo Rule Breaker
+*LevelAssist
+Auto: OnSpecificClimaxPlay Rule Breaker
+{
+	TargetLocation OpponentStage
+	ChooseTraitFromTarget
+	LoseTrait CHOSEN_TRAIT
+}
+Text Auto: CxCombo When "Rule Breaker" is placed on your climax area, choose 1 trait of a character on your opponent's stage, and all of your opponent's characters lose all of that chosen trait until end of turn.
+EndCard
+
+Event: FS/S77-E013
+Name Rho Aias
+Color Y
+Level 3
+Cost 0
+Counter
+Effect:
+{
+	Mill 4
+	SetXValue TotalSoulTriggers
+	MultiplyXValue 2000
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower X
+}
+ActivationRequirement StageContains HasTrait Master|Servant
+Text Counter: If you do not have a 《Master》 or 《Servant》 character, this card cannot be played from your hand.
+Text Put the top 4 cards of your deck into your waiting room, choose 1 of your characters, it gets +X power until end of turn. X is equal to the total number of icons in the trigger icons of the cards put into your waiting room by this effect ×2000.
+EndCard
+
+Climax: FS/S77-E014
+Name Excalibur
+*ChoiceClimax
+EndCard
+
+Climax: FS/S77-E015
+Name Battle of Determination
+*ChoiceClimax
+EndCard
+
+Climax: FS/S77-E016
+Name Rule Breaker
+*WindClimax
+EndCard
+
+Character: FS/S77-E017
+Name "spring song" Sakura
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Love
+*GreenLevel0Bomb
+Auto: OnReversed
+{
+	If Not MyTurn
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncorePhase
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard WaitingRoom
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: FS/S77-E018
+Name Keeping to Her Convictions, Rider
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Master|Servant
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Master》 or 《Servant》 character in your waiting room, and return it to your hand.
+Auto: OnDamageCancel
+{
+	Question Move this to stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may put this card into your stock.
+EndCard
+
+Character: FS/S77-E019
+Name Strategizing Against A Strong Enemy, Shirou & Rider
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Master
+Trait2 Servant
+*OnClimaxPlayGivePower(1000)
+Act: RestSelf
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets
+	LosePower 1000
+}
+Text Act: [Rest this card] Choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: FS/S77-E020
+Name For Her Master, Rider
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Servant
+Trait2 Weapon
+*MoveOtherWithTraitToBackstageOnReverse(Master|Servant)
+EndCard
+
+Character: FS/S77-E021
+Name Cloud-Concealed Moon, Sakura
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Love
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets NameEquals Cloud-Concealed Moon, Sakura|Flowing Tears, Sakura
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: EXPERIENCE This card gets +1500 power for each "Cloud-Concealed Moon, Sakura" or "Flowing Tears, Sakura" in your level.
+Auto: OnReversed
+{
+	MoveCard BottomOfDeck
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: FS/S77-E022
+Name Bellerophon, Rider
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Servant
+Trait2 Weapon
+Combo Bellerophon
+Auto: OnOpponentLevelUp
+{
+	If Climax Bellerophon && InLocation CenterStage
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Master|Servant
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Master|Servant
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When your opponent levels up, if "Bellerophon" is in your climax area, and this card is in your center stage, choose up to 1 《Master》 or 《Servant》 character in your waiting room, put it into your stock, and reveal the top card of your deck. If that card is a 《Master》 or 《Servant》 character, put it into your hand. 
+EndCard
+
+Character: FS/S77-E023
+Name Blissful Days, Sakura
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Master
+Trait2 Love
+Combo "Important Person" and "Something to Protect"
+Cont: InHand
+{
+	If LocationContains Level 1 NameEquals Cloud-Concealed Moon, Sakura &&& LocationContains Level 1 NameEquals Flowing Tears, Sakura
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: EXPERIENCE If "Cloud-Concealed Moon, Sakura" and "Flowing Tears, Sakura" are in your level, this card gets -1 level while in your hand.
+*Healer
+Auto: OnSpecificClimaxPlay "Important Person" and "Something to Protect"
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBlindStock
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+		}
+	}
+}
+Text Auto: CxCombo When ""Important Person" and "Something to Protect"" is placed on your climax area, if this card is in your center stage, all of your characters get +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: FS/S77-E024
+Name Beyond the Gaze, Rider
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Master|Servant
+	ChooseCharacterFromTargets
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your 《Master》 or 《Servant》 characters, it gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Master|Servant
+	{
+		TargetSelf
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				Question Put the battle opponent into clock?
+				If Yes
+				{
+					TargetBattleOpponent
+					MoveCard OpponentClock
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock.
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Master》 or 《Servant》 character, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's clock." 
+EndCard
+
+Character: FS/S77-E025
+Name Creeping Insanity, Sakura
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Love
+Auto: StartEncoreStep
+{
+	If Not MyTurn
+	{
+		If StageContains 2 Other && HasTrait Servant
+		{
+			Question Put two other 《Servant》 characters underneath this card as markers?
+			If Yes
+			{
+				TargetLocation Stage
+				NarrowTargets Other && HasTrait Servant
+				ChooseCharactersFromTargets 2 2
+				Marker_FaceUp
+			}
+		}
+		Else
+		{
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: [Put 2 other 《Servant》 characters on your stage face up in any order underneath this card as markers] At the beginning of your opponent's encore step, you may pay the cost. If you do not, put this card into your waiting room.
+Auto: StartClimaxPhase
+{
+	TargetLocation Marker
+	If Compare TargetCount 7 OrMore
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Jealous, Sakura
+		If HasTarget
+		{
+			RevealTargets
+			Change
+		}
+		TargetLocation OpponentStage
+		LosePower 3000
+	}
+}
+Text Auto: At the beginning of your climax phase, if there are 7 or more markers underneath this card, put this card into your waiting room, choose up to 1 "Jealous, Sakura" in your waiting room, put it on the stage position that this card was on, and all of your opponent's characters get -3000 power until end of turn.
+Act: Send 1 WaitingRoom NameEquals Indignant, Shinji
+{
+	Peek Deck 1
+	Marker_FaceUp
+}
+Text Act: [Put another "Indignant, Shinji" from your stage into your waiting room] Look at the top card of your deck, and put it face up underneath this card as a marker.
+EndCard
+
+Character: FS/S77-E026
+Name Continuing Rainfall, Sakura
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Love
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Duplicate Key to the Emiya Household
+	If HasTarget
+	{
+		RevealTargets
+		Marker_FaceUp
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Duplicate Key to the Emiya Household" in your waiting room, and put it face up underneath this card as a marker.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 SendMarker WaitingRoom
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1) Put 1 marker underneath this card into your waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+Auto: StartDrawPhase
+{
+	If LocationContainsOrLess CenterStage 0 Other
+	{
+		GainPower 4000
+	}
+}
+Quick
+Text Auto: At the beginning of your draw phase, if you do not have another character in your center stage, this card gets +4000 power until end of turn.
+EndCard
+
+Character: FS/S77-E027
+Name Towards His Gaze, Lancer
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Servant
+Trait2 Weapon
+*LevelAssistTrait(Master|Servant)
+*Act1Rest2Check3Add1Brainstorm
+EndCard
+
+Character: FS/S77-E028
+Name Blissful Days, Rider
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Servant
+Trait2 Weapon
+*GreenEarlyPlayBomb
+EndCard
+
+Character: FS/S77-E029
+Name Execution of Orders, Rider
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Servant
+Trait2 Weapon
+*ScryBackup(Master|Servant)
+Backup 2500
+EndCard
+
+Character: FS/S77-E030
+Name Curse of the Mystic Eyes, Rider
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseTraitFromTarget
+	LoseTrait CHOSEN_TRAIT
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 trait of a character on your opponent's stage, and all of your opponent's characters loses all of that chosen trait until end of turn.
+EndCard
+
+Character: FS/S77-E031
+Name Assault, Rider
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnReversed
+{
+	If OnStage
+	{
+		PayCost 1 Discard 1 HasTrait Master|Servant &&& SendSelf Clock
+		{
+			SearchDeck NameEquals Overflowing Words, Sakura|Intruding, Rider
+			SearchDeck NameEquals Overflowing Words, Sakura|Intruding, Rider
+		}
+	}
+}
+Text Auto: [(1) Put 1 《Master》 or 《Servant》 character from your hand into your waiting room & Put this card into your clock] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 2 "Overflowing Words, Sakura" or "Intruding, Rider", reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Character: FS/S77-E032
+Name Battle on Top a Vehicle, Lancer
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Other
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you do not have another character, this card gets +1500 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		*Scry
+	}
+}
+Text Auto: During your turn, when this card's battle opponent becomes reversed, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+EndCard
+
+Character: FS/S77-E033
+Name Indignant, Shinji
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Master
+Trait2 Book
+Text 
+EndCard
+
+Character: FS/S77-E034
+Name Intruding, Rider
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInStock 5 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If your stock has 5 or more cards, this card gets +1000 power.
+Auto: StartAttackPhase
+{
+	If CardPosition Stand &&& LocationContainsOrLess CenterStage 1 Other
+	{
+		*OptionalBlindStock
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				If OnStage
+				{
+					Question Return this to hand?
+					If Yes
+					{
+						Bounce
+					}
+				}
+			}
+			Text Auto: When this card is frontal attacked, you may return this card to your hand.
+		}
+	}
+}
+Text Auto: At the beginning of your attack phase, if this card is standing, and you have 1 or less other characters in your center stage, put up to 1 card from the top of your deck into your stock, and this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: FS/S77-E035
+Name Overflowing Words, Sakura
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Love
+Auto: StartAttackPhase
+{
+	If CardPosition Stand &&& LocationContainsOrLess CenterStage 1 Other
+	{
+		*OptionalBlindStock
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				If OnStage
+				{
+					Question Return this to hand?
+					If Yes
+					{
+						Bounce
+					}
+				}
+			}
+			Text Auto: When this card is frontal attacked, you may return this card to your hand.
+		}
+	}
+}
+Text Auto: At the beginning of your attack phase, if this card is standing, and you have 1 or less other characters in your center stage, put up to 1 card from the top of your deck into your stock, and this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: FS/S77-E036
+Name Moment Between the Two, Sakura
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Master
+Trait2 Love
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Master|Servant
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each other 《Master》 or 《Servant》 character in your back stage.
+EndCard
+
+Character: FS/S77-E037
+Name A Small Wish, Sakura
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Master
+Trait2 Love
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Master|Servant
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Master|Servant
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Master》 or 《Servant》 characters, you may choose 1 《Master》 or 《Servant》 character in your waiting room, and put it into your stock.
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsEvent
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Master|Servant
+	ChooseCharacterFromTargets
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other 《Master》 or 《Servant》 characters, it gets +X power until end of turn. X is equal to the number of event cards in your waiting room ×1500.
+EndCard
+
+Event: FS/S77-E038
+Name Duplicate Key to the Emiya Household
+Color G
+Level 1
+Cost 0
+Combo "Important Person" and "Something to Protect"
+Effect:
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals "Important Person" and "Something to Protect"
+	SetXValue TargetCount
+	SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Master|Servant
+}
+Text CxCombo Choose 1 level X or lower 《Master》 or 《Servant》 character in your waiting room, and return it to your hand. X is equal to the number of ""Important Person" and "Something to Protect"" in your waiting room.
+EndCard
+
+Climax: FS/S77-E039
+Name Bellerophon
+*BarClimax
+EndCard
+
+Climax: FS/S77-E040
+Name "Important Person" and "Something to Protect"
+*BarClimax
+EndCard
+
+Character: FS/S77-E041
+Name Wielder of the Jeweled Sword, Rin
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Master
+Trait2 Jewel
+Combo Mystic Code Zelretch
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Master|Servant
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of 《Master》 or 《Servant》 characters you have ×500.
+Auto: OnAttack
+{
+	If Climax Mystic Code Zelretch &&& StageContains 1 Other && HasTrait Master|Servant
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Master|Servant && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Mystic Code Zelretch" is in your climax area, and you have another 《Master》 or 《Servant》 character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Master》 or 《Servant》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: FS/S77-E042
+Name Resolution to Fight, Rin
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Master
+Trait2 Jewel
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Jeweled Sword Zelretch
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 3000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Jeweled Sword Zelretch" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +3000 power until the end of your opponent's next turn.
+EndCard
+
+Character: FS/S77-E043
+Name Makiri's Grail, Sakura
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Master
+Trait2 Shadow
+Combo Deep Love
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Deep Love
+	{
+		Repeat 3
+		{
+			*OptionalBlindStock
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Deep Love" is in your climax area, put up to 3 cards from the top of your deck into your stock.
+Auto: OnAttack
+{
+	TargetSelf //Non Quick
+	PayCost 3 Discard 1 Any
+	{
+		MillOpponentBottom 6
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [(3) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the bottom 6 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: FS/S77-E044
+Name Onyx Beauty, Saber Alter
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your hand has 5 or less cards, this card gets +1500 power.
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Master|Servant|Shadow
+	{
+		SetXValue TargetCardsLevel
+		Burn X
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a 《Master》 or 《Servant》 or 《Shadow》 character, deal X damage to your opponent. X is equal to the level of that character. 
+EndCard
+
+Character: FS/S77-E045
+Name Battle in the Rain, Rin
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Jewel
+Act: 1 Rest 2 Any
+{
+	*Check4Add1Level1OrHigher
+}
+Text Act: [(1) Rest 2 of your characters] Look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+Act: 1 Discard 1 IsEvent
+{
+	SearchWaitingRoom IsCharacter
+}
+Text Act: [(1) Put 1 event from your hand into your waiting room] Choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S77-E046
+Name Towards the Battle, Rin
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Jewel
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(4)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FS/S77-E047
+Name Sharing Intel, Rin
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Master
+Trait2 Jewel
+Auto: OnOtherReversed
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: When your other character becomes reversed in battle, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: FS/S77-E048
+Name Flowing Tears, Sakura
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Master
+Trait2 Shadow
+Combo Rediscovered Kindness
+Cont: GiveSelf
+{
+	TargetLocation Level
+	NarrowTargets NameEquals Cloud-Concealed Moon, Sakura|Flowing Tears, Sakura
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: EXPERIENCE This card gets +1500 power for each "Cloud-Concealed Moon, Sakura" or "Flowing Tears, Sakura" in your level.
+Auto: OnAttack
+{
+	If Climax Rediscovered Kindness
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Rediscovered Kindness
+		SetXValue TargetCount
+		SearchWaitingRoom HasTrait Master|Servant|Shadow && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Rediscovered Kindness" is in your climax area, you may choose 1 level X or lower 《Master》 or 《Servant》 or 《Shadow》 character in your waiting room, and return it to your hand. X is equal to the number of "Rediscovered Kindness" in your waiting room.
+EndCard
+
+Character: FS/S77-E049
+Name Special Feelings, Sakura
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Master
+Trait2 Shadow
+Auto: OnPlay
+{
+	PayCost Discard 2 HasTrait Servant
+	{
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel MyLevel OrLess
+		If HasTarget
+		{
+			RevealTargets
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: [Put 2 《Servant》 characters from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Servant》 or 《Shadow》 character with level equal to or lower than your level in your waiting room, and put it on any position of your stage.
+*RedEarlyPlayBomb
+EndCard
+
+Character: FS/S77-E050
+Name Standing Guard, Saber Alter
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Servant
+Trait2 Weapon
+Combo Inverted Light
+Auto: OnSpecificClimaxPlay
+{
+	If InLocation CenterStage
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Master|Servant|Shadow
+		{
+			TargetLocation Stage
+			NarrowTargets NameEquals Standing Guard, Saber Alter
+			SetXValue TargetCount
+			MultiplyXValue 1000
+			TargetLocation OpponentStage
+			ChooseCharactersFromTargets 0 2
+			LosePower X
+		}
+	}
+}
+Text Auto: CxCombo When "Inverted Light" is placed on your climax area, if this card is in your center stage, reveal the top card of your deck. If that card is a 《Master》 or 《Servant》 or 《Shadow》 character, choose up to 2 of your opponent's characters, and those characters get -X power until end of turn. X is equal to the number of "Standing Guard, Saber Alter" you have ×1000. 
+EndCard
+
+Character: FS/S77-E051
+Name Temporary Coalition, Rin
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Master
+Trait2 Jewel
+Combo Sisters' Relationship
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Master|Servant
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Master》 or 《Servant》 character in your waiting room, and return it to your hand.
+Auto: OnDamageNotCanceled
+{
+	If Climax Sisters' Relationship
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 card from your hand into your waiting room] When damage dealt by this card is not canceled, if "Sisters' Relationship" is in your climax area, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: FS/S77-E052
+Name She Who Has Accepted the Shadow, Sakura
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Shadow
+Auto: OnReversed
+{
+	If OnStage
+	{
+		Mill 4
+		NarrowTargets NameEquals Fluttering Shadow
+		If HasTarget
+		{
+			Question Return this to hand?
+			If Yes
+			{
+				TargetSelf
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, put the top 4 cards of your deck into your waiting room. If there is a "Fluttering Shadow" among those cards, you may return this card to your hand.
+EndCard
+
+Character: FS/S77-E053
+Name Smiling, Saber Alter
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Master|Servant|Shadow
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Master|Servant|Shadow
+		SetXValue TargetCount
+		Peek Deck X
+		ChooseCard Choose a card to add to your hand.
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 《Master》 or 《Servant》 or 《Shadow》 character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of 《Master》 or 《Servant》 or 《Shadow》 characters you have.
+EndCard
+
+Character: FS/S77-E054
+Name Cold Attitude, Rin
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Jewel
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && CardPosition Stand
+	Rest
+}
+Text Auto: When this card attacks, Rest all of your other Stand characters.
+*FreeRunner
+EndCard
+
+Character: FS/S77-E055
+Name Black-Armored Knight, Saber Alter
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Servant
+Trait2 Weapon
+*GiveAllOpponentsEncore2
+EndCard
+
+Character: FS/S77-E056
+Name Overwhelming Power, Sakura
+Color R
+Level 1
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Shadow
+Act: Discard 1 Any Send 1 WaitingRoom Other && HasTrait Servant &&& RestSelf
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameContains Corrupted && Compare ThatCardsLevel MyLevel OrLess
+	If HasTarget
+	{
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+}
+Text Act: [Put 1 card from your hand into your waiting room & Put 1 other 《Servant》 character from your stage into your waiting room & Rest this card] Choose 1 character with "Corrupted" in its card name with level equal to or lower than your level in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: FS/S77-E057
+Name Bowman's Guidance, Archer
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsEvent || HasTrait Master|Servant
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 3000
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is an event or a 《Master》 or 《Servant》 character, choose 1 of your characters, it gets +3000 power until end of turn. 
+EndCard
+
+Character: FS/S77-E058
+Name Cool and Collected, Rin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Master
+Trait2 Jewel
+*LevelAssist
+Act: 3
+{
+	Brainstorm 3
+	TargetBrainstormed
+	NarrowTargets NameEquals Jeweled Sword Zelretch || HasTrait Master|Servant
+	SetXValue TargetCount
+	SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess
+	If HasTarget
+	{
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+}
+Text Act: BRAINSTORM [(3)] Flip over 3 cards from the top of your deck, and put them into your waiting room. Choose 1 level X or lower 《Master》 or 《Servant》 character in your waiting room, and put it on any position of your stage. X is equal to the number of "Jeweled Sword Zelretch" or 《Master》 or 《Servant》 characters revealed among those cards.
+EndCard
+
+Character: FS/S77-E059
+Name Jealous, Sakura
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Master
+Trait2 Shadow
+*GainPowerForEachOther(1000,Master|Servant|Shadow)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: FS/S77-E060
+Name Corrupted Mad Warrior, Berserker
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+*OnAttackGainPowerForEachOther(1000,Master|Servant|Shadow)
+Auto: OnReversed
+{
+	If Not MyTurn
+	{
+		PayCost Discard 1 Any
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncorePhase
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard WaitingRoom
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: FS/S77-E061
+Name Enchanting Smile, Sakura
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Shadow
+*OnPlayGainPower(1500)
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	LosePower 500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all characters in your opponent's center stage get -500 power until end of turn.
+EndCard
+
+Character: FS/S77-E062
+Name Lecture, Rin
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Jewel
+*OnPlayScry
+Auto: OnDamageNotCanceled
+{
+	GainPower 6000
+}
+Quick
+Text Auto: When damage dealt by this card is not canceled, this card gets +6000 power until end of turn.
+EndCard
+
+Character: FS/S77-E063
+Name Harsh Words, Rin
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Jewel
+Auto: OnPlay
+{
+	OpponentMultipleChoiceQuestion Choose 0, 1, 2, or 3.|0|1|2|3
+	Mill 1
+	If Compare TargetCardsLevel Answer Exactly
+	{
+		SetXValue TargetCardsLevel
+		AddToXValue 1
+		Repeat X
+		{
+			*OptionalDraw
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent declares 0 or 1 or 2 or 3. Put the top card of your deck into your waiting room, and if that card's level is the number your opponent declared, draw up to X cards. X is equal to the number your opponent declared +1. 
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Master|Servant
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Master》 or 《Servant》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S77-E064
+Name Tiny Shadow People
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Mystery
+Trait2 Shadow
+Army
+Cont: GiveSelf
+{
+	If Compare CardsInHand 3 OrLess
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If your hand has 3 or less cards, this card gets +3000 power.
+Cont: GiveAll
+{
+	If Other && NameEquals Tiny Shadow People|Cloud-Concealed Moon, Sakura|Flowing Tears, Sakura
+	{
+		GainPower 500
+		GainLevel 1
+	}
+}
+Text Cont: All of your other "Tiny Shadow People" and "Cloud-Concealed Moon, Sakura" and "Flowing Tears, Sakura" get +1 level and +500 power.
+EndCard
+
+Character: FS/S77-E065
+Name Yielding Her Heart, Sakura
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Master
+Trait2 Shadow
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Servant
+	ChooseCharacterFromTargets
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 of your other 《Servant》 characters, and put it into your stock.
+EndCard
+
+Character: FS/S77-E066
+Name Full Picture of the Basement, Archer
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnOtherReversed
+{
+	IfOther HasTrait Master|Servant
+	{
+		If InLocation Backstage
+		{
+			PayCost SendSelf WaitingRoom
+			{
+				TargetOther
+				Rest
+			}
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other 《Master》 or 《Servant》 character becomes reversed in battle, if this card is in your back stage, you may pay the cost. If you do, Rest that character.
+Act: Discard 1 IsEvent &&& RestSelf
+{
+	SearchWaitingRoom HasTrait Master|Servant
+}
+Text Act: [Put 1 event from your hand into your waiting room & Rest this card] Choose 1 《Master》 or 《Servant》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S77-E067
+Name Jewel Defense Magic, Rin
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Jewel
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Jewel Defense Magic, Rin
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 "Jewel Defense Magic, Rin" in your waiting room, and return it to your hand.
+Backup 1000
+EndCard
+
+Character: FS/S77-E068
+Name Roaring, Berserker
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnDamageNotCanceled
+{
+	GainPower 6000
+}
+Quick
+Text Auto: When damage dealt by this card is not canceled, this card gets +6000 power until end of turn.
+Auto: Encore SendFromWaitingRoomToBottom 1 Clock HasTrait Master|Servant|Shadow
+{
+}
+Text Auto: ENCORE [Put 1 《Master》 or 《Servant》 or 《Shadow》 character from your waiting room at the bottom of your clock] 
+EndCard
+
+Character: FS/S77-E069
+Name Corrupted Knight, Saber Alter
+Color R
+Level 1
+Cost 2
+Power 7000
+Trait1 Servant
+Trait2 Weapon
+*GainPowerForEachOther(500,Master|Servant|Shadow)
+Text Cont: This card gets +500 power for each of your other 《Master》 or 《Servant》 or 《Shadow》 characters.
+*HandEncore
+EndCard
+
+Character: FS/S77-E070
+Name Bluffing Smile, Rin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Master
+Trait2 Jewel
+Auto: OnPlay
+{
+	*CheckAndAddOne(3, IsEvent)
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+*RedLevel2Bomb
+EndCard
+
+Event: FS/S77-E071
+Name Fluttering Shadow
+Color R
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	*Check4Add1(Master|Servant|Shadow)
+	TargetSelf
+	MoveCardToBottom Deck
+}
+Text Counter: Look at up to 4 cards from the top of your deck, choose up to 1 《Master》 or 《Servant》 or 《Shadow》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. Put this card at the bottom of your deck.
+EndCard
+
+Event: FS/S77-E072
+Name Jeweled Sword Zelretch
+Color R
+Level 3
+Cost 1
+Counter
+Text Counter: If you do not have a 《Jewel》 character, this card cannot be played from your hand. Put this card into your memory.
+Effect:
+{
+	MoveCard Memory
+	TargetLocation Memory
+	NarrowTargets NameEquals Jeweled Sword Zelretch
+	SetXValue TargetCount
+	MultiplyXValue 4
+	TargetBattleOpponent
+	GainSoul X
+}
+ActivationRequirement StageContains 1 HasTrait Jewel
+Text Choose 1 of your opponent's characters in battle, it gets +X soul until end of turn. X is equal to the number of "Jeweled Sword Zelretch" in your memory ×4.
+EndCard
+
+Climax: FS/S77-E073
+Name Mystic Code Zelretch
+*DoorClimax
+EndCard
+
+Climax: FS/S77-E074
+Name Deep Love
+*DoorClimax
+EndCard
+
+Climax: FS/S77-E075
+Name Rediscovered Kindness
+*DoorClimax
+EndCard
+
+Climax: FS/S77-E076
+Name Inverted Light
+*RedStockSoul
+EndCard
+
+Climax: FS/S77-E077
+Name Sisters' Relationship
+*RedStockSoul
+EndCard
+
+Character: FS/S77-E078
+Name Dress of Heaven, Illya
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Master
+Trait2 Homunculus
+Combo Heaven's Feel
+*GainPowerWithEnoughCharacters(1000,2,Master|Servant)
+Auto: OnAttack
+{
+	If Climax Heaven's Feel && Compare CardsInStock 5 OrLess
+	{
+		*Check4Add1(Master|Servant)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Heaven's Feel" is in your climax area, and your stock has 5 or less cards, look at up to 4 cards from the top of your deck, choose up to 1 《Master》 or 《Servant》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FS/S77-E079
+Name Silver Thread Alchemy Elgen Lied, Illya
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Homunculus
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1(Master)
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 《Master》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FS/S77-E080
+Name Sending Off, Illya
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Homunculus
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Master|Servant
+		SetXValue TargetCount
+		RevealUpTo Deck X
+		ChooseCardsFromTargets 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. X is equal to the number of 《Master》 or 《Servant》 characters you have.
+EndCard
+
+Character: FS/S77-E081
+Name Strategic Retreat, True Assassin
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Servant
+Trait2 Mask
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets_Optional
+	MoveToOpenPosition True False
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 character in your opponent's center stage, and move it to another open position of their center stage.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: FS/S77-E082
+Name Enemy Assault at Night, Caster
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Servant
+Trait2 Master
+*GlobalPower(500,Master|Servant)
+Act: 1 Rest 2 Any
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Master|Servant && Compare ThatCardsLevel X OrLess
+}
+Text Act: [(1) Rest 2 of your characters] Put the top 2 cards of your deck into your waiting room, choose 1 level X or lower 《Master》 or 《Servant》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room. 
+EndCard
+
+Character: FS/S77-E083
+Name Self-Deprecating Smile, Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Master
+Trait2 Homunculus
+Cont: Assist
+{
+	If HasTrait Master|Servant
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST All of your 《Master》 or 《Servant》 characters in front of this card get +1500 power.
+Act: RestSelf
+{
+	SearchLocationForTargets Hand 1 1 Any
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 card in your hand, and put it into your stock.
+EndCard
+
+Character: FS/S77-E084
+Name Solitary Existence, Kirei Kotomine
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Master
+Trait2 Priest
+Combo Impeding Wall
+*Healer
+Auto: OnEndOfAttack
+{
+	If Climax Impeding Wall
+	{
+		PayCost 3
+		{
+			Stand
+			ScheduleEffectForTargets StartEncoreStep
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard WaitingRoom
+					}
+				}
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(3)] This ability activates up to 1 time per turn. At the end of this card's attack, if "Impeding Wall" is in your climax area, you may pay the cost. If you do, Stand this card, and at the beginning of the encore step, put this card into your waiting room.
+EndCard
+
+Character: FS/S77-E085
+Name Top Mage, Caster
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Servant
+Trait2 Master
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Master|Servant
+	SetXValue TargetCount
+	MultiplyXValue 500
+	ChooseCharacterFromTargets
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other 《Master》 or 《Servant》 characters, it gets +X power until end of turn. X is equal to the number of other 《Master》 or 《Servant》 characters you have ×500.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is a level 0 or lower character, put it into your hand. 
+EndCard
+
+Character: FS/S77-E086
+Name Insane Mage, Zouken
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Master
+Trait2 Insect
+*OthersCannotSideAttack
+Auto: Encore 1 Send 1 WaitingRoom Any
+{
+}
+Text Auto: ENCORE [(1) Put 1 character from your stage into your waiting room] 
+EndCard
+
+Character: FS/S77-E087
+Name Purifying Light, Kirei
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Master
+Trait2 Priest
+Cont: GiveSelf
+{
+	TargetLocation Memory
+	NarrowTargets NameEquals Baptism Rite
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: MEMORY This card gets +1000 power for each "Baptism Rite" in your memory.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Baptism Rite
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Baptism Rite" in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S77-E088
+Name Vigor, Berserker
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters HasTrait Master|Servant
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are 《Master》 or 《Servant》, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: FS/S77-E089
+Name Battle in the Ruined Church, Kirei
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Master
+Trait2 Priest
+*GainPowerForEachOther(1000,Master|Servant)
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther NameEquals Purifying Light, Kirei
+	{
+		PayCost 1 Discard 1 Any
+		{
+			PlaceOnStage False True True True
+		}
+	}
+}
+InWaitingRoom
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When your "Purifying Light, Kirei" is put into your waiting room from the stage, if this card is in your waiting room, you may pay the cost. If you do, put this card on any stage position as resting.
+EndCard
+
+Character: FS/S77-E090
+Name Elusive Girl Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Master
+Trait2 Homunculus
+*GainPowerWhenAttackingLevel3(6000)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: FS/S77-E091
+Name War Cry, Berserker
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Servant
+Trait2 Weapon
+*OnPlayCheckTopTraitOrEventAddDiscard(Master|Servant)
+*BondDiscard(Dress of Heaven\, Illya) 
+EndCard
+
+Character: FS/S77-E092
+Name Escaping, Kirei & Illya
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Master
+Auto: StartOpponentAttackPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(2) Return this card to your hand] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other characters, and return it to your hand.
+EndCard
+
+Character: FS/S77-E093
+Name Where It Leads, Illya
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Homunculus
+AUto: OnPlay
+{
+	PayCost Discard 1 IsEvent
+	{
+		SearchWaitingRoom HasTrait Master|Servant
+	}
+}
+Text Auto: [Put 1 event from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Master》 or 《Servant》 character in your waiting room, and return it to your hand.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && CardPosition Stand
+	Rest
+}
+Text Auto: When this card attacks, Rest all of your other Stand characters.
+EndCard
+
+Character: FS/S77-E094
+Name Simple Question, Illya
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Master
+Trait2 Homunculus
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose up to 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+EndCard
+
+Character: FS/S77-E095
+Name Commemorative Photograph, Souichiro
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Master
+Trait2 Teacher
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals Enemy Assault at Night, Caster
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another "Enemy Assault at Night, Caster", this card gets +3000 power.
+EndCard
+
+Character: FS/S77-E096
+Name Waiting, Illya
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Master
+Trait2 Homunculus
+*OnPlayScryToBottom
+*OnPlayMill2GainPowerForEachCharacter(1000,Master|Servant)
+EndCard
+
+Character: FS/S77-E097
+Name Requesting Freedom, True Assassin
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Servant
+Trait2 Mask
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	LosePower 2500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets -2500 power until end of turn.
+EndCard
+
+Event: FS/S77-E098
+Name Baptism Rite
+Color B
+Level 1
+Cost 1
+Effect:
+{
+	TargetTop Deck 1
+	MoveCard Clock
+	TargetSelf
+	MoveCard Memory
+}
+Text Put the top card of your deck into your clock, and put this card into your memory.
+Cont: Memory
+{
+	If MyCard && HasTrait Master|Servant
+	{
+		GainPower 1000
+	}
+}
+Text Cont: MEMORY If this card is in your memory, all of your 《Master》 or 《Servant》 characters get +1000 power.
+EndCard
+
+Climax: FS/S77-E099
+Name Heaven's Feel
+*GateClimax
+EndCard
+
+Climax: FS/S77-E100
+Name Impeding Wall
+*GateClimax
+EndCard
+
+Character: FS/S77-E101
+Name Staking All of Himself, Shirou
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Master
+Trait2 Weapon
+*GlobalPower(500,Master|Servant)
+Act: Rest 2 HasTrait Master|Servant
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainSoul 1
+}
+Text Act: [Rest 2 of your 《Master》 or 《Servant》 characters] Choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: FS/S77-E102
+Name After the Battle, Sakura
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Master
+Trait2 Love
+*GainPowerWithEnoughCharacters(1000,2,Master|Servant)
+*HandEncoreTrait(Master|Servant)
+EndCard
+
+Character: FS/S77-E103
+Name Continuing to Believe, Rider
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Servant
+Trait2 Weapon
+*OnPlayGivePower(1000,Any)
+Auto: OnRefresh
+{
+	Question Put this card into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When you refresh your deck, you may put this card into your stock.
+EndCard
+
+Character: FS/S77-E104
+Name As an Elder Sister, Rin
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Master
+Trait2 Jewel
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S77-PE02
+Name Unshackled, Sakura
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Master
+Trait2 Shadow
+*CannotSideAttack
+Auto: OnPlay
+{
+	Message Choose up to 1 card to put into stock.
+	SearchLocationForTargets Hand 0 1 Any
+	MoveCard Stock
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+EndCard
+

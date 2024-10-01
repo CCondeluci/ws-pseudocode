@@ -1,0 +1,560 @@
+Character: LNJ/WE39-001
+Name Keeping Me All for Yourself?, Kasumi Nakasu
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*OnPlayCheckTopAddDiscard(Music)
+*YellowLevel0Bomb
+EndCard
+
+Character: LNJ/WE39-002
+Name "Kasumin Is the Main Cast" Kasumi Nakasu
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If StageContains 3 Other && NameContains Kasumi
+	{
+		TargetLocation Stage
+		NarrowTargets NameContains Kasumi
+		CopyNamesFromTargets
+	}
+}
+Text Cont: If you have 3 or more characters with "Kasumi" in its card name, this card in your hand is considered to have the same card name as all characters on your stage with "Kasumi" in its card name.
+Act: 1 SendSelf WaitingRoom
+{
+	*CheckAndAddOne(4,NameContains Kasumi && IsCharacter)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to 4 cards from the top of your deck and search for up to 1 character with "Kasumi" in its card name, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LNJ/WE39-003
+Name Hoping To Reach This Far, Shizuka Osaka
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	If Compare TargetCount 1 Exactly
+	{
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		If HasTarget
+		{
+			IfTarget CanBeChosen
+			{
+				MoveCardToBottom OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if there is 1 or fewer characters in your opponent's center stage, choose a cost 0 or lower character in your opponent's center stage and put it on the bottom of the deck.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		TargetSelf
+		MoveCard Hand
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If it's level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: LNJ/WE39-006
+Name "Birthday Heroine" Shizuku Osaka
+Color Y
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+*GiveAllOpponentsEncore2
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation OpponentCenterStage
+	If HasTarget && Compare TargetCount 2 OrLess
+	{
+		Question Move a character on your opponent's center stage to another position on their stage?
+		If Yes
+		{
+			ChooseCharacterFromTargets Choose a character to move
+			MoveToOpenPosition True False
+		}
+	}	
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose a character in your opponent's center stage and move it to another open position in the center stage.
+EndCard
+
+Character: LNJ/WE39-008
+Name Smiles Are Great, Rina Tennoji
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		*SearchDeckToPlaceOnStage(Compare ThatCardsLevel 1 OrLess && HasTrait Music, False)
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 0 or lower «Music» character, put it in any position on the stage, shuffle your deck, and at the end of the turn, send that character to memory.
+EndCard
+
+Character: LNJ/WE39-010
+Name "Merry Birthday" Rina Tennoji
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: LNJ/WE39-011
+Name "Make My Heart Thumping" Shioriko Mifune
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+*Level3Assist
+Act: 2 RestSelf
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+	Bounce
+}
+Text Act: [(2) Rest this card] Choose 1 of your opponent's characters and return it to their hand.
+EndCard
+
+Character: LNJ/WE39-015
+Name It Feels Like a Dream, Shioriko Mifune
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*OnPlayCheck3
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [Put 2 cards from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: LNJ/WE39-021
+Name "Decent Birthday" Ai Miyashita
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Cont: GiveAll
+{
+	If NameEquals Thoughts I Want to Convey, Rina Tennoji && Other
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: All of your other "Thoughts I Want to Convey, Rina Tennoji" get +1500 power and the following ability. "Cont: This cannot be chosen as the target of opponent's effects."
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Music && IsCharacter
+	{
+		SearchDeck NameEquals Connected Melody, Rina Tennoji | Thoughts I Want to Convey, Rina Tennoji
+	}
+}
+Text Auto: [Put a «Music» character from your hand to the waiting room] When this card is placed on the stage from your hand you may pay the cost. If you do, search your deck for up to 1 "Connected Melody, Rina Tennoji" or "Thoughts I Want to Convey, Rina Tennoji", reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LNJ/WE39-023
+Name Becoming Enchanted by Lanzhu, Are You?, Lanzhu Zhong
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*OnPlayReorderTop2
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		Question Put this card into your stock?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If it is level 1 or higher, you may put this card in stock.
+EndCard
+
+Character: LNJ/WE39-027
+Name "What Lanzhu Wants to Do" Lanzhu Zhong
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Not LocationContains CenterStage 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are no other characters in your center stage, this card gets +1500 power.
+*FreeRunner
+EndCard
+
+Character: LNJ/WE39-028
+Name Are You Prepared to Play with Ai?, Ai Miyashita
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+*ClimaxExchange
+EndCard
+
+Character: LNJ/WE39-030
+Name Always Together, Ayumu Uehara
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 HasTrait Music
+	{
+		RevealUpTo Deck 3
+		Message Choose up to 1 Yellow character
+		ChooseCardsFromTargets 0 1 IsColor Yellow && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		TargetLocation ScryArea
+		Message Choose up to 1 Blue character
+		ChooseCardsFromTargets 0 1 IsColor Blue && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		TargetLocation ScryArea
+		Message Choose up to 1 Red character
+		ChooseCardsFromTargets 0 1 IsColor Red && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put a «Music» character from your hand to the waiting room] When this card is placed from stage to the waiting room, you may pay the cost. If you do, look at up to 3 cards from the top of your deck and search for up to 1 Yellow character, up to 1 Red character, and up to 1 Blue character, reveal them, put them in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LNJ/WE39-032
+Name "Let's Celebrate Together" Ayumu Uehara
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 1 OrMore
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of cards in your level is 1 or higher, this card gets +2500 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+EndCard
+
+Character: LNJ/WE39-033
+Name Granting the Blessing of the Forest, Setsuna Yuki
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Auto: StartClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock IsCharacter && HasTrait Music
+	{
+		*Check3Add1(Music)
+	}
+}
+Text Auto: ACCELERATE [Put a «Music» character from your waiting room to the bottom of your clock] At the beginning of your climax phase, you may pay the cost. If you do, look at up to 3 cards from the top of your deck and search for up to 1 «Music» character, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LNJ/WE39-034
+Name "Collecting Something She Likes" Setsuna Yuki
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+*EarlyPlayMemoryBomb
+EndCard
+
+Character: LNJ/WE39-041
+Name Hoping This Reaches You, Karin Asaka
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	If Compare CardsInClock 1 OrMore
+	{
+		Question Choose a card in clock and replace it with a card from your hand?
+		If Yes
+		{
+			Message Choose up to 1 card to put into your hand
+			SearchLocationForTargets Clock 0 1 Any
+			If HasTarget
+			{
+				RevealTargets
+				MoveCard Hand
+				Message Choose up to 1 card to put into your clock
+				SearchLocationForTargets Hand 1 1 Any
+				MoveCard Clock
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your clock and return it to your hand. If you do, put a card from your hand in your clock.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Music
+	{
+		*CheckAndAddOne(5,IsCharacter)
+	}
+}
+Text Auto: [(1) Put a «Music» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 5 cards from the top of your deck and search for up to 1 character, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LNJ/WE39-042
+Name Clink!, Kanata Konoe
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: StartAttackPhase
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Favorite Pillow
+	If HasTarget
+	{
+		PayCost 2 Discard 2 HasTrait Music && IsCharacter
+		{
+			Message Choose a marker to put into the waiting room
+			ChooseCardsFromTargets 1 1 NameEquals Favorite Pillow
+			MoveCard WaitingRoom
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Music
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+	}
+}
+Text Auto: [(2) Put 2 «Music» character cards from your hand to the waiting room and put 1 of this card's markers named "Favorite Pillow" in the waiting room] At the beginning of your attack phase, you may pay the cost. If you do, choose 1 of your other «Music» characters and stand it.
+Act: RestSelf
+{
+	If Not HasMarker
+	{
+		Message Choose a <Music> character or "Favorite Pillow" to become a marker
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Music || NameEquals Favorite Pillow
+		Marker_FaceUp
+	}
+}
+Text Act: [Rest this card] If there is no marker under this card, choose either a «Music» character or a "Favorite Pillow" in your waiting room and put it face-up under this card as marker.
+Act: 1 RestSelf
+{
+	TargetLocation Marker
+	Message Return a marker under this card to your hand
+	ChooseCardsFromTargets 1 1 Any
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Rest this card] Return a marker from under this card to your hand.
+EndCard
+
+Character: LNJ/WE39-043
+Name "Celebration Welcome" Mia Taylor
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(500,Music)
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your «Music» characters, and that character gets +500 power until end of turn.
+*Act1RestSelfDraw2Discard1Brainstorm
+EndCard
+
+Character: LNJ/WE39-047
+Name "Molte Grazie" Emma Verde
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*GlobalPower(500,Music)
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose a card to return to your hand
+			SearchLocationForTargets Clock 1 1 Any
+			RevealTargets
+			MoveCard Hand
+			Message Choose a card in hand to put into your clock
+			SearchLocationForTargets Hand 1 1 Any
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When your character's trigger check reveals a climax with a Gate trigger icon, you may pay the cost. If you do, choose a card in your clock and return it to your hand, and put the top card of your deck in your clock.
+EndCard
+
+Character: LNJ/WE39-049
+Name Don't Take Your Eyes Off Me, Mia Taylor
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Music
+	{
+		GainPower 1000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When your other «Music» character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Music
+	{
+		PayCost 1 Discard 1 Any
+		{
+			TargetMyCharacterInBattle
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card in the waiting room] When your other «Music» character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: LNJ/WE39-052
+Name "Passionate Even on Birthday" Karin Asaka
+Color B
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	PayCost 4 Discard 1 IsEvent
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Not CardPosition Rest
+		ChooseCharacterFromTargets Choose a character to rest
+		Rest
+	}
+}
+Text Auto: [(4) Put an event from your hand to the waiting room] When you use this card's BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters and Rest it.
+Backup 1000
+EndCard
+
+Character: LNJ/WE39-054
+Name Healing Time with Emma, Emma Verde
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+*GainPowerForEachOther(500,Music)
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: LNJ/WE39-057
+Name "Dreamlike Birthday" Kanata Konoe
+Color B
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Music
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you don't have another «Music» character, this card does not stand during your stand phase.
+*OnPlayGainPowerForEach(500,Music)
+EndCard
+

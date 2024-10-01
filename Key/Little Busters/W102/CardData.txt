@@ -1,0 +1,348 @@
+// Little Busters Key All-Star
+
+Character: Klb/W102-032
+Name Changing Seasons, Rin
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Animal
+Combo Sunset Resolutions
+Auto: OnAttack
+{
+	If StageContains 4 Other
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 2500
+	}
+}
+Text Auto: When this attacks, it you have 4 or more other characters, choose 1 of your characters, this turn, it gets +2500 power.
+Auto: OnEndOfAttack
+{
+	If Climax Sunset Resolutions && StageContains 3 Other
+	{
+		If FacingIsEmptyOrReversed
+		{
+			SearchWaitingRoom IsCharacter || NameEquals Farewell Yukichi!!
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if you have "Sunset Resolutions" in the climax area, you have 3 or more other characters, and the slot across from this has either no character or a reversed character, choose 1 up to 1 character or "Farewell Yukichi!!" from your waiting room, add it to hand.
+EndCard
+
+Character: Klb/W102-033
+Name Bond Between the Two, Rin & Komari
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Sweets
+Trait3 Animal
+Auto: OnSentFromStageToWaitingRoom
+{
+	TargetLocation Hand
+	ChooseCardFromTargets 0 1 Any
+	MoveCard Stock
+}
+Text Auto: When this card is placed from the stage into the waiting room, you may choose 1 card in your hand, and put it into your stock.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Discard 1 card] When this is placed on stage from hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card among them, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: Klb/W102-034
+Name Honest Thoughts, Sasami & Kanata & Saya
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Chairman
+*OnAttackMill1PutLevel0OnStage
+*GreenLevel0Bomb
+EndCard
+
+Character: Klb/W102-035
+Name My Youth, Saya
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Weapon
+*CannotSideAttack
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower X
+}
+Text Auto: When this attacks, choose 1 of your characters, this turn, it gets +X power. X equals the number of your opponent’s characters times 500.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1)] At the start of your opponent's attack phase, you may pay the cost. If you do, move this to an open position in your backstage. 
+EndCard
+
+Character: Klb/W102-038
+Name Popularity Vote #1, Kyousuke
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Anniversary
+ConditionalTrigger Bar LocationContains Climax 1 HasTrigger Bar
+Text If a climax with a Bar Trigger is in your climax area, this card in any area gains Bar Trigger.
+Auto: StartClimaxPhase
+{
+	Question Draw a card?
+	If Yes
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Alarm
+Text Auto: ALARM If this is on top of your clock, at the start of your climax phase, you may draw 1 card. If you do, discard 1 card.
+EndCard
+
+Character: Klb/W102-039
+Name Little Busters! (Band), Rin
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Anniversary
+Trait2 Animal
+Cont: GiveSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost 3 Discard 1 Any
+				{
+					Burn 2
+				}
+			}
+			Text Auto: [(3) Discard 1 card] When this attacks, you may pay the cost. If you do, deal 2 damage to your opponent.
+		}
+	}
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level zone is 5 or more, this gets +1000 power and the following ability, "Auto: [(3) Discard 1 card] When this attacks, you may pay the cost. If you do, deal 2 damage to your opponent."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetBottom Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, put the bottom card of your clock into your stock.
+EndCard
+
+Character: Klb/W102-040
+Name True Heroine, Riki
+Color G
+Level 3
+Cost 2
+Power 9500
+Trigger Soul
+Soul 2
+Trait1 Anniversary
+Combo Best Friend
+*EarlyPlayInClock(Popularity Vote #1\, Kyousuke)
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Best Friend && Compare Experience 5 OrMore
+	{
+		GainPower 1500
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 2
+			}
+			Text Cont: The character across from this gets -2 soul.
+		}
+	}
+}
+Quick
+Text Auto: CxCombo EXPERIENCE When this attacks, if you have "Best Friend" in your climax area, and the sum of levels of cards in your level zone is 5 or more, this turn, this gets +1500 power, and until the end of your opponent's next turn, this gains the following ability, "Cont: The character across from this gets -2 soul."
+EndCard
+
+Character: Klb/W102-041
+Name Whiteout, Kud
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Animal 
+Combo Surrounded by the Warm Light
+Auto: StartMyEncoreStep
+{
+	If Compare MyLevel 1 OrMore && Climax Surrounded by the Warm Light
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			Peek Deck 2
+			AIChoice AddToHand
+			ChooseCardsFromTargets 0 1 IsCharacter
+			RevealTargets
+			SaveTargets
+			MoveCard Hand
+			TargetLocation ScryArea
+			AIChoice AddToHand
+			ChooseCardsFromTargets 0 1 IsCharacter && Not SameColorAsSavedTarget
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: [Send "Surrounded by the Warm Light" from your climax area to waiting room] At the start of your encore step, if you are level 1 or higher, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 yellow character and up to 1 green character and up to 1 red character and up to 1 blue character among them, show them to your opponent, add them to hand, and send the rest to waiting room.
+Act: 1 Rest 2 Any
+{
+	Peek Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Rest 2 of your characters] Look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: Klb/W102-042
+Name Most Free, Mio
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Book
+Auto: OnPlay|OnAttack|OnSentFromStageToWaitingRoom
+{
+	*Scry
+}
+Text Auto: When this is placed on stage from hand or attacks or sent from stage to waiting room, look at the top card of your deck, and put it on top of your deck or into your waiting room.
+EndCard
+
+Character: Klb/W102-043
+Name Hannya, Yuiko
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Music
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level zone is 2 or more, this gets +2000 power.
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 IsCharacter
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Auto: [Shuffle 2 characters from your waiting room into your deck] When this is placed on stage from hand, you may pay the cost. If you do, this turn, this gets +1000 power and the following ability, "Auto: [(1)] When this attacks, you may pay the cost. If you do, during the trigger step of this attack, perform trigger check twice."
+EndCard
+
+Character: Klb/W102-044
+Name Twin Beach Volleyball, Haruka
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Marble
+Trait3 Twins
+Combo Soulmate
+Auto: OnPlay
+{
+	TargetLocation Level
+	If HasTarget
+	{
+		Question Swap a card in your level zone and 1 card in your waiting room?
+		If Yes
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			SaveTargets
+			SearchLocationForTargets WaitingRoom 1 1 Any
+			AddSavedToCurrentTargets
+			Exchange
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, choose 1 card from your level zone and 1 card from your waiting room, you may swap them.
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainPower 2000
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, until the end of your opponent's next turn, it gets +2000 power.
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar || NameEquals Soulmate
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: CxCombo When your character trigger checks a climax with a Bar Trigger or "Soulmate", you may draw one card. If you did, choose one card in your hand, send it to waiting room.
+EndCard
+
+Climax: Klb/W102-048
+Name Sunset Resolutions
+*BarClimax
+EndCard
+
+Climax: Klb/W102-049
+Name Best Friend
+*BarClimax
+EndCard
+
+Climax: Klb/W102-050
+Name Surrounded by the Warm Light
+*BarClimax
+EndCard

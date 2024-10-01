@@ -1,0 +1,503 @@
+// Air Key All-Star
+
+Character: Kai/W102-073
+Name A Thousand Years of Thoughts, Kanna
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Wingman
+Auto: StartClimaxPhase
+{
+	PayCost 1 Send 1 WaitingRoom Any SendFromMemoryToWaitingRoom 1 NameEquals A Thousand Years of Thoughts, Kanna
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+InMemory
+Text Auto: MEMORY [(1) Send 1 of your characters on stage to waiting room, send this to waiting room] While this is in your memory, at the start of your climax phase, you may pay the cost. If you do, choose 1 character in your waiting room, add it to hand.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		PayCost StockClock SendSelf Memory
+		{
+			*CheckAndAddAll(2,HasTrait Anniversary|Summer || NameEquals Puppet Show)
+		}
+	}
+}
+Text Auto: [Put the top card of your stock to clock, send this to memory] When this becomes reversed in battle, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 《Anniversary》 or 《Summer》 characters or "Puppet Show" from among them, show them to your opponent, add them to hand, and send the rest to waiting room. 
+EndCard
+
+Character: Kai/W102-077
+Name The Last Summer Vacation, Misuzu
+Color B
+Level 3
+Cost 2
+Power 10500
+Trigger Soul
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Dinosaur
+Combo The Happiness I Finally Found
+Auto: StartAttackPhase
+{
+	If LocationContainsOrLess CenterStage 0 Other
+	{
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				If Climax The Happiness I Finally Found
+				{
+					PayCost 5 Discard 3 IsColor Blue &&& SendClimax WaitingRoom
+					{
+						Burn 1
+						Burn 2
+						Burn 3
+						Burn 4
+						Burn 5
+						Burn 6
+						Burn 7
+						// GOOOOAAALLL
+						TargetSelf
+						MoveCard WaitingRoom
+					}
+				}
+			}
+			Text Auto: [(5) Discard 3 blue cards, send "The Happiness I Finally Found" from your climax area to waiting room] At the end of this card's attack, you may pay the cost. If you do, deal 1 damage, 2 damage, 3 damage, 4 damage, 5 damage, 6 damage, then 7 damage to your opponent, and send this to waiting room.
+		}
+	}
+}
+Text Auto: CxCombo At the start of your attack phase, if you have no other character in your center stage, this turn, this gains the following ability. "Auto: [(5) Discard 3 blue cards, send "The Happiness I Finally Found" from your climax area to waiting room] At the end of this card's attack, you may pay the cost. If you do, deal 1 damage, 2 damage, 3 damage, 4 damage, 5 damage, 6 damage, then 7 damage to your opponent, and send this to waiting room."
+Auto: StartClimaxPhase|StartOpponentClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: Encore Discard 1 IsColor Blue
+		{
+		}
+		Text Auto: ENCORE [Discard 1 blue card]
+	}
+}
+Alarm
+Text Auto: ALARM If this is on top of your clock, at the start of the climax phase, choose 1 of your characters, this turn, it gains "Auto: ENCORE [Discard 1 blue card]".
+EndCard
+
+Character: Kai/W102-083
+Name The End of the Journey, Yukito
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Doll
+Combo By Your Side Again
+*GainPowerWithEnoughCharacters(2000,2,Anniversary|Summer)
+Auto: OnSpecificClimaxPlay By Your Side Again
+{
+	If InLocation CenterStage &&& StageContains 1 Other && HasTrait Anniversary|Summer
+	{
+		MultipleChoiceQuestion Choose 1 of the following effects and resolve it,\n1. Choose 1 "Puppet Show" from your Waiting Room, and add it to hand.\n2. Search your deck for up to 1 "Puppet Show", show it to your opponent, add it to hand, and shuffle your deck afterwards.|Choice 1|Choice 2
+		If Answer 0
+		{
+			SearchWaitingRoom NameEquals Puppet Show
+		}
+		If Answer 1
+		{
+			SearchDeck NameEquals Puppet Show
+		}
+	}
+}
+Text Auto: CxCombo When "By Your Side Again" is placed in your climax area, if this is in the center stage, and you have another 《Anniversary》 or 《Summer》 character, choose 1 of the following 2 effects and resolve it, "Choose 1 "Puppet Show" from your Waiting Room, and add it to hand." "Search your deck for up to 1 "Puppet Show", show it to your opponent, add it to hand, and shuffle your deck afterwards."
+EndCard
+
+Character: Kai/W102-084
+Name Endless Summer Sky, Misuzu
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Dinosaur
+*OnPlayGainPower(1500)
+Auto: OnUseResonate
+{
+	GainPower 500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			PayCost 1
+			{
+				SearchWaitingRoom IsCharacter
+			}
+		}
+		Text Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 character in your waiting room, add it to hand.
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability can only be activated up to once per turn. When you use a "RESONATE" effect, this turn, this gets +500 power and the following ability, "Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 character in your waiting room, add it to hand."
+EndCard
+
+Character: Kai/W102-085
+Name In a Fleeting Dream, Minagi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Rice
+*EarlyPlay2OrLessClimax
+Auto: OnUseEvent
+{
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			PayCost 1
+			{
+				SearchWaitingRoom IsCharacter
+			}
+		}
+		Text Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 character in your waiting room, add it to hand.
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability can only be activated up to once per turn. When you play an event, this turn, this gets +1000 power and the following ability, "Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 character in your waiting room, add it to hand."
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Anniversary|Summer
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Send 1 of your other 《Anniversary》 or 《Summer》 characters on stage to waiting room] When this is placed on stage from hand, you may pay the cost. If you do, put the top card of your clock into stock.
+EndCard
+
+Character: Kai/W102-086
+Name Kunisaki is the Best!, Yukito
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Doll
+Auto: OnUseEvent
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1500
+	GainEffect
+	{
+		Auto: Encore Discard 1 IsColor Blue
+		{
+		}
+		Text Auto: ENCORE [Discard 1 blue card]
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability can only be activated up to once per turn. When you play an event, choose 1 of your characters, this turn, it gets +1500 power and "Auto: ENCORE [Discard 1 blue card]".
+Act: 1 RestSelf Resonate The Last Summer Vacation, Misuzu
+{
+	*CheckAndAddOne(3, HasTrait Anniversary|Summer || NameEquals Puppet Show)
+}
+Text Act: RESONATE [(1) Reveal "The Last Summer Vacation, Misuzu" from your hand, rest this] Look at up to 3 cards from the top of your deck, choose up to 1 《Anniversary》 or 《Summer》 character or "Puppet Show" from among them, show it to your opponent, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: Kai/W102-087
+Name Meaning of Family, Haruko
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Family
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 IsColor Blue
+	{
+		SearchDeck NameEquals The Last Summer Vacation, Misuzu|Endless Summer Sky, Misuzu
+	}
+}
+Text Auto: [Discard 1 blue card] When this is sent from stage to waiting room, you may pay the cost. If you do, search your deck for up to 1 "Endless Summer Sky, Misuzu" or "The Last Summer Vacation, Misuzu", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: Kai/W102-091
+Name Secret Wish, Kano
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Bandana
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		MoveCard BottomOfOpponentDeck
+	}
+}
+Text Auto: [Discard 2 cards] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level, and send it to the bottom of your opponent's deck.
+Backup 2500
+EndCard
+
+Character: Kai/W102-094
+Name Summer Scenery, Michiru
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Soap Bubbles
+Auto: OnPlay
+{
+	Message Choose up to 1 《Anniversary》 or 《Summer》 character to put as a marker.
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Anniversary|Summer
+	RevealTargets
+	Marker_FaceDown
+}
+Text Auto: When this is placed on stage from hand, choose 1 《Anniversary》 or 《Summer》 character in your waiting room, you may place it underneath this card face-down as a marker.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary|Summer
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: At the start of your climax phase, choose 1 of your 《Anniversary》 or 《Summer》 characters, this turn, it gets +1000 power.
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainEffect
+		{
+			Auto: OnSentFromStageToWaitingRoom
+			{
+				If StageContains 1 Other && HasTrait Anniversary|Summer
+				{
+					Question Return this card to its former slot?
+					If Yes
+					{
+						Revive
+					}
+				}
+			}
+		}
+	}
+}
+Text Cont: During your turn, when this card with a marker underneath is sent from stage to waiting room, if you have another 《Anniversary》 or 《Summer》 character, you may place this card in this card's former slot rested.
+EndCard
+
+Character: Kai/W102-097
+Name Two Who Were Never Meant to Meet, Kanna & Misuzu
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Dinosaur
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Anniversary|Summer || NameEquals Puppet Show
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this is placed on stage from hand, put the top two cards of your deck into the waiting room, and this turn, this gets +X power. X equals the number of 《Anniversary》 or 《Summer》 characters or "Puppet Show" put into the waiting room by this effect times 1000.
+Auto: OnSentFromStageToWaitingRoom
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Discard 1 card] When this is sent from stage to waiting room, put the top two cards of your deck into waiting room. If there is at least 1 climax among them, you may pay the cost. If you do, choose 1 character from your waiting room, add it to hand. 
+EndCard
+
+Character: Kai/W102-098
+Name Sealed Magic User, Kano
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Bandana
+Auto: StartOpponentAttackPhase
+{
+	Mill 1
+	IfTarget Compare ThatCardsLevel 0 OrLess
+	{
+		TargetLocation RightCenterStage
+		If Not HasTarget
+		{
+			TargetSelf
+			MoveCard RightCenterStage
+		}
+	}
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		TargetLocation LeftCenterStage
+		If Not HasTarget
+		{
+			TargetSelf
+			MoveCard LeftCenterStage
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, put the top card of your deck into waiting room. If that card is level 0 or lower, move this to your empty right most slot in the center stage. If that card is a level 1 or higher, move this to your empty left most slot in the center stage.
+Auto: OnReversed
+{
+	If Not MyTurn
+	{
+		TargetBattleOpponent
+		IfThatCard Compare ThatCardsLevel 0 OrLess && OnStage
+		{
+			Question Put the battle opponent on the bottom of the deck?
+			If Yes
+			{
+				MoveCardToBottom OpponentDeck
+			}
+		}
+	}
+}
+Quick
+Text Auto: During your opponent's turn, when this is reversed, if the battle opponent's level is 0 or lower, you may send that character to the bottom of your opponent's deck.
+EndCard
+
+Character: Kai/W102-101
+Name Secret Rice Coupons, Minagi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Rice
+Cont: Assist
+{
+	If Compare ThatCardsLevel 3 OrMore
+	{
+		GainPower 2000
+		GainTrait Rice Coupon
+	}
+}
+Text Cont: ASSIST +2000 power and 《Rice Coupon》 to level 3 or higher characters.
+Act: 1 Send 1 WaitingRoom Other &&& RestSelf
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	Bounce
+}
+Text Act: [(1) Send 1 of your other characters on stage to waiting room, rest this] Choose 1 of your opponent's characters, return it to hand.
+EndCard
+
+Event: Kai/W102-103
+Name Puppet Show
+Color B
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	If StageContains 2 HasTrait Anniversary|Summer
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Anniversary|Summer
+		RevealTargets
+		MoveCard Stock
+	}
+	Brainstorm 3
+	TargetBrainstormed
+	NarrowTargets HasTrait Anniversary|Summer || NameEquals Puppet Show
+	If Compare TargetCount 3 Exactly
+	{
+		TargetTop Deck 1
+		MoveCard Stock
+	}
+}
+Text BRAINSTORM If you have 2 or more 《Anniversary》 or 《Summer》 characters, choose 1 《Anniversary》 or 《Summer》 character in your waiting room, send it to stock. Flip over the top 3 cards of your deck, then send them to waiting room. If all of those cards are 《Anniversary》 or 《Summer》 characters or "Puppet Show", put the top card of your deck into stock. 
+EndCard
+
+Climax: Kai/W102-104
+Name The Happiness I Finally Found
+*GateClimax
+EndCard
+
+Climax: Kai/W102-106
+Name By Your Side Again
+*GateClimax
+EndCard
+
+Character: Kai/W102-111
+Name Girl With Wings, Misuzu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Anniversary
+Trait2 Summer
+Trait3 Dinosaur
+Auto: OnOtherAttacks
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary|Summer
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When your other 《Anniversary》 or 《Summer》 characters attack, this turn, this gets +X power. X equals the number of your other 《Anniversary》 or 《Summer》 characters times 500.
+Auto: OnReversed
+{
+	If Not MyTurn
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffect StartMyEncorePhase
+			{
+				Effect:
+				{
+					TargetSelf
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard

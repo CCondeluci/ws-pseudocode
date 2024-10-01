@@ -1,0 +1,410 @@
+Character: SSY/W62-017
+Name Normal Human, Kyon
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Auto: OnOpponentsCharacterRests
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When your opponent's standing character becomes rested, this card gets +1500 power until end of turn.
+EndCard
+
+Character: SSY/W62-034
+Name School Uniforms, Haruhi & Mikuru
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Time
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play event cards or backup.
+EndCard
+
+Character: SSY/W62-035
+Name Cosplay Mode, Mikuru
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Time
+*OnAttackPay1ToDoubleTrigger
+*GreenEarlyPlayBomb
+EndCard
+
+Character: SSY/W62-037
+Name SOS Brigade's Exclusive Santa Clause, Mikuru
+Color G
+Level 1
+Cost 0
+Power 500
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Time
+Auto: OnPlay
+{
+	TargetLocation OpponentBackstage
+	NarrowTargets Compare ThatCardsLevel 3 OrLower
+	NarrowTargets CardPosition Rested
+	AIChoice CannotStand
+	ChooseCharacterFromTargets Choose a character to make unable to stand next turn.
+	DontStand
+}
+Text Auto: When this card is placed on the stage from your hand, choose a level 3 or lower character on your opponent's backstage, it cannot stand during your opponent's next stand phase.
+EndCard
+
+Character: SSY/W62-041
+Name Honorary Advisor of the SOS Brigade, Tsurusanya
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Sneaker Bunko
+Trait2 Forehead
+Trait3 Fang Tooth
+*OnAttackCheck2ChooseTrigger
+*OnAttackMill1PutLevel0OnField
+EndCard
+
+Character: SSY/W62-050
+Name Reckless, Haruhi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Brigade Leader
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		AIChoice GainSoul 1
+		ChooseCharacterFromTargets Choose a character to give +1 soul.
+		GainSoul 1
+	}
+}
+Text Auto: [Return this card to your hand] When a climax is placed in your climax area, you may pay the cost, choose 1 of your characters, it gets +1 soul until end of turn.
+Act: 1 Clock RestSelf
+{
+	SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+}
+Text Act: [(1) Put the top card of your deck into your clock and rest this card] Search your deck for a level 1 or lower character and add it to your hand.
+EndCard
+
+Character: SSY/W62-052
+Name SOS Brigade Girls, Haruhi & Nagato & Mikuru
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Brigade Leader
+*ScryOnPlay
+*RedLevel0Bomb
+EndCard
+
+Character: SSY/W62-054
+Name Radiant Smile, Haruhi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Brigade Leader
+Combo SOS Brigade Summer Vacation
+*OnPlayMill2GainPowerForEachCharacter(1000,Sneaker Bunko|SOS Brigade)
+Auto: OnAttack
+{
+	If Climax SOS Brigade Summer Vacation
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			AIChoice CanReverseOpponent
+			ChooseCharacterFromTargets Choose another character to give the effect to.
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					SearchWaitingRoom IsCharacter
+				}
+				Text Auto: When this card's battle opponent becomes reversed choose a character in your waiting room and return it to your hand.
+			}
+			TargetSelf
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					SearchWaitingRoom IsCharacter
+				}
+				Text Auto: When this card's battle opponent becomes reversed choose a character in your waiting room and return it to your hand.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "SOS Brigade Summer Vacation" is in your climax area, you may pay the cost, choose one of your other characters and this card, until end of turn, each gets "Auto: When this card's battle opponent becomes reversed choose a character in your waiting room and return it to your hand."
+EndCard
+
+Character: SSY/W62-055
+Name Kouyouen Academy Student, Haruhi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Brigade Leader
+*BackupBonus1000(Sneaker Bunko|SOS Brigade)
+Backup 2500
+EndCard
+
+Climax: SSY/W62-072
+Name SOS Brigade Summer Vacation
+Combo Radiant Smile, Haruhi
+*StandbyClimax
+EndCard
+
+Character: SSY/W62-075
+Name Memory of Meeting, Nagato
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Alien
+Combo Blank Application Form
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Blank Application Form
+	{
+		MultipleChoiceQuestion Select 1 of these effects "Choose up to 1 card in your waiting room and put it into your stock. Then each player shuffles their waiting room into the deck" OR "Put the top 6 cards of your deck into the waiting room. Deal X damage to your opponent. X is the number of climax sent." | First Effect | Second Effect
+		If Answer 0
+		{
+			Message Choose a card to put into your stock
+			SearchLocationForTargets WaitingRoom 0 1 Any
+			MoveCard Stock
+			TargetLocation WaitingRoom
+			MoveCard Deck
+			ShuffleLocation Deck
+			TargetLocation OpponentWaitingRoom
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+		}
+		If Answer 1
+		{
+			Mill 6
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Blank Application Form" is in your climax area, select and perform 1 of the following abilities "Choose up to 1 card in your waiting room and put it into your stock. Then each player shuffles their waiting room into the deck" OR "Put the top 6 cards of your deck into the waiting room. Deal X damage to your opponent. X is the number of climax sent." 
+EndCard
+
+Character: SSY/W62-077
+Name Exposing Her True Face, Nagato
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Alien
+Auto: OnPlay
+{
+	PayCost 2 Send 1 Memory NameEquals Reckless, Haruhi
+	{
+		AIChoice Random
+		SearchWaitingRoomForTarget NameEquals Ryouko Asakura Who Should Have Changed Schools
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [(2) Send 1 "Reckless, Haruhi" from your stage to memory] When this card is placed on the stage from your hand, you may pay the cost, choose a "Ryouko Asakura Who Should Have Changed Schools" in your waiting room and place it on any position of your stage.
+*BlueCost0Bomb
+EndCard
+
+Character: SSY/W62-087
+Name Asakura & Nagato in School Uniforms
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Sneaker Bunko
+Trait2 Alien
+Trait3 Weapon
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +1000 power.
+*Act1RestSelfSearchBrainstorm(Sneaker Bunko|Alien)
+EndCard
+
+Character: SSY/W62-090
+Name Ryouko Asakura Who Should Have Changed Schools
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Sneaker Bunko
+Trait2 Alien
+Trait3 Weapon
+Cont: GiveAll
+{
+	If Other && HasTrait Sneaker Bunko | Alien
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other <Sneaker Bunko> or <Alien> characters get +1000 power.
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power
+	GainPower 1000
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Climax: SSY/W62-102
+Name Blank Application Form
+*GateClimax
+Combo Memory of Meeting, Nagato
+EndCard
+
+Character: SSY/W62-P01
+Name In a Normal World, Nagato & Haruhi
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Brigade Leader
+*RedLevel1Bomb
+Auto: OnRefresh
+{
+	Question Put In a Normal World, Nagato & Haruhi into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When you refresh your deck, you may put this card into your stock.
+EndCard
+
+Character: SSY/W62-T08
+Name Weirdest in School, Haruhi
+Color R
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Brigade Leader
+*Healer
+Auto: OnReverseOpponent
+{
+	PayCost 4 Send 1 WaitingRoom Other
+	{
+		Burn 4
+	}
+}
+Text Auto: [(4) Put 1 other character from your stage into  the waiting room] When this card's battle opponent becomes reversed, you may pay the cost, deal 4 damage to your opponent.
+EndCard
+
+Character: SSY/W62-T13
+Name Glasses Girl, Mikuru
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Sneaker Bunko
+Trait2 SOS Brigade
+Trait3 Glasses
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When your character's trigger check reveals a climax card, choose 1 of your characters, it gets +2000 power until end of turn.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: SSY/W62-P03
+Image SKS_W62_P03
+Name Aqua & Haruhi
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Sneaker Bunko
+Trait2 Adventurer
+Trait3 SOS Brigade
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Adventurer|Sneaker Bunko|SOS Brigade
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another <Sneaker Bunko> <Adventurer> or <SOS Brigade> character, this card gets +2000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		TargetLocation OpponentStage
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose an opponent's character to send to memory until encore step.
+		If HasTarget
+		{
+			MoveCard OpponentMemory 
+			ScheduleEffectForTargets StartEncoreStep
+			{
+				Effect:
+				{
+					PlaceOnStage False True True False
+				}
+			}
+		}
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand, you may pay the cost, choose 1 of your opponent's characters, put it into your opponent's memory, and at the start of the encore step, your opponent places that character from memory onto any position of his or her stage.
+EndCard
+
+
+

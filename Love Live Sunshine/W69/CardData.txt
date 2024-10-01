@@ -1,0 +1,2453 @@
+Character: LSS/W69-001
+Name "Maru's World" Hanamaru Kunikida
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music && IsCharacter
+	{
+		TargetSelf
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If the revealed card is a «Music» character, this card gets +1 level and +1500 power until end of turn. 
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		Question_Obvious Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If it's level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: LSS/W69-002
+Name "Ruby's Letter" Ruby Kurosawa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Music
+Cont: Assist
+{
+	If HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Cont: ASSIST Your «Music» characters in front of this card get +2000 power.
+Auto: OnPlay
+{
+	SearchDeck HasTrait Music && IsCharacter
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 «Music» character, reveal it, and put it in your hand.
+Auto: OnTriggerCheck
+{
+	IfOther HasTrigger Standby
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Auto: When your character's trigger check reveals a <b> STANDBY </b> trigger icon, choose 1 of your characters, and until the end of your opponent's next turn, that character gets +1000 power.
+EndCard
+
+Character: LSS/W69-003
+Name "Letter to You" Yoshiko Tsushima
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Guilty Look
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Guilty Look
+	{
+		PayCost 2 Discard 2 Any
+		{
+			SetXToNumberOfCharacters NameContains Riko|Yoshiko|Mari
+			If Compare X 2 OrMore && Compare X 3 OrLess
+			{
+				Burn 1
+				TargetSelf
+				GainPower 4000
+			}
+			If Compare X 4 OrMore
+			{
+				Repeat 2
+				{
+					Burn 1
+					TargetSelf
+					GainPower 4000
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from hand to the waiting room] When this card attacks, if "Guilty Look" is in your climax area, you may pay the cost. If you do, for each 2 characters you have with "Riko", "Yoshiko", or "Mari" in its card name, perform the following action. "Deal 1 damage to your opponent, and this card gets +4000 power until end of turn."
+EndCard
+
+Character: LSS/W69-004
+Name "Those Who Rule the Galaxy" Yoshiko Tsushima
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Star
+*YellowLevel0Bomb
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Letter to You" Yoshiko Tsushima
+	{
+		GainSoul 1
+	}
+}
+Text Auto: RESONATE [Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +1 soul until end of turn.
+EndCard
+
+Character: LSS/W69-005
+Name "Dream-Waiting Moon" Hanamaru Kunikida
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Moon
+*GainPowerWithEnoughCharacters(1000,2,Music)
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: LSS/W69-006
+Name "Investigate the Darkness" Yoshiko Tsushima
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 NameContains Riko|Yoshiko|Mari && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is reversed in battle, you may reveal up to 3 cards from the top of your deck. If you revealed at 1 or more cards in this way, choose up to 1 character with "Riko", "Yoshiko", or "Mari" in its card name among them, put it in your hand, put the rest into waiting room, and discard a card from hand to the waiting room.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Letter to You" Yoshiko Tsushima
+	{
+		GainPower 2000
+	}
+}
+Text Auto: RESONATE [Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2000 power until end of turn.
+EndCard
+
+Character: LSS/W69-007
+Name "Thoroughly Refreshing Do Your Rubesty" Ruby Kurosawa
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 New Year's
+Combo CYaRon! Cyclone
+*ClimaxExchange
+Auto: OnSpecificClimaxPlay CYaRon! Cyclone
+{
+	PayCost SendSelf Hand
+	{
+		*CheckAndAdd(2)
+		Discard 1 Any
+	}
+}
+Text Auto: CxCombo [Return this card to your hand] When "CYaRon! Cyclone" is placed on your climax area, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 of them and put it in your hand, put the rest into your waiting room, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: LSS/W69-008
+Name "Flip the Card" Ruby Kurosawa
+Color Y
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Card Game
+*YellowCost0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: [(2)] When this card is placed from stage to the waiting room, you may pay the cost. If you do, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LSS/W69-009
+Name "Flower Points" Ruby Kurosawa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Summer
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameContains You|Chika|Ruby
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: For each of your other characters with either "You", "Chika", or "Ruby" in its card name, this card gets +500 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 NameContains You|Chika|Ruby && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed from the stage to the waiting room, you may reveal up to 3 cards from the top of your deck. If at least 1 card is revealed this card was, choose up to 1 character with "You", "Chika", or "Ruby" in its card name among them, reveal it to your opponent, put it in your hand, put the rest of the cards in the waiting room, and discard a card from hand to the waiting room.
+EndCard
+
+Character: LSS/W69-010
+Name "Finishing Up Work And Setting Up Fallen Angel" Yoshiko Tsushima
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 New Year's
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AIChoice RemoveCard
+		ChooseCharacterFromTargets Choose a character to send to your opponent's stock
+		MoveCard OpponentStock
+	}
+}
+Text Auto: [Put 2 cards from hand to the waiting room] When you use this card's BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent and put it in stock.
+Backup 2500
+EndCard
+
+Character: LSS/W69-011
+Name "Fluffy Topping" Hanamaru Kunikida
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Summer
+Combo Flower of Happy Feelings
+*LevelAssist
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainEffect
+		{
+			Cont: GiveAll
+			{
+				If NameContains Dia|Hanamaru|Kanan && Other
+				{
+					GainPower 500
+				}
+			}
+			Text Cont: Your other characters with "Dia", "Hanamaru", or "Kanan" get +500 power.
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 3 or higher, this card gets the following ability. "Cont: Your other characters with "Dia", "Hanamaru", or "Kanan" get +500 power".
+Auto: OnSpecificClimaxPlay Flower of Happy Feelings
+{
+	If Climax Flower of Happy Feelings
+	{
+		TargetLocation Stage
+		ChooseCharactersFromTargets 0 2 Choose up to 2 characters to gain +1500 power
+		GainPower 1500
+	}
+}
+Text Auto: CxCombo when "Flower of Happy Feelings" is placed on your climax area, choose up to 2 of your characters, and they get +1500 power until end of turn.
+EndCard
+
+Character: LSS/W69-012
+Name "Even if we Become a Constellation Together" Hanamaru
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Star
+Cont: GiveSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		GainPower 1500
+		If InBattle
+		{
+			GainSpecialEffect OpponentCannotUseEvents
+			GainSpecialEffect NoBackupOnAttack
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 5 or higher, this card gets +1500 power and the following ability. "Cont: In battles involving this card, your opponent cannot play events or BACKUP".
+*StockHealer
+EndCard
+
+Character: LSS/W69-013
+Name "White x Black" Yoshiko Tsushima
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+*500Assist
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Music)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to 4 cards from the top of your deck and search them for up to 1 «Music» character, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LSS/W69-014
+Name "Smile Made via Chocolate" Hanamaru Kunikida
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+*OnPlayScryToBottom
+*DropSearch(Music)
+EndCard
+
+Character: LSS/W69-015
+Name "Invitation of the Holy Angel" Yoshiko Tsushima
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Sister
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Music
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all your other «Music» characters get +1000 power.
+*OnClimaxPlayGivePower(1000)
+EndCard
+
+Character: LSS/W69-016
+Name "All We Need is Love" Riko & Yoshiko & Mari
+Color Y
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Guilty Kiss
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		Auto: Encore 2
+		{
+		}
+		Text Auto: ENCORE [(2)]
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [(2)]".
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Letter to You" Yoshiko Tsushima
+	{
+		GainPower 2000
+	}
+}
+Text Auto: RESONATE [Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2000 power until end of turn.
+EndCard
+
+Character: LSS/W69-017
+Name "Place of Dreams and Happiness" Ruby Kurosawa
+Color Y
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+*GainPowerWhenOtherAttacks(1500,Music)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: LSS/W69-018
+Name "Album of Memories" Hanamaru Kunikida
+Color Y
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 New Year's
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets +1500 power and "Auto: ENCORE [Put 1 character from hand to the waiting room]".
+EndCard
+
+Character: LSS/W69-019
+Name "Enchanted Mermaid Princess" Yoshiko Tsushima
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+Combo Yohane's Abyss
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameEquals "Enchanted Mermaid Princess" Yoshiko Tsushima && Other && InLocation CenterStage
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: For each of your other '"Enchanted Mermaid Princess" Yoshiko Tsushima' in the center stage, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Yohane's Abyss
+	{
+		*CheckAndAddAll(2,Music)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Yohane's Abyss" is in your climax area, look at up to 2 cards from the top of your deck and search for up to 2 «Music» characters, reveal them, put them in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LSS/W69-020
+Name "Mermaid in Love" Ruby Kurosawa
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Music
+Trait2 Mermaid
+*GainPowerForEachOther(1000,Music)
+*HandEncore
+EndCard
+
+Character: LSS/W69-021
+Name "Enjoying Summer!" Yoshiko Tsushima
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Summer
+Cont: GiveAll
+{
+	If NameEquals "Enjoying Vacation" Riko Sakurauchi
+	{
+		GainEffect
+		{
+			*RedLevel1Bomb
+		}
+	}
+}
+Text Cont: Your other '"Enjoying Vacation" Riko Sakurauchi' get the following ability. "Auto: When this card is reversed in battle, if the battle opponent of this card is level 1 or lower, you may reverse that character."
+*BondDiscard("Enjoying Vacation" Riko Sakurauchi)
+EndCard
+
+Character: LSS/W69-022
+Name "Along with Everyone" Hanamaru Kunikida
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+*GlobalPower(500,Music)
+*RestGivePower(500,Any)
+EndCard
+
+Character: LSS/W69-023
+Name "Sweet Message" Ruby Kurosawa
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Combo Heartful Feelings
+*GainPowerWhenOtherAttacks(1000,Music)
+Auto: OnOpponentReverse
+{
+	If Climax Heartful Feelings && StageContains 1 Other && HasTrait Music
+	{
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Heartful Feelings" is in your climax area, and you have another «Music» character, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LSS/W69-024
+Name "Galactic Idol" Ruby Kurosawa
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Star
+*OnPlayGainPower(1500)
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Music
+		ChooseCharacterFromTargets Choose a character to return to your hand
+		Bounce
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other «Music» characters and return it to your hand.
+EndCard
+
+Character: LSS/W69-025
+Name "Bouncing Winter Fairy" Ruby Kurosawa
+Color Y
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Snow
+EndCard
+
+Character: LSS/W69-026
+Name Falling in Winter" Yoshiko Tsushima, "Fallen Angel
+Color Y
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Snow
+Auto: OnPlay
+{
+	TargetLocation OpponentWaitingRoom
+	NarrowTargets IsClimax
+	If Compare TargetCount 5 OrMore
+	{
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if there are 5 or more climax cards in your opponent's waiting room, Rest this card.
+Auto: OnReversed
+{
+	MoveCardToBottom Deck
+}
+Text Auto: When this card becomes reversed in battle, put this card on the bottom of the deck.
+EndCard
+
+Character: LSS/W69-027
+Name "Warm Your Body and Mind" Hanamaru Kunikida
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Snow
+Combo Maru's Story
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainPower 1500
+	}
+}
+Text Auto: When this card attacks, if you have another «Music» character, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Maru's Story
+	{
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Maru's Story" is in your climax area, until the end of your opponent's next turn this card gets the following ability. "Auto: When this card is frontal attacked, you may return this card to hand."
+EndCard
+
+Character: LSS/W69-028
+Name "Fading Beauty" Hanamaru Kunikida
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+*GainPowerWithEnoughCharacters(4000,2,Music)
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrMore
+{
+	PayCost 1
+	{
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: [(1)] When a level 2 or higher battle opponent of this card becomes reversed, you may pay the cost. If you do, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Event: LSS/W69-029
+Name Uchiura Summer
+Color Y
+Level 1
+Cost 1
+Effect: 
+{
+	PayCost Rest 1 CardPosition Stand && HasTrait Music
+	{
+		RevealUpTo Deck 3
+		NarrowTargets IsCharacter && NameContains Riko|Yoshiko|Mari
+		ChooseCardsFromTargets 0 3 NameContains Riko|Yoshiko|Mari
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Rest 1 of your standing «Music» characters. If you do, look at up to 3 cards from the top of your deck. Choose up to 3 characters with "Riko", "Yoshiko", or "Mari" in its card name, reveal them, put them in your hand, and put the rest into waiting room.
+EndCard
+
+Climax: LSS/W69-030
+Name Guilty Look
+*WindClimax
+EndCard
+
+Climax: LSS/W69-031
+Name Yohane's Abyss
+Color Y
+*2K1Climax
+EndCard
+
+Climax: LSS/W69-032
+Name Maru's Story
+*WindClimax
+EndCard
+
+Climax: LSS/W69-033
+Name Heartful Feelings
+*ShotClimax
+EndCard
+
+Character: LSS/W69-034
+Name "My Favorite Song" Riko Sakurauchi
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		Message Choose a "Letter to You" Yoshiko Tsushima to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals "Letter to You" Yoshiko Tsushima
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 climax from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a '"Letter to You" Yoshiko Tsushima' from your waiting room and return it to hand.
+Act: 1 RestSelf Resonate "Letter to You" Yoshiko Tsushima
+{
+	RevealUpTo Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 NameContains Riko|Yoshiko|Mari && IsCharacter
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: RESONATE [(1) Reveal a '"Letter to You" Yoshiko Tsushima' in your hand and rest this card] Look at up to 4 cards from the top of your deck, choose up to 1 card with "Riko", "Yoshiko", or "Mari" in its card name among them, reveal it, put it in your hand, and put the rest into waiting room.
+EndCard
+
+Character: LSS/W69-035
+Name "Chika-chi's Strength" Chika Takami
+Color R
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play events or BACKUP from your hand.
+*RunInFrontOfCharacter
+EndCard
+
+Character: LSS/W69-036
+Name "Orange Mermaid" Chika Takami
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+Combo CYaRon! Cyclone
+*GainPowerWithEnoughCharacters(1000,2,Music)
+Auto: OnOpponentReverse
+{
+	*OptionalBlindStock
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "CYaRon! Cyclone" is in your climax area, put up to 1 card from the top of your deck in your stock, then reveal the top card of your deck. If it's level 1 or higher, put it in your hand. 
+EndCard
+
+Character: LSS/W69-037
+Name "My Favor" You Watanabe
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+*GlobalPower(500,Music)
+*Healer
+Combo I'll Tell You Again and Again
+Auto: OnAttack
+{
+	If Climax I'll Tell You Again and Again
+	{
+		PayCost 1 Discard 1 Any
+		{
+			TargetTop Deck 9
+			Reveal
+			NarrowTargets HasTrigger Standby
+			SetXValue TargetCount
+			EndPeek
+			Burn X
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 card from hand to the waiting room] When this card attacks, if "I'll Tell You Again and Again" is in your climax area, you may pay the cost. If you do, reveal the top 9 cards of your deck, deal X damage to your opponent, and this card gets +1000 power until end of turn. X equals the number of cards with standby icons revealed by this card effect.
+EndCard
+
+Character: LSS/W69-038
+Name "Wrapped in Starry Sky" Riko Sakurauchi
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Star
+Combo Guilty Look
+*500Assist
+Auto: OnUseResonate
+{
+	*GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates once per turn. When you use "RESONATE", choose 1 of your characters, and until end of turn that character gets +1000 power.
+Auto: OnSpecificClimaxPlay Guilty Look
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo [Put 1 card from hand to the waiting room] When "Guilty Look" is placed on your climax area, you may pay the cost. If you do, return a character from your waiting room to your hand.
+EndCard
+
+Character: LSS/W69-039
+Name "Leave it to You-chan!" You Watanabe
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 New Year's
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Music
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another «Music» character, this card gets +3000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: LSS/W69-040
+Name "Sea Romance" You Watanabe
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+*GiveMiddlePower(500,Any)
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets NameEquals CYaRon! Cyclone | I'll Tell You Again and Again
+	SetXValue TargetCount
+	Repeat X
+	{
+		SearchDeck NameContains You|Chika|Ruby && IsCharacter
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Act: CxCombo BRAINSTORM [(1) Rest this card] Flip over the top 4 cards of your deck and put them in the waiting room. For each "CYaRon! Cyclone" or "I'll Tell You Again and Again" revealed this way, search your deck for a character with "You", "Chika", or "Ruby" in its card name, reveal it, put it in your hand, shuffle your deck, choose 1 character, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: LSS/W69-041
+Name "Opera Melody" Riko Sakurauchi
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+*OnPlayMill2GainPowerForEachCharacter(1000,Music)
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Message Choose a <Music> character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Hand
+		*GiveOtherCharacterPower(1000,Music)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand, choose 1 of your other «Music» characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: LSS/W69-042
+Name "Plus One Arrangement" You Watanabe
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+*OnAttackGivePowerForEachOther(500,Music)
+EndCard
+
+Character: LSS/W69-043
+Name "Hot Snow" Chika Takami
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Snow
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If the number of other «Music» characters you have is 2 or more, this card gets +1500 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+EndCard
+
+Character: LSS/W69-044
+Name "Nice Feeling" Riko Sakurauchi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Star
+*EarlyPlay4OrMore(Music)
+*StockHealer
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Letter to You" Yoshiko Tsushima
+	{
+		GainPower 2000
+	}
+}
+Text Auto: RESONATE [Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2000 power until end of turn.
+EndCard
+
+Character: LSS/W69-045
+Name "Solar Flash" Chika Takami
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Star
+Cont: GiveSelf
+{
+	If AllYourCharacters NameContains You|Chika|Ruby
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost Discard 2 Any
+				{
+					Burn 1
+				}
+			}
+			Text Auto: [Put 2 cards from hand to the waiting room] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent.
+		}
+	}
+}
+Text Cont: If all of your characters have "You", "Chika", or "Ruby" in its card name, this card gets +1500 power and the following ability. "Auto: [Put 2 cards from hand to the waiting room] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent."
+*OnPlayCheckX(Music)
+EndCard
+
+Character: LSS/W69-046
+Name "Valentine Magic" You Watanabe
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		Message Choose a level X or lower character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X OrLess
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from hand to waiting room] When this card is placed from hand to stage, you may pay the cost. If you do, reveal the top card of your deck, choose 1 character of level X or lower in waiting room and return it to hand. X equals the level of the revealed card.
+EndCard
+
+Character: LSS/W69-047
+Name "Running Rodeo" Chika Takami
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+*OnAttackGivePower(1500,Music)
+*HandEncore
+EndCard
+
+Character: LSS/W69-048
+Name "Dawn and Twilight" Riko Sakurauchi
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if the number of other «Music» characters you have is 2 or more, this card gets +2000 power.
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		TargetBattleOpponent
+		IfThatCard Compare ThatCardsLevel 1 OrLess && OnStage && Not CardPosition Reverse
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+Quick
+Text Auto: On your opponent's turn, when this card is reversed, if this card's battle opponent is level 1 or lower, you may reverse that character.
+EndCard
+
+Character: LSS/W69-049
+Name "We are CYaRon!" You & Chika & Ruby
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 CYaRon!
+Combo CYaRon! Cyclone
+Auto: OnSpecificClimaxPlay CYaRon! Cyclone
+{
+	TargetLocation Stage
+	NarrowTargets NameContains You|Chika|Ruby
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to gain +1 soul
+	GainSoul 1
+}
+Text Auto: CxCombo When "CYaRon! Cyclone" is placed to your climax area, choose up to 2 characters with "You", "Chika", or "Ruby" in its card name, and those characters get +1 soul until end of turn.
+EndCard
+
+Character: LSS/W69-050
+Name "Mermaid Tears" Riko Sakurauchi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+*OnPlayGainPowerForEach(1000,Music)
+Auto: OnOpponentReverse
+{
+	PayCost 1 Resonate "Letter to You" Yoshiko Tsushima
+	{
+		Message Choose a <Music> character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: RESONATE [(1) Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] When this card's battle opponent becomes reverse, you may pay the cost. If you do, choose a «Music» character from your waiting room and return it to hand.
+EndCard
+
+Character: LSS/W69-051
+Name "Mikan Orangette" Chika Takami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		OpponentMessage Choose a climax to not refresh into your deck
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentScryArea
+		OpponentRefresh
+		TargetLocation OpponentScryArea
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent chooses a climax in his or her waiting room, then return all cards in his or her waiting room other than that card to the deck and shuffles the deck.
+EndCard
+
+Character: LSS/W69-052
+Name "Space Tour" You Watanabe
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Music
+Trait2 Star
+*OthersCannotSideAttack
+*OnAttackGainPowerForEachOther(1000,Music)
+EndCard
+
+Character: LSS/W69-053
+Name "Single Thank You" Chika Takami
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Housework
+Combo Let Me Say It Again?
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(1000,Music)
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your «Music» characters, and that character gets +1000 power until end of turn.
+Auto: StartAttackPhase
+{
+	TargetLocation Climax
+	NarrowTargets IsClimax
+	If Not HasTarget
+	{
+		PayCost 2
+		{
+			Message Choose a "Let Me Say It Again?" to place on your climax area
+			SearchLocationForTargets Deck 0 1 IsClimax && NameEquals Let Me Say It Again?
+			MoveCard Climax
+		}
+	}
+}
+Text Auto: CxCombo [(2)] At the beginning of your attack phase, if there are no climax cards in your climax area, you may pay the cost. If you do, search your deck for up to 1 "Let Me Say It Again?" and put it in your climax area, and shuffle your deck.
+EndCard
+
+Character: LSS/W69-054
+Name "New Year's Grumbling" Chika Takami
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 New Year's
+*RestGivePower(1500,Music)
+EndCard
+
+Character: LSS/W69-055
+Name "Searching for a Sound" You Watanabe
+Color R
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Sports
+Auto: OnAttack
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		LosePower 3000
+	}
+}
+Text Auto: When this card attacks, put the top 2 cards of your deck in the waiting room. If there are any climax cards among them, this card gets -3000 power until end of turn.
+EndCard
+
+Character: LSS/W69-056
+Name "Enjoying Vacation" Riko Sakurauchi
+Color R
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Summer
+EndCard
+
+Character: LSS/W69-057
+Name "Winter Party Venue" You Watanabe
+Color R
+Level 1
+Cost 0
+Power 6500
+Soul 1
+Trait1 Music
+Trait2 Snow
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose a character in your opponent's center stage, and that character gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: LSS/W69-058
+Name "Tropical Paradise" You Watanabe
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Summer
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters HasTrait Music
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use BACKUP of this card, if all your characters are «Music», you may put the top card of your deck in stock.
+Backup 2000
+EndCard
+
+Character: LSS/W69-059
+Name "For a Special New Year's" Riko Sakurauchi
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 New Year's
+Combo Listen with Closed Eyes
+*LevelAssistTrait(Music)
+Auto: OnSpecificClimaxPlay Listen with Closed Eyes
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			*Check4Add1(Music)
+		}
+		Text Auto:  When this card's battle opponent becomes reverse, look at up to 4 cards from the top of your deck, choose up to 1 «Music» character among them, reveal it, put it to your hand, and put the rest into waiting room.
+	}
+}
+Text Auto: CxCombo When "Listen with Closed Eyes" is placed on your climax area, choose 1 of your other characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, look at up to 4 cards from the top of your deck, choose up to 1 «Music» character among them, reveal it, put it to your hand, and put the rest into waiting room."
+EndCard
+
+Character: LSS/W69-060
+Name "Please Drink a Lot!" Chika Takami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Summer
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 4 HasTrait Music
+	{
+		PayCost 2
+		{
+			*SendEarlyPlayToWaitingRoom
+		}
+	}
+}
+Text Auto: [(2)] When you use this card's BACKUP, If the number of «Music» characters you have is 4 or more, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent and put it in the waiting room.
+Backup 2500
+EndCard
+
+Character: LSS/W69-061
+Name "Girl Dancing in Silver's Song" Riko Sakurauchi
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Music
+Trait2 Snow
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Music
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: For each of your other «Music» characters in the backstage, this card gets +1500 power.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Music
+	{
+		If LocationContains WaitingRoom 1 HasTrait Music && IsCharacter
+		{
+			Question_Obvious Put a <Music> character from your waiting room in your stock?
+			If Yes
+			{
+				Message Choose a <Music> character to put into stock
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+				RevealTargets
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 4 or more, you may choose a «Music» character in your waiting room and put it in your stock.
+EndCard
+
+Event: LSS/W69-062
+Name The Summer Sea is the Best!
+Color R
+Level 2
+Cost 0
+Effect: 
+{
+	Mill 3
+	NarrowTargets NameContains You|Chika|Ruby && IsCharacter
+	SetXValue TargetCount
+	Message Choose a level X or lower character to return to your hand
+	SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess
+	RevealTargets
+	MoveCard Hand
+	*GiveCharacterPower(2000,Any)
+}
+Text BRAINSTORM Flip over the top 3 cards of your deck and put them in the waiting room. Choose a level X or lower character in your waiting room, return it to hand, choose a character, and that character gets +2000 power until end of turn. X equals the number of characters with "You", "Chika", or "Ruby" in its card name revealed by this card effect.
+EndCard
+
+Event: LSS/W69-063
+Name "Congratulations on the 6th Anniversary!" Aqours
+Color R
+Level 3
+Cost 3
+Effect: 
+{
+	Mill 6
+	NarrowTargets Compare ThatCardsLevel 1 OrMore
+	SetXValue TargetCount
+	Burn X
+}
+Text Put the top 6 cards of your deck in the waiting room, and deal X damage to your opponent. X equals the number of level 1 or higher cards revealed by this card effect.
+EndCard
+
+Climax: LSS/W69-064
+Name Let Me Say It Again?
+*DoorClimax
+EndCard
+
+Climax: LSS/W69-065
+Name CYaRon! Cyclone
+*StandbyClimax
+EndCard
+
+Climax: LSS/W69-066
+Name Listen with Closed Eyes
+*DoorClimax
+EndCard
+
+Climax: LSS/W69-067
+Name I'll Tell You Again and Again
+*StandbyClimax
+EndCard
+
+Character: LSS/W69-068
+Name "Love for Everyone" Mari Ohara
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo Premonition of our Meeting
+Auto: OnOpponentReverse
+{
+	If Climax Premonition of our Meeting
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				Question Return the attack target and one other card to your hand?
+				If Yes
+				{
+					TargetLocation Stage
+					NarrowTargets Other
+					ChooseCharacterFromTargets Choose the other character to return to your hand
+					AddSelfToTargets
+					Bounce
+				}
+			}
+			Text Auto: When this card is frontal attacked, you may choose 1 of your other characters and this card, and return them to hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent is reversed, if "Premonition of our Meeting" is in your climax area, until the end of your opponent's next turn this card gets the following ability. "Auto: When this card is frontal attacked, you may choose 1 of your other characters and this card, and return them to hand."
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Letter to You" Yoshiko Tsushima
+	{
+		GainPower 2000
+	}
+}
+Text Auto: RESONATE [Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2000 power until end of turn.
+EndCard
+
+Character: LSS/W69-069
+Name "Wholeheartedly" Dia Kurosawa
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Music
+Combo Invitation to You
+*CannotSideAttack
+*GainPowerForEachOther(500,Music)
+Auto: OnOpponentReverse
+{
+	If Climax Invitation to You
+	{
+		*OptionalBlindStock
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Invitation to You" is in your climax area, put up to 1 card from the top of your deck to stock, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LSS/W69-070
+Name "I Want to Hug" Kanan Matsuura
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Combo Flower of Happy Feelings
+Cont: GiveSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		TargetLocation Facing
+		SetXValue TargetCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 5 or higher, this card gets +X power. X equals 500 times level of the character facing this card.
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax Flower of Happy Feelings &&& StageContains 1 Other && HasTrait Music
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: StartOpponentAttackPhase
+			{
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets Choose a character to get -2 soul
+				LoseSoul 2
+			}
+			Text Auto: At the beginning of your opponent's attack phase, choose 1 of your opponent's characters, and that character gets -2 soul until end of turn.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Flower of Happy Feelings" is in your climax area, and you have another «Music» character, until the end of your opponent's next turn, this card gets the following ability. "Auto: At the beginning of your opponent's attack phase, choose 1 of your opponent's characters, and that character gets -2 soul until end of turn."
+EndCard
+
+Character: LSS/W69-071
+Name "Is the New Year's Preparation OK?" Kanan Matsuura
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 New Year's
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: LSS/W69-072
+Name "Santa Claus of the Sea" Kanan Matsuura
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Snow
+Auto: StartOpponentAttackPhase
+{
+	*GiveCharacterPower(500,Any)
+}
+Text Auto: At the beginning of your opponent's attack phase, choose 1 of your characters, and that character gets +500 power until end of turn.
+*Act1SearchBrainstorm(Music)
+EndCard
+
+Character: LSS/W69-073
+Name "Astronomical Observation Weather" Dia Kurosawa
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Star
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainEffect
+		{
+			*500Assist
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets "Cont: ASSIST Your characters in front of this card get +500 power". 
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchWaitingRoom IsCharacter && NameContains Dia|Hanamaru|Kanan
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, choose up to 1 character with "Dia", "Hanamaru", or "Kanan" in your waiting room and return it to hand.
+EndCard
+
+Character: LSS/W69-074
+Name "Pair Look" Dia Kurosawa
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Summer
+Combo Invitation to You
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, draw a card, and discard a card from hand to the waiting room.
+Auto: OnSpecificClimaxPlay Invitation To You
+{
+	PayCost SendSelf WaitingRoom
+	{
+		Message Choose up to 1 "Wholeheartedly" Dia Kurosawa to place on stage
+		SearchLocationForTargets Hand 0 1 NameEquals "Wholeheartedly" Dia Kurosawa
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card in the waiting room] When "Invitation to You" is placed on your climax area, you may pay the cost. If you do, choose up to 1 '"Wholeheartedly" Dia Kurosawa' in your hand and put it in the position this card was in.
+EndCard
+
+Character: LSS/W69-075
+Name "Fruit Carnival" Mari Ohara
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Trait2 Summer
+Auto: StartClimaxPhase
+{
+	If InLocation CenterStage
+	{
+		PayCost Resonate "Letter to You" Yoshiko Tsushima
+		{
+			*GiveOtherCharacterPower(2000,Any)
+		}
+	}
+}
+Text Auto: RESONATE [Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] At the beginning of your climax phase, if this card is in your center stage, you may pay the cost. If you do, choose 1 of your other characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: LSS/W69-076
+Name "With Love in the Snow" Mari Ohara
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Snow
+Combo Guilty Look
+*LevelAssist
+Auto: OnUseResonate
+{
+	*GiveCharacterPower(2000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once a turn. When you use "RESONATE", choose 1 of your characters, and that characters gets +2000 power until end of turn.
+Auto: OnSpecificClimaxPlay Guilty Look
+{
+	Message Choose a <Music> character in your waiting room to put into your stock
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Music && IsCharacter
+	RevealTargets
+	MoveCard Stock
+}
+Text Auto: CxCombo When "Guilty Look" is placed to your climax area, choose a «Music» character in your waiting room and put it in your stock.
+EndCard
+
+Character: LSS/W69-077
+Name "I'll Take Over" Kanan Matsuura
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Star
+Combo Flower of Happy Feelings
+Auto: OnSpecificClimaxPlay Flower of Happy Feelings
+{
+	PayCost SendSelf WaitingRoom
+	{
+		Message Choose up to 1 "I Want to Hug" Kanan Matsuura
+		SearchLocationForTargets Hand 0 1 NameEquals "I Want to Hug" Kanan Matsuura
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card in the waiting room] When "Flower of Happy Feelings" is placed on your climax area, you may pay the cost. If you do, choose up to 1 '"I Want to Hug" Kanan Matsuura' in your hand and put it in the position this card was in.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: LSS/W69-078
+Name "Melt-in-your-Mouth Sweet" Dia Kurosawa
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Sweets
+Cont: GiveSelf
+{
+	If AllYourCharacters NameContains Dia|Hanamaru|Kanan
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost 1 Discard 1 Any
+				{
+					Mill 5
+					NarrowTargets IsClimax
+					SetXValue TargetCount
+					Burn X
+				}
+			}
+			Text Auto: [(1) Put 1 card from hand to the waiting room] When this card attacks, you may pay the cost. If you do, put the top 5 cards of your deck in your waiting room, and deal X damage to your opponent. X equals the number of climaxes revealed in this way.
+		}
+	}
+}
+Text Cont: If all of your characters have "Dia", "Hanamaru", or "Kanan" in its card name, this card gets +1500 power and the following ability. "Auto: [(1) Put 1 card from hand to the waiting room] When this card attacks, you may pay the cost. If you do, put the top 5 cards of your deck in your waiting room, and deal X damage to your opponent. X equals the number of climaxes revealed in this way."
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, draw a card, discard a card from your hand to the waiting room, and choose up to 1 of your opponent's characters and return it to hand.
+EndCard
+
+Character: LSS/W69-079
+Name "Aqours Mythology" Mari Ohara
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Star
+Cont: GiveSelf
+{
+	If AllYourCharacters NameContains Riko|Yoshiko|Mari
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnOtherFrontalAttacked
+			{
+				IfOther HasTrait Music
+				{
+					PayCost 1 SendSelf WaitingRoom
+					{
+						TargetMyCharacterInBattle
+						Bounce
+					}
+				}
+			}
+			Text Auto: [(1) Put this card in the waiting room] When another of your «Music» characters is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+		}
+	}				
+}
+Text Cont: If all of your characters have "Riko", "Yoshiko", or "Mari" in its card name, this card gets +1500 power and the following ability. "Auto: [(1) Put this card in the waiting room] When another of your «Music» characters is frontal attacked, you may pay the cost. If you do, return that character to your hand."
+*Healer
+EndCard
+
+Character: LSS/W69-080
+Name "Dia's Instruction Letter" Dia Kurosawa
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Letter
+Combo Flower of Happy Feelings
+*500Assist
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainEffect
+		{
+			*RestGivePower(1000,Any)
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 3 or higher, this card gets "Act: [Rest this card] Choose 1 of your characters, and that character gets +1000 power until end of turn".
+Auto: OnSpecificClimaxPlay Flower of Happy Feelings
+{
+	*OptionalDrawDiscard
+}
+Text Auto: CxCombo When "Flower of Happy Feelings" is placed to your climax area, you may draw 1 card. If you do, discard a card from your hand to the waiting room.
+EndCard
+
+Character: LSS/W69-081
+Name "Sky Blue Chocolate" Mari Ohara
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 IsCharacter && HasTrait Music
+	{
+		*CheckAndAdd(4)
+	}
+}
+Text Auto: [(1) Put a «Music» character from hand to the waiting room] When this card is played on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card among them, put it to your hand, and put the rest into waiting room.
+EndCard
+
+Character: LSS/W69-082
+Name "Valentine from the Sea" Kanan Matsuura
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Sweets
+*OnPlayGivePower(1500,Music)
+Auto: OnAttack
+{
+	Question Put the top card of your deck into your waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget IsClimax
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card attacks, you may put the top card of your deck in your waiting room. If it's a climax card, draw a card, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: LSS/W69-083
+Name "Let the Joy of Love Bloom" Dia & Hanamaru & Kanan
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 AZALEA
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainLevel 1
+		GainPower 1000
+	}
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1 level and +1000 power.
+EndCard
+
+Character: LSS/W69-084
+Name "Won't you Dance Together?" Kanan Matsuura
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Summer
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Dia|Hanamaru|Kanan
+	SetXValue TargetCount
+	ChooseCharacterFromTargets Choose a character to gain +X power
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character with "Dia", "Hanamaru", or "Kanan" in its card name, and that character gets +X power until end of turn. X equals the number of characters you have with "Dia", "Hanamaru", or "Kanan" in its card name times 500.
+EndCard
+
+Character: LSS/W69-085
+Name "Cat Pretty" Dia Kurosawa
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets +2000 power.
+EndCard
+
+Character: LSS/W69-086
+Name "The Sea Calls" Dia Kurosawa
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+*ScryBackup(Music)
+Backup 2500
+EndCard
+
+Character: LSS/W69-087
+Name "Mermaid Voice" Mari Ohara
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartClimaxPhase
+{
+	PayCost Resonate "Letter to You" Yoshiko Tsushima
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Auto: RESONATE [Reveal a '"Letter to You" Yoshiko Tsushima' in your hand] At the beginning of your climax phase, you may pay the cost. If you do, until the end of your opponent's next turn, this card gets +1000 power.
+EndCard
+
+Character: LSS/W69-088
+Name "Gentle Shine" Kanan Matsuura
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Christmas
+Auto: OnUseAct
+{
+	*GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability can be activated up to once per turn. When you use an <b> Act </b> ability, choose 1 of your characters, and that character gets +1000 power until end of turn.
+Act: Rest 2 HasTrait Music
+{
+	*ExchangeCardInLevelWithWaitingRoom(Any,Any)
+}
+Text Act: [Rest 2 of your «Music» characters] Choose a card in your level and a card in your waiting room and swap them.
+EndCard
+
+Character: LSS/W69-089
+Name "Relaxation Magic" Mari Ohara
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Pajama
+*GlobalPower(500,Music)
+Auto: OnLevelUp
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: [(2)] When you level-Up, you may pay the cost. If you do, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: LSS/W69-090
+Name "Inserting into the New Year" Dia Kurosawa
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 New Year's
+*OnPlayReorderTop2
+*OnAttackMill1PutLevel0OnStage
+EndCard
+
+Character: LSS/W69-091
+Name "Sweet Gift" Mari Ohara
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		Act: SendSelf Stock
+		{
+			Message Choose a "Bremen Dance" Kanan Matsuura to put on this card's position
+			SearchLocationForTargets Hand 1 1 NameEquals "Bremen Dance" Kanan Matsuura
+			Change
+		}
+		Text Act: [Put this card into your stock] Choose 1 '"Bremen Dance" Kanan Matsuura' in your hand and place it on the stage position this card was in.
+	}
+}
+Text Cont: If you are level 2 or higher, this card gets the following ability. "Act: [Put this card into your stock] Choose 1 '"Bremen Dance" Kanan Matsuura' in your hand and place it on the stage position this card was in."
+*BondDiscard("Bremen Dance" Kanan Matsuura)
+EndCard
+
+Character: LSS/W69-092
+Name "Gift of White Snow" Dia Kurosawa
+Color B
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Snow
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 4500
+	}
+}
+Text Cont: If there's a marker under this card, this card gets +4500 power.
+Auto: OnPlay
+{
+	If LocationContains WaitingRoom 1 NameEquals "Bouncing Winter Fairy" Ruby Kurosawa
+	{
+		Question_Obvious Put a "Bouncing Winter Fairy" Ruby Kurosawa under this card as a marker?
+		If Yes
+		{
+			Message Choose a "Bouncing Winter Fairy" Ruby Kurosawa to marker
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals "Bouncing Winter Fairy" Ruby Kurosawa
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a '"Bouncing Winter Fairy" Ruby Kurosawa' in your waiting room and put it face-up under this card as marker.
+EndCard
+
+Character: LSS/W69-093
+Name "Mysterious Sea" Kanan Matsuura
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Mermaid
+Combo Me and the School Idols
+*GlobalPower(500,Music)
+Auto: OnOpponentLevelUp
+{
+	If Climax Me and the School Idols
+	{
+		Question Return your climax to hand?
+		If Yes
+		{
+			TargetLocation Climax
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When your opponent levels-Up, you may choose 1 "Me and the School Idols" in your climax area and return it to hand.
+EndCard
+
+Character: LSS/W69-094
+Name "New Year Hospitality" Mari Ohara
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 New Year's
+Auto: StartDrawPhase
+{
+	If Not LocationContains CenterStage 1 Other
+	{
+		GainPower 4000
+	}
+}
+Quick
+Text Auto: At the beginning of your draw phase, if you have no other characters in the center stage, this card gets +4000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: LSS/W69-095
+Name "Bremen Dance" Kanan Matsuura
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Soul 1
+Trait1 Music
+Trait2 Fairy Tales
+EndCard
+
+Event: LSS/W69-096
+Name Enjoy the Summer
+Color B
+Level 2
+Cost 2
+Effect: 
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Dia|Hanamaru|Kanan
+	SetXToNumberOfCharacters
+	Peek Deck X
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 2 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Look at the top X cards of your deck, choose up to 2 cards among them, put them in your hand, and put the rest into waiting room. X equals the number of characters you have with "Dia", "Hanamaru", or "Kanan" in its card name.
+EndCard
+
+Climax: LSS/W69-097
+Name Flower of Happy Feelings
+*GateClimax
+EndCard
+
+Climax: LSS/W69-098
+Name Me and the School Idols
+Color B
+*2SoulClimax
+EndCard
+
+Climax: LSS/W69-099
+Name Invitation to You
+*BookClimax
+EndCard
+
+Climax: LSS/W69-100
+Name Premonition of our Meeting
+*GateClimax
+EndCard
+
+Character: LSS/W69-101
+Name "Honey Milk Mood" Chika Takami
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 0
+Trait1 Music
+Trait2 Sweets
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to send to memory
+		MoveCard OpponentMemory
+		ScheduleEffectForTargets StartEncoreStep
+		{
+			Effect:
+			{
+				PlaceOnStage False True True False
+			}
+			Quick
+			Text Put this card on stage
+		}
+	}
+}
+Text Auto: [Put 1 climax from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters and send it to memory, and at the beginning of encore step, your opponent puts that character from his or her memory in any position on the stage.
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if the number of other «Music» characters you have is 2 or more, this card gets +2000 power until end of turn.
+EndCard
+
+Character: LSS/W69-102
+Name "Longs to Dance" Riko Sakurauchi
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 0
+Trait1 Music
+Trait2 Sports
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets CardPosition Stand && Other
+	Rest
+}
+Text Auto: When this card attacks, Rest all your other standing characters.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: LSS/W69-103
+Name "One Snowball's Enthusiasm" Kanan Matsuura
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 0
+Trait1 Music
+Trait2 Snow
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's BACKUP, put the top 3 cards of your deck in your waiting room.
+Backup 2000
+EndCard
+
+Character: LSS/W69-104
+Name "Wish for a Smile" Dia Kurosawa
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Sweets
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if there's a marker under this card, this card gets +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music
+	{
+		Question Put this card as a marker?
+		If Yes
+		{
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is a «Music» character, you may place it under this card faceup as a marker.
+EndCard
+
+Character: LSS/W69-105
+Name "Exciting Camp" You Watanabe
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Summer
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: LSS/W69-106
+Name "Fallen Angel's Wish" Yoshiko Tsushima
+Color Y
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Star
+*OnPlayGainPower(1500)
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		MoveCard OpponentMemory
+	}
+}
+Text Auto: When this card's battle opponent becomes reverse, send that character to memory.
+EndCard
+
+Character: LSS/W69-107
+Name "Night Sky Getter" Hanamaru Kunikida
+Color Y
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Music
+Trait2 Star
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This gets -1 level while on stage.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Compare ThatCardsLevel 0 OrLess && Other
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: For each of your other level 0 or lower characters, this card gets +500 power.
+EndCard
+
+Character: LSS/W69-108
+Name "Summer Invitation" Mari Ohara
+Color B
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Summer
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			Message Choose a card to put into your stock
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your hand and put it in your stock.
+Auto: OnReversed
+{
+	BlockEncore
+}
+Text Auto: When this card becomes reversed in battle, you cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: LSS/W69-109
+Name "I Can't Sleep Tonight" Ruby Kurosawa
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Soul 1
+Trait1 Music
+Trait2 Pajama
+*EarlyPlay4OrMore(Music)
+*CannotAttackHigherLevel
+EndCard
+
+Character: LSS/W69-P01
+Name "Guilty Kiss" Riko & Yoshiko & Mari
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Guilty Kiss
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or fewer cards in your stock, this card gets +1500 power.
+Auto: Encore Send 1 Clock HasTrait Music
+{
+}
+Text Auto: ENCORE [Put a «Music» character from your stage in your clock]
+EndCard
+
+Character: LSS/W69-P03
+Name "CYaRon!" You & Chika & Ruby
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 CYaRon!
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: LSS/W69-P04
+Name "New Year's Live with Everyone!" Aqours
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*OnAttackCheck2ChooseTrigger
+*RedLevel0Bomb
+EndCard
+
+Character: LSS/W69-P05
+Name "Now, Fortunes!" Chika Takami
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Yukata
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	*GiveCharacterPower(1500,Any)
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in your waiting room. If there were at least 1 climax among them, choose 1 of your characters, and that character gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Message Choose a <Music> character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Hand
+		*GiveOtherCharacterPower(1000,Music)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand, choose 1 of your other «Music» characters, and that character gets +1000 power until end of turn.
+EndCard
+

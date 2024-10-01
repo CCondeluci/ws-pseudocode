@@ -1,0 +1,634 @@
+
+Character: Kab/W78-004
+Name Mischievous Smile, Yui
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+*EarlyPlay4OrMore(Anniversary|Death)
+*Healer
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Anniversary|Death
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this is placed on stage from hand, if you have another <Anniversary> or <Death> character, this turn this gets +2000 power.
+EndCard
+
+Character: Kab/W78-005
+Name Silver Wings, Kanade
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Student Council
+Combo Nostalgic Heartbeat
+Auto: OnPlay|OnPlacedOnStageFromDeck
+{
+	PayCost 1
+	{
+		*SearchDeckToPlaceOnStage(NameEquals Silver Wings\, Kanade, False)
+	}
+}
+Text Auto: [(1)] When this is placed on stage from hand or deck, you may pay the cost. If you do, search your deck for up to 1 copy of this card, place it on stage in any slot, and shuffle your deck afterwards.
+Auto: OnSpecificClimaxPlay Nostalgic Heartbeat
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainSoul 1
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				*OptionalBurn(2)
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may deal 2 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo When "Nostalgic Heartbeat" is placed on your climax area, if this is in your center stage, choose 1 of your characters, this turn, it gets +1 soul, and gains the following ability: "Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may deal 2 damage to your opponent."
+EndCard
+
+Character: Kab/W78-007
+Name My Song, Iwasawa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Combo Sound of the Beginning
+*GainPowerForEachOther(500,Anniversary|Death)
+Auto: OnSpecificClimaxPlay Sound of the Beginning
+{
+	If InLocation CenterStage && AllYourCharacters HasTrait Anniversary|Death
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+		{
+			MoveCard Stock
+		}
+		Else
+		{
+			Question Put the card into your hand? (No will put it into the waiting room)
+			If Yes
+			{
+				MoveCard Hand
+			}
+			If No
+			{
+				MoveCard WaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Sound of the Beginning" is placed on your climax area, if this is in your center stage, and all of your characters are <Anniversary> or <Death>, reveal the top card of your deck. If that card is a level 0 or lower character, send it to stock, and if it isn't, either add it to hand or send it to Waiting Room.
+EndCard
+
+Character: Kab/W78-009
+Name Midsummer Angel, Kanade
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Student Council
+Backup 2500
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Put 1 character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into your opponent's waiting room.
+EndCard
+
+Character: Kab/W78-010
+Name Girls Dead Monster, Hisako
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Combo Sound of the Beginning
+*Level3Assist
+Auto: OnSpecificClimaxPlay Sound of the Beginning
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Anniversary|Death
+	RevealTargets
+	MoveCard Stock
+}
+Text Auto: When "Sound of the Beginning" is placed on your climax area, choose 1 <Anniversary> or <Death> character from your waiting room, you may put it into stock.
+EndCard
+
+Character: Kab/W78-014
+Name Girls Dead Monster, Sekine
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Anniversary|Death
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have 2 or more other <Anniversary> or <Death> characters, you may draw 1 card. If you do, discard 1 card.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to return to hand.
+		MoveCard OpponentHand
+	}
+}
+Text Auto: (2) When this is placed on stage from hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to hand.
+EndCard
+
+Character: Kab/W78-015
+Name Girls Dead Monster, Irie
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +2 soul until end of turn.
+*OnAttackCheck2ChooseTrigger
+EndCard
+
+Character: Kab/W78-016
+Name To Convey, Kanade
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Student Council
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 IsCharacter
+	{
+		GainSoul 1
+	}
+}
+Text Auto: [Shuffle 2 characters from your waiting room into your deck] When this is placed on stage from hand, you may pay the cost. If you do, this turn, this gets +1 soul.
+*ClimaxExchange
+EndCard
+
+Character: Kab/W78-018
+Name Girls Dead Monster, Yui & Hisako & Iwasawa
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 2 or less cards in your stock, this gets +1500 power.
+EndCard
+
+Character: Kab/W78-023
+Name School Swimsuit, Yui
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Auto: OnAttack
+{
+	If LocationContains Memory 2 Any
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Anniversary|Death
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: MEMORY When this attacks, if you have 2 or more cards in your memory, this turn, this gets +X power. X equals the number of your <Anniversary> or <Death> characters times 1000.
+EndCard
+
+Character: Kab/W78-024
+Name Cool Girl, Iwasawa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+*GainPowerWithEnoughCharacters(2000,2,Anniversary|Death)
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost 1
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: (1) During your turn, when this card's battle opponent is reversed, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: Kab/W78-030
+Name Bunny Girls, Irie & Sekine
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Sekine Loves Pranks
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If you have "Sekine Loves Pranks" in memory, this gets +3000 power.
+EndCard
+
+Character: Kab/W78-031
+Name "Guard Skill Hand Sonic", Angel
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Student Council
+*OnAttackGivePowerTimesSoul
+EndCard
+
+Character: Kab/W78-032
+Name Acting Student Council President, Naoi
+Color Y
+Level 1
+Cost 2
+Soul 2
+Power 7000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Student Council
+*GainPowerWithEnoughCharacters(1000,2,Anniversary|Death)
+EndCard
+
+Event: Kab/W78-037
+Name A Wish That Would Never Come True
+Color Y
+Level 3
+Cost 2
+Counter
+Text If you do not have a <Music> character, you cannot play this from hand.
+Effect:
+{
+	TargetLocation OpponentStage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to get +4 soul and the following effect, "Cont: This card cannot side attack."
+	GainSoul 4
+	GainSpecialEffect CannotSideAttack
+}
+ActivationRequirement StageContains 1 HasTrait Music
+Text Choose up to 2 of your opponent's characters, this turn, they get +4 soul, and gains the following ability: "Cont: This card cannot side attack."
+EndCard
+
+Climax: Kab/W78-038
+Name Nostalgic Heartbeat
+*ChoiceClimax 
+EndCard
+
+Climax: Kab/W78-041
+Name Sound of the Beginning
+*WindClimax
+EndCard
+
+Character: Kab/W78-066
+Name For The Rebellion, Yuri
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Weapon
+Combo SSS
+Auto: OnSpecificClimaxPlay SSS
+{
+	PayCost 1
+	{
+		TargetLocation Stage
+		NarrowTargets Other && NameEquals SSS Leader, Yuri|Revenge on God, Yuri
+		ChooseCharacterFromTargets
+		Stand
+	}
+}
+Text Auto: CxCombo [(1)] When "SSS" is placed on your climax area, you may pay the cost. If you do, choose 1 of your other "SSS Leader, Yuri" or "Revenge on God, Yuri", and stand it.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: Kab/W78-071
+Name SSS Operator, Yusa
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Anniversary
+Trait2 Death
+Auto: OnPlay
+{
+	*CheckTopTraitOrEventAddDiscard(Anniversary|Death)
+}
+Text Auto: When this is placed on stage from hand, reveal the top card of your deck. If that card is an <Anniversary> or <Death> character, or an event card, add it to hand and discard 1 card.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Anniversary|Death
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 <Anniversary> or <Death> character] When this is placed on stage from hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: Kab/W78-072
+Name Dangerous Attraction, Yuri
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 7500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Weapon
+*GlobalPower(1500,Anniversary|Death)
+*OnPlayCheck6Send3
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Anniversary|Death
+}
+Text Act: [(2) Rest this] Search your deck for up to 1 <Anniversary> or <Death> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: Kab/W78-076
+Name Yuzuru Otonashi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Death
+*OnPlayGivePower(1500,Anniversary|Death)
+EndCard
+
+Character: Kab/W78-077
+Name Strongest in the Front, Shiina
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Weapon
+*FreeRunner
+EndCard
+
+Character: Kab/W78-078
+Name The Two that Met, Kanade & Yuri
+Color R
+Level 1
+Cost 1
+Power 1000
+Trigger Soul
+Trait1 Anniversary
+Trait2 Death
+Trait3 Student Council
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters HasTrait Anniversary|Death
+	{
+		Question Put the top card of your deck into stock?
+		If Yes
+		{
+			TargetTop Deck 1
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When you use this card's BACKUP, if all of your characters are <Anniversary> or <Death>, you may put the top card of your deck into stock.
+Backup 2000
+EndCard
+
+Character: Kab/W78-081
+Name Revenge on God, Yuri
+Color R
+Level 2
+Cost 2
+Power 7500
+Trigger Soul
+Soul 2
+Trait1 Anniversary
+Trait2 Death
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Anniversary|Death
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Anniversary> or <Death>, this gets +2000 power.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		PayCost SendSelf Memory Discard 1 HasTrait Anniversary|Death
+		{
+			ScheduleEffect StartDrawPhase
+			{
+				Effect:
+				{
+					TargetLocation Memory
+					NarrowTargets NameEquals Revenge on God, Yuri
+					ChooseCharacterFromTargets
+					PlaceOnStage False True True False
+				}
+			}
+		}
+	}
+}
+Text Auto: [Discard 1 <Anniversary> or <Death> character, Send this to memory] When this is reversed, you may pay the cost. If you do, at the start of your next draw phase, choose 1 "Revenge on God, Yuri" from your memory, and place it on stage in any slot.
+EndCard
+
+Character: Kab/W78-086
+Name SSS Leader, Yuri
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Weapon
+*GainPowerForEachOther(500,Anniversary|Death)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: Kab/W78-087
+Name My Most Precious Treasure, Hinata
+Color R
+Level 2
+Cost 1
+Power 2000
+Trigger Soul
+Trait1 Anniversary
+Trait2 Death
+Trait3 Sports
+*BackupBonus1000(Anniversary|Death)
+Backup 2500
+EndCard
+
+Climax: Kab/W78-091
+Name SSS
+*StandbyClimax
+EndCard
+
+Character: Kab/W78-122
+Name Revenge on God, Yui
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Music
+Cont: GiveAll
+{
+	If Other
+	{
+		If InLocation MiddleCenterStage && Compare ThatCardsLevel 3 OrMore
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: Your other level 3 or higher character in your center stage center slot gets +1000 power.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Anniversary|Death)
+}
+Text Act: [(1) Send this to Waiting Room] Look at up to 4 cards from the top of your deck, choose up to 1 <Anniversary> or <Death> character from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: Kab/W78-P01
+Name Angel's Rest, Kanade
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Death
+Trait3 Student Council
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this gets +1000 power.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Bounce this card to hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the start of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this to hand.
+EndCard
+
+Character: Kab/W78-P06
+Name Angel Beats! Yuri & Kanade
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Anniversary
+Trait2 Death
+Trait3 Weapon
+Cont: GiveAll
+{
+	If Other
+	{
+		GainSpecialEffect CannotSideAttack
+	}
+}
+Text Cont: All of your other characters gain "Cont: This cannot side attack."
+*DropSearch(Anniversary|Death)
+EndCard

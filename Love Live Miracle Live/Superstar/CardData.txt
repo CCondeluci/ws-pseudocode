@@ -1,0 +1,783 @@
+Character: SIP/W109-012
+Name Sweet and Sour V-Sign, Natsumi Onitsuka
+Color Y
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play events or BACKUP from hand.
+EndCard
+
+Character: SIP/W109-013
+Name Want to Get to Harajuku, Kanon Shibuya
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+*OnPlayGainPower(3000)
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to get the ability
+	GainEffect
+	{
+		*HexProof
+	}
+}
+Alarm
+Text Auto: ALARM If this card is on top of the clock, at the beginning of your climax phase, choose 1 of your characters, and that character gets the following ability until end of turn. "Cont: This cannot be chosen by opponent's effects."
+EndCard
+
+Character: SIP/W109-018
+Name Dressed Up Coolly, Mei Yoneme
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 4 Other && HasTrait Music
+	{
+		GainPower 5000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If InBattle
+				{
+					GainSpecialEffect CannotUseBackup
+					GainSpecialEffect CannotUseEvents
+				}
+			}
+			Text Cont: During battles involving this card, your opponent cannot play events or BACKUP from hand.
+		}
+	}
+}
+Text Cont: During your turn, if the number of other «Music» characters you have is 4 or more, this card gets +5000 power and the following ability. "Cont: During battles involving this card, your opponent cannot play events or BACKUP from hand."
+*Healer
+EndCard
+
+Character: SIP/W109-019
+Name Collab with Girly, Kinako Sakurakoji
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Refreshing Urban Scenery
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax Refreshing Urban Scenery
+	{
+		PayCost 1
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Music && IsCharacter
+			{
+				TargetSelf
+				Stand
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(1)] This ability activates up to once per turn. When this card attacks, if "Refreshing Urban Scenery" is in your climax area, you may pay the cost. If you do, reveal the top card of your deck. If it's a «Music» character, stand this card. 
+EndCard
+
+Character: SIP/W109-020
+Name Finish with Love~, Keke Tang
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*PowerOnMyTurn(1000)
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: SIP/W109-021
+Name Even Just One Piece Looks Great, Shiki Wakana
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SIP/W109-025
+Name Light Greetings~, Chisato Arashi
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Auto: OnAttack
+{
+	If StageContains 1 Other && IsColor Red
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another Red character, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If StageContains 1 Other && IsColor Blue
+	{
+		TargetTop Deck 3
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+}
+Text Auto: When this card attacks, if you have another Blue character, look at up to 3 cards from the top of your deck and put them on top of the deck in any order.
+EndCard
+
+Character: SIP/W109-028
+Name Going with Platform Shoes, Sumire Heanna
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: During battles involving this card, when damage taken by you is canceled, you may return this card to your hand.
+*ClockShift(0,yellow)
+EndCard
+
+Character: SIP/W109-029
+Name Sporty Coordination, Ren Tsubaki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+*MemoryBackup
+Backup 3000
+EndCard
+
+Climax: SIP/W109-034
+Name Refreshing Urban Scenery
+*ChoiceClimax
+EndCard
+
+Character: SIP/W109-041
+Name Sing at My Place, Kanon Shibuya
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Music
+Cont: InHand
+{
+	GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: You may play this card from your hand without meeting the color requirement.
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 6000
+	}
+}
+Quick
+Text Auto: When this card attacks, if the number of other «Music» characters you have is 2 or more, this card gets +6000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		PayCost Discard 1 Any
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					LoseSoul 2
+				}
+				Text Cont: The character facing this card gets -2 soul.
+			}
+		}
+	}		
+}
+Text Auto: [Put 1 card from your hand to your waiting room] When this card's battle opponent becomes reverse, if there is a climax in your climax area, you may pay the cost. If you do, this card gets the following ability until the next end of your opponent's turn. "Cont: The character facing this card gets -2 soul."
+EndCard
+
+Character: SIP/W109-050
+Name With Thoughts in My Heart, Kanon Shibuya
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Cont: GiveHand
+{
+	If IsClimax
+	{
+		GainSpecialEffect IgnoreColorRequirement
+	}
+}
+Text Cont: Your climax cards can be played from hand without meeting the color requirement.
+Auto: OnClimaxPlay
+{
+	PayCost Discard 1 Any
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When your climax is placed on your climax area, you may pay the cost. If you do, draw a card.
+*Act1RestSelfSalvageBrainstorm(Music)
+EndCard
+
+Character: SIP/W109-052
+Name Arms Full, Sumire Heanna
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Music
+*EarlyPlay4OrMore(Music)
+Auto: OnPlay
+{
+	*OptionalHeal
+	TargetSelf
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, put up to 1 card from the top of your clock in the waiting room, and this card gets +1500 power until end of turn.
+Auto: OnDamageCancel
+{
+	If StageContains 3 Other && HasTrait Music &&& LocationContains WaitingRoom 1 HasTrait Music && IsCharacter
+	{
+		Message Choose up to 1 <Music> character to put into your stock
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: When damage dealt by this card is canceled, if the number of other «Music» characters you have is 3 or more, you may choose a «Music» character in your waiting room and put it in your stock.
+EndCard
+
+Character: SIP/W109-056
+Name Senpai's Step, Chisato Arashi
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Auto: StartClimaxPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music && IsCharacter
+	{
+		*GiveCharacterPower(500,Any)
+	}
+}
+Text Auto: At the beginning of your climax phase, reveal the top card of your deck. If it's a «Music» character, choose 1 of your characters, and that character gets +500 power until end of turn. 
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: SIP/W109-058
+Name Right Before Completion, Mei Yoneme
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: StartClimaxPhase
+{
+	If CardPosition Rest
+	{
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				Message Choose a "Right Before Completion, Mei Yoneme" to play on stage
+				SearchLocationForTargets Memory 1 1 NameEquals Right Before Completion, Mei Yoneme
+				PlaceOnStage False True True False
+			}
+			Quick
+			Text Put this card on stage
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, if this card is rested, put this card into your memory. If you do, at the beginning of your next draw phase, choose a "Right Before Completion, Mei Yoneme" in your memory and put it in any position on the stage.
+Act: 1 RestSelf 
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	ChooseCharacterFromTargets Choose a character to gain the effect
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reverse, you may choose 1 character in your waiting room and return it to your hand.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your «Music» characters, and it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may choose 1 character in your waiting room and return it to your hand."
+EndCard
+
+Character: SIP/W109-065
+Name Miracle Live~, Kanon Shibuya
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Combo Our Compounding Singing Voices
+*EarlyPlay4OrMore(Music)
+Auto: OnSpecificClimaxPlay Our Compounding Singing Voices
+{
+	If InLocation CenterStage
+	{
+		Question_Obvious Stand 1 of your other <Music> characters?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets Not CardPosition Stand
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+	}
+}
+Text Auto: CxCombo When "Our Compounding Singing Voices" is placed on your climax area, if this card is in the center stage, you may choose 1 of your other «Music» characters and stand it.
+EndCard
+
+Character: SIP/W109-069
+Name OniNatsu Live!, Natsumi Onitsuka
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*Healer
+Auto: OnOpponentReverse
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Music
+	{
+		PayCost Discard 1 HasTrait Music && IsCharacter
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					LoseSoul 2
+				}
+				Text Cont: The character facing this card gets -2 soul.
+			}
+		}
+	}			
+}
+Text Auto: [Put a «Music» character from your hand to the waiting room] During your turn, when this card's battle opponent becomes reverse, if the number of other «Music» characters you have is 2 or more, you may pay the cost. If you do, this card gets the following ability until the end of your opponent's next turn. "Cont: The character facing this card gets -2 soul."
+EndCard
+
+Character: SIP/W109-070
+Name Party at Home, Mei Yoneme
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+*GainPowerWhenOtherAttacks(1000,Music)
+Requirement Compare MyLevel 2 OrMore
+Act: 1 SendSelf WaitingRoom
+{
+	Message Choose a "Science Classroom After School, Shiki Wakana" to place on stage
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Science Classroom After School, Shiki Wakana
+	Change
+}
+Text Act: [(1) Put this card in the waiting room] If you are level 2 or higher, choose a "Science Classroom After School, Shiki Wakana" in your waiting room and place it to the position this card character was in.
+EndCard
+
+Character: SIP/W109-073
+Name Heart-Pounding Home, Natsuki Onitsuka
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Music
+*GainPowerWithEnoughCharacters(2000,2,Music)
+*HandEncore
+EndCard
+
+Character: SIP/W109-083
+Name Cheers at Home~, Sumire Heanna
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X equals 1000 times the number of your opponent's characters.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotGoToMemory
+			GainSpecialEffect CannotReturnToHand
+		}
+		Text Cont: This cannot be returned to hand or be sent to memory.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets the following ability until end of turn. "Cont: This cannot be returned to hand or be sent to memory."
+EndCard
+
+Character: SIP/W109-089
+Name Surprise at Home, Chisato Arashi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Music
+	{
+		GainPower 6000
+	}
+}
+Text Cont: During your turn, if all your characters are «Music», this card gets +6000 power.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+}
+Alarm
+Text Auto: ALARM If this card is on top of the clock, at the beginning of your climax phase, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, perform trigger check twice during this card attack's trigger Step."
+EndCard
+
+Climax: SIP/W109-093
+Name Our Compounding Singing Voices
+*StandbyClimax
+EndCard
+
+Character: SIP/W109-099
+Name Outfit Stylist, Keke Tang
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Turning Image into Shape!
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music &&& Compare CardsInClock 1 OrMore
+	{
+		Question Put the bottom card of your clock into your waiting room?
+		If Yes
+		{
+			TargetBottom Clock 1
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another «Music» character, you may put the bottom card of your clock in the waiting room.
+Auto: OnAttack
+{
+	If Climax Turning Image into Shape!
+	{
+		PayCost 1 Discard 2 Any
+		{
+			Burn 2
+			TargetTop OpponentDeck 3
+			Reveal
+			NarrowTargets IsClimax
+			EndPeek
+			ShuffleLocation OpponentDeck
+			If HasTarget
+			{
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 2 cards from your hand to the waiting room] When this card attacks, if "Turning Image into Shape!" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent, your opponent reveals the top 3 cards of their deck and shuffles their deck. If at least 1 climax was revealed this way, deal 2 damage to your opponent. 
+EndCard
+
+Character: SIP/W109-104
+Name The Yuigaoka Left Behind by Her Mother, Ren Hazuki
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+*PowerOnMyTurn(1000)
+Auto: OnOpponentReverse
+{
+	Question Send this card to your memory?
+	If Yes
+	{
+		MoveCard Memory
+		ScheduleEffectForTargets StartDrawPhase
+		{
+			Effect:
+			{
+				PlaceOnStage False True True False
+			}
+			InMemory
+			Quick
+			Text Put this card on any position on your stage
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the start of your next draw phase, choose a "The Yuigaoka Left Behind by Her Mother, Ren Hazuki" in your memory and place it on any position on your stage.
+EndCard
+
+Character: SIP/W109-105
+Name 230 Meters Above Sea Level, Kinako Sakurakoji
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+*DropSearch(Music)
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	*CountColors
+	If Compare X 2 OrMore
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if the number of colors among cards in your waiting room is 2 or more, this card gets +1500 power until end of turn.
+EndCard
+
+Character: SIP/W109-106
+Name Science Classroom After School, Shiki Wakana
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Combo More Than Anything. Anything
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 4000
+	}
+}
+Quick
+Text Auto: When this card attacks, if the number of other «Music» characters you have is 2 or more, this card gets +4000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax More Than Anything. Anything
+	{
+		RevealUpTo Deck 2
+		Message Choose up to 2 <Music> characters to put into your hand
+		ChooseCardsFromTargets 0 2 HasTrait Music && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "More Than Anything. Anything." is in your climax area, look at up to 2 cards from the top of your deck and search for up to 2 «Music» characters, reveal them, put them in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SIP/W109-114
+Name Decorating at Home, Ren Hazuki
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if there's a marker under this card, this card gets +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music && IsCharacter
+	{
+		Question Marker this card?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Music» character, you may put it face-down under this card as marker.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	UntilEndOfOpponentsTurn
+	GainSpecialEffect CannotMove
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets the following ability until the end of your opponent's next turn. "Cont: This cannot move to another position."
+EndCard
+
+Character: SIP/W109-116
+Name Relaxing at Home, Shiki Wakana
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		*SearchDeckToPlaceOnStage(NameEquals Party at Home, Mei Yoneme)
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Party at Home, Mei Yoneme", put it in any position on the stage, and shuffle your deck.
+*OnAttackGivePower(1500,Music)
+EndCard
+
+Character: SIP/W109-117
+Name Dressed Up at Home, Keke Tang
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+*OnPlayGainPower(1500)
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		TargetLocation WaitingRoom
+		*CountColors
+		If Compare X 2 OrMore
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			ChooseCharacterFromTargets Choose a character to gain +1000 power
+			UntilEndOfOpponentsTurn
+			GainPower 1000
+		}
+	}
+}
+Text Auto: When this card attacks, if you have another «Music» character and the number of colors among cards in your waiting room is 2 or more, choose 1 of your other «Music» characters, and that character gets +1000 power until the next of your opponent's turn.
+EndCard
+
+Character: SIP/W109-122
+Name Resting at Home, Kinako Sakurakoji
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*BlueLevel0Bomb
+Auto: StartMainPhase
+{
+	PayCost 1 Discard 1 IsClimax
+	{
+		Message Choose a climax to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 IsClimax
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Alarm
+Text Auto: ALARM [(1) Put 1 climax from your hand to the waiting room] If this card is on top of your clock, at the beginning of your main phase, you may pay the cost. If you do, choose a climax in your waiting room and return it to your hand.
+EndCard
+
+Climax: SIP/W109-135
+Name Turning Image into Shape!
+*GateClimax
+EndCard
+
+Climax: SIP/W109-136
+Name More Than Anything. Anything.
+*GateClimax
+EndCard
+

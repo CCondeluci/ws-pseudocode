@@ -1,0 +1,3044 @@
+Character: SDS/SX05-001
+Name Elizabeth: Trust in the Promise
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Royalty
+Combo A World Without You
+Auto: OnSpecificClimaxPlay A World Without You
+{
+	If StageContains 1 Other && HasTrait Britannia
+	{
+		Mill 1
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Britannia
+	}
+}
+Text Auto: CxCombo When "A World Without You" is placed on your climax area, if you have another 《Britannia》 character, put the top card of your deck into your waiting room, choose up to 1 level X or lower 《Britannia》 character in your waiting room, and return it to your hand. X is equal to the level of that card.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SDS/SX05-002
+Name Hawk: Pride of a Hero
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Pig
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation Facing
+	If HasTarget
+	{
+		TargetLocation CenterStage
+		If Compare TargetCount 2 OrLess
+		{
+			TargetSelf
+			Question Move this card to an open position of your center stage?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Britannia)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Britannia》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SDS/SX05-003
+Name Meliodas: Wielder of Lostvayne
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals Meliodas: Wielder of Lostvayne
+	{
+		GainEffect
+		{
+			*GainPowerForEachOther(500,Britannia)
+		}
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+	}
+}
+Text Cont: If you have another "Meliodas: Wielder of Lostvayne" in your center stage, this card gets the following 2 abilities. "Cont: This card gets +500 power for each of your other 《Britannia》 characters." "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals Meliodas: Wielder of Lostvayne
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Meliodas: Wielder of Lostvayne", put it on any position of your stage, and shuffle your deck.
+EndCard
+
+Character: SDS/SX05-004
+Name Escanor: Arrogant and Powerful
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+Combo Master of the Sun
+*Healer
+Auto: OnAttack
+{
+    If Climax Master of the Sun && Compare ThisCardsSoul 4 OrLess &&& StageContains 4 Other && HasTrait Britannia
+    {
+        PayCost 1 Discard 1 NameEquals Escanor: Master of the Tavern
+        {
+            GainSpecialEffect SplitSoulDamage
+        }
+    }
+}
+Text Auto: CxCombo  [(1) Put 1 "Escanor: Master of the Tavern" from your hand into your waiting room] When this card attacks, if "Master of the Sun" is in your climax area, this card's soul is 4 or lower, and you have 4 or more other 《Britannia》 characters, you may pay the cost. If you do, during that attack, when this card deals attack damage to your opponent, deal 1 damage X times to your opponent instead. X is equal to this card's soul. (This damage is not damage caused by an AUTO effect.)
+EndCard
+
+Character: SDS/SX05-005
+Name Escanor: Wielder of Rhitta
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnReversed
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Escanor: Wielder of Rhitta
+	SetXValue TargetCount
+	TargetBattleOpponent
+	If Compare TargetCardsLevel X OrLess
+	{
+		IfTarget OnStage
+		{
+			Question Put the battle opponent into your opponent's stock?
+			If Yes
+			{
+				MoveCard OpponentStock
+				TargetBottom OpponentStock 1
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if this card's battle opponent is level X or lower, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room. X is equal to the number of "Escanor: Wielder of Rhitta" in your waiting room.
+EndCard
+
+Character: SDS/SX05-006
+Name Meliodas: Fulfilling His Promise
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && IsCharacter
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+*OnAttackGivePower(500,Any)
+EndCard
+
+Character: SDS/SX05-007
+Name Escanor: Master of the Tavern
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Britannia
+	{
+		*CheckAndAddAll(2,HasTrait Britannia)
+	}
+}		
+Text Auto: [(1) Put 1 《Britannia》 character from your waiting room at the bottom of your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 《Britannia》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SDS/SX05-008
+Name Elizabeth: Strong Heart
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Britannia
+Trait2 Royalty
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 1 HasTrait Britannia
+	{
+		TargetMyCharacterInBattle
+		IfTarget NameEquals Meliodas: To the Rescue
+		{
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					LoseSoul 2
+				}
+				Text Cont: The character facing this card gets -2 soul.
+			}
+		}
+	}
+}
+Text Auto: [Put 1 《Britannia》 character from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your "Meliodas: To the Rescue" in battle, and that card gets the following ability until end of turn. "Cont: The character facing this card gets -2 soul."
+Backup 2500
+EndCard
+
+Character: SDS/SX05-009
+Name Meliodas: Overcoming His Past
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Britannia
+Trait2 Deadly Sin
+Combo The Trial
+*EarlyPlay4OrMore(Britannia)
+Auto: StartMyEncoreStep
+{
+	If Climax The Trial
+	{
+		If InLocation CenterStage &&& StageContains 4 Other && HasTrait Britannia
+		{
+			PayCost SendClimax WaitingRoom
+			{
+				SearchLocationForTargets WaitingRoom 0 2 HasTrait Britannia
+				MoveCard Hand
+				TargetSelf
+				UntilEndOfOpponentsTurn
+				GainPower 1000
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "The Trial" from your climax area into your waiting room] At the beginning of your encore step, if this card is in your center stage, and you have 4 or more other 《Britannia》 characters, you may pay the cost. If you do, choose up to 2 《Britannia》 characters in your waiting room, return them to your hand, and this card gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: SDS/SX05-010
+Name Meliodas: Internal Strife
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+*GainPowerWithEnoughCharacters(1000,2,Britannia)
+Auto: OnPlay|PlacedByIf NameEquals Diane: Believing in Her Friends
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand, or by the auto ability of "Diane: Believing in Her Friends", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	PayCost 2 Discard 2 HasTrait Britannia
+	{
+		TargetSelf
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				*OptionalBurn(4)
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may deal 4 damage to your opponent.
+		}
+	}
+}
+Text Auto: [(2) Put 2 《Britannia》 characters from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 4 damage to your opponent." 
+EndCard
+
+Character: SDS/SX05-011
+Name Hawk: Transpork
+Color Y
+Level 0
+Cost 0
+Power 30
+Trait1 Britannia
+Trait2 Pig
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainLevel 1
+		GainPower 2970
+	}
+}
+Text Cont: During your turn, this card gets +1 level and +2970 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		RevealOpponentHand
+		SearchWaitingRoom NameEquals Balor's Magical Eye
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at your opponent's hand, choose up to 1 "Balor's Magical Eye" in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-012
+Name Meliodas: The Dragon Sin of Wrath
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	If LocationContains Hand 5 Any
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +2000 power.
+*ClimaxExchange
+EndCard
+
+Character: SDS/SX05-013
+Name Hawk Mama: Casually Saving the Day
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Britannia
+Trait2 Pig
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	GainEffect
+	{
+		*FreeEncore
+	}
+	TargetBattleOpponent
+	GainEffect
+	{
+		*FreeEncore
+	}
+}
+Text Auto: When you use this card's "BACKUP", all characters in battle get the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to its previous stage position as resting."
+Backup 0
+EndCard
+
+Character: SDS/SX05-014
+Name Escanor: Flashback
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Britannia
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another 《Britannia》 character, this card gets +3000 power.
+Auto: OnThisTriggerCheck
+{
+	TargetOther
+	If Compare TargetCardsLevel 0 OrLess
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this card's trigger check reveals a level 0 or lower card, this card gets +1 soul until end of turn. 
+EndCard
+
+Character: SDS/SX05-015
+Name Nanashi: Mysterious Swordsman
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Britannia
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget 
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsLevel 3 OrLess
+		ChooseCharacterFromTargets Choose a character to move to your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into your waiting room. If there is a climax among those cards, you may choose 1 level 3 or lower character in your opponent's center stage, and put it into their waiting room.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: SDS/SX05-016
+Name Escanor: The Lion Sin of Pride
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Britannia
+	{
+		TargetSelf
+		GainPower 4000
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other 《Britannia》 characters, this card gets +4000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	PayCost 1 Discard 1 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: SDS/SX05-017
+Name Elizabeth: New Power
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Britannia
+Trait2 Royalty
+*GlobalPower(1500,Britannia)
+Auto: OnPlay|PlacedBy Diane: Believing in Her Friends
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or by the AUTO effect of "Diane: Believing in Her Friends", you may pay the cost. If you do, put the top card of your clock into your stock.
+EndCard
+
+Character: SDS/SX05-018
+Name Druid Chief Zaneri
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Combo The Trial
+Cont: MemoryGiveHand
+{
+	If NameEquals Meliodas: Overcoming His Past
+	{
+		ChangeCost -1
+	}
+}
+Text Cont: MEMORY If this card is in your memory, "Meliodas: Overcoming His Past" gets -1 cost while in your hand.
+Requirement CardPosition Stand
+Act: SendSelf Memory Discard 1 IsClimax
+{
+	SearchDeck NameEquals The Trial
+}
+Text Act: CxCombo [Put 1 climax from your hand into your waiting room & Put this Stand card into your memory] Search your deck for up to 1 "The Trial", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SDS/SX05-019
+Name Druid Chief Jenna
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Cont: Memory
+{
+	If NameEquals Meliodas: Overcoming His Past
+	{
+		GainPower 500
+	}
+}
+Text Cont: MEMORY If this card is in your memory, all of your "Meliodas: Overcoming His Past" get +500 power.
+Requirement CardPosition Stand
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals Meliodas: Overcoming His Past
+}
+Text Act: [(1) Put this standing card into your memory] Choose 1 "Meliodas: Overcoming His Past" in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-020
+Name Liz: Happier Times
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Holy Knight
+*OnPlayScry
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any SendSelf Memory
+	{
+		SearchWaitingRoom NameContains Elizabeth
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, choose 1 character with "Elizabeth" in its card name in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-021
+Name Elizabeth: Emotional Support
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Royalty
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Britannia
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Britannia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-022
+Name Elizabeth: Through Thick and Thin
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Britannia
+Trait2 Royalty
+*HexProof
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Britannia
+	ChooseCharacterFromTargets Choose a character to gain +1500 power
+	GainPower 1500
+	SaveTargets
+	If StageContains 1 Other && SameNameAsSavedTarget
+	{
+		TargetLocation Stage
+		NarrowTargets Not InSavedTargets && SameNameAsSavedTarget
+		ChooseCharacterFromTargets Choose another character to gain +1500 power
+		GainPower 1500
+	}
+}
+Text Act: [Rest this card] Choose 1 of your 《Britannia》 characters, that character gets +1500 power until end of turn, choose another of your characters with the same card name as the character chosen, it gets +1500 power until end of turn.
+EndCard
+
+Character: SDS/SX05-023
+Name Arthur: Monster Cat Companion
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 2
+Trait1 Britannia
+Trait2 Royalty
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Merlin
+	{
+		GainPower 8500
+		GainEffect
+		{
+			*HandEncoreTrait(Britannia)
+		}
+	}
+}
+Text Cont: If you have another character with "Merlin" in its card name, this card gets +8500 power and "Auto: ENCORE [Put 1 《Britannia》 character from your hand into your waiting room]".
+EndCard
+
+Character: SDS/SX05-024
+Name Meliodas: Mid-Match Squabble
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Britannia
+Trait2 Deadly Sin
+*Level3Assist
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Britannia
+	{
+		Question_Obvious Draw 2 and discard 2?
+		If Yes
+		{
+			DrawCard
+			DrawCard
+			Discard 2 Any
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Britannia》 characters, you may draw 2 cards. If you do, choose 2 cards from your hand, and put it into your waiting room.
+EndCard
+
+Character: SDS/SX05-025
+Name Arthur: Tearful Apology
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Britannia
+Trait2 Royalty
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×1000.
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Britannia
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +2 soul
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other 《Britannia》 characters, choose 1 of your characters, it gets +2 soul until end of turn.
+EndCard
+
+Event: SDS/SX05-026
+Name Balor's Magical Eye
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	TargetLocation OpponentHand
+	OpponentChooseCardsFromTargets 0 1 Any
+	MultipleChoiceQuestion Select a power. (Opponent's card's power will be rounded down to a multiple of 500 for this effect)|0|500|1000|1500|2000|2500|3000|3500|4000|4500|5000|5500|6000|6500|7000|7500|8000|8500|9000|9500|10000|10500|11000|11500|12000|12500|13000|13500|14000
+	SetXValue Answer
+	MultiplyXValue 500
+	Reveal
+	If Compare TargetCardsPower X OrMore
+	{
+		AddToXValue 499
+		If Compare TargetCardsPower X OrLess
+		{
+			SearchLocationForTargets WaitingRoom 0 2 HasTrait Britannia
+			MoveCard Stock
+		}
+	}
+	SearchDeck HasTrait Britannia
+}
+Text If your opponent's hand has 1 or more cards, your opponent chooses 1 card in their hand. Declare any number, and they reveal the chosen card. If that card's power is the same as the number you declared, choose up to 2 《Britannia》 characters in your waiting room, and put them into your stock in any order. 
+Text Search your deck for up to 1 《Britannia》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Climax: SDS/SX05-027
+Name The Trial
+*YellowStockSoul
+EndCard
+
+Climax: SDS/SX05-028
+Name A World Without You
+Color Y
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	AIChoice RemoveFromWaitingRoom
+	SearchWaitingRoomForTarget Compare ThatCardsLevel 1 OrLess && IsCharacter
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Climax: SDS/SX05-029
+Name Master of the Sun
+*ChoiceClimax
+EndCard
+
+Character: SDS/SX05-030
+Name Diane: Importance of Memories
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnReversed
+{
+	PayCost 1 Clock SendSelf Memory
+	{
+		*Check3Add1(Any)
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Auto: StartMainPhase
+{
+	If LocationContains Memory 1 NameEquals Diane: Importance of Memories
+	{
+		PayCost Discard 1 Any
+		{
+			*Check3Add1(Any)
+		}
+	}
+}
+Alarm
+Text Auto: Alarm Memory [Put 1 card from your hand into your waiting room] If this card is the top card of your clock, and "Diane: Importance of Memories" is in your memory, at the beginning of your main phase, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SDS/SX05-031
+Name King: Greedy
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Britannia
+Trait2 Deadly Sin
+Combo True Spirit Spear Chastiefol
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 IsColor Green
+	{
+		GainPower 2000
+	}
+}
+Text Cont: MEMORY During your turn, if there is a green card in your memory, this card gets +2000 power.
+Auto: OnSpecificClimaxPlay True Spirit Spear Chastiefol
+{
+	If AllYourCharacters HasTrait Britannia
+	{
+		TargetSelf
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotMove
+				GainSpecialEffect CannotReturnToHand
+				GainSpecialEffect CannotGoToMemory
+			}
+			Text Cont: The character facing this card cannot be returned to hand, move to another stage position, or be put into memory.
+		}
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchDeck HasTrait Britannia
+			}
+			Text Auto: When this card's battle opponent becomes reversed, search your deck for up to 1 《Britannia》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+		}
+	}
+}
+Text Auto: CxCombo When "True Spirit Spear Chastiefol" is placed on your climax area, if all of your characters are 《Britannia》, this card gets the following 2 abilities until end of turn. "Cont: The character facing this card cannot be returned to hand, move to another stage position, or be put into memory." "Auto: When this card's battle opponent becomes reversed, search your deck for up to 1 《Britannia》 character, reveal it to your opponent, put it into your hand, and shuffle your deck."
+EndCard
+
+Character: SDS/SX05-032
+Name Deldry: Love Manipulator
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Britannia
+Trait2 Holy Knight
+Act: Rest 1 HasTrait Holy Knight
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Holy Knight
+	SaveTargets
+	TargetBottom Clock
+	AddCurrentToSavedTargets
+	LoadTargets
+	Exchange
+}
+Text Act: [Rest 1 of your 《Holy Knight》 characters] Choose 1 《Holy Knight》 character in your waiting room and the bottom card of your clock, and exchange them.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SDS/SX05-033
+Name Deathpierce: Realization
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Britannia
+Trait2 Holy Knight
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		Question Move a climax to hand and discard 1?
+		If Yes
+		{
+			ChooseCardsFromTargets 0 1
+			MoveCard Hand
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, look at up to 3 cards from the top of your deck, choose up to 1 climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put a card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: SDS/SX05-034
+Name Griamore: Reverted to a Child
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Britannia
+Trait2 Holy Knight
+*LevelAssistTrait(Britannia)
+Auto: StartClimaxPhase
+{
+	If StageContains 3 HasTrait Britannia
+	{
+		Question Draw a card and discard one?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Alarm
+Text Auto: 【CLOCK】 ALARM If this card is the top card of your clock, and you have 3 or more 《Britannia》 characters, at the beginning of your climax phase, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+*ClockShift(0,Green)
+EndCard
+
+Character: SDS/SX05-035
+Name King: Protective
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+*OnAttackGainPowerForEachOther(1000,Britannia)
+Auto: OnPlay|PlacedBy Diane: Believing in Her Friends
+{
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			PayCost 1
+			{
+				Question_Obvious Put battle opponent into clock?
+				If Yes
+				{
+					TargetOther
+					MoveCard OpponentClock
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During the turn that this card is placed on the stage from your hand or by the AUTO effect of "Diane: Believing in Her Friends", when this card's battle opponent becomes reversed, you may pay the cost. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: SDS/SX05-036
+Name Diane: Believing in Her Friends
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+Combo Friends
+Cont: InHand
+{
+	If LocationContains Memory 3 IsColor Green
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: MEMORY If your memory has 3 or more green cards, this card gets -1 level while in your hand.
+Auto: OnSpecificClimaxPlay Friends
+{
+	If InLocation CenterStage
+	{
+		MultipleChoiceQuestion Choose an effect. \n1. Choose a character in your waiting room and place it on your stage. \n2. Burn 1 damage to your opponent and give this card 1500 power. |1|2
+		If Answer 0
+		{
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+			PlaceOnStage False True True False
+		}
+		If Answer 1
+		{
+			Burn 1
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 1500
+		}
+	}
+}
+Text Auto: CxCombo When "Friends" is placed on your climax area, if this card is in your center stage, you may choose 1 character in your waiting room, and put it on any position of your stage. If you do not, deal 1 damage to your opponent, and this card gets +1500 power until the end of your opponent's next turn. 
+EndCard
+
+Character: SDS/SX05-037
+Name Gilthunder: Training Buddies
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Britannia
+Trait2 Holy Knight
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Howzer: Training Buddies
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnDirectAttack
+			{
+				Question_Obvious Put a character from your waiting room into your stock?
+				If Yes
+				{
+					SearchLocationForTargets WaitingRoom 0 1 HasTrait Britannia
+					MoveCard Stock
+				}
+			}
+			Text Auto: When this card direct attacks, you may choose 1 《Britannia》 character in your waiting room, and put it into your stock.
+		}
+	}
+}
+Text Cont: If you have another "Howzer: Training Buddies", this card gets +1500 power and the following ability. "Auto: When this card direct attacks, you may choose 1 《Britannia》 character in your waiting room, and put it into your stock."
+Auto: OnAttack
+{
+	Mill 1
+	NarrowTargets HasTrait Holy Knight
+	If HasTarget
+	{
+		PayCost 2
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: [(2)] When this card attacks, put the top card of your deck into your waiting room. If that card is a 《Holy Knight》 character, you may pay the cost. If you do, deal 2 damage to your opponent. 
+EndCard
+
+Character: SDS/SX05-038
+Name Gerheade: Matter-of-Factly
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Fairy King's Forest
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Fairy King's Forest" in your waiting room, and return it to your hand.
+Auto: OnReversed
+{
+	*ClockSaboutage
+}
+Text Auto: When this card becomes reversed in battle, you may choose 1 card in your opponent's clock, and put it into their waiting room. If you do, your opponent puts the top card of their deck into their clock.
+EndCard
+
+Character: SDS/SX05-039
+Name Helbram: Adviser in the Helmet
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals King: Greedy | King: Wielder of Chastiefol | King: Protective
+	ChooseCharacterFromTargets Choose a character to gain +500 power.
+	GainPower 500
+}
+InMemory
+Text Auto: MEMORY If this card is in your memory, at the beginning of your climax phase, choose 1 of your "King: Greedy" or "King: Wielder of Chastiefol" or "King: Protective", it gets +500 power until end of turn.
+Requirement CardPosition Stand
+Act: 1 SendSelf Memory
+{
+	RevealUpTo Deck 3
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 HasTrait Britannia && IsCharacter ||| IsEvent
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Put this Stand card into your memory] Look at up to 3 cards from the top of your deck, choose up to 1 event or 《Britannia》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SDS/SX05-040
+Name King: The Grizzly Sin of Sloth
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay
+{
+	PayCost Discard 1 Any Send 1 WaitingRoom Any
+	{
+		SearchWaitingRoom HasTrait Britannia
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Britannia
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		GainPower 1000
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room & Put 1 character from your stage into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Britannia》 character in your waiting room, return it to your hand, choose 1 of your other 《Britannia》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: SDS/SX05-041
+Name Diane: Learning to Dance
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Britannia
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		Peek Deck X
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 《Britannia》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of characters your opponent has.
+EndCard
+
+Character: SDS/SX05-042
+Name Matrona: Warrior Chief
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Britannia
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains OpponentClimax 1 IsClimax
+	{
+		TargetMyCharacterInBattle
+		NarrowTargets HasTrait Britannia
+		GainPower 2000
+	}
+}
+Text Auto: When you use this card's "BACKUP", if there is a climax in your opponent's climax area, choose 1 of your 《Britannia》 characters in battle, it gets +2000 power until end of turn.
+Backup 2500
+EndCard
+
+Character: SDS/SX05-043
+Name Diane: The Serpent Sin of Envy
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Britannia
+Trait2 Deadly Sin
+*PowerOnMyTurn(10000)
+*OnReverseMayMemoryOpponent
+EndCard
+
+Character: SDS/SX05-044
+Name Arden: Draining Enemies
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Holy Knight
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		TargetLocation OpponentHand
+		NarrowTargets IsEvent
+		ChangeCost +1
+	}
+}
+Text Cont: During your turn, events get +1 cost while in your opponent's hand.
+*RestGivePower(1000,Any)
+EndCard
+
+Character: SDS/SX05-045
+Name Dogedo: Happily Unaware
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Holy Knight
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Stock 2 Any
+	{
+		GainLevel 1
+		GainPower 1000
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1 level and +1000 power.
+Auto: StartClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Britannia
+	{
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainSoul 1
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Britannia》 character from your waiting room at the bottom of your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +1500 power and +1 soul until the end of your opponent's next turn.
+EndCard
+
+Character: SDS/SX05-046
+Name Diane: Retaliating
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: StartOpponentAttackPhase
+{
+	Question Put the top card of your deck into your waiting room?
+	If Yes
+	{
+		Mill 1
+		NarrowTargets Compare TargetCardsLevel 2 OrLess && IsCharacter
+		If HasTarget
+		{
+			TargetSelf
+			GainEffect
+			{
+				Auto: OnFrontalAttacked
+				{
+					Question Return the attack target to your hand?
+					If Yes
+					{
+						MoveCard Hand
+					}
+				}
+				Text Auto: When this card is frontal attacked, you may return this card to your hand.
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if all of your characters are 《Britannia》, you may put the top card of your deck into your waiting room. If that card is a level 2 or lower character, this card gets the following ability until end of turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: SDS/SX05-047
+Name Gilthunder: Second Thoughts
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Britannia
+Trait2 Holy Knight
+*GlobalPower(500,Britannia)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Britannia
+	{
+		SearchDeck NameEquals Gilthunder: Smile of Relief
+	}
+}
+Text Auto: [Put 1 《Britannia》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Gilthunder: Smile of Relief", reveal it to your opponent, put it into your hand, and shuffle your deck.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Gilthunder: Smile of Relief
+	ChooseCharacterFromTargets Choose a "Gilthunder: Smile of Relief" to gain +1500 power
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your "Gilthunder: Smile of Relief", and that card gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: SDS/SX05-048
+Name King: Internal Strife
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Britannia
+Trait2 Deadly Sin
+*GainPowerForEachOther(500,Britannia)
+Auto: OnAttack
+{
+	PayCost Discard 1 IsClimax && HasTrigger Bar
+	{
+		TargetSelf
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchWaitingRoom IsCharacter
+			}
+			Text Auto:  When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Auto: [Put 1 climax with BAR in its trigger icon from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: SDS/SX05-049
+Name Denzel: Demon Clan Researcher
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Britannia
+Trait2 Holy Knight
+Combo Summoning a Goddess
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Holy Knight
+	{
+		Question Draw and discard a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Holy Knight》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Auto: StartMyEncoreStep
+{
+	If Climax Summoning a Goddess && InLocation CenterStage
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			SetXValue MyLevel
+			AddToXValue 1
+			SearchLocationForTargets Hand 0 1 Compare ThatCardsLevel X OrLess
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put this card into your waiting room] At the beginning of your encore step, if "Summoning a Goddess" is in your climax area, and this card is in your center stage, you may pay the cost. If you do, choose 1 character with a level equal to or lower than your level +1 in your hand, and put it on the stage position this card was on.
+EndCard
+
+Character: SDS/SX05-050
+Name King: Protecting the Forest
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +3000 power
+	UntilEndOfOpponentsTurn
+	GainPower 3000
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets +3000 power until the end of your opponent's next turn.
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with BAR in its trigger icon, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-051
+Name Waillo: Seeking Marriage
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Britannia
+Trait2 Holy Knight
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Deldry: Love Manipulator
+	{
+		GainPower 7000
+	}
+}
+Text Cont: If you have another "Deldry: Love Manipulator", this card gets +7000 power.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Britannia
+	{
+		Question_Obvious Choose a card in your waiting room to put into stock?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Britannia
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Britannia》 characters, you may choose 1 《Britannia》 character in your waiting room, and put it into your stock.
+EndCard
+
+Event: SDS/SX05-052
+Name Fairy King's Forest
+Color G
+Level 2
+Cost 0
+Text If you do not have a 《Britannia》 character, this card cannot be played from your hand.
+Requirement StageContains 1 HasTrait Britannia
+Effect:
+{
+	MultipleChoiceQuestion Choose 1 of the following effects and perform it. \n1. Choose 1 《Britannia》 character in your waiting room, and return it to your hand. \n2. Choose 1 《Britannia》 character in your waiting room, put it into your stock, choose 1 of your 《Britannia》 characters, it gets +1500 power until the end of your opponent's next turn. |1|2
+	If Answer 0
+	{
+		SearchWaitingRoom HasTrait Britannia
+	}
+	If Answer 1
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Britannia
+		MoveCard Stock
+		TargetLocation Stage
+		NarrowTargets HasTrait Britannia
+		ChooseCharacterFromTargets Choose a character to gain +1500 power
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+	If LocationContainsOrLess Memory 2 Any
+	{
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text Choose 1 of the following effects, and perform it.
+Text "Choose 1 《Britannia》 character in your waiting room, and return it to your hand."
+Text "Choose 1 《Britannia》 character in your waiting room, put it into your stock, choose 1 of your 《Britannia》 characters, it gets +1500 power until the end of your opponent's next turn."
+Text If your memory has 2 or less cards, put this card into your memory.
+EndCard
+
+Climax: SDS/SX05-053
+Name True Spirit Spear Chastiefol
+*BarClimax
+EndCard
+
+Climax: SDS/SX05-054
+Name Friends
+*BarClimax
+EndCard
+
+Climax: SDS/SX05-055
+Name Summoning a Goddess
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	AIChoice RemoveFromWaitingRoom
+	SearchWaitingRoomForTarget Compare ThatCardsLevel 1 OrLess && IsCharacter
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all your characters get +1 soul until end of turn.
+EndCard
+
+Character: SDS/SX05-056
+Name Gowther: Fighting It Out
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Britannia
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If all of your characters are 《Britannia》, this card gets +1 level and +1500 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: SDS/SX05-057
+Name Merlin: True Identity
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Britannia
+Trait2 Deadly Sin
+Combo Striking Fear
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Britannia
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are 《Britannia》, this card gets +2000 power.
+Auto: OnSpecificClimaxPlay Striking Fear
+{
+	If InLocation CenterStage &&& StageContains 2 Other && HasTrait Britannia
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to get the 2 abilities
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Text Auto: CxCombo When "Striking Fear" is placed on your climax area, if this card is in your center stage, and you have 2 or more other 《Britannia》 characters, choose 1 of your characters, it gets the following 2 abilities until the end of your opponent's next turn. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step." "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: SDS/SX05-058
+Name Ban: Facing Off
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+Combo Caught In a Trap
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Britannia
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HandEncoreTrait(Britannia)
+		}
+	}
+}
+Text Cont: If you have another 《Britannia》 character, this card gets +1000 power and "Auto: ENCORE [Put 1 《Britannia》 character from your hand into your waiting room]".
+Auto: PlacedBy Caught In a Trap
+{
+	If Phase Climax
+	{
+		PayCost 1 Send 1 WaitingRoom HasTrait Britannia
+		{
+			TargetSelf
+			Stand
+			MultipleChoiceQuestion Choose an effect to do first. \n1. You may put the top 4 cards of your opponent's deck into their waiting room. \n2. You may choose 1 card in your opponent's waiting room, and put it into their memory. |1|2
+			If Answer 0
+			{
+				Question Put the top 4 cards of your opponent's deck into their waiting room?
+				If Yes
+				{
+					MillOpponent 4
+				}
+				Question_Obvious Put a card in your opponent's waiting room into their memory?
+				If Yes
+				{
+					SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+					MoveCard Memory
+				}
+			}
+			Else
+			{
+				Question_Obvious Put a card in your opponent's waiting room into their memory?
+				If Yes
+				{
+					SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+					MoveCard Memory
+				}
+				Question Put the top 4 cards of your opponent's deck into their waiting room?
+				If Yes
+				{
+					MillOpponent 4
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 《Britannia》 character from your stage into your waiting room] During your climax phase, when this card is placed on the stage by the effect of "Caught In a Trap", you may pay the cost. If you do, Stand this card, and perform the following 2 effects 1 time each in any order. "You may put the top 4 cards of your opponent's deck into their waiting room." "You may choose 1 card in your opponent's waiting room, and put it into their memory."
+EndCard
+
+Character: SDS/SX05-059
+Name Gowther: Reflecting
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Britannia
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchWaitingRoom HasTrait Britannia
+				Discard 1 Any
+			}
+			Text Auto: When this card's battle opponent becomes reversed, choose 1 《Britannia》 character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room.
+		}
+	}
+}
+Text Cont: If all of your characters are 《Britannia》, this card gets +1500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, choose 1 《Britannia》 character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room."
+EndCard
+
+Character: SDS/SX05-060
+Name Merlin: Handy Ability
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Britannia
+Trait2 Deadly Sin
+*LevelAssistTrait(Britannia)
+Auto: OnClimaxPlay
+{
+	Question Put the top card of your deck into your waiting room?
+	If Yes
+	{
+		Mill 1
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to gain +1 soul
+			GainSoul 1
+		}
+	}
+}
+Text Auto: When your climax is placed on your climax area, you may put the top card of your deck into your waiting room. If that card is level 1 or higher, choose 1 of your characters, it gets +1 soul until end of turn. 
+Act: RestSelf Discard 1 NameContains Merlin
+{
+	SearchWaitingRoom NameContains Escanor|Arthur
+}
+Text Act: [Put 1 character with "Merlin" in its card name from your hand into your waiting room & Rest this card] Choose 1 character with "Escanor" or "Arthur" in its card name in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-061
+Name Merlin: Miscalculation
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Britannia
+Trait2 Deadly Sin
+Act: RestSelf Discard 2 Any
+{
+	DrawCard
+	DrawCard
+}
+Text Act: [Put 2 cards from your hand into your waiting room & Rest this card] Draw 2 cards.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Auto: StartOpponentAttackPhase
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Britannia && CanMove
+			ChooseCharacterFromTargets
+			If HasTarget
+			{
+				AddSelfToTargets
+				Exchange
+				Stand
+			}
+		}
+		Text Auto: At the beginning of your opponent's attack phase, you may choose this card and 1 of your 《Britannia》 characters, and exchange them as standing.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets the following ability until the end of your opponent's next turn. "Auto: At the beginning of your opponent's attack phase, you may choose this card and 1 of your 《Britannia》 characters, and exchange them as standing."
+EndCard
+
+Character: SDS/SX05-062
+Name Ban: Mid-Match Squabble
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters HasTrait Britannia && InLocation CenterStage && Other
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other 《Britannia》 character in your center stage.
+*HandEncore
+EndCard
+
+Character: SDS/SX05-063
+Name Elaine: Capable Saint
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 3500
+Soul 2
+Trait1 Britannia
+*2000Assist
+*Healer
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: SDS/SX05-064
+Name Merlin: Wielder of Aldan
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose one of the following effects \n1. Choose 1 card in your hand, and put it into your waiting room. If you do, put the top card of your clock into your stock. \n2. Choose 1 of your opponent's characters, and return it to their hand. \n3. Choose 1 character in your waiting room, and return it to your hand. |1|2|3
+	If Answer 0
+	{
+		PayCost Discard 1 Any
+		{
+			TargetTop Clock 1
+			MoveCard Stock
+		}
+	}
+	If Answer 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+		Bounce
+	}
+	If Answer 2
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 of the following 3 effects, and perform it. "Choose 1 card in your hand, and put it into your waiting room. If you do, put the top card of your clock into your stock." "Choose 1 of your opponent's characters, and return it to their hand." "Choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: SDS/SX05-065
+Name Zhivago: Taking Under His Wing
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Cont: GiveAll
+{
+	If NameEquals Ban: Rough Childhood
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				*Scry
+				TargetSelf
+				GainPower 1000
+			}
+			Text Auto: When this card attacks, look at the top card of your deck, put it on the top of your deck or into your waiting room, and this card gets +1000 power until end of turn.
+		}
+	}
+}
+Text Cont: All of your other "Ban: Rough Childhood" get the following ability. "Auto: When this card attacks, look at the top card of your deck, put it on the top of your deck or into your waiting room, and this card gets +1000 power until end of turn."
+Auto: OnPlayedNormally
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Britannia
+	{
+		Bond Ban: Rough Childhood
+	}
+}
+Text Auto: BOND/ <b>"Ban: Rough Childhood"</b>[Put 1 <Britannia> character from your waiting room to the bottom of your clock] (<i>When this card is played and placed on the stage, you may pay the cost, choose 1 "Ban: Rough Childhood" in your waiting room, and return it to your hand</i>)
+EndCard
+
+Character: SDS/SX05-066
+Name Elaine: Revived
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Combo Back From the Dead
+Auto: OnSpecificClimaxPlay Back From the Dead
+{
+	If StageContains 1 Other && HasTrait Britannia
+	{
+		SearchWaitingRoom NameEquals Ban: Mid-Match Squabble
+	}
+}
+Text Auto: CxCombo When "Back From the Dead" is placed on your climax area, if you have another 《Britannia》 character, you may choose 1 "Ban: Mid-Match Squabble" in your waiting room, and return it to your hand.
+Act: RestSelf Send 1 WaitingRoom Other
+{
+	Brainstorm 4
+	PerClimax
+	{
+		Peek Deck 3
+		ChooseCard Choose a card to add to your hand (Will not be revealed)
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Act: BRAINSTORM [Put 1 other character from your stage into your waiting room & Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, perform the following action. "Look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room."
+EndCard
+
+Character: SDS/SX05-067
+Name Elaine: Coming to Her Senses
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Britannia
+*OnPlayScry
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Britannia
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Britannia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-068
+Name Gowther: The Goat Sin of Lust
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	Question Mill 3?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or put into your waiting room from the stage, you may put the top 3 cards of your deck into your waiting room.
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	SetXValue OpponentsLevel
+	AddToXValue 1
+	If Compare TargetCardsLevel X OrMore
+	{
+		Question Send the battle opponent to memory?
+		If Yes
+		{
+			TargetBattleOpponent
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may put that character into your opponent's memory.
+EndCard
+
+Character: SDS/SX05-069
+Name Ban: The Fox Sin of Greed
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Britannia
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Britannia》 characters, this card gets +1500 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+EndCard
+
+Character: SDS/SX05-070
+Name Merlin: The Boar Sin of Gluttony
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: InHand
+{
+	If StageContains 4 Other && HasTrait Britannia
+	{
+		ChangeCost -1
+	}
+}
+Text Cont: If you have 4 or more <Britannia> characters, this card gets -1 cost while in your hand.
+Auto: OnAttack
+{
+	TargetLocation Level
+	NarrowTargets IsColor Yellow
+	If HasTarget
+	{
+		TargetFacing
+		If HasTarget
+		{
+			If Compare TargetCardsLevel 2 Exactly
+			{
+				TargetSelf
+				GainPower 6000
+			}
+		}
+	}
+}
+Quick
+Text Auto: EXPERIENCE When this card attacks, if your level has a yellow card, and the character facing this card is level 2, this card gets +6000 power until end of turn.
+EndCard
+
+Character: SDS/SX05-071
+Name Ban: To Save a Friend
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 0 OrLess && IsCharacter
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a level 0 or lower character among those cards, this card's soul does not decrease by side attacking until end of turn.
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to lose -1000 power
+	LosePower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: SDS/SX05-072
+Name Merlin: Recruitment
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck NameEquals Wanted Poster ||| HasTrait Deadly Sin
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 "Wanted Poster" or 《Deadly Sin》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SDS/SX05-073
+Name Zhivago & Ban: A Final Reunion
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnOtherFrontalAttacked
+{
+	TargetMyCharacterInBattle
+	IfTarget NameContains Ban
+	{
+		PayCost 0
+		{
+			TargetSelf
+			MoveCardToBottom Deck
+			TargetMyCharacterInBattle
+			RememberSlot
+			MoveCard Memory
+			ScheduleEffectForTargets StartEncoreStep
+			{
+				Effect:
+				{
+					PlaceOnStage True True True False
+				}
+				Text Put this card back on the stage position it was in.
+			}
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY [Put this card at the bottom of your deck] If this card is in your memory, when your other character with "Ban" in its card name is frontal attacked, you may pay the cost. If you do, put that character into your memory, and at the beginning of the encore step, put that character from your memory to its previous stage position.
+Act: 1
+{
+	TargetSelf
+	MoveCard Memory
+}
+Text Act: [(1)] Put this card into your memory.
+EndCard
+
+Character: SDS/SX05-074
+Name Gowther: Original Form
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay
+{
+	Question Put a card from your hand into your stock?
+	If Yes
+	{
+		SearchLocationForTargets Hand 0 1 Any
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+*OnPlayGainPowerForEach(500,Britannia)
+EndCard
+
+Character: SDS/SX05-075
+Name Ban: Rough Childhood
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Britannia
+Trait2 Deadly Sin
+EndCard
+
+Character: SDS/SX05-076
+Name Gowther: Blunt
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnPlay
+{
+	If Compare CardsInMemory 5 OrMore || Compare CardsInOpponentsMemory 5 OrMore 
+	{
+		If Compare CardsInMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			SearchLocationForTargets Memory 4 4 Any
+			ReverseTargets Memory
+			MoveCard WaitingRoom
+		}
+		If Compare CardsInOpponentsMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			OpponentSearchLocationForTargets Memory 4 4 Any
+			ReverseTargets OpponentMemory
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all players perform the following action. "If your memory has 5 or more cards, choose 4 cards in your memory, and put all cards in your memory except those cards into your waiting room."
+Auto: OnReversed
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 2 OrLess
+		{
+			Question Move the battle opponent to your opponent's memory?
+			If Yes
+			{
+				MoveCard OpponentMemory
+			}
+		}
+	}
+}	
+Text Auto: When this card becomes reversed, if this card's battle opponent is level 2 or lower, you may put that character into your opponent's memory.
+EndCard
+
+Event: SDS/SX05-077
+Name Delicious Meat
+Color R
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Britannia
+	ChooseCharacterFromTargets Choose a character to gain +1500 power
+	GainPower 1500
+	Repeat 50
+	{
+		PayCost Discard 1 Any
+		{
+			*Scry
+		}
+		Else
+		{
+			StopLoop
+		}
+	}
+}
+Text Counter: Choose 1 of your 《Britannia》 characters, that character gets +1500 power until end of turn, and perform the following action. "You may choose 1 card in your hand, and put it into your waiting room. If you do, look at the top card of your deck, and put it on the top of your deck or into your waiting room." You may perform that action as many times as you like.
+EndCard
+
+Climax: SDS/SX05-078
+Name Back From the Dead
+*StandbyClimax
+EndCard
+
+Climax: SDS/SX05-079
+Name Caught In a Trap
+*StandbyClimax
+EndCard
+
+Climax: SDS/SX05-080
+Name Striking Fear
+Color R
+*DoorClimax
+EndCard
+
+Character: SDS/SX05-081
+Name Zeldris of the Ten Commandments
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Britannia
+Trait2 Ten Commandments
+Combo Ten Commandments
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Ten Commandments
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are 《Ten Commandments》, this card gets +2000 power.
+*Healer
+Auto: OnAttack
+{
+	If Climax Ten Commandments
+	{
+		PayCost 1
+		{
+			TargetBottom OpponentDeck 5
+			MoveCard WaitingRoom
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					If InBattle
+					{
+						GainSpecialEffect ReceiveNoDamageFromAutoEffects
+					}
+				}
+				Text Cont: During this card's battle you cannot take damage from your opponent's auto effects
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Ten Commandments" is in your climax area, you may pay the cost. If you do, put the bottom 5 cards of your opponent's deck into their waiting room, deal X damage to your opponent, and until the end of your opponent's next turn, during this card's battle, you cannot receive damage by the Auto: effect of your opponent's characters. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: SDS/SX05-082
+Name Jericho: Passionate
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Trait2 Holy Knight
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step.
+*BlueLevel0Bomb
+EndCard
+
+Character: SDS/SX05-083
+Name Hendrickson: Usual Self
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Holy Knight
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Britannia
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		GainPower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Britannia》 character, choose 1 of your characters, it gets +1000 power until end of turn. 
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Britannia
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 《Britannia》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SDS/SX05-084
+Name Gustaf: Desperate Attempt
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Britannia
+Trait2 Holy Knight
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+			GainSpecialEffect CannotReturnToHand
+			GainSpecialEffect CannotGoToMemory
+		}
+		Text Cont: This card cannot be returned to hand, move to another stage position, or be put into memory.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: This card cannot be returned to hand, move to another stage position, or be put into memory."
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Britannia
+	{
+		SetXToNumberOfCharacters HasTrait Britannia && Other
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When your other 《Britannia》 character attacks, this card gets +X power until end of turn. X is equal to the number of other 《Britannia》 characters you have ×500.
+EndCard
+
+Character: SDS/SX05-085
+Name Gloxinia & Drole: Reasons for Switching
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Britannia
+Trait2 Ten Commandments
+Combo Death-Trap Maze
+*GainPowerForEachOther(500,Ten Commandments)
+Auto: OnOpponentReverse
+{
+	If Climax Death-Trap Maze
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 2 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		Message Choose a card to go to your hand
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		MoveCard Hand
+		TargetLocation Revealed
+		Message Choose a card to go to your stock
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		MoveCard Stock
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Death-Trap Maze" is in your climax area, look at up to 4 cards from the top of your deck, choose up to 2 level 1 or higher cards from among them, reveal them to your opponent, choose 1 card from the revealed cards, put it into your hand, choose 1 card from the revealed cards, put it into your stock, and put the rest into your waiting room. 
+EndCard
+
+Character: SDS/SX05-086
+Name Howzer: Training Buddies
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Britannia
+Trait2 Holy Knight
+*EarlyPlayInClock(Griamore: Reverted to a Child)
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Gilthunder: Training Buddies
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost Discard 1 HasTrait Holy Knight
+				{
+					TargetLocation OpponentStage
+					ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+					MoveCard OpponentHand
+				}
+			}
+			Text Auto: [Put 1 《Holy Knight》 character from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+		}
+	}
+}
+Text Cont: If you have another "Gilthunder: Training Buddies", this card gets +2000 power and the following ability. "Auto: [Put 1 《Holy Knight》 character from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand."
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Gilthunder: Training Buddies
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Gilthunder: Training Buddies" in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: SDS/SX05-087
+Name Gloxinia of the Ten Commandments
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Britannia
+Trait2 Ten Commandments
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Ten Commandments
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnReversed
+			{
+				PayCost Discard 1 Any
+				{
+					TargetSelf
+					Bounce
+				}
+			}
+			Text Auto: [Put 1 card from your hand into your waiting room] When this card becomes reversed, you may pay the cost. If you do, return this card to your hand.
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Ten Commandments》 characters, this card gets +1500 power and the following ability. "Auto: [Put 1 card from your hand into your waiting room] When this card becomes reversed, you may pay the cost. If you do, return this card to your hand."
+*StockHealer
+EndCard
+
+Character: SDS/SX05-088
+Name Drole of the Ten Commandments
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Ten Commandments
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 level and +2500 power.
+EndCard
+
+Character: SDS/SX05-089
+Name Fraudrin of the Ten Commandments
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Ten Commandments
+Auto: OnTriggerCheckClimax
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom HasTrait Ten Commandments
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax, if there is a climax in your climax area, you may pay the cost. If you do, choose 1 《Ten Commandments》 character in your waiting room, and return it to your hand.
+*Act1RestSelfSalvageBrainstorm(Ten Commandments)
+EndCard
+
+Character: SDS/SX05-090
+Name Galland of the Ten Commandments
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Britannia
+Trait2 Ten Commandments
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Ten Commandments
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 《Ten Commandments》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SDS/SX05-091
+Name Derieri of the Ten Commandments
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Britannia
+Trait2 Ten Commandments
+*OthersCannotSideAttack
+*OnAttackGivePowerForEachOther(500,Ten Commandments)
+EndCard
+
+Character: SDS/SX05-092
+Name Grayroad of the Ten Commandments
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Britannia
+Trait2 Ten Commandments
+Cont: GiveAll
+{
+	If MyTurn && HasTrait Ten Commandments
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other 《Ten Commandments》 characters get +1000 power.
+Auto: OnPlay
+{
+	Peek Deck 1
+	EndPeek
+}
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Ten Commandments
+	{
+		Peek Deck 1
+		EndPeek
+	}
+}
+Text Auto: When this card or your other 《Ten Commandments》 character is placed on the stage from your hand, you may look at the top card of your deck. 
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Britannia
+}
+Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 《Britannia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-093
+Name Monspeet of the Ten Commandments
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Britannia
+Trait2 Ten Commandments
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains OpponentClimax 1 IsClimax
+	{
+		TargetMyCharacterInBattle
+		IfTarget HasTrait Ten Commandments
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Auto: When you use this card's "BACKUP", if there is a climax in your opponent's climax area, choose 1 of your 《Ten Commandments》 characters in battle, it gets +2000 power until end of turn.
+Backup 2000
+EndCard
+
+Character: SDS/SX05-094
+Name Jericho: Following Behind
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Britannia
+Trait2 Holy Knight
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Britannia
+	TargetBottom OpponentDeck X
+	MoveCard WaitingRoom
+}
+Text Auto: When you use this card's "BACKUP", put the bottom X cards of your opponent's deck into their waiting room. X is equal to the number of 《Britannia》 characters you have.
+Backup 3000
+EndCard
+
+Character: SDS/SX05-095
+Name Melascula of the Ten Commandments
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Britannia
+Trait2 Ten Commandments
+Cont: GiveAll
+{
+	If HasTrait Ten Commandments
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: All of your other 《Ten Commandments》 characters get +X power. X is equal to that character's level ×500.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 Discard 1 IsClimax && IsColor Blue
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to lose -2 soul
+		LoseSoul 2
+	}
+}
+Text Auto: [(1) Put 1 blue climax from your hand into your waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your opponent's characters, it gets -2 soul until end of turn.
+EndCard
+
+Character: SDS/SX05-096
+Name Estarossa of the Ten Commandments
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Britannia
+Trait2 Ten Commandments
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Ten Commandments
+	{
+		Question Put a character from your waiting room into your stock?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Ten Commandments
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Ten Commandments》 characters, you may choose 1 《Ten Commandments》 character in your waiting room, and put it into your stock.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: SDS/SX05-097
+Name Dreyfus: Usual Self
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Britannia
+Trait2 Holy Knight
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Britannia
+	{
+		Question Put a character from your waiting room into your stock?
+		If Yes
+		{
+			Message Choose a <Britannia> character to put into your stock
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Britannia
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Britannia》 characters, you may choose 1 《Britannia》 character in your waiting room, and put it into your stock.
+Auto: OnPlay
+{
+	PayCost Rest 1 CardPosition Stand
+	{
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		ReverseTargets OpponentWaitingRoom
+		MoveCards OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [Rest 1 of your standing characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent chooses 1 climax in their waiting room, returns all cards from their waiting room except that card to their deck, and shuffles their deck.
+EndCard
+
+Character: SDS/SX05-098
+Name Monspeet & Derieri: Taken Aback
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Britannia
+Trait2 Ten Commandments
+*GainPowerForEachOther(1000,Ten Commandments)
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax && IsColor Blue
+	{
+		SearchWaitingRoom HasTrait Ten Commandments
+	}
+}
+Text Auto: [Put 1 blue climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Ten Commandments》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-099
+Name Dreyfus: Unfortunate Investigation
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Holy Knight
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Britannia
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are 《Britannia》, this card gets +2000 power.
+Auto: OnOpponentReverse
+{
+	If LocationContainsOrLess Stock 4 Any
+	{
+		Question Put this card's battle opponent at the bottom of your opponent's deck?
+		If Yes
+		{
+			TargetBattleOpponent
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if your stock has 4 or less cards, you may put that character at the bottom of your opponent's deck.
+EndCard
+
+Character: SDS/SX05-100
+Name Slader: Pledging Loyalty
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Holy Knight
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		If HasTarget
+		{
+			Question Choose a cost 0 or lower character in your opponent's center stage to put into their waiting room?
+			If Yes
+			{
+				TargetLocation OpponentCenterStage
+				NarrowTargets Compare ThatCardsCost 0 OrLess
+				ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent's center stage has 1 or less characters, you may choose 1 cost 0 or lower character in your opponent's center stage, and put it into their waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Britannia
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Britannia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SDS/SX05-101
+Name Vivian: Disguised as Gilfrost
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Britannia
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Britannia
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other 《Britannia》 character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: SDS/SX05-102
+Name Grayroad & Fraudrin: Upper Hand
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Britannia
+Trait2 Ten Commandments
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets Deck 0 1 Compare ThatCardsLevel 0 OrLess && HasTrait Ten Commandments
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 0 or lower 《Ten Commandments》 character, put it on any position of your stage as resting, and shuffle your deck.
+EndCard
+
+Character: SDS/SX05-103
+Name Zeldris & Estarossa: In the Heat of Battle
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Britannia
+Trait2 Ten Commandments
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to gain the abilities
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotGoToMemory
+			GainSpecialEffect CannotReturnToHand
+		}
+		Text Cont: This card cannot be returned to hand or put into memory.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: This card cannot be returned to hand or put into memory."
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters HasTrait Ten Commandments
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets HasTrait Ten Commandments
+	ChooseCharacterFromTargets Choose a character to gain +X power
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your 《Ten Commandments》 characters, it gets +X power until end of turn. X is equal to the number of 《Ten Commandments》 characters you have ×500.
+EndCard
+
+Character: SDS/SX05-104
+Name Zaratras: Heading to the Capital
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Britannia
+Trait2 Holy Knight
+*BlueEarlyPlayBomb
+EndCard
+
+Character: SDS/SX05-105
+Name Galland & Melascula: Drinking
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Britannia
+Trait2 Ten Commandments
+Combo Galland Game!
+*GainPowerForEachOther(1000,Ten Commandments)
+Auto: OnOpponentReverse
+{
+	If Climax Galland Game!
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom IsCharacter
+			SearchLocationForTargets WaitingRoom 0 2 HasTrait Ten Commandments
+			MoveCard Stock
+			TargetLocation Stage
+			GainEffectUntil StartMainPhase
+			{
+				Cont: GiveSelf
+				{
+					SetXValue ThisCardsLevel
+					AddToXValue 1
+					If Compare ThisCardsLevel X OrMore
+					{
+						GainSpecialEffect CannotStand
+					}
+				}
+				Text Cont: If this card's level is higher than your level, this card cannot Stand during your stand phase
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Galland Game!" from your climax area into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose up to 1 character in your waiting room, return it to your hand, choose up to 2 《Ten Commandments》 characters in your waiting room, put them into your stock in any order, and all of your characters get the following ability until the end of your next stand phase. "Cont: If this card's level is higher than your level, this card cannot Stand during your stand phase."
+EndCard
+
+Character: SDS/SX05-106
+Name Hendrickson: Unfortunate Investigation
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Britannia
+Trait2 Holy Knight
+Cont: GiveSelf
+{
+	If InBattle
+	{
+		GainSpecialEffect NoBackupInBattle
+	}
+}
+Text Cont: During this card's battle, all players cannot play "BACKUP" from their hands.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Event: SDS/SX05-107
+Name Flyer Distributors
+Color B
+Level 1
+Cost 0
+Requirement StageContains 1 HasTrait Ten Commandments
+Text If you do not have a 《Ten Commandments》 character, this card cannot be played from your hand.
+Effect:
+{
+	MultipleChoiceQuestion Choose 1 of the following abilities to activate. \n1. Choose 1 level X or lower 《Ten Commandments》 character in your waiting room, and return it to your hand. X is equal to the number of "Gloxinia & Drole: Reasons for Switching" in your waiting room. \n2. [(1)] You may pay the cost. If you do, choose 1 of your opponent's characters, and move it to another open position of their stage. |1|2
+	If Answer 0
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Gloxinia & Drole: Reasons for Switching
+		SetXValue TargetCount
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess
+	}
+	If Answer 1
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to move to an open position
+			MoveToOpenPosition True True
+		}
+	}
+}
+Text Choose 1 of the following abilities, and perform it.
+Text "Choose 1 level X or lower 《Ten Commandments》 character in your waiting room, and return it to your hand. X is equal to the number of "Gloxinia & Drole: Reasons for Switching" in your waiting room."
+Text "[(1)] You may pay the cost. If you do, choose 1 of your opponent's characters, and move it to another open position of their stage."
+EndCard
+
+Climax: SDS/SX05-108
+Name Ten Commandments
+*GateClimax
+EndCard
+
+Climax: SDS/SX05-109
+Name Death-Trap Maze
+*GateClimax
+EndCard
+
+Climax: SDS/SX05-110
+Name Galland Game!
+*BlueStockSoul
+EndCard
+
+Character: SDS/SX05-111
+Name Petit Meliodas: New Chapter
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Britannia
+Trait2 Deadly Sin
+*GainPowerWhenOtherAttacks(1500,Britannia)
+EndCard
+
+Character: SDS/SX05-112
+Name Petit Elizabeth: New Chapter
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Britannia
+Trait2 Royalty
+*GlobalPower(500,Britannia)
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: SDS/SX05-113
+Name Petit Escanor: New Chapter
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Britannia
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other 《Britannia》 character in your back stage.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Britannia
+	{
+		Question Choose a <Britannia> character in your waiting room to move to stock?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Britannia
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Britannia》 characters, you may choose 1 《Britannia》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: SDS/SX05-114
+Name Petit Diane: New Chapter
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Britannia
+Trait2 Deadly Sin
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +3000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	NarrowTargets HasTrait Britannia || IsEvent
+	If HasTarget
+	{
+		Question Put that card under this card as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an event or a 《Britannia》 character, you may put it face down underneath this card as a marker. 
+EndCard
+
+Character: SDS/SX05-115
+Name Petit King: New Chapter
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Britannia
+Trait2 Deadly Sin
+*FreeRunner
+EndCard
+
+Character: SDS/SX05-116
+Name Petit Ban: New Chapter
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Britannia
+Trait2 Deadly Sin
+*GainPowerForEachOther(500,Britannia)
+*HandEncore
+EndCard
+
+Character: SDS/SX05-117
+Name Petit Gowther: New Chapter
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Britannia
+Trait2 Deadly Sin
+Auto: OnUseThisCardsBackup
+{
+	MillOpponent 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your opponent's deck into their waiting room.
+Backup 2000
+EndCard
+
+Character: SDS/SX05-118
+Name Petit Merlin: New Chapter
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Britannia
+Trait2 Deadly Sin
+*OnPlayFlicker
+*OnPlayGiveOtherPower(2000,Britannia)
+EndCard
+
+Character: SDS/SX05-P01
+Name Elizabeth: In a Dream
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Britannia
+Trait2 Royalty
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+*OnAttackGivePowerForEachOther(500,Britannia)
+EndCard
+

@@ -1,0 +1,2157 @@
+Character: FS/S36-E001
+Name “Trace On” Shirou
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Weapon
+Cont: GiveAll
+{
+	If MyTurn && InLocation MiddleCenterStage && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, your other character in the middle position of the center stage gets +1000 power.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchDeck NameContains Shirou|Saber|Rin
+	}
+}
+Text Act: BRAINSTORM [(1) Rest two of your characters] Reveal four cards from the top of your deck, and put them into your waiting room. For each climax revealed, search your deck for up to one character with "Shirou" or "Saber" or "Rin" in its card name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: FS/S36-E002
+Name “Excalibur” Saber
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Cont: InHand
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of cards in your deck is five or less, this card gets -1 level while in your hand. 
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameContains Shirou|Saber|Rin && Other
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other characters with "Shirou" or "Saber" or "Rin" in its card name.
+*Healer
+EndCard
+
+Character: FS/S36-E003
+Name “Unlimited Blade Works” Shirou
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Master
+Trait2 Weapon
+Combo “Unlimited Blade Works”
+Auto: OnPlay|PlacedBy CHANGE
+{
+	*OptionalDraw
+	TargetSelf
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand or by a "CHANGE" effect, draw up to one card, and this card gets +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If Climax “Unlimited Blade Works”
+	{
+		PayCost 2 Discard 1 Any Send 1 WaitingRoom Other
+		{
+			TargetBattleOpponent
+			Message Choose a level X or lower character to place on stage
+			SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel TargetCardsLevel OrLess && IsCharacter
+			PlaceOnStage False True True False
+			ScheduleEffectForTargets StartEncoreStep
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard Memory
+					}
+				}
+				Text Put this card in your memory
+			}
+		}
+	}
+}	
+Text Auto: CxCombo [(2) Put a card from your hand into your waiting room & Put another character from your stage into your waiting room] When this card's battle opponent becomes reversed, if a card named "“Unlimited Blade Works”" is in your climax area, you may pay the cost. If you do, choose a character in your waiting room with the same level as that battle opponent, put it on any position of your stage, and at the beginning of your encore step, if that character is on the stage, put that character into your memory.
+EndCard
+
+Character: FS/S36-E004
+Name “Summoning with a Command Seal” Shirou
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Weapon
+*500Assist
+*OnClimaxPlayGivePower(1000)
+EndCard
+
+Character: FS/S36-E005
+Name “Contract Concluded” Saber
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+*YellowLevel0Bomb
+EndCard
+
+Character: FS/S36-E006
+Name “King's Self-esteem” Gilgamesh
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnAttack
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		LosePower 3000
+	}
+}
+Text Auto: When this card attacks, put the top two cards of your deck into your waiting room. If there is a climax among those cards, this card gets -3000 power until end of turn.
+EndCard
+
+Character: FS/S36-E007
+Name “Tough Strength” Saber
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameContains Shirou|Saber|Rin && Other
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other characters with "Shirou" or "Saber" or "Rin" in its card name.
+Auto: OnReversed
+{
+	OpponentQuestion Put a character in your opponent's waiting room on top of their deck?
+	If Yes
+	{
+		OpponentSearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		MoveCard Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may choose a character in your waiting room, and put it on the top of your deck.
+EndCard
+
+Character: FS/S36-E008
+Name “Gate of Babylon” Gilgamesh
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Servant
+Trait2 Weapon
+Combo “Gate of Babylon”
+Auto: OnOpponentReverse
+{
+	If Climax “Gate of Babylon”
+	{
+		Mill 2
+		*CountSoulTriggers
+		Repeat X
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if a card named "“Gate of Babylon”" is in your climax area, put the top two cards of your deck into your waiting room. For each SOUL trigger icon revealed among those cards, perform the following action. "Deal one damage to your opponent." (This damage may be canceled) 
+Act: Discard 1 HasTrait Weapon
+{
+	GainPower 4000
+}
+Text Act: [Put a 《Weapon》 character from your hand into your waiting room] This card gets +4000 power until end of turn.
+EndCard
+
+Character: FS/S36-E009
+Name “Serious Assault” Shirou
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Master
+Trait2 Weapon
+Combo “Rho Aias”
+Auto: OnAttack
+{
+	If Climax “Rho Aias”
+	{
+		PayCost 1
+		{
+			SetXToNumberOfCharacters HasTrait Weapon|Jewel
+			Repeat X
+			{
+				TargetTop Deck 1
+				Marker_FaceDown
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "“Rho Aias”" is in your climax area, you may pay the cost. If you do, put X cards from the top of your deck underneath this card as a marker, and this card gets +1500 power until end of turn. X is equal to the number of 《Weapon》 or 《Jewel》 characters you have.
+Auto: StartOpponentAttackPhase
+{
+	SetXValue MarkersUnderThis
+	TargetLocation Marker
+	MoveCard WaitingRoom
+	*CountSoulTriggers
+	TargetFacing
+	If HasTarget
+	{
+		Repeat X
+		{
+			LoseSoul 1
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, put all markers from underneath this card into your waiting room. For each trigger icon among those cards, the character facing this card gets -1 soul until end of turn.
+EndCard
+
+Character: FS/S36-E010
+Name “Non-intersecting Ideals” Shirou & Archer
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Weapon
+*OnPlayGiveOtherPower(1500,Any)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Signal to Counterattack
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card named "Signal to Counterattack" in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S36-E011
+Name “Divine Construct” Saber
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	Question Mill 1 for each "Shirou", "Saber", or "Rin" you have?
+	If Yes
+	{
+		SetXToNumberOfCharacters NameContains Shirou|Saber|Rin
+		Mill X
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put X cards from the top of your deck into your waiting room. X is equal to the number of characters you have with "Shirou" or "Saber" or "Rin" in its card name. 
+Auto: OnPlay
+{
+	SetXValue CardsInClock
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to 500 multiplied by the number of cards in your clock.
+EndCard
+
+Character: FS/S36-E012
+Name “Pure White Dress” Saber
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Servant
+Trait2 Weapon
+*OthersCannotSideAttack
+EndCard
+
+Character: FS/S36-E013
+Name “Top Servant” Saber
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Servant
+Trait2 Weapon
+Combo “Excalibur”
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Master|Servant
+	{
+		GainPower 1500
+		GainSpecialEffect CannotBeReversedByAutoEffects
+	}
+}
+Text Cont: If the number of other 《Master》 or 《Servant》 characters you have is three or more, this card gets +1500 power, and this card cannot become Reversed from your opponent character's Auto: effects. 
+Auto: OnAttack
+{
+	If Climax “Excalibur”
+	{
+		Question Marker the top card of your deck?
+		If Yes
+		{
+			TargetTop Deck 1
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "“Excalibur”" is in your climax area, you may put a card from the top of your deck underneath this card as a marker. 
+Auto: StartClimaxPhase
+{
+	If HasMarker
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrLess
+		ChooseCharacterFromTargets_Optional Choose a character to put into your opponent's stock
+		If HasTarget
+		{
+			MoveCard OpponentStock
+			TargetBottom OpponentStock
+			MoveCard OpponentWaitingRoom
+			TargetSelf
+			ScheduleEffectForTargets StartEncorePhase
+			{
+				Effect:
+				{
+					MoveCard Memory
+				}
+				Text Move this card to your memory
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, if there is a marker underneath this card, you may choose one of your opponent's level 1 or lower characters, and put it into his or her stock. If you do, put a card from the bottom of your opponent's stock into his or her waiting room, and at the beginning of your encore step, put this card into your memory.
+EndCard
+
+Character: FS/S36-E014
+Name “Using a Command Seal” Shirou
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Weapon
+*GainPowerWhenOtherAttacks(1000,Master|Servant)
+EndCard
+
+Character: FS/S36-E015
+Name “Furious Punch” Shirou
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Master
+Trait2 Weapon
+Cont: Assist
+{
+	If NameContains Shirou|Saber|Rin
+	{
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Cont: ASSIST All of your characters in front of this card with "Shirou" or "Saber" or "Rin" in its card name get +500 power and +1 soul.
+Auto: StartDrawPhase
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals “Unlimited Blade Works” Shirou
+		Change
+	}
+}
+Text Auto: CHANGE [(1) Put this card into your waiting room] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "“Unlimited Blade Works” Shirou" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: FS/S36-E016
+Name “Defeat's End” Gilgamesh
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveAll
+{
+	If NameContains Gilgamesh|Archer && Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Gilgamesh" or "Archer" in its card name get +500 power.
+EndCard
+
+Character: FS/S36-E017
+Name “A Battle of Legend” Gilgamesh
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If LocationContains Climax 1 IsColor Yellow
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If a yellow climax is in your climax area, this card gets +1 soul.
+EndCard
+
+Character: FS/S36-E018
+Name “Greatest Natural Enemy” Gilgamesh
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Servant
+Trait2 Weapon
+EndCard
+
+Character: FS/S36-E019
+Name “Endless Blades” Gilgamesh
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnAttack
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, put the top card of your deck into your waiting room. If that card is a climax, all of your characters get +1 soul until end of turn.
+*HandEncore
+EndCard
+
+Character: FS/S36-E020
+Name “Highest Class Noble Phantasm” Gilgamesh
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnOpponentReverse
+{
+	PayCost 2
+	{
+		SearchDeck IsClimax
+	}
+}
+Text Auto: [(2)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to one climax, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: FS/S36-E021
+Name “Dauntless Heart” Shirou
+Color Y
+Level 1
+Cost 1
+Power 6500
+Trait1 Master
+Trait2 Weapon
+Auto: OnFrontalAttacked
+{
+	PayCost Discard 1 HasTrait Weapon
+	{
+		GainPower 2500
+	}
+}
+Text Auto: [Put a 《Weapon》 character from your hand into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, this card gets +2500 power until end of turn.
+EndCard
+
+Character: FS/S36-E022
+Name “New Contract” Saber
+Color Y
+Level 1
+Cost 1
+Power 7000
+Trait1 Servant
+Trait2 Weapon
+EndCard
+
+Character: FS/S36-E023
+Name “Neat and Tidy Appearance” Saber
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 NameContains Shirou|Saber|Rin
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: When you use this card's "BACKUP", if you have a character with "Shirou" or "Saber" or "Rin" in its card name, choose one of your characters in battle, it gets +1000 power until end of turn. 
+Backup 2500
+EndCard
+
+Character: FS/S36-E024
+Name “Challenging a King” Gilgamesh
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Servant
+Trait2 Weapon
+Auto: StartOpponentAttackPhase
+{
+	PayCost 2 Discard 2 IsClimax
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to not deal damage
+		GainSpecialEffect CannotDealDamage
+	}
+}
+Text Auto: [(2) Put two climax from your hand into your waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose one of your opponent's characters, it gets the following ability until end of turn. "Cont: This card cannot deal damage to a player."
+EndCard
+
+Character: FS/S36-E025
+Name “Ultimate Slash” Saber
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+*EarlyPlayInClock(“Trace On” Shirou)
+*ClockEncore
+EndCard
+
+Event: FS/S36-E026
+Name Signal to Counterattack
+Color Y
+Level 1
+Cost 1
+Counter
+Effect:
+{
+	*GiveCharacterPower(3500,Master|Servant)
+}
+Text Counter: Choose one of your 《Master》 or 《Servant》 characters, it gets +3500 power until end of turn.
+EndCard
+
+Event: FS/S36-E027
+Name Idealism's End
+Color Y
+Level 2
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Shirou
+	ChooseCharacterFromTargets Choose a character to gain +5000 power
+	GainPower 5000
+	TargetSelf
+	MoveCard Stock
+}
+Text Choose one of your characters with "Shirou" in its card name, it gets +5000 power until end of turn. Put this card into your stock.
+EndCard
+
+Climax: FS/S36-E028
+Name “Unlimited Blade Works”
+*ShotClimax
+EndCard
+
+Climax: FS/S36-E029
+Name “Gate of Babylon”
+*YellowStockSoul
+EndCard
+
+Climax: FS/S36-E030
+Name “Excalibur”
+*WindClimax
+EndCard
+
+Character: FS/S36-E031
+Name “Battle Mode” Rider
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Cont: InHand
+{
+	If StageContains 4 IsColor Green
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of green characters you have is four or more, this card gets -1 level while in your hand.
+*Healer
+EndCard
+
+Character: FS/S36-E032
+Name “Dedicated Junior” Sakura
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Sports
+*OnClimaxPlayGivePower(1000)
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	SetXValue BrainstormedClimax
+	If Compare X 1 OrMore
+	{
+		Repeat X
+		{
+			TargetLocation Clock
+			If HasTarget
+			{
+				AIChoice AddToHand
+				ChooseCard Choose a card in your clock to add to your hand.
+				MoveCard Hand
+				TargetTop Deck 1
+				MoveCard Clock
+			}
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest two of your characters] Reveal four cards from the top of your deck, and put them into your waiting room. For each climax revealed, perform the following action. "Choose a card in your clock, return it to your hand, and put the top card of your deck into your clock."
+EndCard
+
+Character: FS/S36-E033
+Name “Cold and Ruthless” Rider
+Color G
+Level 1
+Cost 0
+Power 6000
+Trait1 Servant
+Trait2 Weapon
+*CannotSideAttack
+EndCard
+
+Character: FS/S36-E034
+Name “Gae Bolg” Lancer
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Servant
+Trait2 Weapon
+*GreenEarlyPlayBomb
+EndCard
+
+Character: FS/S36-E035
+Name “Gae・Bolg” Lancer
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to get -500 power
+		LosePower 500
+	}
+}		
+Text Auto: When this card is placed on the stage from your hand, put the top two cards of your deck into your waiting room. If there is a climax among those cards, choose one of your opponent's characters, it gets -500 power until end of turn.
+EndCard
+
+Character: FS/S36-E036
+Name “Deadly Strike” Lancer
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Servant
+Trait2 Weapon
+Combo “Gae Bolg”
+Auto: OnAttack
+{
+	If Climax “Gae Bolg”
+	{
+		PayCost Discard 1 HasTrait Weapon &&& Rest 1 CardPosition Stand && IsColor Green
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to get -3000 power
+			LosePower 3000
+		}
+	}
+}
+Text Auto: CxCombo [Put a 《Weapon》 character from your hand into waiting room & Rest one of your other Stand green characters] When this card attacks, if a card named "“Gae Bolg”" is in you climax area, you may pay the cost. If you do, choose one of your opponent's characters, it gets -3000 power until end of turn.
+EndCard
+
+Character: FS/S36-E037
+Name “Quiet Personality” Sakura
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Sports
+Combo Daily Visits
+Auto: OnSpecificClimaxPlay Daily Visits
+{
+	If InLocation CenterStage
+	{
+		SearchDeck IsColor Green && IsCharacter
+	}
+}
+Text Auto: When a card named "Daily Visits" is placed on your climax area, if this card is in your center stage, search your deck for up to one green character, reveal it to your opponent, put it into your hand, and shuffle your deck. 
+Auto: OnOtherAttacks
+{
+	IfOther IsColor Green
+	{
+		TargetSelf
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other green character attacks, this card gets +1000 power until end of turn.
+EndCard
+
+Character: FS/S36-E038
+Name “Battle Continues” Lancer
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may return this card to your hand. 
+EndCard
+
+Character: FS/S36-E039
+Name “Self-defense Class” Luvia
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Jewel
+Trait2 Heiress
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Rin
+	{
+		GainPower 2000
+		GainSpecialEffect CannotSideAttack
+	}
+}
+Text Cont: If you have another character with "Rin" in its card name, this card gets +2000 power, and this card cannot side attack.
+EndCard
+
+Character: FS/S36-E040
+Name “Complex Emotions” Sakura
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Sports
+Cont: GiveSelf
+{
+	If InLocation CenterStage
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If this card is in your center stage, this card cannot Stand during your stand phase.
+EndCard
+
+Character: FS/S36-E041
+Name “Uneasiness in the Heart” Sakura
+Color G
+Level 1
+Cost 0
+Power 1500
+Trait1 Sports
+Backup 1500
+EndCard
+
+Character: FS/S36-E042
+Name “United Battlefront” Lancer
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [Put a character from your hand into your waiting room]". 
+*ClockEncore
+EndCard
+
+Character: FS/S36-E043
+Name “Invading the Base” Shinji
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Book
+Trait2 Sports
+Cont: GiveAll
+{
+	TargetLocation Level
+	NarrowTargets NameEquals Self-conscious, Shinji
+	SetXValue TargetCount
+	MultiplyXValue 500
+	If Other
+	{
+		GainPower X
+	}
+}
+Text Cont: EXPERIENCE All of your other characters get +500 power for each card named "Self-conscious, Shinji" in your level.
+EndCard
+
+Event: FS/S36-E044
+Name Shaken
+Color G
+Level 1
+Cost 0
+Effect:
+{
+	SearchLocationForTargets Clock 1 1 IsColor Green && IsCharacter
+	MoveCard Hand
+	TargetSelf
+	MoveCard Clock
+}
+Text Choose a green character in your clock, return it to your hand, and put this card into your clock.
+EndCard
+
+Event: FS/S36-E045
+Name Last Farewell
+Color G
+Level 3
+Cost 0
+Counter
+Effect:
+{
+	SetXToNumberOfCharacters IsColor Green
+	MultiplyXValue 1000
+	ChooseCharacterFromTargets Choose a character to gain +X power
+	GainPower X
+}
+Text Counter: Choose one of your characters, it gets +X power until end of turn. X is equal to 1000 multiplied by the number of green characters you have.
+EndCard
+
+Climax: FS/S36-E046
+Name “Gae Bolg”
+*BarClimax
+EndCard
+
+Climax: FS/S36-E047
+Name Daily Visits
+*GreenStockSoul
+EndCard
+
+Character: FS/S36-E048
+Name “Invitation to London” Rin
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Master
+Trait2 Jewel
+Combo Mischievous Smile
+Cont: GiveSelf
+{
+	If StageContains 3 Other && NameContains Rin|Archer
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of other characters you have with "Rin" or "Archer"in its card name is three or more, this card gets +1000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Mischievous Smile
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if a card named "Mischievous Smile" is in your climax area, you may choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S36-E049
+Name “Idealism's Despair” Archer
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Servant
+Trait2 Weapon
+Combo “Rho Aias”
+*GlobalPower(1000,Weapon|Jewel)
+Auto: OnSpecificClimaxPlay “Rho Aias”
+{
+	PayCost Rest 1 CardPosition Stand
+	{
+		TargetLocation Deck
+		SetXValue TargetCount
+		If Compare X 7 OrMore
+		{
+			TargetTop Deck 7
+			Marker_FaceDown
+		}
+		Else
+		{
+			SetXValue 7
+			TargetLocation Deck
+			SubtractFromXValue TargetCount
+			Marker_FaceDown
+			Refresh
+			TargetTop Deck 1
+			MoveCard Clock
+			TargetTop Deck X
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: [Rest one of your standing characters] When a card named "“Rho Aias”" is placed on your climax area, you may pay the cost. If you do, put seven cards from the top of your deck underneath this card as markers.
+Auto: StartOpponentDrawPhase
+{
+	TargetLocation Marker
+	MoveCard WaitingRoom
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect ReceiveNoDamageFromAutoEffects
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, put all markers from underneath this card into your waiting room. If there is a climax among those cards, this card gets the following ability until end of turn. "Cont: You cannot take damage from your opponent character's Auto: effects."
+EndCard
+
+Character: FS/S36-E050
+Name “Lord and Retainer” Rin & Archer
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Master
+Trait2 Servant
+Combo Last Words
+*Healer
+Auto: OnAttack
+{
+	If Climax Last Words
+	{
+		PayCost 1
+		{
+			Burn 1
+			GainPower 3000
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "Last Words" is in your climax area, you may pay the cost. If you do, deal one damage to your opponent, and this card gets +3000 power until end of turn. 
+EndCard
+
+Character: FS/S36-E051
+Name “Super First-rate Mage” Rin
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Jewel
+*500Assist
+Auto: StartClimaxPhase
+{
+	PayCost 1 Resonate “Caladbolg II”
+	{
+		SearchWaitingRoom NameEquals “Lord and Retainer” Rin & Archer
+	}
+}
+Text Auto: RESONATE [(1) Reveal a card named "“Caladbolg II”" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, choose a card named "“Lord and Retainer” Rin & Archer" in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S36-E052
+Name “Successor of Tohsaka” Rin
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Jewel
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && NameContains Rin|Archer
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a character with "Rin" or "Archer" in its card name, put it into your hand, choose a card in your hand, and put it into your waiting room. (If it is not, return the revealed card to its original place)
+Act: 1 Rest 2 Any
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Archer
+	ChooseCharacterFromTargets Choose a character to gain the effect
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room, and return it to your hand.
+	}
+}
+Text Act: [(1) Rest two of your characters] Choose one of your characters with "Archer(アーチャー)" in its card name, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room, and return it to your hand."
+EndCard
+
+Character: FS/S36-E053
+Name “Counterattack Barrage” Archer
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+*OnPlayGivePower(1000,Any)
+Auto: StartClimaxPhase
+{
+	If InLocation CenterStage
+	{
+		PayCost Resonate “Caladbolg II”
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 0 OrLess
+			ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}		
+Text Auto: RESONATE [Reveal a card named "“Caladbolg II”" in your hand] At the beginning of your climax phase, if this card is in your center stage, you may pay the cost. If you do, choose a level 0 or lower character in your opponent's center stage, and put it into his or her waiting room.
+EndCard
+
+Character: FS/S36-E054
+Name “Caladbolg II” Archer
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnUseEvent
+{
+	IfOther NameEquals “Caladbolg II”
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When you play a card named "“Caladbolg II”", choose one of your characters, it gets +2000 power until end of turn.
+*RedLevel0Bomb
+EndCard
+
+Character: FS/S36-E055
+Name “Fire Support” Archer
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Servant
+Trait2 Weapon
+*OnAttackGiveOtherPower(1000,Master|Servant)
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	IfTarget Compare ThatCardsLevel 1 OrLess && OnStage
+	{
+		PayCost Resonate “Caladbolg II”
+		{
+			Reverse
+		}
+	}
+}
+Text Auto: RESONATE [Reveal a card named "“Caladbolg II”" in your hand] When this card becomes reversed, if this card's battle opponent is level 1 or lower, you may pay the cost. If you do, reverse that character.
+EndCard
+
+Character: FS/S36-E056
+Name “Beautiful and Smart Honor Student” Rin
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Master
+Trait2 Jewel
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Weapon
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another 《Weapon》 character, this card gets +1500 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Not HasTrait Master|Servant
+	{
+		MoveCard Clock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is not a 《Master》 or 《Servant》 character, put it into your clock. 
+EndCard
+
+Character: FS/S36-E057
+Name “Dual-wielding” Archer
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Hand 0 1 HasTrait Weapon && IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to one 《Weapon》 character in your hand with level equal to or lower than your level, and put it on any position of your stage.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 3 OrLess
+		ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a level 3 or lower character in your opponent's center stage, and put it into his or her waiting room.
+EndCard
+
+Character: FS/S36-E058
+Name “Ideal Existence” Archer
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals “Caladbolg II”
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card named "“Caladbolg II”" in your waiting room, and return it to your hand.
+Act: Rest 2 HasTrait Master|Servant
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Act: [Rest two of your 《Master》 or 《Servant》 characters] Choose one of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: FS/S36-E059
+Name “Jewel Magic” Rin
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Jewel
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If the number of your other characters is one or less, this card gets +1500 power.
+EndCard
+
+Character: FS/S36-E060
+Name “Complex Emotions” Rin
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Jewel
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put two cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into his or her waiting room. 
+Backup 1000
+EndCard
+
+Character: FS/S36-E061
+Name “Further Pursuit” Archer
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveAll
+{
+	If NameContains Rin|Archer && Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Rin" or "Archer" in its card name get +500 power.
+Act: 2 RestSelf
+{
+	SearchWaitingRoom IsCharacter && NameContains Rin|Archer
+}
+Text Act: [(2) Rest this card] Choose a character in your waiting room with "Rin" or "Archer" in its card name, and return it to your hand.
+EndCard
+
+Character: FS/S36-E062
+Name “End of Fight” Archer
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Servant
+Trait2 Weapon
+*OnPlayGainPowerForEach(500,Master|Servant)
+EndCard
+
+Character: FS/S36-E063
+Name “Full Power Pitch” Rin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Master
+Trait2 Jewel
+Cont: GiveAll
+{
+	If Other && NameContains Shirou|Saber
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Shirou" or "Saber" in its card name get +500 power.
+Act: RestSelf
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameContains Shirou | Saber
+	RevealTargets
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose a character in your waiting room with "Shirou" or "Saber" in its card name, and put it into your stock.
+EndCard
+
+Character: FS/S36-E064
+Name “Time to Part Ways” Rin
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Master
+Trait2 Jewel
+EndCard
+
+Character: FS/S36-E065
+Name “Center Breakthrough” Rin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Master
+Trait2 Jewel
+Auto: Encore Discard 1 IsColor Red
+{
+}
+Text Auto: ENCORE [Put a red card from your hand into your waiting room]
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	If Compare TargetCardsLevel OpponentsLevel GreaterThan
+	{
+		PayCost Resonate “Caladbolg II”
+		{
+			Reverse
+		}
+	}
+}
+Text Auto: RESONATE [Reveal a card named "“Caladbolg II”" in your hand] When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may pay the cost. If you do, reverse that battle opponent.
+EndCard
+
+Character: FS/S36-E066
+Name “In the Conflict” Archer
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	TargetLocation Facing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If the character facing this card is level 3 or higher, this card gets +3000 power.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Rin|Archer && CardPosition Stand
+	ChooseCharacterFromTargets Choose a character to rest
+	Rest
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your standing characters with "Rin" or "Archer" in its card name, and Rest it.
+EndCard
+
+Event: FS/S36-E067
+Name “Caladbolg II”
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	RevealUpTo Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsColor Red && IsCharacter
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Look at up to four cards from the top of your deck, choose up to one red character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Event: FS/S36-E068
+Name Conclusion to the Fight
+Color R
+Level 2
+Cost 1
+Effect:
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to put on top of your opponent's deck
+		MoveCard OpponentDeck
+	}
+}
+Text BRAINSTORM Reveal three cards from the top of your deck, and put them into your waiting room. If there is a climax among those cards, choose one of your opponent's characters, and put it on the top of his or her deck.
+EndCard
+
+Climax: FS/S36-E069
+Name “Rho Aias”
+*RedStockSoul
+EndCard
+
+Climax: FS/S36-E070
+Name Last Words
+*DoorClimax
+EndCard
+
+Climax: FS/S36-E071
+Name Mischievous Smile
+*RedStockSoul
+EndCard
+
+Character: FS/S36-E072
+Name “Snow Fairy” Illya
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Homunculus
+Combo Official Contract
+Auto: OnAttack
+{
+	If Climax Official Contract &&& StageContains 4 Other && HasTrait Master|Servant
+	{
+		*OptionalDraw
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Official Contract" is in your climax area, and the number of other 《Master》 or 《Servant》 characters you have is four or more, you may draw a card.
+EndCard
+
+Character: FS/S36-E073
+Name “Signal to Commence Battle” Illya
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Master
+Trait2 Homunculus
+*OnPlayCheckTopAddDiscard(Master|Servant)
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: FS/S36-E074
+Name “Mage from the Age of Myths” Caster
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Servant
+Trait2 Master
+Auto: OnOtherAttacked
+{
+	IfOther HasTrait Master
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			GainPower 2500
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When another of your 《Master》 characters is being frontal attacked, you may pay the cost. If you do, choose one of your characters in battle, it gets +2500 power until end of turn.
+EndCard
+
+Character: FS/S36-E075
+Name “Mage of Tragedy” Caster
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Servant
+Trait2 Master
+*GainPowerWhenOtherAttacks(1000,Master|Servant)
+Auto: StartOpponentDrawPhase
+{
+	If InLocation CenterStage
+	{
+		PayCost 3 Discard 1 NameEquals Granted Wish
+		{
+			TargetLocation OpponentStage
+			NarrowTargets CardPosition Stand && Compare ThatCardsLevel 3 OrLess
+			ChooseCharacterFromTargets Choose a character to rest
+			SetXValue TargetCardsSoul
+			Rest
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [(3) Put a card named "Granted Wish" from your hand into your waiting room] At the beginning of your opponent's draw phase, if this card is in your center stage, you may pay the cost. If you do, choose one of your opponent's Stand level 3 or lower characters, Rest it, and deal X damage to your opponent. X is equal to that character's soul. 
+EndCard
+
+Character: FS/S36-E076
+Name “Relationship of Trust” Illya & Berserker
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Master
+Trait2 Servant
+Combo Encounter and Bond
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && NameContains Illya && Other
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other cards in the back stage with "Illya" in its card name. 
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Encounter and Bond 
+	{
+		Mill 5
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Encounter and Bond" is in your climax area, put the top five cards of your deck into your waiting room, deal X damage to your opponent, and this card gets +2000 power until end of turn. X is equal to the number of climax revealed among those cards. 
+EndCard
+
+Character: FS/S36-E077
+Name “Strong Bond” Illya
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Homunculus
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck NameEquals “Relationship of Trust” Illya & Berserker
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to one card named "“Relationship of Trust” Illya & Berserker", reveal it to your opponent, put it into your hand, and shuffle your deck.
+*Bond1(“Sturdy Servant” Berserker)
+EndCard
+
+Character: FS/S36-E078
+Name “Strongest Warrior” Berserker
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Servant
+Trait2 Weapon
+*CannotSideAttack
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each marker underneath this card.
+Auto: OnReversed
+{
+	If Compare MarkersUnderThis 10 OrLess
+	{
+		TargetTop Stock 1
+		If HasTarget
+		{
+			Marker_FaceDown
+			TargetSelf
+			Rest
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if the number of markers underneath this card is ten or less, put the top card of your stock underneath this card as a marker. If you do, Rest this card.
+EndCard
+
+Character: FS/S36-E079
+Name “Confronting a King” Illya
+Color B
+Level 1
+Cost 0
+Power 1000
+Trait1 Master
+Trait2 Homunculus
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck NameContains Berserker
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to one character with "Berserker" in its card name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnFrontalAttacked
+{
+	PayCost 2 SendSelf Hand
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals “Strong Will” Berserker
+		Change
+	}
+}
+Text Auto: [(2) Return this card to your hand] When this card is frontal attacked, you may pay the cost. If you do, choose up to one card named "“Strong Will” Berserker" in your hand, and put it on this card's stage position as the defending character.
+EndCard
+
+Character: FS/S36-E080
+Name “A Battle of Legend” Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Master
+Trait2 Homunculus
+Cont: GiveAll
+{
+	If NameEquals “Strong Will” Berserker
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "“Strong Will” Berserker" get +1000 power.
+*LevelAssist
+EndCard
+
+Character: FS/S36-E081
+Name “Strong Will” Berserker
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && NameContains Illya && Other
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other cards in the back stage with "Illya" in its card name.
+EndCard
+
+Character: FS/S36-E082
+Name “Further Attack” Souichirou Kuzuki
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Teacher
+*BondClock(“Mage from the Age of Myths” Caster)
+Act: 1
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [(1)] Draw a card, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: FS/S36-E083
+Name “Great Magic” Caster
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Servant
+Trait2 Master
+*GiveMiddlePower(1000,Any)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Encounter on a Rainy Day
+	}
+}		
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card named "Encounter on a Rainy Day" in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S36-E084
+Name “Magic Duel” Caster
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Servant
+Trait2 Master
+Cont: GiveSelf
+{
+	If LocationContains Climax 1 IsColor Blue
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is a blue climax in your climax area, this card gets +2000 power.
+EndCard
+
+Character: FS/S36-E085
+Name “Swallow Reversal” Assassin
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Servant
+Trait2 Weapon
+Combo Swallow Reversal
+Auto: OnSpecificClimaxPlay Swallow Reversal
+{
+	If InLocation CenterStage
+	{
+		Mill 3
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			TargetLocation Facing
+			If Compare TargetCardsLevel 1 OrLess
+			{
+				Question Put the character facing this card onto the bottom of your opponent's deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo When a card named "Swallow Reversal" is placed on your climax area, if this card is in your center stage, put the top three cards of your deck into your waiting room. If there is a climax among those cards, you may choose a level 1 or lower character facing this card, and put it on the bottom of your opponent's deck.
+EndCard
+
+Character: FS/S36-E086
+Name “Repeated Pursuit” Souichirou Kuzuki
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Master
+Trait2 Teacher
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Not HasTrait Master|Servant
+	{
+		MoveCard Clock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is not a 《Master》 or 《Servant》 character, put it into your clock. 
+EndCard
+
+Character: FS/S36-E087
+Name “A Short Rest” Illya
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Master
+Trait2 Homunculus
+Auto: OnReversed
+{
+	OpponentQuestion Draw 2 and discard 2?
+	If Yes
+	{
+		TargetTop OpponentDeck 2
+		MoveCard OpponentHand
+		OpponentSearchLocationForTargets Hand 2 2 Any
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may draw two cards. If your opponent does, your opponent chooses two cards from his or her hand, and puts them into his or her waiting room.
+EndCard
+
+Character: FS/S36-E088
+Name “Sturdy Servant” Berserker
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Servant
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of cards in your hand is five or more, this card gets +1000 power.
+*ClockEncore
+EndCard
+
+Character: FS/S36-E089
+Name “Fictional Heroic Spirit” Assassin
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Servant
+Trait2 Weapon
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Master|Servant
+	{
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of your other 《Master》 or 《Servant》 characters is four or more, until end of turn, this card's soul does not decrease by side attacking.
+EndCard
+
+Character: FS/S36-E090
+Name “Middle of the Final Test” Illya
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Master
+Trait2 Homunculus
+EndCard
+
+Character: FS/S36-E091
+Name “Fulfilling the Wish” Souichirou Kuzuki
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Master
+Trait2 Teacher
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Caster
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another character with "Caster" in its card name, this card gets +1500 power.
+Cont: GiveFacing
+{
+	GainSoul 1
+}
+Text Cont: The character facing this card gets +1 soul.
+EndCard
+
+Character: FS/S36-E092
+Name “A Visitor” Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Master
+Trait2 Homunculus
+Cont: InHand
+{
+	If Compare ClimaxInWaitingRoom 6 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of climax in your waiting room is six or more, this card gets -1 level while in your hand.
+EndCard
+
+Character: FS/S36-E093
+Name “Priest of Fuyuki Church” Kirei
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 9500
+Trait1 Master
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Master|Servant
+	ChooseCharacterFromTargets Choose a character to put into your waiting room
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your 《Master》 or 《Servant》 characters, and put it into your waiting room.
+EndCard
+
+Character: FS/S36-E094
+Name “Reverberation of Defeat” Assassin
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Servant
+Trait2 Weapon
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost Discard 1 HasTrait Master|Servant
+		{
+			TargetSelf
+			Rest
+			ScheduleEffectForTargets StartMyEncoreStep
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard Memory
+					}
+				}
+				Text Put this card into your memory
+			}
+		}
+	}
+}
+Text Auto: [Put a 《Master》 or 《Servant》 character from your hand into your waiting room] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your memory.
+EndCard
+
+Event: FS/S36-E095
+Name Encounter on a Rainy Day
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	RevealUpTo Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsColor Blue && IsCharacter
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Look at up to four cards from the top of your deck, choose up to one blue character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Event: FS/S36-E096
+Name Berserker's Will
+Color B
+Level 2
+Cost 0
+Counter
+Effect:
+{
+	PayCost Send 1 WaitingRoom NameContains Illya|Berserker|Illyasviel
+	{
+		*CheckAndAdd(4)
+	}
+}
+Text Counter: Choose one of your characters with "Illya" or "Berserker" in its card name, and put it into your waiting room. If you do, look at up to four cards from the top of your deck, choose up to one card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Climax: FS/S36-E097
+Name Encounter and Bond
+*BookClimax
+EndCard
+
+Climax: FS/S36-E098
+Name Official Contract
+*BlueStockSoul
+EndCard
+
+Climax: FS/S36-E099
+Name Granted Wish
+*GateClimax
+EndCard
+
+Climax: FS/S36-E100
+Name Swallow Reversal
+Color B
+*DrawClimax
+EndCard
+
+Character: FS/S36-PE01
+Name "Christmas Party" Saber & Rin
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Servant
+*GiveMiddlePower(1000,Any)
+*OnPlayScry
+EndCard
+
+Character: FS/S36-PE02
+Name “Loggerheads” Archer & Lancer
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FS/S36-E101
+Name Petit Gilgamesh
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Servant
+Trait2 Weapon 
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+Auto: OnDamageCancel
+{
+	PayCost 1
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1)] When damage dealt by this card is canceled, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: FS/S36-E102
+Name Petit Saber
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Servant
+Trait2 Weapon
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget NameContains Shirou|Saber|Rin && IsCharacter
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a character with "Shirou" or "Saber" or "Rin" in its card name, this card gets +1 soul until end of turn.
+EndCard
+
+Character: FS/S36-E103
+Name Petit Lancer
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Servant
+Trait2 Weapon
+Backup 3000
+EndCard
+
+Character: FS/S36-E104
+Name Petit Rin
+Color R
+Level 1
+Cost 0
+Power 6500
+Trait1 Master
+Trait2 Jewel
+*OnPlayCheckTopRestIfClimax
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	If OnStage
+	{
+		MoveCard OpponentMemory
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, put that character into your opponent's memory.
+EndCard
+
+Character: FS/S36-E105
+Name Petit Illya
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Homunculus
+Cont: GiveAll
+{
+	If Other && NameContains Illya|Berserker
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Illya" or "Berserker" in its card name get +500 power.
+EndCard
+
+Character: FS/S36-PE03
+Name "Patrol in the Middle of the Night" Rin & Archer
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Master
+Trait2 Servant
+Auto: OnPlay
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		Refresh
+		DrawCard
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if there are 5 or less cards in your deck, return all cards in your waiting room to your deck and shuffle your deck, then draw a card.
+EndCard
+

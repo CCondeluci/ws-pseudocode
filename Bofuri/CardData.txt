@@ -1,0 +1,2958 @@
+﻿Character: BFR/S78-E001
+Name Battle Craftswoman, Iz
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Blacksmith
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnOtherOpponentReversed
+{
+	GainPower 1000
+}
+Quick
+Text Auto: When your other character's battle opponent becomes reversed, this card gets +1000 power until end of turn.
+EndCard
+
+
+Character: BFR/S78-E002
+Name Loving Sacrifice, Maple
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Game
+Trait2 Shield
+Combo Loving Sacrifice
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: OnAttack
+{
+	If Climax Loving Sacrifice && StageContains 4 Other && HasTrait Game
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 2
+			}
+			Text Cont: The character facing this card gets -2 soul.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Loving Sacrifice" is in your climax area, and you have 4 or more other «Game» characters, this card gets +2500 power and the following ability until the end of your opponent's next turn. "Cont: The character facing this card gets -2 soul."
+EndCard
+
+
+Character: BFR/S78-E003
+Name Giant Killing, May & Yui
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Twins
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Game
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Game)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other «Game» characters, you may choose 1 «Game» character in your waiting room, and put it into your stock.
+*MusashiEffect
+EndCard
+
+
+
+Character: BFR/S78-E004
+Name Moment Between the Two, Maple
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Shield
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your opponent's turn, this card gets +4000 power.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Game)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 «Game» character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+
+Character: BFR/S78-E005
+Name Newbie Players, May & Yui
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Twins
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: BFR/S78-E006
+Name Endless Exploration, Iz
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Blacksmith
+*OnAttackGivePowerTimesSoul
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Game
+	ChooseCharacterFromTargets Choose a character to give +1 soul
+	GainSoul 1
+}
+Text Act: [(1)] Choose 1 of your «Game» characters, it gets +1 soul until end of turn.
+EndCard
+
+
+Character: BFR/S78-E007
+Name Guild Master, Maple
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Shield
+Combo Maple Tree
+Auto: OnSpecificClimaxPlay Maple Tree
+{
+	If InLocation CenterStage
+	{
+		TargetLocation WaitingRoom 
+		NarrowTargets NameEquals Maple Tree
+		SetXValue TargetCount
+		SearchWaitingRoom Compare ThatCardsLevel X OrLower && HasTrait Game
+	}
+}
+Text Auto: CxCombo When "Maple Tree" is placed on your climax area, if this card is in your center stage, you may choose 1 level X or lower «Game» character in your waiting room, and return it to your hand. X is equal to the number of "Maple Tree" in your waiting room.
+Auto: OnAttack
+{
+	PayCost 0
+	{
+		TargetLocation Hand
+		NarrowTargets NameEquals Loving Sacrifice, Maple
+		Reveal
+		SetXValue TargetCount
+		MultiplyXValue 1500
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower X
+	}
+}
+ActivationRequirement LocationContains Hand 1 NameEquals Loving Sacrifice, Maple
+Text Auto: RESONATE [Reveal any number of "Loving Sacrifice, Maple" in your hand] When this card attacks, you may pay the cost. If you do, this card gets +X power until the end of your opponent's next turn. X is equal to the number of cards you revealed ×1500.
+EndCard
+
+Character: BFR/S78-E008
+Name Battle-Ready Force, May
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Twins
+Combo Destroyer
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Game
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other «Game» characters.
+Auto: OnDamageCancel
+{
+	If Climax Destroyer
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Game)
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Game
+		{
+			MoveCard Hand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "Destroyer" is in your climax area, choose up to 1 «Game» character in your waiting room, put it into your stock, and reveal the top card of your deck. If that card is a «Game» character, put it into your hand. 
+EndCard
+
+
+
+Character: BFR/S78-E009
+Name Battle-Ready Force, Yui
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Twins
+Combo Destroyer
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Game
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other «Game» characters.
+Auto: OnOpponentLevelUp
+{
+	If Climax Destroyer && InLocation CenterStage
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Game)
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Game
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When your opponent levels up, if "Destroyer" is in your climax area, and this card is in your center stage, choose up to 1 «Game» character in your waiting room, put it into your stock, and reveal the top card of your deck. If that card is a «Game» character, put it into your hand. 
+EndCard
+
+
+Character: BFR/S78-E010
+Name Snow White, Maple
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Shield
+Auto: OnPlay
+{
+	Message Choose a character to place on stage.
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+	PlaceOnStage False True True False
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it on any position of your stage, it gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 2
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				*OptionalBurn(1)
+			}
+			TimesPerTurn 1
+			Text Auto: Once per turn, when damage dealt by this card is canceled, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: [(2)] When this card attacks, you may pay the cost. If you do, choose 1 of your characters, it gets the following ability until end of turn. "Auto: Once per turn, when damage dealt by this card is canceled, you may deal 1 damage to your opponent." 
+EndCard
+
+Character: BFR/S78-E011
+Name Swimsuit, Yui
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Twins
+*OnAttackCheck2ChooseTrigger
+Auto: OnDamageCancel
+{
+	If Compare CardsInStock 1 OrMore
+	{
+		Question Return the top card of your stock to your hand?
+		If Yes
+		{
+			TargetTop Stock 1
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may return the top card of your stock to your hand.
+EndCard
+
+Character: BFR/S78-E012
+Name Third Place in the Event, Maple
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Shield
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		AIChoice If Not CardPosition Stand
+		ChooseCharacterFromTargets Choose a character to rest and move to open position of back stage.
+		Rest
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, choose 1 of your other characters, Rest it, and move it to an open position of your back stage. 
+EndCard
+
+Character: BFR/S78-E013
+Name Swimsuit, May
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Twins
+Auto: OnPlay
+{
+	PayCost Discard 2 HasTrait Game
+	{
+		Peek Deck 2
+		Message Choose up to 1 card to add to your hand
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		TargetLocation ScryArea
+		SetXValue TargetCount
+		MoveCard Stock
+		If Compare X 2 OrHigher
+		{
+			TargetTop Stock 2
+			Message Choose order to put into stock. (First on top)
+			Reorder
+		}
+	}
+}
+Text Auto: [Put 2 «Game» characters from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your stock in any order.
+EndCard
+
+Character: BFR/S78-E014
+Name Solid Fighting Style, Kuromu
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Shield
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Game
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Game» character, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Game
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose a character to return to your hand.
+		Bounce
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other «Game» characters, and return it to your hand.
+EndCard
+
+Character: BFR/S78-E015
+Name Twin Younger Sister, Yui
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Game
+Trait2 Twins
+*CannotSideAttack
+*ClimaxExchange
+EndCard
+
+Character: BFR/S78-E016
+Name Unbalanced, Maple
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Game
+Trait2 Shield
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		*CheckAndAddOne(4,Compare ThatCardsLevel 1 OrHigher)
+	}
+}
+Text Auto: [(1)] When your climax is placed on your climax area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Act: RestSelf
+{
+	TargetLocation OpponentStage
+	AIChoice Flicker
+	ChooseCharacterFromTargets_Optional Choose a character to send to memory, then it returns to the stage.
+	Flicker
+}
+Text Act: [Rest this card] Choose 1 of your opponent's characters, put it into their memory, and your opponent puts that character from their memory on any position of their stage.
+EndCard
+
+Character: BFR/S78-E017
+Name Twin Elder Sister, May
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Game
+Trait2 Twins
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, this card gets +4000 power.
+EndCard
+
+Character: BFR/S78-E018
+Name Alchemist's Long Coat, Iz
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Game
+Trait2 Blacksmith
+Combo Iz's Workshop
+Auto: OnOtherOpponentReversed
+{
+	*GiveCharacterPower(3000,Game)
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your «Game» characters, it gets +3000 power until end of turn.
+Auto: StartEncoreStep
+{
+	If Climax Iz's Workshop
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			Message Choose cards to put into stock.
+			SearchLocationForTargets WaitingRoom 0 2 HasTrait Game
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Iz's Workshop" from your climax area into your waiting room] At the beginning of your encore step, you may pay the cost. If you do, choose up to 2 «Game» characters in your waiting room, and put them into your stock in any order.
+EndCard
+
+Character: BFR/S78-E019
+Name One of the Twins, May
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Game
+Trait2 Twins
+EndCard
+
+Character: BFR/S78-E020
+Name Mature Response, Iz
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Blacksmith
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 3000
+	ChooseCharacterFromTargets Choose a character to give -3000 power.
+	LosePower 3000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -3000 power until end of turn.
+EndCard
+
+Character: BFR/S78-E021
+Name One of the Twins, Yui
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Game
+Trait2 Twins
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 3500
+		GainSoul 1
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +3500 power and +1 soul.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals One of the Twins, May
+	If HasTarget
+	{
+		Marker_FaceUp
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "One of the Twins, May" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Character: BFR/S78-E022
+Name Counter, Maple
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Game
+Trait2 Shield
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, deal 1 damage to your opponent. 
+Backup 2500
+EndCard
+
+Character: BFR/S78-E023
+Name Maxing Out, May
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Game
+Trait2 Twins
+Cont: GiveAll
+{
+	If Other && NameEquals Maxing Out, Yui
+	{
+		GainPower 3000
+	}
+}
+Text Cont: All of your other "Maxing Out, Yui" get +3000 power.
+EndCard
+
+Character: BFR/S78-E024
+Name Maxing Out, Yui
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Game
+Trait2 Twins
+Cont: GiveAll
+{
+	If Other && NameEquals Maxing Out, May
+	{
+		GainPower 3000
+	}
+}
+Text Cont: All of your other "Maxing Out, May" get +3000 power.
+EndCard
+
+Character: BFR/S78-E025
+Name Bloodstained Plate, Kuromu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Game
+Trait2 Shield
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrHigher
+	{
+		Question_Obvious Rest Bloodstained Plate, Kuromu?
+		If Yes
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+Text Auto: This ability activates up to 1 time per turn. When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may Rest this card. 
+EndCard
+
+Event: BFR/S78-E026
+Name Unexpected Bonus
+Color Y
+Level 3
+Cost 3
+Effect:
+{
+	TargetLocation Stage
+	GainEffect
+	{
+		*OnCancelBurn1
+	}
+}
+Text All of your characters get the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 1 damage to your opponent." 
+EndCard
+
+Climax: BFR/S78-E027
+Name Loving Sacrifice
+Color Y
+*ChoiceClimax
+EndCard
+
+
+Climax: BFR/S78-E028
+Name Maple Tree
+Color Y
+*ChoiceClimax
+EndCard
+
+Climax: BFR/S78-E029
+Name Destroyer
+Color Y
+*2SoulClimax
+EndCard
+
+Climax: BFR/S78-E030
+Name Iz's Workshop
+Color Y
+*WindClimax
+EndCard
+
+Character: BFR/S78-E031
+Name Multi-Colored, Sally
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Weapon
+Cont: GiveHand
+{
+	If IsClimax
+	{
+		GainSpecialEffect IgnoreColorRequirement
+	}
+}
+Text Cont: Your climax can be played from your hand without fulfilling color requirements.
+Auto: OnClimaxPlay
+{
+	PayCost Discard 1 Any
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your climax is placed on your climax area, you may pay the cost. If you do, draw 1 card.
+*Act1RestSelfSearchBrainstorm(Game)
+EndCard
+
+
+
+Character: BFR/S78-E032
+Name Longsword, Kasumi
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Weapon
+Combo No Longer Normal
+*GainPowerWithEnoughCharacters(1000,2,Game)
+Auto: OnAttack
+{
+	If Climax No Longer Normal && Compare CardsInHand 6 OrLess
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		*CheckAndAddOne(X,HasTrait Game)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "No Longer Normal" is in your climax area, and your hand has 6 or less cards, look at up to X cards from the top of your deck, choose up to 1 «Game» character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. X is equal to the number of characters your opponent has.
+EndCard
+
+
+
+Character: BFR/S78-E033
+Name Event Bonus, Kasumi
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Weapon
+*OnAttackMill1PutLevel0OnField
+*GreenLevel0Bomb
+EndCard
+
+Character: BFR/S78-E034
+Name Strongest Newbie, Maple
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Shield
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Loving Sacrifice, Maple
+	{
+		Refresh
+	}
+}
+Text Auto: [Put 1 "Loving Sacrifice, Maple" from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets Hand 1 1 NameContains Maple && IsCharacter
+	Change
+}
+ActivationRequirement Compare MyLevel 3 OrHigher
+Text Act: [(1) Put this card into your waiting room] If your level is 3 or higher, choose up to 1 character with "Maple" in its card name in your hand, and put it on the stage position that this card was on.
+EndCard
+
+Character: BFR/S78-E035
+Name Event Bonus, Maple
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Shield
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 HasTrait Game &&& SendSelf Memory
+	{
+		*CheckAndAdd(2)
+	}
+}
+Text Auto: [(1) Put 1 «Game» character from your hand into your waiting room & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BFR/S78-E036
+Name Event Bonus, Sally
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Game
+Trait2 Weapon
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play event cards or "BACKUP" from your hand.
+*OnPlayMill2GainPowerForEachCharacter(1000,Game)
+EndCard
+
+Character: BFR/S78-E037
+Name A Wild Adventure, Maple & Sally
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Game
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Game
+	MillOpponentBottom X
+}
+Text Auto: When you use this card's "BACKUP", put X cards from the bottom of your opponent's deck into their waiting room. X is equal to the number of «Game» characters you have.
+Backup 3000
+EndCard
+
+Character: BFR/S78-E038
+Name Rumored Player in Blue, Sally
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Game
+Trait2 Weapon
+Combo Azure Gleam of Her Eyes
+Cont: GiveSelf
+{
+	If Compare Experience 6 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 6 or higher, this card gets +1500 power.
+Auto: OnAttack
+{
+	If Climax Azure Gleam of Her Eyes
+	{
+		PayCost Discard 1 Any
+		{
+			TargetSentToPayCost
+			SetXValue TargetCardsLevel
+			Burn X
+			TargetSelf
+			GainPower 2000
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Azure Gleam of Her Eyes" is in your climax area, you may pay the cost. If you do, deal X damage to your opponent, and this card gets +2000 power until end of turn. X is equal to the level of the card put into your waiting room by this ability's cost. 
+EndCard
+
+
+Character: BFR/S78-E039
+Name Super Speed, Sally
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Weapon
+*MillRunner(Game)
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2000
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2000 power until the end of your opponent's next turn.
+EndCard
+
+Character: BFR/S78-E040
+Name Hibernate and Awaken, Maple
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Game
+Trait2 Shield
+*Level3Assist
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Awaken, Syrup
+	If HasTarget
+	{
+		Marker_FaceUp
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Awaken, Syrup" in your waiting room, and put it face up underneath this card as a marker.
+Act: 1 Discard 1 IsCharacter
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Awaken, Syrup
+	FirstTarget
+	PlaceOnStage False True True False
+	RememberTargets
+	TargetSelf
+	//Scheduling effect for itself
+	ScheduleEffectForTargets EndOfTurn
+	{
+		Effect:
+		{
+			If OnStage
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "Awaken, Syrup" to "Hybernate and Awaken, Maple"'s marker?
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+		Text At the end of the turn, you may put that character face up underneath this card as a marker.
+	}
+}
+ActivationRequirement HasMarker
+Text Act: [(1) Put 1 character from your hand into your waiting room] Choose 1 "Awaken, Syrup" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+EndCard
+
+Character: BFR/S78-E041
+Name Awaken, Syrup
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Game
+Trait2 Monster
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Game
+	{
+		GainLevel 1
+		GainSpecialEffect CannotBeChosen
+	}
+}
+Text Cont: If you have 2 or more other «Game» characters, this card gets +1 level and cannot be chosen by your opponent's effects.
+*OnAttackGainPowerForEachOther(1000,Game)
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of other «Game» characters you have ×1000.
+EndCard
+
+Character: BFR/S78-E042
+Name Guardian Angel, Maple
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Shield
+*EarlyPlayInClock(Super Speed\, Sally)
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Game
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are «Game», this card gets +1000 power.
+Auto: OnPlay
+{
+	If LocationContains Clock 1 HasTrait Game
+	{
+		Message Choose up to 1 <Game> character in your clock to put on the bottom of your deck.
+		SearchLocationForTargets Clock 0 1 HasTrait Game
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 «Game» character in your clock, and put it at the bottom of your deck.
+EndCard
+
+Character: BFR/S78-E043
+Name Multi-Colored Bloom, Kasumi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrLower
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 1 or lower, put it into your stock.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 3 OrLower
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to put into the waiting room.
+	If HasTarget
+	{
+		RememberSlot
+		MoveCard OpponentWaitingRoom
+		OpponentMessage Choose up to 1 cost 0 character to place on stage.
+		AIChoice PlaceOnStage
+		OpponentSearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsCost 0 OrLower
+		PlaceOnRememberedSlot
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 of your opponent's level 3 or lower characters, and put it into their waiting room. If you do, your opponent chooses up to 1 cost 0 or lower character in their waiting room, and puts it on the stage position that their character was on.
+EndCard
+
+Character: BFR/S78-E044
+Name Newbie Adventurer, Maple
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Shield
+Combo When in Trouble, Eating Could Be a Solution
+Auto: OnSpecificClimaxPlay When in Trouble, Eating Could Be a Solution
+{
+	If Compare CardsInStock 5 OrLess
+	{
+		TargetLocation Stage
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When "When in Trouble, Eating Could Be a Solution" is placed on your climax area, if your stock has 5 or less cards, all of your characters get the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+Act: RestSelf
+{
+	TargetLocation OpponentStage
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Act: [Rest this card] Choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: BFR/S78-E045
+Name Real Skills, Sally
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Weapon
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Game
+	{
+		GainPower 1000
+	}
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to 2 times per turn. When your other «Game» character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		*Scry
+	}
+}
+Text Auto: During your turn, when this card's battle opponent becomes reversed, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+EndCard
+
+Character: BFR/S78-E046
+Name Shadow Clone, Sally
+Color G
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Game
+Trait2 Weapon
+Army
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation CenterStage && NameEquals Shadow Clone, Sally
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Shadow Clone, Sally" in your center stage.
+EndCard
+
+Character: BFR/S78-E047
+Name Collecting Medals, Maple
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Shield
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Game
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			GainPower 2500
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other «Game» character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, it gets +2500 power until end of turn.
+*ClockEncore
+EndCard
+
+Character: BFR/S78-E048
+Name Relaxation, Maple
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Game
+Trait2 Shield
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1
+	{
+		//This might not work
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Relaxation, Sally
+		ChangeRested
+	}
+}
+Text Auto: [(1)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 "Relaxation, Sally" in your waiting room, and put it on the stage position that this card was on as resting.
+EndCard
+
+Character: BFR/S78-E049
+Name Too Early, Kasumi
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Game
+Trait2 Weapon
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×500.
+*NoEncoreIfReversed
+EndCard
+
+Character: BFR/S78-E050
+Name Relaxation, Sally
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Game
+Trait2 Weapon
+EndCard
+
+Character: BFR/S78-E051
+Name Cloudless Azure Skies, Kasumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Game
+Trait2 Weapon
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Game
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Game)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other «Game» characters, you may choose 1 «Game» character in your waiting room, and put it into your stock.
+*GreenLevel2Bomb
+EndCard
+
+Event: BFR/S78-E052
+Name Wooly
+Color G
+Level 2
+Cost 2
+Counter
+Effect:
+{
+	Repeat 2
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 1
+			}
+			Text Cont: The character facing this card gets -1 soul.
+		}
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Counter: Perform the following action 2 times. "Choose 1 of your characters, it gets the following ability until end of turn. "Cont: The character facing this card gets -1 soul."\nPut this card into your memory.
+EndCard
+
+Climax: BFR/S78-E053
+Name No Longer Normal
+*BarClimax
+EndCard
+
+
+Climax: BFR/S78-E054
+Name Azure Gleam of Her Eyes
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom IsCharacter && HasTrigger Soul
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with in its trigger icon in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Climax: BFR/S78-E055
+Name When in Trouble, Eating Could Be a Solution
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	*PutCardFromWaitingRoomIntoStock(IsCharacter && Compare ThatCardsLevel 1 OrLower)
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Character: BFR/S78-E056
+Name Two Faces Within, Mii
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Magic
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && Compare ThatCardsLevel 0 OrLower
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other level 0 or lower character in the middle position of your center stage gets +1000 power.
+*Act1RestSelfSalvageBrainstorm(Game)
+EndCard
+
+
+Character: BFR/S78-E057
+Name Walking Fortress, Maple
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Shield
+Combo Showdown Between Guild Masters
+*OnPlayGainPower(1500)
+Auto: StartAttackPhase
+{
+	If Climax Showdown Between Guild Masters && InLocation CenterStage
+	{
+		PayCost Discard 1 NameEquals Walking Fortress, Maple &&& SendClimax WaitingRoom
+		{
+			TargetLocation Stage
+			NarrowTargets Other && Not CardPosition Stand
+			AIChoice Stand
+			ChooseCharacterFromTargets Choose a character to stand.
+			Stand
+			SearchWaitingRoom HasTrait Game
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Walking Fortress, Maple" from your hand into your waiting room & Put 1 "Showdown Between Guild Masters" from your climax area into your waiting room] At the beginning of your attack phase, if this card is in your center stage, you may pay the cost. If you do, choose up to 1 of your other «Game» characters, Stand it, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+
+Character: BFR/S78-E058
+Name Saint Misery
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Game
+Trait2 Magic
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Game
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If all of your characters are «Game», this card gets +3000 power.
+Auto: OnDirectAttack
+{
+	*PutCardFromWaitingRoomIntoStock(HasTrait Game)
+}
+Text Auto: When this card direct attacks, you may choose 1 «Game» character in your waiting room, and put it into your stock.
+EndCard
+
+
+
+Character: BFR/S78-E059
+Name Securing a Crucial Position, Maple
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Shield
+Auto: StartOpponentAttackPhase
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			MoveToOpenPosition False True
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+*SacrificeToSave(Any)
+Text Auto: [Put this card into your waiting room] When your other character is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, return that character to its previous stage position as resting.
+EndCard
+
+Character: BFR/S78-E060
+Name Flare Accel, Mii
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+*DropSearch(Game)
+EndCard
+
+Character: BFR/S78-E061
+Name Change in Strategy, Misery
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Magic
+Act: RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher
+	{
+		Marker_FaceDown
+	}
+}
+ActivationRequirement Not HasMarker
+Text Act: [Rest this card] If there are no markers underneath this card, reveal the top card of your deck. If that card is level 1 or higher, put it face down underneath this card as a marker. 
+Act: RestSelf
+{
+	TargetLocation Marker
+	FirstTarget
+	MoveCard Stock
+}
+ActivationRequirement HasMarker
+Text Act: [Rest this card] Put 1 marker underneath this card into your stock.
+EndCard
+
+Character: BFR/S78-E062
+Name Chomping Down, Maple
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Shield
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*CheckAndAddOne(4,Compare ThatCardsLevel 1 OrHigher)
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: BFR/S78-E063
+Name Atrocity, Maple
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Game
+Trait2 Shield
+Combo Boss Monster
+*OnPlayGainPower(3000)
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 climax in your waiting room, and return it to your hand.
+Auto: OnReverseOpponent
+{
+	If Climax Boss Monster
+	{
+		PayCost 6 Discard 2 Any SendClimax WaitingRoom
+		{
+			Burn 1
+			Burn 2
+			Burn 3
+		}
+	}
+}
+Text Auto: CxCombo [(6) Put 2 cards from your hand into your waiting room & Put 1 "Boss Monster" from your climax area into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent, deal 2 damage to your opponent, and deal 3 damage to your opponent. 
+EndCard
+
+
+Character: BFR/S78-E064
+Name Flame Emperor, Mii
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Magic
+Combo Guild Master of Flame Emperors
+*Healer
+Auto: OnPlacedBy Guild Master of Flame Emperors
+{
+	PayCost Discard 3 HasTrait Game
+	{
+		Stand
+	}
+}
+Text Auto: CxCombo [Put 3 «Game» characters from your hand into your waiting room] When this card is placed on the stage by the effect of "Guild Master of Flame Emperors", you may pay the cost. If you do, Stand this card. 
+EndCard
+
+
+Character: BFR/S78-E065
+Name Markus the Trapper
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Trap
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotGoToMemory
+			GainSpecialEffect CannotReturnToHand
+		}
+		Text Cont: This card cannot be returned to hand or put into memory.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: This card cannot be returned to hand or put into memory."
+*RedLevel0Bomb
+EndCard
+
+Character: BFR/S78-E066
+Name Shin the Split-Sword
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Game
+Trait2 Weapon
+*OthersCannotSideAttack
+*RunInFrontOfCharacter
+EndCard
+
+Character: BFR/S78-E067
+Name Each One's Roles, Misery
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Game
+Trait2 Magic
+*RevengeTrait(2000,Game)
+Act: 2 RestSelf
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Act: BRAINSTORM [(2) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, choose up to 1 climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: BFR/S78-E068
+Name No Damage, Maple
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Game
+Trait2 Shield
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AIChoice RemoveCard
+		ChooseCharacterFromTargets Choose a character to send to memory.
+		MoveCard Memory
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their memory.
+Backup 2500
+EndCard
+
+Character: BFR/S78-E069
+Name Entrusted Lives, Mii
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Game
+Trait2 Magic
+Auto: OnFrontalAttack
+{
+	PayCost 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to give -1 level.
+		LoseLevel 1
+	}
+}
+Text Auto: [(1)] When this card frontal attacks, you may pay the cost. If you do, choose 1 of your opponent's characters, it gets -1 level until end of turn.
+*RedLevel2Bomb
+EndCard
+
+Character: BFR/S78-E070
+Name Armor of the Black Rose, Maple
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Game
+Trait2 Shield
+Cont: InHand
+{
+	If LocationContains WaitingRoom 2 NameEquals Oceanic Coat, Sally
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 2 or more "Oceanic Coat, Sally" in your waiting room, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Oceanic Coat, Sally
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Oceanic Coat, Sally" in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: BFR/S78-E071
+Name Guild Master, Mii
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: BFR/S78-E072
+Name Prison of Flame, Mii
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Magic
+*OnPlayGainPowerForEach(500,Game)
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give teh effect to.
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotGoToMemory
+			GainSpecialEffect CannotReturnToHand
+		}
+		Text Cont: This card cannot be returned to hand or put into memory.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: This card cannot be returned to hand or put into memory."
+EndCard
+
+Character: BFR/S78-E073
+Name Stout Guardian, Maple
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Game
+Trait2 Shield
+*GainPowerWithEnoughCharacters(2000,2,Game)
+*HandEncore
+EndCard
+
+Character: BFR/S78-E074
+Name [Hydra] Maple
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Game
+Trait2 Shield
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	LosePower 1000
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all of your opponent's characters get -1000 power until end of turn.
+EndCard
+
+Event: BFR/S78-E075
+Name Unique Series
+Color R
+Level 1
+Cost 1
+Counter
+Effect:
+{
+	*GiveCharacterPower(2500,Game)
+	TargetSelf
+	MoveCard Memory
+}
+Text Counter: Choose 1 of your «Game» characters, it gets +2500 power until end of turn. Put this card into your memory.
+Auto: StartMainPhase
+{
+	PayCost Discard 1 HasTrait Game
+	{
+		MoveCard Hand
+	}
+}
+InMemory
+Text Auto: MEMORY [Put 1 «Game» character from your hand into your waiting room] At the beginning of your main phase, if this card is in your memory, you may pay the cost. If you do, return this card to your hand.
+EndCard
+
+Climax: BFR/S78-E076
+Name Showdown Between Guild Masters
+*StandbyClimax
+EndCard
+
+
+Climax: BFR/S78-E077
+Name Boss Monster
+*DoorClimax
+EndCard
+
+
+Climax: BFR/S78-E078
+Name Guild Master of Flame Emperors
+*StandbyClimax
+EndCard
+
+
+Character: BFR/S78-E079
+Name Multi-Chant, Frederica
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Game
+Trait2 Magic
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	Message Choose up to 1 climax to add to your hand.
+	ChooseCardsFromTargets 0 1 IsClimax
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, look at up to 3 cards from the top of your deck, choose up to 1 climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: BFR/S78-E080
+Name Moment Between the Two, Sally
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Weapon
+Combo Never-Ending Sunset Area
+Auto: OnClimaxPlay
+{
+	GainPower 3000
+}
+Quick
+Text Auto: When your climax is placed on your climax area, this card gets +3000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Never-Ending Sunset Area && StageContains 1 Other && HasTrait Game
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Game && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Never-Ending Sunset Area" is in your climax area, and you have another «Game» character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower «Game» character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+
+Character: BFR/S78-E081
+Name Young Genius, Kanade
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Game
+Trait2 Magic
+*EarlyPlay4OrMore(Game)
+*Healer
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Game
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Game» character, this card gets +2000 power until end of turn.
+EndCard
+
+
+Character: BFR/S78-E082
+Name Machine God, Maple
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Shield
+Combo [Deploy] Left Arm
+*OnPlayStockSwap(1)
+Auto: OnAttack
+{
+	If Climax [Deploy] Left Arm
+	{
+		MillOpponentBottom 4
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: CxCombo When this card attacks, if "[Deploy] Left Arm" is in your climax area, put the bottom 4 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: BFR/S78-E083
+Name Information Warfare, Sally
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Weapon
+*OnPlayReorderTop2
+Auto: OnPlay
+{
+	OpponentMultipleChoiceQuestion Declare a level.|0|1|2|3
+	Mill 1
+	If Compare TargetCardsLevel Answer Exactly
+	{
+		SetXValue Answer
+		AddToXValue 1
+		Repeat X
+		{
+			*OptionalDraw
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent declares 0 or 1 or 2 or 3. Put the top card of your deck into your waiting room, and if that card's level is the number your opponent declared, draw up to X cards. X is equal to the number your opponent declared +1. 
+EndCard
+
+
+Character: BFR/S78-E084
+Name Maxing Out, Sally
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Weapon
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When your character's trigger check reveals a climax with Gate in its trigger icon, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Act: RestSelf
+{
+	*GiveCharacterPower(1500,Game)
+}
+Text Act: [Rest this card] Choose 1 of your «Game» characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: BFR/S78-E085
+Name Multi-Colored, Kanade
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Magic
+Auto: OnClimaxPlay
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 6
+	TargetBrainstormed
+	NarrowTargets HasTrigger Book
+	If HasTarget
+	{
+		SearchWaitingRoom HasTrait Game
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 6 cards from the top of your deck, and put them into your waiting room. If there is a climax with in its trigger icon among those cards, choose 1 «Game» character in your waiting room, and return it to your hand.
+EndCard
+
+
+Character: BFR/S78-E086
+Name Versatile, Frederica
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Magic
+*BackupBonus1000(Game)
+Backup 1000
+EndCard
+
+
+Character: BFR/S78-E087
+Name Shield and Buckler, Maple & Sally
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrHigher
+		ChooseCharacterFromTargets Choose a character to downgrade.
+		*Downgrade
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's level 1 or higher characters, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.
+EndCard
+
+Character: BFR/S78-E088
+Name Information Warfare, Frederica
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Game
+Trait2 Magic
+Combo Duel System
+Auto: OnSpecificClimaxPlay Duel System
+{
+	If InLocation CenterStage && StageContains 1 Other && NameEquals Information Warfare, Frederica
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Game
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLower
+			ChooseCharacterFromTargets Choose a character to shuffle into opponent's deck.
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo When "Duel System" is placed on your climax area, if this card is in your center stage, and you have another "Information Warfare, Frederica", reveal the top card of your deck. If that card is a «Game» character, choose up to 1 of your opponent's level 3 or lower characters, return it to your opponent's deck, and your opponent shuffles their deck. 
+EndCard
+
+Character: BFR/S78-E089
+Name Best Friends, Maple & Sally
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Game
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+Auto: OnFrontalAttacked
+{
+	PayCost 1 Discard 1 HasTrait Game
+	{
+		GainSpecialEffect CannotBeReversed
+	}
+}
+Text Auto: [(1) Put 1 «Game» character from your hand into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, this card cannot become Reversed until end of turn.
+EndCard
+
+Character: BFR/S78-E090
+Name Berserk, Drag
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	LosePower 500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all characters in your opponent's center stage get -500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Game
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 «Game» character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: BFR/S78-E091
+Name Tranquil Waters, Maple
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Shield
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+EndCard
+
+Character: BFR/S78-E092
+Name Spell Stash, Kanade
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Magic
+Combo Akashic Record
+Auto: OnSpecificClimaxPlay Akashic Record
+{
+	If InLocation CenterStage && StageContains 1 Other && HasTrait Game
+	{
+		MultipleChoiceQuestion Search deck or waiting room?|Deck|WaitingRoom
+		If Answer 0
+		{
+			SearchDeck NameEquals Spell Stash
+		}
+		Else
+		{
+			SearchWaitingRoom NameEquals Spell Stash
+		}
+	}
+}
+Text Auto: CxCombo When "Akashic Record" is placed on your climax area, if this card is in your center stage, and you have another «Game» character, choose 1 of the following effects, and perform it. "Choose 1 "Spell Stash" in your waiting room, and return it to your hand." "Search your deck for up to 1 "Spell Stash", reveal it to your opponent, put it into your hand, and shuffle your deck."
+Auto: OnAttack
+{
+	*GiveCharacterPower(1500,Game)
+}
+Text Auto: When this card attacks, choose 1 of your «Game» characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: BFR/S78-E093
+Name Awaken, Oboro
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Game
+Trait2 Monster
+*OnAttackGivePowerForEachOther(500,Game)
+EndCard
+
+Character: BFR/S78-E094
+Name Devour, Maple
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Game
+Trait2 Shield
+Auto: OnReverseOpponent
+{
+	If LocationContains Climax 1 Any
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, you may put the top card of your deck into your stock.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		MoveCard OpponentMemory
+	}
+}
+Slow
+Text Auto: When this card's battle opponent becomes reversed, put that character into your opponent's memory.
+EndCard
+
+Character: BFR/S78-E095
+Name Guild Master, Payne
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Game
+Trait2 Holy Sword
+*BlueEarlyPlayBomb
+EndCard
+
+Character: BFR/S78-E096
+Name Oceanic Coat, Sally
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Weapon
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Game && InLocation Backstage
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each other «Game» character in your back stage.
+Auto: StartOpponentAttackPhase
+{
+	If InLocation CenterStage
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets_Optional Choose a character to give +4 soul and cannot side attack.
+		GainSoul 4
+		GainEffect
+		{
+			*CannotSideAttack
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if this card is in your center stage, choose up to 1 of your opponent's characters, it gets +4 soul and the following ability until end of turn. "Cont: This card cannot side attack."
+EndCard
+
+Character: BFR/S78-E097
+Name Super Speed, Dread
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Weapon
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Game
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another «Game» character, this card gets +1 level and +1500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		RevealUpTo Deck 2
+		NarrowTargets HasTrait Game
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 «Game» characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BFR/S78-E098
+Name Fake Skill, Sally
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you do not have another character, this card gets +2000 power.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Return "Fake Skill, Sally" to your hand?
+		If Yes
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: During this card's battle, when the damage you received is canceled, you may return this card to your hand.
+Auto: OnCancel
+{
+	//If InBattle
+	//{
+	//	Question Declare "[Cascade]"
+	//	If Yes
+	//	{
+	//		TriggerCustomEvent [Cascade]
+	//	}
+	//}
+}
+Quick
+Text Auto: During this card's battle, when the damage you received is canceled, you may declare "[Cascade]". (This doesn't do anything)
+EndCard
+
+Character: BFR/S78-E099
+Name Curiosity, Maple
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Game
+Trait2 Shield
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: BFR/S78-E100
+Name Hex, Maple
+Color B
+Level 0
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Shield
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: This card cannot move to another position of the stage.
+Cont: GiveAll
+{
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			If OnStage
+			{
+				MoveCardToBottom Deck
+			}
+		}
+		Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+	}
+}
+Text Cont: All of your characters get the following ability. "Auto: When this card becomes reversed in battle, put this card at the bottom of your deck."
+EndCard
+
+Character: BFR/S78-E101
+Name Hibernate and Awaken, Sally
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Game
+Trait2 Weapon
+*GlobalPower(500,Game)
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Awaken, Oboro
+	If HasTarget
+	{
+		Marker_FaceUp
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Awaken, Oboro" in your waiting room, and put it face up underneath this card as a marker.
+Act: Discard 1 IsCharacter
+{
+	TargetLocation Marker
+	NarrowTargets NameEquals Awaken, Oboro
+	FirstTarget
+	PlaceOnStage False True True False
+	RememberTargets
+	TargetSelf
+	//Scheduling effect for itself
+	ScheduleEffectForTargets EndOfTurn
+	{
+		Effect:
+		{
+			If OnStage
+			{
+				TargetRemembered
+				IfTarget OnStage
+				{
+					Question Return "Awaken, Oboro" to "Hibernate and Awaken, Sally"'s marker?
+					If Yes
+					{
+						Marker_FaceUp
+					}
+				}
+			}
+		}
+		Text At the end of the turn, you may put that character face up underneath this card as a marker.
+	}
+}
+ActivationRequirement HasMarker
+Text Act: [Put 1 character from your hand into your waiting room] Choose 1 "Awaken, Oboro" marker underneath this card, and put it on any position of your stage. At the end of the turn, you may put that character face up underneath this card as a marker.
+EndCard
+
+Character: BFR/S78-E102
+Name Winning Formula, Maple
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Game
+Trait2 Shield
+*LevelAssistTrait(Game)
+Auto: OnUseAct
+{
+	*GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an Act:, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: BFR/S78-E103
+Name For the Win, Kanade
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Game
+Trait2 Magic
+Cont: GiveAll
+{
+	If NameEquals Loving Sacrifice, Maple|Atrocity, Maple
+	{
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: All of your other "Loving Sacrifice, Maple" and "Atrocity, Maple" get the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+Act: RestSelf Discard 2 Any
+{
+	TargetLocation Stage
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && SameNameAsTarget
+	RevealTargets
+	PlaceOnStage False True True False
+}
+Text Act: [Put 2 cards from your hand into your waiting room & Rest this card] Choose 1 card in your waiting room with the same card name as a character on your stage, and put it on any position of your stage.
+EndCard
+
+Character: BFR/S78-E104
+Name Maxing Out, Maple
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Game
+Trait2 Shield
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Game
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +2 soul.
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other «Game» characters, choose 1 of your characters, it gets +2 soul until end of turn.
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost Discard 1 Any
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncoreStep
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard WaitingRoom
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: BFR/S78-E105
+Name Sword Dance, Sally
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Game
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 5 OrMore
+	{
+		GainPower 6000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 5 or higher, this card gets +6000 power.
+Auto: OnPlay
+{
+	If Compare CardsInMemory 5 OrMore || Compare CardsInOpponentsMemory 5 OrMore //Make the effect quick if it does nothing
+	{
+		If Compare CardsInMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			SearchLocationForTargets Memory 4 4 Any
+			ReverseTargets Memory
+			MoveCard WaitingRoom
+		}
+		If Compare CardsInOpponentsMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			OpponentSearchLocationForTargets Memory 4 4 Any
+			ReverseTargets OpponentMemory
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players perform the following action. "If your memory has 5 or more cards, choose 4 cards in your memory, and put all cards except those cards into your waiting room."
+EndCard
+
+Event: BFR/S78-E106
+Name Spell Stash
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	*Check4Add1(Game)
+}
+Text Look at up to 4 cards from the top of your deck, choose up to 1 «Game» character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Climax: BFR/S78-E107
+Name [Deploy] Left Arm
+*GateClimax
+EndCard
+
+
+Climax: BFR/S78-E108
+Name Never-Ending Sunset Area
+*GateClimax
+EndCard
+
+
+Climax: BFR/S78-E109
+Name Duel System
+*BlueStockSoul
+EndCard
+
+Climax: BFR/S78-E110
+Name Akashic Record
+*BookClimax
+EndCard
+
+
+Character: BFR/S78-E111
+Name Fun Times, Maple
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Shield
+Cont: GiveAll
+{
+	If Other && OpponentsTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all of your other characters get +500 power.
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +500 power until end of opponents turn.
+	UntilEndOfOpponentsTurn
+	GainPower 500
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets +500 power until the end of your opponent's next turn.
+EndCard
+
+Character: BFR/S78-E112
+Name Giving Thanks, Kasumi
+Color G
+Level 1
+Cost 1
+Power 6500
+Trait1 Game
+Trait2 Weapon
+*PayToExchange(Game)
+EndCard
+
+Character: BFR/S78-E113
+Name Charisma, Mii
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Game
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Not HasTrait Game
+	{
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is not a 《Game》 character, Rest this card. 
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Game
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a 《Game》 character, this card gets +2000 power until end of turn. 
+EndCard
+
+Character: BFR/S78-E114
+Name New Equipment, Sally
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Game
+Trait2 Weapon
+Auto: OnReverseOpponent
+{
+	Question Put "New Equipment, Sally" into your memory.
+	If Yes
+	{
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals New Equipment, Sally
+				FirstTarget
+				Message "New Equipment, Sally" returns from memory.
+				PlaceOnStage False True True False
+			}
+			Text "New Equipment, Sally" returns from memory.
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "New Equipment, Sally" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: BFR/S78-PE01
+Name Friendly Duo, Maple & Sally
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+*OnPlayScryToBottom
+Auto: OnAttack
+{
+	TargetTop Deck 1 
+	Reveal
+	IfTarget HasTrait Game
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a 《Game》 character, put it into your hand, choose 1 card in your hand, and put it into your waiting room. 
+EndCard
+
+
+
+Character: BFR/S78-TE01
+Name Face of the Game, Maple
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Shield
+*OnPlayTradeClimaxForCharacter(Game)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Game
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 «Game» character in your waiting room, and return it to your hand.
+EndCard
+
+
+Character: BFR/S78-TE02
+Name Conqueror, Yui
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Twins
+Auto: OnPlay
+{
+	*GiveCharacterPower(1500,Game)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your «Game» characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: BFR/S78-TE03
+Name Conqueror, May
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Twins
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]".
+EndCard
+
+Character: BFR/S78-TE04
+Name Superb Memory, Kanade
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Game
+Trait2 Magic
+Auto: OnAttack
+{
+	*GiveCharacterPower(2500,Any)
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +2500 power until end of turn.
+EndCard
+
+Character: BFR/S78-TE05
+Name Brotherly Figure, Kuromu
+Color G
+Level 1
+Cost 1
+Power 6000
+Trait1 Game
+Trait2 Shield
+*GainPowerForEachOther(500,Game)
+EndCard
+
+Character: BFR/S78-TE06
+Name Assertive, Yui
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Game
+Trait2 Twins
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Game && InLocation Backstage
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each other «Game» character in your back stage.
+EndCard
+
+Character: BFR/S78-TE07
+Name Worrier, May
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Game
+Trait2 Twins
+*OnPlayGainPowerForEach(1000,Game)
+EndCard
+
+Character: BFR/S78-TE08
+Name Replica of the Dark Night, Maple
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Shield
+*HexProof
+*OnPlayCheckX(Game)
+EndCard
+
+Climax: BFR/S78-TE09
+Name The Curtains Rise On Maxing Out
+Color G
+*2SoulClimax
+EndCard
+
+Climax: BFR/S78-TE10
+Name Non-Stressful Adventure
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character in your waiting room with level equal to or lower than your level, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Character: BFR/S78-TE11
+Name Consistently Flawless, Risa Shiromine
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Cont: GiveAll
+{
+	If MyTurn && NameEquals I Don't Want to Get Hurt, Kaede Honjo
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, all of your other "I Don't Want to Get Hurt, Kaede Honjo" get +2000 power.
+*Bond1(I Don't Want to Get Hurt\, Kaede Honjo)
+EndCard
+
+Character: BFR/S78-TE12
+Name Cool and Collected, Kasumi
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Weapon
+*500Assist
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Act: [(1)] Choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+
+Character: BFR/S78-TE13
+Name Focused, Sally
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Weapon
+Auto: StartMainPhase
+{
+	*Scry
+}
+Text Auto: At the beginning of your main phase, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: BFR/S78-TE14
+Name Imposing and Majestic, Kasumi
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Weapon
+Auto: OnAttack
+{
+	If Compare CardsInHand 4 OrMore
+	{
+		GainPower 3000
+	}
+}
+Quick
+Text Auto: When this card attacks, if your hand has 4 or more cards, this card gets +3000 power until end of turn.
+EndCard
+
+Character: BFR/S78-TE15
+Name I Don't Want to Get Hurt, Kaede Honjo
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Game
+EndCard
+
+Character: BFR/S78-TE16
+Name Passion for Crafting, Iz
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Game
+Trait2 Blacksmith
+*BackupBonus1000(Game)
+Backup 2500
+EndCard
+
+Character: BFR/S78-TE17
+Name Supportive Role, Iz
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Game
+Trait2 Blacksmith
+*LevelAssist
+Act: 2 RestSelf
+{
+	SearchWaitingRoom HasTrait Game
+}
+Text Act: [(2) Rest this card] Choose 1 «Game» character in your waiting room, and return it to your hand.
+EndCard
+
+Character: BFR/S78-TE18
+Name Marble Muffler, Sally
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Game
+Trait2 Weapon
+Combo Path to the Second Level
+*Healer
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Game
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another «Game» character, this card gets +1500 power until end of turn.
+Auto: OnEndOfAttack
+{
+	If Climax Path to the Second Level
+	{
+		PayCost 2 Discard 2 Any
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room] This ability activates up to 1 time per turn. At the end of this card's attack, if "Path to the Second Level" is in your climax area, you may pay the cost. If you do, stand this card.
+EndCard
+
+
+Event: BFR/S78-TE19
+Name Quest Activated
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Game
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			PayCost 1
+			{
+				SearchWaitingRoom IsCharacter
+			}
+		}
+		Text Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+	}
+}
+Text All of your «Game» characters get the following ability until end of turn. "Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Climax: BFR/S78-TE20
+Name Path to the Second Level
+*BookClimax
+EndCard

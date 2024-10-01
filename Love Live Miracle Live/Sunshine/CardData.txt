@@ -1,0 +1,747 @@
+Character: SIS/W109-001
+Name Overslept, Ruby Kurosawa
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Music && IsCharacter
+	{
+		SearchDeck Compare ThatCardsLevel 1 OrLess && IsCharacter
+	}
+}
+Text Auto: [(1) Put a «Music» character from your waiting room on the bottom of your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it, put it in your hand, and shuffle your deck.
+*OnAttackGivePower(500,Any)
+EndCard
+
+Character: SIS/W109-004
+Name Fallen Angel Rock-Paper-Scissors, Yoshiko Tsushima
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo Dark Power Unleashed
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of cards in your level is 2 or higher, this card gets +2000 power.
+Auto: StartMyEncorePhase
+{
+	If Compare Experience 2 OrMore && InLocation CenterStage && Climax Dark Power Unleashed && FacingIsEmptyOrReversed
+	{
+		*Check5Add1(Music)
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+}
+Text Auto: CxCombo EXPERIENCE At the beginning of your encore step, if "Dark Power Unleashed" is in your climax area, this card is in the center stage, if the total level of cards in your level is 2 or higher, and either there's no character facing this card or the character facing this card is reversed, look at up to 5 cards from the top of your deck and search for up to 1 «Music» character, reveal it, put it in your hand, put the rest into your waiting room, and this card gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: SIS/W109-006
+Name After Lunch, Hanamaru Kunikida
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Admist the Gentle Sunlight
+Auto: OnPlacedOnStageFromDeck|OnPlay
+{
+	If Phase Main
+	{
+		PayCost 1
+		{
+			*SearchDeckToPlaceOnStage(NameEquals After Lunch, Hanamaru Kunikida)
+		}
+	}
+}
+Text Auto: [(1)] Duriug your main phase, when this card is placed from hand or deck to the stage, you may pay the cost. If you do, search your deck for up to 1 "After Lunch, Hanamaru Kunikida", put it in any position on the stage, and shuffle your deck.
+Auto: OnEndOfAttack
+{
+	If Climax Admist the Gentle Sunlight &&& StageContains 1 Other && HasTrait Music
+	{
+		MultipleChoiceQuestion Choose an effect to resolve \n1. Heal \n2. Pay 2 to burn 2 |1|2
+		If Answer 0
+		{
+			*OptionalHeal
+		}
+		If Answer 1
+		{
+			PayCost 2
+			{
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if "Amidst the Gentle Sunlight" is in your climax area and you have another «Music» character, choose 1 of the following 2 effects and perform it. "You may put the top card of your clock in the waiting room." "[(2)] You may pay the cost. If you do, deal 2 damage to your opponent." 
+EndCard
+
+Character: SIS/W109-009
+Name Dark Magic, Yoshiko Tsushima
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there were at least 1 climax among them, this card gets +2 soul until end of turn.
+Auto: OnDamageCancel
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		Bounce
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may return this card to your hand.
+EndCard
+
+Character: SIS/W109-010
+Name Shaping Ball into Square, Hanamaru Kunikida
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to 4 cards from the top of your deck and search for up to 1 level 1 or higher card, reveal it, put it in your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: SIS/W109-015
+Name Support From the Elite Fallen Angel, Yoshiko Tsushima
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		GainPower 4500
+	}
+}
+Text Cont: EXPERIENCE If the total levels of the cards in your level is 5 or higher, this card gets +4500 power.
+*HandEncoreTrait(Music)
+EndCard
+
+Character: SIS/W109-017
+Name Ruby's Courage, Ruby Kurosawa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Music
+*GlobalPower(1500,Music)
+*Healer
+Auto: StartMainPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		Refresh
+	}
+}
+Text Auto: ALARM [(1) Put 1 card from your hand to the waiting room] If this card is on the top of your clock, at the beginning of your main phase, you may pay the cost. If you do, return all of the cards in your waiting room to your deck, and shuffle your deck.
+EndCard
+
+Character: SIS/W109-024
+Name Everyday's an Adventure, Hanamaru Kunikida
+Color Y
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+*PowerOnMyTurn(2000)
+Auto: OnPlay
+{
+	TargetBottom Clock 1
+	If HasTarget &&& LocationContains WaitingRoom 1 HasTrait Music && IsCharacter
+	{
+		Question Exchange the bottom card of your clock with a <Music> character from your waiting room?
+		If Yes
+		{
+			SaveTargets
+			Message Choose a <Music> character to exchange
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Music && IsCharacter
+			AddSavedToCurrentTargets
+			Exchange
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose the bottom card of your clock and a «Music» character in your waiting room and exchange them.
+Auto: StartClimaxPhase
+{
+	If StageContains 3 HasTrait Music
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Alarm
+Text Auto: ALARM If this card is on top of the clock and the number of «Music» characters you have is 3 or more, at the beginning of your climax phase, choose 1 of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: SIS/W109-026
+Name Aiming to Become Cheer Girl, Ruby Kurosawa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn &&& Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total levels of the cards in your level is 2 or higher, this card gets +2000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Climax: SIS/W109-032
+Name Dark Power Unleashed
+*ChoiceClimax
+EndCard
+
+Climax: SIS/W109-033
+Name Amidst the Gentle Sunlight
+*ChoiceClimax
+EndCard
+
+Character: SIS/W109-040
+Name Koala's Slumber, Chika Takami
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*PowerOnMyTurn(1000)
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Music && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal at least 1 card this way, choose up to 1 «Music» character among them, put it in your hand, put the rest into your waiting room, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: SIS/W109-054
+Name Chatting After Practice, Chika Takami
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Sea Shining at Twilight
+Auto: OnPlay
+{
+	TargetBottom Clock
+	If HasTarget
+	{
+		Question Put the bottom card of your clock into your waiting room?
+		If Yes
+		{
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the bottom card of your clock in the waiting room.
+Auto: OnAttack
+{
+	If Climax Sea Shining at Twilight && Compare Experience 9 OrMore
+	{
+		PayCost 1 Discard 1 Any
+		{
+			MultipleChoiceQuestion Choose an effect to resolve \n1. Burn 1 and then shuffle up to 3 cards from your opponent's waiting room into their deck \n2. Burn 3 |1|2
+			If Answer 0
+			{
+				Burn 1
+				Message Choose up to 3 cards to shuffle into your opponent's deck
+				SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+				RevealTargets
+				MoveCard OpponentDeck
+				ShuffleLocation OpponentDeck
+			}
+			If Answer 1
+			{
+				Burn 3
+			}
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE [(1) Put 1 card from your hand to the waiting room] When this card attacks, if "Sea Shining at Twilight" is in your climax area and if the total levels of the cards in your level is 9 or higher, you may pay the cost. If you do, this card gets +1500 power until end of turn and perform 1 of the following 2 effects. "Deal 1 damage to your opponent, choose up to 3 cards from your opponent's waiting room, return them to the deck, and your opponent shuffles that deck." "Deal 3 damage to your opponent." 
+EndCard
+
+Character: SIS/W109-057
+Name Shining Sea Surface, You Watanabe
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		Message Choose a level X or lower character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand. X equals level of the card revealed this way. 
+EndCard
+
+Character: SIS/W109-062
+Name Miracle Live~, Chika Takami
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		*ScryToBottom
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, look at the top card of your deck, put it either on top of the deck or in the waiting room, choose 1 of your «Music» characters, and that character gets +2000 power until end of turn.
+*ClockShift(0,red)
+EndCard
+
+Character: SIS/W109-064
+Name Trio Melody, Riko Sakurauchi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's BACKUP, you may pay the cost. If you do, return all cards in your waiting room to the deck and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: SIS/W109-072
+Name Time for Your Shots, Riko Sakurauchi
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Soul 1
+Trait1 Music
+*LevelAssistTrait(Music)
+*ClockShift(0,red)
+Act: 1 SendSelf WaitingRoom
+{
+	Message Choose a character to return to your hand
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Put this card in the waiting room] Choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: SIS/W109-076
+Name Show Partner, Riko Sakurauchi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Music
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question Put this card's battle opponent into memory?
+					If Yes
+					{
+						MoveCard OpponentMemory
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may send that character to memory.
+		}
+	}
+}
+Text Cont: During your turn, if you have another «Music» character, this card gets +1000 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may send that character to your opponent's memory."
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	*CheckAndAdd(X)
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room. X equals the number of your opponent's characters.
+EndCard
+
+Character: SIS/W109-079
+Name Approaching, You Watanabe
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Music
+Cont: GiveFacing
+{
+	LoseSoul 1
+}
+Text Cont: The character facing this card gets -1 soul.
+*HandEncoreTrait(Music)
+EndCard
+
+Character: SIS/W109-081
+Name You're the Culprit!, You Watanabe
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*GlobalPower(500,Music)
+Act: RestSelf
+{
+	*ExchangeCardInLevelWithWaitingRoom(Any,HasTrait Music && IsCharacter)
+}
+Text Act: [Rest this card] Choose a card in your level and a «Music» character in your waiting room and exchange them.
+EndCard
+
+Character: SIS/W109-088
+Name Brushing Time!, Chika Takami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Music
+*LevelAssist
+*Act1Rest2SalvageBrainstorm(Any)
+EndCard
+
+Climax: SIS/W109-092
+Name Sea Shining at Twilight
+*DoorClimax
+EndCard
+
+Character: SIS/W109-096
+Name Big Sister's Daily Routine, Dia Kurosawa
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Music
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all your characters are «Music», this card gets +2000 power.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Music
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card in the waiting room] When your other «Music» character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: SIS/W109-100
+Name Pretty Scenery, Mari Ohara
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainEffect
+		{
+			*500Assist
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total levels of the cards in your level is 2 or higher, this card gets "Cont: ASSIST During your turn, all your characters in front of this card get +500 power."
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: SIS/W109-108
+Name Seabreeze Brushing Against the Cheeks, Kanan Matsuura
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Auto: OnPlay
+{
+	SearchDeck HasTrait Music && IsCharacter
+	PayCost Discard 1 Any
+	{
+		Message Choose a character whose level is equal or lower than your level
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel MyLevel OrLess
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck. You may discard a card from your hand to the waiting room. If you do, choose up to 1 character in your hand whose level is equal to or lower than your level and put it in any position on the stage.
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 IsClimax
+	{
+		Message Choose a <Music> character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Music
+	}
+}
+Text Auto: ALARM [Put 1 climax from your hand to the waiting room] If this card is on top of your clock, at the beginning of your climax phase, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand.
+EndCard
+
+Character: SIS/W109-115
+Name Enchanted by Nature, Kanan Matsuura
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Combo Blue Sea Reflecting the Sky
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another «Music» character, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Blue Sea Reflecting the Sky &&& StageContains 2 Other && HasTrait Music
+	{
+		GainPower 1500
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Blue Sea Reflecting the Sky" is in your climax area and the number of other «Music» characters you have is 2 or more, this card gets +1500 power until end of turn, and this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: SIS/W109-119
+Name Heated Passion, Mari Ohara
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+*BlueEarlyPlayBomb
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				Question Put this card's battle opponent on the botom of your opponent's deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of the deck.
+	}
+}
+Alarm
+Text Auto: ALARM If this card is on top of your clock, at the beginning of your climax phase, choose 1 of your «Music» characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of the deck."
+EndCard
+
+Character: SIS/W109-121
+Name We Are Aqours!, Dia Kurosawa
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*Healer
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		PayCost Discard 1 Any
+		{
+			MillOpponent 10
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, if you have another «Music» character, you may pay the cost. If you do, your opponent puts the top 10 cards of their deck in the waiting room.
+EndCard
+
+Character: SIS/W109-125
+Name Twisting History, Dia Kurosawa
+Color B
+Level 1
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*BlueCost0Bomb
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: ALARM [(1) Put 1 card from your hand to the waiting room] If this card is on top of your clock, at the beginning of your climax phase, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SIS/W109-130
+Name Prescription of Love, Mari Ohara
+Color B
+Level 1
+Cost 1
+Power 7000
+Soul 1
+Trait1 Music
+*CannotSideAttack
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Music
+	{
+		If LocationContains WaitingRoom 1 HasTrait Music && IsCharacter
+		{
+			Question_Obvious Put a <Music> character from your waiting room in your stock?
+			If Yes
+			{
+				Message Choose a <Music> character to put into stock
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+				RevealTargets
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 4 or more, you may choose a «Music» character in your waiting room and put it in your stock.
+EndCard
+
+Character: SIS/W109-131
+Name Trying Hard No Matter How Many Tries~, Kanan Matsuura
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainPower 3000
+		GainEffect
+		{
+			*GlobalPower(1000,Music)
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 3 or higher, this card gets +3000 power and the following ability. "Cont: All your other «Music» characters get +1000 power."
+EndCard
+
+Climax: SIS/W109-137
+Name Blue Sea Reflecting the Sky
+*GateClimax
+EndCard
+

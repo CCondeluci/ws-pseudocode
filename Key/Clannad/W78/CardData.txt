@@ -1,0 +1,585 @@
+// Clannad Key 20th Anniv
+
+Character: Kcl/W78-003
+Name Season of Beginning, Nagisa
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Play
+Trait3 Dango
+Combo The Hillside Path Where The Cherry Blossoms Scatter
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Anniversary|Dango
+		SetXValue TargetCount
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, for each of your other 《Anniversary》 or 《Dango》 characters, this gets +500 power.
+Auto: OnAttack
+{
+	If Climax The Hillside Path Where The Cherry Blossoms Scatter
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals The Hillside Path Where The Cherry Blossoms Scatter
+		SetXValue TargetCount
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Anniversary|Dango
+	}
+}
+Text Auto: When this attacks, if you have "The Hillside Path Where The Cherry Blossoms Scatter" in your climax area, choose 1 level X or lower 《Anniversary》 or 《Dango》 character from your waiting room, you may add it to hand. X equals the number of copies of "The Hillside Path Where The Cherry Blossoms Scatter" you have in your waiting room.
+EndCard
+
+Character: Kcl/W78-011
+Name Dedicated Girl, Nagisa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Anniversary
+Trait2 Play
+Trait3 Dango
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Anniversary|Dango
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: For each of your other 《Anniversary》 or 《Dango》 characters in the backstage, this gets +500 power.
+*Healer
+EndCard
+
+Character: Kcl/W78-017
+Name Waitress, Nagisa
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Play
+Trait3 Dango
+Act: 1 SendSelf Memory
+{
+	*Check3Add1(Anniversary|Dango)
+}
+Text Act: [(1) Send this to memory] Look at up to 3 cards from the top of your deck, choose up to 1 《Anniversary》 or 《Dango》 character from among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: Kcl/W78-019
+Name Child of the Two, Ushio
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Dango
+*GiveMiddlePower(1000,Any)
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: Kcl/W78-027
+Name Meeting Bad Friends, Youhei
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Delinquent
+Trait3 Sports
+Cont: GiveFacing
+{
+	GainTrait Sports
+}
+*OnPlayGiveOtherPower(1000,Anniversary|Sports)
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainSoul 1
+	}
+}
+Text Auto: [Return this to hand] When your climax is placed on the climax area, you may pay the cost. If you do, choose 1 of your characters, this turn, it gets +1 soul.
+EndCard
+
+Character: Kcl/W78-029
+Name Happy Times, Tomoya
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Anniversary
+Trait2 Delinquent
+Trait3 Sports
+*CannotSideAttack
+*OnPlayMill2GainPowerForEachCharacter(1000,Anniversary|Sports|Dango)
+EndCard
+
+Character: Kcl/W78-033
+Name Duty and Humanity, Akio
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Anniversary
+Trait2 Bread
+Trait3 Play
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Anniversary|Bread|Dango
+	{
+		GainPower 3000
+		GainLevel 1
+		GainSpecialEffect CannotBeChosen
+	}
+}
+Text Cont:  If you have 2 or more other 《Anniversary》, 《Bread》, or 《Dango》 characters, this gets +1 level, +3000 power, and gains the following ability: "Cont: This cannot be targeted by your opponent's effects."
+EndCard
+
+Character: Kcl/W78-034
+Name Teacher of Children, Sanae
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Anniversary
+Trait2 Bread
+Trait3 Teacher
+*Level3Assist
+Act: 2 RestSelf
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets
+	MoveCard OpponentHand
+}
+Text Act: [(2) Rest this] Choose 1 of your opponent's center stage characters, return it to hand.
+EndCard
+
+Climax: Kcl/W78-039
+Name The Hillside Path Where The Cherry Blossoms Scatter
+*ChoiceClimax
+EndCard
+
+Character: Kcl/W78-043
+Name The Destination of Chosen Path, Tomoyo
+Color G
+Level 3
+Cost 2
+Power 9500
+Soul 2
+Trigger Soul
+Trait1 Anniversary
+Trait2 Student Council
+Trait3 Sports
+Combo Vow Beneath the Snow
+Cont: GiveSelf
+{
+	If InBattle
+	{
+		GainSpecialEffect OpponentCannotUseEvents
+	}
+}
+Text Cont: During this card's battle, your opponent cannot play events from hand.
+*Healer
+Auto: OnAttack
+{
+	If Climax Vow Beneath the Snow
+	{
+		PayCost 1
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+			{
+				Burn 3
+			}
+			Else
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this attacks, if you have "Vow Beneath the Snow" in the climax area, you may pay the cost. If you do, reveal the top card of your deck. If that card is a level 0 or lower character, deal 3 damage to your opponent; if it is anything else, deal 1 damage to your opponent.
+EndCard
+
+Character: Kcl/W78-044
+Name Wish Upon a Starfish, Fuuko
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Starfish
+*OnPlayReorderTop2
+*OnAttackMill1PutLevel0OnStage
+EndCard
+
+Character: Kcl/W78-045
+Name Girl Aiming for Student Council, Tomoyo
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Student Council
+Trait3 Sports
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Anniversary|Student Council || IsEvent
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: (1) When your climax is placed on the climax area, you may pay the cost. If you do, reveal the top card of your deck. If that card is an 《Anniversary》 or Student Council》 character, or an event card, add it to hand.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the following "Auto ability: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock."
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetLocation OpponentClock
+			If HasTarget
+			{
+				Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+				If Yes
+				{
+					TargetTop OpponentClock 1
+					MoveCard OpponentWaitingRoom
+					TargetBattleOpponent
+					MoveCard OpponentClock
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock."
+EndCard
+
+Character: Kcl/W78-056
+Name Starfish Dream, Fuuko
+Color G
+Level 2
+Cost 2
+Power 6000
+Trigger Soul
+Soul 2
+Trait1 Anniversary
+Trait2 Starfish
+*GainPowerForEachOther(1000,Anniversary|Starfish)
+*HandEncore
+EndCard
+
+Character: Kcl/W78-059
+Name Clumsy Girl, Fuuko
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Anniversary
+Trait2 Starfish
+*OnAttackGivePowerForEachOther(500,Anniversary|Starfish)
+EndCard
+
+Character: Kcl/W78-061
+Name Cooking With Love, Tomoyo
+Color G
+Level 1
+Cost 1
+Power 7500
+Trait1 Anniversary
+Trait2 Student Council
+Trait3 Sports
+*GiveAllOpponentsEncore2
+*HandEncore
+EndCard
+
+Climax: Kcl/W78-064
+Name Vow Beneath the Snow
+*BarClimax
+EndCard
+
+Character: Kcl/W78-068
+Name A Caring Girl, Kyou
+Color R
+Level 3
+Cost 2
+Power 4000
+Trigger Soul
+Soul 2
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Chairman
+Combo Unexpected Specialties
+*2000Assist
+*Healer
+Auto: StartAttackPhase
+{
+	If Climax Unexpected Specialties
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Anniversary|Twins
+		ChooseCharactersFromTargets 0 2 Choose up to 2 characters to get +2500 power.
+		GainPower 2500
+	}
+}
+Text Auto: CxCombo At the start of your attack phase, if you have "Unexpected Specialties" in the climax area, choose up to 2 of your 《Anniversary》 or 《Twins》 characters, this turn, they get +2500 power.
+EndCard
+
+Character: Kcl/W78-070
+Name Encounter with Buttons, Kyou
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Chairman
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Anniversary|Twins
+	}
+}
+Text Auto: [(1) Put the top card of your deck to your clock] When this is placed on stage from hand, you may pay the cost. If you do, choose 1 《Anniversary》 or 《Twins》 character in your waiting room, and return it to hand.
+EndCard
+
+Character: Kcl/W78-082
+Name Biking to School, Kyou
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Chairman
+*OnAttackCheck2ChooseTrigger
+Auto: OnReversed
+{
+	If Not MyTurn
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffect StartMyEncorePhase
+			{
+				Effect:
+				{
+					TargetSelf
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard
+
+Climax: Kcl/W78-092
+Name Unexpected Specialties
+*StandbyClimax
+EndCard
+
+Character: Kcl/W78-098
+Name Girl Who Escaped From The World, Kotomi
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Anniversary
+Trait2 Book
+Trait3 Music
+*MoveOtherWithTraitToBackstageOnReverse(Anniversary|Music)
+EndCard
+
+Character: Kcl/W78-102
+Name Class Chairperson, Ryou
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Fortune Telling
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Send 1 of your characters from stage to waiting room] When you use this card's BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level, and send it to waiting room.
+Backup 2500
+EndCard
+
+Character: Kcl/W78-106
+Name Astrology, Ryou
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Fortune Reading
+*DropSearch(Anniversary|Twins)
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Anniversary|Twins
+	{
+		GainPower 1000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When your other 《Anniversary》 or 《Twins》 character is placed on stage from hand, this turn, this gets +1000 power.
+EndCard
+
+Character: Kcl/W78-109
+Name Library Room Master, Kotomi
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Anniversary
+Trait2 Book
+Trait3 Music
+*OnPlayCheckX(Anniversary|Music)
+Auto: OnAttack
+{
+	PayCost Discard 1 HasTrait Anniversary|Music
+	{
+		MillOpponentBottom 2
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [Discard 1 《Anniversary》 or 《Music》 character] When this attacks, you may pay the cost. If you do, send the bottom 2 cards of your opponent's deck to waiting room, then deal X damage to your opponent. X equals the number of climaxes sent to waiting room by this effect.
+EndCard
+
+Character: Kcl/W78-113
+Name Violin Recital, Kotomi
+Color B
+Level 1
+Cost 1
+Power 500
+Trigger Soul
+Trait1 Anniversary
+Trait2 Book
+Trait3 Music
+*ScryBackup(Anniversary|Music)
+Backup 2000
+EndCard
+
+Character: Kcl/W78-116
+Name Reference Room Manager, Yukine
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Anniversary
+Trait2 Book
+Trait3 Good Luck Charm
+*OnPlayGainPowerForEach(1000,Anniversary|Book)
+EndCard
+
+Event: Kcl/W78-118
+Name Love And Spanner
+Color B
+Level 3
+Cost 6
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 of your characters.
+	GainPower 1500
+	GainEffect
+	{
+		Auto: OnDamageCancel
+		{
+			Question Stand this card?
+			If Yes
+			{
+				Stand
+			}
+		}
+		TimesPerTurn 1
+		Text Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may stand this.
+	}
+}
+Text Choose up to 2 of your characters, this turn, they get +1500 power, and gain the following ability: "Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may stand this."
+EndCard
+
+Character: Kcl/W78-123
+Name Under Clear Skies, Kyou
+Color R
+Level 2
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Chairman
+*LevelAssist
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 2500
+}
+Text Act: [(1) Rest this] Choose 1 of your characters, this turn, it gets +2500 power.
+EndCard
+
+Character: Kcl/W78-P02
+Name Talkative About What You Like, Nagisa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Play
+Trait3 Dango
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Anniversary|Dango
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this is placed on stage from hand, reveal the top card of your deck. If that card is an 《Anniversary》 or 《Dango》 character, this turn, this gets +1 soul.
+*OnPlayGivePower(1500,Anniversary|Dango)
+EndCard
+

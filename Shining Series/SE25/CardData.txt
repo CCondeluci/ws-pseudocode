@@ -1,0 +1,932 @@
+Character: SR/SE25-01
+Name Marion Lu Shila
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Dragon
+*500Assist
+Auto: OnOtherOpponentReversed
+{
+	Question Mill 1?
+	If Yes
+	{
+		Mill 1
+	}
+}
+Text Auto: When another one of your character's battle opponent becomes reversed, you may put the top card of your deck into your waiting room.
+EndCard
+
+Character: SR/SE25-02
+Name Yuma Ilburn
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Dragon
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character and add it to your hand.
+EndCard
+
+Character: SR/SE25-03
+Name Agnam Bulletheart
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Dragon
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck With Resonate
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 character with RESONATE and add it to your hand.
+*BondDiscard(Yuma Ilburn)
+EndCard
+
+Character: SR/SE25-04
+Name The Golden Lightning Princess, Sonia
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Dragon
+*GainPowerForEachOther(500,Music|Dragon)
+EndCard
+
+Character: SR/SE25-05
+Name Dragon-Guiding Lightning Princess, Sonia
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Music
+Trait2 Dragon
+*LevelAssist
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 Any RestSelf Resonate Yuma Ilburn
+	{
+		Refresh
+	}
+}
+Quick
+Text Auto: Resonate [Reveal a "Yuma Ilburn" from your hand, discard a card and rest this] At the start of your climax phase, you may pay the cost. If you do, return all cards from your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: SR/SE25-06
+Name Sonia Blanche
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Dragon
+Combo Princess's First Love
+*OnPlayCheck3
+Auto: OnClimaxPlay
+{
+	IfOther IsColor Yellow
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When a YELLOW climax is placed into your climax area, this card gains +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If Climax Princess's First Love
+	{
+		PayCost 3
+		{
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(3)] This ability activates up to once per turn. When this card's battle opponent becomes reversed, if "Princess's First Love" is in your climax area, you may pay the cost. If you do, stand this card.
+EndCard
+
+Character: SR/SE25-07
+Name Young Man with Heart of Dragon, Yuma
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Dragon
+Auto: OnPlay
+{
+	PayCost SendSelf Memory Rest 2 HasTrait Music|Dragon && Other
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Awakened Form, Shining Dragon
+		Change
+	}
+}
+Text Auto: [Rest 2 of your <Music> or <Dragon> characters and send this card to your memory] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 "Awakened Form, Shining Dragon" in your waiting room and place it on the stage position this card was on.
+Auto: OnDamageCanceled
+{
+	If PlayedThisTurn
+	{
+		*OptionalBurn(1)
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, during the turn this card was placed on stage from your hand, when damage dealt by this card is cancelled, you may deal 1 damage to your opponent.
+Auto: OnReversed
+{
+	If Compare CardsInStock 0 Exactly
+	{
+		Rest
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when this card becomes reversed in battle, if there are no cards in your stock then rest this card.
+EndCard
+
+Character: SR/SE25-08
+Image SR_SE25_08
+Name Awakened Form, Shining Dragon
+Color Y
+Level 3
+Cost 3
+Trigger Soul
+Power 12000
+Soul 2
+Trait1 Music
+Trait2 Dragon
+Auto: PlacedBy Young Man with Heart of Dragon, Yuma
+{
+	TempLabel PlacedByChange
+}
+Auto: StartMyEncoreStep
+{
+	If HasTempLabel PlacedByChange &&& Compare CardsInStock 4 OrMore
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation Stock
+			MoveCard WaitingRoom
+			Burn 6
+			Burn 6
+			TargetSelf
+			MoveCard Memory
+			SearchLocationForTargets Memory 1 1 NameEquals Young Man with Heart of Dragon, Yuma
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: [Put all of your stock into your waiting room and discard a card] During the turn this card is placed via the Auto effect of "Young Man with Heart of Dragon, Yuma", at the start of your encore step, if there are 4 or more cards in your stock you may pay the cost. If you do, perform the following action twice. "Deal 6 damage to your opponent". Afterwards, send this card to your memory and choose 1 "Young Man with Heart of Dragon, Yuma" in your memory and place it on any position on your stage.
+EndCard
+
+Character: SR/SE25-09
+Name Words of Gratefulness, Sonia
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Dragon
+Cont: GiveAll
+{
+	If MyTurn &&& Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your turn, all of your other characters gain +500 power.
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchDeck Compare ThatCardsLevel 1 OrLess && IsCharacter
+		Discard 1 Any
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over the top 4 cards of your deck and put them into your waiting room. For each climax card sent this way, search your deck for up to 1 level 1 or lower character, add it to your hand and discard a card.
+EndCard
+
+Character: SR/SE25-10
+Name Hot Beat, Agnam
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Dragon
+*CannotSideAttack
+Cont: GiveSelf
+{
+	If StageContains 1 With Cont: ASSIST
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another character with ASSIST, this card gains +2000 power.
+EndCard
+
+Character: SR/SE25-11
+Name Cold Sniper, Eto
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Weapon
+Trait2 Dragon
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters on your stage, this card gains +1500 power.
+Cont: GiveSelf
+{
+	GainName Marion
+}
+Text Cont: IF this card is on your stage, this card is also considered to have "Marion" as its name.
+EndCard
+
+Character: SR/SE25-12
+Name Zest Graham
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Weapon
+Trait2 God
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other
+	{
+		GainPower 1500
+		GainSpecialEffect CannotBeReversedByAutoEffects
+	}
+}
+Text Cont: If you have no other characters, this card gains +1500 power and cannot be reversed by the AUTO effects of your opponent's characters.
+EndCard
+
+Character: SR/SE25-13
+Name Single-Minded Girl, Marion
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Dragon
+Auto: OnUseThisCardsBackup
+{
+	PayCost Resonate Yuma Ilburn
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: RESONATE [Reveal a "Yuma Ilburn" from your hand] When you use this card's BACKUP, you may pay the cost. If you do, your character in battle gains +1000 power.
+Backup 1000
+EndCard
+
+Character: SR/SE25-14
+Name Growing Heart, Yuma
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Dragon
+Combo Mother's Dying Wish
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters With Cont: ASSIST
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each of your characters with "ASSIST", this card gains +1000 power.
+Auto: OnAttack
+{
+	If Climax Mother's Dying Wish
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		GainEffect
+		{
+			Auto: OnDamageCanceled
+			{
+				*OptionalBlindStock
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, you may put the top card of your deck into your stock.
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Mother's Dying Wish" is in your climax area, all of your other characters gain the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, you may put the top card of your deck into your stock."
+EndCard
+
+Character: SR/SE25-15
+Name Pyrotechnic of Loud Noises, Agnam
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Dragon
+*OnPlayGainPower(1500)
+Auto: StartClimaxPhase
+{
+	PayCost Clock Resonate Yuma Ilburn
+	{
+		TargetSelf
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				*OptionalDraw
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may draw a card.
+		}
+	}
+}
+Text Auto: RESONATE [Put the top card of your deck into your clock and reveal a "Yuma Ilburn" from your hand] At the start of your climax phase, you may pay the cost. If you do, this card gains +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw a card."
+EndCard
+
+Character: SR/SE25-16
+Name Jenius Aion
+Color Y
+Level 1
+Cost 1
+Power 6500
+Trait1 Weapon
+Trait2 Dragon
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each marker underneath this card, this card gains +1000 power.
+Auto: OnOpponentReverse
+{
+	Question Put the top card of your deck underneath this card as a marker?
+	If Yes
+	{
+		TargetTop Deck 1
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck underneath this card as a marker.
+EndCard
+
+Character: SR/SE25-17
+Name Wandering Magician, Agnam
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Music
+Trait2 Dragon
+*EarlyPlay4OrMore(Music|Dragon)
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Music|Dragon
+	{
+		TargetSelf
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other <Music> or <Dragon> character attacks, this card gains +1000 power until end of turn.
+EndCard
+
+Character: SR/SE25-18
+Name Opened Heart, Marion
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Music
+Trait2 Dragon
+Cont: InHand
+{
+	If StageContainsOrLess 3 IsCharacter
+	{
+		GainSpecialEffect CannotBePlayed
+	}
+}
+Text Cont: If you have 3 or less characters, you cannot play this card in your hand.
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Music|Dragon
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 3 or more other <Music> or <Dragon> characters, this card gains +1000 power and "Auto: ENCORE [Discard a character]"
+EndCard
+
+Event: SR/SE25-19
+Name B.A.N.D
+Color Y
+Level 1
+Cost 1
+Counter
+Requirement LocationContains 1 MiddleCenterStage NameContains Yuma|Sonia|Kirika
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +4000 power
+	GainPower 4000
+}
+Text If you don't have a character with "Yuma", "Sonia", or "Kirika" in its card name in your middle position of your center stage, you cannot play this card from your hand.
+Text COUNTER Choose 1 of your characters and that character gains +4000 power until end of turn.
+EndCard
+
+Climax: SR/SE25-20
+Name Mother's Dying Wish
+*WindClimax
+EndCard
+
+Climax: SR/SE25-21
+Name Princess's First Love
+*ShotClimax
+EndCard
+
+Character: SR/SE25-22
+Name Kirika Towa Alma
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Dragon
+*500Assist
+Auto: StartClimaxPhase
+{
+	PayCost 1 RestSelf Resonate Yuma Ilburn
+	{
+		SearchDeck NameEquals Song of Blessing, Kirika
+	}
+}
+Text Auto: RESONATE [(1) Reveal a "Yuma Ilburn" from your hand and rest this card.] At the start of your climax phase, you may pay the cost. If you do, search your deck for up to 1 "Song of Blessing, Kirika" and add it to your hand.
+EndCard
+
+Character: SR/SE25-23
+Name Rinna Mayfield
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Dragon
+Auto: OnPlay
+{
+	Question Mill 3?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may put the top 3 cards of your deck into your waiting room.
+Auto: OnAttack
+{
+	If Compare MyLevel 0 Exactly
+	{
+		Question Return all cards in your hand to your deck and draw the same amount?
+		If Yes
+		{
+			SetXValue CardsInHand
+			TargetLocation Hand
+			MoveCard Deck
+			ShuffleLocation Deck
+			Repeat X
+			{
+				DrawCard
+			}
+		}
+	}
+}
+Text Auto: When this card attacks, if your level is 0, you may return all cards in your hand to your deck and shuffle your deck. If you do, draw the same number of cards.
+EndCard
+
+Character: SR/SE25-24
+Name Rinna & Fromage
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Dragon
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music|Dragon && IsCharacter
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a <Music> or <Dragon> character, put it into your hand and discard a card.
+EndCard
+
+Character: SR/SE25-25
+Name Dragon Knight Princess of Godly Song, Excela
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Dragon
+Cont: Assist
+{
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: ASSIST All of your character in front of this card gain "Auto: ENCORE [Discard a character]"
+*Act1RestSelfSearchBrainstorm(Music|Dragon)
+EndCard
+
+Character: SR/SE25-26
+Name Captain of the Knights of Kingdom of Wellland, Lesty
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Music
+Trait2 Dragon
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Clock
+	{
+		*BottomDeckEarlyPlay
+	}
+}
+Text Auto: [(2) Put the top card of your deck into your clock] When you use this card's BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent and put it on the bottom of their deck.
+Backup 2500
+EndCard
+
+Character: SR/SE25-27
+Name Song of Blessing, Kirika
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Dragon
+Cont: InHand
+{
+	If StageContains 2 NameEquals Kirika Towa Alma
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 2 or more "Kirika Towa Alma", this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters With Cont: ASSIST
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each of your characters with "ASSIST", this card gains +1000 power.
+*Healer
+EndCard
+
+Character: SR/SE25-28
+Name Lesty Sera Alma
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Dragon
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Music|Dragon && IsCharacter
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed in your waiting room from your stage, you may pay the cost. If you do, search your deck for up to 1 <Music> or <Dragon> character and add it to your hand.
+EndCard
+
+Character: SR/SE25-29
+Name Fromage
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Elemental
+Act: Rest 2 Any
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music|Dragon
+	ChooseCharacterFromTargets Choose a character to gain +2000 power
+	GainPower 2000
+}
+Text Act: [Rest 2 of your characters] Choose 1 of your <Music> or <Dragon> characters and that character gains +2000 power until end of turn.
+EndCard
+
+Character: SR/SE25-30
+Name Excela Noa Aura
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Music
+Trait2 Dragon
+Auto: OnPlay
+{
+	Mill 1
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, put the top card of your deck into your waiting room. If it is a climax, put this card into your stock.
+EndCard
+
+Character: SR/SE25-31
+Name Thinking of Little Sister, Lesty
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Dragon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a climax, put this card into your waiting room.
+EndCard
+
+Character: SR/SE25-32
+Name Joachim Rubens
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Science
+Trait2 Magic
+*GlobalPower(500,Any)
+Act: 1 RestSelf Send 1 WaitingRoom Other
+{
+	DrawCard
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to gain <Dragon>
+	GainTrait Dragon
+}
+Text Act: [(1) Put 1 of your other characters from your stage into your waiting room, rest this card] Draw a card, choose 1 of your other characters and that character gains <Dragon> until end of turn.
+EndCard
+
+Character: SR/SE25-33
+Name Diva Magica, Kirika
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Dragon
+Combo Resonance of Souls
+Auto: OnPlacedOnStageFromWaitingRoom
+{
+	If StageContains 2 Other && HasTrait Music|Dragon
+	{
+		TargetSelf
+		GainPower 2500
+	}
+}
+Text Auto: When this card is placed on stage from your waiting room, if you have 2 or more other <Music> or <Dragon> characters, this card gains +2500 power
+Auto: OnOpponentReverse
+{
+	If Climax Resonance of Souls
+	{
+		*OptionalDraw
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Resonance of Souls" is in your climax area, you may draw a card.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Keeper of Ancient Song, Kirika
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the start of your climax phase, you may pay the cost. If you do, choose 1 "Keeper of Ancient Song, Kirika" in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: SR/SE25-34
+Name Keeper of Ancient Song, Kirika
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Dragon
+Combo Resonance of Souls
+Auto: OnPlacedOnStageFromWaitingRoom
+{
+	If StageContains 2 Other && HasTrait Music|Dragon
+	{
+		TargetSelf
+		GainPower 2500
+	}
+}
+Text Auto: When this card is placed on stage from your waiting room, if you have 2 or more other <Music> or <Dragon> characters, this card gains +2500 power.
+Auto: OnAttack
+{
+	If Climax Resonance of Souls
+	{
+		TargetSelf
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				TargetBattleOpponent
+				Question Put this card's battle opponent at the bottom of your opponent's deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character at the bottom of your opponent's deck.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Resonance of Souls" is in your climax area, this card gains +1500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character at the bottom of your opponent's deck."
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Diva Magica, Kirika
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the start of your climax phase, you may pay the cost. If you do, choose 1 "Diva Magica, Kirika" in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: SR/SE25-35
+Name Beatrice Irma
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Weapon
+Trait2 Ninja
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there are 5 or more cards in your hand, this card gains +2000 power.
+EndCard
+
+Character: SR/SE25-36
+Name Elemental Summoner of Gust of Wind, Rinna
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Music
+Trait2 Dragon
+EndCard
+
+Character: SR/SE25-37
+Name Fairy Knight of Icy Fangs, Lesty
+Color B
+Level 1
+Cost 1
+Power 5000
+Trait1 Music
+Trait2 Dragon
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Kirika
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another character with "Kirika" in it's card name, this card gains +3000 power.
+EndCard
+
+Character: SR/SE25-38
+Name Moodmaker, Rinna
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Music
+Trait2 Dragon
+*CannotSideAttack
+Cont: GiveSelf
+{
+	TargetLocation Facing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If the character facing this card is level 3 or higher, this card gains +3000 power.
+EndCard
+
+Character: SR/SE25-39
+Name Georg Zalbard
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Weapon
+Trait2 God
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupInBattle
+}
+Text Cont: No player may play BACKUPS during battles involving this card.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	MoveCard Clock
+	TargetSelf
+	Rest
+}
+Text Auto: When this card becomes reversed in battle, put the top card of your deck into your clock and rest this card.
+EndCard
+
+Climax: SR/SE25-40
+Name Resonance of Souls
+*GateClimax
+EndCard
+
+Character: SR/SE25-P01
+Name Shining Dragon & Kirika
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Dragon
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: SR/SE25-P02
+Name A Certain Summer Day, Kirika
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Dragon
+*OnPlayGainPowerForEach(500,Music|Dragon)
+EndCard
+

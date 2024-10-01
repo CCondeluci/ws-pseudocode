@@ -1,0 +1,1070 @@
+
+Character: YRC/W116-001
+Name A walk in the Campsite, Ena & Hanpen & Chikuwa
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Laid-Back Camp
+Trait2 My Pace
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		If Compare X 1 OrMore
+		{
+			Question Choose up to 1 of your characters with "Tent" in name and put the top card of your deck face-up under that character as a marker?
+			If Yes
+			{
+				TargetLocation Stage
+				NarrowTargets IsCharacter && NameContains Tent
+				Message Choose 1 of your characters with "Tent" in name.
+				ChooseCharacterFromTargets
+				SaveTargets
+				TargetTop Deck 1
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from you hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 character of Level X or lower in waiting room and return it to hand. If X is 1 or higher, choose up to 1 of your characters with "Tent" in name and put the top card of your deck face-up under that character as a marker. X is equal to the level of the revealed card.
+EndCard
+
+Character: YRC/W116-002
+Name Let's chop Firewood! Chiaki
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Laid-Back Camp
+Trait2 Glasses
+Combo From the shores of Lake Mizugaki
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Laid-Back Camp && IsCharacter
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Laid-Back Camp> character, this card gets +3000 power.
+Auto: OnReverseOpponent 
+{
+	If Climax From the shores of Lake Mizugaki
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && HasTrait Laid-Back Camp && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "From the shores of Lake Mizugaki" is in your climax area, you may put the top card of your deck into stock, reveal the top card of your deck, choose 1 level X or lower <Laid-Back Camp> character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+EndCard
+
+Character: YRC/W116-003
+Name Looking at Lake Mizugaki, Aoi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Laid-Back Camp
+Trait2 Kansai Dialect
+*EarlyPlay4OrMore(Laid-Back Camp)
+Cont: GiveSelf
+{
+	If StageContains 3 Other && IsCharacter
+	{
+		GainEffect
+		{
+			*PowerOnMyTurn(2000)
+		}
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				PayCost 1
+				{
+					MoveCard Hand
+				}
+			}
+			Text Auto: [(1)] When this card is frontal attacked, you may pay the cost. If you do, return this card to your hand.
+		}
+	}
+}
+Text Cont: If you have 3 or more other characters, this card gets the 2 following abilities. "Cont: During your turn, this card gets +2000 power." "Auto: [(1)] When this card is frontal attacked, you may pay the cost. If you do, return this card to your hand."
+*StockHealer
+EndCard
+
+Character: YRC/W116-005
+Name Fire-breathing Stuffer, Chiaki
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Laid-Back Camp
+Trait2 Glasses
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Laid-Back Camp
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of <Laid-Back Camp> characters you have x1000.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation OpponentStage
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+		Bounce
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+Character: YRC/W116-008
+Name Fun conversation, Aoi
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Laid-Back Camp
+Trait2 Kansai Dialect
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter && NameContains Tent
+	Message Choose 1 of your characters with "Tent" in name.
+	ChooseCharacterFromTargets
+	If HasTarget
+	{
+		SaveTargets
+		Message Choose up to 1 <Laid-Back Camp> character in your waiting room and put it face-up under that character as a marker.
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && HasTrait Laid-Back Camp
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters with "Tent" in its card name, choose up to 1 <Laid-Back Camp> character in your waiting room, and put it face up underneath that character as a marker.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: YRC/W116-011
+Name With Chikuwa, Ena
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Laid-Back Camp
+Trait2 My Pace
+Combo Cherry blossom viewing walk with Chikuwa
+Auto: OnReverseOpponent 
+{
+	If Climax Cherry blossom viewing walk with Chikuwa
+	{
+		If StageContains 4 Other && IsCharacter && HasTrait Laid-Back Camp
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					LoseSoul 3
+				}
+				Text Cont: Character facing this card gets -3 soul.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Cherry blossom viewing walk with Chikuwa" is in your climax area, and you have 4 or more other <Laid-Back Camp> characters, this card gets the following ability until the end of your opponent's next turn. "Cont: Character facing this card gets -3 soul."
+Auto: OnFrontalAttacked
+{
+	*Scry
+}
+Text Auto: When this card is frontal attacked, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+EndCard
+
+Character: YRC/W116-012
+Name Tent in Mount Mizugaki
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Laid-Back Camp
+*GlobalPower(500,Laid-Back Camp)
+Cont: GiveSelf
+{
+	TargetLocation Marker
+	If Compare TargetCount 1 OrHigher
+	{
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+	If Compare TargetCount 2 OrHigher
+	{
+		GainEffect
+		{
+			Auto: OnTriggerCheckClimax
+			{
+				PayCost Discard 1 IsClimax
+				{
+					DrawCard
+				}
+			}
+			Text Auto: [Put 1 climax from your hand into your waiting room] When your character's trigger reveals a climax, you may pay the cost. If you do, draw 1 card.
+		}
+	}
+	If Compare TargetCount 3 OrHigher
+	{
+		GainEffect
+		{
+			Act: RestSelf
+			{
+				BlindStock
+			}
+			Text Act: [Rest this card] Put the top card of your deck into stock.
+		}
+	}
+}
+Text Cont: If there are 1 or more markers underneath this card, this card cannot be chosen by your opponent's effects. If there are 2 or more, this card gets the following ability. "Auto: [Put 1 climax from your hand into your waiting room] When your character's trigger reveals a climax, you may pay the cost. If you do, draw 1 card." If there are 3 or more, this card gets the following ability. "Act: [Rest this card] Put the top card of your deck into stock."
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasMarker
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	If Compare X 5 OrMore
+	{
+		GainEffect
+		{
+			Auto: EndOfTurn|EndOfOpponentsTurn
+			{
+				TargetSelf
+				MoveCard WaitingRoom
+			}
+			Text Auto: At the end of turn, if the total number of markers underneath your characters is 5 or more, put this card to your waiting room.
+		}
+	}
+}
+Text Auto: At the end of turn, if the total number of markers underneath your characters is 5 or more, put this card to your waiting room.
+EndCard
+
+Climax: YRC/W116-026
+Name From the shores of Lake Mizugaki
+*BarClimax
+EndCard
+
+Climax: YRC/W116-027
+Name Cherry blossom viewing walk with Chikuwa
+*BarClimax
+EndCard
+
+Character: YRC/W116-029
+Name Mini Solo Camping, Nadeshiko
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Laid-Back Camp
+Trait2 Cooking
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax || NameEquals Mini Solo Camping, Nadeshiko
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: When your trigger check reveals a card with a climax or "Mini Solo Camping, Nadeshiko", look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: YRC/W116-030
+Name A cheerful greeting, Nadeshiko
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Laid-Back Camp
+Trait2 Cooking
+Combo Three-shot at Jiunji Temple!
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Laid-Back Camp
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each other <Laid-Back Camp> character in your back stage.
+Auto: OnSpecificClimaxPlay Three-shot at Jiunji Temple!
+{
+	If StageContains 2 Other && IsCharacter
+	{
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetTop Deck 1
+				Reveal
+				IfThatCard IsCharacter && HasTrait Laid-Back Camp
+				{
+					MoveCard Hand
+				}
+			}
+			Text Auto: When this card attacks, reveal the top card of your deck. If that card is a <Laid-Back Camp> character, put it into your hand.
+		}
+	}
+}
+Slow
+Text Auto: CxCombo When "Three-shot at Jiunji Temple!" is placed on your climax area, if you have 2 or more other characters, this card gets the 2 following abilities until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step." "Auto: When this card attacks, reveal the top card of your deck. If that card is a <Laid-Back Camp> character, put it into your hand."
+EndCard
+
+Character: YRC/W116-033
+Name On the way back from the garden day camp, Aoi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Laid-Back Camp
+Trait2 Kansai Dialect
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 IsClimax
+	{
+		Message Choose a climax to return to your hand.
+		SearchLocationForTargets WaitingRoom 1 1 IsClimax
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1) Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand or leaving from stage to waiting room, you may pay the cost. If you do choose 1 climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: YRC/W116-035
+Name Emphasis on the concept, Chiaki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Laid-Back Camp
+Trait2 Glasses
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards in your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: YRC/W116-036
+Name Gobbling the sausage, Nadeshiko
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Laid-Back Camp
+Trait2 Cooking
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SetXValue CardsInOpponentsStock 
+		TargetLocation OpponentStock
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+		TargetTop OpponentDeck X
+		MoveCard OpponentStock
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, return all of your opponent's stock to their deck, your Opponent shuffles their deck, and put the same number of cards from the top of their deck to their stock, and your opponent puts the same number of cards from the top of your opponent's deck into his or her stock.
+EndCard
+
+Character: YRC/W116-044
+Name Tent in Oigawa
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Laid-Back Camp
+*HexProof
+Cont: GiveSelf
+{
+	TargetLocation Marker
+	If Compare TargetCount 1 OrHigher
+	{
+		GainEffect
+		{
+			*GlobalPower(500,Laid-Back Camp)
+		}
+	}
+	If Compare TargetCount 2 OrHigher
+	{
+		GainEffect
+		{
+			Auto: StartClimaxPhase
+			{
+				*GiveCharacterPower(1500,Laid-Back Camp)
+			}
+			Text Auto: At the beginning of your climax phase, choose 1 of your <Laid-Back Camp> characters, and that character gets +1500 power until end of turn.
+		}
+	}
+	If Compare TargetCount 3 OrHigher
+	{
+		GainEffect
+		{
+			*1000Assist
+		}
+	}
+	If Compare TargetCount 4 OrHigher
+	{
+		GainEffect
+		{
+			Auto: StartClimaxPhase
+			{
+				TargetLocation Stage
+				NarrowTargets HasTrait Laid-Back Camp
+				ChooseCharacterFromTargets Choose a character to gain +1 soul
+				GainSoul 1
+			}
+			Text Auto: At the beginning of your climax phase, choose 1 of your <Laid-Back Camp> characters, and that character gets +1 soul until end of turn.
+		}
+	}
+}
+Text Cont: If there are 1 or more markers underneath this card, all of you other <Laid-Back Camp> characters gets +500 power. If there are 2 or more, this card gets the following ability. "Auto: At the beginning of your climax phase, choose 1 of your <Laid-Back Camp> characters, and that character gets +1500 power until end of turn." If there are 3 or more, this card gets the following ability. "Cont: ASSIST All of your characters in front of this card get +1000 power." If there are 4 or more, this card gets the following ability. "Auto: At the beginning of your climax phase, choose 1 of your <Laid-Back Camp> characters, and that character gets +1 soul until end of turn."
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasMarker
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	If Compare X 5 OrMore
+	{
+		GainEffect
+		{
+			Auto: EndOfTurn|EndOfOpponentsTurn
+			{
+				TargetSelf
+				MoveCard WaitingRoom
+			}
+			Text Auto: At the end of turn, if the total number of markers underneath your characters is 5 or more, put this card to your waiting room.
+		}
+	}
+}
+Text Auto: At the end of turn, if the total number of markers underneath your characters is 5 or more, put this card to your waiting room.
+EndCard
+
+Climax: YRC/W116-063
+Name Three-shot at Jiunji Temple!
+*DoorClimax 
+EndCard
+
+Character: YRC/W116-065
+Name From the top of the suspension bridge, Rin
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 Level 1 or lower character, put it into your hand, and shuffle your deck.
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(1000,Laid-Back Camp)
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your <Laid-Back Camp> characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: YRC/W116-066
+Name Biker, Ayano
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+*MoveOtherWithTraitToBackstageOnReverse(Laid-Back Camp)
+EndCard
+
+Character: YRC/W116-067
+Name Beyond the rugged road, Rin
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+Combo Looking up at the cherry blossoms
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 2 Other && HasTrait Laid-Back Camp
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Laid-Back Camp> character, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Looking up at the cherry blossoms
+	{
+		PayCost Discard 1 Any
+		{
+			Repeat 2
+			{
+				*Check3Add1(Laid-Back Camp)
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Looking up at the cherry blossoms" is in your climax area, you may pay cost. If you do, perfrom the following action 2 times. "look at up to 3 cards from the top of your deck, choose up to 1 <Laid-Back Camp> character to add to your hand, and put the rest into the waiting room."
+EndCard
+
+Character: YRC/W116-069
+Name A big stretch, Ena
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Laid-Back Camp
+Trait2 My Pace
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchLocationForTargets WaitingRoom 0 2 IsCharacter && HasTrait Laid-Back Camp
+		RevealTargets
+		Message Choose 1 cards to return to hand, the rest will face-up under 1 of your characters with "Tent" in name as a marker.
+		ChooseCardsFromTargets 1 1 Any
+		MoveCard Hand
+		TargetLocation Stage
+		NarrowTargets IsCharacter && NameContains Tent
+		Message Choose 1 of your characters with "Tent" in name.
+		ChooseCharacterFromTargets
+		SaveTargets
+		TargetLocation Revealed
+		MarkerTargetsUnderSavedTarget_FaceUp
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose up to 2 <Laid-Back Camp> characters in your waiting room, return 1 card from among them to your hand, choose up to 1 of your characters with "Tent" in name and put 1 card face-up under that character as a marker, put the rest into your waiting room.
+EndCard
+
+Character: YRC/W116-071
+Name Leisurely solo camper, Rin
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter && NameContains Tent
+	Message Choose 1 of your characters with "Tent" in name.
+	ChooseCharacterFromTargets
+	If HasTarget
+	{
+		SaveTargets
+		Message Choose up to 1 "Leisurely solo camper, Rin" in your waiting room and put it face-up under that character as a marker.
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Leisurely solo camper, Rin
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Laid-Back Camp
+	RevealTargets
+	MoveCards Hand
+}
+Text Act: [Put 1 card from your hand into your waiting room, send this card to waiting room] Choose 1 of your characters with "Tent" in its card name, choose up to 1 "Leisurely solo camper, Rin" in your waiting room, and put it face up underneath that character as a marker, choose 1 <Laid-Back Camp> character in your waiting room, add it to hand.
+EndCard
+
+Character: YRC/W116-073
+Name Beyond the rugged road, Ayano
+Color B
+Level 1
+Cost 0
+Power 1000
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets Deck 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 1 level 0 or lower character from your deck, put it on any position of your stage, and shuffle your deck.
+*BlueCost0Bomb
+EndCard
+
+Character: YRC/W116-075
+Name Covered in wounds, Ayano
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: YRC/W116-076
+Name Tent in Oigawa
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Laid-Back Camp
+*HexProof
+Cont: GiveSelf
+{
+	TargetLocation Marker
+	If Compare TargetCount 1 OrHigher
+	{
+		GainEffect
+		{
+			*GlobalPower(500,Laid-Back Camp)
+		}
+	}
+	If Compare TargetCount 2 OrHigher
+	{
+		GainEffect
+		{
+			Auto: OnTriggerCheckClimax
+			{
+				If StageContains 1 Other && IsCharacter && HasTrait Laid-Back Camp
+				{
+					PayCost Discard 1 Any
+					{
+						SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+						RevealTargets
+						MoveCard Hand
+					}
+				}
+			}
+			Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger reveals a climax, if you have another <Laid-Back Camp> character, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+		}
+	}
+	If Compare TargetCount 3 OrHigher
+	{
+		GainEffect
+		{
+			*1000Assist
+		}
+	}
+}
+Text Cont: If there are 1 or more markers underneath this card, all of you other <Laid-Back Camp> characters gets +500 power. If there are 2 or more, this card gets the following ability. "Auto: [Put 1 card from your hand into your waiting room] When your character's trigger reveals a climax, if you have another <Laid-Back Camp> character, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand." If there are 3 or more, this card gets the following ability. "Cont: ASSIST All of your characters in front of this card get +1000 power."
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasMarker
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	If Compare X 5 OrMore
+	{
+		GainEffect
+		{
+			Auto: EndOfTurn|EndOfOpponentsTurn
+			{
+				TargetSelf
+				MoveCard WaitingRoom
+			}
+			Text Auto: At the end of turn, if the total number of markers underneath your characters is 5 or more, put this card to your waiting room.
+		}
+	}
+}
+Text Auto: At the end of turn, if the total number of markers underneath your characters is 5 or more, put this card to your waiting room.
+EndCard
+
+Climax: YRC/W116-099
+Name Looking up at the cherry blossoms
+*GateClimax
+EndCard
+
+Character: YRC/W116-T01
+Name Let's make an Alcohol Stove, Nadeshiko
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Laid-Back Camp
+Trait2 Cooking
+*SacrificeToSave(HasTrait Laid-Back Camp)
+Text Auto: [Put this card into your waiting room] When your other <Laid-Back Camp> characters is put into the waiting room from your stage, if this card in backstage, you may pay the cost. If you do, return that character to its previous position rested.
+*Bond1(Big Stretch\, Rin)
+EndCard
+
+Character: YRC/W116-T02
+Name On the way home, Ena
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Laid-Back Camp
+Trait2 My Pace
+Auto: OnClimaxPlay
+{
+	*GiveCharacterPower(1500,Laid-Back Camp)
+}
+Text Auto: When a climax is placed on your climax area, choose 1 of your <Laid-Back Camp> characters, it gets +1500 power until end of turn.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: YRC/W116-T03
+Name Morning Greeting Attire, Ena
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Laid-Back Camp
+Trait2 My Pace
+*500Assist
+*RestGivePower(1000,Any)
+EndCard
+
+Character: YRC/W116-T04
+Name Rin Shima
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Message Choose up to 1 climax in your deck and return it to your hand
+		SearchLocationForTargets Deck 0 1 IsClimax
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			SearchLocationForTargets Hand 1 1 IsClimax
+			Reveal
+			MoveCard Deck
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 climax card, reveal it to your opponent, and add it to your hand, then reveal a climax card from your hand and put it into your deck then shuffle your deck.
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess CenterStage 2 Any
+	{
+		TargetFacing
+		If HasTarget
+		{
+			TargetSelf
+			Question Move "Rin Shima" to another position?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: YRC/W116-T05
+Name Outdoor Activities Circle's advisor, Teacher Toba
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Laid-Back Camp
+Trait2 Sake
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+EndCard
+
+Character: YRC/W116-T06
+Name Enjoying Camping! Nadeshiko
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Laid-Back Camp
+Trait2 Cooking
+Combo There's still more fun
+*GainPowerWithEnoughCharacters(1000,2,Laid-Back Camp)
+Auto: OnAttack
+{
+	If Climax There's still more fun
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Laid-Back Camp && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: CxCombo When this card attacks, if "There's still more fun" is in your climax area, put 2 cards from the top of your deck into your waiting room, choose up to 1 level X or lower <Laid-Back Camp> character in your waiting room, return it to your hand. X is equal to the total level of cards put into your waiting room by this effect.
+EndCard
+
+Character: YRC/W116-T07
+Name Big Stretch, Rin
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+EndCard
+
+Character: YRC/W116-T08
+Name Ena Saito
+Color G
+Level 2
+Cost 0
+Trigger Soul
+Power 4000
+Trait1 Laid-Back Camp
+Trait2 My Pace
+*1000Assist
+EndCard
+
+Character: YRC/W116-T09
+Name Fire starting, Rin
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Laid-Back Camp
+Trait2 Motorcycle
+Combo Solo Camping
+*OnPlayCheckX(Laid-Back Camp)
+Auto: OnAttack
+{
+	If Climax Solo Camping
+	{
+		PayCost Discard 2 Any
+		{
+			Burn 3
+		}
+	}
+}
+Text Auto: CxCombo [Put 2 cards from your hand into your waiting room] When this card attacks, if "Solo Camping" is in your climax area, you may pay the cost. If you do, deal 3 damage to your opponent.
+EndCard
+
+Climax: YRC/W116-T10
+Name There's still more fun
+*BarClimax
+EndCard
+
+Climax: YRC/W116-T11
+Name Solo Camping
+*BarClimax
+EndCard
+
+Character: YRC/W116-T12
+Name Let's make an Alcohol Stove, Chiaki
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Laid-Back Camp
+Trait2 Glasses
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your stock has 3 or less cards, this card gets +2000 power.
+EndCard
+
+Character: YRC/W116-T13
+Name Let's make an Alcohol Stove, Aoi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Laid-Back Camp
+Trait2 Kansai Dialect
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsCharacter && HasTrait Laid-Back Camp
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into waiting room from your stage, you may pay the cost. If you do, search your deck for up to 1 <Laid-Back Camp> character, and put it into your hand.
+Endcard
+
+Character: YRC/W116-T14
+Name Nadeshiko Kagamihara
+Color R
+Level 1
+Cost 0
+Power 1500
+Trait1 Laid-Back Camp
+Trait2 Cooking
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this is placed from hand to stage, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+*RedLevel1Bomb
+EndCard
+
+Character: YRC/W116-T15
+Name Aoi Inuyama
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Laid-Back Camp
+Trait2 Kansai Dialect
+Backup 3500
+EndCard
+
+Character: YRC/W116-T16
+Name Chiaki Ogaki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Laid-Back Camp
+Trait2 Glasses
+*OnAttackGainPowerForEachOther(1000,Laid-Back Camp)
+*HandEncoreTrait(Laid-Back Camp)
+EndCard
+
+Character: YRC/W116-T17
+Name Garden Day Camp, Aoi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Laid-Back Camp
+Trait2 Kansai Dialect
+Cont: GiveAll
+{
+	IfOwner InLocation MiddleCenterStage
+	{
+		If HasTrait Laid-Back Camp
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, all of your <Laid-Back Camp> characters get +2000 power.
+*Healer
+EndCard
+
+Character: YRC/W116-T18
+Name Clean cut, Chiaki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Laid-Back Camp
+Trait2 Glasses
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Laid-Back Camp
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of <Laid-Back Camp> characters you have x1000.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Burn 2
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, deal 2 damage to your opponent.
+Endcard
+
+Event: YRC/W116-T19
+Name Chikuwa
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck HasTrait Laid-Back Camp
+	*GiveCharacterPower(3000,Laid-Back Camp)
+}
+Text Search your deck for up to 1 <Laid-Back Camp> character, reveal it to your opponent, put it into your hand, and choose 1 of your <Laid-Back Camp> characters, it gets +3000 power until end of turn.
+EndCard
+
+Climax: YRC/W116-T20
+Name Playing with Chikuwa
+Color R
+*2SoulClimax
+EndCard

@@ -1,0 +1,1964 @@
+Character: BD/WE34-E01
+Image BD_WE34_E01
+Name "Astral Harmony" Nanami Hiromachi
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Morfonica
+Combo Our Music
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Music》 characters, this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax Our Music
+	{
+		If StageContains 1 Other && HasTrait Music
+		{
+			PayCost Discard 1 HasTrait Music
+			{
+				Peek Deck 5
+				ChooseCardsFromTargets 0 2 HasTrait Music
+				RevealTargets
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 《Music》 character from your hand into your waiting room] When this card attacks, if "Our Music" is in your climax area, and you have another 《Music》 character, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 2 《Music》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BD/WE34-E02
+Image BD_WE34_E02
+Name "Summerly Tone♪" Toko Kirigaya
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Morfonica
+*OnPlayReorderTop2
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Put this card into your stock?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may put this card into your stock.
+EndCard
+
+Character: BD/WE34-E03
+Image BD_WE34_E03
+Name "Astral Harmony" Toko Kirigaya
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Morfonica
+	{
+		PayCost Discard 1 Any
+		{
+			OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+			ReverseTargets OpponentWaitingRoom
+			MoveCards OpponentDeck
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if you have 4 or more other 《Morfonica》 characters, you may pay the cost. If you do, your opponent chooses 1 climax in their waiting room, returns all cards in their waiting room except that card to their deck, and shuffles their deck.
+EndCard
+
+Character: BD/WE34-E04
+Image BD_WE34_E04
+Name "Summerly Tone♪" Nanami Hiromachi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	SetXValue MyLevel
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel X OrLess
+	PlaceOnStage False True True False
+	GainSoul 1
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it on any position of your stage, and that character gets +1 soul until end of turn.
+Auto: OnAttack
+{
+	PayCost 4
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				SetXValue LastDamageGiven
+				Burn X
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal the same damage to your opponent.
+		}
+	}
+}
+Text Auto: [(4)] When this card attacks, you may pay the cost. If you do, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal the same damage to your opponent."
+EndCard
+
+Character: BD/WE34-E05
+Image BD_WE34_E05
+Name "Daylight" Nanami Hiromachi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Morfonica
+Cont: GiveSelf
+{
+	If Not StageContains 2 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, this card gets +1500 power.
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation LeftCenterStage
+	If Not HasTarget
+	{
+		Question Move this card to the left position of your center stage?
+		If Yes
+		{
+			TargetSelf
+			MoveCard LeftCenterStage
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may move this card to the open left position of your center stage.
+EndCard
+
+Character: BD/WE34-E06
+Image BD_WE34_E06
+Name "Morfonica" Toko Kirigaya
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Morfonica
+Cont: GiveAll
+{
+	If Other && HasTrait Music
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Music》 characters get +500 power.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals "Daylight" Toko Kirigaya
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			Change
+		}
+			Else
+		{
+				Message No change targets in waiting room :(
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""Daylight" Toko Kirigaya" in your waiting room, and put it on the stage position that this card was on.
+Act: 1 Rest 2 Any
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Music && Compare ThatCardsLevel X OrLower
+}
+Text Act: [(1) Rest 2 of your characters] Put the top 2 cards of your deck into your waiting room, choose 1 level X or lower 《Music》 character in your waiting room, and return it to your hand. X is equal to the total level of those cards.
+EndCard
+
+Character: BD/WE34-E07
+Image BD_WE34_E07
+Name "Daylight" Toko Kirigaya
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Music
+	SetXValue TargetCount
+	MultiplyXValue 500
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other 《Music》 characters, and that character gets +X power until end of turn. X is equal to the number of other 《Music》 characters you have ×500.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals "Morfonica" Toko Kirigaya
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			Change
+		}
+			Else
+		{
+				Message No change targets in waiting room :(
+		}
+	}
+}
+Text Auto: CHANGE  [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""Morfonica" Toko Kirigaya" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: BD/WE34-E08
+Image BD_WE34_E08
+Name "On Guitar" Toko Kirigaya
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Morfonica
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+Auto: OnOtherReversed
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: BD/WE34-E09
+Image BD_WE34_E09
+Name "Morfonica" Nanami Hiromachi
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Music
+Trait2 Morfonica
+Cont: GiveSelf
+{
+	LoseLevel 2
+}
+Text Cont: This card gets -2 level while in the stage.
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Cont: Global
+			{	
+				If InLocation Facing
+				{
+					GainSpecialEffect CannotSideAttack
+				}
+			}
+			
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Music》 characters, this card gets +1500 power, and the character facing this card gets the following ability. "Cont: This card cannot side attack."
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Music
+	{
+		AIChoice RemoveFromWaitingRoom
+		SearchWaitingRoomForTarget HasTrait Music
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Music》 characters, you may choose 1 《Music》 character in your waiting room, and put it into your stock.
+EndCard
+
+Climax: BD/WE34-E10
+Image BD_WE34_E10
+Name Our Music
+*ChoiceClimax
+EndCard
+
+Character: BD/WE34-E11
+Image BD_WE34_E11
+Name "Rausch und/and Craziness Ⅱ" LAYER
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Combo Beautiful Birthday
+Cont: GiveSelf
+{
+	GainSpecialEffect NoEventsOnAttack
+}
+Text Cont: During this card's battle, your opponent cannot play event cards from their hand.
+Auto: OnPlay
+{
+	SearchDeck HasTrait Music
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 《Music》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	If Climax Beautiful Birthday
+	{
+		PayCost Discard 2 Any
+		{
+			Burn 2
+			PeekTop OpponentDeck
+			Question Place this card on the bottom of your opponent's deck? (Press no to return it to the top)
+			If Yes
+			{
+				MoveCardToBottom OpponentDeck
+			}
+			If No
+			{
+				EndPeek OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 2 cards from your hand into your waiting room] When this card attacks, if "Beautiful Birthday" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent, look at the top card of your opponent's deck, and put it on the top or at the bottom of their deck.
+EndCard
+
+Climax: BD/WE34-E24
+Image BD_WE34_E24
+Name Beautiful Birthday
+*BarClimax
+EndCard
+
+Climax: BD/WE34-E25
+Image BD_WE34_E25
+Name Pushing for Her Dream
+*BarClimax
+EndCard
+
+Character: BD/WE34-E12
+Image BD_WE34_E12
+Name "Rausch und/and Craziness Ⅱ" LOCK
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step.
+Auto: OnDamageCancel
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		TargetSelf
+		Bounce
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may return this card to your hand.
+EndCard
+
+Character: BD/WE34-E13
+Image BD_WE34_E13
+Name "Rausch und/and Craziness Ⅱ" MASKING
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Combo Pushing for Her Dream
+Auto: OnPlay
+{
+	TargetSelf
+	GainPower 1500
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Pushing for Her Dream
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchWaitingRoom HasTrait Music
+			}
+			Text Auto: Auto: When this card's battle opponent becomes reversed, you may choose 1 《Music》 character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Pushing for Her Dream" is in your climax area, choose 1 of your 《Music》 characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose 1 《Music》 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: BD/WE34-E14
+Image BD_WE34_E14
+Name "THE DEPTHS" LOCK
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Cont: Assist
+{
+	If HasTrait Music
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST All of your 《Music》 characters in front of this card get +X power. X is equal to that character's level ×500.
+Tag Backstage
+Auto: OnUseAccelerate
+{
+	If CardPosition Stand
+	{
+		PayCost RestSelf
+		{
+			AIChoice RemoveFromWaitingRoom
+			SearchWaitingRoomForTarget HasTrait Music
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: [Rest this card] When you use "ACCELERATE", if this card is standing, you may pay the cost. If you do, you may choose 1 《Music》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: BD/WE34-E15
+Image BD_WE34_E15
+Name "THE DEPTHS" LAYER
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait RAISE A SUILEN
+	{
+		PayCost 2
+		{
+			StockSwap
+		}
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, if you have 4 or more other 《RAISE A SUILEN》 characters, you may pay the cost. If you do, your opponent puts all of their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock.
+EndCard
+
+Character: BD/WE34-E16
+Image BD_WE34_E16
+Name "THE DEPTHS" MASKING
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: StartEncorePhase
+{
+	If PlayedThisTurn
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: During the turn that this card is placed on the stage from your hand, at the beginning of the encore step, you may put the top card of your clock into your waiting room.
+Auto: StartClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Music
+	{
+		SearchLocationForTargets WaitingRoom 1 1 Any
+		ReverseTargets WaitingRoom
+		MoveCards Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Music》 character from your waiting room at the bottom of your clock] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 card in your waiting room, return all cards except that card in your waiting room to your deck, and shuffle your deck.
+EndCard
+
+Character: BD/WE34-E17
+Image BD_WE34_E17
+Name MV Filming, LOCK
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && Compare ThatCardsLevel 0 OrLess
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			PeekTop Deck
+			Question Place this card in your waiting room? (Press no to return it to the top)
+			If Yes
+			{
+				MoveCard WaitingRoom
+			}
+			If No
+			{
+				EndPeek Deck
+			}
+		}
+		Text Auto: When this card attacks, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all of your other level 0 or lower characters get the following ability until end of turn. "Auto: When this card attacks, look at the top card of your deck, and put it on the top of your deck or into your waiting room."
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Music
+		SetXValue TargetCount
+		Peek Deck X
+		AIChoice AddToHand
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of other 《Music》 characters you have.
+EndCard
+
+Character: BD/WE34-E18
+Image BD_WE34_E18
+Name "The Music Doesn't Lie" MASKING
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Music
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Music》 character in your waiting room, and return it to your hand.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter
+	GainEffect
+	{
+		Auto: OnThisTriggerCheck
+		{
+			IfOther HasTrigger Bar
+			{
+				*OptionalDrawDiscard
+			}
+		}
+		Text Auto: When this card's trigger check reveals a climax with Treasure in its trigger icon, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+	}
+}
+Text Auto: When this card attacks, all of your characters get the following ability until end of turn. "Auto: When this card's trigger check reveals a climax with Treasure in its trigger icon, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room."
+EndCard
+
+Character: BD/WE34-E19
+Image BD_WE34_E19
+Name "Straight Through Our Dreams!" LAYER
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+*GreenCost0Bomb
+EndCard
+
+Character: BD/WE34-E20
+Image BD_WE34_E20
+Name Chasing Her Dream, LOCK
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait RAISE A SUILEN | Poppin’Party || IsEvent
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait RAISE A SUILEN | Poppin’Party
+		ChooseCharacterFromTargets Choose a character to give +3000 power.
+		GainPower 3000
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is an event or a 《Poppin'Party》 or 《RAISE A SUILEN》 character, choose 1 of your other 《Poppin'Party》 or 《RAISE A SUILEN》 characters, and that character gets +3000 power until end of turn.
+EndCard
+
+Character: BD/WE34-E21
+Image BD_WE34_E21
+Name Stage of the Finals, MASKING
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupInBattle
+}
+Text Cont: During this card's battle, all players cannot play "BACKUP" from their hands.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of 《Music》 characters you have ×1000.
+EndCard
+
+Character: BD/WE34-E22
+Image BD_WE34_E22
+Name Greatest Live, LAYER
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Music
+Trait2 RAISE A SUILEN
+*GiveAllOpponentsEncore2
+Auto: OnThisTriggerCheck
+{
+	IfOther HasTrigger Bar
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: When this card's trigger check reveals a climax with Treasure in its trigger icon, you may choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: BD/WE34-E23
+Image BD_WE34_E23
+Name To a New Stage, LOCK
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each character in your opponent's back stage.
+Auto: Encore 1 Send 1 WaitingRoom Any
+{
+}
+Text Auto: ENCORE [(1) Put 1 character from your stage into your waiting room]
+Tag Encore
+EndCard
+
+Character: BD/WE34-E26
+Image BD_WE34_E26
+Name "Astral Harmony" Tsukushi Futaba
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Morfonica
+Act: SendSelf WaitingRoom &&& Discard 2 Any
+{
+	SetXValue MyLevel
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Music && Compare ThatCardsLevel X OrLess
+	Change
+}
+Text Act: [Put 2 cards from your hand into your waiting room & Put this card into your waiting room] Choose 1 《Music》 character with level equal to or lower than your level in your waiting room, and put it on the stage position that this card was on.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		Repeat X
+		{
+			SearchDeck IsCharacter && HasTrait Music
+		}
+		ShuffleLocation Deck
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, search your deck for up to 1 《Music》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: BD/WE34-E27
+Image BD_WE34_E27
+Name "Rausch und/and Craziness Ⅱ" PAREO
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Music
+	{
+		TargetSelf
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Music》 character, this card gets +1 level and +1500 power until end of turn.
+Auto: OnOpponentReverse
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Music
+	AIChoice RestAndMoveToBackstage
+	ChooseCharacterFromTargets Choose a character to rest and move to the backstage.
+	Rest
+	If HasTarget
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, choose 1 of your other 《Music》 characters, rest it, and move it to an open position of your back stage.
+EndCard
+
+Character: BD/WE34-E28
+Image BD_WE34_E28
+Name "Astral Harmony" Mashiro Kurata
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 8500
+Trait1 Music
+Trait2 Morfonica
+Combo Daylight
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Music
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other 《Music》 characters.
+*Healer
+Auto: OnDamageCancel
+{
+	If Climax Daylight
+	{
+		If StageContains 4 Other && HasTrait Music
+		{
+			PayCost 2 SendSelf Memory
+			{
+				SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+				Change
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put this card into your memory] When damage dealt by this card is canceled, if "Daylight" is in your climax area, and you have 4 or more other 《Music》 characters, you may pay the cost. If you do, choose 1 character in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Climax: BD/WE34-E50
+Image BD_WE34_E50
+Name Daylight
+*GateClimax
+EndCard
+
+Character: BD/WE34-E29
+Image BD_WE34_E29
+Name "Rausch und/and Craziness Ⅱ" CHU²
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Music
+Trait2 RAISE A SUILEN
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Music
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each other 《Music》 character in your back stage.
+Auto: StartEncorePhase
+{
+	If PlayedThisTurn
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: During the turn that this card is placed on the stage from your hand, at the beginning of the encore step, you may put the top card of your clock into your waiting room.
+EndCard
+
+Character: BD/WE34-E40
+Image BD_WE34_E40
+Name Astonishing Speed, PAREO
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Music
+Trait2 RAISE A SUILEN
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals "Rausch und/and Craziness Ⅱ" CHU² && InLocation CenterStage
+	{
+		GainPower 5500
+		GainEffect
+		{
+			Auto: Encore Discard 1 IsCharacter && HasTrait Music
+			{
+			}
+			Text Auto: ENCORE [Discard a 《Music》 character]
+			Tag Encore
+		}
+	}
+}
+Text Cont: If you have another ""Rausch und/and Craziness Ⅱ" CHU²" in your center stage, this card gets +5500 power and "Auto: ENCORE [Put 1 《Music》 character from your hand into your waiting room]".
+Cont: GiveAll
+{
+	If NameEquals "Rausch und/and Craziness Ⅱ" CHU²
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotBeChosen
+			}
+			Text Cont: This card cannot be chosen by your opponent's effects.
+		}
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotBeReversedByAutoEffects
+			}
+			Text Cont: This card cannot become reversed by Auto effects of your opponent's characters.
+		}
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost 1
+				{
+					GainSpecialEffect DoubleTrigger
+				}
+			}
+			Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step.
+		}
+	}
+}
+Text Cont: All of your other ""Rausch und/and Craziness Ⅱ" CHU²" get +2000 power and the following 3 abilities. "Cont: This card cannot be chosen by your opponent's effects." "Cont: This card cannot become reversed by Auto effects of your opponent's characters." "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+EndCard
+
+Character: BD/WE34-E30
+Image BD_WE34_E30
+Name "Summerly Tone♪" Mashiro Kurata
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Morfonica
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your 《Morfonica》 characters, and that character gets +1500 power until end of turn.
+Auto: StartOpponentAttackPhase
+{
+	PayCost Clock
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+Character: BD/WE34-E31
+Image BD_WE34_E31
+Name “THE DEPTHS” PAREO
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 RAISE A SUILEN
+*BlueLevel0Bomb
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		SearchLocationForMultipleTargets WaitingRoom 0 X IsCharacter && HasTrait RAISE A SUILEN
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, choose up to 1 《RAISE A SUILEN》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: BD/WE34-E32
+Image BD_WE34_E32
+Name "THE DEPTHS" CHU²
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 RAISE A SUILEN
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1000
+		GainLevel 1
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1 level and +1000 power.
+Auto: StartOpponentAttackPhase
+{
+	Question Move one of your opponent's characters to another open position of their center stage?
+	If Yes
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to move to an open position of the center stage.
+		MoveToOpenPosition True False
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 character in your opponent's center stage, and move it to another open position of their center stage.
+EndCard
+
+Character: BD/WE34-E33
+Image BD_WE34_E33
+Name "Astral Harmony" Rui Yashio
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsCharacter && Compare ThatCardsLevel 0 OrLower
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a level 0 or lower character revealed among those cards, this card's soul does not decrease by side attacking until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1) Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: BD/WE34-E34
+Image BD_WE34_E34
+Name "Summerly Tone♪" Rui Yashio
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Music
+Trait2 Morfonica
+Cont: Assist
+{
+	If HasTrait Morfonica
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST All of your 《Morfonica》 characters in front of this card get +1500 power.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals "Daylight" Rui Yashio
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			Change
+		}
+			Else
+		{
+				Message No change targets in waiting room :(
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""Daylight" Rui Yashio" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: BD/WE34-E35
+Image BD_WE34_E35
+Name "Summerly Tone♪" Tsukushi Futaba
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Trait2 Morfonica
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	TargetSelf
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		SearchWaitingRoom NameEquals "Summerly Tone♪" Tsukushi Futaba
+		AIChoice RemoveFromWaitingRoom
+		SearchWaitingRoomForTarget HasTrait Music
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, you may return this card to your hand. If you do, choose up to 1 《Music》 character in your waiting room, and put it into your stock.
+
+Character: BD/WE34-E36
+Image BD_WE34_E36
+Name "On Violin" Rui Yashio
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Music》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Act: 1 SendSelf WaitingRoom
+{
+	SetXValue MyLevel
+	SearchLocationForTargets Hand 1 1 HasTrait Music && Compare ThatCardsLevel X OrLess
+	Change
+}
+Text Act: [(1) Put this card into your waiting room] Choose up to 1 《Music》 character with level equal to or lower than your level in your hand, and put it on the stage position that this card was on.
+EndCard
+
+Character: BD/WE34-E37
+Image BD_WE34_E37
+Name Member Introduction, CHU²
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Music
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 《Music》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnDamageDealtByCharacterFacingThisCanceled
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		TargetSelf
+		Bounce
+	}
+}
+Text Auto: During this card's battle, when the damage you received is canceled, you may return this card to your hand.
+EndCard
+
+Character: BD/WE34-E38
+Image BD_WE34_E38
+Name "Daylight" Mashiro Kurata
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	PeekTop Deck
+	Question Place this card on the bottom of your deck? (Press no to return it to the top)
+	If Yes
+	{
+		MoveCardToBottom Deck
+	}
+	If No
+	{
+		EndPeek Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top or at the bottom of your deck.
+Auto: OnReversedInBattle
+{
+	TargetBattleOpponent
+	SetXValue OpponentsLevel
+	AddToXValue 1
+	IfThatCard Compare ThatCardsLevel X OrMore && OnStage
+	{
+		Question Put the battle opponent on the bottom of the deck?
+		If Yes
+		{
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Quick
+Text Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than your opponent's level, you may put that character on the bottom of your opponent's deck.
+EndCard
+
+Character: BD/WE34-E39
+Image BD_WE34_E39
+Name "Daylight" Tsukushi Futaba
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 HasTrait Music
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		NarrowTargets CanBeChosen
+		ChooseCharacterFromTargets Choose a character to send to the the bottom of the deck.
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: [Put 2 《Music》 characters from your hand into your waiting room] When you use this card's "Backup", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it at the bottom of their deck.
+Backup 2500
+EndCard
+
+Character: BD/WE34-E41
+Image BD_WE34_E41
+Name "Daylight" Rui Yashio
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Music
+Trait2 Morfonica
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			TargetSelf
+			GainPower 6000
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +6000 power until end of turn.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals "Summerly Tone♪" Rui Yashio
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			Change
+		}
+			Else
+		{
+				Message No change targets in waiting room :(
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""Summerly Tone♪" Rui Yashio" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: BD/WE34-E42
+Image BD_WE34_E42
+Name "Morfonica" Tsukushi Futaba
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	PeekTop Deck
+	Question Place this card on the bottom of your deck? (Press no to return it to the top)
+	If Yes
+	{
+		MoveCardToBottom Deck
+	}
+	If No
+	{
+		EndPeek Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top or at the bottom of your deck.
+Auto: OnPlay
+{
+	OpponentMultipleChoiceQuestion Declare a number.\n1. Zero.\n2. One.\n3. Two.\n4. Three.|0|1|2|3
+	If Answer 0
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && Compare ThatCardsLevel 0 Exactly
+		{
+			PlaceOnStage False True True False
+		}
+	}
+	If Answer 1
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && Compare ThatCardsLevel 1 Exactly
+		{
+			PlaceOnStage False True True False
+		}
+	}
+	If Answer 2
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && Compare ThatCardsLevel 2 Exactly
+		{
+			PlaceOnStage False True True False
+		}
+	}
+	If Answer 3
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && Compare ThatCardsLevel 3 Exactly
+		{
+			PlaceOnStage False True True False
+		}
+	}
+	
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent declares 0 or 1 or 2 or 3. Reveal the top card of your deck, and if that card is a character of the level that your opponent declared, put it on any position of your stage.
+EndCard
+
+Character: BD/WE34-E43
+Image BD_WE34_E43
+Name "On Drums" Tsukushi Futaba
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Music
+Trait2 Morfonica
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Music
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other 《Music》 characters.
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 2 Exactly
+		{
+			TargetSelf
+			GainPower 6000
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if the level of the character facing this card is 2, this card gets +6000 power until end of turn.
+EndCard
+
+Character: BD/WE34-E44
+Image BD_WE34_E44
+Name Uninvited Solicitation, PAREO
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Music
+Trait2 RAISE A SUILEN
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameEquals Uninvited Solicitation, CHU²
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Uninvited Solicitation, CHU²" in your center stage.
+EndCard
+
+Character: BD/WE34-E45
+Image BD_WE34_E45
+Name Uninvited Solicitation, CHU²
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Music
+Trait2 RAISE A SUILEN
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameEquals Uninvited Solicitation, PAREO
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other "Uninvited Solicitation, PAREO" in your center stage.
+EndCard
+
+Character: BD/WE34-E46
+Image BD_WE34_E46
+Name "Morfonica" Rui Yashio
+Color B
+Level 1
+Cost 0
+Power 6000
+Trait1 Music
+Trait2 Morfonica
+*CannotAttackHigherLevel
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Music
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Music》 characters, this card gets +1000 power.
+EndCard
+
+Character: BD/WE34-E47
+Image BD_WE34_E47
+Name Member Introduction, PAREO
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Music
+Trait2 RAISE A SUILEN
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Music
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are 《Music》, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: BD/WE34-E48
+Image BD_WE34_E48
+Name "Morfonica" Mashiro Kurata
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnAttack
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +5000 power.
+	GainPower 5000
+}
+Text Auto: When this card attacks, choose 1 of your characters, and that character gets +5000 power until end of turn.
+EndCard
+
+Character: BD/WE34-E49
+Image BD_WE34_E49
+Name Finals at the Budokan, CHU²
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Music
+Trait2 RAISE A SUILEN
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to send to your stock.	
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 of your other characters, and put it into your stock.
+EndCard
+
+Character: BD/WE34-TE01
+Image BD_WE34_TE01
+Name "Widening Horizon" Nanami Hiromachi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Morfonica
+Cont: Assist
+{
+	GainPower 500
+}
+Text Cont: ASSIST All of your characters in front of this card get +500 power.
+Act: 1 SendSelf WaitingRoom
+{
+	Peek Deck 4
+	ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Music
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Music》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BD/WE34-TE02
+Image BD_WE34_TE02
+Name "Trusted Class President" Toko Kirigaya
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnAttack
+{
+	If Not StageContains 1 Not HasTrait Music
+	{
+		Peek Deck 2
+		If HasTarget
+		{
+			Message Choose a card to put back on top. 
+			AIChoice If Not IsClimax
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Deck
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: When this card attacks, if all of your characters are 《Music》, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room.
+EndCard
+
+Character: BD/WE34-TE03
+Image BD_WE34_TE03
+Name "Normalcy Comes First" Nanami Hiromachi
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Morfonica
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play event cards and "BACKUP" from your hand.
+EndCard
+
+Character: BD/WE34-TE04
+Image BD_WE34_TE04
+Name "Popular Girl" Toko Kirigaya
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Morfonica
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 HasTrait Music
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: When you use this card's "BACKUP", if you have a 《Music》 character, choose 1 of your characters in battle, and that character gets +1000 power until end of turn.
+Backup 1000
+EndCard
+
+Character: BD/WE34-TE05
+Image BD_WE34_TE05
+Name "Behold My Masterpiece!" Nanami Hiromachi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Music
+Trait2 Morfonica
+*LevelAssist
+Act: RestSelf
+{
+	SearchLocationForTargets Hand 1 1
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 card in your hand, and put it into your stock.
+EndCard
+
+Character: BD/WE34-TE06
+Image BD_WE34_TE06
+Name "Special Announcement!" Toko Kirigaya
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Music
+Trait2 Morfonica
+*Healer
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of 《Music》 characters you have ×1000.
+EndCard
+
+Climax: BD/WE34-TE07
+Image BD_WE34_TE07
+Name Behold My Masterpiece!
+*WindClimax
+EndCard
+
+Character: BD/WE34-TE08
+Image BD_WE34_TE08
+Name "Trusted Class President" Tsukushi Futaba
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Morfonica
+Cont: GiveAll
+{
+	If NameEquals "Trusted Class President" Toko Kirigaya" | "Trusted Class President" Mashiro Kurata
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other ""Trusted Class President" Toko Kirigaya" and ""Trusted Class President" Mashiro Kurata" get +1000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Bond "Trusted Class President" Toko Kirigaya" | "Trusted Class President" Mashiro Kurata
+	}
+}
+Text Auto: BOND / ""Trusted Class President" Toko Kirigaya" ""Trusted Class President" Mashiro Kurata" [Put 1 card from your hand into your waiting room]
+EndCard
+
+Character: BD/WE34-TE09
+Image BD_WE34_TE09
+Name "Gaining Recognition" Rui Yashio
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Morfonica
+Cont: Assist
+{
+	If Compare ThatCardsLevel 0 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: ASSIST All of your level 0 or lower characters in front of this card get +1000 power.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	PerClimax
+	{
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, draw up to 1 card.
+EndCard
+
+Character: BD/WE34-TE10
+Image BD_WE34_TE10
+Name "Fufu, Leave It to Me!" Tsukushi Futaba
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Morfonica
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BD/WE34-TE11
+Image BD_WE34_TE11
+Name "Rejected Path" Rui Yashio
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Morfonica
+*BlueCost0Bomb
+*HandEncore
+EndCard
+
+Character: BD/WE34-TE12
+Image BD_WE34_TE12
+Name "Full of Confidence" Tsukushi Futaba
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnAttack
+{
+	If LocationContains Hand 4 Any
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card attacks, if your hand has 4 or more cards, this card gets +3000 power until end of turn.
+EndCard
+
+Character: BD/WE34-TE13
+Image BD_WE34_TE13
+Name "Pessimistic Girl" Mashiro Kurata
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Music
+Trait2 Morfonica
+Combo Shine Once More
+Auto: OnAttack
+{
+	If Climax Shine Once More
+	{
+		If StageContains 1 Other && HasTrait Music
+		{
+			Mill 2
+			SetXValue TotalLevel
+			SearchWaitingRoom HasTrait Music && Compare ThatCardsLevel X OrLower
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Shine Once More" is in your climax area, and you have another 《Music》 character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Music》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect.
+EndCard
+
+Character: BD/WE34-TE14
+Image BD_WE34_TE14
+Name "Trusted Class President" Mashiro Kurata
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Music
+Trait2 Morfonica
+EndCard
+
+Character: BD/WE34-TE15
+Image BD_WE34_TE15
+Name "Forsaking Talent" Rui Yashio
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsCharacter && HasTrait Music
+	SetXValue TargetCount
+	MultiplyXValue 3000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of turn. X is equal to the number of 《Music》 characters among those cards ×3000.
+EndCard
+
+Character: BD/WE34-TE16
+Image BD_WE34_TE16
+Name "Forsaking Talent" Mashiro Kurata
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Trait2 Morfonica
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+   				GainSpecialEffect CannotUseEvents
+    				GainSpecialEffect CannotUseBackup
+			}
+		}
+		Text Cont: During this card's battle, you cannot play event cards or "BACKUP" from your hand.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose 1 of your opponent's characters, and that character gets the following ability until end of turn. "Cont: During this card's battle, you cannot play event cards or "BACKUP" from your hand."
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals "Blue Sky Full of Stars" Mashiro Kurata
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			Change
+		}
+			Else
+		{
+				Message No change targets in waiting room :(
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 ""Blue Sky Full of Stars" Mashiro Kurata" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: BD/WE34-TE17
+Image BD_WE34_TE17
+Name "Blue Sky Full of Stars" Mashiro Kurata
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10500
+Trait1 Music
+Trait2 Morfonica
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		MillOpponentBottom 3
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the bottom 3 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards.
+Auto: OnReceiveDamage
+{
+	If OpponentsTurn && InLocation CenterStage
+	{
+		PeekTop Deck
+		Question Place this card in your waiting room? (Press no to return it to the top)
+		If Yes
+		{
+			MoveCard WaitingRoom
+		}
+		If No
+		{
+			EndPeek Deck
+		}
+	}
+}
+Text Auto: During your opponent's turn, when the damage you received is not canceled, if this card is in your center stage, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+EndCard
+
+Event: BD/WE34-TE18
+Image BD_WE34_TE18
+Name Normal Camouflage
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals "Pessimistic Girl" Mashiro Kurata
+	SetXValue TargetCount
+	SearchWaitingRoom IsCharacter && HasTrait Music && Compare ThatCardsLevel X OrLess
+}
+Text: Choose 1 level X or lower 《Music》 character in your waiting room, and return it to your hand. X is equal to the number of ""Pessimistic Girl" Mashiro Kurata" in your waiting room.
+EndCard
+
+Climax: BD/WE34-TE19
+Image BD_WE34_TE19
+Name Shine Once More
+*BookClimax
+EndCard
+
+Climax: BD/WE34-TE20
+Image BD_WE34_TE20
+Name Morfonica
+Color B
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	AIChoice RemoveFromWaitingRoom
+	SearchWaitingRoom IsCharacter && HasTrigger Soul
+	ChooseMultipleCharacters 0 2 InLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with Soul in its trigger icon in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.	
+EndCard

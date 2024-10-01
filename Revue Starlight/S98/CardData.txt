@@ -1,0 +1,3193 @@
+Character: RSL/S98-001
+Name Towards the Stage Beyond the Rerun, Nana Daiba
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Combo Annihilation Revue
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Revue && InLocation CenterStage
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each other 《Revue》 character in your center stage.
+Auto: OnAttack
+{
+	If Climax Annihilation Revue
+	{
+		MultipleChoiceQuestion Choose an effect.\n1: Choose a 《Revue》 character in your waiting room and return it to your hand.\n2: If you have 4 or more other 《Revue》 Characters, choose a character in your waiting room and return it to your hand, and this gains +2000 power for the turn.|1|2
+		If Answer 0
+		{
+			SearchWaitingRoom HasTrait Revue
+		}
+		If Answer 1
+		{
+			If StageContains 4 Other && HasTrait Revue
+			{
+				SearchWaitingRoom IsCharacter
+				TargetSelf
+				GainPower 2000
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Annihilation Revue" is in your climax area, choose 1 of the following effects and perform it. "Choose 1 《Revue》 character in your waiting room, and return it to your hand." "If you have 4 or more other 《Revue》 characters, choose 1 character in your waiting room, return it to your hand, and this card gets +2000 power until end of turn."
+EndCard
+
+Character: RSL/S98-002
+Name Path Adorned with Cherry Blossoms, Kaoruko Hanayagi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals My Own Shine, Futaba Isurugi
+	{
+		GainPower 4000
+		GainEffect
+		{
+			Auto: OnDirectAttack
+			{
+				TargetLocation WaitingRoom
+				Message Choose a card to send to stock.
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Revue
+				RevealTargets
+				MoveCard Stock
+			}
+			Text Auto: When this Direct Attacks, you may choose a 《Revue》 character in your waiting room and put it in your Stock.
+		}
+	}
+}
+Text Cont: MEMORY If "My Own Shine, Futaba Isurugi" is in your memory, this card gets +4000 power and the following ability. "Auto: When this card direct attacks, you may choose 1 《Revue》 character in your waiting room, and put it into your stock."
+*Healer
+EndCard
+
+Character: RSL/S98-003
+Name Stage Girl of the Silver Screen, Nana Daiba
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +2 soul until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 1 or lower character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RSL/S98-004
+Name Stage Girl of the Silver Screen, Kaoruko Hanayagi
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Revue
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you revealed 1 or more cards, choose up to 1 《Revue》 character among those cards, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: RSL/S98-005
+Name Our Future Destination, Kaoruko Hanayagi
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Revue
+Trait2 Nihon Buyo
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play events or "BACKUP" from your hand.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	Question Put the battle opponent into your opponent's stock?
+	If Yes
+	{
+		MoveCard OpponentStock
+		TargetBottom OpponentStock 1
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+EndCard
+
+Character: RSL/S98-006
+Name Hunting Revue, Nana Daiba
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Revue
+*Level3Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Green Glow, Junna Hoshimi
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	SaveTargets
+	GainPower 1500
+	LoadTargets
+	IfTarget Not HasMarker
+	{
+		SearchWaitingRoomForTarget HasTrait Revue
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Act: [Rest this card] Choose 1 of your "Green Glow, Junna Hoshimi", that character gets +1500 power until end of turn, and if there are no markers underneath that character, choose up to 1 《Revue》 character in your waiting room, and put it face up underneath that character as a marker.
+EndCard
+
+Character: RSL/S98-007
+Name Our Future Destination, Nana Daiba
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Revue
+Trait2 Cooking
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Revue
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question Send the battle opponent to memory?
+					If Yes
+					{
+						TargetBattleOpponent
+						MoveCard OpponentMemory
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Revue》 characters, this card gets +1500 power and the following abilities. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step." "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory."
+*StockHealer
+EndCard
+
+Character: RSL/S98-008
+Name Selfish Highway, Kaoruko Hanayagi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Combo Waiting for You
+*OnPlayCheck3
+Auto: OnSpecificClimaxPlay Waiting for You
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		PayCost 2 Discard 2 Any
+		{
+			Burn 1
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room] When "Waiting for You" is placed on your climax area, if this card is in your center stage, you may pay the cost. If you do, deal 1 damage to your opponent, and deal 2 damage to your opponent. 
+EndCard
+
+Character: RSL/S98-009
+Name Disregarding the Words, Nana Daiba
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, all characters in your opponent's center stage get -500 power until end of turn.
+*OnAttackGivePowerForEachOther(500,Revue)
+EndCard
+
+Character: RSL/S98-010
+Name The One Mesmerized by the Stage Girls, Giraffe
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Mystery
+Auto: OnPlay
+{
+	TargetTop Deck 3
+	View
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, and put them on the top of your deck in the original order.
+Auto: OnOpponentClimaxPlay
+{
+	Question Put this card into your stock?
+	If Yes
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Auto: When your opponent's climax is placed on their climax area, you may put this card into your stock.
+EndCard
+
+Character: RSL/S98-011
+Name Dancing Sword, Nana Daiba
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Revue
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Revue
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Revue》 character in your waiting room, return it to your hand, choose 1 of your other 《Revue》 characters, it gets +1000 power until end of turn.
+*YellowCost0Bomb
+EndCard
+
+Character: RSL/S98-012
+Name Breaking Off Ties, Kaoruko Hanayagi
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to return to hand.
+		Bounce
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+Character: RSL/S98-013
+Name Resentment Revue, Kaoruko Hanayagi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Revue
+Combo Blooming Rage
+ConditionalTrigger LoneShot Climax Blooming Rage
+Text Cont: CxCombo If "Blooming Rage" is in your climax area, this card in all of your zones gets Shot in the trigger icon.
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Revue
+		SetXValue TargetCount
+		MultiplyXValue 1500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +1500 power for each of your other 《Revue》 characters.
+Auto: OnAttack
+{
+	If Climax Blooming Rage
+	{
+		If StageContains 4 Other && HasTrait Revue
+		{
+			Question_Obvious Deal 1 damage to the opponent?
+			If Yes
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Blooming Rage" is in your climax area, and you have 4 or more other 《Revue》 characters, you may deal 1 damage to your opponent. 
+EndCard
+
+Character: RSL/S98-014
+Name It's All for Me? Kaoruko Hanayagi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revue
+*CannotSideAttack
+Auto: OnPlay
+{
+	If LocationContainsOrLess Memory 2 Any
+	{
+		MultipleChoiceQuestion Choose an effect.\n1: Choose a "My Own Shine, Futaba Isurugi" in your waiting room and Send it to Memory.\n2: Search your deck for up to 1 "My Own Shine, Futaba Isurugi", Send it to Memory, and shuffle your deck.|Waiting Room|Deck
+		If Answer 0
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals My Own Shine, Futaba Isurugi
+			MoveCard Memory
+		}
+		If Answer 1
+		{
+			SearchLocationForTargets Deck 1 1 NameEquals My Own Shine, Futaba Isurugi
+			MoveCard Memory
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your memory has 2 or less cards, choose 1 of the following effects and perform it. "Choose 1 "My Own Shine, Futaba Isurugi" in your waiting room, and put it into your memory." "Search your deck for up to 1 "My Own Shine, Futaba Isurugi", put it into your memory, and shuffle your deck."
+*DropSalvage
+EndCard
+
+Character: RSL/S98-015
+Name Now Is the Time to Descend From the Tower, Nana Daiba
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Revue
+Trait2 Cooking
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Revue
+	{
+		SearchDeck NameEquals Period I Want to Protect, Nana Daiba
+	}
+}
+Text Auto: [Put 1 《Revue》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Period I Want to Protect, Nana Daiba", reveal it to your opponent, put it into your hand, and shuffle your deck.
+Act: 1 SendSelf WaitingRoom
+{
+	SetXValue MyLevel
+	SearchLocationForTargets Hand 1 1 HasTrait Revue && Compare ThatCardsLevel X OrLess
+	Change
+}
+Text Act: [(1) Put this card into your waiting room] Choose up to 1 《Revue》 character with level equal to or lower than your level in your hand, and put it in the stage position that this card was in.
+EndCard
+
+Character: RSL/S98-016
+Name On Top of a Speeding Train, Nana Daiba
+Color Y
+Level 1
+Cost 0
+Power 6500
+Trait1 Revue
+Trait2 Weapon
+*CannotSideAttack
+Auto: OnReversed
+{
+	If Not StageContains 2 Other && HasTrait Revue
+	{
+		TargetSelf
+		MoveCard Clock
+	}
+}
+Text Auto: When this card becomes reversed in battle, if you have 1 or less other 《Revue》 characters, put this card into your clock.
+EndCard
+
+Character: RSL/S98-017
+Name Her Real Self, Kaoruko Hanayagi
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Revue
+Trait2 Nihon Buyo
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, this card gets +2000 power.
+*CannotBeReversedByCost0
+EndCard
+
+Character: RSL/S98-018
+Name Flower of the Gambling Den, Kaoruko Hanayagi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Revue
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 
+	{
+		SearchWaitingRoom NameEquals Flowers of the Gambling Den, Kaoruko Hanayagi
+	}
+}
+Text Auto: [(1)] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 "Flowers of the Gambling Den, Kaoruko Hanayagi"in your waiting room, and return it to your hand.
+Backup 2500
+EndCard
+
+Character: RSL/S98-019
+Name Reminiscence, Nana Daiba
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 2 Other && HasTrait Revue
+		{
+			GainPower 4000
+		}
+	}
+}
+Text Cont: During your turn, if you have 2 or more other 《Revue》 characters, this card gets +4000 power.
+Auto: StartClimaxPhase
+{
+	If StageContains 1 HasTrait Revue
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetBattleOpponent
+				Question Put the battle opponent into your opponent's stock?
+				If Yes
+				{
+					MoveCard OpponentStock
+					TargetBottom OpponentStock 1
+					MoveCard OpponentWaitingRoom
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+		}
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and you have a 《Revue》 character, at the beginning of your climax phase, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room."
+EndCard
+
+Event: RSL/S98-020
+Name To You Who Was Beautiful
+Color Y
+Level 2
+Cost 1
+Effect:
+{
+	ChooseMultipleCharacters 0 4 InLocation OpponentStage
+	MoveCard Memory
+	FlipFaceDown
+	ShuffleTime
+}
+Text Choose up to 4 of your opponent's characters, and put them into their memory. You shuffle those characters face down, and put them face down in separate open positions of your opponent's stage. Put those characters face up.
+EndCard
+
+Climax: RSL/S98-021
+Name Annihilation Revue
+*ChoiceClimax
+EndCard
+
+Climax: RSL/S98-022
+Name Waiting for You
+*ChoiceClimax
+EndCard
+
+Climax: RSL/S98-023
+Name Blooming Rage
+*ShotClimax
+EndCard
+
+Character: RSL/S98-024
+Name To Live Her Life on Stage, Mahiru Tsuyuzaki
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If your stock has 3 or less cards, this card gets +1000 power.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: RSL/S98-025
+Name Green Glow, Junna Hoshimi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Combo A Stage Where I'm the Protagonist
+*EarlyPlay4OrMore(Revue)
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each marker underneath this card.
+Auto: OnAttack
+{
+	SearchWaitingRoomForTarget IsCharacter
+	Marker_FaceUp
+}
+Text Auto: When this card attacks, you may choose 1 character in your waiting room, and put it face up underneath this card as a marker.
+Auto: OnEndOfAttack
+{
+	If Climax A Stage Where I'm the Protagonist
+	{
+		PayCost 2
+		{
+			SetXValue MarkersUnderThis
+			TargetLocation Marker
+			MoveCard WaitingRoom
+			If Compare X 1 OrMore
+			{
+				Repeat X
+				{
+					Burn 1
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put all markers underneath this card into your waiting room] At the end of this card's attack, if "A Stage Where I'm the Protagonist" is in your climax area, you may pay the cost. If you do, perform the following action X times. "Deal 1 damage to your opponent." X is equal to the number of markers put into the waiting room by this ability's cost. 
+EndCard
+
+Character: RSL/S98-026
+Name Hunting Revue, Junna Hoshimi
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Auto: StartOpponentDrawPhase
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 2 OrMore
+	If HasTarget
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, put the top 2 cards of your deck into your waiting room. If there is a level 2 or higher card among those cards, you may return this card to your hand. 
+EndCard
+
+Character: RSL/S98-027
+Name Stage Girl of the Silver Screen, Junna Hoshimi
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Revue
+Trait2 Weapon
+*ClimaxExchange
+EndCard
+
+Character: RSL/S98-028
+Name Our Future Destination, Junna Hoshimi
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Revue
+Trait2 Glasses
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals My Very Own Star, Junna Hoshimi
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another "My Very Own Star, Junna Hoshimi", this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+	TargetLocation OpponentClock
+	If HasTarget
+	{
+		TargetBattleOpponent
+		Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+		If Yes
+		{
+			TargetTop OpponentClock 1
+			MoveCard OpponentWaitingRoom
+			TargetBattleOpponent
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: RSL/S98-029
+Name Our Future Destination, Mahiru Tsuyuzaki
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Revue
+Trait2 Baton
+*LevelAssistTrait(Revue)
+Auto: OnUseAccelerate
+{
+	If LocationContains Clock 4 Any
+	{
+		PayCost 1
+		{
+			Heal
+		}
+	}
+}
+Text Auto: [(1)] When you use "ACCELERATE", if your clock has 4 or more cards, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax && HasTrigger Bar
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation Clock
+			AIChoice AddToHand
+			ChooseCardsFromTargets 1 1 Any
+			RevealTargets
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with bar in its trigger icon, you may pay the cost. If you do, choose 1 card in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: RSL/S98-030
+Name Stage Girl of the Silver Screen, Mahiru Tsuyuzaki
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Revue
+		ChooseCharacterFromTargets Choose a character to return to hand.
+		Bounce
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your 《Revue》 characters, and return it to your hand.
+Backup 2500
+EndCard
+
+Character: RSL/S98-031
+Name If You Won't Act on Stage, Mahiru Tsuyuzaki
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Combo Our Stage
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 1 Other && HasTrait Revue
+		{
+			GainPower 2500
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					GainSpecialEffect CannotMove
+				}
+				Text Cont: The character facing this card cannot move to another position of the stage.
+			}
+		}
+	}
+}
+Text Cont: During your turn, if you have another 《Revue》 character, this card gets +2500 power and the following ability. "Cont: The character facing this card cannot move to another position of the stage."
+*Healer
+Auto: OnReverseOpponent
+{
+	If Climax Our Stage
+	{
+		PayCost 1
+		{
+			TargetBattleOpponent
+			MoveCard OpponentClock
+			PeekTop OpponentDeck
+			Question Place this card on the bottom of the deck? (Press no to return it to the top)
+			If Yes
+			{
+				MoveCardToBottom OpponentDeck
+			}
+			If No
+			{
+				EndPeek OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card's battle opponent becomes reversed, if "Our Stage" is in your climax area, you may pay the cost. If you do, put that character into your opponent's clock, look at the top card of your opponent's deck, and put it on the top or at the bottom of their deck.
+EndCard
+
+Character: RSL/S98-032
+Name You're on the Stage With Me, Right? Mahiru Tsuyuzaki
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther NameEquals Person By Your Side, Mahiru Tsuyuzaki
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When your other "Person By Your Side, Mahiru Tsuyuzaki" is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+Auto: StartOpponentClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Revue
+	{
+		ManualTimingTrigger OnUseAccelerate
+		TargetSelf
+		GainLevel 1
+		GainPower 1500
+		GainEffect
+		{
+			*RunInFrontOfCharacter
+		}
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Revue》 character from your waiting room at the bottom of your clock] At the beginning of your opponent's climax phase, you may pay the cost. If you do, this card gets +1 level, +1500 power, and the following ability until end of turn. "Auto: At the beginning of your opponent's attack phase, you may move this card to an open position of your center stage with a character facing this card."
+EndCard
+
+Character: RSL/S98-033
+Name Honest Feelings, Mahiru Tsuyuzaki
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Revue
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other 《Revue》 characters, it gets +X power until end of turn. X is equal to the number of other 《Revue》 characters you have ×500.
+EndCard
+
+Character: RSL/S98-034
+Name Unyielding Tenacity, Junna Hoshimi
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Revue
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are 《Revue》, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: RSL/S98-035
+Name Her Own Words, Junna Hoshimi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 10000
+	}
+}
+Text Cont: During your turn, this card gets +10000 power.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	IfThatCard Compare ThatCardsLevel 2 OrMore
+	{
+		Question_Obvious Put the top card of your deck into your stock?
+		If Yes
+		{
+			BlindStock
+		}
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may put the top card of your deck into your stock.
+EndCard
+
+Character: RSL/S98-036
+Name Still an Unfinished Script, Junna Hoshimi
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Revue
+Trait2 Glasses
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Revue
+	{
+		PeekTop Deck
+		EndPeek Deck
+	}
+	Else
+	{
+		IfOther Other
+		{
+			
+		}
+		Else
+		{
+			PeekTop Deck
+			EndPeek Deck
+		}
+	}
+}
+Text Auto: When this card or your other 《Revue》 character is placed on the stage from your hand, you may look at the top card of your deck.
+Act: RestSelf
+{
+	TargetLocation Stage
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: RSL/S98-037
+Name Someday on a New Stage, Junna Hoshimi
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's character, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Revue
+}
+Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 《Revue》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RSL/S98-038
+Name Cheering On, Mahiru Tsuyuzaki
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetSelf
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Revue
+	{
+		SearchDeck NameEquals Specially Made Gold Medal
+	}
+}
+Text Auto: [Put 1 《Revue》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Specially Made Gold Medal", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: RSL/S98-039
+Name Aiming for the Gold Medal, Mahiru Tsuyuzaki
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Revue
+Combo Co-star Revue
+Auto: OnAttack
+{
+	If Climax Co-star Revue
+	{
+		If StageContains 1 Other && HasTrait Revue
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Revue ||| NameEquals Specially Made Gold Medal
+			{
+				MoveCard Hand
+				TargetSelf
+				GainPower 2000
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Co-star Revue" is in your climax area, and you have another 《Revue》 character, reveal the top card of your deck. If that card is "Specially Made Gold Medal" or a 《Revue》 character, put it into your hand, and this card gets +2000 power until end of turn. 
+Auto: StartClimaxPhase
+{
+	If StageContains 1 Other && HasTrait Revue
+	{
+		PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Revue
+		{
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+			PlaceOnStage False True True False
+			TargetSelf
+			GainPower 500
+		}
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Revue》 character from your waiting room at the bottom of your clock] At the beginning of your climax phase, if you have another 《Revue》 character, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, put it in any position of your stage, and this card gets +500 power until end of turn.
+EndCard
+
+Character: RSL/S98-040
+Name For the Field Trip, Mahiru Tsuyuzaki
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Revue
+Trait2 Baton
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		Question Send a level 3 or lower character to your opponent's waiting room?
+		If Yes
+		{
+			TargetLocation OpponentStage
+			NarrowTargets CanBeChosen && Compare ThatCardsLevel 3 OrLess
+			ChooseCharacterFromTargets Choose a character to send to the waiting room
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into your waiting room. If there is a climax among those cards, you may choose 1 level 3 or lower character in your opponent's center stage, and put it into their waiting room.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: RSL/S98-041
+Name Overwhelming Impact, Junna Hoshimi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 4000
+	ChooseCharacterFromTargets Choose a character to give +4000 power.	
+	UntilEndOfOpponentsTurn
+	GainPower 4000
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets +4000 power until the end of your opponent's next turn.
+Act: RestSelf
+{
+	If LocationContains OpponentMemory 1 Not FaceDown
+	{
+		Message Choose up to 1 card in opponent's memory to turn face-down until end of turn.
+		SearchLocationForTargets OpponentMemory 0 1 Not FaceDown
+		FlipFaceDown
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				FlipFaceUp
+			}
+		}
+	}
+}
+Text Act: [Rest this card] You may choose a face up card in your opponent's memory, and put it face down. If you do, at the end of your turn, put that card face up.
+EndCard
+
+Event: RSL/S98-042
+Name More...More...More…
+Color G
+Level 2
+Cost 1
+Effect:
+{
+	If StageContains 1 CardPosition Stand
+	{
+		TargetLocation Stage
+		NarrowTargets CardPosition Stand && HasTrait Revue
+		ChooseCharacterFromTargets Choose a character to rest.
+		Rest
+		TargetLocation OpponentStage
+		AIChoice Move
+		ChooseCharacterFromTargets Choose a character to move.
+		MoveToOpenPosition True True
+		SearchWaitingRoom HasTrait Revue
+	}
+}
+Text Choose 1 of your standing 《Revue》 characters, and Rest it. If you do, choose 1 of your opponent's character, move it to another open position of their stage, choose 1 《Revue》 character in your waiting room, and return it to your hand.
+EndCard
+
+Event: RSL/S98-043
+Name Specially Made Gold Medal
+Color G
+Level 2
+Cost 1
+Requirement StageContains 3 HasTrait Revue
+Effect:
+{
+	SearchLocationForTargets Hand 0 1 NameEquals Run! Hikari Kagura
+	PlaceOnStage False True True False
+}
+Text If you have 2 or less 《Revue》 characters, this card cannot be played from your hand. Choose up to 1 "Run! Hikari Kagura" in your hand, and put it in any position of your stage.
+EndCard
+
+Climax: RSL/S98-044
+Name A Stage Where I'm the Protagonist
+*BarClimax
+EndCard
+
+Climax: RSL/S98-045
+Name Our Stage
+*BarClimax
+EndCard
+
+Climax: RSL/S98-046
+Name Co-star Revue
+*BarClimax
+EndCard
+
+Character: RSL/S98-047
+Name Path Adorned with Cherry Blossoms, Futaba Isurugi
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If LocationContains Hand 5 Any
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +2000 power.
+*FreeRunner
+EndCard
+
+Character: RSL/S98-048
+Name You and I Together, Claudine Saijo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetTop Deck 3
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, look at up to 3 cards from the top of your deck, and put them on the top of your deck in any order.
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Revue
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another 《Revue》 character, this card gets +3000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	PayCost 2 Discard 2 Any
+	{
+		Burn 3
+	}
+}
+Text Auto: [(2) Put 2 cards from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 3 damage to your opponent. 
+EndCard
+
+Character: RSL/S98-049
+Name Next Stage and Next Role, Karen Aijo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Combo I Am Reborn
+Auto: OnPlay|PlacedBy Reunion, Hikari Kagura
+{
+	If Compare CardsInClock 1 OrMore
+	{
+		Question_Obvious Put the top card of your clock into the waiting room?
+		If Yes
+		{
+			Heal
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or by the Auto: effect of "Reunion, Hikari Kagura", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax I Am Reborn
+	{
+		PayCost 1 Discard 1 Any
+		{
+			MultipleChoiceQuestion Choose an effect.\n1: Look at up to 3 cards from the top of your opponent's deck, choose up to 3 cards from among them, put them into your opponent's waiting room, put the rest into their deck, your opponent shuffles their deck, and this card gets +3000 power until end of turn.\n2: Deal 2 Damage to your Opponent.|1|2
+			If Answer 0
+			{
+				Peek OpponentDeck 3
+				If HasTarget
+				{
+					Message Choose the cards to put back on top. 
+					AIChoice If Not IsClimax
+					ChooseCardsFromTargets 0 3 Any
+					MoveCard OpponentDeck
+					PutTheRestIntoTheWaitingRoom
+					ShuffleLocation OpponentDeck
+				}
+				TargetSelf
+				GainPower 3000
+			}
+			If Answer 1
+			{
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 card from your hand into your waiting room] When this card attacks, if "I Am Reborn" is in your climax area, you may pay the cost. If you do, choose 1 of the following effects and perform it. "Look at up to 3 cards from the top of your opponent's deck, choose up to 3 cards from among them, put them into your opponent's waiting room, put the rest into their deck, your opponent shuffles their deck, and this card gets +3000 power until end of turn." "Deal 2 damage to your opponent." 
+EndCard
+
+Character: RSL/S98-050
+Name Stage Girl of the Silver Screen, Claudine Saijo
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		AIChoice AddToHand
+		SearchLocationForTargets WaitingRoom 0 X IsCharacter
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RSL/S98-051
+Name 【RIVAL】 Claudine Saijo
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Revue
+Trait2 Weapon
+Combo A Beautiful Conclusion
+Auto: OnSpecificClimaxPlay A Beautiful Conclusion
+{
+	If InLocation CenterStage
+	{
+		If StageContains 1 Other && HasTrait Revue
+		{	
+			MultipleChoiceQuestion Choose an effect.\n1: Choose 1 "The Devil's Sweet Talk, Claudine Saijo" in your waiting room, and return it to your hand.\n2: Search your deck for up to 1 "The Devil's Sweet Talk, Claudine Saijo", reveal it to your opponent, put it into your hand, and shuffle your deck.|Waiting Room|Deck
+			If Answer 0
+			{
+				SearchWaitingRoom NameEquals The Devil's Sweet Talk, Claudine Saijo
+			}
+			If Answer 1
+			{
+				SearchDeck NameEquals The Devil's Sweet Talk, Claudine Saijo
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "A Beautiful Conclusion" is placed on your climax area, if this card is in your center stage, and you have another 《Revue》 character, choose 1 of the following effects and perform it. "Choose 1 "The Devil's Sweet Talk, Claudine Saijo" in your waiting room, and return it to your hand." "Search your deck for up to 1 "The Devil's Sweet Talk, Claudine Saijo", reveal it to your opponent, put it into your hand, and shuffle your deck."
+Auto: OnFrontalAttack
+{
+	If StageContains 1 Other && HasTrait Revue
+	{
+		SetXValue ThisCardsSoul
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Quick
+Text Auto: When this card frontal attacks, if you have another 《Revue》 character, this card gets +X power until end of turn. X is equal to this card's soul ×1000.
+EndCard
+
+Character: RSL/S98-052
+Name Selfish Highway, Futaba Isurugi
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Revue
+Trait2 Weapon
+Combo Making You Wait
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Revue
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another 《Revue》 character, this card cannot Stand during your stand phase.
+Auto: OnAttack
+{
+	If Climax Making You Wait
+	{
+		If StageContains 2 Other && HasTrait Revue
+		{
+			PayCost Discard 1 Any &&& SendClimax WaitingRoom
+			{
+				SearchLocationForTargets Deck 0 2 HasTrait Revue
+				RevealTargets
+				MoveCards Hand
+				ShuffleLocation Deck
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room & Put 1 "Making You Wait" from your climax area into your waiting room] When this card attacks, if you have 2 or more other 《Revue》 characters, you may pay the cost. If you do, search your deck for up to 2 《Revue》 characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Character: RSL/S98-053
+Name Stage Girl of the Silver Screen, Karen Aijo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Revue
+	{
+		TargetOther
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other 《Revue》 character is placed on the stage from your hand, that character gets +1000 power until end of turn.
+Act: RestSelf
+{
+	TargetTop OpponentDeck 3
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Act: [Rest this card] Look at up to 3 cards from the top of your opponent's deck, and put it on the top of their deck in any order.
+EndCard
+
+Character: RSL/S98-054
+Name Reunion, Karen Aijo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Revue
+Trait2 Weapon
+Combo I Am Reborn
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnAttack
+{
+	If Climax I Am Reborn
+	{
+		TargetLocation WaitingRoom
+		Message Choose a card to send to stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Revue
+		RevealTargets
+		MoveCard Stock
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Revue ||| NameEquals Train of the Reborn
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "I Am Reborn" is in your climax area, choose up to 1 《Revue》 character in your waiting room, put it into your stock, and reveal the top card of your deck. If that card is "Train of the Reborn" or a 《Revue》 character, put it into your hand. 
+EndCard
+
+Character: RSL/S98-055
+Name Stage Girl of the Silver Screen, Futaba Isurugi
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+*ContForEachOtherTrait(1000,Revue)
+Auto: Encore Discard 1 HasTrait Revue
+{
+}
+Text Auto: ENCORE [Discard a 《Revue》 Character]
+Tag Encore
+EndCard
+
+Character: RSL/S98-056
+Name Our Future Destination, Futaba Isurugi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 4000
+Soul 2
+Trait1 Revue
+Trait2 Bike
+Cont: Assist
+{
+	GainPower 2000
+}
+Text Cont: ASSIST All of your characters in front of this card get +2000 power.
+*Healer
+Act: Discard 1 Any &&& RestSelf
+{
+	If StageContains 1 Other && NameEquals My Own Shine, Kaoruko Hanayagi
+	{
+		SearchWaitingRoom HasTrait Revue
+	}
+}
+Text Act: [Put 1 card from your hand into your waiting room & Rest this card] If you have another "My Own Shine, Kaoruko Hanayagi", choose up to 1 《Revue》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RSL/S98-057
+Name Our Future Destination, Claudine Saijo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Revue
+Trait2 Child Actor
+Cont: InHand
+{
+	If LocationContains Clock 1 NameEquals Stage Girl of the Silver Screen, Claudine Saijo
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If "Stage Girl of the Silver Screen, Claudine Saijo" is in your clock, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Revue
+	SetXValue TargetCount
+	Peek Deck X
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of 《Revue》 characters you have.
+Auto: OnAttack
+{
+	Question Make this card lose 2 soul and gain 1500 power?
+	If Yes
+	{
+		TargetSelf
+		LoseSoul 2
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+}
+Text Auto: When this card attacks, you may take -2 soul from this card until end of turn. If you do, this card gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: RSL/S98-058
+Name Our Future Destination, Karen Aijo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revue
+Trait2 Barrette
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	TargetSelf
+	UntilEndOfOpponentsTurn
+	GainPower 4500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupInBattle
+		}
+		Text Cont: During this card's battle, all players cannot play "BACKUP" from their hands.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability until the end of your opponent's next turn. "Cont: During this card's battle, all players cannot play "BACKUP" from their hands."
+EndCard
+
+Character: RSL/S98-059
+Name The Last Line, Karen Aijo
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Revue
+Trait2 Weapon
+Auto: StartMainPhase
+{
+	*Scry_Bottom
+}
+Text Auto: At the beginning of your main phase, look at the top card of your deck, and put it on the top or at the bottom of your deck.
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Revue
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your 《Revue》 characters, it gets +1000 power until end of turn.
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals The Stage of Fate, Karen Aijo
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalHeal
+		}
+		Text Auto: When the battle opponent of this card becomes reversed, you may put the top card of your clock in the waiting room.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your "The Stage of Fate, Karen Aijo", it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your clock into your waiting room."
+EndCard
+
+Character: RSL/S98-060
+Name Gambling Den, Claudine Saijo
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Revue
+Auto: OnReversed
+{
+	PayCost 1 Clock
+	{
+		Peek Deck 5
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card becomes reversed in battle, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 1 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: RSL/S98-061
+Name Greetings, Karen Aijo
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+*RedLevel0Bomb
+Act: 1 SendSelf WaitingRoom
+{
+	Peek Deck 4
+	ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Revue
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Revue》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: RSL/S98-062
+Name Futaba Isurugi Taken Aback
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Revue
+Auto: OnPlay
+{
+	If LocationContains OpponentWaitingRoom 3 IsClimax
+	{
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent's waiting room has 3 or more climax, Rest this card.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1《Revue》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: RSL/S98-063
+Name The Devil's Sweet Talk, Claudine Saijo
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Revue
+Cont: GiveAll
+{
+	If Other && HasTrait Revue
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Revue》 characters get +500 power.
+Auto: OnPlay
+{
+	TargetLocation Clock
+	If HasTarget
+	{
+		Question Swap the bottom card of your clock with a character in your waiting room?
+		If Yes
+		{
+			TargetBottom Clock 1
+			SaveTargets
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Revue
+			AddSavedToCurrentTargets
+			Exchange
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose the bottom card of your clock and 1 《Revue》 character in your waiting room, and exchange them.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals 【RIVAL】 Claudine Saijo
+		If HasTarget
+		{
+			AIChoice Random
+			ChooseCard
+			Change
+		}
+			Else
+		{
+				Message No change targets in waiting room :(
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "【RIVAL】 Claudine Saijo" in your waiting room, and put it in the stage position that this card was in. 
+EndCard
+
+Character: RSL/S98-064
+Name Interrupting, Futaba Isurugi
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Revue
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Revue
+	{
+		TargetTop Deck 1
+		Reveal 
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLower && IsCharacter
+	}
+}
+Text Auto: [Put 1 《Revue》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your other characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: RSL/S98-065
+Name After "Starlight" Is Over, Karen Aijo
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Revue
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Revue》 characters , it gets +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Door
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotReturnToHand
+				GainSpecialEffect CannotMove
+				GainSpecialEffect CannotGoToMemory
+			}
+			Text Cont: The character facing this card cannot be returned to hand, move to another stage position, or be put into memory.
+		}
+	}
+}
+Text Auto: When your climax with Comeback in its trigger icon is placed on your climax area, choose 1 of your characters, it gets the following ability. "Cont: The character facing this card cannot be returned to hand, move to another stage position, or be put into memory."
+EndCard
+
+Character: RSL/S98-066
+Name Everyone's Future Path, Claudine Saijo
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Child Actor
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1500
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 of your characters, it gets +1500 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: RSL/S98-067
+Name Skills on the Board, Claudine Saijo
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Brave Readiness, Maya Tendo ||| NameEquals Noble Will, Claudine Saijo
+	{
+		Peek Deck 5
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 HasTrait Revue
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [Put 1 "Noble Will, Claudine Saijo" or "Brave Readiness, Maya Tendo" from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 1 《Revue》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: RSL/S98-068
+Name Why? Futaba Isurugi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	Question Mill cards from the top of your deck equal to the number of characters you have?
+	If Yes
+	{
+		SetXToNumberOfCharacters HasTrait Revue
+		Mill X
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put X cards from the top of your deck into your waiting room. X is equal to the number of 《Revue》 characters you have.
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 HasTrait Revue
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Revue
+		ChooseCharacterFromTargets Choose a character to give +1 soul.
+		GainSoul 1
+	}
+}
+Text Auto: [Return 2 《Revue》 characters from your waiting room to your deck & Shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your 《Revue》 characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: RSL/S98-069
+Name Seeking Understanding, Futaba Isurugi
+Color R
+Level 1
+Cost 0
+Power 500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost Resonate "Our Flower Path" Kaoruko Hanayagi
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: RESONATE [Reveal 1 ""Our Flower Path" Kaoruko Hanayagi" in your hand] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your characters in battle, it gets +1000 power until end of turn.
+Backup 1500
+EndCard
+
+Character: RSL/S98-070
+Name Unable to Find a Reason, Karen Aijo
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Revue
+Trait2 Barrette
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other characters, it gets +1500 power until end of turn.
+*RedLevel1Bomb
+EndCard
+
+Character: RSL/S98-071
+Name Lines That Betray Your Thoughts, Karen Aijo
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Revue
+Auto: OnPlay
+{
+	If LocationContains Memory 5 Any
+	{
+		Message Choose the cards that will stay in memory.
+		SearchLocationForTargets WaitingRoom 4 Any
+		ReverseTargets Memory
+		MoveCard WaitingRoom
+	}
+	If LocationContains OpponentMemory 5 Any
+	{
+		TargetLocation OpponentMemory
+		OpponentMessage Choose the cards that will stay in memory.
+		OpponentChooseCardsFromTargets 4 4 Any
+		ReverseTargets Memory
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players perform the following action. "If your memory has 5 or more cards, choose 4 cards in your memory, and put all cards in your memory except those cards into your waiting room."
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Revue
+	{
+		TargetLocation WaitingRoom
+		Message Choose a card to send to stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Revue
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Revue》 characters, you may choose 1 《Revue》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: RSL/S98-072
+Name Day Before the Field Trip, Futaba Isurugi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Revue
+Trait2 Bike
+Cont: GiveAll
+{
+	If Other && HasTrait Revue
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other 《Revue》 characters get +1000 power.
+Auto: OnUseAct
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an Act, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: RSL/S98-073
+Name Realistic Sword Strike, Claudine Saijo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals Realistic Sword Strike, Maya Tendo
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another "Realistic Sword Strike, Maya Tendo", this card gets +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Revue
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Realistic Sword Strike, Maya Tendo
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 《Revue》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Realistic Sword Strike, Maya Tendo" in your waiting room, and put it in any position of your stage.
+EndCard
+
+Event: RSL/S98-074
+Name Train of the Reborn
+Color R
+Level 3
+Cost 1
+Combo I Am Reborn
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+	MultipleChoiceQuestion Choose an effect.\n1: Deal 1 Damage to your Opponent.\n2: Choose an "I Am Reborn" in your waiting room and return it to your hand.|1|2
+	If Answer 0
+	{
+		Burn 1
+	}
+	If Answer 1
+	{
+		SearchWaitingRoom NameEquals I Am Reborn
+	}
+}
+Text CxCombo Choose 1 of your characters, it gets +2000 power until end of turn, choose 1 of the following effects and perform it. "Deal 1 damage to your opponent." "Choose 1 "I Am Reborn" in your waiting room, and return it to your hand."
+EndCard
+
+Climax: RSL/S98-075
+Name I Am Reborn
+*DoorClimax
+EndCard
+
+Climax: RSL/S98-076
+Name Making You Wait
+*StandbyClimax
+EndCard
+
+Climax: RSL/S98-077
+Name A Beautiful Conclusion
+Color R
+*2SoulClimax
+EndCard
+
+Character: RSL/S98-078
+Name Our Future Destination, Hikari Kagura
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Barrette
+Cont: Assist
+{
+	If Compare ThatCardsLevel 1 OrMore
+	{
+		If MyTurn
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: ASSIST During your turn, all of your level 1 or higher characters in front of this card get +500 power.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		AIChoice AddToHand
+		SearchLocationForTargets WaitingRoom 0 X IsCharacter
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RSL/S98-079
+Name See You, Hikari Kagura
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Revue
+Trait2 Weapon
+Combo Final Act, And...
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Revue
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other 《Revue》 characters.
+Auto: OnAttack
+{
+	If Climax Final Act, And...
+	{
+		If StageContains 1 Other && HasTrait Revue
+		{
+			Peek Deck 4
+			Message Choose a card to add to your hand.
+			ChooseCardsFromTargets 0 1 HasTrait Revue
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Final Act, And..." is in your climax area, and you have another 《Revue》 character, look at up to 4 cards from the top of your deck, choose up to 1 《Revue》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: RSL/S98-080
+Name You and I Together, Maya Tendo
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Combo Because It's You, My All Can Be...
+*Healer
+Auto: OnAttack
+{
+	If Climax Because It's You, My All Can Be...
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give + 4500 power and the effect to.
+			GainPower 4500
+			GainEffect
+			{
+				Auto: OnThisTriggerCheck
+				{
+					IfOther HasTrigger Soul
+					{
+						Question_Obvious Deal 1 damage to your opponent twice?
+						If Yes
+						{
+							Burn 1
+							Burn 1
+						}
+					}
+					Else
+					{
+						RefundTimesPerTurn
+					}
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to 1 time per turn. When this card's trigger check reveals a card with Soul in its trigger icon, you may deal 1 damage to your opponent 2 times.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Because It's You, My All Can Be..." is in your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets +4500 power and the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When this card's trigger check reveals a card with Soul in its trigger icon, you may deal 1 damage to your opponent 2 times." 
+EndCard
+
+Character: RSL/S98-081
+Name Stage Girl of the Silver Screen, Hikari Kagura
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Combo Let's Meet Again on This Stage
+Auto: OnPlay
+{
+	TargetSelf
+	GainPower 3000
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +3000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Let's Meet Again on This Stage
+	{
+		If Compare CardsInStock 6 OrLess
+		{
+			PayCost 1
+			{
+				Peek Deck 2
+				Message Choose a card to add to your hand.
+				ChooseCardsFromTargets 0 2 HasTrait Revue
+				RevealTargets
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Let's Meet Again on This Stage" is in your climax area, and your stock has 6 or less cards, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 《Revue》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: RSL/S98-082
+Name Our Future Destination, Maya Tendo
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Leading Actor
+Auto: OnPlay
+{
+	Question Put the top card of your deck in the waiting room?
+	If Yes
+	{
+		Mill 1
+		*CountSoulTriggers
+		NarrowTargets HasTrigger Soul
+		If HasTarget
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Revue
+			ChooseCharacterFromTargets Choose a character to give +X soul.
+			GainSoul X
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your deck into your waiting room. If you do, choose 1 of your other 《Revue》 characters, it gets +1 soul for each Soul in the trigger icon of the card put into your waiting room until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: RSL/S98-083
+Name Stage Girl of the Silver Screen, Maya Tendo
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Revue
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Revue》 character, choose 1 of your characters, it gets +2000 power until end of turn. 
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: RSL/S98-084
+Name Vessel of the Gods That Reflects Infinity, Maya Tendo
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Revue
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		SetXToNumberOfCharacters Other && HasTrait Revue
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1000 power for each of your other 《Revue》 characters.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		StockSwap
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent puts all of their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock.
+EndCard
+
+Character: RSL/S98-085
+Name Reunion, Hikari Kagura
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Combo I Am Reborn
+Auto: OnPlay
+{
+	SearchDeck HasTrait Revue
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 《Revue》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	If Climax I Am Reborn
+	{
+		If StageContains 2 Other && HasTrait Revue
+		{
+			If StageContains 1 Other && NameEquals Reunion, Karen Aijo
+			{
+				PayCost 3 Discard 1 Any
+				{
+					TargetLocation Stage
+					NarrowTargets NameEquals Reunion, Karen Aijo
+					ChooseCharacterFromTargets Choose a character to send to waiting room.
+					RememberSlot
+					MoveCard WaitingRoom
+					SearchLocationForTargets WaitingRoom 1 1 NameEquals Next Stage and Next Role, Karen Aijo
+					PlaceOnRememberedSlot
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(3) Put 1 card from your hand into your waiting room & Put 1 "Reunion, Karen Aijo" from your stage into your waiting room] When this card attacks, if "I Am Reborn" is in your climax area, and you have 2 or more other 《Revue》 characters, you may pay the cost. If you do, choose 1 "Next Stage and Next Role, Karen Aijo" in your waiting room, and put it in the position that the character put into the waiting room by this ability's cost was in.
+EndCard
+
+Character: RSL/S98-086
+Name Natural Disposition on the Board, Maya Tendo
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Revue
+Trait2 Weapon
+*BlueLevel0Bomb
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		TargetSelf
+		Rest
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may Rest this card. 
+EndCard
+
+Character: RSL/S98-087
+Name Time of Farewell, Hikari Kagura
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 NameEquals "When the Flower Blooms" Hikari Kagura
+	{
+		PayCost 1 Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to give -2 soul.
+			LoseSoul 2
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When you use this card's "BACKUP", if you have a ""When the Flower Blooms" Hikari Kagura", you may pay the cost. If you do, choose 1 of your opponent's characters, it gets -2 soul until end of turn.
+Backup 2500
+Text Destiny will change.
+EndCard
+
+Character: RSL/S98-088
+Name 【RIVAL】 Maya Tendo
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 4 HasTrait Revue
+	{
+		PayCost 2
+		{
+			*SendEarlyPlayToWaitingRoom
+		}
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", if you have 4 or more 《Revue》 characters, you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their waiting room.
+Backup 2500
+EndCard
+
+Character: RSL/S98-089
+Name Aiming for the Gold Medal, Hikari Kagura
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Revue
+Combo Co-star Revue
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Revue
+	MultiplyXValue 1000
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of 《Revue》 characters you have ×1000.
+Auto: OnSpecificClimaxPlay Co-star Revue
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		SearchDeck NameEquals If You Won't Act on Stage, Mahiru Tsuyuzaki
+		*OptionalBlindStock
+	}
+}
+Text Auto: CxCombo When "Co-star Revue" is placed on your climax area, if this card is in your center stage, search your deck for up to 1 "If You Won't Act on Stage, Mahiru Tsuyuzaki", reveal it to your opponent, put it into your hand, shuffle your deck, and put up to 1 card from the top of your deck into your stock.
+EndCard
+
+Character: RSL/S98-090
+Name Gazing at the Faraway Sea, Hikari Kagura
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Revue
+Trait2 Barrette
+Cont: GiveAll
+{
+	If Other && HasTrait Revue
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Revue》 characters get +500 power.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		If CanMove
+		{
+			TargetLocation Backstage
+			If Compare TargetCount 1 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your back stage?
+				If Yes
+				{
+					MoveToOpenPosition False True
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+Character: RSL/S98-091
+Name Beautiful Stage Person, Maya Tendo
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Revue
+*GainPowerWhenOtherAttacks(2000,Revue)
+EndCard
+
+Character: RSL/S98-092
+Name Greetings, Hikari Kagura
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Revue
+Auto: OnPlay
+{
+	Peek Deck 3
+	AIChoice AddToHand
+	Message Choose a card to add to your hand.
+	ChooseCardsFromTargets 0 1 IsEvent
+	SetXValue TargetCount
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	If Compare X 1 OrMore
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Revue
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other 《Revue》 characters, this card gets +2000 power until end of turn.
+EndCard
+
+Character: RSL/S98-093
+Name Seeking a New Stage, Maya Tendo
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Revue
+Trait2 Leading Actor
+*LevelAssist
+Act: 3 RestSelf
+{
+	SearchLocationForTargets Hand 0 1 NameEquals Brave Readiness, Maya Tendo
+	PlaceOnStage False True True False
+}
+Text Act: [(3) Rest this card] Choose up to 1 "Brave Readiness, Maya Tendo" in your hand, and put it in any position of your stage.
+EndCard
+
+Character: RSL/S98-094
+Name Realistic Sword Strike, Maya Tendo
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 1 NameEquals Realistic Sword Strike, Claudine Saijo
+		{
+			GainPower 4000
+		}
+	}
+}
+Text Cont: During your turn, if you have another "Realistic Sword Strike, Claudine Saijo", this card gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Revue
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Realistic Sword Strike, Claudine Saijo
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 《Revue》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Realistic Sword Strike, Claudine Saijo" in your waiting room, and put it in any position of your stage.
+EndCard
+
+Character: RSL/S98-095
+Name Run! Hikari Kagura
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	If LocationContains WaitingRoom 1 NameEquals Specially Made Gold Medal
+	{
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if "Specially Made Gold Medal" is in your waiting room, this card gets +2000 power until the end of your opponent's next turn.
+Auto: StartEncorePhase
+{
+	If PlayedThisTurn
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: During the turn that this card is placed on the stage from your hand, at the beginning of the encore step, you may put the top card of your clock into your waiting room.
+Auto: StartClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Revue
+	{
+		If LocationContainsOrLess Hand 6 Any
+		{
+			Refresh
+		}
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Revue》 character from your waiting room at the bottom of your clock] At the beginning of your climax phase, if your hand has 6 or less cards, you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+EndCard
+
+Event: RSL/S98-096
+Name Soul Revue
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	If StageContains 2 CardPosition Stand
+	{
+		Message Choose the characters to rest.
+		ChooseMultipleCharacters 2 2 InLocation Stage && CardPosition Stand
+		Rest
+		Peek Deck 5
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 HasTrigger Soul
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		*Scry_Bottom
+	}
+}
+Text Choose 2 of your standing characters, and Rest them. If you Rest 2 characters, look at up to 5 cards from the top of your deck, choose up to 1 card with in its trigger icon from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. Look at the top card of your deck, and put it on the top or at the bottom of your deck.
+EndCard
+
+Event: RSL/S98-097
+Name Ripe Tomato
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		*OnAttackCheck2ChooseTrigger
+	}
+	TargetSelf
+	MoveCard Stock
+}
+Text Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room." Put this card into your stock.
+EndCard
+
+Climax: RSL/S98-098
+Name Final Act, And...
+*GateClimax
+EndCard
+
+Climax: RSL/S98-099
+Name Because It's You, My All Can Be...
+*GateClimax
+EndCard
+
+Climax: RSL/S98-100
+Name Let's Meet Again on This Stage
+*BookClimax
+EndCard
+
+Character: RSL/S98-101
+Name Pop-up Stage Girl, Karen Aijo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Revue
+Trait2 Weapon
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: RSL/S98-102
+Name Pop-up Stage Girl, Hikari Kagura
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: RSL/S98-103
+Name Pop-up Stage Girl, Mahiru Tsuyuzaki
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Revue
+Trait2 Weapon
+*DropSearch(Revue)
+EndCard
+
+Character: RSL/S98-104
+Name Pop-up Stage Girl, Claudine Saijo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Revue
+Trait2 Weapon
+*LevelAssist
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: RSL/S98-105
+Name Pop-up Stage Girl, Maya Tendo
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Revue
+Trait2 Weapon
+Backup 2500
+EndCard
+
+Character: RSL/S98-106
+Name Pop-up Stage Girl, Junna Hoshimi
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it in any position of your stage.
+EndCard
+
+Character: RSL/S98-107
+Name Pop-up Stage Girl, Nana Daiba
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Revue
+Trait2 Weapon
+*YellowEarlyPlayBomb
+EndCard
+
+Character: RSL/S98-108
+Name Pop-up Stage Girl, Kaoruko Hanayagi
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, this card gets +4000 power.
+EndCard
+
+Character: RSL/S98-109
+Name Pop-up Stage Girl, Futaba Isurugi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Revue
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Revue》 character, put it into your hand, choose 1 card in your hand, and put it into your waiting room. 
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +3000 power until end of turn.
+EndCard
+
+Character: RSL/S98-PE01
+Name Ticket to the Stage of Destiny, Karen Aijo
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Revue
+Trait2 Barrette
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 HasTrait Revue
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 《Revue》 character from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: RSL/S98-PE02
+Name Ticket to the Stage of Destiny, Hikari Kagura
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Barrette
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Auto: OnOpponentClimaxPlay
+{
+	Question Put this card into your stock?
+	If Yes
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Auto: When your opponent's climax is placed on their climax area, you may put this card into your stock.
+EndCard
+
+Character: RSL/S98-P03
+Name Moment for the Two, Karen & Hikari
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Discard a card from your hand to the waiting room] When this is placed from hand to the Stage, put the top 2 cards of your deck in the waiting room. If there's at least 1 Climax card among them, you may pay cost. If so, choose a character in your waiting room and return it to your hand.
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Revue
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this attacks, if you have 2 or more other 《Revue》 Characters, this gains +2000 power for the turn.
+EndCard
+
+Character: RSL/S98-P04
+Name Together with Everyone She Loves, Karen Aijo
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Revue
+Trait2 Weapon
+*ClimaxExchange
+EndCard
+
+Character: RSL/S98-P05
+Name Together with Everyone She Loves, Hikari Kagura
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Revue
+Trait2 Weapon
+*OnPlayFlicker
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Revue
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When this card attacks, choose 1 of your other 《Revue》 characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: RSL/S98-P06
+Name Together with Everyone She Loves, Maya Tendo
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+*OnPlayMill2GainPowerForEachCharacter(1000,Revue)
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Revue
+		TargetLocation Stage
+		NarrowTargets HasTrait Revue
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Discard a card from hand to the waiting room] When this is placed from hand to the Stage, you may pay cost. If so, choose a 《Revue》 character in your waiting room, put it in your hand, choose 1 of your other 《Revue》 Characters, and that character gains +1000 power for the turn.
+EndCard
+
+Character: RSL/S98-P07
+Name Together with Everyone She Loves, Junna Hoshimi
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Revue
+	}
+}
+Text Auto: [Discard a Climax card from your hand to the waiting room] When this is placed from hand to the Stage, you may pay cost. If so, choose a 《Revue》 character in your waiting room and return it to your hand.
+*GainPowerWhenOtherAttacks(1000,Revue)
+EndCard
+
+Character: RSL/S98-P08
+Name Together with Everyone She Loves, Mahiru Tsuyuzaki
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: character Opposite this cannot move to another Slot.
+Auto: OnPlay
+{
+	TargetSelf
+	GainPower 1500
+}
+Quick
+Text Auto: When this is placed from hand to the Stage, this gains +1500 power for the turn.
+EndCard
+
+Character: RSL/S98-P09
+Name Together with Everyone She Loves, Nana Daiba
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && HasTrait Revue
+	{
+		GainPower 500
+	}
+}
+Text Cont: All your other 《Revue》 characters gain +500 Power.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		If CanMove
+		{
+			TargetLocation Backstage
+			If Compare TargetCount 1 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your back stage?
+				If Yes
+				{
+					MoveToOpenPosition False True
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+Character: RSL/S98-P10
+Name Together with Everyone She Loves, Claudine Saijo
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Cont: This character cannot move to a different slot.
+	}
+}
+Text Auto: When this is placed from the hand to the Stage, choose 1 of your Opponent's Characters, and until the next end of your Opponent's turn, that character gains the following ability. "Cont: This character cannot move to a different slot."
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Revue
+}
+Text Act: [Discard a card from your hand to the waiting room, Put this in the waiting room] Choose a 《Revue》 character in your waiting room and return it to your hand.
+EndCard
+
+Character: RSL/S98-P11
+Name Together with Everyone She Loves, Futaba Isurugi
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Revue
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 1 Other && HasTrait Revue
+		{
+			GainPower 3000
+		}
+	}
+}
+Text Cont: During your turn, if you have another 《Revue》 Character, this gains +3000 Power.
+Act: 1
+{
+	If StageContains 2 Other && HasTrait Revue
+	{
+		TargetSelf
+		GainPower 1000
+		BlockOpponentEncore
+	}
+}
+Text Act: [(1)] If you have 2 or more other 《Revue》 Characters, this gains +1000 power and your Opponent cannot use "Auto: ENCORE" for the turn.
+EndCard
+
+Character: RSL/S98-P12
+Name Together with Everyone She Loves, Kaoruko Hanayagi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Revue
+Trait2 Weapon
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1500
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top two cards of your deck into your waiting room. If there is a climax among those cards, choose one of your characters, and that character gets +1500 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: [Return this to your hand] When your Climax card is placed in the climax area, you may pay cost. If so, choose 1 of your Characters, and that character gains +2000 power for the turn. 
+EndCard

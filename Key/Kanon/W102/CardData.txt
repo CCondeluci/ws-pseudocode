@@ -1,0 +1,390 @@
+// Kanon Key All-Star
+
+Character: Kka/W102-001
+Name Childhood Friend in a Snowy Town, Nayuki
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Sports
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Anniversary|Winter
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are 《Anniversary》 or 《Winter》, this gets +2000 power.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Anniversary|Winter
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [(1) Send this to waiting room] When your other 《Anniversary》 or 《Winter》 character is frontal attacked, you may pay the cost. If you do, return that character to hand.
+EndCard
+
+Character: Kka/W102-003
+Name Memories And Taiyaki, Ayu
+Color Y
+Level 3
+Cost 2
+Soul 2
+Trigger Soul
+Power 10500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Taiyaki
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose one of the following effects and perform it,\n1. This turn, all of your characters get +3000 power.\n2. [(1)] You may pay the cost. If you do, your opponent sends all of their stock to waiting room, then puts an equal number of cards from the top of their deck into stock.\n3. [(1)] You may pay the cost. If you do, choose 1 climax from your waiting room, and add it to hand.|Choice 1|Choice 2|Choice 3
+	If Answer 0
+	{
+		TargetLocation Stage
+		GainPower 3000
+	}
+	If Answer 1
+	{
+		PayCost 1
+		{
+			StockSwap
+		}
+	}
+	If Answer 2
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom IsClimax
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, choose 1 of the following 3 effects and perform it, "This turn, all of your characters get +3000 power." "[(1)] You may pay the cost. If you do, your opponent sends all of their stock to waiting room, then puts an equal number of cards from the top of their deck into stock." "[(1)] You may pay the cost. If you do, choose 1 climax from your waiting room, and add it to hand."
+EndCard
+
+Character: Kka/W102-005
+Name A Tale of Small Miracles, Ayu
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Taiyaki
+Combo Last Wish
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other
+	{
+		GainPower 1500
+	}
+} 
+Text Cont: During your turn, if you have 2 or more other characters, this gets +1500 power.
+Auto: OnAttack
+{
+	If Climax Last Wish && StageContains 2 Other
+	{
+		RevealUpTo Deck 4
+		ChooseCardsFromTargets 0 1 HasTrait Anniversary|Winter || NameEquals Promise of Days Past
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this attacks, if you have the "Last Wish" in your climax area, and you have 2 or more other characters, look at up to 4 cards from the top of your deck, choose up to 1 《Anniversary》 or 《Winter》 character or "Promise of Days Past" from among them, show it to your opponent, add it to hand, send the rest to waiting room.
+EndCard
+
+Character: Kka/W102-009
+Name The Warmth Sought, Makoto
+Color Y
+Level 3
+Cost 2
+Soul 2
+Trigger Soul
+Power 10500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Animal
+Combo Wedding on the Hill
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+	If HasTarget
+	{
+		PlaceOnStage
+		GainPower 2000
+	}
+}
+Text Auto: When this is placed on stage from hand, choose up to 1 character from your hand whose level is equal or lower than your level, place it on stage in any slot, and this turn, it gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Wedding on the Hill
+	{
+		MillOpponentBottom 4
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: When this attacks, if you have "Wedding on the Hill" in your climax area, send the bottom 4 cards of your opponent's deck to waiting room, then deal X damage to your opponent. X equals the number of climaxes sent to waiting room by this effect.
+EndCard
+
+Character: Kka/W102-013
+Name Understood, Akiko
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Jam
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets
+	LosePower 1000
+	GainTrait Jam
+}
+Text Auto: When this is placed on stage from hand, choose 1 of your opponent's center stage characters, this turn, it gets 《Jam》 and -1000 power.
+*DropSearch(Anniversary|Winter)
+EndCard
+
+Character: Kka/W102-015
+Name Last Words, Ayu
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Taiyaki
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainLevel 1
+		GainPower 1500
+		GainSpecialEffect CannotSideAttack
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotSideAttack
+			}
+			Text Cont: The character facing this card cannot side attack.
+		}
+	}
+}
+Text Cont: If you have 3 or less stock, this gets +1 level, +1500 power, and gains the following ability: "Cont: The character across from this and this card cannot side attack."
+*RunInFrontOfCharacter
+EndCard
+
+Character: Kka/W102-016
+Name First Protagonist That Can't Read the Room, Yuuichi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Winter
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Anniversary|Winter
+	ChooseCharacterFromTargets
+	GainPower 500
+}
+Text Auto: At the start of your Climax Phase, choose 1 of your 《Anniversary》 or 《Winter》 characters, this turn, it gets +500 power.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: Kka/W102-017
+Name Daughter of the Original Host Family, Nayuki
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Sports
+Backup 2000
+*ScryBackup(Anniversary|Winter)
+EndCard
+
+Character: Kka/W102-018
+Name Ice Cream in the Middle of Winter, Shiori
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Ice Cream
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If Other && HasTrait Anniversary|Winter
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: During your turn, all of your other 《Anniversary》 or 《Winter》 characters get +500 power.
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	TargetOther
+	IfTarget HasTrait Anniversary|Winter
+	{
+		Peek Deck 1
+		EndPeek
+	}
+}
+Text Auto: When your other 《Anniversary》 or 《Winter》 character or this card is placed on stage from hand, you may look at the top card of your deck.
+Act: 1 Discard 1 IsClimax
+{
+	SearchWaitingRoom HasTrait Anniversary|Winter
+}
+Text Act: [(1) Discard 1 climax] Choose 1 《Anniversary》 or 《Winter》 character in your waiting room, add it to hand.
+EndCard
+
+Character: Kka/W102-020
+Name The One Who Has It, Kaori
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Chairman
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Anniversary|Winter
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 3000
+	}
+}
+Text Auto: When this is placed on stage from hand, reveal the top card of your deck. If that card is a 《Anniversary》 or 《Winter》 character, choose 1 of your characters, this turn, it gets +3000 power.
+Auto: OnReverseOpponent
+{
+	If StageContains 1 Other && HasTrait Anniversary|Winter
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed in battle, if you have another 《Anniversary》 or 《Winter》 character, you may draw 1 card. If you do, discard 1 card.
+EndCard
+
+Character: Kka/W102-024
+Name Day of Departure, Sayuri
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Bento
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Monster Slayer, Mai
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand. you may pay the cost. If you do, choose 1 "Monster Slayer, Mai" in your waiting room, place it on stage in any slot.
+EndCard
+
+Character: Kka/W102-025
+Name Monster Slayer, Mai
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Weapon
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrMore
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed in battle, you may pay the cost. If you do, choose 1 character in your waiting room, add it to hand.
+EndCard
+
+Event: Kka/W102-026
+Name Promise of Days Past
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	If Compare MyLevel 2 OrLess
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Anniversary|Winter && Compare ThatCardsCost 0 OrLess
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+	If Compare MyLevel 3 OrMore
+	{
+		PayCost 4 Discard 2 Any Rest 1 HasTrait Anniversary|Winter
+		{
+			*OptionalHeal
+			*OptionalHeal
+			Burn 2
+			BlockOpponentEvents
+		}
+	}
+}
+Text If you are level 2 or lower, choose 1 cost 0 or lower 《Anniversary》 or 《Winter》 character from your waiting room, place it on stage in any slot.
+Text [(4) Discard 2 cards, rest 1 of your 《Anniversary》 or 《Winter》 characters] If you are level 3 or higher, you may pay the cost. If you do, put up to 2 cards from the top of your clock into the waiting room, deal 2 damage to your opponent and this turn, your opponent cannot play events from hand.
+EndCard
+
+Climax: Kka/W102-028
+Name Last Wish
+*ChoiceClimax
+EndCard
+
+Climax: Kka/W102-030
+Name Wedding on the Hill
+*ChoiceClimax
+EndCard
+
+Character: Kka/W102-108
+Name The Promise Made 7 Years Ago, Ayu
+Color Y
+Level 1
+Cost 1
+Power 3500
+Trait1 Anniversary
+Trait2 Winter
+Trait3 Taiyaki
+*PowerOnMyTurn(6000)
+*HandEncore
+EndCard

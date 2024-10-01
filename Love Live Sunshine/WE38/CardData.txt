@@ -1,0 +1,230 @@
+
+Character: LSS/WE38-002
+Name Guide to a Wonderful Journey~ Yoshiko Tsushima
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 1 HasTrait Music && Other
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Music> character, this card gets +1 level and +1500 power until end of turn.
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: LSS/WE38-005
+Name Guide to a Wonderful Journey~ Hanamaru Kunikida
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Auto: OnPlay
+{
+	If StageContains 1 HasTrait Music && Other
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Music> character, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	If StageContains 1 HasTrait Music && Other
+	{
+		TargetFacing
+		If HasTarget
+		{
+			If Compare TargetCardsLevel 2 Exactly
+			{
+				TargetSelf
+				GainPower 4500
+			}
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another <Music> character, and the character facing this card is level 2, this card gets +4500 power until end of turn.
+EndCard
+
+Character: LSS/WE38-009
+Name Guide to a Wonderful Journey~ Ruby Kurosawa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Combo Absolute Contract
+*Healer
+Auto: OnAttack
+{
+	If Climax Absolute Contract
+	{
+		GainEffect
+		{
+			Auto: OnDamageNotCanceled
+			{
+				*OptionalBurn(1)
+			}
+			TimesPerTurn 2
+			Quick
+			Text Auto: Up to twice per turn, When this card's damage is not cancelled, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Absolute Contract" is in your climax area, this card gets the following effect until end of turn. "Auto: Up to twice per turn, When this card's damage is not cancelled, you may deal 1 damage to your opponent."
+EndCard
+
+Character: LSS/WE38-016
+Name Guide to a Wonderful Journey~ Riko Sakurauchi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+*ClimaxExchange
+*StockOnCancel
+EndCard
+
+Character: LSS/WE38-018
+Name Guide to a Wonderful Journey~ Chika Takami
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Music
+		SetXValue TargetCount
+		*CheckAndAdd(X)
+	}
+}
+Text Auto: [Put 1 card from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of other <Music> characters you have.
+EndCard
+
+Character: LSS/WE38-019
+Name Guide to a Wonderful Journey~ You Watanabe
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Music
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your another <Music> characters, it gets +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: LSS/WE38-028
+Name Guide to a Wonderful Journey~ Kanan Matsuura
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Requirement LocationContains  WaitingRoom 1 NameEquals "I'll Take Over" Kanan Matsuura
+			Act: 1 SendSelf WaitingRoom
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals "I'll Take Over" Kanan Matsuura
+				Change
+			}
+			Text Act: [(1) send this to waiting room] Choose 1 ""I'll Take Over" Kanan Matsuura" in your waiting room, and put it in the stage position that this card was in.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [(1) send this to waiting room] Choose 1 ""I'll Take Over" Kanan Matsuura" in your waiting room, and put it in the stage position that this card was in."
+Act: 1 RestSelf
+{
+	Peek Deck 2
+	ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Rest this card] Look at up to 2 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into the waiting room. 
+EndCard
+
+Character: LSS/WE38-034
+Name Guide to a Wonderful Journey~ Mari Ohara
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Music
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		Auto: Encore 2
+		{
+		}
+		Text Auto: ENCORE [(2)]
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [(2)]".
+Auto: OnUseAct
+{
+	GainEffect
+	{
+		*OnReverseBlindStock
+	}
+}
+TimesPerTurn 1
+Quick
+Text Auto: This ability activates up to 1 time per turn. When you use an "ACT", this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: LSS/WE38-037
+Name Guide to a Wonderful Journey~ Dia Kurosawa
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 8500
+Trait1 Music
+*EarlyPlay4OrMore(Music)
+Cont: GiveSelf
+{
+	If StageContains 2 HasTrait Music && Other
+	{
+		GainPower 1500
+		GainSpecialEffect NoEventsOnAttack
+	}
+}
+Text Cont: If the number of other <Music> characters you have is 2 or more, this card gets +1500 power and the following ability. "Cont: During this card's battle, your opponent cannot play event from hand."
+*Healer
+EndCard

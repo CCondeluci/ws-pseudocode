@@ -1,0 +1,2728 @@
+﻿Character: GBS/S63-E001
+Name Pride of an Elf, High Elf Archer
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Order
+Trait2 Adventurer
+Combo Colorful Adventures //This is needed to make the climax name bold in the text
+Cont: GiveSelf
+{
+	GainSpecialEffect NoRepeatedEvents
+}
+Text Cont: All players cannot play event cards with the same name as an event card already played this turn.
+Auto: OnReverseOpponent
+{
+	If Climax Colorful Adventures
+	{
+		Mill 3
+		NarrowTargets HasTrigger Soul
+		SetXValue TargetCount
+		AIChoice AddToHand
+		SearchLocationForTargets WaitingRoom 0 X HasTrait Order
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Colorful Adventures" is in your climax area, put the top 3 cards of your deck into the waiting room, choose up to X <Order> characters in your waiting room, and return them to your hand. X is equal to the number of cards with soul trigger icons that were put into the waiting room by this effect.
+EndCard
+
+
+Character: GBS/S63-E002
+Name Natural Adventurer, High Elf Archer
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 3 OrLess
+		AIChoice BounceOpponent
+		ChooseCharacterFromTargets Choose an opponent's character to return to the hand.
+		Bounce
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, choose 1 of your opponent's level 3 or lower characters, and return it to his or her hand.
+*MusashiEffect
+EndCard
+
+Character: GBS/S63-E003
+Name Envy for the Unknown, High Elf Archer
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnAttack
+{
+	PayCost ShuffleCharacter 2
+	{
+		GainSoul 1
+	}
+}
+Text Auto: [Shuffle 2 characters from your waiting room into your deck] When this card attacks, you may pay the cost, this card gets +1 soul until end of turn.
+*FreeRunner
+EndCard
+
+Character: GBS/S63-E004
+Name Inquiry About a Warrior, High Elf Archer
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnTriggerCheck
+{
+	IfOther NameEquals Friends to Battle Alongside With
+	{
+		SearchWaitingRoom NameEquals Rapid Firing of Pebbles, Dwarf Shaman|Banisher of Heresy, Lizard Priest
+	}
+}
+Text Auto: CxCombo When your character's trigger check reveals "Friends to Battle Alongside With", you may choose 1 "Rapid Firing of Pebbles, Dwarf Shaman" or "Banisher of Heresy, Lizard Priest" in your waiting room, and return it to your hand.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 6
+	TargetBrainstormed
+	NarrowTargets HasTrigger Shot
+	If HasTarget
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 6 cards from the top of your deck and put them into the waiting room. If a climax with a shot trigger icon is revealed among those cards, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+
+
+Character: GBS/S63-E005
+Name Generous Heavy Drinker, Dwarf Shaman
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Order
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Order> characters, it gets +1500 power until end of turn.
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Shot
+	{
+		If InBattle
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Quick //Quick so that it won't ask for order on every trigger check with a shot trigger.
+Text Auto: When this card's trigger check reveals a climax, if that card's trigger icon is shot, you may choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: GBS/S63-E006
+Name Sure-Hit Strike, High Elf Archer
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnSpecificClimaxPlay Faith Entrusted to the Bow
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+}
+Quick
+Text Auto: CxCombo When "Faith Entrusted to the Bow" is placed in your climax area, if this card is on your center stage, all of your characters get +1 soul until end of turn.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: GBS/S63-E007
+Name Rapid Firing of Pebbles, Dwarf Shaman
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Order
+Trait2 Adventurer
+Combo Friends to Battle Alongside With
+Auto: OnPlay|PlacedBy Banisher of Heresy, Lizard Priest
+{
+	*OptionalDraw
+	*OptionalDraw
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, or by the effect of "Banisher of Heresy, Lizard Priest", draw up to 2 cards, and discard 1 card.
+Auto: OnAttack
+{
+	If Climax Friends to Battle Alongside With
+	{
+		PayCost 4
+		{
+			GainPower 3000
+			Mill 5
+			NarrowTargets HasTrigger Soul
+			SetXValue TargetCount
+			Repeat X
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(4)] When this card attacks, if "Friends to Battle Alongside With" is in your climax area, you may pay the cost, this card gets +3000 power until end of turn, put up to 5 cards from the top of your deck into the waiting room, and perform the following action X times. "Deal 1 damage to your opponent." X is the number of cards with soul trigger icons put into the waiting room by this effect.
+EndCard
+
+Character: GBS/S63-E008
+Name Banisher of Heresy, Lizard Priest
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Order
+Trait2 Adventurer
+Combo Friends to Battle Alongside With
+*Healer
+Auto: OnSpecificClimaxPlay Friends to Battle Alongside With
+{
+	If InLocation CenterStage && Compare MyLevel 3 OrMore
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Rapid Firing of Pebbles, Dwarf Shaman
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: CxCombo When "Friends to Battle Alongside With" is placed in your climax area, if this card is on your center stage, and you are level 3 or higher, you may choose 1 "Rapid Firing of Pebbles, Dwarf Shaman" in your waiting room, and place it on any position of your stage.
+EndCard
+
+Character: GBS/S63-E009
+Name Battle Stance, Lizard Priest
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Order
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When your other <Order> character attacks, this card gets +1500 power until end of turn.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: GBS/S63-E010
+Name Exploding! High Elf Archer
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If Compare CardsInClock 0 OrLess
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If your clock has 0 cards, this card cannot attack.
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Order
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, and this card gets +X power until end of turn. X is the number of <Order> characters revealed times 1000.
+EndCard
+
+Character: GBS/S63-E011
+Name Rear Support, High Elf Archer
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not ColorIs Yellow
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "Backup", if all your characters are yellow, you may put the top card of your deck into your clock.
+Backup 2000
+EndCard
+
+Character: GBS/S63-E012
+Name Eye of a Veteran Fighter, Dwarf Shaman
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Order
+Trait2 Adventurer
+*LevelAssist
+Auto: OnPlay
+{
+	Peek Deck 2
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and return them in the original order.
+Auto: OnPlay
+{
+	Peek OpponentDeck 2
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your opponent's deck, and return them in the original order.
+EndCard
+
+Character: GBS/S63-E013
+Name Overwhelming Interest, High Elf Archer
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnAttack
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Auto: When this card attacks choose a character on your opponent's center stage, it gets -1000 power until end of turn.
+Auto: OnReversed
+{
+	*ClockSaboutage
+}
+Text Auto: When this card becomes reversed in battle, you may choose a card in your opponent's clock, and put it into the waiting room, if you do, your opponent puts the top card of his or her deck into the clock.
+EndCard
+
+Character: GBS/S63-E014
+Name Miracle from Ancestors, Lizard Priest
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If NameEquals Soldier from Dragon Bones, Dragontooth Warrior
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Your other "Soldier from Dragon Bones, Dragontooth Warrior" get +2000 power.
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		SearchWaitingRoom NameEquals Dragon Bones
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost, choose 1 "Dragon Bones" in your waiting room and return it to your hand.
+EndCard
+
+Character: GBS/S63-E015
+Name Spirited Dreams, Dwarf Shaman
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Order
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your turn, your other <Order> characters get +500 power.
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Order
+	If Compare TargetCount 2 Exactly
+	{
+		TargetLocation OpponentBackstage
+		NarrowTargets Compare ThatCardsLevel 3 OrLower
+		AIChoice CannotStand
+		ChooseCharacterFromTargets Choose a character to make unable to stand.
+		DontStand
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If the cards revealed are all <Order> characters, choose 1 level 3 or lower character on your opponent's backstage. It cannot stand during your opponent's next stand phase.
+EndCard
+
+Character: GBS/S63-E016
+Name Effective Words, High Elf Archer
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Order
+Trait2 Adventurer
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Order
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your <Order> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: GBS/S63-E017
+Name Cherished Flavor, Lizard Priest
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, if a climax is sent, this card gets +2 soul until end of turn.
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			AIChoice Discard
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+EndCard
+
+Character: GBS/S63-E018
+Name Promise to Oneself, High Elf Archer
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Order
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other <Order> characters, this card gets +2000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: GBS/S63-E019
+Name Final Battle, Female Sage
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Order
+Trait2 Adventurer
+*LevelAssist
+Cont: GiveAll
+{
+	If NameEquals Final Battle, Female Hero|Final Battle, Female Swordmaster
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: All of your other "Final Battle, Female Hero" and "Final Balle, Female Swordmaster" get +500 power and "Auto: ENCORE [Discard a character]".
+EndCard
+
+Character: GBS/S63-E020
+Name Final Battle, Female Swordmaster
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 NameEquals Final Battle, Female Hero
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have another "Final Battle, Female Hero", this card gets +4000 power.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Final Battle, Female Hero
+	AIChoice GainPower 2500
+	ChooseCharacterFromTargets Choose a "Final Battle, Female Hero" to give +2500 power.
+	GainPower 2500
+}
+Quick
+Text Auto: When this card attacks, choose 1 of your other "Final Battle, Female Hero", it gets +2500 power until end of turn.
+EndCard
+
+Character: GBS/S63-E021
+Name Soldier from Dragon Bones, Dragontooth Warrior
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Order
+EndCard
+
+Character: GBS/S63-E022
+Name Final Battle, Female Hero
+Color Y
+Level 2
+Cost 3
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Order
+Trait2 Adventurer
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Order
+	{
+		AIChoice Random
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Final Battle, Female Sage
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard an <Order> character] When this card is placed on the stage from your hand, you may pay the cost, choose a "Final Battle, Female Sage" in your waiting room, and place it on any position of your stage.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Order
+	{
+		AIChoice Random
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Final Battle, Female Swordmaster
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard an <Order> character] When this card is placed on the stage from your hand, you may pay the cost, choose a "Final Battle, Female Swordmaster" in your waiting room, and place it on any position of your stage.
+EndCard
+
+Event: GBS/S63-E023
+Name Dragon Bones
+Color Y
+Level 1
+Cost 0
+Requirement StageContains 1 CardPosition Stand && NameContains Lizard Priest
+Effect:
+{
+	ForcePayCost Rest 1 CardPosition Stand && NameContains Lizard Priest
+	{
+		SearchLocationForTargets Hand 1 1 NameEquals Soldier from Dragon Bones, Dragontooth Warrior
+		PlaceOnStage False True True False
+	}
+}
+Text Choose 1 of your standing characters with "Lizard Priest" in its name and rest it. If you do, choose a "Soldier from Dragon Bones, Dragontooth Warrior" in your hand, and place it on any position of your stage.
+EndCard
+
+Event: GBS/S63-E024
+Name Dice
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	MoveCard Memory
+}
+Text Put this card into your memory.
+Auto: StartMainPhase
+{
+	If InLocation Memory
+	{
+		TargetTop Deck 1
+		SaveTargets 
+		TargetTop OpponentDeck 1
+		AddSavedToCurrentTargets
+		RevealTargets
+		SaveTargets
+		Wait 1
+		EndPeek
+		//If both are level 0 characters
+		NarrowTargets IsCharacter && Compare ThatCardsLevel 0 OrLess
+		If Compare TargetCount 2 Exactly
+		{
+			TargetTop Stock 1
+			MoveCard WaitingRoom
+		}
+		LoadTargets
+		NarrowTargets IsCharacter && Compare ThatCardsLevel 3 OrMore
+		If Compare TargetCount 2 Exactly
+		{
+			AIChoice RemoveFromWaitingRoom
+			Message Choose up to 4 cards to send to your stock
+			SearchLocationForTargets WaitingRoom 0 4 Any
+			MoveCard Stock
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, all players reveal the top card of their decks. If all revealed cards are level 0 or lower characters, put the top card of your stock into the waiting room. If all revealed cards area level 3 or higher characters, choose up to 4 cards in your waiting room, and put them into your stock.
+EndCard
+
+Climax: GBS/S63-E025
+Name Colorful Adventures
+*ShotClimax
+EndCard
+
+
+
+Climax: GBS/S63-E026
+Name Faith Entrusted to the Bow
+*WindClimax
+EndCard
+
+Climax: GBS/S63-E027
+Name Friends to Battle Alongside With
+*ShotClimax
+EndCard
+
+
+Character: GBS/S63-E028
+Name Energetic Childhood Friend, Cow Girl
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Combo Brand New Morning
+Auto: OnSpecificClimaxPlay Brand New Morning
+{
+	PayCost 1 SendSelf Hand
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Order && Not CardPosition Stand
+		AIChoice Stand
+		ChooseCharacterFromTargets Choose a character to stand.
+		Stand
+	}
+}
+Text Auto: CxCombo [(1) Return this card to your hand] When "Brand New Morning" is placed in your climax area, you may pay the cost. If you do, choose 1 of your other <Order> characters, and stand it.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: GBS/S63-E029
+Name Precise Battle Tactics, Goblin Slayer
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Order
+Trait2 Weapon
+Combo Battle with One's Life at Stake
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Order
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Order> characters, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Battle with One's Life at Stake 
+	{
+		If StageContains 1 Other && HasTrait Order
+		{
+			MultipleChoiceQuestion Search the deck or the waiting room for "Torch"?|Deck|Waiting Room
+			If Answer 0
+			{
+				SearchDeck NameEquals Torch
+			}
+			If Answer 1
+			{
+				SearchWaitingRoom NameEquals Torch
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Battle with One's Life at Stake" is in your climax area, and you have another <Order> character, choose 1 of the following effects and perform it. "Choose 1 "Torch" in your waiting room and return it to your hand." or "Search your deck for up to 1 "Torch" and add it to your hand."
+EndCard
+
+
+Character: GBS/S63-E030
+Name Iron Shadow of Annihilation, Goblin Slayer
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Order
+Trait2 Weapon
+Combo Last Breath
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, this card gets +2000 power.
+*Healer
+Auto: OnReverseOpponent
+{
+	If Climax Last Breath
+	{
+		Burn 1
+		TargetBattleOpponent
+		MoveCard OpponentDeck
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Last Breath" is in your climax, deal 1 damage to your opponent, and put that character on top of your opponent's deck.
+EndCard
+
+Character: GBS/S63-E031
+Name True Bonds, Goblin Slayer
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Order
+Trait2 Weapon
+Auto: OnReversed
+{
+	*Check3Add1(Order)
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck, choose up to 1 <Order> character to add to your hand, and put the rest into your waiting room and discard a card.
+Auto: StartClimaxPhase
+{
+	If InLocation Clock
+	{
+		TargetTop Deck 2
+		View
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, at the beginning of you climax phase, look at up to 2 cards from the top of your deck, and return them in the original order.
+EndCard
+
+Character: GBS/S63-E032
+Name Bewitching Demeanor, Witch
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Order
+Trait2 Adventurer
+Combo Secret XXXX
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Order
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, and this card gets +X power until end of turn. X is equal to the number of order characters revealed times 1000.
+Auto: OnAttack
+{
+	If Climax Secret XXXX
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to give the ability to.
+		AddSelfToTargets
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBlindStock
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks if "Secret XXXX" is in your climax area, choose 1 of your other characters and this card, and both characters get the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: GBS/S63-E033
+Name Enchanting Looks, Witch
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 4500
+Soul 2
+Trait1 Order
+Trait2 Adventurer
+*2000Assist
+*DefensiveScryAnywhere
+EndCard
+
+
+Character: GBS/S63-E034
+Name Burdened by Fate, Goblin Slayer
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Order
+Trait2 Weapon
+*EarlyPlay4OrMore(Order)
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Order
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other <Order> characters.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck IsEvent
+	}
+}
+Text Auto: [Discard 1 card] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 event card, and add it to your hand.
+EndCard
+
+
+Character: GBS/S63-E035
+Name Bursting with Vigor, Cow Girl
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Order
+*EarlyPlay2OrLessClimax
+*OnPlayCheckX(Order)
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Order
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Order
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Order> characters, it gets +X power until end of turn, X is the number of other <Order> characters you have times 500.
+EndCard
+
+Character: GBS/S63-E036
+Name Unbending Will, Cow Girl
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Order
+Auto: StartClimaxPhase
+{
+	If InLocation Clock
+	{
+		Question Return one of your <Order> characters to your hand?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Order
+			AIChoice Bounce
+			ChooseCharacterFromTargets_Optional Choose a character to return to your hand.
+			Bounce
+		}
+	}
+}
+Alarm
+Text Auto: ALARM If this card is on top of your clock, at the beginning of your climax phase, you may choose 1 of your <Order> characters, and return it to your hand.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Order
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your <Order> characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: GBS/S63-E037
+Name A Moment of Peace, Cow Girl
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+*OnPlayTradeClimaxForCharacter(Order)
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Torch
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [Discard a "Torch"] When this card is placed on the stage from your hand, you may pay the cost. Choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: GBS/S63-E038
+Name Predetermined Outcome, Goblin Slayer
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainLevel 1
+		GainPower 1500
+		GainEffect
+		{
+			Cont: Global
+			{
+				If Not Other
+				{
+					GainSpecialEffect CannotSideAttack
+				}
+				If InLocation Facing
+				{
+					GainSpecialEffect CannotSideAttack
+				}
+			}
+			Text Cont: This card and the character facing it cannot side attack.
+		}
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +1 level, +1500 power, and the following ability. "Cont: This card and the character facing it cannot side attack."
+*RunInFrontOfCharacter
+EndCard
+
+Character: GBS/S63-E039
+Name A Little Kindness, Witch
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Adventurer
+*OnAttackCheck2ChooseTrigger
+*RedLevel1Bomb
+EndCard
+
+Character: GBS/S63-E040
+Name Gleaming Dagger, Goblin Slayer
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Order
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Discard 2 cards] When you use this card's "<b>Backup</b>" you may pay the cost, choose 1 of your opponent's characters whose level is higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 2500
+EndCard
+
+Character: GBS/S63-E041
+Name Where the Two Belong, Cow Girl
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Order
+Cont: GiveAll
+{
+	If Other && HasTrait Order
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other <Order> characters get +1000 power.
+Auto: OnUseEvent
+{
+	SetXToNumberOfCharacters Other && HasTrait Order
+	MultiplyXValue 500
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when you play an event card, choose 1 of your characters, it gets +X power until end of turn. X is 500 times the number of other <Order> characters you have.
+EndCard
+
+Character: GBS/S63-E042
+Name Hunting Big Game, Spearman
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Order
+Trait2 Adventurer
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: GBS/S63-E043
+Name Unyielding Stance, Goblin Slayer
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Trait1 Order
+Trait2 Weapon
+Power 6000
+Soul 2
+*ContForEachOtherTrait(1000,Order)
+*HandEncore
+EndCard
+
+Character: GBS/S63-E044
+Name Sleep Spell, Witch
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentBackstage
+		NarrowTargets Compare ThatCardsLevel 3 OrLess
+		ChooseCharacterFromTargets Choose an opponent's character to make unable to stand next turn.
+		DontStand
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If a climax is revealed, choose a level 3 or lower character on your opponent's backstage, it cannot stand during your opponent's next stand phase.
+*StockOnCancel
+EndCard
+
+Character: GBS/S63-E045
+Name Strange Request, Witch
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If HasTrait Order
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Order> characters get +500 power.
+Act: SendSelf Clock
+{
+	SearchWaitingRoom NameEquals Gate Scroll
+}
+Text Act: [Put this card into your clock] Choose 1 "Gate Scroll" in your waiting room, and return it to your hand.
+EndCard
+
+Character: GBS/S63-E046
+Name Man of Few Words, Goblin Slayer
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Weapon
+Auto: StartEncorePhase
+{
+	If CardPosition Reverse
+	{
+		If Not StageContains 1 Other && CardPosition Rest && InLocation CenterStage
+		{
+			PayCost Clock
+			{
+				Rest
+			}
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] At the beginning of the encore step, if you do not have another rested character in your center stage, you may pay the cost, if you do, rest this card.
+EndCard
+
+Character: GBS/S63-E047
+Name Under the Starry Sky, Cow Girl
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Order
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Order
+	{
+		Question Draw 1 card and discard a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more <Order> characters, you may draw 1 card, if you do, discard a card.
+EndCard
+
+Character: GBS/S63-E048
+Name Flickering Fire Arrow, Goblin Slayer
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Order
+Trait2 Weapon
+Auto: OnUseEvent
+{
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*CheckAndAdd(2)
+			Discard 1 Any
+		}
+		Text Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your deck, choose up to 1 to add to your hand, put the rest into the waiting room, and discard a card.
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when you play an event card, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your deck, choose up to 1 to add to your hand, put the rest into the waiting room, and discard a card."
+EndCard
+
+Character: GBS/S63-E049
+Name Flash of Silver, Goblin Slayer
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Order
+Trait2 Weapon
+Auto: OnUseEvent
+{
+	GainPower 2000
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you play an event card, this card gets +2000 power until end of turn.
+Auto: OnReversed
+{
+	If InLocation Stage
+	{
+		TargetSelf
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card on the bottom of your deck.
+EndCard
+
+Character: GBS/S63-E050
+Name Great Health, Cow Girl
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Order
+Backup 2500
+EndCard
+
+Character: GBS/S63-E051
+Name Most Stubborn Frontline, Spearman
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Order
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Order> characters, this card gets +1500 power and "Auto: <b>Encore</b> [Discard a character]".
+EndCard
+
+Event: GBS/S63-E052
+Name Gate Scroll
+Color R
+Level 3
+Cost 3
+Counter
+Requirement OpponentsTurn && StageContains 5 HasTrait Order
+Effect:
+{
+	If StageContains 5 HasTrait Order
+	{
+		TargetBattleOpponent
+		NarrowTargets CanBeChosen
+		Bounce
+	}
+}
+Text Counter: If you have 5 <Order> characters, choose 1 of your opponent's characters in battle, and return it to his or her hand.
+EndCard
+
+Event: GBS/S63-E053
+Name Torch
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Goblin Slayer
+Effect:
+{
+	TargetLocation OpponentStage
+	AIChoice Move
+	ChooseCharacterFromTargets Choose a character to move.
+	MoveToOpenPosition True True
+}
+Text If you do not have a character with "Goblin Slayer" in its name, this card cannot be played from your hand. Choose 1 of your opponent's characters, and move it to another open position of his or her stage.
+EndCard
+
+Event: GBS/S63-E054
+Name Canary
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		MoveCard Memory
+	}
+}
+Text If your memory hase 2 or less cards, put this card into your memory.
+Auto: StartMainPhase
+{
+	If InLocation Memory
+	{
+		TargetTop Deck 2
+		View
+		TargetTop OpponentDeck 2
+		View
+	}
+}
+InMemory
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, look at up to 2 cards from the top of your deck, return them in the original order, look at up to 2 cards from the top of your opponents deck, return them in the original order.
+EndCard
+
+Event: GBS/S63-E055
+Name Duffel Bag
+Color R
+Level 2
+Cost 0
+Requirement StageContains 1 NameContains Goblin Slayer
+Effect:
+{
+	SearchWaitingRoom NameEquals Torch|Gate Scroll
+}
+Text If you do not have a character with "Goblin Slayer" in its name, this card cannot be played from your hand.\nChoose 1 "Gate Scroll" or "Torch" in your waiting room, and return it to your hand.
+EndCard
+
+Climax: GBS/S63-E056
+Name Last Breath
+*DoorClimax
+EndCard
+
+
+Climax: GBS/S63-E057
+Name Battle with One's Life at Stake
+*DoorClimax
+EndCard
+
+
+Climax: GBS/S63-E058
+Name Brand New Morning
+*StandbyClimax
+EndCard
+
+
+Climax: GBS/S63-E059
+Name Secret XXXX
+*RedStockSoul
+EndCard
+
+Character: GBS/S63-E060
+Name Guild's Poster Girl, Guild Girl
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Guild
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Order
+	AIChoice Attacker
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	If HasTarget
+	{
+		MultipleChoiceQuestion Choose an effect.\n1: During this card's battle when your opponent refreshes his or her deck, you may put the top card of your deck into your stock.\n2: During this card's battle, when your opponent levels up, you may put the top card of your deck into your stock.|1|2
+		If Answer 0
+		{
+			GainEffect
+			{
+				Auto: OnOpponentRefresh
+				{
+					If InBattle
+					{
+						*OptionalBlindStock
+					}
+				}
+				Text Auto: During this card's battle when your opponent refreshes his or her deck, you may put the top card of your deck into your stock.
+			}
+		}
+		If Answer 1
+		{
+			GainEffect
+			{
+				Auto: OnOpponentLevelUp
+				{
+					If InBattle
+					{
+						*OptionalBlindStock
+					}
+				}
+				Text Auto: During this card's battle, when your opponent levels up, you may put the top card of your deck into your stock.
+			}
+		}
+	}
+}
+Text Act: [Rest this card] Choose 1 of your <Order> characters, it gets 1 of the following abilities of your choice until end of turn. "Auto: During this card's battle when your opponent refreshes his or her deck, you may put the top card of your deck into your stock." or "Auto: During this card's battle, when your opponent levels up, you may put the top card of your deck into your stock."
+EndCard
+
+Character: GBS/S63-E061
+Name Kind Acolyte, Priestess
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnTriggerCheck
+{
+	IfOther IsEvent
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: When your character's trigger check reveals an event card, choose 1 of your characters, it gets +2000 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Order)
+EndCard
+
+Character: GBS/S63-E062
+Name Beloved Archbishop, Sword Maiden
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Archbishop
+*GiveTraitPowerOnAttack(1500,Order)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: GBS/S63-E063
+Name Passionate Yearning, Sword Maiden
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Order
+Trait2 Archbishop
+Cont: GiveAll
+{
+	If Other && HasTrait Order
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other <Order> characters get +1500 power.
+*Healer
+Act: RestSelf
+{
+	TargetTop Deck 2
+	Reorder
+}
+Text Act: [Rest this card] Look at up to 2 cards from the top of your deck, and put them on top of your deck in any order.
+EndCard
+
+Character: GBS/S63-E064
+Name Pure Aide, Priestess
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Order
+Trait2 Adventurer
+Combo Extensive Divine Protection
+*EarlyPlayInClock(True Bonds\, Goblin Slayer)
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Extensive Divine Protection
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Order || IsEvent
+		{
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 1500
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Auto: StartOpponentAttackPhase
+				{
+					TargetLocation OpponentStage
+					LoseSoul 1
+				}
+				Quick
+				Text Auto: At the beginning of your opponent's attack phase, all of your opponent's characters get -1 soul until end of turn.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Extensive Divine Protection" is in your climax area, reveal the top card of your deck, if that card is an <Order> character or event card, this card gets +1500 power and the following effect until the end of your opponent's turn. "Auto: At the beginning of your opponent's attack phase, all of your opponent's characters get -1 soul until end of turn."
+EndCard
+
+Character: GBS/S63-E065
+Name Personal Special Reward, Priestess
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsCharacter && Compare ThatCardsLevel 0 OrLess
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, if there is a level 0 character among those cards, this card's soul does not decrease by side attacking until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 2 OrMore
+	If HasTarget
+	{
+		TargetSelf
+		Question Put "Personal Special Reward, Priestess" into your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, put the top 2 cards of your deck into your waiting room. If there is a level 2 or higher card among those cards, you may put this card into your stock.
+EndCard
+
+Character: GBS/S63-E066
+Name Everyday Anticipation, Guild Girl
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Order
+Trait2 Guild
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1500
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, if a climax is sent, choose 1 of your characters, it gets +1500 until end of turn.
+Auto: OnDamageCancel
+{
+	Question Draw 1, discard 1?
+	If Yes
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may draw 1 card, if you do, discard a card.
+EndCard
+
+
+
+
+Character: GBS/S63-E067
+Name Cherubic Smile, Priestess
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Adventurer
+*OnAttackGivePowerForEachOther(500,Order)
+EndCard
+
+Character: GBS/S63-E068
+Name Clear Gaze, Priestess
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Order
+Trait2 Adventurer
+*BackupBonus1000(Order)
+Backup 1000
+EndCard
+
+
+Character: GBS/S63-E069
+Name Translucent Skin, Sword Maiden
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Archbishop
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Order
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is an <Order> character, this card gets +2000 power until end of turn.
+*BlueCost0Bomb
+EndCard
+
+Character: GBS/S63-E070
+Name Innocent Virgin, Priestess
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If OpponentsTurn && Other && HasTrait Order
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, all of your other <Order> characters get +1000 power.
+Auto: OnClimaxPlay
+{
+	AIChoice GainPower 1000
+	ChooseMultipleCharacters 0 2 InLocation Stage
+	GainPower 1000
+}
+Text Auto: When a climax is placed in your climax area, choose up to 2 of your characters, they get +1000 power until end of turn.
+EndCard
+
+Character: GBS/S63-E071
+Name Inevitable Gathering, Priestess
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Order
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Order> characters, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: GBS/S63-E072
+Name Figure of Tranquility, Sword Maiden
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Order
+Trait2 Archbishop
+Combo A Woman Swayed
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Order
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Order> characters, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If Climax A Woman Swayed
+	{
+		*OptionalBlindStock
+		*OptionalBlindStock
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "A Woman Swayed" is in your climax area, put up to 2 card from the top of your deck into your stock.
+EndCard
+
+Character: GBS/S63-E073
+Name Utmost Assistance, Guild Girl
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Order
+Trait2 Guild
+Combo Here for the Adventurers, Here for You.
+*LevelAssist
+Auto: OnSpecificClimaxPlay Here for the Adventurers, Here for You.
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Adventurer || NameContains Goblin Slayer
+	AIChoice CanReverseOpponent
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*Check4Add1(Order)
+		}
+		Text Auto: When this card's battle opponent becomes reversed, look at up to 4 cards from the top of your deck, choose up to 1 <Order> character among them, add it to your hand, and put the rest into the waiting room.
+	}
+}
+Text Auto: CxCombo When "Here for the Adventurers, Here for You." is placed in your climax area, choose up to 2 of your other <Adventurer> characters or characters with "Goblin Slayer" in its name, they get the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, look at up to 4 cards from the top of your deck, choose up to 1 <Order> character among them, add it to your hand, and put the rest into the waiting room."
+EndCard
+
+Character: GBS/S63-E074
+Name Heart's Truth, Sword Maiden
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Order
+Trait2 Archbishop
+Combo Guide to Salvation
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Order
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other <Order> characters.
+Auto: OnReverseOpponent
+{
+	If Climax Guide to Salvation
+	{
+		Message Choose a card to put into your stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Order
+		MoveCard Stock
+		Message  
+		SearchDeck HasTrait Order
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Guide to Salvation" is in your climax area, choose up to 1 <Order> character in your waiting room, put it into your stock, search your deck for up to 1 <Order> character, and add it to your hand.
+EndCard
+
+Character: GBS/S63-E075
+Name Super Rare Shot! Guild Girl
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Guild
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand. X is the level of the revealed card.
+EndCard
+
+Character: GBS/S63-E076
+Name Welcome to the City of Water, Sword Maiden
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Archbishop
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && NameContains Goblin Slayer
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 character with "Goblin Slayer" in its name and add it to your hand.
+EndCard
+
+Character: GBS/S63-E077
+Name For the Future. Guild Girl
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Order
+Trait2 Guild
+Auto: OnOtherPlacedOnStageFromHand
+{
+	TargetOther
+	IfTarget HasTrait Adventurer || NameContains Goblin Slayer
+	{
+		GainPower 1000
+		GainTrait Quest
+	}
+}
+Quick
+Text Auto: When another <Adventurer> character or character with "Goblin Slayer" in its name is placed on the stage from your hand, that character gets +1000 power and <Quest> until end of turn.
+Act: 2 RestSelf
+{
+	DrawCard
+}
+Text Act: [(2) Rest this card] Draw 1 card.
+EndCard
+
+Character: GBS/S63-E078
+Name Profound Reason, Priestess
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Order
+	{
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other <Order> character attacks, this card gets +1000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [Discard a card] When this card is put into your waiting room from the stage, you may pay the cost, choose a level 0 character in your waiting room, and put it on any position of your stage rested.
+EndCard
+
+Character: GBS/S63-E079
+Name Ardent Request, Sword Maiden
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Order
+Trait2 Archbishop
+*OnPlayGainPowerForEach(500,Order)
+EndCard
+
+Character: GBS/S63-E080
+Name Sulking Priestess
+Color B
+Level 1
+Cost 0
+Power 6500
+Trait1 Order
+Trait2 Adventurer
+*CannotAttackHigherLevel
+EndCard
+
+Character: GBS/S63-E081
+Name Professional Smile, Guild Girl
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Order
+Trait2 Guild
+Auto: OnUseThisCardsBackup
+{
+	*CheckTopAddDiscard(Order)
+}
+Text Auto: When you use this card's "<b>Backup</b>", reveal the top card of your deck, if it is an <Order> character, add it to your hand, and discard a card.
+Backup 2500
+EndCard
+
+Character: GBS/S63-E082
+Name Always Together, Priestess
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Order
+Trait2 Adventurer
+*Level3Assist
+*BondDiscard(Masked Figure's Name\, Goblin Slayer)
+EndCard
+
+Character: GBS/S63-E083
+Name What is a Discussion? Priestess
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Order
+Trait2 Adventurer
+*BlueEarlyPlayBomb
+EndCard
+
+Character: GBS/S63-E084
+Name Quick-Witter Decision, Priestess
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+*500Assist
+Auto: OnUseEvent
+{
+	Question Put "Quick-Witted Decision, Priestess" into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When you play an event card, you may put this card into your stock.
+EndCard
+
+Character: GBS/S63-E085
+Name Hoping to Repay, Apprentice Cleric
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If NameEquals A New Experience, Greenhorn Warrior
+	{
+		GainPower 500
+		GainEffect
+		{
+			Auto: OnOtherFrontalAttacked
+			{
+				IfOther HasTrait Order
+				{
+					PayCost SendSelf WaitingRoom
+					{
+						TargetMyCharacterInBattle
+						GainPower 1500
+					}
+				}
+			}
+			Text Auto: [Put this card into the waiting room] When your other <Order> character is frontal attacked, you may pay the cost, your character in battle gets +1500 power until end of turn.
+		}
+	}
+}
+Text Cont: Your other "A New Experience, Greenhorn Warrior" get +500 power and the following ability. "Auto: [Put this card into the waiting room] When your other <Order> character is frontal attacked, you may pay the cost, your character in battle gets +1500 power until end of turn."
+*BondDiscard(A New Experience\, Greenhorn Warrior)
+EndCard
+
+Character: GBS/S63-E086
+Name Ultimate Miracle, Sword Maiden
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Archbishop
+Cont: GiveAll
+{
+	If Other && HasTrait Order
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Order> characters get +500 power.
+Act: SendSelf Clock
+{
+	SearchWaitingRoom NameEquals Resurrection
+}
+Text Act: [Put this card into your clock] Choose 1 "Resurrection" in your waiting room, and return it to your hand.
+EndCard
+
+Character: GBS/S63-E087
+Name Little Considerations, Priestess
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		*Check3Add1(Any) //Any character regardless of trait
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into your waiting room from the stage, you may pay the cost, look at up to 3 cards from the top of your deck, choose up to 1 character from among them, add it to your hand, and put the rest into the waiting room.
+Auto: StartClimaxPhase
+{
+	If StageContains 1 HasTrait Order
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and you have an <Order> character, at the beginning of your climax phase, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: GBS/S63-E088
+Name Sweet Encounter, Priestess
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Adventurer
+Combo Ice Crème Shock
+*GivePowerOnPlay(1000,Any)
+Auto: OnAttack
+{
+	If Climax Ice Crème Shock && Compare CardsInHand 5 OrLess
+	{
+		*Check3Add1(Order)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Ice Crème Shock" is in your climax area, and your hand has 5 or less cards, look at up to 3 cards from the top of your deck, choose up to 1 <Order> character, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: GBS/S63-E089
+Name Feelings of Appreciation, Priestess
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +1 level and +1500 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Order
+	{
+		Question Put the revealed card under "Feelings of Appreciation, Priestess"?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is an <Order> character, you may place it face-down underneath this card as a marker.
+EndCard
+
+Character: GBS/S63-E090
+Name Morning After Resurrection, Sword Maiden
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Archbishop
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+EndCard
+
+Character: GBS/S63-E091
+Name Lie-Detecting Gaze, Examiner
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Guild
+Auto: OnPlay
+{
+	Message Top card of opponent's deck.
+	TargetTop OpponentDeck 1
+	View
+	Message Bottom card of opponent's deck.
+	TargetBottom OpponentDeck 1
+	View
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your opponent's deck, and look at the bottom card of your opponent's deck.
+EndCard
+
+Character: GBS/S63-E092
+Name Hitting Guild Girl's Weakness
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Order
+Trait2 Guild
+*GivePowerOnPlay(1500,Order)
+Auto: OnPlay
+{
+	PayCost Rest 2 CardPosition Stand
+	{
+		TargetLocation Stage
+		AIChoice CanReverseOpponent
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBlindStock
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+		}
+	}
+}
+Text Auto: [Rest 2 of your standing characters] When this card is placed on the stage from your hand, you may pay the cost, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: GBS/S63-E093
+Name A New Experience, Greenhorn Warrior
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Order
+Trait2 Adventurer
+EndCard
+
+Event: GBS/S63-E094
+Name Obsidian Rank
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	MoveCard Memory
+}
+Text Put this card into your memory.
+Auto: OnLevelUp
+{
+	PayCost 0
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+		SearchDeck HasTrait Order
+	}
+}
+InMemory
+Text Auto: MEMORY [Put this card into your waiting room] When you level up, if this card is in your memory, you may pay the cost, search your deck for up to 1 <Order> character, and add it to your hand.
+EndCard
+
+Event: GBS/S63-E095
+Name Resurrection
+Color B
+Level 3
+Cost 4
+Effect:
+{
+	ForcePayCost Discard 1 NameContains Sword Maiden &&& Discard 1 NameContains Priestess
+	{
+		Message Choose up to 5 cards in your clock to put into the waiting room.
+		AIChoice Random
+		SearchLocationForTargets Clock 0 5 Any
+		MoveCard WaitingRoom
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Discard 1 character with "Sword Maiden" in its name and 1 character with "Priestess" in its name, if you do, choose up to 5 cards in your clock and put them into your waiting room. Put this card into your memory.
+EndCard
+
+Climax: GBS/S63-E096
+Name A Woman Swayed
+*BookClimax
+EndCard
+
+
+Climax: GBS/S63-E097
+Name Extensive Divine Protection
+*GateClimax
+EndCard
+
+
+Climax: GBS/S63-E098
+Name Guide to Salvation
+*GateClimax
+EndCard
+
+Climax: GBS/S63-E099
+Name Ice Crème Shock
+*BookClimax
+EndCard
+
+Climax: GBS/S63-E100
+Name Here for the Adventurers, Here for You.
+*BlueStockSoul
+EndCard
+
+
+Character: GBS/S63-E101
+Name An Ordinary Piece, High Elf Archer
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Order
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When your other <Order> character attacks, this card gets +2000 power until end of turn.
+Auto: Encore Discard 1 HasTrait Order
+{
+}
+Text Auto: ENCORE [Discard an <Order> character]
+EndCard
+
+Character: GBS/S63-E102
+Name An Ordinary Piece, Cow Girl
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Order
+*OnPlayCheckTopAddDiscard(Order)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Order
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard an <Order> character] When this card is placed on the stage from your hand, you may pay the cost, draw a card.
+EndCard
+
+Character: GBS/S63-E103
+Name An Ordinary Piece, Goblin Slayer
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Weapon
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another position on the stage.
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn
+EndCard
+
+Character: GBS/S63-E104
+Name An Ordinary Piece, Priestess
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+*BlueLevel0Bomb
+EndCard
+
+Character: GBS/S63-E105
+Name An Ordinary Piece, Guild Girl
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Order
+Trait2 Guild
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Order
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Order>, this card gets +2000 power.
+Act: 1
+{
+	GainPower 2000
+}
+Text Act: [(1)] This card gets +2000 power until end of turn.
+EndCard
+
+Character: GBS/S63-PE01
+Name Promise with Friends, Priestess
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+*500Assist
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Order
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, choose an <Order> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: GBS/S63-TE01
+Name Brave Girl, Cow Girl
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Order
+Cont: GiveAll
+{
+	If Other && MyTurn && NameEquals Quiet Consideration, Goblin Slayer
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, you other "Quiet Consideration, Goblin Slayer" get +2000 power.
+*Bond1(Quiet Consideration\, Goblin Slayer)
+EndCard
+
+Character: GBS/S63-TE02
+Name Concealed Tactics, Goblin Slayer
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Weapon
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Character: GBS/S63-TE03
+Name He Who Slays Goblins, Goblin Slayer
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Order
+Trait2 Weapon
+Combo Rhythmical Extermination
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Rhythmical Extermination
+	{
+		PayCost Clock
+		{
+			TargetLocation Stage
+			AIChoice CanReverseOpponent
+			ChooseCharacterFromTargets Choose a character to give the effect to.
+			AddSelfToTargets
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					GainSpecialEffect CannotBeReversedByAutoEffects
+				}
+				Text Cont: This card cannot become reversed by auto effects of your opponent's characters.
+			}
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					SearchWaitingRoom IsCharacter
+				}
+				Text Auto: When this card's battle opponent becomes reversed, choose up to 1 character in your waiting room and return it to your hand.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put the top card of your deck into your clock] When this card attacks, if "Rhythmical Extermination" is in your climax area, you may pay the cost, choose 1 of your other characters and this card, they gain the following effects until end of turn. "Cont: This card cannot become reversed by auto effects of your opponent's characters." and "Auto: When this card's battle opponent becomes reversed, choose up to 1 character in your waiting room and return it to your hand."
+EndCard
+
+
+Character: GBS/S63-TE04
+Name Quiet Consideration, Goblin Slayer
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Order
+Trait2 Weapon
+EndCard
+
+Character: GBS/S63-TE05
+Name Merciless Actions, Goblin Slayer
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Order
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Order
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other <Order> characters.
+*HandEncore
+EndCard
+
+Character: GBS/S63-TE06
+Name Like a Parent, Goblin Slayer
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Order
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 NameEquals Like a Child, Priestess
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have another "Like a Child, Priestess", this card gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Order
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Like a Child, Priestess
+		If HasTarget
+		{
+			FirstTarget
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: [Discard 1 <Order> character] When this card is placed on the stage from your hand, you may pay the cost, choose 1 "Like a Child, Priestess" in your waiting room, and put it on any position of your stage.
+EndCard
+
+
+Character: GBS/S63-TE07
+Name Masked Figure's Name, Goblin Slayer
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Order
+Trait2 Weapon
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupOnAttack
+}
+Text Cont: During this card's battle, your opponent cannot play "<b>Backup</b>" from hand.
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost 3
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: [(3)] During your turn, when this card's battle opponent becomes reversed, you may pay the cost, deal 2 damage to your opponent.
+EndCard
+
+
+Event: GBS/S63-TE08
+Name Torch
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 HasTrait Order
+Counter
+Effect:
+{
+	*Check4Add1(Order)
+}
+Text Counter: If you do not have an <Order> character, this card cannot be played from your hand. \nLook at up to 4 cards from the top of your deck, choose up to 1 <Order> character from among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Climax: GBS/S63-TE09
+Name Rhythmical Extermination
+*DoorClimax
+EndCard
+
+
+Climax: GBS/S63-TE10
+Name Charge!
+*RedStockSoul
+EndCard
+
+Character: GBS/S63-TE11
+Name Unnoticed Beauty, Guild Girl
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Guild
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Order
+	ChooseCharacterFromTargets Choose a character to give "Auto: When this card direct attacks, reveal the top card of your deck, if it is an <Order> character, add it to your hand and discard a card."
+	GainEffect
+	{
+		Auto: OnDirectAttack
+		{
+			*CheckTopAddDiscard(Order)
+		}
+		Text Auto: When this card direct attacks, reveal the top card of your deck, if it is an <Order> character, add it to your hand and discard a card.
+	}
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your <Order> characters, it get the following ability until end of turn. "Auto: When this card direct attacks, reveal the top card of your deck, if it is an <Order> character, add it to your hand and discard a card."
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+
+Character: GBS/S63-TE12
+Name One's Own Will, Priestess
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If Other && HasTrait Order
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Order> characters get +500 power.
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: GBS/S63-TE13
+Name Earth Mother's Disciple, Priestess
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Order
+Trait2 Adventurer
+*ScryToBottomOnPlay
+*DropSearch(Order)
+EndCard
+
+
+Character: GBS/S63-TE14
+Name Adventurer, Female Mage
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Order
+Trait2 Adventurer
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Order
+	{
+		GainPower 1000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+Quick
+TimesPerTurn 2
+Text Auto: Up to twice per turn, when another <Order> character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+EndCard
+
+Character: GBS/S63-TE15
+Name Adventurer, Swordsman
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Order
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If InBattle
+	{
+		GainSpecialEffect CannotUseBackup
+	}
+}
+Text Cont: During this card's battle, you cannot play "BACKUP" from your hand.
+EndCard
+
+Character: GBS/S63-TE16
+Name Adventurer, Female Martial Artist
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Order
+Trait2 Adventurer
+Backup 1500
+EndCard
+
+Character: GBS/S63-TE17
+Name Flame's Source, Priestess
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Order
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other <Order> characters, this card gets +2000 power until end of turn.
+EndCard
+
+Character: GBS/S63-TE18
+Name Like a Child, Priestess
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Order
+Trait2 Adventurer
+*LevelAssist
+Auto: OnPlay|PlacedBy Like a Parent, Goblin Slayer
+{
+	BlockOpponentEncore
+}
+Text Auto: When this card is placed on the stage from your hand, or by the effect of "Like a Parent, Goblin Slayer", your opponent cannot use "<b>Encore</b>" until end of turn.
+EndCard
+
+Character: GBS/S63-TE19
+Name Light That Exposes Chaos, Priestess
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Order
+Trait2 Adventurer
+*OnPlayGainPowerForEach(1000,Order)
+EndCard
+
+Character: GBS/S63-TE20
+Name Merciful, Priestess
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Order
+Trait2 Adventurer
+*GainPowerForEachOther(500,Order)
+*Healer
+EndCard
+
+Climax: GBS/S63-TE21
+Name Unanswered Prayers
+Color B
+*2SoulClimax
+EndCard
+
+//Modified card number to fit the set
+Character: GBS/S63-BSF01
+Image GBS_BSF2020_01
+Name Holy Dance, Priestess
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Order
+Trait2 Adventurer
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Order
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is an <Order> character, choose 1 of your characters, it gets +2000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, return all card from your waiting room to your deck, and shuffle your deck.
+EndCard

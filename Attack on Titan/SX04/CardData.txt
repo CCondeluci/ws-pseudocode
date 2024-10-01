@@ -1,0 +1,3180 @@
+Character: AOT/SX04-001
+Name: Armin: Lending a Hand
+Color: Y
+Level: 0
+Cost: 0
+Power: 1500
+Trait1: Eldian
+Trait2: Corps
+*Act1RestSelfSalvageBrainstorm(Eldian|Corps)
+Act: 2 RestSelf
+{
+	Brainstorm 4
+	PerClimax
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Act: BRAINSTORM [(2) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, choose up to 1 climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-002
+Name: Eren: Determined
+Color: Y
+Level: 3
+Cost: 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1: Eldian
+Trait2: Corps
+Cont: InHand
+{
+	If StageContains 4 Other && HasTrait Eldian|Corps
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more 《Eldian》 or 《Corps》 characters, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Eldian|Corps
+	{
+		GainPower 2500
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				Question Put the battle opponent into your opponent's stock
+				If Yes
+				{
+					TargetBattleOpponent
+					MoveCard OpponentStock
+					TargetBottom OpponentStock 1
+					MoveCard OpponentWaitingRoom
+				}
+			}
+			Text Auto: When this card's battle oppoent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+		}
+	}
+}
+Text Cont: During your turn, if you have another 《Eldian》 or 《Corps》 character, this card gets +2500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room."
+Auto: OnPlay
+{
+	TargetTop Clock 1
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your clock into your waiting room.
+EndCard
+
+Character: AOT/SX04-003
+Name: Eren Titan: Declaration of War
+Color: Y
+Level: 3
+Cost: 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1: Eldian
+Trait2: Titan
+Trait3: Corps
+Combo Declaration of War
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each character in your opponent's back stage.
+Auto: OnPlay
+{
+	TargetTop Clock 1
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax Declaration of War && StageContains 2 Other && HasTrait Eldian|Corps
+	{
+		PayCost Discard 1 Any
+		{
+			TargetSentToPayCost
+			MillOpponentBottom 4
+			NarrowTargets Compare ThatCardsLevel 0 OrLess
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Declaration of War" is in your climax area, and you have 2 or more other 《Eldian》 or 《Corps》 characters, you may pay the cost. If you do, put the bottom 4 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of level 0 or lower cards among those cards. 
+EndCard
+
+Character: AOT/SX04-004
+Name: Colossal Titan: Painful Sight from Above
+Color: Y
+Level: 0
+Cost: 0
+Power 1000
+Trait1: Eldian
+Trait2: Titan
+Trait3 Corps
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Eldian|Corps
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an 《Eldian》 or 《Corps》 character, choose 1 of your characters, it gets +2000 power until end of turn. 
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}	
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+EndCard
+
+Character: AOT/SX04-005
+Name: Eren Titan: Alternative Plan
+Color: Y
+Level: 0
+Cost: 0
+Power 1500
+Trait1: Eldian
+Trait2: Titan
+Trait3: Corps
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Eldian|Corps
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian|Corps
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your 《Eldian》 or 《Corps》 characters, it gets +X power until end of turn. X is equal to the number of 《Eldian》 or 《Corps》 characters you have ×500.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Eldian|Corps
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 《Eldian》 or 《Corps》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: AOT/SX04-006
+Name: Eren: Embarking on a Different Path
+Color: Y
+Level: 0
+Cost: 0
+Power 2000
+Trait1: Eldian
+Trait2: Corps
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+*DropSearch(Eldian|Corps)
+EndCard
+
+Character: AOT/SX04-007
+Name Conny: Strengthened Resolve
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Trait2 Corps
+Cont: GiveSelf
+{
+	If Compare MarkersUnderThis 1 OrMore
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchWaitingRoom HasTrait Eldian|Corps
+				If HasTarget
+				{
+					Discard 1 Any
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, choose 1 《Eldian》 or 《Corps》 character in your waiting room, return it to your hand, choose 1 card in your hand, and put it in your waiting room.
+		}
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +1500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, choose 1 《Eldian》 or 《Corps》 character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room."
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Eldian|Corps
+	{
+		Question Put this card underneath Conny: Strengthened Resolve as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an 《Eldian》 or 《Corps》 character, you may put it face down underneath this card as a marker. 
+EndCard
+
+Character: AOT/SX04-008
+Name: Floch: Smug Face
+Color: Y
+Level: 1
+Cost: 0
+Power 3500
+Trait1: Eldian
+Trait2: Corps
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Eldian|Corps
+	{
+		TargetLocation Stage
+		AIChoice GainPower 3000
+		ChooseCharacterFromTargets Choose a character to give +3000 power
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an 《Eldian》 or 《Corps》 character, choose 1 of your characters, it gets +3000 power until end of turn. 
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Eldian|Corps
+	}
+}		
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Eldian》 or 《Corps》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-009
+Name Conny: Taken Aback
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Eldian
+Trait2 Corps
+Auto: OnUseThisCardsBackup
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Eldian|Corps
+    {
+        MoveCard Hand
+        Discard 1 Any
+    }
+}
+Text Auto: When you use this card's "BACKUP", reveal the top card of your deck. If that card is an 《Eldian》 or 《Corps》 character, put it into your hand, choose 1 card in your hand, and put it into your waiting room. 
+Backup 2000
+EndCard
+
+Character: AOT/SX04-010
+Name Colossal Titan: Facing a Foreign Land
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Eldian
+Trait2 Titan
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Eldian|Corps
+	{
+		GainPower 3000
+	}
+}
+Text Auto: When this card attacks, if you have another 《Eldian》 or 《Corps》 character, this card gets +3000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		IfThatCard Compare ThatCardsLevel 1 OrMore
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, reveal the top card of your deck. If that card is level 1 or higher, put it into your hand. 
+EndCard
+
+Character: AOT/SX04-011
+Name Armin: Exiting the Titan
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Eldian
+Trait2 Corps
+*LevelAssistTrait(Eldian|Corps)
+Auto: OnClimaxPlay
+{
+	Message Choose 2 characters to give +1000 power
+	ChooseMultipleCharacters 0 2 InLocation Stage
+	GainPower 1000
+}
+Text Auto: When your climax is placed on your climax area, choose up to 2 of your characters, and those characters get +1000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-012
+Name Eren: Conversation at Sunset
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Corps
+Combo A Rare Confession
+*OnPlayGainPowerForEach(500,Eldian|Corps)
+Auto: OnOpponentReverse
+{
+	If Climax A Rare Confession && StageContains 1 HasTrait Eldian|Corps
+	{
+		SearchDeck HasTrait Eldian|Corps
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power until end of turn.
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "A Rare Confession" is in your climax area, and you have another 《Eldian》 or 《Corps》 character, search your deck for up to 1 《Eldian》 or 《Corps》 character, reveal it to your opponent, put it into your hand, shuffle your deck, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-013
+Name Floch: Leading the Jaegerists
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Eldian
+Trait2 Corps
+Combo Jaegerists
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Eldian|Corps
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each other 《Eldian》 or 《Corps》 character in your back stage.
+Auto: OnSpecificClimaxPlay Jaegerists
+{
+	TargetSelf
+	IfTarget InLocation CenterStage
+	{
+		TargetLocation OpponentStage
+		NarrowTargets CanBeChosen
+		ChooseCharacterFromTargets_Optional Choose a character to return to your opponent's hand
+		Bounce
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Eldian|Corps
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo When "Jaegerists" is placed on your climax area, if this card is in your center stage, choose up to 1 of your opponent's characters, return it to their hand, choose up to 2 《Eldian》 or 《Corps》 characters in your waiting room, and return them to your hand.
+EndCard
+
+Character: AOT/SX04-014
+Name Armin: Fight Among Friends
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Eldian
+Trait2 Corps
+Combo Old Friends
+*OnPlayDraw2Discard1
+Auto: OnDamageCancel
+{
+	If Climax Old Friends
+	{
+		TargetTop Deck 9
+		Reveal
+		NarrowTargets HasTrigger Choice
+		SetXValue TargetCount
+		*OptionalBurn(X)
+		ShuffleLocation Deck
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "Old Friends" is in your climax area, reveal the top 9 cards of your deck, shuffle your deck, and you may deal X damage to your opponent. X is equal to the total number of CHOICE in the trigger icons of those cards. 
+EndCard
+
+Character: AOT/SX04-015
+Name Armin: Conversation at Sunset
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Corps
+*GlobalPower(500,Eldian|Corps)
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Choice
+	{
+		PayCost Discard 1 HasTrait Eldian|Corps
+		{
+			SearchWaitingRoom HasTrait Eldian|Corps
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to gain +2000 power
+			GainPower 2000
+		}
+	}
+}
+Text Auto: [Put 1 《Eldian》 or 《Corps》 character from your hand into your waiting room] When your character's trigger check reveals a climax with CHOICE in its trigger icon, you may pay the cost. If you do, choose 1 《Eldian》 or 《Corps》 character in your waiting room, return it to your hand, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-016
+Name Dot Pyxis
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Corps
+*RestGivePower(1500,Eldian|Corps)
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Corps|Eldian
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 《Eldian》 or 《Corps》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: AOT/SX04-017
+Name Conny: Providing Support
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Corps
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 HasTrait Eldian|Corps && Other
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another 《Eldian》 or 《Corps》 character, this card gets +3000 power.
+Auto: OnOpponentReverse|OnReversed
+{
+	TargetBattleOpponent
+	IfTarget CardPosition Reverse
+	{
+		GainSpecialEffect CannotEncoreThis
+	}
+	TargetSelf
+	IfTarget CardPosition Reverse
+	{
+		GainSpecialEffect CannotEncoreThis
+	}
+}
+Text Auto: When this card or this card's battle opponent battle opponent becomes reversed, that character cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: AOT/SX04-018
+Name Conny: Conversation at Sunset
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Eldian
+Trait2 Corps
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters HasTrait Eldian|Corps && Other
+		MultiplyXValue 1500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +1500 power for each of your other 《Eldian》 or 《Corps》 characters.
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Choice
+	{
+		PeekTop Deck
+		Question Place this card in your waiting room? (Press no to return it to the top)
+		If Yes
+		{
+			MoveCard WaitingRoom
+		}
+		If No
+		{
+			EndPeek Deck
+		}
+		TargetSelf
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				Question_Obvious Do you want to put the top card of your deck into your stock?
+				If Yes
+				{
+					TargetTop Deck 1
+					MoveCard Stock
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+		}
+	}
+}
+Text Auto: When your climax with CHOICE in its trigger icon is placed on your climax area, look at the top card of your deck, put it on the top of your deck or into your waiting room, and this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: AOT/SX04-019
+Name Eren: Advancing
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Eldian
+Trait2 Corps
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	IfTarget Compare ThatCardsLevel 2 OrMore
+	{
+		Question_Obvious Do you want to put the top card of your deck into your stock?
+		If Yes
+		{
+			TargetTop Deck 1
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may put the top card of your deck into your stock.
+EndCard
+
+Event: AOT/SX04-020
+Name New Omni Directional Mobility Gear
+Color Y
+Level 1
+Cost 1
+Counter
+Effect:
+{
+	If LocationContains WaitingRoom 2 IsClimax
+	{
+		MultipleChoiceQuestion Choose an effect.\n1. Choose up to 1 of your 《Corps》 characters in battle, return it to your hand, choose up to 1 character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room. \n2. Choose up to 1 of your 《Corps》 characters in battle, move it to an open position of your stage, choose up to 1 《Corps》 character in your waiting room, and return it to your hand. |1|2
+		If Answer 0
+		{
+			TargetMyCharacterInBattle
+			IfTarget HasTrait Corps
+			{
+				MoveCard Hand
+			}	
+			SearchWaitingRoom IsCharacter
+			Discard 1 Any
+		}
+		Else
+		{
+			TargetMyCharacterInBattle
+			IfTarget HasTrait Corps
+			{
+				MoveToOpenPosition True True
+			}
+			SearchWaitingRoom HasTrait Corps
+		}
+	}
+}
+Text Counter: If your waiting room has 2 or more climax, choose 1 of the following actions, and perform it.
+Text "Choose up to 1 of your 《Corps》 characters in battle, return it to your hand, choose up to 1 character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room."
+Text "Choose up to 1 of your 《Corps》 characters in battle, move it to an open position of your stage, choose up to 1 《Corps》 character in your waiting room, and return it to your hand."
+EndCard
+
+Event: AOT/SX04-021
+Name Anti-Marleyan Volunteers
+Color Y
+Level 3
+Cost 2
+Effect
+{
+	TargetTop Deck 9
+	Reveal
+	NarrowTargets HasTrigger Choice
+	SetXValue TargetCount
+	*OptionalBurn(X)
+	ShuffleLocation Deck
+}
+Text Reveal the top 9 cards of your deck, shuffle your deck, and deal X damage to your opponent. X is equal to the total number of CHOICE in the trigger icons of those cards. 
+EndCard
+
+Climax: AOT/SX04-022
+Name Declaration of War
+*ChoiceClimax
+EndCard
+
+Climax: AOT/SX04-023
+Name Jaegerists
+*ChoiceClimax
+EndCard
+
+Climax: AOT/SX04-024
+Name A Rare Confession
+*ChoiceClimax
+EndCard
+
+Climax: AOT/SX04-025
+Name Old Friends
+*ChoiceClimax
+EndCard
+
+Character: AOT/SX04-026
+Name Levi: Merciless Assault
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Corps
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck Compare ThatCardsLevel 1 OrLess && IsCharacter
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+*GainPowerWhenOtherAttacks(1000,Eldian|Corps)
+EndCard
+
+Character: AOT/SX04-027
+Name Falco: Turning Point
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Military
+Combo Entering the Enemy Airship
+Auto: OnAttack
+{
+	If StageContains 2 HasTrait Eldian
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1500 power until end of turn.
+		GainPower 1500
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other 《Eldian》 characters, choose 1 of your 《Eldian》 characters, it gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Entering the Enemy Airship
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain the effect
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchWaitingRoom HasTrait Eldian
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may choose 1 《Eldian》 character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Entering the Enemy Airship" is in your climax area, choose 1 of your 《Eldian》 characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose 1 《Eldian》 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: AOT/SX04-028
+Name Gabi: Fatal Shot
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Eldian
+Trait2 Military
+*GainPowerWithEnoughCharacters(2000,2,Eldian)
+Auto: OnPlay|PlacedBy Sasha: "Wandering the Forest"
+{
+	*OptionalHeal
+}
+Text When this card is placed on the stage from your hand or by the AUTO effect of "Sasha: "Wandering the Forest"", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	PayCost 2 Discard 1 Any
+	{
+		TargetBottom OpponentDeck 4
+		MoveCard WaitingRoom
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [(2) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the bottom 4 cards of your opponent's deck into their waiting room, deal X damage to your opponent, and this card gets +1000 power until end of turn. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: AOT/SX04-029
+Name Hange: Growing Suspicions
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+Trait2 Corps
+*OnPlayReorderTop2
+*GreenLevel0Bomb
+EndCard
+
+Character: AOT/SX04-030
+Name Gabi: Involuntary Witness
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Trait2 Military
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 HasTrait Eldian && Other
+	{
+		GainPower 1000
+		GainLevel 1
+	}
+}
+Text Cont: During your turn, if you have another 《Eldian》 character, this card gets +1 level and +1000 power.
+*MoveOtherWithTraitToBackstageOnReverse(Eldian)
+EndCard
+
+Character: AOT/SX04-031
+Name Hange: Scout Regiment Commanding Officer
+Color G
+Level 1
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Corps
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetTop OpponentClock 1
+		If HasTarget
+		{
+			MoveCard OpponentWaitingRoom
+			TargetLocation OpponentStage
+			SetXValue OpponentsLevel
+			AddToXValue 1
+			NarrowTargets Compare ThatCardsLevel X OrMore
+			NarrowTargets CanBeChosen
+			AIChoice RemoveCard
+			ChooseCharacterFromTargets Choose a character to send to the top of your opponent's clock.
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, you may put the top card of your opponent's clock into their waiting room. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their clock.
+Backup 1000
+EndCard
+
+Character: AOT/SX04-032
+Name Levi: Keeping Watch
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Eldian
+Trait2 Corps
+*OnPlayTradeClimaxForCharacter(Eldian|Corps)
+*GreenCost0Bomb
+EndCard
+
+Character: AOT/SX04-033
+Name Levi: Drawing Boundaries
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Eldian
+Trait2 Corps
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Send 1 WaitingRoom HasTrait Eldian|Corps
+	{
+		TargetLocation OpponentStage
+		NarrowTargets CanBeChosen
+		ChooseCharacterFromTargets Choose a character to get -1 soul until end of turn.
+		LoseSoul 1
+	}
+}
+Text Auto: [(1) Put 1 other 《Eldian》 or 《Corps》 character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters, it gets -1 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: AOT/SX04-034
+Name Levi: Deep Grudge
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Eldian
+Trait2 Corps
+Combo Deep Grudge
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Eldian|Corps
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other 《Eldian》 or 《Corps》 characters.
+*OnPlayCheck3
+Auto: OnOpponentReverse
+{
+	If Climax Deep Grudge
+	{
+		PayCost 2 Discard 2 Any
+		{
+			TargetOther
+			IfOther OnStage
+			{
+				MoveCard OpponentClock
+			}
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room] When this card's battle opponent becomes reversed, if "Deep Grudge" is in your climax area, you may pay the cost. If you do, put that character into your opponent's clock, and deal 2 damage to your opponent. 
+EndCard
+
+Character: AOT/SX04-035
+Name Hange: Introduction to New Technology
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Corps
+*OnAttackGivePower(1500,Eldian|Corps)
+*HandEncore
+EndCard
+
+Character: AOT/SX04-036
+Name Eren: Mr. Kruger
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Eldian
+*OnPlayFlicker
+*GreenEarlyPlayBomb
+EndCard
+
+Character: AOT/SX04-037
+Name Gabi: On the Run
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Military
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Eldian
+	{
+		TargetSelf
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another 《Eldian》 character, this card gets +1500 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 Any
+	{
+		Question Put the top card of your deck into your stock?
+		If Yes
+		{
+			BlindStock
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, you may put the top card of your deck into your stock.
+EndCard
+
+Character: AOT/SX04-038
+Name Falco: On the Run
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Eldian
+Trait2 Military
+*Level3Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian
+	ChooseCharacterFromTargets Choose a character to gain +500 power and the effect until end of turn.
+	GainPower 500
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			TargetTop Deck 2
+			If Compare TargetCount 2 OrMore
+			{
+				Reorder
+			}
+			Else
+			{
+				View
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your 《Eldian》 characters, it gets +500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order."
+EndCard
+
+Character: AOT/SX04-039
+Name Falco: Involuntary Witness
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Eldian
+Trait2 Military
+*EarlyPlay2OrLessClimax
+*StockHealer
+EndCard
+
+Character: AOT/SX04-040
+Name Theo Magath
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Military
+*OnAttackGivePower(2500,Any)
+EndCard
+
+Character: AOT/SX04-041
+Name Falco: Running Errands
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Military
+Combo Entering the Enemy Airship
+Combo Fatal Wound
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian
+	ChooseCharacterFromTargets Choose a character to gain +500 power until end of turn.
+	GainPower 500
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Eldian》 characters, it gets +500 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets NameEquals Entering the Enemy Airship | Fatal Wound
+	SetXValue TargetCount
+	Repeat X
+	{
+		SearchDeck HasTrait Eldian
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		GainPower 1000
+	}
+}
+Text Act: CxCombo BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each "Entering the Enemy Airship" or "Fatal Wound" revealed among those cards, search your deck for up to 1 《Eldian》 character, reveal it to your opponent, put it into your hand, shuffle your deck, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-042
+Name Colt Grice
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Military
+*OnPlayCheckTopAddDiscard(Eldian)
+Auto: OnPlay
+{
+	Mill 2
+	If TargetsContain 1 IsClimax
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-043
+Name Gabi: War Hero
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Eldian
+Trait2 Military
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Eldian
+	{
+		GainLevel 1
+		GainPower 1000
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Eldian》 characters, this card gets +1 level, +1000 power, and cannot be chosen by your opponent's effects.
+*OnAttackGainPowerForEachOther(1000,Eldian)
+EndCard
+
+Event: AOT/SX04-044
+Name Azumabito
+Color G
+Level 2
+Cost 2
+Effect
+{
+	SearchLocationForTargets WaitingRoom 0 2 HasTrait Eldian
+	MoveCard Hand
+	If StageContains 1 NameContains Mikasa
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Eldian
+		MoveCard Stock
+	}
+}
+Text Choose up to 2 《Eldian》 characters in your waiting room, and return them to your hand. If you have a character with "Mikasa" in its card name, you may choose 1 《Eldian》 character in your waiting room, and put it into your stock.
+EndCard
+
+Climax: AOT/SX04-045
+Name Deep Grudge
+*BarClimax
+EndCard
+
+Climax: AOT/SX04-046
+Name Entering the Enemy Airship
+*BarClimax
+EndCard
+
+Character: AOT/SX04-047
+Name Mikasa: Recovery Mission
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Corps
+Combo Perfect Timing
+*GainPowerWithEnoughCharacters(1000,2,Eldian|Corps)
+Auto: OnAttack
+{
+	If Climax Perfect Timing
+	{
+		If Not StageContains 1 Not HasTrait Eldian|Corps
+		{
+			RevealUpTo Deck 4
+			AIChoice AddToHand
+			ChooseCardsFromTargets 0 1 HasTrait Eldian|Corps || NameEquals New Omni Directional Mobility Gear
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+			TargetSelf
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Perfect Timing" is in your climax area, and all of your characters are 《Eldian》 or 《Corps》, look at up to 4 cards from the top of your deck, choose up to 1 "New Omni Directional Mobility Gear" or 《Eldian》 or 《Corps》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-048
+Name Sasha: "Wandering the Forest"
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Eldian
+Trait2 Corps
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Eldian|Corps
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Eldian》 or 《Corps》 character in your waiting room, and return it to your hand.
+Auto: OnEndOfAttack
+{
+	If Climax Fatal Wound &&& AllYourCharacters HasTrait Eldian|Corps
+	{
+		PayCost 2 Discard 2 Any SendSelf Memory
+		{
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter &&& Not NameEquals Sasha: "Wandering the Forest"
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put two cards from your hand into your waiting room & put this card into your memory] At the end of this card's attack, if "Fatal Wound" is in your climax area and all of your characters are <Eldian> or <Corps>, you may pay the cost. If you do, choose one <Eldian> or <Corps> character except "Sasha: "Wandering the Forest"" in your waiting room and put it on the stage position this card was on.
+EndCard
+
+Character: AOT/SX04-049
+Name Historia: Political Meeting
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+Trait2 Corps
+*OnPlayScry
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TotalLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+EndCard
+
+Character: AOT/SX04-050
+Name Jean: Overseeing the Celebrations
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Eldian
+Trait2 Corps
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation OpponentStage
+		NarrowTargets CanBeChosen
+		ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+		Bounce
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		TargetSelf
+		Bounce
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: AOT/SX04-051
+Name Sasha: High Praise
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Trait2 Corps
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into your waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into your waiting room.
+*ClimaxExchange
+EndCard
+
+Character: AOT/SX04-052
+Name Jean: Strengthened Resolve
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Trait2 Corps
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Stock 2 Any
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+Auto: OnOpponentReverse
+{
+	If StageContains 1 Other && HasTrait Eldian|Corps
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsLevel 0 OrLess
+		ChooseCharacterFromTargets_Optional Choose a character to send to your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you have another 《Eldian》 or 《Corps》 character, you may choose 1 level 0 or lower character in your opponent's center stage, and put it into their waiting room.
+EndCard
+
+Character: AOT/SX04-053
+Name Jean: Covering Fire
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Eldian
+Trait2 Corps
+*GainPowerForEachOther(500,Eldian|Corps)
+Auto: OnPlay
+{
+	TargetLocation Hand
+	SetXValue MyLevel
+	AddToXValue 1
+	ChooseCardFromTargets 0 1 IsCharacter && Compare ThatCardsLevel X OrLess
+	PlaceOnStage False True True False
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character in your hand with level equal to or lower than your level, put it on any position of your stage, it gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 3 Discard 2 Any
+	{
+		Burn 4
+	}
+}
+Text Auto: [(3) Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 4 damage to your opponent. 
+EndCard
+
+Character: AOT/SX04-054
+Name Mikasa: Conversation at Sunset
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+Trait2 Corps
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Eldian|Corps
+	{
+		Peek Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 《Eldian》 or 《Corps》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Choice
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1500 power until end of turn.
+		GainPower 1500
+	}
+}
+Text Auto: When your climax with CHOICE in its trigger icon is placed on your climax area, choose 1 of your characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: AOT/SX04-055
+Name Jean: Conversation at Sunset
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Eldian
+Trait2 Corps
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 HasTrigger Choice
+	{
+		Question Put your opponent's character on the top of your opponent's deck?
+		If Yes
+		{
+			TargetBattleOpponent
+			NarrowTargets CanBeChosen
+			MoveCard OpponentDeck
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax with CHOICE in its trigger icon in your climax area, you may put that character on the top of your opponent's deck.
+*RedLevel1Bomb
+EndCard
+
+Character: AOT/SX04-056
+Name Mikasa: Providing Support
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Eldian
+Trait2 Corps
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: AOT/SX04-057
+Name Mikasa: Mourning
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Eldian
+Trait2 Corps
+Auto: OnPlay
+{
+	PayCost Rest 1 CardPosition Stand
+	{
+		OpponentSearchLocationForTargets OpponentWaitingRoom 1 1 IsClimax
+		ReverseTargets OpponentWaitingRoom
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [Rest 1 of your standing characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent chooses 1 climax in your waiting room, returns all cards except that card from their waiting room to their deck, and shuffles their deck.
+*OnAttackGainPowerForEachOther(1000,Eldian|Corps)
+EndCard
+
+Character: AOT/SX04-058
+Name Artur Braus
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+*500Assist
+Act: Rest 2 Any
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain the ability until end of turn
+	GainEffect
+	{
+		*OnReverseBlindStock
+	}
+}
+Text Act: [Rest 2 of your characters] Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: AOT/SX04-059
+Name Kaya: Murderous Rage
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Auto: OnPlay
+{	
+	Mill 2
+	If TargetsContain 1 IsClimax
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +3000 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Eldian
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other 《Eldian》 character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: AOT/SX04-060
+Name Kaya: Delivering Lunch
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Eldian
+*OnPlayGainPower(1500)
+*OnAttackGivePower(2000,Any)
+EndCard
+
+Character: AOT/SX04-061
+Name Historia: Expecting
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Eldian
+Trait2 Corps
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Eldian|Corps
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Eldian|Corps
+		SetXValue TargetCount
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+}
+Text Auto: When your other 《Eldian》 or 《Corps》 character attacks, this card gets +X power until end of turn. X is equal to the number of other 《Eldian》 or 《Corps》 characters you have ×500.
+*HandEncore
+EndCard
+
+Character: AOT/SX04-062
+Name Sasha: Conversation at Sunset
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Eldian
+Trait2 Corps
+Combo A Rare Confession
+Combo Old Friends
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals A Rare Confession | Old Friends
+	{
+		SearchWaitingRoom NameEquals A Rare Confession | Old Friends
+	}
+}
+Text Auto: CxCombo [Put 1 "A Rare Confession" or "Old Friends" from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "A Rare Confession" or "Old Friends" in your waiting room, and return it to your hand.
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Choice
+	{
+		TargetLocation Stage
+		GainPower 1500
+	}
+}
+Text Auto: When your climax with CHOICE in its trigger icon is placed on your climax area, all of your characters get +1500 power until end of turn.
+EndCard
+
+Event: AOT/SX04-063
+Name Crest Mark
+Color R
+Level 1
+Cost 1
+Requirement StageContains 1 NameContains Mikasa
+Effect
+{
+	SetXToNumberOfCharacters HasTrait Eldian|Corps
+	AddToXValue 1
+	Peek Deck X
+	ChooseCard Choose a card to add to your hand.
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text If you do not have a character with "Mikasa" in its card name, this card cannot be played from your hand.
+Text Look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of 《Eldian》 or 《Corps》 characters you have +1.
+EndCard
+
+Event: AOT/SX04-064
+Name Spiked Wine
+Color R
+Level 2
+Cost 1
+Effect
+{
+	PayCost Send 1 WaitingRoom HasTrait Eldian
+	{
+		SetXValue MyLevel
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Titan && Compare ThatCardsLevel X OrLess
+		PlaceOnStage False True True False
+		GainPower 2000
+	}
+}
+Text You may choose 1 of your 《Eldian》 characters, and put it into your waiting room. If you do, choose 1 《Titan》 character with level equal to or less than your level in your waiting room, put it on any position of your stage, it gets +2000 power until end of turn.
+EndCard
+
+Climax: AOT/SX04-065
+Name Fatal Wound
+*DoorClimax
+EndCard
+
+Climax: AOT/SX04-066
+Name Perfect Timing
+*DoorClimax
+EndCard
+
+Character: AOT/SX04-067
+Name Zeke: Succeeding the Beast Titan
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Trait2 Military
+Cont: GiveSelf
+{
+	If Compare MarkersUnderThis 1 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +1000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Eldian
+	{
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an 《Eldian》 character, you may put it face down underneath this card as a marker. 
+*MillRunner(Eldian)
+EndCard
+
+Character: AOT/SX04-068
+Name Reiner: Haunted by His Own Advice
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Military
+Combo Reunion
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Eldian
+	{
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, if you have another 《Eldian》 character, this card gets +1500 power.
+Auto: OnAttack
+{
+	If Climax Reunion &&& StageContains 4 Other && HasTrait Eldian
+	{
+		PayCost Discard 1 Any
+		{
+			Mill 2
+			SetXValue TotalLevel
+			SearchLocationForTargets WaitingRoom 0 2 Compare ThatCardsLevel X OrLess && HasTrait Eldian
+			MoveCard Hand
+		}
+	}
+}		
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Reunion" is in your climax area, and you have 4 or more other 《Eldian》 characters, you may pay the cost. If you do, put the top 2 cards of your deck into your waiting room, choose up to 2 level X or lower 《Eldian》 characters in your waiting room, and return them to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: AOT/SX04-069
+Name Cart Titan: Providing Cover
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Eldian
+Trait2 Titan
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian|Titan
+	ChooseCharacterFromTargets Choose a character to gain +1000 power until end of turn.
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Eldian》 or 《Titan》 characters, it gets +1000 power until end of turn.
+*Act1SearchBrainstorm(Eldian|Titan)
+EndCard
+
+Character: AOT/SX04-070
+Name Reiner: Trying to Give Up
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Military
+*OnPlayGainPower(1500)
+*OnPlayTradeClimaxForCharacter(Eldian)
+EndCard
+
+Character: AOT/SX04-071
+Name Beast Titan: Supreme Artillery
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Titan
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Eldian|Titan
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an 《Eldian》 or 《Titan》 character, this card gets +2000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		RevealUpTo Deck 2
+		NarrowTargets HasTrait Eldian|Titan
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 《Eldian》 or 《Titan》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: AOT/SX04-072
+Name Jaw Titan: Retaking of the Founding Titan
+Color B
+Level 1
+Cost 0
+Power 6000
+Trait1 Eldian
+Trait2 Titan
+Cont: GiveSelf
+{
+	If StageContains 2 HasTrait Eldian|Titan && Other
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Eldian》 or 《Titan》 characters, this card gets +500 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets CanBeChosen
+	ChooseCharacterFromTargets Choose a character to give +1000 power
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: AOT/SX04-073
+Name Armored Titan: Show of Resistance
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Eldian
+Trait2 Titan
+Combo Facing Off
+Cont: GiveSelf
+{
+	If StageContains 2 HasTrait Eldian|Titan && Other
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Eldian|Titan)
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Eldian》 or 《Titan》 characters, this card gets +1500 power and "Auto: ENCORE [Put 1 《Eldian》 or 《Titan》 character from your hand into your waiting room]".
+Auto: OnAttack
+{
+	If Climax Facing Off &&& StageContains 4 Other && HasTrait Eldian|Titan
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetTop Deck 9
+			Reveal
+			NarrowTargets HasTrigger Gate
+			SetXValue TargetCount
+			*OptionalBurn(X)
+			*OptionalBurn(X)
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 1 card from your hand into your waiting room] When this card attacks, if "Facing Off" is in your climax area, and you have 4 or more other 《Eldian》 or 《Titan》 characters, you may pay the cost. If you do, reveal the top 9 cards of your deck, shuffle your deck, and deal X damage to your opponent 2 times. X is equal to the total number of GATE in the trigger icons of those cards. 
+EndCard
+
+Character: AOT/SX04-074
+Name Zeke: Reliable Marleyan Warrior
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Eldian
+Trait2 Military
+Cont: InHand
+{
+	If StageContains 1 NameEquals Porco: Harsh Words &&& StageContains 1 NameEquals Pieck: Mediator
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have "Porco: Harsh Words" and "Pieck: Mediator", this card gets -1 level while in your hand.
+*GainPowerForEachOther(500,Eldian)
+*StockHealer
+EndCard
+
+Character: AOT/SX04-075
+Name Porco: Growing Unease
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+Trait2 Military
+*BlueLevel0Bomb
+Act: 1 SendSelf WaitingRoom
+{
+	RevealUpTo Deck 4
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 HasTrait Eldian
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Eldian》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: AOT/SX04-076
+Name Pieck: Mediator
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Military
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && HasTrait Eldian
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: Your other 《Eldian》 character in the middle position of your center stage gets "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+Act: 1 Rest 2 Any
+{
+	Brainstorm 5
+	TargetBrainstormed
+	NarrowTargets HasTrigger Gate
+	SetXValue TargetCount
+	If HasTarget
+	{
+		Repeat X
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 5 cards from the top of your deck, and put them into your waiting room. For each climax with in its trigger icon revealed among those cards, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-077
+Name War Hammer Titan: Variety of Weapons
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Eldian
+Trait2 Titan
+Cont: GiveAll
+{
+	If OpponentsTurn && HasTrait Eldian|Titan && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, all of your other 《Eldian》 or 《Titan》 characters get +1000 power.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, it gets +1000 power.
+EndCard
+
+Character: AOT/SX04-078
+Name War Hammer Titan: Facing the Usurper
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Eldian
+Trait2 Titan
+*OnAttackGainPowerForEachOther(500,Eldian|Titan)
+Auto: OnEndOfAttack
+{
+	If PlayedThisTurn
+	{	
+		PayCost 3 Discard 1 Any Send 1 WaitingRoom Any
+		{
+			TargetSelf
+			Stand
+		}
+	}
+}
+Text Auto: [(3) Put 1 card from your hand into your waiting room & Put 1 other character from your stage into your waiting room] This ability activates up to 1 time per turn. During the turn that this card is placed on the stage from your hand, at the end of this card's attack, you may pay the cost. If you do, Stand this card.
+EndCard
+
+Character: AOT/SX04-079
+Name Reiner: Past Shadows
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Eldian
+Trait2 Military
+*Healer
+Act: SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Armored Titan: Show of Resistance
+	Change
+}
+Text Act: [Put this into your waiting room] Choose 1 "Armored Titan: Show of Resistance" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: AOT/SX04-080
+Name Lara Tybur
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Titan
+Cont: GiveSelf
+{
+	If LocationContains Hand 5 Any
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +2000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: AOT/SX04-081
+Name Willy Tybur
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Eldian
+	SetXValue TargetCount
+	MultiplyXValue 500
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other 《Eldian》 characters, it gets +X power until end of turn. X is equal to the number of 《Eldian》 characters you have ×500.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to move to an open position of the stage
+	MoveToOpenPosition True True
+}
+ActivationRequirement StageContains 1 Other && HasTrait Eldian
+Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] If you have another 《Eldian》 character, choose 1 of your opponent's characters, and move it to another open position of their stage.
+EndCard
+
+Character: AOT/SX04-082
+Name Jaw Titan: Sharp Teeth
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Eldian
+Trait2 Titan
+Combo Sharp Teeth
+*GlobalPower(500,Eldian|Titan)
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		Question Draw and discard a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When your character's trigger check reveals a climax with GATE in its trigger icon, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Auto: StartMyEncoreStep
+{
+	If Climax Sharp Teeth
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom HasTrait Eldian|Titan
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Sharp Teeth" from your climax area into your waiting room] At the beginning of your encore step, you may pay the cost. If you do, choose 1 《Eldian》 or 《Titan》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-083
+Name Tom Ksaver
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Trait2 Military
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1500 power
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 of your characters, it gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Baseball
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Baseball" in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-084
+Name Porco: Taken Aback
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Eldian
+Trait2 Military
+Act: SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Jaw Titan: Retaking of the Founding Titan
+	Change
+}
+Text Act: [Put this card into your waiting room] Choose 1 "Jaw Titan: Retaking of the Founding Titan" in your waiting room, and put it on the stage position that this card was on.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian
+	ChooseCharacterFromTargets Choose a character to gain +2500 power
+	GainPower 2500
+}
+Text Act: [Rest this card] Choose 1 of your 《Eldian》 characters, it gets +2500 power until end of turn.
+EndCard
+
+Character: AOT/SX04-085
+Name Pieck: Pointing Out the Enemy
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Eldian
+Trait2 Military
+*OnPlayMill2GainPowerForEachCharacter(1000,Eldian)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 0 OrLess
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: AOT/SX04-086
+Name Zeke: Whistleblower
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Eldian
+Trait2 Military
+*GainPowerForEachOther(500,Eldian)
+Auto: OnAttack
+{
+	PayCost Discard 1 IsClimax && HasTrigger Gate
+	{
+		TargetSelf
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchWaitingRoom IsCharacter
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand.
+		}
+	}
+}
+Text Auto: [Put 1 climax with GATE in its trigger icon from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: AOT/SX04-087
+Name Armored Titan: Marley Mid-East War
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Titan
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets HasTrait Eldian|Titan
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each other 《Eldian》 or 《Titan》 character in your back stage.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian|Titan && Other
+	ChooseCharacterFromTargets Choose a character to gain +X power
+	SetXValue TargetCardsSoul
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other 《Eldian》 or 《Titan》 characters, it gets +X power until end of turn. X is equal to that character's soul ×1000.
+EndCard
+
+Character: AOT/SX04-088
+Name Cart Titan: Fending Off
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Eldian
+Trait2 Titan
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		Question Send a level 3 or lower character to your opponent's waiting room?
+		If Yes
+		{
+			TargetLocation OpponentStage
+			NarrowTargets CanBeChosen && Compare ThatCardsLevel 3 OrLess
+			ChooseCharacterFromTargets Choose a character to send to the waiting room
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into your waiting room. If there is a climax among those cards, you may choose 1 level 3 or lower character in your opponent's center stage, and put it into their waiting room.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: AOT/SX04-089
+Name Reiner: Overseeing the Celebrations
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Eldian
+Trait2 Military
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 2000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×2000.
+Auto: OnOpponentReverse
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian
+	ChooseCharacterFromTargets Choose a character to gain +2000 power
+	GainPower 2000
+}
+Text Auto: When this card's battle opponent becomes reversed, choose 1 of your 《Eldian》 characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-090
+Name Porco: Harsh Words
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Eldian
+Trait2 Military
+*Level3Assist
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with GATE in its trigger icon, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-091
+Name Pieck: Trusted by Her Squad
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Eldian
+Trait2 Military
+*OnPlayGainPowerForEach(1500,Eldian)
+Auto: OnAttack
+{
+	PayCost Discard 1 IsClimax && HasTrigger Gate
+	{
+		TargetSelf
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchDeck HasTrait Eldian
+			}
+			Text Auto: When this card's battle opponent becomes reversed, search your deck for up to 1 《Eldian》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+		}
+	}
+}
+Text Auto: [Put 1 climax with GATE in its trigger icon from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +1500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, search your deck for up to 1 《Eldian》 character, reveal it to your opponent, put it into your hand, and shuffle your deck."
+EndCard
+
+Character: AOT/SX04-092
+Name Zeke: Scream
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Eldian
+Trait2 Military
+Combo Spinal Fluid Activation
+*EarlyPlay4OrMore(Eldian|Titan)
+Auto: OnEndOfAttack
+{
+	If Climax Spinal Fluid Activation &&& StageContains 4 HasTrait Eldian|Titan
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchLocationForTargets Deck 0 2 HasTrait Eldian|Titan
+			Reveal
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Spinal Fluid Activation" from your climax area into your waiting room] At the end of this card's attack, if you have 4 or more other 《Eldian》 or 《Titan》 characters, you may pay the cost. If you do, search your deck for up to 2 《Eldian》 or 《Titan》 characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Character: AOT/SX04-093
+Name Beast Titan: Marley Mid-East War
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Eldian
+Trait2 Titan
+Cont: GiveSelf
+{
+	If StageContains 2 HasTrait Eldian|Titan && Other
+	{
+		GainPower 4000
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotSideAttack
+			}
+			Text Cont: The character facing this card cannot side attack.
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Eldian》 or 《Titan》 characters, this card gets +4000 power and the following ability. "Cont: The character facing this card cannot side attack."
+Auto: OnPlay
+{
+	If StageContains 4 HasTrait Eldian|Titan && Other
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Eldian|Titan
+		Reveal
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Eldian》 or 《Titan》 characters, you may choose 1 《Eldian》 or 《Titan》 character in your waiting room, and put it into your stock.
+EndCard
+
+Event: AOT/SX04-094
+Name The Panzer Unit
+Color B
+Level 1
+Cost 2
+Requirement StageContains 1 NameContains Pieck|Cart Titan
+Effect:
+{
+	SearchLocationForTargets Deck 0 2 HasTrait Military && Compare ThatCardsCost 0 OrLess
+	PlaceOnStage False True True False
+	ShuffleLocation Deck
+	GainPower 1000
+}
+Text If you do not have a character with "Pieck" or "Cart Titan" in its card name, this card cannot be played from your hand.
+Text Search your deck for up to 2 cost 0 or lower 《Military》 characters, put them on separate positions of your stage, shuffle your deck, and those characters get +1000 power until end of turn.
+EndCard
+
+Event: AOT/SX04-095
+Name Baseball
+Color B
+Level 2
+Cost 2
+Counter
+Effect:
+{
+	Repeat 2
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 1
+			}
+			Text Cont: The character facing this card gets -1 soul.
+		}
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text Counter: Perform the following action 2 times.
+Text "Choose 1 of your characters, it gets the following ability until end of turn. "Cont: The character facing this card gets -1 soul.""
+Text Put this card into your memory.
+EndCard
+
+Event: AOT/SX04-096
+Name Ready to End
+Color B
+Level 3
+Cost 1
+Effect
+{
+	PayCost Rest 1 NameContains Reiner
+	{
+		SearchLocationForTargets Deck 0 3 HasTrait Eldian
+		RevealTargets
+		MoveCard Hand
+		ShuffleLocation Deck
+		Discard 1 Any
+	}
+}
+Text Rest 1 of your standing characters with "Reiner" in its card name. If you do, search your deck for up to 3 《Eldian》 characters, reveal them to your opponent, put them into your hand, choose 1 card in your hand, put it into your waiting room, and shuffle your deck.
+EndCard
+
+Climax: AOT/SX04-097
+Name Facing Off
+*GateClimax
+EndCard
+
+Climax: AOT/SX04-098
+Name Reunion
+*GateClimax
+EndCard
+
+Climax: AOT/SX04-099
+Name Spinal Fluid Activation
+*GateClimax
+EndCard
+
+Climax: AOT/SX04-100
+Name Sharp Teeth
+*GateClimax
+EndCard
+
+Character: AOT/SX04-101
+Name Chimi Eren: Branching Paths
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Corps
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +2 soul until end of turn.
+*StockOnCancel
+EndCard
+
+Character: AOT/SX04-102
+Name Chimi Armin: Branching Paths
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Eldian
+Trait2 Corps
+Cont: GiveAll
+{
+	If MyTurn && InLocation CenterStage && Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, your other character the middle position of your center stage gets +1500 power.
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Eldian|Corps
+	ChooseCharacterFromTargets Choose a character to gain +2000 power
+	GainPower 2000
+}
+Text Auto: When your other character's battle opponent becomes reversed in battle, choose 1 of your 《Eldian》 or 《Corps》 characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-103
+Name Chimi Levi: Branching Paths
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Corps
+*Level0Assist
+*OnOtherAttackedSacrificeToGivePower(1000, Eldian|Corps)
+EndCard
+
+Character: AOT/SX04-104
+Name Chimi Gabi
+Color G
+Level 1
+Cost 0
+Power 6500
+Trait1 Eldian
+Trait2 Military
+*CannotSideAttack
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		Auto: Encore 2
+		{
+		}
+		Text Auto: ENCORE [(2)]
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [(2)]".
+EndCard
+
+Character: AOT/SX04-105
+Name Chimi Falco
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Eldian
+Trait2 Military
+*GainPowerForEachOther(1000,Eldian)
+*HandEncoreTrait(Eldian)
+EndCard
+
+Character: AOT/SX04-106
+Name Chimi Mikasa: Branching Paths
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Eldian
+Trait2 Corps
+*OnAttackGivePowerForEachOther(1000,Eldian|Corps)
+*RedLevel2Bomb
+EndCard
+
+Character: AOT/SX04-107
+Name Chimi Reiner
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Eldian
+Trait2 Military
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If you do not have another character, this card gets +1 level and +1500 power.
+*NoEncoreIfReversed
+EndCard
+
+Character: AOT/SX04-108
+Name Armin: Optimistic
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Corps
+Trait2 Weapon
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Corps
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Corps》 character, this card gets +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 HasTrait Corps && Other
+		{
+			SearchDeck HasTrait Corps
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other Stand 《Corps》 characters] During the turn that this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to 1 《Corps》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: AOT/SX04-109
+Name Eren: Asking for Advice
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Corps
+Trait2 Weapon
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If MyTurn && Not StageContains 1 Not HasTrait Corps
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are 《Corps》, this card gets +2000 power.
+*StockHealer
+EndCard
+
+Character: AOT/SX04-110
+Name Eren Titan: Welcoming Foreigners
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Corps
+Trait2 Titan
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Corps
+		ChooseCharactersFromTargets 0 3 Choose up to 3 characters on stage to gain +500 power and +1 soul
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose up to 3 of your 《Corps》 characters, and those characters get +500 power and +1 soul until end of turn.
+*MusashiEffect
+EndCard
+
+Character: AOT/SX04-111
+Name Erwin: Receiving a Promise
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Corps
+Trait2 Weapon
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Corps
+	{
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Corps》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchLocationForTargets Deck 0 1 HasTrait Corps && Compare ThatCardsCost 0 OrLess && Compare ThatCardsLevel MyLevel OrLess
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 cost 0 or lower 《Corps》 character with level equal to or lower than your level, put it on any position of your stage, and shuffle your deck.
+EndCard
+
+Character: AOT/SX04-112
+Name Levi: Making a Promise
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Corps
+Trait2 Weapon
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	If Compare TargetCount 1 OrMore
+	{
+		ChooseCardFromTargets 0 1 HasTrait Corps
+		MoveCard Hand
+		Discard 1 Any
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you revealed 1 or more cards, choose up to 1 《Corps》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: AOT/SX04-113
+Name Mikasa: Hopeful
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Corps
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another 《Corps》 character, this card gets +1500 power.
+*MoveOtherWithTraitToBackstageOnReverse(Corps)
+EndCard
+
+Character: AOT/SX04-114
+Name Reiner: Giving Advice
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Corps
+Trait2 Titan
+*OnAttackGiveOtherPower(1000,Corps|Titan)
+Auto: StartOpponentAttackPhase
+{
+	If LocationContains Facing 1 Any
+	{
+		TargetLocation CenterStage
+		If Compare TargetCount 2 OrLess
+		{
+			TargetSelf
+			Question Move this card to an open position of your center stage?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: AOT/SX04-115
+Name Historia: Political Pawn
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Corps
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Corps
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if you have 2 or more other 《Corps》 characters, this card gets +2000 power.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: AOT/SX04-116
+Name Ymir: Titan Inheritance Ritual
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Corps
+Trait2 Titan
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Corps|Titan
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncoreTrait(Corps|Titan)
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Corps》 or 《Titan》 characters, this card gets +500 power and "Auto: ENCORE [Put 1 《Corps》 or 《Titan》 character from your hand into your waiting room]".
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: AOT/SX04-117
+Name Bertholdt: Reserved Thoughts
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Corps
+Trait2 Titan
+*EarlyPlay4OrMore(Corps|Titan)
+*OnPlayCheckX(Corps|Titan)
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Corps|Titan
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +3000 power
+		GainPower 3000
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other 《Corps》 or 《Titan》 characters, choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-P01
+Name Reiner: Gloating
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Eldian
+Trait2 Military
+*OnPlayScryToBottom
+*BlueCost0Bomb
+EndCard
+
+Character: AOT/SX04-P02
+Name Eren Titan: Incoming Battle
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Eldian
+Trait2 Titan
+Trait3 Corps
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Eldian|Corps
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are 《Eldian》 or 《Corps》, this card gets +2000 power.
+Auto: OnAttack
+{
+	If LocationContains Climax 1 Any
+	{
+		PayCost 1
+		{
+			GainLevel 1
+			GainSpecialEffect AdditionalTrigger
+		}
+	}
+}
+Text Auto: [(1)] When this card attacks, if there is a climax in your climax area, you may pay the cost. If you do, during that attack, this card gets +1 level, and perform a trigger check 2 times on the trigger step.
+EndCard
+
+Character: AOT/SX04-P03
+Name Eren: Undercover
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Eldian
+EndCard
+
+Character: AOT/SX04-T01
+Name Colt: Ferrying to Safety
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+Trait2 Military
+Cont: GiveAll
+{
+	If NameEquals Falco Grice | Falco: Warrior Candidate
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Falco Grice" and "Falco: Warrior Candidate" get +1000 power.
+*2OptionBondDiscard(Falco Grice, Falco: Warrior Candidate)
+EndCard
+
+Character: AOT/SX04-T02
+Name Eren: Undercover
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Eldian
+*500Assist
+Act: 1 Discard 1 IsClimax
+{
+	SearchWaitingRoom HasTrait Eldian
+}
+Text Act: [(1) Put 1 climax from your hand into your waiting room] Choose 1 《Eldian》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: AOT/SX04-T03
+Name Gabi Braun
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Eldian
+Trait2 Military
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Eldian
+	{
+		GainPower 1000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to 2 times per turn. When your other 《Eldian》 character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: AOT/SX04-T04
+Name Falco Grice
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Military
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Eldian
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Eldian》 character in your waiting room, return it to your hand, choose 1 of your other 《Eldian》 characters, it gets +1000 power until end of turn.
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Eldian
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other 《Eldian》 characters, this card gets +2000 power until end of turn.
+EndCard
+
+Character: AOT/SX04-T05
+Name Falco: Warrior Candidate
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Eldian
+Trait2 Military
+*OnAttackGivePowerForEachOther(500,Eldian)
+Auto: OnAttack
+{
+	TargetLocation Stage
+	GainEffect
+	{
+		Auto: OnThisTriggerCheck
+		{
+			IfOther IsClimax
+			{
+				PayCost Discard 1 IsClimax
+				{
+					SearchWaitingRoom HasTrait Eldian
+				}
+			}
+		}
+		Text Auto: [Put 1 climax from your hand into your waiting room] When this card's trigger check reveals a climax, you may pay the cost. If you do, choose 1 《Eldian》 character in your waiting room, and return it to your hand.
+	}
+}
+Quick
+Text Auto: When this card attacks, all of your characters get the following ability until end of turn. "Auto: [Put 1 climax from your hand into your waiting room] When this card's trigger check reveals a climax, you may pay the cost. If you do, choose 1 《Eldian》 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: AOT/SX04-T06
+Name Zofia: Warrior Candidate
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Eldian
+Trait2 Military
+EndCard
+
+Character: AOT/SX04-T07
+Name Udo: Warrior Candidate
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Eldian
+Trait2 Military
+*OnPlayGainPowerForEach(1000,Eldian)
+EndCard
+
+Character: AOT/SX04-T08
+Name Gabi: Warrior Candidate
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Eldian
+Trait2 Military
+Combo War Heroine
+*Healer
+Auto: OnOpponentReverse
+{
+	If Climax War Heroine
+	{
+		TargetLocation Facing
+		MoveCard Clock
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "War Heroine" is in your climax area, you may put that character into your opponent's clock.
+EndCard
+
+Event: AOT/SX04-T09
+Name Eldian Armband
+Color G
+Level 1
+Cost 0
+Effect
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel X OrLess && HasTrait Eldian
+	MoveCard Hand
+}
+Text Put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Eldian》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Climax: AOT/SX04-T10
+Name War Heroine
+*BarClimax
+EndCard
+
+Character: AOT/SX04-T11
+Name Zeke: Warrior Candidate
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+Trait2 Military
+Act: 1
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [(1)] Draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: AOT/SX04-T12
+Name Pieck: Warrior Candidate
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Eldian
+Trait2 Military
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		Question Put a character from your opponent's center stage to the bottom of their deck?
+		If Yes
+		{
+			TargetLocation OpponentCenterStage 
+			NarrowTargets Compare ThatCardsCost 0 OrLess
+			ChooseCharacterFromTargets Choose a character to put to the bottom of your opponent's deck
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if there is 1 or less characters in your opponent's center stage, you may choose 1 cost 0 or lower character in your opponent's center stage, and put it at the bottom of their deck.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Eldian
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 《Eldian》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: AOT/SX04-T13
+Name Annie: Warrior Candidate
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Eldian
+Trait2 Military
+*OnPlayGivePower(1500,Eldian)
+EndCard
+
+Character: AOT/SX04-T14
+Name Marcel: Warrior Candidate
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Eldian
+Trait2 Military
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]".
+EndCard
+
+Character: AOT/SX04-T15
+Name Reiner: Warrior Candidate
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Eldian
+Trait2 Military
+Text Cont: If you have 2 or more other 《Eldian》 characters, this card gets +2000 power.
+*ClockEncore
+EndCard
+
+Character: AOT/SX04-T16
+Name Jaw Titan: Marley Mid-East War
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Eldian
+Trait2 Titan
+*BackupBonus1000(Eldian|Titan)
+Backup 2500
+EndCard
+
+Character: AOT/SX04-T17
+Name Bertholdt: Warrior Candidate
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Eldian
+Trait2 Military
+*LevelAssist
+Act: RestSelf
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest this card] Draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: AOT/SX04-T18
+Name Cart Titan: Marley Mid-East War
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Eldian
+Trait2 Titan
+*OnAttackGivePowerForEachOther(500,Eldian|Titan)
+EndCard
+
+Character: AOT/SX04-T19
+Name Reiner: Man on a Mission
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Eldian
+Trait2 Military
+*OnPlayCheckX(Eldian)
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		Mill 5
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the top 5 cards of your deck into your waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. 
+EndCard
+
+Climax: AOT/SX04-T20
+Name Raining Titans
+*GateClimax
+EndCard

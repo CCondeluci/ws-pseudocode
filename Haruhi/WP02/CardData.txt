@@ -1,0 +1,273 @@
+//Power Up Set
+
+Character: SY/WP02-01
+Image P01
+Name Taking a Break, Mikuru
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Time
+Trait2 SOS Brigade
+Auto: OnPlay|OnPlacedOnStageFromMemory
+{
+	Question Put the top 2 cards of your deck into the waiting room
+	If Yes
+	{
+		Mill 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or memory, you may put the top 2 cards of your deck into the waiting room.
+Auto: OnReverseOpponent
+{
+	Question Put "Taking a Break, Mikuru" into memory?
+	If Yes
+	{
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals Taking a Break, Mikuru
+				FirstTarget
+				If HasTarget
+				{
+					Message Taking a Break, Mikuru returns from memory.
+					PlaceOnStage false true true false
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Taking a Break, Mikuru" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: SY/WP02-02
+Image P02
+Name Reindeer, Mikuru
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Time
+Trait2 SOS Brigade
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupOnAttack
+}
+Text Cont: During this card's battle, your opponent cannot play "BACKUP" from their hand.
+*Healer
+EndCard
+
+Character: SY/WP02-03
+Image P03
+Name Taking a Break, Haruhi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Brigade Leader
+Trait2 SOS Brigade
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+*Act1RestSelfSalvageBrainstorm(Brigade Leader|SOS Brigade)
+EndCard
+
+Character: SY/WP02-04
+Image P04
+Name Outrageous Behavior, Haruhi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Brigade Leader
+Trait2 SOS Brigade
+Combo A Day in the Clubroom
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax A Day in the Clubroom
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 0 OrLower
+		AIChoice SendToWaitingRoom
+		ChooseCharacterFromTargets_Optional Choose up to 1 level 0 character to send to the waiting room.
+		MoveCard OpponentWaitingRoom
+		SearchWaitingRoom HasTrait Brigade Leader | SOS Brigade
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "A Day in the Clubroom" is in your climax area, choose up to 1 level 0 or lower character in your opponent's center stage, put it into their waiting room, choose up to 1 《Brigade Leader》 or 《SOS Brigade》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SY/WP02-05
+Image P05
+Name "10th Anniversary" Haruhi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Brigade Leader
+Trait2 SOS Brigade
+Combo Someday in the Rain
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Brigade Leader | SOS Brigade
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Brigade Leader》 or 《SOS Brigade》 character in your waiting room, and return it to your hand.
+Auto: OnSpecificClimaxPlay Someday in the Rain
+{
+	If InLocation CenterStage
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost Send 1 WaitingRoom Other
+				{
+					TargetTop Deck 1
+					Reveal
+					IfThatCard Compare ThatCardsLevel 1 OrMore && HasTrait Brigade Leader | SOS Brigade
+					{
+						PlaceOnStage False True True False
+						GainPower 1000
+					}
+				}
+			}
+			TimesPerTurn 1
+			Text Auto: Auto: [Put 1 other character from your stage into your waiting room] This ability activates up to 1 time per turn. When this card attacks, you may pay the cost. If you do, reveal the top card of your deck. If that card is a level 1 or higher 《Brigade Leader》 or 《SOS Brigade》 character, put it on any position of your stage, it gets +1000 power until end of turn.
+		}
+	}
+}
+Text Auto: CxCombo When "Someday in the Rain" is placed on your climax area, if this card is in your center stage, this card gets the following ability until end of turn. "Auto: [Put 1 other character from your stage into your waiting room] This ability activates up to 1 time per turn. When this card attacks, you may pay the cost. If you do, reveal the top card of your deck. If that card is a level 1 or higher 《Brigade Leader》 or 《SOS Brigade》 character, put it on any position of your stage, it gets +1000 power until end of turn." 
+EndCard
+
+Climax: SY/WP02-06
+Image P06
+Name A Day in the Clubroom
+*RedStockSoul
+Combo Outrageous Behavior, Haruhi
+EndCard
+
+Character: SY/WP02-07
+Image P07
+Name Tree-Colored Dress, Nagato
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Alien
+Trait2 SOS Brigade
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Alien | SOS Brigade
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card attacks, choose 1 of your other 《Alien》 or 《SOS Brigade》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: SY/WP02-08
+Image P08
+Name Taking a Break, Nagato
+Color B
+Level 1
+Cost 0
+Power 6000
+Trait1 Alien
+Trait2 SOS Brigade
+*CannotAttackHigherLevel
+Auto: OnOtherFrontalAttacked
+{
+	TargetOther
+	IfThatCard HasTrait Alien | SOS Brigade
+	{
+		PayCost SendSelf WaitingRoom Discard 1 Any
+		{
+			
+			GainPower 3000
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] When your other 《Alien》 or 《SOS Brigade》 character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, it gets +3000 power until end of turn.
+EndCard
+
+Character: SY/WP02-09
+Image P09
+Name Eyecandy in Summer, Haruhi & Mikuru
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Brigade Leader
+Trait2 SOS Brigade
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 0 2 NameEquals Endless Eight
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 2 "Endless Eight" in your waiting room, and return them to your hand.
+Act: SendFromMemoryToWaitingRoom 8 NameEquals Endless Eight
+{
+	Burn 1
+	Burn 1
+	Burn 1
+	Burn 1
+	Burn 1
+	Burn 1
+	Burn 1
+	Burn 1
+}
+Text Act: [Put 8 "Endless Eight" from your memory into your waiting room] Perform the following action 8 times. "Deal 1 damage to your opponent." 
+EndCard
+
+Character: SY/WP02-10
+Image P10
+Name Producer for Mikuru, Haruhi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Brigade Leader
+Trait2 SOS Brigade
+*Level3Assist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait SOS Brigade | Brigade Leader
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Brigade Leader》 or 《SOS Brigade》 character in your waiting room, and return it to your hand.
+EndCard

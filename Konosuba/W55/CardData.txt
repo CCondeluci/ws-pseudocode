@@ -1,0 +1,2382 @@
+Character: KS/W55-E001
+Name "Sending Off" Chris
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Robber
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && MyTurn
+	{
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, your other character in the middle position of your center stage gets +1500 power.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	SetXValue BrainstormedClimax
+	If Compare X 1 OrMore
+	{
+		AIChoice AddToHand
+		SearchLocationForTargets Deck 0 X IsCharacter && ColorIs Yellow || HasTrait Adventurer
+		RevealTargets
+		MoveCard Hand
+		ShuffleLocation Deck
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, search your deck for up to 1 yellow or <Adventurer> character and add it to your hand.
+EndCard
+
+Character: KS/W55-002
+Image KS_W55_E002
+Name "Iron Wall Crusader" Darkness
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Adventurer
+Trait2 Worries
+Combo Subduing Even My Heart...
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Adventurer | Magic
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another <Adventurer> or <Magic> character, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Subduing Even My Heart...
+	{
+		SearchDeck HasTrait Adventurer | Magic
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Subduing Even My Heart..." is in your climax area, search your deck for up to 1 <Adventurer> or <Magic> character and add it to your hand.
+EndCard
+
+Character: KS/W55-003
+Image KS_W55_E003
+Name "Duke of Hell" Vanir
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Mask
+Trait2 Magic
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, this card gets +2000 power.
+Auto: OnPlay|PlacedBy Change
+{
+	GainEffect
+	{
+		Auto: OnDamageCancel
+		{
+			Mill 1
+			SetXValue TargetCardsLevel
+			AddToXValue 1
+			Burn X
+		}
+		TimesPerTurn 1
+		Text Auto: Once during the turn this card is placed on the stage from your hand or by a CHANGE effect, when damage delt by this card is canceled, put the top card of your deck into the waiting room, and deal X damage to your opponent. X is that card's level plus 1.
+	}
+}
+Quick
+Text Auto: Once during the turn this card is placed on the stage from your hand or by a CHANGE effect, when damage delt by this card is canceled, put the top card of your deck into the waiting room, and deal X damage to your opponent. X is that card's level plus 1.
+Auto: StartOpponentDrawPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals "Power of the Mask" Darkness
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals "Power of the Mask" Darkness
+			FirstTarget
+			Change
+			GainPower 2500
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into the waiting room] At the beginning of your opponent's draw phase, you may pay the cost, choose a card named ""Power of the Mask" Darkness" in your waiting room and put it in the stage position this was on, and it gets +2500 power until end of turn.
+EndCard
+
+Character: KS/W55-E004
+Name "Setting Out" Darkness
+Color Y
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Adventurer
+Trait2 Worries
+Combo First Incitation
+*Healer
+Auto: OnAttack
+{
+	If Climax First Incitation
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			AIChoice Attacker
+			ChooseCharacterFromTargets Choose a character to give the effect to.
+			GainPower 2000
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					Burn 2
+				}
+				TimesPerTurn 1
+				Text Auto: Once per turn, when damage dealt by this card is canceled, deal 2 damage to your opponent.
+			}
+			
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "First Incitation" is in your climax area, you may pay the cost, choose 1 of your characters, until end of turn it gets +2000 power and "Auto: Once per turn, when damage dealt by this card is canceled, deal 2 damage to your opponent."
+EndCard
+
+Character: KS/W55-E005
+Name "Snipe" Kazuma
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnReversed
+{
+	*ClockSaboutage
+}
+Text Auto: When this card becomes reversed in battle, you may choose a card in your opponent's clock, and put it into the waiting room, if you do, your opponent puts the top card of his or her deck into the clock.
+*YellowLevel0Bomb
+EndCard
+
+Character: KS/W55-E006
+Name "Decoy" Kazuma
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+*500Assist
+Act SendSelf BottomOfDeck
+{
+	TargetLocation Hand
+	NarrowTargets NameEquals "Mesmerizing Water Goddess" Aqua
+	NarrowTargets Compare ThatCardsLevel MyLevel OrLess
+	If HasTarget
+	{
+		FirstTarget
+		PlaceOnStage False True True False
+	}
+}
+Text Act: [Put this card on the bottom of your deck] Choose a "'Mesmerizing Water Goddess' Aqua" in your hand with level less than or equal to your level and place it on any position of your stage.
+EndCard
+
+
+Character: KS/W55-007
+Image KS_W55_E007
+Name "Precious Item" Chris
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Robber
+Combo Return It to Me!!
+Auto: OnSpecificClimaxPlay Return It to Me!!
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			RevealUpTo Deck 4
+			AIChoice AddToHand
+			ChooseCardsFromTargets 0 1 IsCharacter && IsColor Yellow || HasTrait Adventurer
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		Text Auto: When this card's battle opponent becomes reversed, look at up to 4 cards from the top of your deck, choose up to 1 yellow or <Adventurer> character to add to your hand and put the rest into the waiting room.
+	}
+}
+Text Auto: CxCombo When "Return It to Me!!" is placed in your climax area, choose 1 of your other characters, until end of turn it gets " Auto: When this card's battle opponent becomes reversed, look at up to 4 cards from the top of your deck, choose up to 1 yellow or <Adventurer> character to add to your hand and put the rest into the waiting room."
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets IsColor Yellow || HasTrait Adventurer
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your yellow or <Adventurer> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: KS/W55-E008
+Name "Sightseeing in Arcanretia" Darkness
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Worries
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		RevealUpTo Deck 2
+		NarrowTargets IsCharacter
+		NarrowTargets ColorIs Yellow
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost, look at up to 2 cards from the top of your deck, choose up to 2 yellow characters, add them to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: KS/W55-E009
+Name Swimsuit Darkness
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Worries
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If the number of cards in your stock is 2 or less, this card gets +1500 power.
+EndCard
+
+Character: KS/W55-E010
+Name "Herald" Darkness
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Adventurer
+Trait2 Worries
+Auto: OnAttack
+{
+	
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Adventurer | Magic
+	SetXValue TargetCount
+	MultiplyXValue 500
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Adventurer> or <Magic> characters, it gets +X power until end of turn. X is 500 times the number of other <Adventurer> or <Magic> characters you have.
+*HandEncore
+EndCard
+
+
+
+
+Character: KS/W55-011
+Image KS_W55_E011
+Name "Power of the Mask" Darkness
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Worries
+*PayToExchange(Adventurer|Magic)
+*DefensiveScryOnCenterStage
+Auto: StartClimaxPhase
+{
+	TargetSelf //To make this effect not become quick when there is no target at first
+	//Don't ask if there is not target when the effect resolves
+	If LocationContains WaitingRoom 1 NameEquals "Duke of Hell" Vanir
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals "Duke of Hell" Vanir
+			FirstTarget
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost, choose a ""Duke of Hell" Vanir" in your waiting room and put it in the stage position this card was on.
+EndCard
+
+Character: KS/W55-012
+Image KS_W55_E012
+Name "Setting Out" Kazuma
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Cont: InHand
+{
+	If LocationContains Memory 2 NameEquals Aristocratic Insignia
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: MEMORY If the number of cards name "Aristocratic Insignia" in your memory is 2 or more, this card gets -1 level in your hand.
+*OnPlayCheckX(Adventurer|Goddess)
+EndCard
+
+
+Character: KS/W55-E013
+Name "Patriarch's Poise" Darkness' Father
+Color Y
+Level 0
+Cost 0
+Power 1000
+Auto: StartClimaxPhase
+{
+	If InLocation Clock
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Worries
+		AIChoice GainPower 3000
+		ChooseCharacterFromTargets Choose a <Worries> character to give +3000 power.
+		GainPower 3000
+	}
+}
+Alarm
+Text Auto: ALARM If this card is at the top of your clock, at the beginning of your climax phase, choose one of your <Worries> characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: KS/W55-E014
+Name "Cross-Examination" Sena
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Glasses
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck IsCharacter && NameContains Chris | Mitsurugi | Clemea
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 character with "Chris" or "Mitsurugi" or "Clemea" or "Fio" in its name, and add it to your hand.
+EndCard
+
+Character: KS/W55-E015
+Name "Aristocrat Daughter" Darkness
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Worries
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer | Magic
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Adventurer> or <Magic> characters, it gets +1500 power until end of turn.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals "Herald" Darkness
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost, choose a "'Herald' Darkness" in your waiting room, and put it in the stage position this card was on.
+EndCard
+
+Character: KS/W55-016
+Image KS_W55_E016
+Name "Rock-Paper-Scissors Master" Kazuma
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	If Compare Experience 2 OrMore
+	{
+		SetXValue 0 //The number of wins
+		PushX
+		Repeat 100
+		{
+			MultipleChoiceQuestion Rock Paper Scissors!|Rock|Paper|Scissors
+			SetXValue Answer
+			OpponentMultipleChoiceQuestion Rock Paper Scissors!|Rock|Paper|Scissors
+			//Now X is my answer and Answer is the opponent's answer
+			If Not Compare X Answer Exactly
+			{
+				//If it was not a tie
+				If Compare X 0 Exactly
+				{
+					//If I played Rock
+					If Compare Answer 1 Exactly
+					{
+						//If the opponent played paper
+						StopLoop
+					}
+					If Compare Answer 2 Exactly
+					{
+						PopX //Increase the win count by 1
+						AddToXValue 1
+						PushX
+					}
+				}
+				Else
+				{
+					If Compare X 1 Exactly
+					{
+						//If I played Paper
+						If Compare Answer 2 Exactly
+						{
+							//If the opponent played scissors
+							StopLoop
+						}
+						If Compare Answer 0 Exactly
+						{
+							PopX //Increase the win count by 1
+							AddToXValue 1
+							PushX
+						}
+					}
+					Else
+					{
+						//If I played Scissors
+						If Compare Answer 0 Exactly
+						{
+							//If the opponent played rock
+							StopLoop
+						}
+						If Compare Answer 1 Exactly
+						{
+							PopX //Increase the win count by 1
+							AddToXValue 1
+							PushX
+						}
+					}
+				}
+			}
+		}
+		PopX
+		If Compare X 4 OrMore
+		{
+			Burn 4
+		}
+	}
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand. If the total level of the cards in your level is 2 or higher, play "Rock-Paper-Scissors" with your opponent until you lose. If you won 4 or more times, deal 4 damage to your opponent.
+EndCard
+
+
+Character: KS/W55-E018
+Name "Sending Off" Ruffian
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Adventurer
+Trait2 Mohican
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && NameContains Kazuma
+	{
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, your other character with "Kazuma" in its name in the middle position of your center stage gets +1500 power.
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer
+	AIChoice GainPower 3000
+	ChooseCharacterFromTargets Choose a character to give +3000 power.
+	GainPower 3000
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose one of your <Adventurer> characters, it gets +3000 powe until end of turn.
+EndCard
+
+Character: KS/W55-019
+Image KS_W55_E019
+Name "Dead-On Accuracy" Darkness
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Adventurer
+Trait2 Worries
+*Level3Assist
+Auto: OnOtherPlacedOnStageFromHand
+{
+	TargetOther
+	IfThatCard HasTrait Adventurer | Magic
+	{
+		TargetLocation AnyStage
+		NarrowTargets Other
+		AIChoice GainLevel 1
+		ChooseCharacterFromTargets Choose a character to give +1 level.
+		UntilEndOfOpponentsTurn
+		GainLevel 1
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when your other <Adventurer> or <Magic> character is placed on the stage from your hand, choose another character, it gets +1 level until end of turn.
+EndCard
+
+Character: KS/W55-E020
+Name "Iron Will" Darkness
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Adventurer
+Trait2 Worries
+*RunInFrontOfCharacter
+*YellowEarlyPlayBomb
+EndCard
+
+
+Character: KS/W55-E022
+Name "Third Witness" Clemea & Fio
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Weapon
+Cont: GiveAll
+{
+	If NameEquals "Second Witness" Mitsurugi
+	{
+		GainPower 1000
+		GainSoul 1
+	}
+}
+Text Cont: Your other "'Second Witness' Mitsurugi" get +1000 power and +1 soul.
+*BondDiscard("Second Witness" Mitsurugi)
+EndCard
+
+Character: KS/W55-E023
+Name "Catharsis" Coachman
+Color Y
+Level 0
+Cost 0
+Power 1500
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Adventurer | Magic
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 <Adventurer> or <Magic> character and add it to your hand.
+EndCard
+
+Character: KS/W55-E024
+Name "In Ecstasy" Darkness
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Worries
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation OpponentCenterStage
+	If HasTarget && Compare TargetCount 2 OrLess
+	{
+		NarrowTargets CanMove
+		Question Move an opponent's character?
+		If Yes
+		{
+			AIChoice CanReverseOpponent
+			ChooseCharacterFromTargets Choose a character to move
+			MoveToOpenPosition True False
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose a character on your opponent's center stage, and move it to an open position of his or her center stage.
+EndCard
+
+Character: KS/W55-E025
+Image KS_W55_E025
+Name "Dignified" Darkness
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Worries
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Aristocratic Insignia
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose an "Aristocratic Insignia" in your waiting room and return it to your hand.
+EndCard
+
+Character: KS/W55-E026
+Name "Second Generation" Vanir
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Mask
+Trait2 Magic
+Combo Unparalled Deleterious Desire
+Auto: OnAttack
+{
+	PayCost SendFromHand 1 Stock IsCharacter
+	{
+		TargetLocation Climax
+		NarrowTargets NameEquals Unparalled Deleterious Desire
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo [Reveal a character from your hand and put it into your stock] When this card attacks, you may pay the cost, choose 1 "Unparalled Deleterious Desire" in your climax area and return it to your hand. (You may pay the cost without a climax)
+EndCard
+
+Character: KS/W55-E027
+Image KS_W55_E027
+Name "Masked Demon" Vanir
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Mask
+Trait2 Magic
+*YellowCost0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	If LocationContains Hand 1 NameEquals "Power of the Mask" Darkness
+	{
+		PayCost 3 Discard 1 IsClimax
+		{
+			TargetLocation Hand
+			NarrowTargets NameEquals "Power of the Mask" Darkness
+			FirstTarget
+			PlaceOnStage False True True True
+		}
+	}
+}
+Text Auto: [(3) Discard a climax] When this card is put into your waiting room from the stage, you may pay the cost, choose a ""Power of the Mask" Darkness" in your hand and put it on any position of your stage rested."
+EndCard
+
+Character: KS/W55-E028
+Name "First Witness" Chris
+Color Y
+Level 1
+Cost 0
+Power 7000
+Trait1 Adventurer
+Trait2 Robber
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Backstage 1 Any
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If the number of characters on your backstage is one or less, this card cannot attack.
+Auto: StartClimaxPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard IsCharacter && Compare TargetCardsLevel 0 OrLess
+	{
+		TargetTop Stock 1
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: At the beginning of your climax phase, reveal the top card of your deck, if that card is a level 0 character, put the top card of your stock into your waiting room.
+EndCard
+
+
+Character: KS/W55-E029
+Name "Second Witness" Mitsurugi
+Color Y
+Level 1
+Cost 1
+Power 7000
+Trait1 Adventurer
+Trait2 Weapon
+EndCard
+
+Character: KS/W55-E030
+Name "Freeze" Kazuma
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 1 OrMore
+		AIChoice LoseSoul 1
+		ChooseCharacterFromTargets Choose a character to give -1 soul.
+		LoseSoul 1
+	}
+}
+Text Auto: [(1) Discard a card] When you use this card's "Backup" you may pay the cost, choose one of your opponent's cost 1 or higher characters, it gets -1 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: KS/W55-E031
+Name "Embarassed" Sena
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Glasses
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrLess
+	{
+		GainPower 4500
+	}
+}
+Text Cont: If the number of cards in your hand is 5 or less, this card gets +4500 power.
+Auto: Encore Discard 1 HasTrait Adventurer|Glasses
+{
+}
+Text Auto: ENCORE [Discard an <Adventurer> or <Glasses> character]
+EndCard
+
+
+Event: KS/W55-E032
+Image KS_W55_E032
+Name Aristocratic Insignia
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 ColorIs Yellow
+	MoveCard Hand
+	TargetLocation Revealed
+	ChooseCardsFromTargets 0 1 ColorIs Red
+	MoveCard Hand
+	TargetLocation Revealed
+	ChooseCardsFromTargets 0 1 ColorIs Blue
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	Discard 1 Any
+	TargetSelf
+	MoveCard Memory
+}
+Text Look at up to 3 cards from the top of your deck, choose up to 1 yellow, up to 1 blue, and up to 1 red card from among them, add them to your hand, discard 1 card, and put this card into your memory.
+EndCard
+
+Event: KS/W55-E033
+Name Lurk Skill
+Color Y
+Level 2
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer|Goddess
+	GainPower 2500
+	GainSpecialEffect CannotBeChosen
+	TargetSelf
+	MoveCardToBottom Deck
+}
+Text All of your <Adventurer> or <Goddess> characters get +2500 power and "Cont: This card cannot be chosen by your opponent's effects." until end of turn. Put this card on the bottom of your deck.
+EndCard
+
+Event: KS/W55-E034
+Name Lie-Detecting Device
+Color Y
+Level 2
+Cost 0
+Effect:
+{
+	TargetTop OpponentDeck 1
+	OpponentView
+	OpponentMultipleChoiceQuestion Declare a level.|0|1|2|3
+	SetXValue Answer
+	MultipleChoiceQuestion Opponent declared [X] |False|True
+	Reveal
+	If Answer 0
+	{
+		If Not Compare X TargetCardsLevel Exactly
+		{
+			*OptionalDraw
+			*OptionalDraw
+		}
+	}
+	If Answer 1
+	{
+		If Compare X TargetCardsLevel Exactly
+		{
+			*OptionalDraw
+			*OptionalDraw
+		}
+	}
+}
+Text Your opponent looks at the top card of his or her deck, and declares the number 0 or 1 or 2 or 3.  Declare "True" or "False". Your opponent reveals the top card of his or her deck. IF that card's level is the number your opponent declared, and you declared "True", draw up to 2 cards. If that card's level is not the number your opponent declared, and you declared "False", draw up to 2 cards.
+EndCard
+
+Event: KS/W55-E035
+Name Chicken Race
+Color Y 
+Level 2
+Cost 0
+Effect:
+{
+	TargetLocation OpponentStage
+	NarrowTargets CanBeChosen
+	NarrowToHighestPower
+	If Compare TargetCount 2 OrMore
+	{
+		AIChoice CannotStand
+		ChooseCharacterFromTargets Choose a character.
+		DontStand
+	}
+	Else
+	{
+		If Compare TargetCount 1 Exactly
+		{
+			DontStand
+		}
+		If Compare TargetCount 0 Exactly
+		{
+			Message No legal target.
+			Wait 1
+		}
+	}
+}
+Text Choose one of your opponent's characters with the highest power. It cannot stand during your opponent's next stand phase.
+EndCard
+
+Climax: KS/W55-E036
+Image KS_W55_E036
+Name Subduing Even My Heart...
+Combo "Iron Wall Crusader" Darkness
+*WindClimax
+EndCard
+
+Climax: KS/W55-E037
+Name First Incitation
+*YellowStockSoul
+Combo "Setting Out" Darkness
+EndCard
+
+Climax: KS/W55-E039
+Name Unparalled Deleterious Desire
+*YellowStockSoul
+Combo "Second Generation" Vanir
+EndCard
+
+Climax: KS/W55-040
+Image KS_W55_E040
+Name Return It to Me!!
+Combo "Precious Item" Chris
+Color Y
+*2K2Climax(Yellow)
+EndCard
+
+Character: KS/W55-E041
+Name Swimsuit Megumin
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play event cards or "BACKUP" from your hand.
+Auto: OnReversed
+{
+	Mill 1
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question_Obvious Rest Swimsuit Megumin?
+		If Yes
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when this card becomes reversed in battle, put the top card of your deck into your waiting room. If that card is level 2 or higher, you may rest this card.
+EndCard
+
+Character: KS/W55-E042
+Name "Bunny Girl" Yunyun
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+Combo Light of Saber
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Magic //Not StageContains 1 Not HasTrait Magic
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Magic> this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+	If Climax Light of Saber
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Light of Saber" is in your climax area, put up to 1 card from the top of your deck into your stock, reveal the top card of your deck, if it is level 1 or higher add it to your hand.
+EndCard
+
+Character: KS/W55-E043
+Name "Detonative Dame" Megumin
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+*EarlyPlayInClock(Swimsuit Megumin)
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets HasTrait Adventurer|Magic
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		*OptionalBlindStock
+	}
+	If Compare X 2 OrMore
+	{
+		TargetLocation OpponentCenterStage
+		AIChoice LosePower 4000
+		ChooseCharacterFromTargets Choose a character to give -4000 power.
+		LosePower 4000
+	}
+	If Compare X 3 OrMore
+	{
+		Burn 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into the waiting room. If the number of <Adventurer> or <Magic> characters sent is 1 or more, you may put the top card of your deck into your stock. If the number is 2 or more, choose a character on your opponent's center stage, it gets -4000 power until end of turn. If the number is 3 or more, deal 1 damage to your opponent.
+EndCard
+
+Character: KS/W55-E044
+Name "Ice Witch" Wiz
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Death
+Trait2 Magic
+Combo Cursed Crystal Prison!
+*OnPlayRevealBurnIfTrait(Adventurer|Magic)
+Auto: OnReverseOpponent
+{
+	If Climax Cursed Crystal Prison!
+	{
+		PayCost 2 Discard 1 HasTrait Adventurer|Magic
+		{
+			UntilEndOfOpponentsTurn
+			BlockOpponentAct
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2) Discard an <Adventurer> or <Magic> character] Once per turn, when this card's battle opponent becomes reversed, if "Cursed Crystal Prison!" is in your climax area, you may pay the cost, stand this card and your opponent cannot use any "ACT" of characters on his or her stage until the end of your turn.
+EndCard
+
+Character: KS/W55-E045
+Image KS_W55_E045
+Name "Having a Nightmare" Wiz
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Death
+Trait2 Magic
+*Revenge(1000)
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adventurer | Magic
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your <Adventurer> or <Magic> characters, until end of turn it gets "Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand."
+EndCard
+
+Character: KS/W55-E046
+Name "Elated" Wiz
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Death
+Trait2 Magic
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+*500Assist
+EndCard
+
+Character: KS/W55-E047
+Image KS_W55_E047
+Name "Chomp Chomp" Megumin
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+*GivePowerToOtherOnPlay(1000,Adventurer|Magic)
+Auto: OnReverseInBattle
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, put it into your hand.
+EndCard
+
+
+Character: KS/W55-E048
+Name "Ambush" Yunyun
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck NameEquals Megumin
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 card named "Megumin" and add it to your hand.
+Act: 1 RestSelf Resonate Megumin
+{
+	*Check4Add1(Adventurer|Magic)
+}
+Text Act: [(1) Reveal a "Megumin" from your hand, and rest this card] Look at up to 4 cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: KS/W55-E049
+Name "Brightening Eyes" Megumin
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Adventurer
+Trait2 Magic
+*GainPowerForEachOther(500,Adventurer|Magic)
+EndCard
+
+Character: KS/W55-E050
+Name "Tad Bit Shy" Yunyun
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Adventurer|Magic
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If all your characters are <Adventurer> or <Magic> this card gets +1500 power and "Auto: ENCORE [Discard a character]"
+EndCard
+
+Character: KS/W55-E051
+Image KS_W55_E051
+Name "Setting Out" Megumin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Adventurer
+Trait2 Magic
+Combo New Explosion Magic
+*GainPowerForEachOther(500,Adventurer|Magic)
+Auto: OnAttack
+{
+	If Climax New Explosion Magic
+	{
+		AIChoice RemoveFromWaitingRoom
+		SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 1 OrMore
+		MoveCard Stock
+		TargetTop Deck 1
+		Reveal
+		If Compare ThatCardsLevel 1 OrMore
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "New Explosion Magic" is in your climax area, choose up to 1 level 1 or higher card in your waiting room and put it into your stock. Reveal the top card of your deck. If it is level 1 or higher add it to  your hand.
+EndCard
+
+Character: KS/W55-E052
+Name "Eternal Rival" Yunyun
+Color R
+Level 3
+Cost 2
+Power 9000
+Trigger Soul
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Cont: InHand
+{
+	If StageContains 1 NameEquals "Detonative Dame" Megumin
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have a card named ""Detonative Dame" Megumin", this card gets -1 level in your hand.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameEquals "Detonative Dame" Megumin && InLocation CenterStage
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other ""Detonative Dame" Megumin" on your center stage.
+*Healer
+EndCard
+
+
+Character: KS/W55-E053
+Image KS_W55_E053
+Name "Powered-Up Explosion Magic" Megumin
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+*GainPowerForEachOther(500,Adventurer|Magic)
+Auto: OnPlay
+{
+	*PlayCharacterFromHand(Compare ThatCardsLevel MyLevel OrLess)
+	TargetSelf
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to one character in your hand with level lower than or equal to your level and put it on any position of your stage, and this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 3 Discard 2 Any
+	{
+		Burn 5
+	}
+}
+Text Auto: [(3) Discard 2 cards] When this card attacks, you may pay the cost, deal 5 damage to your opponent.
+EndCard
+
+Character: KS/W55-E054
+Name "Consecutive Victories" Megumin
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		Question Put the top card of the opponent's deck into the waiting room?
+		If Yes
+		{
+			MillOpponent 1
+			*Saboutage
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If a climax is sent, you may put the top card of your opponent's deck into the waiting room, if you do, choose a card in your opponent's waiting room, and put it on top of their deck.
+*BondDiscard("Bunny Girl" Yunyun)
+EndCard
+
+Character: KS/W55-E055
+Image KS_W55_E055
+Name Chommusuke
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Animal
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Megumin
+	AIChoice BecomeBomb
+	ChooseCharacterFromTargets Choose a character to give "Auto: When this card becomes reversed, if the level of this card's battle opponent is less than or equal to this card's level, you may reverse that character."
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			TargetBattleOpponent
+			If Compare ThisCardsLevel TargetCardsLevel OrLess
+			{
+				Question_Obvious Reverse the battle opponent?
+				If Yes
+				{
+					Reverse
+				}
+			}
+		}
+		Text Auto: When this card becomes reversed, if the level of this card's battle opponent is less than or equal to this card's level, you may reverse that character.
+	}
+}
+Text Auto: ALARM If this card is on top of your clock, at the beginning of your climax phase, choose one of your characters with "Megumin" in its name, until end of turn it gets "Auto: When this card becomes reversed, if the level of this card's battle opponent is less than or equal to this card's level, you may reverse that character."
+Alarm
+EndCard
+
+Character: KS/W55-E056
+Image KS_W55_E056
+Name "Radiant Smile" Megumin
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+Combo In the Bath
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && HasTrait Adventurer | Magic
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other <Adventurer> or <Magic> character in the middle position of your center stage gets +1500 power.
+Auto: StartEncorePhase
+{
+	If Climax In the Bath
+	{
+		PayCost SendClimax Clock
+		{
+			*OptionalBlindStock
+			SearchWaitingRoom HasTrait Adventurer|Magic
+		}
+	}
+}
+Quick
+Text Auto: CxCombo [Put "In the Bath" from your climax area into your clock] At the beginning of your encore step, you may pay the cost, put up to 1 card from the top of your deck into your stock, choose up to 1 <Adventurer> or <Magic> character in your waiting room and return it to your hand.
+EndCard
+
+Character: KS/W55-E057
+Name "Taken Aback" Yunyun
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+*RedLevel0Bomb
+Act: SendSelf WaitingRoom Discard 1 Any 
+{
+	If StageContains 1 NameEquals Megumin
+	{
+		TargetLocation OpponentStage
+		AIChoice If InLocation Backstage
+		ChooseCharacterFromTargets Choose a character to move.
+		MoveToOpenPosition True True
+	}
+}
+Text Act: [Discard a card, put this card into the waiting room] If you have another "Megumin", choose 1 of your opponent's characters, and move it to an open position of his or her stage.
+EndCard
+
+Character: KS/W55-E058
+Name "General Store Shopkeeper" Wiz
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Death
+Trait2 Magic
+*GivePowerOnPlay(2000,Adventurer|Magic)
+EndCard
+
+Character: KS/W55-E059
+Name "Developmental Challenge" Yunyun
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Megumin
+	AIChoice Random
+	ChooseCharacterFromTargets Choose a character with "Megumin" in its name.
+	SaveTargets
+	If HasTarget
+	{
+		AddSelfToTargets
+		NarrowToHighestPower
+		If Compare TargetCount 2 OrMore
+		{
+			AIChoice GainSoul 1
+			ChooseCharacterFromTargets Choose a character to give +1 soul.
+		}
+		GainSoul 1
+		If ThisIsTargeted
+		{
+			LoadTargets
+		}
+		Else
+		{
+			TargetSelf
+		}
+		GainSoul -1
+	}	
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your characters with "Megumin" in its name and this card. Choose one among them with the highest power, it gets +1 soul until and the other gets -1 soul until end of turn.
+EndCard
+
+
+
+
+Character: KS/W55-E062
+Image KS_W55_E062
+Name "Nice Assist" Wiz
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Death
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Adventurer | Magic
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "Backup" if all your characters are <Adventurer> or <Magic>, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: KS/W55-E063
+Name Hans
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Slime
+Trait2 Poison
+Act: Discard 2 Any SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+	Change
+}
+Text Act: [Discard 2 cards, put this card into the waiting room] Choose a character in your waiting room with level less than or equal to your level, and put it in the stage position this was on.
+EndCard
+
+Character: KS/W55-E064
+Name "Maxed-Out Motivation" Yunyun
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals "Insufficient Magic Power" Megumin
+	{
+		SearchWaitingRoom HasTrait Adventurer|Magic
+	}
+}
+Text Auto: [Discard an "'Insufficient Magic Power' Megumin"] When this card is placed on the stage from your hand, you may pay the cost, choose an <Adventurer> or <Magic> character in your waiting room and return it to your hand.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals "Insufficient Magic Power" Megumin
+		PlaceOnStage False True True True
+	}
+}
+Text Auto: [Discard a card] When this card is put into the waiting room from the stage, you may pay the cost, choose a card named "'Insufficient Magic Power' Megumin" in your waiting room, and put it on any position of your stage rested.
+EndCard
+
+Character: KS/W55-E065
+Name "Challenge Accepted" Megumin
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnOtherPlacedOnStageFromWaitingRoom
+{
+	GainPower 2000
+}
+TimesPerTurn 3
+Quick
+Text Auto: Up to three times per turn, when your other character is placed on the stage from your waiting room, this card gets +2000 power until end of turn.
+EndCard
+
+Character: KS/W55-E067
+Name "Insufficient Magic Power" Megumin
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Adventurer
+Trait2 Magic
+EndCard
+
+Character: KS/W55-E068
+Image KS_W55_E068
+Name "Coming with Gifts" Yunyun
+Color R
+Level 1
+Cost 0
+Power 6500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice GainPower 3000
+	ChooseCharacterFromTargets Choose a character to give +3000 power.
+	GainPower 3000
+}
+Text Auto: When this card is placed on the stage from your hand, choose a character on your opponent's center stage, it gets +3000 power until end of turn.
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther NameEquals "Chomp Chomp" Megumin
+	{
+		TargetSelf
+		If InLocation WaitingRoom
+		{
+			PayCost Discard 1 Any
+			{
+				PlaceOnStage False True True True
+			}
+		}
+	}
+}
+Quick //So that it won't queue every time any card is sent
+InWaitingRoom
+Text Auto: [Discard a card] When ""Chomp Chomp" Megumin" is put into your waiting room from the stage, if this card is in your waiting room, you may pay the cost, put this card on any position of your stage rested.
+EndCard
+
+Character: KS/W55-E069
+Name "Out of the Bath" Wiz
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Death
+Trait2 Magic
+Auto: OnUseAct
+{
+	SetXToNumberOfCharacters HasTrait Adventurer|Magic
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an "ACT" effect, this card gets +X power until end of turn. X is 500 times the number of <Adventurer> or <Magic> characters you have.
+EndCard
+
+Character: KS/W55-E070
+Name "Objection!" Megumin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: KS/W55-E071
+Name "In the Dream" Wiz
+Color R
+Level 2
+Cost 1
+Power 8000
+Trait1 Death
+Trait2 Magic
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Adventurer|Magic
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power until end of turn, X is 1000 times the number of other <Adventurer> or <Magic> characters you have.
+*NoEncoreIfReversed
+EndCard
+
+Character: KS/W55-E072
+Image KS_W55_E072
+Name "Power of a Demon Army General" Wiz
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 9000
+Trait1 Death
+Trait2 Magic
+Cont: GiveSelf
+{
+	LoseLevel 2
+}
+Text Cont: This card gets -2 level while on the stage.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLess
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other level 0 or lower characters.
+EndCard
+
+Character: KS/W55-E073
+Name "The Rival Makes Her Appearance" Yunyun
+Color R
+Level 2
+Cost 2
+Power 3500
+Trigger Soul
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Cont: Assist
+{
+	SetXToNumberOfCharacters With Cont: ASSIST
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: ASSIST your characters in front of this card get +X power, X is 1000 times the number of characters you have with "Cont: ASSIST"
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Adventurer|Magic
+	{
+		Message Choose a character to put into your stock
+		AIChoice RemoveFromWaitingRoom
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Adventurer|Magic
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other <Adventurer> or <Magic> characters you have is 4 or more, you may choose an <Adventurer> or <Magic> characterin your waiting room, and put it into your stock.
+EndCard
+
+
+Event: KS/W55-E074
+Image KS_W55_E074
+Name Friendship Crystal
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchWaitingRoom NameContains Megumin
+	SearchWaitingRoom NameContains Yunyun
+	Discard 1 Any
+	RevealHand
+	RevealOpponentHand
+}
+Text Choose up to 1 card in your waiting room with "Megumin" in its name and up to 1 card in your waiting room with "Yunyun" in its name, return them to your hand and discard a card. Both players reveal their hand.
+EndCard
+
+Climax: KS/W55-E075
+Image KS_W55_E075
+Name New Explosion Magic
+*DoorClimax
+Combo "Setting Out" Megumin
+EndCard
+
+
+Climax: KS/W55-E076
+Name Light of Saber
+Combo "Bunny Girl" Yunyun
+*DoorClimax
+EndCard
+
+Climax: KS/W55-E077
+Image KS_W55_E077
+Name In the Bath
+Combo "Radiant Smile" Megumin
+*RedStockSoul
+EndCard
+
+Climax: KS/W55-E078
+Name Cursed Crystal Prison!
+Color R
+*3K1Climax(Red)
+Combo "Ice Witch" Wiz
+EndCard
+
+
+Character: KS/W55-E079
+Image KS_W55_E079
+Name "Setting Out" Aqua
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Adventurer
+Trait2 Goddess
+Combo In the Name of the Goddess
+Tag ComboOnReverse
+Auto: OnReverseOpponent
+{
+	If Climax In the Name of the Goddess
+	{
+		PayCost 1
+		{
+			RevealUpTo Deck 3
+			NarrowTargets HasTrait Adventurer|Goddess|Axis Church Devotee
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card's battle opponent becomes reversed, if "In the Name of the Goddess" is in your climax area, you may pay the cost. Look at up to 3 cards from the top of your deck, choose up to 3 <Adventurer> <Goddess> or <Axis Church Devotee> characters from among them, add them to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: KS/W55-E080
+Image KS_W55_E080
+Name "Mesmerizing Water Goddess" Aqua
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adventurer
+Trait2 Goddess
+*EarlyPlay4OrMore(Adventurer|Goddess|Axis Church Devotee)
+Cont: GiveSelf
+{
+	If MyTurn && Not StageContains 1 Not HasTrait Adventurer|Goddess|Axis Church Devotee
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all your characters are <Adventurer> <Goddess> or <Axis Church Devotee> this card gets +2000 power.
+*StockHealer
+EndCard
+
+Character: KS/W55-E081
+Image KS_W55_E081
+Name Swimsuit Eris
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Goddess
+*500Assist
+Act: 1 RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Adventurer | Goddess
+	{
+		MoveCard Hand
+	}
+}
+Text Act: [(1) Rest this card] Reveal the top card of your deck. If it is an <Adventurer> or <Goddess> character, add it to your hand.
+EndCard
+
+Character: KS/W55-E082
+Image KS_W55_E082
+Name "Soul Salvation" Aqua
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Goddess
+*OnPlayCheckTopAddDiscard(Adventurer|Goddess|Axis Church Devotee)
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost, return all cards from your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: KS/W55-E083
+Image KS_W55_E083
+Name "Real Magic Power is Down to Luck Too" Aqua
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Goddess
+Cont: GiveAll
+{
+	If Other && OpponentsTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all your other characters get +500 power.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets NameEquals "Swarmed on the Street" Axis Church Devotee
+	If HasTarget
+	{
+		SearchWaitingRoom HasTrait Goddess|Axis Church Devotee
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 characters] Flip over 4 cards from the top of your deck, and put them into the waiting room. If ""Swarmed on the Street" Axis Church Devotee" is sent, choose a <Goddess> or <Axis Church Devotee> character in your waiting room and return it to your hand.
+EndCard 
+
+Character: KS/W55-E084
+Image KS_W55_E084
+Name Swimsuit Aqua
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals "Troublemaker" Aqua
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another card named ""Troublemaker" Aqua", this card gets +3000 power.
+EndCard
+
+Character: KS/W55-085
+Image KS_W55_E085
+Name "Furious Fist" Aqua
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Goddess
+*OnPlayDraw2Discard1
+Combo Goddess' Fury
+Auto: StartClimaxPhase
+{
+	SearchLocationForTargets WaitingRoom 0 3 NameEquals "Swarmed on the Street" Axis Church Devotee
+	Marker_FaceUp
+}
+Text Auto: At the beginning of your climax phase, choose up to 3 cards named ""Swarmed on the Street" Axis Church Devotee" in your waiting room and put them face-up underneath this card as markers.
+Auto: OnAttack
+{
+	If Climax Goddess' Fury
+	{
+		SetXValue MarkersUnderThis
+		MillOpponent X
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			TargetFacing
+			IfThatCard CanBeChosen && Compare ThatCardsLevel 3 OrLess
+			{
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Goddess' Fury" is in your climax area, put the top X cards of your opponent's deck into the waiting room, if a climax is revealed, choose a level 3 or lower character facing this card, and put it into your opponent's clock. X is the number of markers underneath this card.
+Auto: EndOfTurn
+{
+	TargetLocation Marker
+	MoveCard WaitingRoom
+}
+Text Auto: At the end of turn, put all markers underneath this card into your waiting room.
+EndCard
+
+Character: KS/W55-E086
+Name "Decoy" Aqua
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Goddess
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 0 OrLower && IsCharacter
+	If HasTarget
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If a level 0 character is sent, this card's soul does not decrease by side attacking until end of turn.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard IsCharacter && Compare TargetCardsLevel 0 OrLess
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck, if it is a level 0 or lower character, add it to your hand.
+EndCard
+
+Character: KS/W55-E087
+Name "Our Little Secret Here" Eris
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Goddess
+Combo Well Then, See You
+Cont: GiveAll
+{
+	If OpponentsTurn && Other && HasTrait Adventurer|Goddess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, all of your other <Adventurer> or <Goddess> characters get +1000 power.
+Auto: OnSpecificClimaxPlay Well Then, See You
+{
+	PayCost 1
+	{
+		SearchWaitingRoom HasTrait Adventurer|Goddess
+	}
+}
+Text Auto: CxCombo [(1)] When "Well Then, See You" is placed in your climax area, you may pay the cost, choose an <Adventurer> or <Goddess> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KS/W55-E088
+Image KS_W55_E088
+Name "Who I Really Am" Aqua
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Adventurer
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Adventurer|Goddess|Axis Church Devotee
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your opponent's turn, this card gets +1000 power for each of your other <Adventurer> <Goddess> or <Axis Church Devotee> characters.
+Cont: GiveSelf
+{
+	If LocationContains OpponentStage 1 HasTrait Death
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect GreatPerformance
+			}
+			Text Cont: GREAT PERFORMANCE
+		}
+	}
+}
+Text Cont: If your opponent has a <Death> character, this card gains "Cont: GREAT PERFORMANCE".
+EndCard
+
+Character: KS/W55-E089a
+Image KS_W55_E089A
+Name "Swarmed on the Street" Axis Church Devotee
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Axis Church Devotee
+Army
+Cont: GiveAll
+{
+	If Other && NameEquals "Swarmed on the Street" Axis Church Devotee|"Sweet Smile" Axis Church Devotee
+	{
+		GainPower 1500
+	}
+}
+Text Cont: All of your other cards name ""Swarmed on the Street" Axis Church Devotee" or ""Sweet Smile" Axis Church Devotee" get +1500 power.
+EndCard
+
+Character: KS/W55-E089b
+Clone KS/W55-E089a
+Image KS_W55_E089B
+EndCard
+
+Character: KS/W55-E089c
+Clone KS/W55-E089a
+Image KS_W55_E089C
+EndCard
+
+Character: KS/W55-E089d
+Clone KS/W55-E089a
+Image KS_W55_E089D
+EndCard
+
+Character: KS/W55-E090
+Name "Carefree Maid" Aqua
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Goddess
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 1
+	Reveal
+	SetXValue TargetCardsLevel
+	MultiplyXValue 3000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When a climax is placed on your climax area, reveal the top card of your deck, and this card gets +X power until end of turn, X is 3000 times the revealed card's level.
+EndCard
+
+
+
+Character: KS/W55-E091
+Name "Purification" Aqua
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Goddess
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		TargetMyCharacterInBattle
+		GainEffect
+		{
+			Cont: GiveOpponentDeck
+			{
+				If IsCharacter
+				{
+					GainSpecialEffect LoseAllTraits
+				}
+			}
+			Text Cont: All characters in your opponent's deck lose all their traits.
+		}
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP" you may pay the cost, your character in battle gets the following ability until end of turn. "Cont: All characters in your opponent's deck loss all their traits."
+Backup 1000
+EndCard
+
+
+
+Character: KS/W55-E092
+Name "Sweet Smile" Axis Church Devotee
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Axis Church Devotee
+Auto: OnAttack
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Not HasTrait Axis Church Devotee
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Auto: When this card attacks, choose a character on your opponent's center stage that is not <Axis Church Devotee>, it gets -1000 power until end of turn.
+EndCard
+
+Character: KS/W55-E093
+Name "Bewildered" Eris
+Color B
+Level 2
+Cost 1
+Power 7500
+Trigger Soul
+Trait1 Goddess
+Auto: OnUseAct
+{
+	SetXToNumberOfCharacters Other && HasTrait Adventurer|Goddess
+	MultiplyXValue 500
+	GainPower X
+}
+TimesPerTurn 1
+Quick
+Text Auto: Once per turn, when you use an "ACT" effect, this card gets +X power until end of turn, X is 500 times the number of other <Adventurer> or <Goddess> characters you have.
+Auto: Encore Discard 1 HasTrait Adventurer|Goddess
+{
+}
+Text Auto: ENCORE [Discard an <Adventurer> or <Goddess> character]
+EndCard
+
+Character: KS/W55-E094
+Image KS_W55_E094
+Name "Tipsy" Aqua
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Adventurer
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Backstage 1 IsCharacter
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If the number of characters on your backstage is 1 or less, this card cannot attack.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameEquals "Tipsy" Aqua && InLocation CenterStage
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other ""Tipsy" Aqua" on your center stage.
+EndCard
+
+
+Event: KS/W55-E095
+Image KS_W55_E095
+Name The Power of Purification
+Color B
+Level 2
+Cost 2
+Counter
+Effect:
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 1 OrLess
+	AIChoice If CardPosition Stand
+	ChooseCharacterFromTargets Choose a character to rest.
+	Rest
+}
+Text Counter: Choose one of your opponent's level 1 or lower characters and rest it.
+EndCard
+
+Event: KS/W55-096
+Image KS_W55_E096
+Name Seisure of Private Property
+Color B
+Level 2
+Cost 3
+Counter
+Effect:
+{
+	TargetLocation OpponentStock
+	SetXValue TargetCount
+	MoveCard OpponentWaitingRoom
+	Repeat X
+	{
+		ScheduleEffect EndOfTurn
+		{
+			Effect:
+			{
+				TargetTop OpponentDeck
+				MoveCard OpponentStock
+			}
+			Quick
+		}
+	}
+}
+Text Counter: Put all of your opponent's stock into your opponent's waiting room, and at the end of the turn, your opponent puts the same number of cards from the top of his or her deck into the stock.
+EndCard
+
+
+Event: KS/W55-097
+Image KS_W55_E097
+Name Axis Church Creed
+Color B
+Level 3
+Cost 0
+Effect:
+{
+	*OptionalDraw
+	*OptionalDraw
+	Discard 1 Any
+	If StageContains 1 NameEquals "Furious Fist" Aqua
+	{
+		SearchLocationForTargets WaitingRoom 0 3 NameEquals "Swarmed on the Street" Axis Church Devotee
+		If HasTarget
+		{
+			ChooseCharacterToPlaceMarkersUnder NameEquals "Furious Fist" Aqua
+		}
+	}
+}
+Text Draw up to 2 cards. Discard a card. Choose up to 3 ""Swarmed on the Street" Axis Church Devotee" in your waiting room and place them face-up under one of your ""Furious Fist" Aqua" as markers.
+EndCard
+
+Climax: KS/W55-098
+Image KS_W55_E098
+Name In the Name of the Goddess
+Color B
+*3K1Climax(Blue)
+Combo "Setting Out" Aqua
+EndCard
+
+
+Climax: KS/W55-099
+Image KS_W55_E099
+Name Goddess' Fury
+*BookClimax
+Combo "Furious Fist" Aqua
+EndCard
+
+Climax: KS/W55-E100
+Name Well Then, See You
+*GateClimax
+Combo "Our Little Secret Here" Eris
+EndCard
+
+Character: KS/W55-E101
+Name Petit Vanir
+Color Y
+Level 1
+Cost 0
+Power 6500
+Trait1 Mask
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If the number of cards in your stock is 2 or less, this card cannot attack.
+EndCard
+
+Character: KS/W55-E102
+Name Petit Wiz
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Death
+Trait2 Magic
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainEffect
+		{
+			*RedCost0Bomb
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If a climax was sent, this card gets the following effect until end of turn. "Auto: When this card becomes reversed, if this card's battle opponent is cost 0 or lower, you may reverse that character.
+EndCard
+
+Character: KS/W55-E103
+Name Petit Yunyun
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Adventurer|Magic
+	{
+		TargetSelf
+		GainPower 1000
+	}
+}
+Quick
+TimesPerTurn 2
+Text Auto: Up to twice per turn, when your other <Adventurer> or <Magic> character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+EndCard
+
+Character: KS/W55-E104
+Name Petit Eris
+Color B
+Level 1
+Cost 0
+Power 6500
+Trait1 Goddess
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotDirectAttack
+}
+Text Cont: This card cannot direct attack.
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [Discard a character]".
+EndCard
+
+Character: KS/W55-PE01
+Name "Heartstrings of the Crimson Demon Race" Megumin
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Adventurer
+Trait2 Magic
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLower
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other level 0 or lower characters.
+EndCard
+
+Character: KS/W55-PE02
+Name "Double Peace Sign" Aqua
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Goddess
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +1000 power.
+Auto: OnOtherPlacedOnStageFromWaitingRoom
+{
+	TargetOther
+	GainPower 500
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+TimesPerTurn 3
+Text Auto: Up to 3 times per turn, when your other character is placed on the stage from your waiting room, that character gets +500 power and "Auto: ENCORE [Discard a character]" until end of turn.
+EndCard
+
+

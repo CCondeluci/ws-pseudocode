@@ -1,0 +1,2443 @@
+Character: STG/S60-001
+Name "Crossing the Timeline..." Rintarou Okabe
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Science
+Auto: OnCardEntersLevel
+{
+	PayCost 1
+	{
+		MultipleChoiceQuestion Choose an effect \n1. Look at up to 3 cards from your deck, choose up to 1 <Lab Member> or "D Mail" to put into your hand \n2. Give a character +1500 power |1|2
+		If Answer 0
+		{
+			RevealUpTo Deck 3
+			AIChoice AddToHand
+			ChooseCardsFromTargets 0 1 HasTrait Lab Member && IsCharacter ||| NameEquals D Mail
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		If Answer 1
+		{
+			*GiveCharacterPower(1500,Any)
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(1)] This ability activates up to once per turn. When a card is placed into your level area, you may pay the cost. If you do, <b> Make the choice of Steins Gate </b>. Choose 1 of the two effects and perform it. "Look at up to 3 cards from your deck, choose up to 1 <Lab Member> or "D Mail" to put into your hand" "Choose 1 of your characters and that character gains +1500 power until end of turn."
+EndCard
+
+Character: STG/S60-002
+Name "Gear of Destiny" Mayuri Shiina
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Sewing
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		RevealUpTo Deck 3
+		Message Choose a card to put into your clock
+		ChooseCardsFromTargets 1 1 Any
+		PutTheRestIntoTheWaitingRoom
+		If HasTarget
+		{
+			MoveCard Clock
+			Message Choose a level 1 or lower character to return to your hand
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 1 OrLess
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it into your clock, then put the rest into your waiting room. If you put a card into your clock by this effect, choose a level 1 or lower character in your waiting room and return it to your hand.
+EndCard
+
+Character: STG/S60-003
+Name "Famous Assistant" Kurisu Makise
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Science
+Combo Prologue of the End and the Beginning
+*GainPowerWithEnoughCharacters(1000,2,Lab Member)
+Auto: OnOpponentReverse
+{
+	If Climax Prologue of the End and the Beginning
+	{
+		SearchWaitingRoom HasTrait Lab Member ||| NameEquals D Mail
+		*GiveOtherCharacterPower(1000,Any)
+	}
+}
+Text Auto: CxCombo When this card's battle opponent is reversed, if "Prologue of the End and the Beginning" is in your climax area, choose up to 1 card in your waiting room that is a <Lab Member> character or "D Mail" and return it to your hand, then choose 1 of your other characters and that character gains +1000 power until end of turn.
+EndCard
+
+Character: STG/S60-004
+Name "Operation Valkyrie" Rintarou Okabe
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Science
+Cont: GiveAll
+{
+	If Other && NameEquals "As Lover..." Luka Urushibara | "Fragment of Memories" Luka Urushibara
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other ""As Lover..." Luka Urushibara" and ""Fragment of Memories" Luka Urushibara" gain +1000 power.
+Act: RestSelf
+{
+	MultipleChoiceQuestion Choose an effect \n1. Choose an ""As Lover..." Luka Urushibara" in your level area and a standing ""Fragment of Memories" Luka Urushibara" on your stage and exchange them \n2. Choose an ""Fragment of Memories" Luka Urushibara" in your level area and a standing ""As Lover..." Luka Urushibara" on your stage and exchange them |1|2
+	If Answer 0
+	{
+		If LocationContains Level 1 NameEquals "As Lover..." Luka Urushibara &&& StageContains 1 NameEquals "Fragment of Memories" Luka Urushibara && CardPosition Stand
+		{
+			Message Choose a "As Lover..." Luka Urushibara
+			SearchLocationForTargets Level 1 1 NameEquals "As Lover..." Luka Urushibara
+			SaveTargets
+			TargetLocation Stage
+			NarrowTargets NameEquals "Fragment of Memories" Luka Urushibara && CardPosition Stand
+			ChooseCharacterFromTargets Choose a character to exchange
+			AddCurrentToSavedTargets
+			LoadTargets
+			Exchange
+		}
+	}
+	If Answer 1
+	{
+		If LocationContains Level 1 NameEquals "Fragment of Memories" Luka Urushibara &&& StageContains 1 NameEquals "As Lover..." Luka Urushibara && CardPosition Stand
+		{
+			Message Choose a "Fragment of Memories" Luka Urushibara
+			SearchLocationForTargets Level 1 1 NameEquals "Fragment of Memories" Luka Urushibara
+			SaveTargets
+			TargetLocation Stage
+			NarrowTargets NameEquals "As Lover..." Luka Urushibara && CardPosition Stand
+			ChooseCharacterFromTargets Choose a character to exchange
+			AddCurrentToSavedTargets
+			LoadTargets
+			Exchange
+		}
+	}
+}
+Text Act: [Rest this card] Choose 1 of the following effects and perform it. " Choose an ""As Lover..." Luka Urushibara" in your level area and a standing ""Fragment of Memories" Luka Urushibara" on your stage and exchange them" "Choose an ""Fragment of Memories" Luka Urushibara" in your level area and a standing ""As Lover..." Luka Urushibara" on your stage and exchange them"
+EndCard
+
+Character: STG/S60-005
+Name "Inferno of the Trapped Time-Space" Rintarou Okabe
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Science
+Auto: OnPlay
+{
+	If Compare CardsInClock 1 OrMore && LocationContains WaitingRoom 1 IsCharacter && HasTrait Lab Member
+	{
+		Question Exchange the bottom card of your clock with a <Lab Member> character in your waiting room?
+		If Yes
+		{
+			TargetBottom Clock 1
+			SaveTargets
+			Message Choose a <Lab Member> character to exchange
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Lab Member
+			AddCurrentToSavedTargets
+			LoadTargets
+			Exchange
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose the bottom card of your clock and a <Lab Member> character from your waiting room and exchange them.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a "D Mail" to add to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals D Mail
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a "D Mail" in your waiting room and return it to your hand.
+EndCard
+
+Character: STG/S60-006
+Name "Part-Time Job at the CRT Workshop" Moeka Kiryuu
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Cellphone
+*GainPowerForEachOther(500,Lab Member)
+EndCard
+
+Character: STG/S60-007
+Name "Doctor Pepperian" Kurisu Makise
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Lab Member
+Trait2 Science
+*CannotSideAttack
+Auto: OnCardEntersLevel
+{
+	GainPower 1500
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When a card is placed into your level area, this card gains +1500 power until end of turn.
+EndCard
+
+Character: STG/S60-008
+Name "Gear of Destiny" Rintarou Okabe
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Lab Member
+Trait2 Science
+Cont: InHand
+{
+	If LocationContains Level 1 NameEquals "Gear of Destiny" Kurisu Makise &&& LocationContains Level 1 NameEquals "Gear of Destiny" Mayuri Shiina
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: EXPERIENCE If ""Gear of Destiny" Kurisu Makise" and ""Gear of Destiny" Mayuri Shiina" are in your level, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a level 0 or lower character, put it into your stock.
+Auto: OnPlay
+{
+	If LocationContains OpponentStage 1 CanBeChosen
+	{
+		Question Return an opponent's character to their hand?
+		If Yes
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+			Bounce
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose 1 of your opponent's characters and return it to your opponent's hand.
+EndCard
+
+Character: STG/S60-009
+Name "Ephemeral Happiness" Mayuri Shiina
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Lab Member
+Trait2 Sewing
+Combo Angel Ladder
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Angel Ladder && LocationContains Level 1 NameEquals "Gear of Destiny" Mayuri Shiina
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to gain +4000 power and the ability
+			GainPower 4000
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					*OptionalBurn(2)
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, you may deal 2 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE [(1)] When this card attacks, if "Angel LAdder" is in your climax area and ""Gear of Destiny" Mayuri Shiina" is in your level, you may pay the cost. If you do, choose 1 of your characters and that character gains +4000 power and the following ability until end of turn. "Text Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, you may deal 2 damage to your opponent."
+EndCard
+
+Character: STG/S60-010
+Name "Full Chuunibyou" Faris NyanNyan
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Maid
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Lab Member
+	ChooseCharacterFromTargets Choose a character to gain +1 level and +500 power
+	GainLevel 1
+	GainPower 500
+}
+Text Act: [Rest this card] Choose 1 of your <Lab Member> characters and that character gains +1 level and +500 power until end of turn.
+EndCard
+
+Character: STG/S60-011
+Name "Founder of the Future Gadget Lab" Rintarou Okabe
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Science
+Combo Magical Eyes "Reading Steiner"
+*PowerOnMyTurn(2000)
+Auto: OnSpecificClimaxPlay Magical Eyes "Reading Steiner"
+{
+	PayCost Discard 2 Any
+	{
+		Message Choose up to 2 <Lab Member> characters or "D Mail" to return to your hand
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Lab Member ||| NameEquals D Mail
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo [Discard 2 cards] When "Magical Eyes "Reading Steiner"" is plcaed into your climax area, you may pay the cost. If you do, choose up to 2 <Lab Member> characters or "D Mail" in your waiting room and return them to your hand.
+EndCard
+
+Character: STG/S60-012
+Name "Completing Cosplay Outfit" Mayuri Shiina
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Lab Member
+Trait2 Sewing
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Lab Member
+	ChooseCharacterFromTargets Choose a character to gain +1500 power and <Cosplay>
+	GainPower 1500
+	GainTrait Cosplay
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your <Lab Member> characters and that character gains +1500 power and <Cosplay> until end of turn.
+EndCard
+
+Character: STG/S60-013
+Name "Part-Time Job at the CRT Workshop" Suzuha Amane
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Part-Timer
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 IsClimax
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsClimax
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1) Discard a climax] When this card is put into the waiting room from the stage, you may pay the cost. If you do, choose 1 climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: STG/S60-014
+Name "Crazy Mad Scientist" Rintarou Okabe
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Science
+Auto: OnAttack
+{
+	PayCost SendFromWaitingRoom 2 Deck HasTrait Lab Member || NameEquals Metal Oopa
+	{
+		ShuffleLocation Deck
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: [Return 2 <Lab Member> characters or "Metal Oopa" from your waiting room to your deck and shuffle your deck] When this card attacks, you may pay the cost. If you do, this card gains +2000 power until end of turn.
+Auto: OnOtherAttacks|OnAttack
+{
+	If Climax My Name is Kyouma Hououin!
+	{
+		TargetSelf
+		IfTarget InLocation CenterStage
+		{
+			Question Give the attacking character -1 soul and +2000 power?
+			If Yes
+			{
+				TargetMyCharacterInBattle
+				GainPower 2000
+				LoseSoul 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo When your character attacks, if "My Name is Kyouma Hououin!" is in your climax area and this card is in your center stage, you may choose to give the attacking character -1 soul and +2000 power until end of turn.
+EndCard
+
+Character: STG/S60-015
+Name "HENTAI Gentleman" Itaru Hashida
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Lab Member
+Trait2 Otaku
+*LevelAssistTrait(Lab Member)
+Act: 2 RestSelf
+{
+	Message Choose a <Lab Member> character to return to your hand
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Lab Member && IsCharacter
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(2) Rest this card] Choose a <Lab Member> character in your waiting room and return it to your hand.
+EndCard
+
+Character: STG/S60-016
+Name "Lonely Observer" Rintarou Okabe
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Lab Member
+Trait2 Science
+Combo Turning Point
+*GainPowerWithEnoughCharacters(2000,2,Lab Member)
+Auto: OnSpecificClimaxPlay Turning Point
+{
+	If InLocation CenterStage &&& StageContains 1 Other && HasTrait Lab Member
+	{
+		RevealUpTo Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			NarrowTargets HasTrait Lab Member && IsCharacter
+			MoveCard Stock
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo When "Turning Point" is placed into your climax area, if this card is in your center stage and you have another <Lab Member> character, you may reveal up to 2 cards from the top of your deck. If you reveal at least 1 card by this effect, choose up to 2 <Lab Member> characters from among them and put them into your stock, then put the rest into your waiting room.
+EndCard
+
+Character: STG/S60-017
+Name "Pose of Intelligence and Rapture" Kurisu Makise & Rintarou Okabe
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Science
+Cont: GiveAll
+{
+	If NameEquals "Egoistic Poriomania" Rintarou Okabe && Other
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other ""Egoistic Poriomania" Rintarou Okabe" gain +2000 power.
+*BondDiscard("Egoistic Poriomania" Rintarou Okabe)
+EndCard
+
+Character: STG/S60-018
+Name "Anfang of the Mad Scientist" Rintarou Okabe
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Science
+Cont: GiveAll
+{
+	If NameEquals "Half-Asleep" Mayuri Shiina && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other ""Half-Asleep" Mayuri Shiina" gain +1000 power.
+*GlobalPower(500,Lab Member)
+EndCard
+
+Character: STG/S60-019
+Name "But I Refuse!" Itaru Hashida
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Lab Member
+Trait2 Otaku
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on stage from your hand, you may pay the cost. If you do, return all cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: STG/S60-020
+Name "Mentoring Relationship" Luka Urushibara
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Lab Member
+Trait2 Miko
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && NameContains Okabe
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another character with "Okabe" in it's card name, this card cannot stand during your stand phase.
+EndCard
+
+Character: STG/S60-021
+Name "Twisted Chuunibyou" Rintarou Okabe
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Science
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Lab Member && IsCharacter
+	}
+}
+Text Auto: [(2)] When you use this card's BACKUP, you may pay the cost. If you do, search your deck for up to 1 <Lab Member> character and add it to your hand.
+Backup 1000
+EndCard
+
+Character: STG/S60-022
+Name "Precious Allies" Rintarou Okabe & Mayuri Shiina
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Lab Member
+Trait2 Science
+*OnAttackGainPowerForEachOther(500,Lab Member)
+EndCard
+
+Character: STG/S60-023
+Name "Makise Pudding" Kuruisu Makise
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Lab Member
+Trait2 Science
+*GainPowerWithEnoughCharacters(3000,2,Lab Member)
+*HandEncoreTrait(Lab Member)
+EndCard
+
+Character: STG/S60-024
+Name "Egoistic Poriomania" Rintarou Okabe
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Lab Member
+Trait2 Science
+EndCard
+
+Event: STG/S60-025
+Name D Mail
+Color Y
+Level 1
+Cost 0
+Counter
+Requirement StageContains 2 NameContains Okabe|Kurisu
+Effect:
+{
+	If LocationContains WaitingRoom 1 HasTrait Lab Member
+	{
+		Question Choose a card in your level and a <Lab Member> character in your waiting room and exchange them?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any, HasTrait Lab Member && IsCharacter)
+		}
+	}
+	*GiveCharacterPower(2000,Any)
+}
+Text COUNTER If you have 1 or less characters with either "Okabe" or "Kurisu" in it's card name, you cannot play this card from your hand.
+Text You may choose a card in your level and a <Lab Member> character in your waiting room and exchange them.
+Text Choose 1 of your characters and that character gains +2000 power until end of turn.
+EndCard
+
+Event: STG/S60-026
+Name Phone Microwave (Temporary)
+Color Y
+Level 3
+Cost 3
+Requirement StageContains 1 HasTrait Lab Member
+Effect:
+{
+	If Compare MyLevel 3 OrMore && LocationContains OpponentLevel 3 Any
+	{
+		Question_Obvious Put up to 4 cards from the top of your clock into your waiting room?
+		If Yes
+		{
+			TargetTop Clock 4
+			MoveCard WaitingRoom
+		}
+		OpponentQuestion_Obvious Put up to 4 cards from the top of your clock into your waiting room?
+		If Yes
+		{
+			TargetTop OpponentClock 4
+			MoveCard WaitingRoom
+		}
+		*GiveCharacterPower(3000,Any)
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text If you do not have a <Lab Member> character, you cannot play this card from your hand.
+Text If all players are level 3 or higher, all players put up to 4 cards from the top of their clock into their waiting room, you may choose 1 of your chacters and that character gains +3000 power until end of turn.
+Text Put this card into your memory
+EndCard
+
+Climax: STG/S60-027
+Name Prologue of the End and the Beginning
+*ShotClimax
+EndCard
+
+Climax: STG/S60-028
+Name Magical Eyes "Reading Steiner"
+*WindClimax
+EndCard
+
+Climax: STG/S60-029
+Name My Name is Kyouma Hououin!
+Color Y
+*2SoulClimax
+EndCard
+
+Climax: STG/S60-030
+Name Angel Ladder
+*WindClimax
+EndCard
+
+Character: STG/S60-031
+Name "Part-Time Warrior" Suzuha Amane
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Part-Timer
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Lab Member
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Lab Member>, this card gains +1000 power.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the start of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: STG/S60-032
+Name "Relationship Between FB and M4" Moeka Kiryuu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Lab Member
+Trait2 Cellphone
+*Healer
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Lab Member
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget NameEquals IBN5100
+			{
+				Burn 1
+				TargetSelf
+				GainPower 2000
+			}
+			IfTarget HasTrait Lab Member && IsCharacter
+			{
+				SetXValue TargetCardsSoul
+				Burn X
+				TargetSelf
+				GainPower 2000
+			}
+		}
+	}
+}
+Text Auto: [(2) Discard a card] When this card attacks, if you have another <Lab Member> character, you may pay the cost. If you do, reveal the top card of your deck. If that card is "IBN5100", deal 1 damage to your opponent, if that card is instead a <Lab Member> character, deal X damage to your opponent and this card gains +2000 power until end of turn. X is equal to the soul of the revealed character.
+EndCard
+
+Character: STG/S60-033
+Name "Super Haka" Itaru Hashida
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Otaku
+*500Assist
+Auto: OnPlay
+{
+	If LocationContains Clock 1 NameEquals Phone Microwave (Temporary) | FG204 2nd EDITION Ver2.31 | Look into Your Eyes While Mixing | IBN5100
+	{
+		Message Choose up to 1 "Phone Microwave (Temporary)" or "FG204 2nd EDITION Ver2.31" or "Look into Your Eyes While Mixing" or "IBN5100"
+		SearchLocationForTargets Clock 0 1 NameEquals Phone Microwave (Temporary) | FG204 2nd EDITION Ver2.31 | Look into Your Eyes While Mixing | IBN5100
+		If HasTarget
+		{
+			MoveCard Hand
+			Message Choose a card in your hand to put into your clock
+			SearchLocationForTargets Hand 1 1 Any
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose up to 1 "Phone Microwave (Temporary)" or "FG204 2nd EDITION Ver2.31" or "Look into Your Eyes While Mixing" or "IBN5100" in your clock and return it to your hand. If you do, put a card from your hand into your clock.
+EndCard
+
+Character: STG/S60-034
+Name "Feelings Hidden Behind the Smile" Suzuha Amane
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Part-Timer
+Combo Cycling
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals "Time Traveler" Suzuha Amane
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If '"Time Traveler" Suzuha Amane" is in your level area, this card gains +1500 power.
+Auto: OnDamageCancel
+{
+	If Climax Cycling
+	{
+		Message Choose up to 2 <Lab Member> characters to put into your stock
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Lab Member && IsCharacter
+		MoveCard Stock
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to once per turn. When damage dealt by this card is cancelled, if "Cycling" is in your climax area, choose up to 2 <Lab Member> characters in your waiting room and put them into your stock.
+EndCard
+
+Character: STG/S60-035
+Name "Shining Finger" Moeka Kiryuu
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Lab Member
+Trait2 Cellphone
+Auto: OnPlay
+{
+	If Not StageContains 1 Other && HasTrait Lab Member
+	{
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you do not have another <Lab Member> character, put this card into your waiting room.
+Auto: OnUseAct
+{
+	GainPower 1500
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an <b> ACT </b> ability, this card gains +1500 power until end of turn.
+EndCard
+
+Character: STG/S60-036
+Name "Time Traveler" Suzuha Amane
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Lab Member
+Trait2 Part-Timer
+*EarlyPlayInClock(IBN5100)
+*GainPowerForEachOther(500,Lab Member)
+*OnPlayCheck3
+EndCard
+
+Character: STG/S60-037
+Name "Heavily Addicted to Cellphones" Moeka Kiryuu
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Lab Member
+Trait2 Cellphone
+*GainPowerWithEnoughCharacters(1000,2,Lab Member)
+*DropSearch(Lab Member)
+EndCard
+
+Character: STG/S60-038
+Name "Warrior for the Future" Suzuha Amane
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Part-Timer
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains Level 1 NameEquals "Time Traveler" Suzuha Amane
+	{
+		TargetMyCharacterInBattle
+		GainPower 1500
+	}
+}
+Text Auto: EXPERIENCE When you use this card's <b> BACKUP </b>, if ""Time Traveler" Suzuha Amane"" is in your level, your character in battle gains +1500 power until end of turn.
+Backup 1000
+EndCard
+
+Character: STG/S60-039
+Name "Rounder M4" Moeka Kiryuu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Lab Member
+Trait2 Cellphone
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose an "IBN5100" to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals IBN5100
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose an "IBN5100" in your waiting room and return it to your hand.
+EndCard
+
+Character: STG/S60-040
+Name "Repairing the Time Machine" Itaru Hashida
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Lab Member
+Trait2 Otaku
+Combo Sacrificial Necrosis
+*GainPowerForEachOther(500,Lab Member)
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals "Time Traveler" Suzuha Amane
+	{
+		GainPower 2500
+	}
+}
+Text Cont: EXPERIENCE If ""Time Traveler" Suzuha Amane" is in your level, this card gains +2500 power.
+Auto: OnOpponentReverse
+{
+	If Climax Sacrificial Necrosis
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets Deck 0 2 HasTrait Lab Member && IsCharacter
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card's battle opponent becomes reversed, if "Sacrificial Necrosis" is in your climax area, you may pay the cost. If you do, search your deck for up to 2 <Lab Member> characters and add them to your hand.
+EndCard
+
+Character: STG/S60-041
+Name "Mister Braun" Yuugo Tennouji
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Muscle
+*RestGivePower(1000,Any)
+Act: 1 RestSelf Resonate "Dearest Daughter of Mister Braun" Nae Tennouji
+{
+	*Check4Add1(Lab Member)
+}
+Text Act: [(1) Reveal a ""Dearest Daughter of Mister Braun" Nae Tennouji" from your hand, and rest this card] Look at up to 4 cards from the top of your deck, choose up to 1 <Lab Member> character to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: STG/S60-042
+Name "Faris Moe" Itaru Hashida
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Otaku
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		TargetLocation Stage
+		NarrowTargets Other && NameContains Faris && CanMove
+		ChooseCharacterFromTargets
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost, choose one of your characters with "Faris" in it's card name and this card and exchange them as standing.
+EndCard
+
+Character: STG/S60-043
+Name "Dearest Daughter of Mister Braun" Nae Tennouji
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Ranzen
+EndCard
+
+Character: STG/S60-044
+Name "FB's Order" Moeka Kiryuu
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Lab Member
+Trait2 Cellphone
+Auto: StartMyEncoreStep
+{
+	//FIXME Put in code once confirmed it's possible
+}
+Text Auto: At the start of your encore phase, if you did not use an <b> ACT </b> ability during this turn, put this card into your waiting room. WILL NOT WORK
+EndCard
+
+Character: STG/S60-045
+Name "My Favorite Right Arm" Itaru Hashida
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Lab Member
+Trait2 Otaku
+Cont: GiveAll
+{
+	If Other && NameContains Amane
+	{
+		GainLevel 1
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Amane" in it's card name gain +1 level and +500 power.
+Auto: OnPlay
+{
+	TargetBottom Clock 1
+	If HasTarget &&& LocationContains WaitingRoom 1 HasTrait Lab Member || LocationContains WaitingRoom 1 NameEquals IBN5100
+	{
+		Question Exchange the bottom of your clock with a card in your waiting room?
+		If Yes
+		{
+			SaveTargets
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Lab Member || NameEquals IBN5100
+			AddCurrentToSavedTargets
+			LoadTargets
+			Exchange
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose the bottom card of your clock and a <Lab Member> character or "IBN5100" in your waiting room and exchange them.
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Lab Member && IsCharacter
+}
+Text Act: [(2)] Search your deck for up to 1 <Lab Member> character and add it to your hand.
+EndCard
+
+Character: STG/S60-046
+Name "John Titor's Actual Identty" Suzuha Amane
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Lab Member
+Trait2 Part-Timer
+*EarlyPlay4OrMore(Lab Member)
+*GainPowerForEachOther(1000,Lab Member)
+EndCard
+
+Event: STG/S60-047
+Name FG204 2nd EDITION Ver2.31
+Color G
+Level 1
+Cost 1
+Effect:
+{
+	Message Choose up to 2 characters with <b> BACKUP </b>
+	SearchLocationForTargets Deck 0 2 IsCharacter && With Act: BACKUP
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Deck
+}
+Text Search your deck for up to 2 characters with "BACKUP" and add them to your hand.
+EndCard
+
+Event: STG/S60-048
+Name Divergence Meter
+Color G
+Level 2
+Cost 2
+Requirement StageContains 1 HasTrait Lab Member
+Effect:
+{
+	MoveCard Memory
+	*OptionalBlindStock
+	*OptionalBlindStock
+	*GiveCharacterPower(2000,Any)
+	If LocationContains Memory 2 NameEquals Divergence Meter
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 1 Any
+	}
+	If LocationContains Memory 3 NameEquals Divergence Meter
+	{
+		TargetLocation OpponentBackstage
+		NarrowTargets Compare ThatCardsCost 1 OrLess
+		ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+	If LocationContains Memory 4 NameEquals Divergence Meter
+	{
+		SearchLocationForTargets Clock 0 2 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text If you do not have a <Lab Member> character, you cannot play this card from your hand.
+Text Put this card into your memory. Put up to 2 cards from the top of your deck into your stock, choose 1 of your characters and that character gains +2000 power until end of turn.
+Text If there are 2 or more "Divergence Meter" in your memory, draw up to 2 cards and discard a card.
+Text If there are 3 or more "Divergence Meter" in your memory, choose a cost 1 or lower character in your opponent's backstage and put it into their waiting room.
+Text If there are 4 or more "Divergence Meter" in your memory, choose up to 2 characters in your clock and return them to your hand and discard a card.
+EndCard
+
+Climax: STG/S60-049
+Name Cycling
+*GreenStockSoul
+EndCard
+
+Climax: STG/S60-050
+Name Sacrificial Necrosis
+*BarClimax
+EndCard
+
+Character: STG/S60-051
+Name "Melancholy of the Genius Girl" Kurisu Makise
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Science
+Auto: StartOpponentAttackPhase
+{
+	Question Put the top card of your opponent's deck into their waiting room?
+	If Yes
+	{
+		MillOpponent 1
+		IfTarget Compare ThatCardsLevel 2 OrMore
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, you may put the top card of their deck into their waiting room. If that card is a level 2 or higher card, draw a card and discard a card.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: STG/S60-052
+Name "Cat-Eat Maid" Faris NyanNyan
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Maid
+*OnPlayGivePower(1500,Lab Member)
+*RedLevel1Bomb
+EndCard
+
+Character: STG/S60-053
+Name "Special Being" Kurisu Makise
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Lab Member
+Trait2 Science
+Combo Physically Necrosis
+Cont: GiveSelf
+{
+	If MyTurn && AllYourCharacters HasTrait Lab Member
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Lab Member>, this card gains +2000 power.
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax Physically Necrosis
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetLocation Stage
+			NarrowTargets Compare ThatCardsLevel 3 OrMore
+			SetXValue TargetCount
+			Burn X
+			TargetSelf
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard a card] When this card attacks, if "Physically Necrosis" is in your climax area, you may pay the cost. If you do, deal x damage to your opponent and this card gains +1000 power until end of turn. X is equal to the number of your level 3 or higher characters.
+EndCard
+
+Character: STG/S60-054
+Name "Gear of Destiny" Kurisu Makise
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Science
+*GlobalPower(500,Lab Member)
+Act: Rest 2 HasTrait Lab Member
+{
+	*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+	TargetLocation Stage
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to gain +1 level
+	GainLevel 1
+}
+Text Act: [Rest 2 of your <Lab Member> characters] Choose a card in your level and a card in your waiting room and exchange them, choose up to 1 of your characters and that character gains +1 level until end of turn.
+EndCard
+
+Character: STG/S60-055
+Name "Brain of the Lab" Kurisu Makise
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Science
+Auto: OnPlay
+{
+	If StageContains 1 Other && NameContains Kurisu|Mayuri
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, if you have another character with either "Kurisu" or "Mayuri" in it's card name, this card gains +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 Other && CardPosition Stand && NameContains Kurisu|Mayuri
+		{
+			SearchDeck IsCharacter && NameContains Kurisu|Mayuri
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other standing characters with "Kurisu" or "Mayuri" in it's card name] During the turn that this card is placed on stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to 1 character with either "Kurisu" or "Mayuri" in it's card name and add it to your hand.
+EndCard
+
+Character: STG/S60-056
+Name "Real Name: Rumiho Akiha" Faris NyanNyan
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Lab Member
+Trait2 Maid
+Combo Faris Cup
+Auto: OnSpecificClimaxPlay Faris Cup
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Lab Member && Not CardPosition Stand
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Faris Cup" is placed into your climax area, if this card is in your center stage, you may pay the cost. If you do, choose 1 of your other <Lab Member> characters and stand it.
+EndCard
+
+Character: STG/S60-057
+Name "Organizer of Faris Cup" Faris NyanNyan
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Lab Member
+Trait2 Maid
+Combo Faris Cup
+*EarlyPlay2OrLessClimax
+*Healer
+Auto: OnOpponentReverse
+{
+	If Climax Faris Cup
+	{
+		PayCost 1
+		{
+			Burn 1
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card's battle opponent is reversed, if "Faris Cup" is in your climax area, you may pay the cost. If you do, deal 1 damage to your opponent and choose up to 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: STG/S60-058
+Name "Remnants of Days Past" Kurisu Makise
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Lab Member
+Trait2 Science
+*GainPowerWithEnoughCharacters(2000,2,Lab Member)
+*OnPlayDraw2Discard2BlindStock
+EndCard
+
+Character: STG/S60-059
+Name "Learned the Ultimate Move" Faris NyanNyan
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Lab Member
+Trait2 Maid
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(1000,Lab Member)
+}
+Text Auto: At the start of your climax phase, choose 1 of your <Lab Member> characters and that character gains +1000 power until end of turn.
+*Act1Rest2Draw2Discard1Brainstorm
+EndCard
+
+Character: STG/S60-060
+Name "Follow-up to the Dream" Kurisu Makise
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Lab Member
+Trait2 Science
+Combo Theory of Relativity
+*GainPowerWithEnoughCharacters(2000,2,Lab Member)
+Auto: OnSpecificClimaxPlay Theory of Relativity
+{
+	If InLocation CenterStage && Compare CardsInHand 5 OrLess && StageContains 3 IsCharacter
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets WaitingRoom 0 2 Compare ThatCardsCost 0 OrLess && IsCharacter
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Theory of Relativity" is placed into your climax area, if this card is in your center stage and there are 5 or less cards in your hand, you may pay the cost. If you do, choose up to 2 cost 0 or lower characters in your waiting room and place them on separate positions on your stage.
+EndCard
+
+Character: STG/S60-061
+Name "World Seen with You" Kurisu Makise
+Color R
+Level 1
+Cost 0
+Power 6000
+Trait1 Lab Member
+Trait2 Science
+*CannotAttackHigherLevel
+Auto: OnPlay
+{
+	GainLevel 1
+	GainPower 1000
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, this card gains +1 level and +1000 power until end of turn.
+EndCard
+
+Character: STG/S60-062
+Name "Operation Valkyrie" Kurisu Makise
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Lab Member
+Trait2 Science
+*Level3Assist
+*RestGivePower(1000,Lab Member)
+EndCard
+
+Character: STG/S60-063
+Name "Unique Home Cooking" Kurisu Makise
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Lab Member
+Trait2 Science
+*HexProof
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			TargetSelf
+			GainPower 5500
+			GainLevel 1
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +1 level and +5500 power until end of turn.
+EndCard
+
+Character: STG/S60-064
+Name "Memoir of Chaos" Faris NyanNyan
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Maid
+Cont: GiveAll
+{
+	If Other && NameEquals "Traumerei of the End" Faris NyanNyan
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other ""Traumerei of the End" Faris NyanNyan" gain +1000 power.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	If CardPosition Stand
+	{
+		IfOther NameEquals "Traumerei of the End" Faris NyanNyan
+		{
+			PayCost RestSelf Rest 1 Other && CardPosition Stand
+			{
+				Message Choose a <Lab Member> character to put into your stock
+				SearchLocationForTargets WaitingRoom 1 1 HasTrait Lab Member && IsCharacter
+				RevealTargets
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: [Rest 1 of your other standing characters and this card] When your other ""Traumerei of the End" Faris NyanNyan" is placed on stage from your hand, if this card is standing, you may pay the cost. If you do, choose a <Lab Member> character in your waiting room and put it into your stock.
+EndCard
+
+Character: STG/S60-065
+Name "Completely Refuted" Kurisu Makise
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Science
+*PowerOnMyTurn(1000)
+*RedLevel0Bomb
+EndCard
+
+Character: STG/S60-066
+Name "Casual Moments at the Lab" Kurisu Makise
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Science
+*PowerOnMyTurn(1000)
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Lab Member
+	ChooseCharacterFromTargets Choose a character to get +1 level and +1000 power
+	GainLevel 1
+	GainPower 1000
+}
+Text Auto: When this card attacks, choose 1 of your <Lab Member> characters and that character gains +1 level and +1000 power until end of turn.
+EndCard
+
+Character: STG/S60-067
+Name "Nneler Title" Kurisu Makise
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Science
+*GainPowerWhenOtherAttacks(1000,Lab Member)
+EndCard
+
+Character: STG/S60-068
+Name "Traumerei of the End" Faris NyanNyan
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Lab Member
+Trait2 Maid
+EndCard
+
+Character: STG/S60-069
+Name "Forbidden Secret Ultimate Move" Faris NyanNyan
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Lab Member
+Trait2 Maid
+*BackupBonus1000(Lab Member)
+Backup 2500
+EndCard
+
+Character: STG/S60-070
+Name "Skilled at Rai-Net Access Battler" Faris NyanNyan
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Lab Member
+Trait2 Maid
+*GainPowerForEachOther(1000,Lab Member)
+Cont: GiveSelf
+{
+	If LocationContains OpponentStage 1 HasTrait Otaku
+	{
+		GainEffect
+		{
+			*GreatPerformance
+		}
+	}
+}
+Text Cont: If your opponent has an <Otaku> character, this card gains the following ability. "Cont: GREAT PERFORMANCE"
+EndCard
+
+Event: STG/S60-071
+Name Look into Your Eyes While Mixing
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	Refresh
+	OpponentRefresh
+}
+Text Each player returns all cards in the waiting room to his or her deck. Each player shuffles his or her deck afterwards.
+EndCard
+
+Event: STG/S60-072
+Name Beta Timeline
+Color R
+Level 2
+Cost 1
+Effect:
+{
+	Message Choose up to 2 characters to return to your hand
+	SearchLocationForTargets WaitingRoom 0 2 IsCharacter
+	RevealTargets
+	MoveCard Hand
+	Discard 1 Any
+}
+Text Choose up to 2 characters in your waiting room and return them to your hand, then discard a card.
+EndCard
+
+Climax: STG/S60-073
+Name Physically Necrosis
+*DoorClimax
+EndCard
+
+Climax: STG/S60-074
+Name Faris Cup
+*StandbyClimax
+EndCard
+
+Climax: STG/S60-075
+Name Theory of Relativity
+*DoorClimax
+EndCard
+
+Character: STG/S60-076
+Name "Irreplacable Being" Mayuri Shiina
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Lab Member
+Trait2 Sewing
+Cont: Assist
+{
+	If HasTrait Lab Member
+	{
+		GainPower 2000
+	}
+}
+Text Cont: ASSIST ALl of your <Lab Member> characters in front of this card gain +2000 power.
+*StockHealer
+Act: Rest 2 HasTrait Lab Member
+{
+	*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+	TargetLocation Stage
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to gain +1 level
+	GainLevel 1
+}
+Text Act: [Rest 2 of your <Lab Member> characters] Choose a card in your level and a card in your waiting room and exchange them, choose up to 1 of your characters and that character gains +1 level until end of turn.
+EndCard
+
+Character: STG/S60-077
+Name "Miko of the Yanabayashi Shrine" Luka Urushibara
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Lab Member
+Trait2 Miko
+*OnPlayCheckX(Lab Member)
+*OnAttackGivePower(1500,Lab Member)
+*HandEncoreTrait(Lab Member)
+EndCard
+
+Character: STG/S60-078
+Name "Hidden Feelings" Luka Urushibara
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Miko
+*OnPlayScryToBottom
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Auto: [Return this card to your hand] When a cliamx is placed into your climax area, you may pay the cost. If you do, choose 1 of your characters and that character gains +1000 power until end of your opponent's turn.
+EndCard
+
+Character: STG/S60-079
+Name "And a Dude" Luka Urushibara
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Miko
+Cont: GiveAll
+{
+	If OpponentsTurn && HasTrait Lab Member && Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all of your other <Lab Member> characters gain +500 power.
+*Act1SearchBrainstorm(Lab Member)
+EndCard
+
+Character: STG/S60-080
+Name "Moodmaker of the Lab" Mayuri Shiina
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Lab Member
+Trait2 Sewing
+*BackupBonus1000(Lab Member)
+Backup 1000
+EndCard
+
+Character: STG/S60-081
+Name "Future Written by You" Mayuri Shiina
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Lab Member
+Trait2 Sewing
+Combo Turning Point
+Auto: OnAttack
+{
+	If Climax Turning Point &&& StageContains 1 Other && HasTrait Lab Member
+	{
+		*Check4Add1(Lab Member)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Turning Point" is in your climax area and you have another <Lab Member> character, look at up to 4 cards from the top of your deck, choose up to 1 <Lab Member> character to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: STG/S60-082
+Name "Rai-Net Children" Mayuri Shiina
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Lab Member
+Trait2 Sewing
+*GainPowerWithEnoughCharacters(2000,2,Lab Member)
+*HandEncore
+EndCard
+
+Character: STG/S60-083
+Name "Okarin's Hostage" Mayuri Shiina
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Lab Member
+Trait2 Sewing
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom IsCharacter
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Put a character from your stage into your waiting room] When you use this card's BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it into their waiting room.
+Backup 2500
+EndCard
+
+Character: STG/S60-084
+Name "Convergence of Death" Mayuri Shiina
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Sewing
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Lab Member
+	ChooseCharacterFromTargets Choose a character to gain +1 level and +500 power.
+	GainLevel 1
+	GainPower 500
+}
+Text Auto: At the start of your climax phase, choose 1 of your <Lab Member> characters and that character gains +1 level and +500 power until end of turn.
+*Act1Rest2SearchBrainstorm(Lab Member)
+EndCard
+
+Character: STG/S60-085
+Name "Proof of Lab Member" Mayuri Shiina
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Lab Member
+Trait2 Sewing
+*OnPlayTradeClimaxForCharacter(Lab Member)
+EndCard
+
+Character: STG/S60-086
+Name "Pretty Trap" Luka Urushibara
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Lab Member
+Trait2 Miko
+*CannotSideAttack
+EndCard
+
+Character: STG/S60-087
+Name "As Lover..." Luka Urushibara
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Miko
+Combo Fractal Androgynous
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals "Fragment of Memories" Luka Urushibara
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If ""Fragment of Memories" Luka Urushibara" is in your level, this card gains +1500 power.
+Auto: OnAttack
+{
+	If Climax Fractal Androgynous
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Lab Member && IsCharacter
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Fractal Androgynous" is in your climax area, reveal the top card of your deck. If that card is a <Lab Member> character, put it into your hand.
+EndCard
+
+Character: STG/S60-088
+Name "Fragment of Memories" Luka Urushibara
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Lab Member
+Trait2 Miko
+Combo Fractal Androgynous
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals "As Lover..." Luka Urushibara
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If ""As Lover..." Luka Urushibara" is in your level, this card gains +1500 power.
+Auto: OnSpecificClimaxPlay Fractal Androgynous
+{
+	If StageContains 1 Other && NameContains Okabe
+	{
+		GainPower 4000
+	}
+}
+Quick
+Text Auto: CxCombo When "Fractal Androgynous" is placed into your climax area, if you have another character with "Okabe" in it's card name, this card gains +4000 power until end of turn.
+EndCard
+
+Character: STG/S60-089
+Name "Wishing Upon a Star..." Mayuri Shiina
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Sewing
+Combo Stardust Shake Hand
+*500Assist
+Auto: OnOpponentLevelUp
+{
+	If Climax Stardust Shake Hand
+	{
+		*Check4Add1(Lab Member)
+	}
+}
+Text Auto: CxCombo When your opponent levels up, if "Stardust Shake Hand" is in your climax area, look at up to 4 cards from the top of your deck, choose up to 1 <Lab Member> character to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: STG/S60-090
+Name "Mayushii NyanNyan" Mayuri Shiina
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Lab Member
+Trait2 Maid
+Auto: OnPlay
+{
+	If StageContains 1 Other && NameContains Mayuri|Faris
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, if you have another character with "Mayuri" or "Faris" in it's card name, this card gains +2000 power until end of turn.
+*OnAttackGivePower(1000,Any)
+EndCard
+
+Character: STG/S60-091
+Name "Sex Conversion" Luka Urushibara
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Miko
+Act: 1 SendSelf WaitingRoom
+{
+	Message Choose an "IBN5100" to return to your hand
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals IBN5100
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Put this card into your waiting room] Choose an "IBN5100" in your waiting room and return it to your hand.
+EndCard
+
+Character: STG/S60-092
+Name "Kirari-chan Cosplay" Luka Urushibara
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Lab Member
+Trait2 Miko
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Lab Member
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			GainPower 2500
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other <Lab Member> character is frontal attacked, you may pay the cost, your character in battle gets +2500 power until end of turn.
+EndCard
+
+Character: STG/S60-093
+Name "Half-Asleep" Mayuri Shiina
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Lab Member
+Trait2 Sewing
+EndCard
+
+Character: STG/S60-094
+Name "Helping with Cooking" Mayuri Shiina
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Lab Member
+Trait2 Sewing
+*BlueEarlyPlayBomb
+EndCard
+
+Character: STG/S60-095
+Name "High School Uniform" Mayuri Shiina
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Lab Member
+Trait2 Sewing
+*GainPowerWhenOtherAttacks(1500,Lab Member)
+EndCard
+
+Event: STG/S60-096
+Name IBN5100
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	*Check4Add1(Lab Member)
+}
+Text Look at up to 4 cards from the top of your deck, choose up to 1 <Lab Member> character to add to your hand and put the rest into the waiting room.
+EndCard
+
+Event: STG/S60-097
+Name Unavoidable Sacrifice
+Color B
+Level 2
+Cost 1
+Counter
+Effect:
+{
+	PayCost Send 1 WaitingRoom NameContains Mayuri
+	{
+		TargetTop Clock 1
+		MoveCard Hand
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text: Counter: Choose one of your characters with "Mayuri" in its card name, and put it into your waiting room. If you do, put the top card of your clock into your hand, and put this card into your memory.
+EndCard
+
+Climax: STG/S60-098
+Name Turning Point
+*BookClimax
+EndCard
+
+Climax: STG/S60-099
+Name Stardust Shake Hand
+*GateClimax
+EndCard
+
+Climax: STG/S60-100
+Name Fractal Androgynous
+*BookClimax
+EndCard
+
+Character: STG/S60-101
+Name "Trinity Angel" Faris NyanNyan & Kurisu Makise & Mayuri Shiina
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Swimsuit
+*OnPlayMill2GainPowerForEachCharacter(1000,Lab Member)
+EndCard
+
+Character: STG/S60-102
+Name "Lab Member Girls" Kurisu Makise
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Lab Member
+Trait2 Swimsuit
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a level 0 or lower character, put this card into your stock.
+EndCard
+
+Character: STG/S60-103
+Name "Lab Member Girls" Faris NyanNyan
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Lab Member
+Trait2 Swimsuit
+*GainPowerWithEnoughCharacters(2000,2,Lab Member)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: STG/S60-104
+Name "Lab Member Girls" Luka Urushibara
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Lab Member
+Trait2 Swimsuit
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals "Fragment of Memories" Luka Urushibara
+	{
+		GainPower 2500
+	}
+}
+Text Cont: EXPERIENCE If ""Fragment of Memories" Luka Urushibara" is in your level, this card gains +2500 power.
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals "As Lover..." Luka Urushibara
+	{
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Cont: EXPERIENCE If ""As Lover..." Luka Urushibara" is in your level, this card gains +500 power and +1 soul.
+EndCard
+
+Character: STG/S60-105
+Name "Lab Member Girls" Mayuri Shiina
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Lab Member
+Trait2 Swimsuit
+Auto: OnCardEntersLevel
+{
+	SetXToNumberOfCharacters HasTrait Lab Member
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When a card is placed into your level area, this card gains +X power until end of turn. X is equal to 500 times the number of your <Lab Member> characters.
+*HandEncoreTrait(Lab Member)
+EndCard
+
+Character: STG/S60-T01
+Name "Lab Member No.003" Itaru Hashida
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Lab Member
+Trait2 Otaku
+*GiveOthersPowerOnMyTurn(500)
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: STG/S60-T02
+Name "Cat-Ear Maid" Kurisu Makise
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Lab Member
+Trait2 Maid
+*FreeRunner
+EndCard
+
+Character: STG/S60-T03
+Name "Lab Member No.008" Suzuha Amane
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Lab Member
+Trait2 Part-Timer
+*OnPlayGainPower(1500)
+EndCard
+
+Character: STG/S60-T04
+Name "Lab Member No.004" Kurisu Makise
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Lab Member
+Trait2 Science
+*YellowCost0Bomb
+EndCard
+
+Character: STG/S60-T05
+Name "Lab Member No.001" Rintarou Okabe
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Lab Member
+Trait2 Science
+Combo El Psy Kongroo
+Auto: OnOpponentReverse
+{
+	If Climax El Psy Kongroo
+	{
+		SearchDeck HasTrait Lab Member && IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "El Psy Kongroo" is in your climax area, search your deck for up to 1 <Lab Member> character and add it to your hand.
+EndCard
+
+Character: STG/S60-T06
+Name "Those Who Can Resist" Rintarou Okabe
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Lab Member
+Trait2 Science
+Auto: OnPlay
+{
+	If LocationContains OpponentStage 1 NameEquals "Those Who Can Resist" Rintarou Okabe
+	{
+		OpponentQuestion Do you agree to declare El Psy Kongroo?
+		If Yes
+		{
+			Question Do you agree to declare El Psy Kongroo?
+			If Yes
+			{
+				OpponentMessage El Psy Kongroo!
+				TargetSelf
+				OpponentView
+				Message El Psy Kongroo!
+				View
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if your opponent has ""Those Who Can Resist" Rintarou Okabe" and all players agree, all players declare "El Psy Kongroo".
+EndCard
+
+Character: STG/S60-T07
+Name "Those Who Can Resist" Kurisu Makise
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Lab Member
+Trait2 Science
+Backup 3000
+EndCard
+
+Character: STG/S60-T08
+Name "Lab Member No.005" Moeka Kiryuu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Lab Member
+Trait2 Cellphone
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Lab Member
+	{
+		Peek Deck 2
+		If HasTarget
+		{
+			Message Choose a card to put back on top. 
+			AIChoice If Not IsClimax
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Deck
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other <Lab Member> characters, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room.
+EndCard
+
+Character: STG/S60-T09
+Name "Lab Member No.007" Faris NyanNyan
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Lab Member
+Trait2 Maid
+*GainPowerWhenOtherAttacks(1000,Lab Member)
+*HandEncoreTrait(Lab Member)
+EndCard
+
+Character: STG/S60-T10
+Name "Beautiful Genius Girl" Kurisu Makise
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Lab Member
+Trait2 Science
+*Healer
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Lab Member
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power and +1 soul
+		GainPower 1000
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other <Lab Member> characters, choose 1 of your characters and that character gains +1000 power and +1 soul until end of turn.
+EndCard
+
+Climax: STG/S60-T11
+Name El Psy Kongroo
+*WindClimax
+EndCard
+
+Climax: STG/S60-T12
+Name Existence and Time
+Color Y
+*2SoulClimax
+EndCard
+
+Character: STG/S60-T13
+Name "Those Who Can Resist" Mayuri Shiina
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Lab Member
+Trait2 Sewing
+Cont: GiveAll
+{
+	If NameEquals "Those Who Can Resist" Rintarou Okabe && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other ""Those Who Can Resist" Rintarou Okabe" gain +1000 power.
+*Bond1("Those Who Can Resist" Rintarou Okabe)
+EndCard
+
+Character: STG/S60-T14
+Name "Healing Natural Girl" Mayuri Shiina
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Sewing
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Lab Member || NameEquals Metal Oopa
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a <Lab Member> character or "Metal Oopa", put it into your hand and discard a card.
+*OnAttackGivePower(1500,Lab Member)
+EndCard
+
+Character: STG/S60-T15
+Name "Lab Member No.006" Luka Urushibara
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Lab Member
+Trait2 Miko
+*500Assist
+*OnPlayScryToBottom
+EndCard
+
+Character: STG/S60-T16
+Name "Knowledge Drink of the Chosen" Mayuri Shiina
+Color B
+Level 1
+Cost 1
+Power 5000
+Trait1 Lab Member
+Trait2 Sewing
+*CannotBeReversedByCost0
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Lab Member && IsCharacter
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a <Lab Member> character, this card gains +2000 power until end of turn.
+EndCard
+
+Character: STG/S60-T17
+Name "Cat-Ear Maid" Mayuri Shiina
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Lab Member
+Trait2 Maid
+*1000Assist
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Lab Member && IsCharacter
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 <Lab Member> character and add it to your hand.
+EndCard
+
+Character: STG/S60-T18
+Name "Lab Member No.002" Mayuri Shiina
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Lab Member
+Trait2 Sewing
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Lab Member
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Lab Member>, this card gains +1000 power.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 3 Discard 1 Any
+		{
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(3) Discard a card] This ability activates up to one time per turn. During the turn that this card is placed on stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, stand this card.
+EndCard
+
+Event: STG/S60-T19
+Name Metal Oopa
+Color B
+Level 1
+Cost 1
+Counter
+Requirement StageContains 1 HasTrait Lab Member
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainSpecialEffect CannotBeReversed
+}
+Text COUNTER If you do not have a <Lab Member> character, you cannot play this card from your hand. Choose 1 of your characters and that character gains the following ability until end of turn. "Cont: This card cannot be reversed."
+EndCard
+
+Climax: STG/S60-T20
+Name Proof of Existence
+*GateClimax
+EndCard
+
+Character: STG/S60-P01
+Name "Cooling in Yukata" Mayuri Shiina
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Lab Member
+Trait2 Yukata
+*GainPowerForEachOther(500,Lab Member)
+*Healer
+EndCard
+
+Character: STG/S60-P02
+Name "Coolness of a Yukata" Kurisu Makise
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Lab Member
+Trait2 Yukata
+*OnPlayScry
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Lab Member
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Lab Member
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Lab Member》 character in your waiting room, return it to your hand, choose 1 of your other 《Lab Member》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: STG/S60-P03
+Name “Midsummer Fantasy” Kurisu Makise & Mayuri Shiina
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Lab Member
+Trait2 Yukata
+*OnPlayGivePower(1000,Any)
+Auto: OnOtherOpponentReversed
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your characters and that character gains +1000 power until end of turn.
+EndCard
+

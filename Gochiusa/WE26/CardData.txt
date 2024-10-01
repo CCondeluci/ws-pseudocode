@@ -1,0 +1,1492 @@
+Character: GU/WE26-001
+Image GU_WE26_001
+Name "Present Exchange" Syaro
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleur De Lapin
+Trait2 Special Student
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	PayCost Discard 1 IsCharacter && NameContains Syaro | Chiya
+	{
+		TargetTop Clock 1
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a character with either "Syaro" or "Chiya" in name from your hand to the waiting room] When this is placed from hand to the stage, you may pay cost. If so, return the top card of your clock to your hand.
+Auto: OnUseAct
+{
+	SetXToNumberOfCharacters Other && NameContains Syaro | Chiya
+	MultiplyXValue 500
+	GainPower X
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an act ability, this card gains +X power until end of turn. X is equal to 500 times the number of your other characters with either "Syaro" or "Chiya" in it's card name.
+EndCard
+
+Character: GU/WE26-002
+Image GU_WE26_002
+Name Syaro, Embarrassed Laugh
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Auto: OnPlay
+{
+	Question_Obvious Exchange the bottom card of your clock and either a Syaro or Chiya character in your waiting room?
+	If Yes
+	{
+		TargetBottom Clock 1
+		SaveTargets
+		TargetLocation WaitingRoom
+		NarrowTargets NameContains Syaro | Chiya
+		ChooseCardFromTargets 0 1
+		AddSavedToCurrentTargets
+		Exchange
+	}
+}
+Text Auto: When this is placed from hand to the stage, you may choose the bottom card of your clock and a character in your waiting room with either "Syaro" or "Chiya" in name and exchange them.
+*YellowLevel0Bomb
+EndCard
+
+Character: GU/WE26-003
+Image GU_WE26_003
+Name Syaro, Every Day is Best Shot
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Cont: GiveAll
+{
+	If StageContains 1 NameEquals Chiya, Every Day is Best Shot
+	{
+		GainPower 500
+	}
+}
+Text Cont: If you have another "Chiya, Every Day is Best Shot", all your other characters gain +500 power.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		Repeat X
+		{
+			SearchDeck IsCharacter && NameContains Best Shot | Treasure
+		}
+		ShuffleLocation Deck
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, search your deck for up to 1 character with either "Best Shot" or "Treasure" and add it to your hand.
+EndCard
+
+Character: GU/WE26-004
+Image GU_WE26_004
+Name Obon de Syaro
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Auto: OnPlay
+{
+	If StageContains 1 Other && NameContains Syaro | Chiya
+	{
+		PayCost 1 Clock
+		{
+			Repeat 4
+			{
+				Question Take a card from clock, add it to your hand, take a damage and discard a card?
+				If Yes
+				{
+					TargetLocation Clock
+					If HasTarget
+					{
+						AIChoice AddToHand
+						ChooseCard Choose a card in your clock to add to your hand.
+						MoveCard Hand
+						TargetTop Deck 1
+						MoveCard Clock
+						Discard 1 Any
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this is placed from hand to the stage, if you have another character with either "Syaro" or "Chiya" in name, you may pay cost. If so, perform the following action up to 4 times. "Choose a card in your clock and return it to your hand, discard a card from your hand to the waiting room, and put the top card of your deck in your clock." 
+EndCard
+
+Character: GU/WE26-005
+Name Syaro, Horrible with Rabbits
+Color Y
+Level 1
+Cost 0
+Power 6500
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Cont: GiveSelf
+{
+	If StageContains 1 HasTrait Rabbit
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If you have another <Rabbit> character, this gains the following ability. "This cannot attack."
+*OnPlayMill2RestIfClimax
+EndCard
+
+Character: GU/WE26-006
+Name Syaro, Fun Time is Best Shot
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard IsCharacter && NameContains Best Shot | Treasure
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If it's a character with either "Best Shot" or "Treasure" in name, this gains +1 soul until end of turn.
+EndCard
+
+Character: GU/WE26-007
+Name Syaro, Club Helper?
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Combo Perfect Aim
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not NameContains Syaro | Chiya
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all your characters have either "Syaro" or "Chiya" in name, this gains +2000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Perfect Aim
+	{
+		AIChoice Bounce
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a card to return to your opponent's hand
+		Bounce
+		SearchDeck NameContains Syaro | Chiya && IsCharacter
+	}
+}
+Text Auto: CxCombo [(1)] When this card's battle opponent becomes reversed, if "Perfect Aim" is in your climax zone, you may pay cost. If so, choose up to 1 of your opponent's characters and return it to hand, search your deck for up to 1 character with either "Syaro" or "Chiya" in name, reveal it and put it into your hand.
+EndCard
+
+Climax: GU/WE26-008
+Name Perfect Aim
+*ShotClimax
+EndCard
+
+Character: GU/WE26-009
+Name "Present Exchange" Chiya
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Ama Usa An
+Trait2 Wagashi
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If your stock has 3 or less cards, this card gains +1000 power.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess && NameContains Syaro | Chiya
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character with "Syaro" or "Chiya" in it's name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: GU/WE26-010
+Image GU_WE26_010
+Name Chiya, Okay So Long as You Are Having Fun
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Ama Usa An
+Trait2 Wagashi
+Backup 1000
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 NameContains Syaro | Chiya
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: When When you use this card's "<b>Backup</b>", if you have a character with either "Syaro" or "Chiya" in name, your character in battle gets +1000 power until end of turn.
+
+Character: GU/WE26-011
+Name Chiya, Accident
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Ama Usa An
+Trait2 Wagashi
+Auto: OnPlay|OnPlacedOnStageFromMemory
+{
+	TargetLocation Stage
+	GainPower 2000
+}
+Text Auto: When this is placed from hand or memory to the stage, all your characters gain +2000 power until end of turn.
+Auto: OnOpponentReverse	
+{
+	Question Send this card to your memory?
+	If Yes
+	{
+		TargetSelf
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				Message Choose a character to put in any position of your stage
+				TargetLocation Memory
+				NarrowTargets NameEquals Chiya, Accident
+				ChooseCard Choose a character to put in any position of your stage
+				PlaceOnStage False True True False
+			}
+			Text: At the beginning of your next draw phase, choose 1 "Chiya, Accident" in your memory, and put it on any position of your stage.
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Chiya, Accident" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: GU/WE26-012
+Name Chiya, Every Day is Best Shot
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Ama Usa An
+Trait2 Wagashi
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && Other && NameContains Best Shot | Treasure
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Auto: Your other character with either "Best Shot" or "Treasure" in name in the middle position of your center stage gains "Auto: <b>Encore</b> [Discard a character]".
+Cont: GiveAll
+{
+	If StageContains 1 Other && NameEquals Syaro, Every Day is Best Shot
+	{
+		GainPower 500
+	}
+}
+Text Cont: If you have another "Syaro, Every Day is Best Shot", all your other characters gain +500 power.
+EndCard
+
+Character: GU/WE26-013
+Name Chiya, Puffy Face
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Ama Usa An
+Trait2 Wagashi
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		SearchDeck NameContains Syaro | Chiya
+	}
+}
+Text Auto: [Put a card from your hand in your clock] When this is placed from hand to the Stage, you may pay cost. If so, search your deck for up to 1 character with either "Syaro" or "Chiya" in name, reveal it, put it in your hand, and shuffle your deck.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: GU/WE26-014
+Name Chiya, Precious Best Shot
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Ama Usa An
+Trait2 Wagashi
+*OnPlayReorderTop2
+EndCard
+
+Character: GU/WE26-015
+Name Chiya, Mistress!? Game
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Ama Usa An
+Trait2 Wagashi
+Combo Make Yourselves Comfortable, Raise Your Heads
+Auto: OnAttack
+{
+	If Climax Make Yourselves Comfortable, Raise Your Heads
+	{
+		TargetTop Deck 1
+		RevealTargets
+		IfThatCard NameContains Syaro | Chiya
+		{
+			TargetLocation OpponentStage
+			AIChoice LosePower 4000
+			ChooseCharacterFromTargets Choose a character to give -4000 power.
+			LosePower 4000
+		}
+	}
+}
+Text Auto: CxCombo When this attacks, if "Make Yourselves Comfortable, Raise Your Heads" is in the climax zone, reveal the top card of your deck. If it's a character with either "Syaro" or "Chiya" in name, choose 1 of your opponent's characters, and that character gets -4000 power until end of turn. (Put the revealed card back where it was)
+EndCard
+
+Climax: GU/WE26-016
+Name Make Yourselves Comfortable, Raise Your Heads
+*GreenStockSoul
+EndCard
+
+Character: GU/WE26-017
+Name "Present Exchange" Cocoa
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Rabbit House
+Trait2 Bread
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Rabbit House | Bread
+	}
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this is placed from hand to the stage, you may pay cost. If so, choose a character in your waiting room with either <Rabbit House> or <Bread> and return it to your hand.
+*OnAttackGivePower(500,Any)
+EndCard
+
+Character: GU/WE26-018
+Name Chino & Cocoa, Good to Have Met
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Rabbit House
+Combo Pillow Fight
+*GainPowerForEachOther(500,Rabbit House)
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Pillow Fight
+	{
+		PayCost 2 Discard 2 Any
+		{
+			Burn 1
+			Burn 1
+			GainPower 6000
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard 2 cards from your hand to the waiting room] When this attacks, if "Pillow Fight" is in your climax zone, you may pay cost. If so, deal 1 damage to your opponent, deal 1 damage to your opponent, and this gains +6000 power until end of turn.
+EndCard
+
+Character: GU/WE26-019
+Name "Present Exchange" Rize
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Rabbit House
+Trait2 Weapon
+Cont: InHand
+{
+	If StageContains 1 NameEquals Cocoa, Get Well Visit && StageContains 1 NameEquals Chino Being Playful
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have another "Cocoa, Get Well Visit" and "Chino Being Playful", this gets -1 level while in your hand.
+*Healer
+Auto: OnAttack
+{
+	If StageContains 2 HasTrait Rabbit House
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this attacks, if you have 2 or more other <Rabbit House> characters, this gains +2000 power until end of turn.
+EndCard
+
+Character: GU/WE26-020
+Name Rize, Being Herself
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Rabbit House
+Trait2 Weapon
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Rabbit House
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this is placed from hand to the stage, you may reveal up to 3 cards from top of your deck. If you reveal at least 1 card this way, choose up to 1 <Rabbit House> character among them, put it in your hand, put the rest in the waiting room, and discard a card from your hand to the waiting room. 
+EndCard
+
+Character: GU/WE26-021
+Name Cocoa, Going Together
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Rabbit House
+Trait2 Bread
+Backup 1000
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Send 1 WaitingRoom Any
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel OpponentsLevel GreaterThan
+		AIChoice SendToWaitingRoom
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		If HasTarget
+		{
+			RememberSlot
+			MoveCard OpponentWaitingRoom
+			Wait 0.5
+			Message Choose up to 1 level 0 character to place in the sent card's previous position standing.
+			OpponentSearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: [(1) Put a character from your stage in the waiting room] When you use this card's "BACKUP", you may pay cost. If so, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it in the waiting room, and your opponent chooses up to 1 Level 0 or lower character in his or her waiting room and put it in the slot that character was in.
+EndCard
+
+Character: GU/WE26-022
+Name Rize Being Ladylike
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Rabbit House
+Trait2 Weapon
+Combo Liberal Interpretation of Phantom of the Opera
+Auto: OnPlay|PlacedBy Rize, Big Transformation!
+{
+	GainLevel 1
+	GainPower 1000
+}
+Quick
+Text Auto: When this card is placed from stage from hand or by the AUTO effect by "Rize, Big Transformation!", this card gains +1 level and 1000 power until the end of the turn.
+Auto: OnOpponentReverse
+{
+	If Climax Liberal Interpretation of Phantom of the Opera
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When the battle opponent of this card becomes reversed, if "Liberal Interpretation of Phantom of the Opera" is in your climax zone, you may choose a character in your waiting room and return it to your hand.
+Auto: StartOpponentDrawPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Rize, Big Transformation!
+		Change
+		GainPower 2500
+	}
+}
+Text Auto: [Put this in the waiting room] At the start of your opponent's draw phase, you may pay cost. If so, choose a "Rize, Big Transformation!" in your waiting room and put it in the slot this was in, and that character gains +2500 power until end of turn. 
+EndCard
+
+Character: GU/WE26-023
+Name Cocoa, Get Well Visit
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Rabbit House
+Trait2 Bread
+*Level3Assist
+Auto: OnPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: GU/WE26-024
+Image GU_WE26_024
+Name Cocoa, Every Day is Best Shot
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Power 4000
+Trait1 Rabbit House
+Trait2 Bread
+Auto: OnPlay
+{
+	Question_Obvious Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		SetXValue 0
+		ForEachTarget
+		{
+			IfTarget HasTrigger Soul
+			{
+				AddToXValue 1
+			}
+			IfTarget HasTrigger DoubleSoul
+			{
+				AddToXValue 2
+			}
+		}
+		TargetLocation Stage
+		NarrowTargets Other && NameContains Best Shot | Treasure
+		ChooseCharacterFromTargets 0 1 Choose a character to gain +X soul
+		GainSoul X
+	}
+}
+Text Auto: When this is placed from hand to the stage, you may put the top card of your deck in the waiting room. If so, choose 1 of your other characters with either "Best Shot" or "Treasure" in name, and for each soul trigger of the card put in the waiting room via this effect, that character gains +1 Soul until end of turn. 
+
+Character: GU/WE26-025
+Name: Rize, Every Day is Best Shot
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Power 4000
+Trait1 Rabbit House
+Trait2 Weapon
+Auto: OnAttack
+{
+	Question_Obvious Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		SetXValue 0
+		ForEachTarget
+		{
+			IfTarget HasTrigger Soul
+			{
+				AddToXValue 1
+			}
+			IfTarget HasTrigger DoubleSoul
+			{
+				AddToXValue 2
+			}
+		}
+	TargetSelf
+	GainSoul X
+	}
+}
+Text Auto: When this attacks, you may put the top card of your deck in the waiting room. If so, for each soul trigger of the card put in the waiting room via this effect, this gains +1 soul until end of turn.
+EndCard
+
+Character: GU/WE26-026
+Name Rize, Big Transformation!
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Rabbit House
+Trait2 Weapon
+Cont: GiveSelf
+{
+	GainName Rose
+}
+Text Cont: If this is on the stage, this is also considered to have "Rose" as the name.
+Auto: StartDrawPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Rize Being Ladylike
+		Change
+		GainPower 2500
+	}
+}
+Text Auto: [Put this in the waiting room] At the start of your draw phase, you may pay cost. If so, choose a "Rize Being Ladylike" in your waiting room and put it on the stage position this card was in, and that character gains +2500 power until end of turn. 
+EndCard
+
+Character: GU/WE26-027
+Name Mocha, Big News
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Bread
+Cont: GiveAll
+{
+	If NameEquals Cocoa in the Wood-Framed Town
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Cocoa in the Wood-Framed Town" gain +1000 Power.
+*LevelAssist
+*BondDiscard(Cocoa in the Wood-Framed Town)
+EndCard
+
+Character: GU/WE26-028
+Name Cocoa, Summer Best Shot
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Power 3500
+Trait1 Rabbit House
+Trait2 Bread
+Auto: OnPlay
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget HasTrigger Soul
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this is placed from hand to the stage, you may put the top card of your deck in the waiting room. If there is a soul trigger on that card, draw a card, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: GU/WE26-029
+Name Rize, Best Shot Even While Taking Break
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Rabbit House
+Trait2 Weapon
+Auto: OnOpponentReverse
+{
+	SearchWaitingRoom IsCharacter && NameContains Best Shot | Treasure
+	If HasTarget
+	{
+		Discard 1
+	}
+}
+Text Auto: When the battle opponent of this becomes reversed, you may choose a character in your waiting room with either "Best Shot" or "Treasure" in name and return it to your hand. If so, discard a card from your hand to the waiting room.
+EndCard
+
+Character: GU/WE26-030
+Name Rize, Club Helper!
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Rabbit House
+Trait2 Weapon
+Backup 2500
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Burn 1
+	}
+}
+Text Auto: (2) When you use the BACKUP of this card, you may pay cost. If so, deal 1 damage to your opponent.
+EndCard
+
+Character GU/WE26-031
+Name Cocoa, By the Name of Big Sister
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Rabbit House
+Trait2 Bread
+*OnAttackGainPowerForEachOther(1000,Rabbit House| Bread)
+Auto: Encore Discard 1 IsCharacter && ISColor Red
+{
+}
+Text Auto: ENCORE [Discard a Red Character]
+EndCard
+
+Climax GU/WE26-032
+Name Pillow Fight
+*DoorClimax
+EndCard
+
+Climax GU/WE26-033
+Name Liberal Interpretation of Phantom of the Opera
+*RedStockSoul
+EndCard
+
+Character GU/WE26-034
+Name "Present Exchange" Chino
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Rabbit House
+Trait2 Coffee
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Rabbit House
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Rabbit House>, this card gains +1000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Talking in Sleep
+	{
+		SearchDeck IsCharacter && HasTrait Rabbit House
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Talking in Sleep" is in your climax zone, search your deck for up to 1 <Rabbit House> character, reveal it and put it into your hand.
+EndCard
+
+Character: GU/WE26-035
+Name Chino Being Playful
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Rabbit House
+Trait2 Coffee
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation Stage
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: At the start of your opponent's attack phase, choose 1 of your characters and that character gains +500 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Rabbit House)
+EndCard
+
+Character: GU/WE26-036
+Name Maya, Trailing
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Double Tooth
+Auto: StartOpponentAttackPhase
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget IsColor Blue
+		{
+			TargetLocation CenterStage
+			If Compare TargetCount 2 OrLess
+			{
+				TargetSelf
+				Question Move this card to an open position of your center stage?
+				If Yes
+				{
+					MoveToOpenPosition True False
+				}
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may put the top card of your deck into the waiting room, if it is a BLUE character, you may move this card to an open position of your center stage.
+EndCard
+
+Character: GU/WE26-037
+Name Chino, Every Day is Best Shot
+Color B
+Level 1
+Cost 0
+Trigger Soul
+Power 4000
+Trait1 Rabbit House
+Trait2 Coffee
+Combo Full of Best Shot
+Auto: OnClimaxPlay
+{
+	If Climax Full of Best Shot
+	{
+		If StageContains 1 NameEquals Syaro, Every Day is Best Shot && StageContains 1 NameEquals Chiya, Every Day is Best Shot && StageContains 1 NameEquals Cocoa, Every Day is Best Shot && StageContains 1 NameEquals Rize, Every Day is Best Shot
+		{
+			PayCost 1 SendClimax Memory
+			{
+				Question_Obvious Draw a card?
+				If Yes
+				{
+					DrawCard
+				}
+				Question_Obvious Draw a card?
+				If Yes
+				{
+					DrawCard
+				}
+				Question_Obvious Draw a card?
+				If Yes
+				{
+					DrawCard
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Send a "Full of Best Shot" from your Climax Zone to Memory] When "Full of Best Shot" is placed in your climax zone, if you have another "Syaro, Every Day is Best Shot", "Chiya, Every Day is Best Shot", "Cocoa, Every Day is Best Shot", and "Rize, Every Day is Best Shot", you may pay cost. If so, draw up to 3 cards.
+EndCard
+
+Character: GU/WE26-038
+Name Chino, Modern Artist
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Rabbit House
+Trait2 Coffee
+Combo Cubism
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets IsColor Blue
+	SetXToNumberOfCharacters
+	Peek Deck X
+	ChooseCard Choose a card to add to your hand.
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck. Choose up to 1 to add to your hand and put the rest into the waiting room. X is the number of BLUE characters you have.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && IsColor Blue
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this gets +X power until end of turn. X is the number of other BLUE characters you have times 500
+Auto: OnOpponentReverse
+{
+	If Climax Cubism!
+	{
+		PayCost 2 Discard 2 IsCharacter && IsColor Blue &&& SendSelf WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 0 1 IsColor Blue
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard 2 BLUE character cards from your hand to the waiting room and put this card in the waiting room] When the battle opponent of this becomes reversed, if "Cubism!" is in your climax zone, you may pay cost. If so, choose a BLUE character in your waiting room and put it in the stage position this card was on. 
+EndCard
+
+Character: GU/WE26-039
+Name Megu, Police of Two Rabbits
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Ballet
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Chino
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another character with "Chino" in it's name, this card gains +1500 power.
+Cont: GiveAll
+{
+	If StageContainsOrLess 1 Other
+	{
+		If NameContains Chino
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Auto: If you have 1 or less other characters, all your other characters with "Chino" in name gain +2000 Power.
+EndCard
+
+Character: GU/WE26-040
+Name Chino, Senior Waitress
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Rabbit House
+Trait2 Coffee
+Cont: GiveAll
+{
+	If Other && IsColor Blue
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other BLUE characters get +500 power.
+Act: RestSelf
+{
+	TargetLocation AnyStage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to get +2 Level
+	GainLevel +2
+}
+Text Act: [Rest this] Choose another character, and that character gains +2 level until end of turn.
+EndCard
+
+Character: GU/WE26-041
+Name Chino, Serious Match on the Board
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Rabbit House
+Trait2 Coffee
+*GainPowerForEachOther(500,Rabbit House)
+Auto: OnOpponentReverse
+{
+	If StageContains 1 NameContains Cocoa
+	{
+		UntilEndOfOpponentsTurn
+		GainName Chino, Big Sister
+	}
+}
+Text Auto: When the battle opponent of this becomes reversed, if you have another character with "Cocoa" in name, until the next end of your opponent's turn, this is also considered to have "Chino, Big Sister" as the name. 
+EndCard
+
+Character: GU/WE26-042
+Name Chino, Some Day
+Color B
+Level 1
+Cost 1
+Power 4500
+Trait1 Rabbit House
+Trait2 Coffee
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Cocoa | Rize
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another character with either "Cocoa" or "Rize" in it's name, this card gains +3000 power.
+*OnAttackGainPowerForEachOther(500,Rabbit House)
+EndCard
+
+Character: GU/WE26-043
+Name Maya, Treasure Hunting
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Double Tooth
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck IsCharacter && NameContains Best Shot | Treasure
+	}
+}
+Text Auto: [(1) Put a card from your hand into the waiting room] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to one "Best Shot" or "Treasure" character, and add it to your hand.
+EndCard
+
+Character: GU/WE26-044
+Name Meg, Treasure Hunting
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Ballet
+*HandEncore
+EndCard
+
+Character: GU/WE26-045
+Name Aoyama Blue Mountain, Right Before Deadline
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Novel
+Auto: OnFrontalAttacked
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation Stage
+		NarrowTargets NameContains Cocoa
+		ChooseCharacterFromTargets Choose a character with "Cocoa" to move as the defending character
+		Change
+		BecomeNewBattleOpponent
+	}
+}
+Text Auto: [Put this card in the waiting room] When this card is frontal attacked, you may pay the cost. If you do, choose 1 of your characters with "Cocoa" in the name and move it to the position this card was on as the defending character.
+EndCard
+
+Character: GU/WE26-046
+Image: GU_WE26_046
+Name Chino, Everyone's Best Shot
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Rabbit House
+Trait2 Coffee
+Cont: GiveSelf
+{
+	If StageContains 2 Other && NameContains Best Shot | Treasure
+	{
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				Question_Obvious Draw a card?
+				If Yes
+				{
+					DrawCard 1
+					Discard 1 Any
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may draw a card. If so, discard a card from your hand to the waiting room.
+		}
+	}
+}
+Text Cont: If you have 2 or more other characters with either "Best Shot" or "Treasure" in name, this gains the following ability. "Auto: When this card's battle opponent becomes reversed, you may draw a card. If so, discard a card from your hand to the waiting room."
+EndCard
+
+Character: GU/WE26-047
+Name Chino, Hand-Rowing Boat
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Rabbit House
+Trait2 Coffee
+*GainPowerWhenAttackingLevel3(3000)
+*HandEncore
+EndCard
+
+Climax: GU/WE26-048
+Name Talking in Sleep
+*GateClimax
+EndCard
+
+Climax: GU/WE26-049
+Name Cubism!
+*BlueStockSoul
+EndCard
+
+Climax: GU/WE26-050a
+Image GU_WE26_050a
+Name Full of Best Shot
+Color B
+Trigger DoubleSoul
+Cont: Memory
+{	
+	If NameContains Best Shot | Treasure
+	{
+		GainPower 4000
+	}
+}
+Text Auto: Memory If this is in memory, all your characters with either "Best Shot" or "Treasure" in name gain +4000 Power.
+EndCard
+
+Climax: GU/WE26-050b
+Image GU_WE26_050b
+Name Full of Best Shot
+Color B
+Trigger DoubleSoul
+Cont: Memory
+{	
+	If NameContains Best Shot | Treasure
+	{
+		GainPower 4000
+	}
+}
+Text Auto: Memory If this is in memory, all your characters with either "Best Shot" or "Treasure" in name gain +4000 Power.
+EndCard
+
+Climax: GU/WE26-050c
+Image GU_WE26_050c
+Name Full of Best Shot
+Color B
+Trigger DoubleSoul
+Cont: Memory
+{	
+	If NameContains Best Shot | Treasure
+	{
+		GainPower 4000
+	}
+}
+Text Auto: Memory If this is in memory, all your characters with either "Best Shot" or "Treasure" in name gain +4000 Power.
+EndCard
+
+Character: GU/WE26-051
+Name Mini Syaro, Welcome
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Special Student
+Trait2 Fleur De Lapin
+Auto: OnAttack
+{
+	If StageContains 2 Other && NameContains Syaro | Chiya
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other characters with either "Syaro" or "Chiya" in name, this gains +2000 power until end of turn.
+*ClockEncore
+EndCard
+
+Character: GU/WE26-052
+Name Mini Chiya, Welcome
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Ama Usa An
+Trait2 Wagashi
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets 1 1 Choose a character to gain +1000 power.
+	GainPower 1000
+}
+Text Act: [Rest this] Choose 1 of your characters, and that character gains +1000 power until end of turn.
+EndCard
+
+Character: GU/WE26-053
+Name Mini Cocoa, Welcome
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Rabbit House
+Trait2 Bread
+Auto: OnOpponentsCharacterRests
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When your opponent's standing character becomes rested, this card gains +1500 power until end of turn.
+EndCard
+
+Character: GU/WE26-054
+Name Mini Rize, Welcome
+Color R
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Rabbit House
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Rabbit House
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Rabbit House> characters, this card gets +1000 power and "Auto: <b>Encore</b> [Put 1 character from your hand into your waiting room]".
+*GainPowerWhenOtherAttacks(1000,Rabbit House)
+EndCard
+
+Character: GU/WE26-055
+Name Mini Chino, Welcome
+Color B
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Rabbit House
+Trait2 Coffee
+Backup 3000
+EndCard
+
+Character: GU/WE26-P01
+Name Syaro, Graceful Aura
+Color Y
+Level 2
+Cost 1 
+Power 7500
+Trigger Soul
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Cont: GiveSelf
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			TargetSelf
+			GainPower 4000
+			GainSoul 1
+		}
+	}
+}
+Text Auto: During your turn, if the level of the character this card is facing is 3 or higher, this card gains +4000 power and +1 soul.
+EndCard
+
+Character: GU/WE26-P02
+Name Chiya, Faceful of Happiness
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Ama Usa An
+Trait2 Wagashi
+*OthersCannotSideAttack
+*OnPlayGainPower(1500)
+EndCard
+
+Character: GU/WE26-P03
+Name Syaro, With All Her Heart
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleur De Lapin
+Trait2 Special Student
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If your stock has 3 or less cards, this card gains +1000 power.
+EndCard
+
+Character: GU/WE26-P04
+Name Chiya, With All Her Heart
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Ama Usa An
+Trait2 Wagashi
+Auto: OnUseAct
+{
+	GainPower 1000
+}
+TimesPerTurn 2
+Quick
+Text Auto: This ability activates up to twice per turn. When you use an act ability, this card gains +1000 power until end of turn.
+EndCard
+
+Character: GU/WE26-P05
+Name Rize, With All Her Heart
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Rabbit House
+Trait2 Weapon
+Auto: OnPlay
+{
+	SetXValue OpponentsLevel
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this is placed from hand to the Stage, this gains +X power until end of turn. X = 1000 times the level of your opponent.
+EndCard
+
+Character: GU/WE26-P06
+Name Cocoa, With All Her Heart
+Color R
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Rabbit House
+Trait2 Bread
+Backup 3000
+EndCard
+
+Character: GU/WE26-P07
+Name Chino, With All Her Heart
+Color B
+Level 1
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Rabbit House
+Trait2 Coffee
+*OnPlayScryToBottom
+Cont: Assist
+{
+	SetXToNumberOfCharacters With Cont: ASSIST
+	AddToXValue 1
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: <b> ASSIST </b> Your characters in front of this card gain +X power. X = 500 times the number of your characters with <b> Assist </b> 
+EndCard
+
+Character: GU/WE26-P08
+Name Chimame Corps, Fluffy and Warm
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Trait1 Rabbit House
+Soul 2
+Auto: OnPlay
+{
+	PayCost Discard 1 IsCharacter && IsColor Blue
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [Discard a BLUE Character card from your hand to the waiting room] When this is placed from hand to the stage, you may pay the cost. If so, put the top card of your clock into your stock, and this card gains +1000 power until end of turn.
+Auto: OnAttack
+{
+	If StageContains 2 Other && IsColor Blue
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets 1 1 Choose a character to gain +1 level and +1500 power until end of turn.
+		GainPower 1500
+		GainLevel 1
+	}
+}
+Text Auto: When this character attacks, if you have 2 or more other BLUE characters, choose 1 of your characters, and that character gains +1 level and +1500 power until end of turn.
+EndCard
+
+Character: GU/WE26-P09
+Name Chimame Corps & Chimame Corps
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Rabbit House
+Trait2 Ama Usa An
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Rabbit House | Ama Usa An
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+	GainLevel 1
+}
+Text Auto: When this card attacks, choose 1 of your <Rabbit House> or <Ama Usa An> characters, it gets +1000 power and +1 level until end of turn.
+EndCard
+
+Character: GU/WE26-P10
+Name Petit Rabbit's with beans
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Rabbit House
+*NoEncoreIfReversed
+EndCard
+
+Character: GU/WE26-P11
+Name "Western Cafe" Chino & Cocoa & Riza & Syaro
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Rabbit House
+Trait2 Fleur De Lapin
+Backup 2500
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 2 OrMore
+		AIChoice LoseSoul 1
+		ChooseCharacterFromTargets Choose a character to give -1 soul.
+		LoseSoul 1
+	}
+}
+Text Auto: [(2)] When you use the <b> BACKUP </b> of this, you may pay cost. If so, choose 1 of your opponent's level 2 or higher characters, and that character gets -1 soul until end of turn.
+EndCard
+
+Character: GU/WE26-P12
+Name Everyone Dueting~
+Color R
+Cost 0
+Level 0
+Power 1000
+Trait1 Rabbit House
+*OnPlayScry
+*Revenge(1000)
+EndCard
+

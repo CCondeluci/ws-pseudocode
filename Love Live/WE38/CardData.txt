@@ -1,0 +1,218 @@
+Character: LL/WE38-012
+Name Taking You on a Marvelous Journey~, Eli Ayase
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music && IsCharacter
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a «Music» character, this card gets +2000 power until end of turn. 
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to 4 cards from the top of your deck and search for up to 1 level 1 or higher card, reveal it, put it in your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: LL/WE38-013
+Name Taking You on a Marvelous Journey~, Nico Yazawa
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters NameContains Nico|Maki|Eli
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X equals 500 times the number of your characters with either "Maki", "Nico", or "Eli" in its card name.
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				*CheckAndAddOne(4, NameContains Nico|Maki|Eli && IsCharacter)
+			}
+			Text Auto: When this card's battle opponent becomes reverse, look at up to 4 cards from the top of your deck and search for up to 1 character with either 'Maki', 'Nico', or 'Eli' in its card name, reveal it, put it in your hand, and put the rest into your waiting room.
+		}
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck in your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, look at up to 4 cards from the top of your deck and search for up to 1 character with either 'Maki', 'Nico', or 'Eli' in its card name, reveal it, put it in your hand, and put the rest into your waiting room."
+EndCard
+
+Character: LL/WE38-014
+Name Taking You on a Marvelous Journey~, Nozomi Toujou
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: LL/WE38-017
+Name Taking You on a Marvelous Journey~, Honoka Kousaka
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*OnPlayGainPower(1500)
+*ClimaxExchange
+EndCard
+
+Character: LL/WE38-023
+Name Taking You on a Marvelous Journey~, Umi Sonoda
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 1 OrMore && MyTurn
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY During your turn, if there is a card in your memory, this card gets +3000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: LL/WE38-024
+Name Taking You on a Marvelous Journey~, Kotori Minami
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo Gentle Gaze
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Music
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all your characters are «Music», this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax Gentle Gaze && Compare Experience 2 OrMore
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && IsCharacter
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo EXPERIENCE When this card attacks, if "Gentle Gaze" is in your climax area and if the total level of cards in your level is 2 or higher, put the top 2 cards of your deck into the waiting room, choose up to 1 level X or lower «Music» character in your waiting room and return it to your hand, and this card gets +1000 power until end of turn. X equals total level of levels of cards placed into the waiting room by this card effect. 
+EndCard
+
+Character: LL/WE38-029
+Name Taking You on a Marvelous Journey~, Hanayo Koizumi
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it, put it in your hand, and shuffle your deck.
+*OnAttackGivePower(1000,Any)
+EndCard
+
+Character: LL/WE38-030
+Name Taking You on a Marvelous Journey~, Maki Nishikino
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainLevel 1
+		GainPower 1500
+		GainSpecialEffect CannotSideAttack
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotSideAttack
+			}
+			Text Cont: The character facing this card cannot side attack
+		}
+	}
+}
+Text Auto: If you have 5 or more cards in your hand, this card gets +1 level, +1500 power, and the following ability. "Cont: This card and the character facing this card cannot side attack."
+*RunInFrontOfCharacter
+EndCard
+
+Character: LL/WE38-038
+Name Taking You on a Marvelous Journey~, Rin Hoshizora
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*Healer
+Combo Relaxing Fun Stage
+Auto: OnAttack
+{
+	If Climax Relaxing Fun Stage
+	{
+		Peek OpponentDeck 2
+		Message Choose up to 2 cards to put on top of your opponent's deck.
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard OpponentDeck
+		If Compare TargetCount 2 OrMore
+		{
+			TargetTop OpponentDeck 2
+			Message Choose the order to return the cards (first on top)
+			Reorder
+		}
+		PutTheRestIntoTheWaitingRoom
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Relaxing Fun Stage" is in your climax area, look at up to 2 cards from the top of your opponent's deck, choose up to 2 of them and put them on top of their deck in any order, put the rest into your waiting room, and this card gets +1000 power until end of turn.
+EndCard
+

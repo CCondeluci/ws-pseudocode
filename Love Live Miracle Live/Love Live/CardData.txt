@@ -1,0 +1,742 @@
+Climax: SIL/W109-1337
+Name A New "Live" That Will Come True With You
+*BarClimax
+EndCard
+
+Character: SIL/W109-035
+Name Singing Together, Honoka Kousaka
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Combo A New "Live" That Will Come True With You
+*PowerOnMyTurn(1000)
+Auto: OnSpecificClimaxPlay A New "Live" That Will Come True With You
+{
+	If InLocation CenterStage &&& StageContains 1 Other && HasTrait Music
+	{
+		TargetSelf
+		RememberSlot
+		PayCost SendSelf Hand
+		{
+			Message Choose a level 0 or lower character to place on stage
+			SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel 0 OrLess && IsCharacter && HasTrait Music
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: CxCombo [Return this card to hand] When 'A New "Live" That Will Come True With You' is placed to your climax area, if this card is in your center stage and you have another «Music» character, you may pay the cost. If you do, choose a level 0 or lower «Music» character in your waiting room, place it to the position this card was in and that character gets +500 power until end of turn.
+EndCard
+
+Character: SIL/W109-036
+Name Student Council Room at Dusk, Eli Ayase
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo Before You Know It, It's Dusk
+*EarlyPlayInClock(Singing Together\, Honoka Kousaka)
+Auto: OnPlay
+{
+	GainPower 3000
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Auto: OnSentFromStageToWaitingRoom
+		{
+			Question Return this card to your hand?
+			If Yes
+			{
+				TargetSelf
+				MoveCard Hand
+			}
+		}
+		Text Auto: When this card is placed from the stage to the waiting room, you may return this card to hand.
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, until end of turn this card gets +3000 power, and until the end of your opponent's next turn, this card gets the following ability. "Auto: When this card is placed from the stage to the waiting room, you may return this card to hand."
+Auto: OnAttack
+{
+	If Climax Before You Know It, It's Dusk
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Before You Know It, It's Dusk" is in your climax area, you may deal 1 damage to your opponent. 
+EndCard
+
+Character: SIL/W109-037
+Name Light Pours In, Nozomi Toujou
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*Level0Assist
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SIL/W109-038
+Name Thanking Lecture, Nico Yazawa
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*OnPlayCheckTopAddDiscard(Music)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Music && IsCharacter
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put a «Music» character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: SIL/W109-042
+Name Everybody's Nico Nii, Nico Yazawa
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Auto: OnDamageCancel
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	If HasTarget
+	{
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to put into your opponent's waiting room
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card's damage is canceled, you may choose a level 0 or lower opponent's character and place it in their waiting room.
+EndCard
+
+Character: SIL/W109-043
+Name Let's Attack, Nozomi Toujou
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Music
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 0 OrLess && IsCharacter
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is a level 0 or lower character, you may return this card to hand. (Put the revealed card back)
+*GreenEarlyPlayBomb
+EndCard
+
+Character: SIL/W109-044
+Name Student Council President, Eli
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom IsCharacter
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Put 1 character from your stage in the waiting room] When you use this card's BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent and put it in the waiting room.
+Backup 2500
+EndCard
+
+Character: SIL/W109-045
+Name Let's Cheer~, Eli Ayaze
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	SetXValue TargetCount
+	ChooseCharacterFromTargets Choose a character to gain +X power
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed from hand to stage, choose 1 of your «Music» characters, that character gets +X power. X equals the number of your «Music» characters times 500.
+EndCard
+
+Character: SIL/W109-046
+Name Power of Fortune-telling, Nozomi Toujou
+Color G
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Music
+	{
+		PayCost Send 1 WaitingRoom HasTrait Music && Other
+		{
+			TargetTop Deck 1
+			Reveal
+			If Compare TargetCardsLevel 1 OrLess
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [Place 1 other of your «Music» characters from stage to the waiting room] When this card attacks, if you have another «Music» character, you may pay the cost. If you do, reveal the top card of your deck. If the revealed card is level 1 or lower, put the revealed card in your hand.
+EndCard
+
+Character: SIL/W109-047
+Name Train Your Mind and Body, Nico Yazawa
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Music
+*GainPowerWithEnoughCharacters(1000,2,Music)
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 0 OrLess && IsCharacter
+	SetXValue TargetCount
+	Burn X
+}
+Text Auto: When this card is placed on the stage from your hand, place the top 2 cards of your deck in your waiting room and deal X damage to your opponent. X equals the number of level 0 or lower characters amongst those cards. 
+EndCard
+
+Climax: SIL/W109-049
+Name Before You Know It, It's Dusk
+*BarClimax
+EndCard
+
+Character: SIL/W109-053
+Name Cherry Blossom at Full Bloom, Honoka Kousaka
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Auto: OnPlay
+{
+	If Compare Experience 9 OrMore
+	{
+		MultipleChoiceQuestion Choose an effect to resolve \n1. Heal and gain +2500 power. \n2. Return up to 1 climax in your waiting room to your hand |1|2
+		If Answer 0
+		{
+			*OptionalHeal
+			TargetSelf
+			GainPower 2500
+		}
+		If Answer 1
+		{
+			SearchWaitingRoom IsClimax
+		}
+	}
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, if the total levels of the cards in your level is 9 or more, choose 1 of the following 2 and perform it. "Place up to 1 card from the top of your clock to your waiting room, and for this card turn this card gets +2500 power." "Choose up to 1 climax from your waiting room and return it to your hand."
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Music
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 2 Any
+	}
+}
+Alarm
+Text Auto: ALARM If this card is on top of your clock and the number of «Music» characters you have is 4 or more, at the beginning of your climax phase, draw up to 2 cards, and discard 2 cards from your hand to the waiting room.
+EndCard
+
+Character: SIL/W109-061
+Name Emptying Her Mind, Umi Sonoda
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Music
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				PayCost Discard 1 Any
+				{
+					*CheckAndAdd(3)
+				}
+			}
+			Text Auto: [Put 1 card from hand to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card among them, put it into your hand, and put the rest into waiting room.
+		}
+	}
+}
+Text Cont: During your turn, if the number of other «Music» characters you have is 2 or more, this card gets +2000 power and the following ability. "Auto: [Put 1 card from hand to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card among them, put it into your hand, and put the rest into waiting room."
+*ClockShift(0,red)
+EndCard
+
+Character: SIL/W109-067
+Name Welcome~, Kotori Minami
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+*EarlyPlay4OrMore(Music)
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Music
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all your characters are «Music», this card gets +1000 power.
+*StockHealer
+EndCard
+
+Character: SIL/W109-068
+Name Miracle Live!, Honoka Kousaka
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Combo Shining in the Spring
+*GainPowerWithEnoughCharacters(1000,2,Music)
+Auto: StartAttackPhase
+{
+	If Climax Shining in the Spring &&& StageContains 1 Other && HasTrait Music
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			TargetSelf
+			Stand
+			UntilEndOfOpponentsTurn
+			GainPower 2000
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Shining in the Spring" from your climax area in the waiting room] At the beginning of your attack phase, if you have another «Music» character, you may pay the cost. If you do, stand this card, and this card gets +2000 power until the end of your opponent's next turn.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		Heal
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card attacks, you may pay the cost. If you do, put the top card of your clock in the waiting room.
+EndCard
+
+Character: SIL/W109-071
+Name Heart-Shaped Sign, Kotori Minami
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reverse, if there is a climax in your climax area, you may put the top card of your deck in your stock.
+EndCard
+
+Character: SIL/W109-074
+Name Lady's Smile, Umi Sonoda
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Soul 1
+Trait1 Music
+*GlobalPower(1000,Music)
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		Burn 1
+	}
+}
+Alarm
+Text Auto: ALARM [(1) Put 1 card from your hand to the waiting room] If this card is on top of your clock, at the beginning of your climax phase, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: SIL/W109-084
+Name Neatly in White Clothing, Umi Sonoda
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose a character to return to hand
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there's at least 1 climax among them, you may pay the cost. If you do, choose a character in your waiting room and return it to your hand.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Message Choose a <Music> character to return to hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Music
+		RevealTargets
+		MoveCard Hand
+		*GiveCharacterPower(1000,Music)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand, choose 1 of your other «Music» characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: SIL/W109-085
+Name I'll Do the Overhead Smash, Honoka Kousaka
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets +3000 power.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: SIL/W109-090
+Name Dashing Through the Court, Kotori Minami
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Music
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters HasTrait Music && Other && InLocation CenterStage
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: For each other «Music» character in your center stage, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Climax: SIL/W109-095
+Name Shining in the Spring
+*StandbyClimax
+EndCard
+
+Character: SIL/W109-097
+Name Shyness Through the Smartphone, Maki Nishikino
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Combo I'm Not Quite...!
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: EXPERIENCE If the total level of cards in your level is 2 or higher, this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax I'm Not Quite...! && AllYourCharacters HasTrait Music
+	{
+		*Check4Add1(Music)
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "I'm Not Quite...!" is in your climax area and all your characters are «Music», look at up to 4 cards from the top of your deck and search for up to 1 «Music» character, reveal it, put it in your hand, put the rest into your waiting room, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: SIL/W109-103
+Name Thoughts of Myu's, Hanayo Koizumi
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 4000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of cards in your level is 2 or higher, this card gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Rest 1 HasTrait Music && CardPosition Stand
+	{
+		*ExchangeCardInLevelWithWaitingRoom(Any,Any)
+		TargetLocation Stage
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to gain +1 level
+		GainLevel 1
+	}
+}
+Text Auto: [Rest another of your standing «Music» characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card in your level and a card in your waiting room and exchange them, choose up to 1 of your characters, and that character gets +1 level until end of turn.
+EndCard
+
+Character: SIL/W109-107
+Name Shining on the Rooftop, Rin Hoshizora
+Color B
+Level 2
+Cost 1
+Power 8000
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 5 OrMore
+	{
+		GainPower 4000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of cards in your level is 5, this card gets +4000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, perform trigger check twice during this card attack's trigger Step."
+*ClockShift(0,blue)
+EndCard
+
+Character: SIL/W109-110
+Name Shyness, Hanayo Koizumi
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+*GlobalPower(500,Music)
+*RestGivePower(1500,Music)
+EndCard
+
+Character: SIL/W109-112
+Name Trying for Her Best Time, Rin Hoshizora
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 With Auto: ALARM || With Cont: ALARM || With Auto: SHIFT 
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		Discard 1 Any
+		PutTheRestIntoTheWaitingRoom
+	}
+	Else
+	{
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck and search for up to 1 character with either "ALARM" or "SHIFT", reveal it, put it in your hand, and put the rest into your waiting room. If you put a card in your hand this way, discard a card from your hand to the waiting room.
+*OnPlayGivePower(1000,Any)
+EndCard
+
+Character: SIL/W109-118
+Name Bravely Offering Opinion, Maki Nishikino
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+*LevelAssist
+Act: RestSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1000 power and the ability
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question Put this card's battle opponent on the bottom of your opponent's deck?
+					If Yes
+					{
+						MoveCardToBottom OpponentDeck
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reverse, you may put that character on the bottom of the deck.
+		}
+	}
+}
+Text Act: EXPERIENCE [Rest this card] If the sum of levels of cards in your level is 5 or higher, choose 1 of your characters, and that character gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, you may put that character on the bottom of the deck."
+EndCard
+
+Character: SIL/W109-123
+Name Fully Orange, Hanayo Koizumi
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsCost 0 OrLower
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, choose 1 cost 0 or lower character in your opponent's center stage, and put it into their waiting room.
+Auto: OnDamageCancel
+{
+	PayCost 1
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1)] When the damage dealt by this card is canceled, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: SIL/W109-124
+Name Completing the Spiral, Maki Nishikino
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare ThatCardsLevel 0 OrLess
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If it's level 0 or lower, you may return this card to your hand. 
+EndCard
+
+Character: SIL/W109-133
+Name Pleased to Meet You Nya~, Rin Hoshizora
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+*Healer
+Auto: OnAttack
+{
+	If Compare Experience 9 OrMore
+	{
+		PayCost 2 Discard 1 HasTrait Music && IsCharacter
+		{
+			GainPower 3500
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					Question Stand this card?
+					If Yes
+					{
+						Stand
+					}
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may stand this card.
+			}
+		}
+	}
+}
+Text Auto: EXPERIENCE [(2) Put a «Music» character from your hand to the waiting room] This ability activates up to once per turn. When this card attacks, if the total levels of the cards in your level is 9 or higher, you may pay the cost. If you do, this card gets +3500 power and the following ability until end of turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, you may stand this card."
+EndCard
+
+Climax: SIL/W109-134
+Name I'm Not Quite...!
+*GateClimax
+EndCard
+

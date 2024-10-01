@@ -1,0 +1,2832 @@
+
+Character: SBY/W114-001
+Name Continuation of the dream, Kaede Azusagawa
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax
+	{
+		*Scry
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: When your trigger check reveals a card with a climax, look at the top card of your deck, and put it on the top of your deck or into your waiting room, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SBY/W114-002
+Name Feeling of Dancing, Nodoka Toyohama
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Adolescence
+Trait2 Fashionable
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Backstage && HasTrait Adolescence
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other <Adolescence> characters in your back stage.
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose an ability :\n1: You may put the top card of your clock into the waiting room.\n2: Your opponent puts the top 10 cards of their deck into their waiting room, this card get +3000 power until end of turn.|1|2
+	If Answer 0 
+	{
+		*OptionalHeal
+	}
+	Else 
+	{
+		MillOpponent 10
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of the following 2 abilities and this card gets that ability until the end of your opponent's turn. "You may put the top card of your clock into the waiting room." "Your opponent puts the top 10 cards of their deck into their waiting room, this card get +3000 power until end of turn."
+EndCard
+
+Character: SBY/W114-003
+Name The path I chose for myself, Kaede Azusagawa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adolescence
+Trait2 Animal
+Combo The sea breeze brings courage
+Cont: InHand
+{
+	If LocationContains Level 1 NameEquals Dreams left behind &&& LocationContains Level 1 NameEquals Embrace our feelings, Kaede Azusagawa
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: EXPERIENCE If "Dreams left behind" and "Embrace our feelings, Kaede Azusagawa" are in your level, this card gets -1 level while in your hand.
+Auto: OnSpecificClimaxPlay The sea breeze brings courage
+{
+	If InLocation CenterStage
+	{
+		MultipleChoiceQuestion Choose an effect.\n1: Choose up to 3 <Adolescence> characters in your deck, return 1 cards from among them to your hand, 1 cards from among them to your stock, and put the rest into your waiting room, shuffle your deck, this card gets +3000 power until end of turn.\n2: Deal 2 damage to your opponent.|1|2
+		If Answer 0 
+		{
+			SearchLocationForTargets Deck 0 3 HasTrait Adolescence
+			RevealTargets
+			AIChoice AddToHand
+			Message Choose 1 cards to return to hand
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Hand
+			TargetLocation ScryArea
+			Message Choose 1 cards go to stock
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Stock
+			PutTheRestIntoTheWaitingRoom
+			ShuffleLocation Deck
+			TargetSelf
+			GainPower 3000
+		}
+		Else 
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo When "The sea breeze brings courage" is placed into your Climax Area, if this card is in your center stage, choose 1 of the following effects, and perform it. "choose up to 3 <Adolescence> characters in your deck, return 1 cards from among them to your hand, 1 cards from among them to your stock, and put the rest into your waiting room, shuffle your deck, this card gets +3000 power until end of turn." "Deal 2 damage to your opponent."
+EndCard
+
+Character: SBY/W114-004
+Name I can do my best, Kaede Azusagawa
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnPlay|OnAttack
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand or attacks, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+*YellowLevel0Bomb
+EndCard
+
+Character: SBY/W114-005
+Name Fashion Show, Kaede Azusagawa & Mai Sakurajima
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Adolescence
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Select the effect to activate first \n1. Auto: When this card is placed on the stage from your hand, you may choose a card in your level and a card in your waiting room, and exchange them. \n2. Auto: EXPERIENCE [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if "Dreams left behind" and "Embrace our feelings, Kaede Azusagawa" are in your level, you may pay the cost. If you do, search your deck for up to 1 <Adolescence> character, and add it to your hand.|1|2
+	If Answer 0
+	{
+		If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+		{
+			Question Exchange a card in your waiting room with a card in your level?
+			If Yes
+			{
+				*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+			}
+		}
+		If LocationContains Level 1 NameEquals Dreams left behind &&& LocationContains Level 1 NameEquals Embrace our feelings, Kaede Azusagawa
+		{
+			PayCost Discard 1 Any
+			{
+				SearchDeck HasTrait Adolescence
+			}
+		}
+	}
+	Else
+	{
+		If LocationContains Level 1 NameEquals Dreams left behind &&& LocationContains Level 1 NameEquals Embrace our feelings, Kaede Azusagawa
+		{
+			PayCost Discard 1 Any
+			{
+				SearchDeck HasTrait Adolescence
+			}
+		}
+		If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+		{
+			Question Exchange a card in your waiting room with a card in your level?
+			If Yes
+			{
+				*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+			}
+		}
+	}
+}
+Text Auto: EXPERIENCE [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if "Dreams left behind" and "Embrace our feelings, Kaede Azusagawa" are in your level, you may pay the cost. If you do, search your deck for up to 1 <Adolescence> character, and add it to your hand.
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your level and a card in your waiting room, and exchange them.
+EndCard
+
+Character: SBY/W114-006
+Name Schemer, Mai Sakurajima
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Adolescence
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another <Adolescence> character, this card gets +2000 power until end of turn.
+Auto: OnReversed 
+{
+	PayCost 1 Discard 1 Any SendSelf Memory 
+	{
+		TargetLocation Clock
+		If HasTarget
+		{
+			AIChoice AddToHand
+			ChooseCard Choose a card in your clock to add to your hand.
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: SBY/W114-007
+Name Impish Remark, Mai Sakurajima
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Cooking
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+Auto: OnReverseOpponent
+{
+	IfOther OnStage
+	{
+		Question Put the battle opponent into the opponent's stock?
+		If Yes
+		{
+			TargetOther
+			MoveCard OpponentStock
+			TargetBottom OpponentStock 1
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+EndCard
+
+Character: SBY/W114-008
+Name A fork in the road where thoughts turn, Kaede Azusagawa & Kaede Azusagawa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Adolescence
+Trait2 Animal
+Combo Inside my heart that I have never revealed
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Adolescence
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont:This card gets +1000 power for each of your other <Adolescence> characters in the backstage.
+Auto: OnAttack
+{
+	If Climax Inside my heart that I have never revealed &&& StageContains 1 Other && HasTrait Adolescence
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Adolescence || NameEquals Dreams left behind
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Inside my heart that I have never revealed" is in your climax area and you have another <Adolescence> character, look at up to 4 cards from the top of your deck, choose 1 <Adolescence> character or "Dreams left behind" to add to your hand and put the rest into the waiting room.
+EndCard
+
+Character: SBY/W114-009
+Name Innocence, Uzuki Hirokawa
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Adolescence
+Trait2 Idol
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Adolescence
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have another <Adolescence> character, this card gains +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 CardPosition Stand && Other && HasTrait Adolescence
+		{
+			SearchDeck HasTrait Adolescence
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other <Adolescence> characters] During the turn this card was placed on stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to 1 <Adolescence> character and add it to your hand.
+EndCard
+
+Character: SBY/W114-010
+Name Embrace our feelings, Kaede Azusagawa
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Adolescence
+Trait2 Animal
+Cont: GiveHand 
+{
+	If NameEquals Dreams left behind
+	{
+		ChangeCost -1
+	}
+}
+Text Cont: "Dreams left behind" in your hand get -1 cost.
+Cont: GiveSelf
+{
+	AddToOtherCardsTriggerIcon Soul NameEquals Dreams left behind
+}
+Text Cont: "Dreams left behind" in all of your zones gets soul in the trigger icon.
+*LevelAssistTrait(Adolescence)
+EndCard
+
+Character: SBY/W114-011
+Name Fukashigi no Karte, Kaede Azusagawa
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Adolescence
+Trait2 Animal
+*OnAttackGivePower(1500,Adolescence)
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		If CanMove
+		{
+			MoveToOpenPosition False True
+		}
+	}	
+}	
+Text Auto: [(1)] At the start of your Opponent's Attack Phase, you may pay cost. If so, move this to an empty Slot in the Back Row.
+EndCard
+
+Character: SBY/W114-012
+Name Fukashigi no Karte, Nodoka Toyohama
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Fashionable
+Cont: GiveAll
+{
+	If NameEquals Christmas Present, Nodoka Toyohama
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetTop Deck 2
+				Message Reorder the top 2 card of your deck.
+				Reorder
+			}
+			Text Auto: When this card attacks, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+		}
+	}
+}
+Text Cont: All of your other "Christmas Present, Nodoka Toyohama" gets +1000 power and the following ability. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order."
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Adolescence
+	{
+		SearchDeck NameEquals Christmas Present, Nodoka Toyohama
+	}
+}
+Text Auto: [Put 1 <Adolescence> character from your hand into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Christmas Present, Nodoka Toyohama", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: SBY/W114-013
+Name Natural Idol, Uzuki Hirokawa
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Idol
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+			SetXToNumberOfCharacters Other && HasTrait Adolescence
+			*CheckAndAdd(X)
+	}
+}
+Text Auto: [Put 1 card from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of other <Adolescence> characters you have.
+EndCard
+
+Character: SBY/W114-014
+Name The future we are stepping into together, Kaede Azusagawa & Kaede Azusagawa
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Adolescence
+Trait2 Animal
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals Dreams left behind
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If "Dreams left behind" is in your level, this card gets +3000 power.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: SBY/W114-015
+Name High academic ability Idol, Nodoka Toyohama
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Adolescence
+Trait2 Fashionable
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+*WhenOtherAttackedSacrificeToGivePower(1500,Adolescence)
+EndCard
+
+Character: SBY/W114-016
+Name A moment at home, Mai Sakurajima
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Adolescence
+Trait2 Cooking
+*GainPowerOnPlay(1500)
+Auto: OnAttack
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		IfTarget HasTrigger Choice
+		{
+			TargetTop Deck 1
+			Reveal
+			If Compare TargetCardsLevel 1 OrMore
+			{
+				TargetSelf
+				GainSpecialEffect DoubleTrigger
+			}
+		}
+	}
+}
+Text Auto: When this card attacks, if you have a climax with a Choice trigger icon in your climax area, reveal the top card of your deck. If that card is level 1 or higher, during that attack, perform a trigger check 2 times on the trigger step.
+EndCard
+
+Character: SBY/W114-017
+Name The path I want to take, Kaede Azusagawa & Kotomi Kano
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Adolescence
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adolescence && Other
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Adolescence> characters, and that character gains the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+Act: SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	MoveCard OpponentHand
+}
+Text Act: [Put this card into your waiting room] Choose 1 of your opponent's characters and return it to their hand.
+Endcard
+
+Character: SBY/W114-018
+Name An answer that gives you a pat on the back, Uzuki Hirokawa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Adolescence
+Trait2 Idol
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, choose 1 climax in your waiting room, and return it to your hand.
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrHigher
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Adolescence)
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may choose 1 <Adolescence> character in your waiting room, and put it into your stock.
+EndCard
+
+Character: SBY/W114-019
+Name School information session, Sakuta Azusagawa & Miwako Tomobe
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+*GlobalPower(500,Adolescence)
+Act: 2 RestSelf
+{
+	SearchWaitingRoom IsCharacter && HasTrait Adolescence
+}
+Text Act: [(2) Rest self] Choose a <Adolescence> character in your waiting room and return it to your hand.
+EndCard
+
+Character: SBY/W114-020
+Name Otome Note, Uzuki Hirokawa
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Idol
+Combo Sweet Bullet on stage!!
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adolescence
+	ChooseCharacterFromTargets Choose a character to gain +500 power
+	GainPower 500
+}
+Text Auto: At the beginning of your climax phase, choose one of your <Adolescence> characters, and that character gains +500 power until end of turn.
+Auto: OnSpecificClimaxPlay Sweet Bullet on stage!!
+{
+	If StageContains 2 Other && HasTrait Adolescence
+	{
+		Mill 1
+		If Compare TargetCardsLevel 0 OrLess
+		{
+			BlindStock
+		}
+		If Compare TargetCardsLevel 1 Exactly
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Adolescence
+			ChooseCharacterFromTargets Choose a character to gain +1 soul
+			GainSoul 1
+		}
+		If Compare TargetCardsLevel 2 Exactly
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Adolescence
+			ChooseCharacterFromTargets Choose a character to gain +1 soul
+			GainSoul 1
+		}
+		If Compare TargetCardsLevel 3 OrHigher
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: CxCombo When "Sweet Bullet on stage!!" is placed on your climax area, if you have 2 or more other <Adolescence> characters, put the top card of your deck in the waiting room. If that card is level 0 or less, put the top card of your deck into stock. If level 1 or level 2, choose one of your <Adolescence> characters, and that character gains +1 soul until end of turn. If level 3 or higher, choose up to a character in your waiting room and return it to your hand.
+EndCard
+
+Character: SBY/W114-021
+Name Proceed step by step, Kaede Azusagawa
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Adolescence
+Trait2 Animal
+EndCard
+
+Character: SBY/W114-022
+Name Drama Shooting, Mai Sakurajima
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trigger Soul
+Trait1 Adolescence
+Trait2 Cooking
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Adolescence
+	{
+		GainPower 3000
+		GainEffect
+		{
+			Cont: GiveAll
+			{
+				If NameEquals Wicked Smile, Mai Sakurajima
+				{
+					GainPower 1000
+					GainSoul 1
+				}
+			}
+			Text Cont: All of your other "Wicked Smile, Mai Sakurajima" gets +1000 power and +1 soul.
+		}
+	}
+}
+
+Text Cont: If your have 2 or more other <Adolescence> characters, this card gets +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Adolescence
+	{
+		SearchDeck NameEquals Wicked Smile, Mai Sakurajima
+	}
+}
+Text Auto: [Put 1 <Adolescence> character from your hand into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Wicked Smile, Mai Sakurajima", show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: SBY/W114-023
+Name Thoughts I want to make come true, Kaede Azusagawa
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnUseThisCardsBackup
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Adolescence || NameEquals Dreams left behind
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When you use this card's "<b>Backup</b>", reveal the top card of your deck. If that card is a <Adolescence> character or "Dreams left behind", put it into your hand, choose 1 card in your hand, and put it into your waiting room.
+Backup 2000
+EndCard
+
+Character: SBY/W114-024
+Name Familiar person, Uzuki Hirokawa
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adolescence
+Trait2 Idol
+Auto: OnAttack
+{
+	TargetTop Deck 1 
+	Reveal
+	IfTarget HasTrait Adolescence && IsCharacter
+	{
+		TargetLocation Stage
+		GainPower 3000
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is an <Adolescence> character, all of your characters gain +3000 power and +2 soul until end of turn.
+EndCard
+
+Character: SBY/W114-025
+Name Signs of growth, Kaede Azusagawa
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Adolescence
+Trait2 Animal
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals Dreams left behind
+	{
+		GainPower 4500
+		GainEffect
+		{
+			*HandEncoreTrait(Adolescence)
+		}
+	}
+}
+Text Cont: EXPERIENCE If "Dreams left behind" is in your level, this card gets +4500 power and "Auto: ENCORE [Discard a <Adolescence> character]".
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		IfTarget HasTrigger Choice
+		{
+			Peek Deck 3
+			AIChoice AddToHand
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Hand
+			TargetLocation ScryArea
+			Reorder
+			EndPeek
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card's battle opponent is reversed, if you have a climax with a Choice trigger icon in your climax area, look at up to 3 cards from the top of your deck, choose 1 card to add to your hand, then put the rest back on top of your deck in any order, discard 1 card.
+EndCard
+
+Character: SBY/W114-026
+Name Wicked Smile, Mai Sakurajima
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Adolescence
+Trait2 Cooking
+Combo Sudden Visit
+*EarlyPlay4OrMore(Adolescence)
+Auto: OnSpecificClimaxPlay Sudden Visit
+{
+	If InLocation CenterStage &&& StageContains 4 Other && HasTrait Adolescence
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose another character to give the ability to.
+		AddSelfToTargets
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				Message Choose a character to put in hand.
+				SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+				If HasTarget
+				{
+					RevealTargets
+					MoveCard Hand
+				}
+				Message Choose an <Adolescence> character to put into stock
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Adolescence
+				If HasTarget
+				{
+					RevealTargets
+					MoveCard Stock
+				}
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, choose up to 1 character in your waiting room, return it to your hand, choose up to 1 <Adolescence> character in your waiting room, and put it into your stock.
+		}
+	}
+}
+Text Auto: CxCombo When "Sudden Visit" is placed on your climax area, if this card is in your center stage, and you have 4 or more other <Adolescence> characters, choose this card and 1 of your other characters, and those characters get the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, choose up to 1 character in your waiting room, return it to your hand, choose up to 1 <Adolescence> character in your waiting room, and put it into your stock."
+EndCard	
+
+Character: SBY/W114-027
+Name Ideal world, Nodoka Toyohama
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Adolescence
+Trait2 Fashionable
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget
+	{
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 4500
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +4500 power until the end of your opponent's next turn.
+EndCard
+
+Event: SBY/W114-028
+Name Dreams left behind
+Color Y
+Level 1
+Cost 1
+Effect: 
+{
+	SearchWaitingRoom HasTrait Adolescence
+	If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+	{
+		Question Exchange a card in your waiting room with a card in your level?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+		}
+	}
+}
+Text Choose 1 <Adolescence> character in your waiting room and return it to your hand. You may choose a card in your level and a card in your waiting room, and exchange them.
+Auto: StartOpponentAttackPhase
+{
+	If LocationContains Level 1 NameEquals Embrace our feelings, Kaede Azusagawa &&& LocationContains Level 1 NameEquals The path I chose for myself, Kaede Azusagawa
+	{
+		PayCost 4 SendSelf Memory &&& SendFromLocationToLocation WaitingRoom Level 1 True HasTrait Adolescence
+		{
+			TargetLocation OpponentStage
+        		ChooseCharacterFromTargets Choose a character to give -3 soul.
+        		LoseSoul 3
+		}
+	}
+}
+InLevel
+Text Cont: EXPERIENCE [(4) Put this card into your memory, Put 1 <Adolescence> character from your waiting room to your level] If this card is in your level, and "Embrace our feelings, Kaede Azusagawa" and "The path I chose for myself, Kaede Azusagawa" are in your level, at the start of your opponent's attack phase, you may pay the cost. If you do, choose an opponent's character, and that card gets -3 soul until the end of turn.
+EndCard
+
+Climax: SBY/W114-029
+Name The sea breeze brings courage
+*ChoiceClimax
+EndCard
+
+Climax: SBY/W114-030
+Name Inside my heart that I have never revealed
+*ChoiceClimax
+EndCard
+
+Climax: SBY/W114-031
+Name Sweet Bullet on stage!!
+*ChoiceClimax
+EndCard
+
+Climax: SBY/W114-032
+Name Sudden Visit
+*ChoiceClimax
+EndCard
+
+Character: SBY/W114-033
+Name Cherry Blossoms that carry Feelings, Tomoe Koga
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Adolescence
+Trait2 Smartphone
+Combo Hiding Shyness
+*OnClimaxPlayGivePower(1000)
+Auto: OnSpecificClimaxPlay Hiding Shyness
+{
+	If StageContains 2 Other && HasTrait Adolescence
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchDeck HasTrait Adolescence
+			}
+			Text Auto: When this card's battle opponent becomes reverse, search your deck for up to 1 <Adolescence> character and add it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When "Hiding Shyness" is placed on your climax area, if you have other <Adolescence> characters 2 or more, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reverse, search your deck for up to 1 <Adolescence> character and add it to your hand."
+EndCard
+
+Character: SBY/W114-034
+Name Youth is a Paradox, Rio Futaba
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Adolescence
+Trait2 Science
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(1) Put a card from your hand into the waiting room] When this card is placed on the stage from your hand or leaving from stage to waiting room, you may pay the cost. If you do, search your waiting room for 1 character, and return it to your hand.
+Auto: OnAttack
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to lose -1000 power
+	LosePower 1000
+}
+Text Auto: When this card attacks, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: SBY/W114-035
+Name Encounter on the Beach, Knapsack Kid
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Adolescence
+Trait2 Knapsack
+Text Cont: When you would discard the cards from your hand for the CxCombo effect of your "Mysterious Girl, Knapsack Kid", you may discard this card in place of 2 cards.
+Auto: StartOpponentDrawPhase
+{
+	Mill 2
+	If TargetsContain 1 Compare ThatCardsLevel 2 OrHigher
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, put the top 2 cards of your deck into the waiting room. If a level 2 or higher card is sent, you may return this to your hand.
+EndCard
+
+Character: SBY/W114-036
+Name Presence of Foam, Knapsack Kid
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adolescence
+Trait2 Knapsack
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 IsClimax
+	{
+		DrawCard
+		Discard 1 Any
+		SearchWaitingRoom IsCharacter && HasTrait Adolescence
+	}
+}
+Text Auto: [Discard a climax] When your trigger check reveals a climax, you may pay the cost. If you do, draw 1 card, discard a card, and choose a <Adolescence> character in your waiting room, and return it to your hand.
+*RestGivePower(2500,Adolescence)
+EndCard
+
+Character: SBY/W114-037
+Name Mysterious Girl, Knapsack Kid
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Trait2 Knapsack
+Combo Familiar Girl
+*Healer
+Auto: OnAttack
+{
+	If Climax Familiar Girl
+	{
+		If LocationContains Hand 2 NameEquals Encounter on the Beach, Knapsack Kid &&& LocationContains Hand 3 Any
+		{
+			Question Discard 2 "Encounter on the Beach, Knapsack Kid" instead of 4 other characters?
+			If Yes
+			{
+				ForcePayCost Discard 2 NameEquals Encounter on the Beach, Knapsack Kid &&& Discard 1 Any
+				{
+					Burn 2
+					Burn 5
+				}
+			}
+			Else
+			{
+				Question Discard an "Encounter on the Beach, Knapsack Kid" instead of 2 other characters?
+				If Yes
+				{
+					ForcePayCost Discard 1 NameEquals Encounter on the Beach, Knapsack Kid &&& Discard 3 Any
+					{
+						Burn 2
+						Burn 5
+					}
+				}
+				Else
+				{
+					PayCost Discard 5 Any
+					{
+						Burn 2
+						Burn 5
+					}
+				}
+			}
+		}
+		Else
+		{
+			If LocationContains Hand 1 NameEquals Encounter on the Beach, Knapsack Kid &&& LocationContains Hand 4 Any
+			{
+				Question Discard an "Encounter on the Beach, Knapsack Kid" instead of 2 other characters?
+				If Yes
+				{
+					ForcePayCost Discard 1 NameEquals Encounter on the Beach, Knapsack Kid &&& Discard 3 Any
+					{
+						Burn 2
+						Burn 5
+					}
+				}
+				Else
+				{
+					PayCost Discard 5 Any
+					{
+						Burn 2
+						Burn 5
+					}
+				}
+			}
+			Else
+			{
+				PayCost Discard 5 Any
+				{
+					Burn 2
+					Burn 5
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 5 cards from your hand into your waiting room] When this card attacks, if you have "Familiar Girl" in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent, deal 5 damage to your opponent.
+EndCard
+
+Character: SBY/W114-038
+Name Cute Waitress, Tomoe Koga
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Smartphone
+*OnPlayFlicker
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Adolescence
+	{
+		RevealUpTo Deck 5
+		ChooseCardsFromTargets 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 <Adolescence> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 1 character from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SBY/W114-039
+Name On the way home at sunset, Sakuta Azusagawa
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Adolescence
+*GainPowerWhenOtherAttacks(1000,Adolescence)
+*MoveOtherWithTraitToBackstageOnReverse(Adolescence)
+EndCard
+
+Character: SBY/W114-040
+Name Peeping, Tomoe Koga
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Adolescence
+Trait2 Smartphone
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			If Compare CardsInOpponentsClock 1 OrMore
+			{
+				Question Put the top card of opponent's clock into waiting room to put the battle opponent into clock?
+				If Yes
+				{
+					TargetTop OpponentClock 1
+					MoveCard OpponentWaitingRoom
+					TargetBattleOpponent
+					IfTarget OnStage
+					{
+						MoveCard OpponentClock
+					}
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock.
+	}
+}
+Text Auto: When you use this card's "BACKUP", choose 1 of your battling characters, this turn, it gains the following ability, "Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock."
+Backup 2500
+EndCard
+
+Character: SBY/W114-041
+Name Watch over you kindly, Sakuta Azusagawa
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Adolescence
+Cont: GiveAll
+{
+	If NameEquals Proceed step by step, Kaede Azusagawa
+	{
+		GainEffect
+		{
+			*PowerOnMyTurn(1000)
+		}
+		GainEffect
+		{
+			Auto: OnReversed
+			{
+				TargetTop Deck 1
+				Reveal
+				If Compare TargetCardsLevel 1 OrHigher
+				{
+					Question Return this card to your hand?
+					If Yes
+					{
+						TargetSelf
+						Bounce
+					}
+				}
+			}
+			Text Auto: When this card becomes Reversed in battle, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand.
+		}
+	}
+}
+Text Cont: All of your other "Proceed step by step, Kaede Azusagawa" gets the 2 following ability. "Cont: During your turn, this card gets +1000 power." "Auto: When this card becomes Reversed in battle, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand."
+*500Assist
+EndCard
+
+Character: SBY/W114-042
+Name Happy parfait time, Shoko Makinohara
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Adolescence
+Trait2 Mystery
+Auto: OnPlay
+{
+	ChooseMultipleCharacters 0 2 InLocation Stage
+	GainEffect
+	{
+		*GreenEarlyPlayBomb
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 2 of your characters, and that character gains the following ability until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into your opponent's clock."
+EndCard
+
+Character: SBY/W114-043
+Name A Reliable Advisor, Rio Futaba
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Trait2 Science
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Adolescence
+	{
+		Question Put the top card of your opponent deck into their waiting room?
+		If Yes
+		{
+			MillOpponent 1
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLess
+			ChooseCharacterFromTargets Choose a character to put on the bottom of your opponent's deck.
+			MoveCard OpponentDeck
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a <Adolescence> character, you may put the top card of your opponent deck into their waiting room. If you do, choose 1 level 3 or lower character in your opponent's center stage, and put it at the top of their deck.
+EndCard
+
+Event: SBY/W114-044
+Name To the person you want to Meet
+Color G
+Level 2
+Cost 2
+Requirement StageContains 1 NameContains Knapsack Kid
+Effect: 
+{
+	MoveCard Memory
+}
+Text If you have no character with "Knapsack Kid" in its card name, this card cannot be played from your hand. Put this card into your memory.
+Auto: StartDrawPhase
+{
+	PayCost FlipSelfFaceDown
+	{
+		Burn 2
+	}
+}
+InMemory
+Text Cont: MEMORY [Flip this card face down] If this card is in your memory, at the beginning of your draw phase, you may pay the cost, if you do, deal 2 damage to your opponent.
+EndCard
+
+Climax: SBY/W114-045
+Name Hiding Shyness
+*BarClimax
+EndCard
+
+Climax: SBY/W114-046
+Name Familiar Girl
+*BarClimax
+EndCard
+
+Character: SBY/W114-047
+Name Memories piled up, Mai Sakurajima
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 Level 1 or lower character, put it into your hand, and shuffle your deck. 
+Auto: OnEndOfAttack|OnReversed
+{
+	If InLocation Stage && Not LocationContains Memory 2 Any 
+	{
+		Question Send this card to memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: At the end of this card's attack or this card becomes reversed in battle, if there are 1 or less cards in your memory, you may put this card into your memory. 
+EndCard
+
+Character: SBY/W114-048
+Name Fukashigi no Karte, Mai Sakurajima
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Adolescence
+Trait2 Cooking
+Combo Sudden hot gaze
+Auto: OnAttack
+{
+	If Climax Sudden hot gaze && StageContains 2 Other && HasTrait Adolescence
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Sudden hot gaze" is in your climax area, and you have 2 or more other <Adolescence> characters, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnAttack
+{
+	If LocationContains Memory 1 NameEquals Memories piled up, Mai Sakurajima
+	{
+		GainPower 3000
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				TargetSelf
+				LosePower 3000
+			}
+			Text Auto: When this card attacks, if "Memories piled up, Mai Sakurajima" in your memory, this card gets +3000 power until the end of attack.
+		}
+		GainEffect
+		{
+			Auto: OnThisTriggerCheck
+			{
+				GainEffect
+				{
+					Auto: OnThisTriggerCheck
+					{
+						TargetTop Stock 1
+						MoveCard WaitingRoom
+					}
+					TimesPerTurn 1
+					Quick
+				}
+				TriggerCheck
+			}
+			TimesPerTurn 1
+			Quick
+			Text Auto: When this card attacks, if "Memories piled up, Mai Sakurajima" in your memory, perform the trigger check twice during this attack. If checked twice, put top 1 card of your stock to your waiting room.
+		}
+	}
+}
+Text Auto: When this card attacks, if "Memories piled up, Mai Sakurajima" in your memory, this card gets +3000 power until the end of attack, perform the trigger check twice during this attack. If checked twice, put top 1 card of your stock to your waiting room.
+EndCard
+
+Character: SBY/W114-049
+Name The year I spent with You, Mai Sakurajima
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Trait2 Cooking
+Combo A kiss just for the two of us
+*Healer
+Auto: OnAttack
+{
+	If Climax A kiss just for the two of us
+	{
+		If LocationContainsOrLess Hand 5 Any &&& StageContains 3 Other && IsCharacter
+		{
+			PayCost 1 Discard 1 HasTrait Adolescence
+			{
+				TargetLocation Memory
+				SetXValue TargetsWithDifferentNames
+				If Compare X 3 OrLess
+				{
+					Repeat 2
+					{
+						MillOpponentBottom 2
+						NarrowTargets IsClimax
+						If HasTarget
+						{
+							Burn 2
+						}
+					}
+				}
+				If Compare X 4 OrMore
+				{
+					Repeat 3
+					{
+						MillOpponentBottom 2
+						NarrowTargets IsClimax
+						If HasTarget
+						{
+							Burn 2
+						}
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [(1) Put 1 <Adolescence> character from your hand into your waiting room] When this card attacks, if "A kiss just for the two of us" is in your climax area, your hand has 5 or less cards, and you have 3 or more other characters, you may pay cost. If you do, perform the following action X times. "Put the bottom 2 cards of your opponent's deck into their waiting room. If there is a climax among those cards, deal 2 damage to your opponent." If the total number of cards in your memory area with different name is 3 or less, X is equal to 1, if it is 4 or more, X is equal to 2.
+EndCard
+
+Character: SBY/W114-050
+Name Going out, Kaede Azusagawa
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Animal
+*OnAttackGivePower(1500,Adolescence)
+Auto: OnOpponentReverse
+{
+	If Not StageContains 1 IsCharacter && InLocation Backstage
+	{
+		Peek Deck 2
+		Message Choose a card to place on your back stage.
+		ChooseCardsFromTargets 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess && HasTrait Adolescence
+		PlaceOnStage False False True False
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you do not have another character in your back stage, look at up to 2 cards from the top of your deck, choose up to 1 level 0 or lower <Adolescence> character, put that character in any position of your back stage, and put the rest into your waiting room.
+EndCard
+
+Character: SBY/W114-051
+Name Troubled girl, Kaede Azusagawa
+Color R
+Level 1
+Cost 0
+Power 1000
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower && HasTrait Adolescence
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower <Adolescence> character in your waiting room, and put it on any position of your stage.
+*OnAttackGivePower(4000,Any)
+EndCard
+
+Character: SBY/W114-052
+Name New Scars, Mai Sakurajima
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Cooking
+*RedLevel1Bomb
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any SendSelf Memory
+	{
+		SearchDeck HasTrait Adolescence
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Adolescence> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SBY/W114-053
+Name Sleepover for just the two of Us, Mai Sakurajima
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Adolescence
+Trait2 Cooking
+*LevelAssist
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Adolescence
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Adolescence)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Adolescence> characters, you may choose 1 <Adolescence> character in your waiting room, and put it into your stock.
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Door && LocationContainsWithDifferentNames Memory 2 Any
+	{
+		PeekTop OpponentDeck
+		Question Place this card on the bottom of your opponent deck? (Press no to return it to the top)
+		If Yes
+		{
+			MoveCardToBottom OpponentDeck
+		}
+			If No
+		{
+			EndPeek OpponentDeck
+		}
+		*GiveCharacterPower(1500,Any)
+	}
+}
+Text Auto: MEMORY When your character's trigger check reveals a climax with door in its trigger icon, if your memory has 2 or more cards with different card names, look at the top card of your opponent's deck, put it on the top or bottom of your opponent's deck, choose 1 of your characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: SBY/W114-054
+Name Promise for the Future, Mai Sakurajima
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Trait2 Cooking
+Combo Someday we'll be a family
+Auto: OnPlay|PlacedBy Received Feelings
+{
+	Message Choose a "Someday we'll be a family" to put into your hand
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Someday we'll be a family
+	MoveCard Hand
+	TargetSelf
+	GainPower 1000
+}
+Text Auto: CxCombo When this card is placed on stage from your hand or placed by the effect of 'Received Feelings', search your waiting room for a "Someday we'll be a family", and either add it to your hand, this card gets +1000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Someday we'll be a family
+	{
+		If StageContains 1 Other && HasTrait Adolescence
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+				{
+					GainEffect
+					{
+						Auto: OnAttack
+						{
+							Repeat 3
+							{
+								TargetTop OpponentDeck 1
+								OpponentView
+								OpponentQuestion Question Place this card in your waiting room? (Press no to return it to the top)
+								If Yes
+								{
+									MoveCard WaitingRoom
+								}
+								If No
+								{
+									EndPeek Deck
+								}
+							}
+						}
+					}
+				}
+				Text Auto: When the character facing this card attacks, perform the following action 3 times. "Look at the top card of your deck, and put it on the top of your deck or into your waiting room."
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Someday we'll be a family" is in your climax area, and you have another <Adolescence> character, this card gets +1000 power and the following ability until the end of your opponent's next turn. "Auto: When the character facing this card attacks, perform the following action 3 times. "Look at the top card of your deck, and put it on the top of your deck or into your waiting room.""
+EndCard
+
+Character: SBY/W114-055
+Name Sisterly, Nodoka Toyohama
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Trait2 Fashionable
+Combo Become a Muse
+Cont: GiveAll
+{
+	If Climax Become a Muse
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If "Become a Muse" is in your climax area, all of your characters get +1500 power.
+Auto: StartMyEncoreStep
+{
+	If InLocation CenterStage && Not LocationContains OpponentCenterStage 1 CardPosition Stand &&& Not LocationContains OpponentCenterStage 1 CardPosition Rest
+	{
+		PayCost 2
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: [(2)] At the beginning of your encore step, if this card is in on your center stage and your opponent has no characters in their center stage or all characters on your opponent's center stage are reversed, you may pay the cost. If you do, deal 2 damage to your opponent.
+EndCard
+
+Character: SBY/W114-056
+Name In charge of fashion, Nodoka Toyohama
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Fashionable
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Adolescence
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 <Adolescence> character card from your hand into your waiting room]  When this is placed from hand to the Stage, you may pay cost. If so, draw a card.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Adolescence
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose an <Adolescence> character in your waiting room and return it to your hand.
+EndCard
+
+Character: SBY/W114-057
+Name Thoughts I want to convey, Sakuta Azusagawa
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation Clock
+		AIChoice AddToHand
+		ChooseCard Choose a card in your clock to add to your hand.
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Received Feelings
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Received Feelings" in your waiting room, and return it to your hand.
+EndCard
+
+Character: SBY/W114-058
+Name Unfamiliar everyday life, Kaede Azusagawa
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adolescence && Other
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your another <Adolescence> characters, it gets +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		*Scry
+		AIChoice GainPower 1500
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500		
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, look at the top card of your deck, and put it on the top of your deck or into your waiting room, choose 1 of your characters, and that character gets +1500 power until the end of turn.
+EndCard
+
+Character: SBY/W114-059
+Name The Best Girlfriend, Mai Sakurajima
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnPlay
+{
+	GainPower 3000
+	If Not LocationContains Memory 1 IsColor Red
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Memories piled up, Mai Sakurajima
+		MoveCard Memory
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +3000 power until the end of turn, if there are no <b> Red </b> cards in your memory, you may choose a "Memories piled up, Mai Sakurajima" in your waiting room and put it into your memory.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: SBY/W114-060
+Name Just out of the bath, Kaede Azusagawa
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(2) Put a character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 2500
+EndCard
+
+Character: SBY/W114-061
+Name University Acceptance, Mai Sakurajima
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 2
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnAttack
+{
+	If LocationContainsWithDifferentNames Memory 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue 1500
+		MultiplyXValue TargetCount
+		TargetSelf
+		GainPower X
+	}
+}
+Text Auto: When this card attacks, if your memory has 2 or more cards with different card names, this card gets +X power until end of turn. X is 1500 times the number of characters your opponent has.
+Act: SendSelf Memory
+{
+	SearchDeck NameEquals The year I spent with You, Mai Sakurajima|Fukashigi no Karte, Mai Sakurajima
+}
+ActivationRequirement CardPosition Stand
+Text Act: [Put this standing card into your memory] Search your deck for up to 1 "The year I spent with You, Mai Sakurajima" or "Fukashigi no Karte, Mai Sakurajima", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SBY/W114-062
+Name Anxiety pouring into my heart, Kaede Azusagawa
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Adolescence
+Trait2 Animal
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Adolescence
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Adolescence> characters get +1000 power.
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Adolescence
+	{
+		GainPower 3500
+		GainEffect
+		{
+			*HandEncoreTrait(Adolescence)
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Adolescence> characters, this card gets +3500 power and "Auto: ENCORE [Discard a <Adolescence> character]".
+EndCard
+
+Character: SBY/W114-063
+Name Tears falling down, Kaede Azusagawa
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+	If HasTarget
+	{
+		PlaceOnStage
+		GainPower 2000
+	}
+}
+Text Auto: When this is placed on stage from hand, choose up to 1 character from your hand whose level is equal or lower than your level, place it on stage in any slot, and this turn, it gets +2000 power.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SetXValue CardsInOpponentsStock 
+		TargetLocation OpponentStock
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+		TargetTop OpponentDeck X
+		MoveCard OpponentStock
+	}
+}
+Text Auto: [(2)] When this is placed on stage from hand, you may pay the cost. If you do, Return all of your opponent's stock to their deck, your Opponent shuffles their deck, and put the same number of cards from the top of their deck to their stock, and your opponent puts the same number of cards from the top of your opponent's deck into his or her stock.
+EndCard
+
+Character: SBY/W114-064
+Name Another world, Kaede Azusagawa
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Slow
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Adolescence)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to 4 cards from the top of your deck and search them for up to 1 <Adolescence> character, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SBY/W114-065
+Name Usual way home, Mai Sakurajima
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Adolescence
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give power.
+	SetXValue TargetCardsSoul
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Adolescence> characters, and that character gets +X power until end of turn. X is equal to that character's soul ×1000.
+Auto: OnPlay
+{
+	If LocationContains Memory 1 NameEquals Irreplaceable Existence, Mai Sakurajima
+	{
+		TargetTop Deck 1
+		Reveal
+		IfThatCard IsCharacter && HasTrait Adolescence
+		{
+			MoveCard Hand
+			Discard 1 Any
+		}
+		Else
+		{
+			IfThatCard IsEvent
+			{
+				MoveCard Hand
+				Discard 1 Any
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if "Irreplaceable Existence, Mai Sakurajima" in your memory, reveal the top card of your deck. If that card is an event or an <Adolescence> character, put it into your hand, choose 1 card in your hand, and put it into your waiting room. 
+EndCard
+
+Character: SBY/W114-066
+Name Graduate, Mai Sakurajima
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Door
+	{
+		ChooseMultipleCharacters 0 2 InLocation Stage
+		GainPower 1000
+	}
+}
+Text Auto: When your trigger check reveals a climax with door in its trigger icon, choose up to 2 of your characters, and those characters get +1000 power until end of turn.
+Act: 1 SendSelf Memory
+{
+	If Compare MyLevel 2 OrMore
+	{
+		*CheckAndAdd(2)
+	}
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(1) Put this standing card into your memory] If your level is 2 or higher, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SBY/W114-067
+Name Amulet for two, Mai Sakurajima
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Promise for the Future, Mai Sakurajima
+		SetXValue TargetCount
+		SearchWaitingRoom HasTrait Adolescence && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a level X or lower <Adolescence> character in your waiting room, and return it to your hand. X is the number of "Promise for the Future, Mai Sakurajima" in your waiting room.
+EndCard
+
+Character: SBY/W114-068
+Name Boyfriend introduction, Mai Sakurajima
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 IsCharacter
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets_Optional
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, you may choose 1 cost 0 or lower character in their center stage, and put it into their waiting room.
+Auto: OnAttack
+{
+	If AllYourCharacters HasTrait Adolescence
+	{
+		Peek Deck 2
+		If HasTarget
+		{
+			Message Choose a card to put back on top.
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Deck
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: When this card attacks, if all of your characters are <Adolescence>, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room.
+EndCard
+
+Character: SBY/W114-069
+Name Boyfriend introduction, Mai Sakurajima
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Adolescence
+Trait2 Cooking
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when this card becomes reversed in battle, reveal the top card of your deck, if it is level 2 or higher, you may return this card to hand.
+Auto: StartClimaxPhase
+{
+	If Compare CardsInMemory 1 OrMore
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Adolescence
+		ChooseCharacterFromTargets Choose a character to gain +3000 power
+		GainPower 3000
+	}
+}
+Text Auto: MEMORY At the beginning of your climax phase, if you have a card in your memory, choose one of your <Adolescence> characters, and that character gains +3000 power until end of turn.
+EndCard
+
+Character: SBY/W114-070
+Name Incognito, Mai Sakurajima
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Adolescence
+Trait2 Cooking
+*MemoryBackup
+Backup 2000
+EndCard
+
+Character: SBY/W114-071
+Name Meeting after a long time, Kaede Azusagawa
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnOtherCharacterAttacks
+{
+	TargetOther
+	IfThatCard HasTrait Adolescence
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Adolescence
+		SetXValue TargetCount
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When your other <Adolescence> character attacks, this card gets +X power until end of turn. X is the 500 of other <Adolescence> characters you have times.
+*HandEncore
+EndCard
+
+Character: SBY/W114-072
+Name Benefits of marriage registration, Sakuta Azusagawa
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Adolescence
+*Level3Assist
+Auto: StartClimaxPhase
+{
+	If Compare MarkersUnderThis 3 OrMore
+	{
+		TargetLocation Marker
+		MoveCard WaitingRoom
+		Burn 1
+	}
+}
+Text Auto: At the beginning of your climax phase, if there are 3 or more markers underneath this, put all markers under this card into waiting room, and deal 1 damage to your opponent.
+Auto: OnCancel
+{
+	If Phase Attack &&& OpponentsTurn &&& StageContains 1 Other && NameEquals Promise for the Future, Mai Sakurajima
+	{
+		TargetLocation Stage
+		NarrowTargets HasMarker
+		TargetMarkersUnderTargets
+		SetXValue TargetCount
+		If Compare X 2 OrLess
+		{
+			Message Choose up to 1 card to marker.
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Adolescence
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: During your opponent's attack phase, when damage you receive is canceled, if you have another "Promise for the Future, Mai Sakurajima", and the total number of markers underneath your characters is 2 or less, you may choose 1 <Adolescence> character in your waiting room, and put it face down underneath this card as a marker.
+EndCard
+
+Event: SBY/W114-073
+Name Numerous Memories
+Color R
+Level 2
+Cost 1
+Effect: 
+{
+	MoveCard Memory
+	SearchLocationForTargets WaitingRoom 0 2 IsCharacter && NameContains Mai
+	RevealTargets
+	MoveCard Hand 
+	Discard 1 Any
+	If LocationContains WaitingRoom 6 IsClimax && HasTrigger Door
+	{
+		PayCost 1
+		{
+			Refresh
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Put this card into your memory. Search your waitingroom for up to 2 characters with "Mai" in its card name, reveal them to your opponent, put them into your hand, choose 1 card in your hand, put it into your waiting room.
+Text [(1)] If there are 6 or more climax with Door in its trigger icon in your waiting room, you may pay the cost. If you do, return all of the cards in your waiting room to your deck and shuffle your deck, draw 1 card and discard a card.
+EndCard
+
+Climax: SBY/W114-074
+Name Sudden hot gaze
+*DoorClimax
+EndCard
+
+Climax: SBY/W114-075
+Name A kiss just for the two of us
+*DoorClimax
+EndCard
+
+Climax: SBY/W114-076
+Name Someday we'll be a family
+*DoorClimax
+EndCard
+
+Climax: SBY/W114-077
+Name Become a Muse
+*StandbyClimax
+EndCard
+
+Character: SBY/W114-078
+Name Powder snow that feels warm, Rio Futaba
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Science
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Message Choose up to 1 climax in your deck and return it to your hand
+		SearchLocationForTargets Deck 0 1 IsClimax
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			SearchLocationForTargets Hand 1 1 IsClimax
+			Reveal
+			MoveCard Deck
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 climax card, reveal it to your opponent, and add it to your hand, then reveal a climax card from your hand and put it into your deck then shuffle your deck.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SBY/W114-079
+Name The shape of dreams that will continue from now on, Shoko Makinohara
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Mystery
+Cont: GiveSelf
+{
+	If OpponentsTurn && Compare CardsInHand 4 OrMore
+	{
+		GainLevel 1
+		GainPower 1500
+		GainEffect
+		{
+			*RunInFrontOfCharacter
+		}
+	}
+}
+Text Cont: During your opponent's turn, if the number of cards in your hand is 4 or more, this card gets +1 level , +1500 power, and the following ability. "Auto: At the start of your opponent's attack phase, you may move this card to an open position of your center stage with a character facing it."
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Adolescence
+}
+Text Act: [Discard 1 card, send this to waiting room] Choose 1 <Adolescence> character in your waiting room, add it to hand.
+EndCard
+
+Character: SBY/W114-080
+Name A Momentary Illusion, Knapsack Kid
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Adolescence
+Trait2 Knapsack
+Combo To overcome by Yourself
+*PowerOnMyTurn(3000)
+Auto: OnEndOfAttack
+{
+	If Climax To overcome by Yourself && StageContains 2 Other && HasTrait Adolescence
+	{
+		Peek Deck 1
+		Message Choose a <Adolescence> character or an event to add to hand.
+		ChooseCardFromTargets 0 1 HasTrait Adolescence || IsEvent
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Question Put "A Momentary Illusion, Knapsack Kid" into memory?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Memory
+			ScheduleEffect StartDrawPhase
+			{
+				Effect:
+				{
+					TargetLocation Memory
+					NarrowTargets NameEquals A Momentary Illusion, Knapsack Kid
+					FirstTarget
+					If HasTarget
+					{
+						Message A Momentary Illusion, Knapsack Kid returns from memory.
+						PlaceOnStage false true true false
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if "To overcome by Yourself" is in your climax area and the number of other <Adolescence> characters you have is 2 or more, look at the top card of your deck, choose up to 1 <Adolescence> character or 1 event from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "A Momentary Illusion, Knapsack Kid" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: SBY/W114-081
+Name To the ideal world, Knapsack Kid & Sakuta Azusagawa
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adolescence
+Auto: StartOpponentAttackPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		AIChoice Bounce
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to return to your hand.
+		Bounce
+	}
+}
+Text Auto: [(2) Return this card to your hand] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other characters, and return it to your hand.
+EndCard
+
+Character: SBY/W114-082
+Name Fukashigi no Karte, Shoko Makinohara
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Adolescence
+Trait2 Mystery
+Cont: GiveSelf 
+{
+	If Compare MyLevel 3 OrMore 
+	{
+		GainEffect
+		{
+			Act: 1 SendSelf WaitingRoom
+			{
+				TargetLocation Hand
+				NarrowTargets NameEquals Irreplaceable Existence, Shoko Makinohara
+				FirstTarget
+				Change
+				UntilEndOfOpponentsTurn
+				GainPower 1500
+			}
+			Text Act: [(1) Send this card to waiting room] Choose up to 1 "Irreplaceable Existence, Shoko Makinohara" in your hand, and put it in the stage position that this card was in, it gets +1500 power until the end of your opponent's next turn.
+		}
+	}
+}
+Text Cont: If your level is 3 or higher, this card gets the following ability. "Act: [(1) Send this card to waiting room] Choose up to 1 "Irreplaceable Existence, Shoko Makinohara" in your hand, and put it in the stage position that this card was in, it gets +1500 power until the end of your opponent's next turn."
+EndCard
+
+Character: SBY/W114-083
+Name Fukashigi no Karte, Tomoe Koga
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Smartphone
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*SearchDeckToPlaceOnStage(NameEquals Petit Devil Kouhai\, Tomoe Koga, False)
+	}
+}
+Text Auto: [Discard 1 into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Actress Cafe, Ayaka", and put it in any position of your stage, and shuffle your deck afterwards.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Petit Devil Kouhai, Tomoe Koga
+	ChooseCharacterFromTargets
+	GainPower 2500
+	GainSoul 1
+}
+Text Act: [Rest this card] Choose 1 of your "Petit Devil Kouhai, Tomoe Koga", it get +2500 power and +1 soul until the end of turn.
+Act: RestSelf Discard 1 NameEquals Petit Devil Kouhai, Tomoe Koga
+{
+	SearchWaitingRoom IsCharacter
+}
+Text Act: [Discard 1 "Petit Devil Kouhai, Tomoe Koga", Rest this card] Choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: SBY/W114-084
+Name Fukashigi no Karte, Rio Futaba
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Adolescence
+Trait2 Science
+*LevelAssist
+Act: SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	AIChoice Move
+	ChooseCharacterFromTargets Choose a character to move.
+	MoveToOpenPosition True True
+	TargetLocation Stage
+	NarrowTargets NameEquals Logical Witch, Rio Futaba
+	ChooseCharacterFromTargets
+	GainPower 3500
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			PayCost Discard 2 Any
+			{
+				Burn 1
+			}
+		}
+		Text Auto: [Discard 2 card] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent.
+	}
+}
+Text Act: [Put this card into your waiting room] Choose 1 of your opponent's characters, and move it to another open position of their stage, choose 1 of your "Logical Witch, Rio Futaba", it get +3500 power and the following ability. "Auto: [Discard 2 card] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent."
+EndCard
+
+Character: SBY/W114-085
+Name Cute Younger Girl, Shoko Makinohara
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Adolescence
+Trait2 Mystery
+*EarlyPlay4OrMore(Adolescence)
+Cont: GiveSelf
+{
+	TargetLocation Marker
+	SetXValue 1000
+	MultiplyXValue TargetCount
+	GainPower X
+}
+Text Cont: For each Marker under this, this card gets +1000 Power.
+*Healer
+Auto: OnReverseOpponent 
+{
+	TargetLocation WaitingRoom
+	ChooseCardsFromTargets 0 1 HasTrait Adolescence
+	Marker_FaceDown
+}
+Text Auto: When this card's battle opponent becomes reversed, you may choose an <Adolescence> character in your waiting room and put it face-down underneath this card as marker. 
+EndCard
+
+Character: SBY/W114-086
+Name Hatsukoi Girl, Shoko Makinohara
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Adolescence
+Trait2 Mystery
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1  NameEquals Respective Choices, Shoko Makinohara
+	Change
+	GainPower 2500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question Put that opponent's character to memory?
+			If Yes
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					MoveCard OpponentMemory
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+	}
+}
+Text Act: [(1) Put this card into your waiting room] Choose 1 "Respective Choices, Shoko Makinohara" in your waiting room, put it in the stage position this card was in, it gets +2500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory."
+EndCard
+
+Character: SBY/W114-087
+Name Deja vu, Knapsack Kid
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Adolescence
+Trait2 Knapsack
+Auto: StartClimaxPhase
+{
+	If Compare MyLevel 1 OrMore
+	{
+		PayCost 1 Discard 1 Any
+		{
+			PlaceOnStage False True False False
+		}
+	}
+}
+InWaitingRoom
+Text Auto: [(1) Discard a card] If this card is in your waiting room, and you are level 1 or higher, at the beginning of your climax phase, you may pay the cost. If you do, put this card on any position of your center stage.
+Auto: OnReversedInBattle
+{
+	TargetBattleOpponent
+	SetXValue OpponentsLevel
+	AddToXValue 1
+	IfThatCard Compare ThatCardsLevel X OrMore && OnStage
+	{
+		Question Put the battle opponent on the bottom of the deck?
+		If Yes
+		{
+			MoveCardToBottom OpponentDeck
+			TargetSelf
+			MoveCardToBottom Deck
+		}
+	}
+}
+Quick
+Text Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than your opponent's level, you may put that character on the bottom of your opponent's deck, and put this card at the bottom of your deck.
+EndCard
+
+Character: SBY/W114-088
+Name Two-dimensional figure, Knapsack Kid
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Adolescence
+Trait2 Knapsack
+*GainPowerWhenOtherAttacks(3000,Adolescence)
+Auto: OnAttack
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		TargetTop Deck 1 
+		Reveal 
+		IfTarget IsEvent || HasTrait Adolescence 
+		{
+			MoveCard Hand 
+		}
+	}
+}
+Text Auto: When this card attacks, if you have a climax in your climax area, Reveal the top card of your deck. If that card is an event or an <Adolescence> character, put it into your hand. 
+EndCard
+
+Character: SBY/W114-089
+Name Face with mother, Sakuta Azusagawa
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, put the top card of your clock into your stock, this card gets +3000 power until end of turn.
+Auto: OnEndOfAttack
+{
+	If LocationContains CenterStage 1 Other && NameEquals Promise for the Future, Mai Sakurajima
+	{
+		PayCost 3 Discard 1 Any
+		{
+			Burn 4
+		}
+	}
+}
+Text Auto: [(3) Put 1 card from your hand into your waiting room] At the end of this card's attack, if you have another "Promise for the Future, Mai Sakurajima" in your centerstage, you may pay the cost. If you do, deal 4 damage to your opponent.
+EndCard
+
+Character: SBY/W114-090
+Name Uncle, is that it? Knapsack Kid
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adolescence
+Trait2 Knapsack
+*OnPlayDraw2Discard1
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf Hand
+	{
+		Message Choose up to 1 "Mysterious Girl, Knapsack Kid" in your hand to place on stage
+		SearchLocationForTargets Hand 0 1 NameEquals Mysterious Girl, Knapsack Kid
+		Change
+	}
+}
+Text Auto: [Return this card to your hand] At the start of your climax phase, you may pay the cost. If you do, choose up to 1 "Mysterious Girl, Knapsack Kid" in your hand and place it on the stage position this card was on.
+EndCard
+
+Character: SBY/W114-091
+Name A world without me, Sakuta Azusagawa
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adolescence
+*HexProof
+Auto: StartClimaxPhase
+{
+	If Compare MyLevel 2 OrMore && LocationContains Memory 1 NameEquals Thoughts I want to convey, Sakuta Azusagawa
+	{
+		PayCost 1 SendSelf Memory
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals Benefits of marriage registration, Sakuta Azusagawa
+			FirstTarget
+			Change
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, if your level is 2 or higher, and "Thoughts I want to convey, Sakuta Azusagawa" in your memory, you may pay the cost. If you do, choose 1 "Benefits of marriage registration, Sakuta Azusagawa" in your waitingroom, and put it in the stage position that this card was in.
+*RestGivePower(1500,Any)
+EndCard
+
+Character: SBY/W114-092
+Name Fluttering hair, Knapsack Kid
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adolescence
+Trait2 Knapsack
+*GivePowerOnPlay(1500,Adolescence)
+*OnAttackGivePower(1500,Adolescence)
+EndCard
+
+Character: SBY/W114-093
+Name Mysterious elementary school student, Knapsack Kid
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Knapsack
+Auto: OnPlay
+{
+	TargetLocation OpponentBackstage
+	NarrowTargets Compare ThatCardsLevel OpponentsLevel GreaterThan
+	ChooseCharacterFromTargets Choose a character to make unable to stand.
+	DontStand
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's back stage with level higher than your opponent's level. That character cannot stand during your opponent's next stand phase.
+*DropSearch(Adolescence)
+EndCard
+
+Character: SBY/W114-094
+Name Lost Child, Knapsack Kid
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adolescence
+Trait2 Knapsack
+Combo Lost in life
+Auto: OnClimaxPlay
+{
+	ChooseMultipleCharacters 0 2 InLocation Stage
+	GainPower 1000
+}
+Text Auto: When a climax is placed on your climax area, choose up to 2 of your characters, and those characters gets +1000 power until end of turn.
+Auto: OnSpecificClimaxPlay Lost in life
+{
+	If StageContains 3 Other
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				RevealUpTo Deck 4
+				AIChoice AddToHand
+				ChooseCardsFromTargets 0 2 Compare ThatCardsLevel 1 OrMore
+				RevealTargets
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, look at up to 4 cards from the top of your deck, choose up to 2 card of level 1 or higher, show it to your opponent, add it to your hand, and put the remaining cards in your waiting room.
+		}
+	}
+}
+Text Auto: CxCombo When "Lost in life" is placed on your climax area, if you have 3 or more other characters, Choose 1 of your other characters, it gets the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, look at up to 4 cards from the top of your deck, choose up to 2 card of level 1 or higher, show it to your opponent, add it to your hand, and put the remaining cards in your waiting room."
+EndCard
+
+Character: SBY/W114-095
+Name The day we became a family, Sakuta's mother & Sakuta Azusagawa & Kaede Azusagawa
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Adolescence
+Trait2 Parent and Child
+Cont: GiveAll
+{
+	If OpponentsTurn && Other && HasTrait Adolescence
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn,, all of your other <Adolescence> characters get +1000 power.
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Adolescence
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 2 Any
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and you have 4 or more <Adolescence> characters, at the beginning of your climax phase, draw up to 2 cards, choose 2 cards in your hand, and put them into your waiting room.
+EndCard
+
+Character: SBY/W114-096
+Name Coffee Time, Rio Futaba
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Adolescence
+Trait2 Science
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets Choose up to 1 character to downgrade.
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		Message Choose a character in waiting room to exchange.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: [Discard a card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's level 1 or higher characters, your opponent chooses a level X or lower character in their waiting room and exchanges them. X is the level of the character you chose -1. 
+EndCard
+
+Character: SBY/W114-097
+Name Girl carrying a school bag, Knapsack Kid
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adolescence
+Trait2 Knapsack
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains OpponentClimax 1 IsClimax
+	{
+		TargetMyCharacterInBattle
+		IfTarget HasTrait Adolescence
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Auto: When you use this card's <b> BACKUP </b>, if there is a climax in your opponent's cliamx area, choose 1 of your <Adolescence> characters in battle and that character gains +2000 power until end of turn.
+Backup 2500
+EndCard
+
+Event: SBY/W114-098
+Name Received Feelings
+Color B
+Level 2
+Cost 0
+Effect: 
+{
+	MultipleChoiceQuestion Choose one \n1. Choose up to 2 of your characters, and those characters get +2500 power until end of turn. \n2.[(1) Put 1 character from your stage into your waiting room, Put 1 standing "Thoughts I want to convey, Sakuta Azusagawa" from your stage into your memory] You may pay the cost. If you do, choose a "Promise for the Future, Mai Sakurajima" in your waiting room and put it in any position of your stage, it gets the following ability until end of turn. "Cont: This card cannot be chosen by your opponent's effects."|Choice 1|Choice 2
+	If Answer 0
+	{
+		ChooseMultipleCharacters 0 2 InLocation Stage
+		GainPower 2500
+	}
+	If Answer 1
+	{
+		TargetLocation Stage
+		NarrowTargets NameEquals Thoughts I want to convey, Sakuta Azusagawa
+		SetXValue TargetCount
+		If Compare X 1 Exactly
+		{
+			PayCost 1 Send 1 WaitingRoom Not NameEquals Thoughts I want to convey, Sakuta Azusagawa &&& Send 1 Memory NameEquals Thoughts I want to convey, Sakuta Azusagawa && CardPosition Stand
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals Promise for the Future, Mai Sakurajima
+				PlaceOnStage False True True False
+				GainEffect
+				{
+					*HexProof
+				}
+			}
+		}
+		Else
+		{
+			PayCost 1 Send 1 WaitingRoom Any &&& Send 1 Memory NameEquals Thoughts I want to convey, Sakuta Azusagawa && CardPosition Stand
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals Promise for the Future, Mai Sakurajima
+				PlaceOnStage False True True False
+				GainEffect
+				{
+					*HexProof
+				}
+			}
+		}
+	}
+}
+Text Choose 1 of the following 2 effects and perform it. "Choose up to 2 of your characters, and those characters get +2500 power until end of turn." "[(1) Put 1 character from your stage into your waiting room, Put 1 standing "Thoughts I want to convey, Sakuta Azusagawa" from your stage into your memory] You may pay the cost. If you do, choose a "Promise for the Future, Mai Sakurajima" in your waiting room and put it in any position of your stage, it gets the following ability until end of turn. "Cont: This card cannot be chosen by your opponent's effects.""
+EndCard
+
+Climax: SBY/W114-099
+Name To overcome by Yourself
+*GateClimax
+EndCard
+
+Climax: SBY/W114-100
+Name Lost in life
+*GateClimax
+EndCard
+
+Character: SBY/W114-P01
+Name The future we are walking towards, Mai Sakurajima
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Adolescence
+Trait2 Cooking
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Adolescence
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other <Adolescence> characters.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: SBY/W114-P03
+Name In School Uniform, Kaede Azusagawa
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Adolescence
+Trait2 Animal
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Adolescence && Other
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Adolescence> characters, and that character gains the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost, perform the trigger check twice during this attack."
+Act: SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	MoveCard OpponentHand
+}
+Text Act: [Put this card into your waiting room] Choose 1 of your opponent's characters and return it to their hand.
+Endcard
+

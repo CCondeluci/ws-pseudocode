@@ -1,0 +1,1756 @@
+
+CustomTriggerIcon Light Bulb
+CustomTriggerEffect Light Bulb
+{
+	TargetSelf
+	MoveCard WaitingRoom
+	RevealUpTo Deck 2
+	If HasTarget
+	{
+		Message Choose 1 card put into your stock.
+		ChooseCardsFromTargets 1 1 Any
+		RevealTargets
+		MoveCard Stock
+		TargetLocation Revealed
+		MoveCard Hand
+	}
+}
+CustomTriggerSoul Light Bulb
+
+Character: SRIO/01B-001
+Name コギムーナのおんなのこ こぎみゅん
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost, choose a <Sanrio Characters> character in your waiting room and return it to your hand.
+EndCard
+
+Character: SRIO/01B-002
+Name Blau Party ポムポムプリン
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	SetXvalue MyLevel
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel X OrLess
+	PlaceOnStage False True True False
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it in any position of your stage, that character gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 3
+	{
+		Burn 1
+		GainPower 1500
+	}
+}
+Text Auto: [(3)] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent, this card gets +1500 until end of turn.
+EndCard
+
+Character: SRIO/01B-003
+Name チアリーチャム
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Clock 1 Any
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If your clock has 1 or less card, this card cannot stand during your stand phase.
+*RestGivePower(3000,Sanrio Characters)
+EndCard
+
+Character: SRIO/01B-004
+Name KIRIMIちゃん.
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard IsCharacter && HasTrait Sanrio Characters
+	{
+		TargetLocation Stage
+		GainPower 1500
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a <Sanrio Characters> character, all of your characters gets +1500 power until end of turn.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+	RevealTargets
+	MoveCards Hand
+}
+Text Act: [Put 1 card from your hand into your waiting room, send this card to waiting room] Choose 1 <Sanrio Characters> character in your waiting room, add it to hand.
+EndCard
+
+Character: SRIO/01B-005
+Name コロコロクリリン
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Sanrio Characters
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Sanrio Characters> characters, you may draw 1 card. If you do, discard a card.
+*OnAttackCheck2ChooseTrigger
+EndCard
+
+Character: SRIO/01B-006
+Name まるもふびより モップ
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+*GainPowerWithEnoughCharacters(3000,2,Sanrio Characters)
+Cont: GiveSelf
+{
+	If InLocation CenterStage
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If this card is in your center stage, this card cannot stand during your stand phase.
+EndCard
+
+Character: SRIO/01B-007
+Name ぺたぺたみにりあん
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 2000
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+		RevealTargets
+		MoveCard Hand
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Sanrio Characters
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+		TargetSelf
+		GainTrait Seal
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Sanrio Characters> character in your waiting room, return it to your hand, choose 1 of your other <Sanrio Characters> characters, and that character gets +1000 power and this card gets a trait <Seal> until end of turn.
+*RedLevel1Bomb
+EndCard
+
+Character: SRIO/01B-008
+Name ベレー帽がトレードマーク ポムポムプリン
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Sanrio Characters
+Combo あたたかな日々
+Auto: OnReverseOpponent
+{
+	If Climax あたたかな日々
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal
+		IfThatCard HasTrigger Soul
+		{
+			Question Put into your hand?
+			If Yes
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "あたたかな日々" is in your climax area, you may put the top card of your deck into stock, reveal the top card of your deck. If that card with a soul trigger icon, you may put it into your hand.
+EndCard
+
+Character: SRIO/01B-009
+Name シュガーバニーズ
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 HasTrait Sanrio Characters
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 <Sanrio Characters> character from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SRIO/01B-010
+Name ポムポムプリン
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Sanrio Characters
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotSideAttack
+			}
+			Text Cont: The character facing this card gets the following ability. "Cont: This card cannot side attack."
+		}
+	}
+}
+Text Cont: If the number of other <Sanrio Characters> characters you have is 2 or more, this card gets +1500 power, and the character facing this card gets the following ability. "Cont: This card cannot side attack."
+EndCard
+
+Character: SRIO/01B-011
+Name ポムポムプリン & マフィン & ベーグル & スコーン
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Cont: GiveAll
+{
+	If Other && NameEquals Blau Party ポムポムプリン
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Blau Party ポムポムプリン" gets +1000 power.
+Act: 1 RestSelf Resonate Blau Party ポムポムプリン
+{
+	RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 HasTrait Sanrio Characters
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: RESONATE [(1) Reveal a "Blau Party ポムポムプリン" from your hand, Rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 <Sanrio Characters> character, reveal it, put it into your hand, and put the rest into the waiting room.
+EndCard
+
+Character: SRIO/01B-012
+Name マロンクリーム
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+*OnAttackMill1PutLevel0OnField
+EndCard
+
+Character: SRIO/01B-013
+Name ポムポムプリン & マフィン
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	If LocationContains Clock 3 Any
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If your clock has 3 or more cards, this card gets +3000 power.
+EndCard
+
+Character: SRIO/01B-014
+Name みんなのたあ坊
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	If MyTurn &&& AllYourCharacters HasTrait Sanrio Characters
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Sanrio Characters>, this card gets +2000 power.
+EndCard
+
+Character: SRIO/01B-015
+Name こぎみゅん
+Color Y
+Level 1
+Cost 0
+Power 6000
+Trait1 Sanrio Characters
+*StockOnCancel
+Auto: OnFrontalAttacked
+{
+	TargetSelf
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is frontal attacked, put this card into your waiting room.
+EndCard
+
+Character: SRIO/01B-016
+Name おさるのもんきち
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	Repeat 10
+	{
+		GainPower 1000
+		GainTrait Banana
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, perfrom the following action 10 times. "This card gets +1000 power and a trait <Banana> until end of turn."
+EndCard
+
+Character: SRIO/01B-017
+Name ウサハナ
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Sanrio Characters
+Combo 素敵なパーティー
+Auto: OnAttack
+{
+	If Climax 素敵なパーティー
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal
+		IfThatCard HasTrigger Soul
+		{
+			Question Put into your hand?
+			If Yes
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "素敵なパーティー" is in your climax area, you may put the top card of your deck into stock, reveal the top card of your deck. If that card with a soul trigger icon, you may put it into your hand.
+EndCard
+
+Character: SRIO/01B-018
+Name ウィアーダイナソアーズ！
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 3
+Trait1 Sanrio Characters
+*EarlyPlay2OrLessClimax
+*OnPlayCheck3
+EndCard
+
+Event: SRIO/01B-019
+Name ぼんぼんりぼん
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+	TargetSelf
+	MoveCard Stock
+}
+Text Choose 1 of your characters, it gets the following ability until end of turn. "Auto: [(1)] When this card attacks, you may pay the cost, if you do, during that attack, perform a trigger check 2 times on the trigger step." 
+Text Put this card into your stock.
+EndCard
+
+Climax: SRIO/01B-020
+Name あたたかな日々
+*ChoiceClimax
+EndCard
+
+Climax: SRIO/01B-021
+Name 素敵なパーティー
+*ChoiceClimax
+EndCard
+
+Character: SRIO/01B-022
+Name Blau Party シナモロール
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+*DropSearch(Sanrio Characters)
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess CenterStage 2 Any
+	{
+		TargetFacing
+		If HasTarget
+		{
+			TargetSelf
+			Question Move "Blau Party シナモロール" to another position?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: SRIO/01B-023
+Name ハッピーになりたい男子たち ポチャッコ
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+*GainPowerWithEnoughCharacters(2000,2,Sanrio Characters)
+Auto: OnAttack
+{
+	If LocationContains Climax 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this attacks, if there is a climax in your climax area, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+EndCard
+
+Character: SRIO/01B-024
+Name ハッピーになりたい男子たち タキシードサム
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Combo みんなをちょっとハッピーに
+Auto: StartMyEncoreStep 
+{
+	If InLocation CenterStage && Climax みんなをちょっとハッピーに && FacingIsEmptyOrReversed && StageContains 1 Other && HasTrait Sanrio Characters
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "みんなをちょっとハッピーに" is in your climax area, this card is on your center stage, you have another <Sanrio Characters> character, and there is no character facing this card or the character facing this card is reversed, you may choose 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: SRIO/01B-025
+Name ハッピーになりたい男子たち バッドばつ丸
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Combo ねらえV字回復
+*Healer
+Auto: OnAttack
+{
+	If Climax ねらえV字回復
+	{
+		PayCost Discard 2 Any
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [Put 2 cards from your hand into your waiting room] When this card attacks, if "ねらえV字回復" is in your climax area, you may pay the cost. If you do, deal X damage to your opponent where X is equal to the number of climaxes in your waiting room.
+EndCard
+
+Character: SRIO/01B-026
+Name ポチャッコ
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Auto: OnPlay
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Sanrio Characters
+	{
+		PayCost Discard 1 Any
+		{
+			AIChoice PlaceOnStageStanding
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if you have another <Sanrio Characters> character, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SRIO/01B-027
+Name バッドばつ丸
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsCost 0 OrLower
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, choose 1 cost 0 or lower character in your opponent's center stage, and put it into their waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 <Sanrio Characters> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SRIO/01B-028
+Name ハッピーになりたい男子たち けろけろけろっぴ
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+*OnAttackGivePower(500,Any)
+EndCard
+
+Character: SRIO/01B-029
+Name ハッピーになりたい男子たち あひるのペックル
+Color G
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Cont: GiveAll
+{
+	If MyTurn &&& Other && HasTrait Sanrio Characters
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Sanrio Characters> characters get +1000 power.
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax
+	{
+		*Scry
+	}
+}
+Text Auto: When your trigger check reveals a card with a climax, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+EndCard
+
+Character: SRIO/01B-030
+Name お昼寝が大好き シナモロール
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Sanrio Characters
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 CardPosition Stand && Other && HasTrait Sanrio Characters
+		{
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other <Sanrio Characters> character] During the turn this card was placed on stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 character in you waiting room, and return it to your hand.
+EndCard
+
+Character: SRIO/01B-031
+Name ハッピーになりたい男子たち ハンギョドン
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Cont: InHand
+{
+	If StageContains 1 NameEquals ポチャッコ && StageContains 1 NameEquals ハッピーになりたい男子たち あひるのペックル
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have another "ポチャッコ" and "ハッピーになりたい男子たち あひるのペックル", this gets -1 level while in your hand.
+*Healer
+*HandEncore
+EndCard
+
+Character: SRIO/01B-032
+Name ハンギョドン
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+*GlobalPower(500,Sanrio Characters)
+Auto: OnClimaxPlay
+{
+	PayCost Discard 1 Any
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your climax is placed on your climax area, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: SRIO/01B-033
+Name シナモロール
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Combo いっしょならどこまでも
+Auto: OnSpecificClimaxPlay いっしょならどこまでも
+{
+	PayCost SendSelf Hand
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: CxCombo [Return this card to your hand] When "Guardian of Human Realm" is placed on your climax area, you may pay the cost. If you do, choose 1 <> character in your waiting room, and put it into your stock.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	PerClimax
+	{
+		*Check4Add1(Sanrio Characters)
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck and put them into the waiting room. For each climax revealed, look at up to 4 cards from the top of your deck, choose up to 1 <Sanrio Characters> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: SRIO/01B-034
+Name タキシードサム
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of cards in your hand is 5 or more, this card gets +1000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: SRIO/01B-035
+Name シナモン & カプチーノ & みるく
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+*BondDiscard(お昼寝が大好き シナモロール)
+EndCard
+
+Character: SRIO/01B-036
+Name ルロロマニック
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+*PowerOnMyTurn(1000)
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, perform the trigger check twice during this attack. 
+EndCard
+
+Character: SRIO/01B-037
+Name けろけろけろっぴ
+Color G
+Level 1
+Cost 0
+Power 1500
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Backup 2000
+EndCard
+
+Character: SRIO/01B-038
+Name あひるのペックル
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+*PowerOnMyTurn(4000)
+Auto: OnClimaxPlay
+{
+	PayCost 1 
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsEvent || HasTrait Sanrio Characters
+		{
+			MoveCard Hand 
+		}
+	}
+}
+Text Auto: [(1)] When a climax is placed in your climax area, you may pay the cost. If you do, reveal the top card of your deck. If it is a <Sanrio Characters> character or an event card, put it into your hand.
+EndCard
+
+Character: SRIO/01B-039
+Name シナモン & みるく
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Sanrio Characters
+*GainPowerWithEnoughCharacters(2000,2,Sanrio Characters)
+Auto: OnAttack
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this attacks, you may put the top 3 cards of your deck into the waiting room.
+EndCard
+
+Event: SRIO/01B-040
+Name チョコキャット
+Color G
+Level 2
+Cost 0
+Effect:
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Sanrio Characters
+	{
+		PlaceOnStage False True True False
+	}
+}
+Text Reveal the top card of your deck. If that card is a <Sanrio Characters> character, put it on any position of your stage
+EndCard
+
+Climax: SRIO/01B-041
+Name ねらえV字回復
+Color G
+Trigger Light Bulb
+Cont: GiveAll
+{
+	GainPower 1000
+	GainSoul 1
+}
+Text Cont: All your characters get +1000 power and +1 soul.
+Text Light Bulb: Auto: When this card is triggered, put this card to your waiting room, reveal up to 2 cards from the top of your deck, choose 1 card from among them put into your stock, and put the rest into your hand.
+EndCard
+
+Climax: SRIO/01B-042
+Name みんなをちょっとハッピーに
+Color G
+Trigger Light Bulb
+Cont: GiveAll
+{
+	GainPower 1000
+	GainSoul 1
+}
+Text Cont: All your characters get +1000 power and +1 soul.
+Text Light Bulb: Auto: When this card is triggered, put this card to your waiting room, reveal up to 2 cards from the top of your deck, choose 1 card from among them put into your stock, and put the rest into your hand.
+EndCard
+
+Climax: SRIO/01B-043
+Name いっしょならどこまでも
+Color G
+Trigger Light Bulb
+Cont: GiveAll
+{
+	GainPower 1000
+	GainSoul 1
+}
+Text Cont: All your characters get +1000 power and +1 soul.
+Text Light Bulb: Auto: When this card is triggered, put this card to your waiting room, reveal up to 2 cards from the top of your deck, choose 1 card from among them put into your stock, and put the rest into your hand.
+EndCard
+
+Character: SRIO/01B-044
+Name Blau Party ハローキティ
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+*OnPlayCheckTopTraitOrEventAddDiscard(Sanrio Characters)
+*Act1RestSelfSalvageBrainstorm(Sanrio Characters)
+EndCard
+
+Character: SRIO/01B-045
+Name 立派に輝く星になるために キキ & ララ
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Sanrio Characters && IsCharacter
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Sanrio Characters> character, this card gets +3000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: SRIO/01B-046
+Name Blau Party クロミ
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Sanrio Characters
+Combo ちょっぴりワガママに
+Auto: OnAttack
+{
+	If Climax ちょっぴりワガママに
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Sanrio Characters && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: CxCombo When this card attacks, if "ちょっぴりワガママに" is in your climax area, put 2 cards from the top of your deck into your waiting room, choose up to 1 level X or lower <Sanrio Characters> character in your waiting room, return it to your hand. X is equal to the total level of cards put into your waiting room by this effect.
+EndCard
+
+Character: SRIO/01B-047
+Name Blau Party マイメロディ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Sanrio Characters
+*Level3Assist
+Auto: StartMainPhase
+{
+	PayCost Discard 1 NameEquals Blau Party マイメロディ
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 "Blau Party マイメロディ" from your hand into your waiting room] At the beginning of your main phase, you may pay the cost. If you do, choose 1 <Sanrio Characters> character in your waiting room, and return it to your hand.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets
+	MoveCard Stock
+}
+Text Act: [Rest this card] Choose 1 of your other characters and put it into your stock.
+EndCard
+
+Character: SRIO/01B-048
+Name 夢はピアニストか詩人 ハローキティ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sanrio Characters
+*EarlyPlay4OrMore(Sanrio Characters)
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 0 OrLess && IsCharacter
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a level 0 or lower character, put it into your stock.
+Auto: OnPlay
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Sanrio Characters
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if you have 2 or more other <Sanrio Characters> characters, you may pay the cost. If you do, choose 1 card in your clock and return it to your hand.
+EndCard
+
+Character: SRIO/01B-049
+Name チャーミーキティ
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Auto: StartClimaxPhase
+{
+	If CardNamePlayedThisTurn いっしょだから楽しい ハローキティ
+	{
+		PayCost 1 SendSelf Hand
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Sanrio Characters
+		}
+		
+	}
+}
+Text Auto: [(1) Return this card into your hand] When your other "いっしょだから楽しい ハローキティ" is placed on stage from your hand in this turn, at the start of your Climax Phase, you may pay the cost. If you do, choose 1 <Sanrio Characters> character in your waiting room, and return it to your hand.
+*BondDiscard(いっしょだから楽しい ハローキティ)
+EndCard
+
+Character: SRIO/01B-050
+Name 大のなかよし ハローキティ & ハローミミィ
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1 soul until end of turn.
+		GainSoul 1
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +1 soul until end of turn.
+EndCard
+
+Character: SRIO/01B-051
+Name 幼なじみ ディアダニエル
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Power 2000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && IsCharacter && NameContains ハローキティ
+	{
+		GainPower 6000
+	}
+}
+Text Cont: During your turn, if you have another character with either "ハローキティ" in it's card name, this card gets +6000 power.
+Auto: OnReverseOpponent
+{
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Sanrio Characters
+	RevealTargets
+	MoveCards Hand
+	Discard 1 Any
+}
+Text Auto: When this card's battle opponent is reversed, choose 1 <Sanrio Characters> character in your waiting room, add it to hand, then discard 1 card.
+EndCard
+
+Character: SRIO/01B-052
+Name マイメロディのライバル!? クロミ
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Sanrio Characters
+*GainPowerWithEnoughCharacters(2000,2,Sanrio Characters)
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: When this card becomes reversed, reveal the top card of your deck. If that card is level 2 or higher, put it into your hand.
+EndCard
+
+Character: SRIO/01B-053
+Name いっしょだから楽しい ハローキティ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Sanrio Characters
+Combo 楽しい時間
+Auto: OnSpecificClimaxPlay 楽しい時間
+{
+	If InLocation CenterStage
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 0 2 IsCharacter && Compare ThatCardsCost 0 OrLess
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: CxCombo When "楽しい時間" is placed on your climax area, if this card is in your center stage, choose up to 2 cost 0 or lower characters in your waiting room and place them on your stage.
+EndCard
+
+Character: SRIO/01B-054
+Name すなおで明るい女のコ マイメロディ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sanrio Characters
+Combo おしゃれな気分で
+*StockHealer
+Auto: OnSpecificClimaxPlay おしゃれな気分で
+{
+	If InLocation CenterStage
+	{
+		SearchWaitingRoom IsCharacter
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Sanrio Characters
+		RevealTargets
+		MoveCards Stock
+	}
+}
+Text Auto: CxCombo When "おしゃれな気分で" is placed on your climax area, if this card is in your center stage, choose up to 1 character in your waiting room and return it to your hand, choose up to 1 <Sanrio Characters> character in your waiting room and put it to your stock.
+EndCard
+
+Character: SRIO/01B-055
+Name マイスウィートピアノ
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Sanrio Characters
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Sanrio Characters>, this card gets +1000 power.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Sanrio Characters
+		ChooseCharacterFromTargets Choose a character to return to hand.
+		MoveCard Hand
+	}	
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other <Sanrio Characters> characters, and return it to your hand.
+EndCard
+
+Character: SRIO/01B-056
+Name リトルツインスターズ
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Auto: OnPlay|OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or this card attacks, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: SRIO/01B-057
+Name ウィッシュミーメル
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+*ClimaxExchange
+EndCard
+
+Character: SRIO/01B-058
+Name マイメロディ & マイスウィートピアノ
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock IsCharacter && ColorIs Red
+	{
+		RevealUpTo Deck 2
+		NarrowTargets With No effect
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 red character from your waiting room at the bottom of your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 characters with diamonds from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SRIO/01B-059
+Name クロミ
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Sanrio Characters
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this is placed from hand to the stage, put the top 2 cards of your deck in the waiting room. If there were at least 1 climax card among them, this card gets +2 soul until end of turn.
+EndCard
+
+Character: SRIO/01B-060
+Name ハローキティ
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Sanrio Characters
+*PowerOnMyTurn(4000)
+Auto: OnReverseOpponent
+{
+	TargetTop Deck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Auto: When this card's battle opponent is reversed, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+EndCard
+
+Character: SRIO/01B-061
+Name タイニーチャム
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Sanrio Characters
+*PowerOnMyTurn(2000)
+Auto: OnReverseOpponent
+{
+	PayCost 1 Resonate いっしょだから楽しい ハローキティ
+	{
+		DrawCard
+	}
+}
+Text Auto: RESONATE [(1) Reveal 1 "いっしょだから楽しい ハローキティ" from your hand] When this card's battle opponent is reversed, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: SRIO/01B-062
+Name マイメロディ
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Sanrio Characters
+*GainPowerWithEnoughCharacters(2000,2,Sanrio Characters)
+Auto: OnPlay
+{
+	*ScryToBottom
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, put it on the top or bottom of your deck.
+EndCard
+
+Character: SRIO/01B-063
+Name ディアダニエル
+Color R
+Level 2
+Cost 0
+Trigger Soul
+Power 5000
+Trait1 Sanrio Characters
+Auto: PlacedBy いっしょだから楽しい ハローキティ
+{
+	*PutCardFromWaitingRoomIntoStock(HasTrait Sanrio Characters)
+}
+Text Auto: When this card is placed by the Auto effect of "いっしょだから楽しい ハローキティ", you may choose 1 <Sanrio Characters> character in your waiting room, and put it into your stock.
+Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+{
+	*GiveCharacterPower(2000,Sanrio Characters)
+}
+Text Auto: When this card is placed on the stage from your hand or your waiting room, choose 1 of your <Sanrio Characters> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: SRIO/01B-064
+Name クロミ & バク
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Sanrio Characters
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrHigher
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			RevealTargets
+			MoveCards Hand
+		}
+	}
+}
+Text Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed, you may pay the cost. If you do, search your waiting room for 1 character, and return it to your hand.
+EndCard
+
+Event: SRIO/01B-065
+Name なかよし姉妹
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	PayCost Rest 1 IsCharacter && CardPosition Stand
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+		RevealTargets
+		MoveCard Hand
+		*GiveCharacterPower(5000,Sanrio Characters)
+		GainTrait Apple
+	}
+}
+Text [Rest 1 of your character] You may pay the cost. If you do, choose 1 <Sanrio Characters> character in your waiting room and return it to your hand, choose 1 of your <Sanrio Characters> characters, it gets +5000 power and a trait <Apple> until end of turn.
+EndCard
+
+Climax: SRIO/01B-066
+Name 楽しい時間
+*DoorClimax
+EndCard
+
+Climax: SRIO/01B-067
+Name おしゃれな気分で
+*DoorClimax
+EndCard
+
+Climax: SRIO/01B-068
+Name ちょっぴりワガママに
+*DoorClimax
+EndCard
+
+Event: SRIO/01B-069
+Name Blau Party サンリオキャラクターズ
+Color R
+Level 2
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter && HasTrait Sanrio Characters
+	GainLevel 50
+	Mill 1
+	IfTarget IsCharacter && NameContains ハローキティ
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text All of your <Sanrio Characters> characters gets +50 soul until end of turn.
+Text Put the top card of your deck into your waiting room. If that card is a character with either "ハローキティ" in it's card name, choose 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: SRIO/01S-001
+Name ちょっぴりおせっかい ポチャッコ
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Auto: OnPlay|OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Sanrio Characters
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand or this card attacks, choose 1 of your <Sanrio Characters> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: SRIO/01S-002
+Name 白いこいぬの男のコ シナモロール
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: SRIO/01S-003
+Name 冒険好きで、元気いっぱい けろけろけろっぴ
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+*500Assist
+Act: 1 Discard 1 IsClimax
+{
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Sanrio Characters
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Put 1 climax from your hand into your waiting room] Choose 1 <Sanrio Characters> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SRIO/01S-004
+Name いたずら好きで、あまのじゃく バッドばつ丸
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+*CharacterFacingThisCannotMove
+*OnPlayGainPower(1500)
+EndCard
+
+Character: SRIO/01S-005
+Name さびしがり屋のロマンチスト ハンギョドン
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 3 or less cards, this card gets +1 level and +1500 power.
+EndCard
+
+Character: SRIO/01S-006
+Name だれとでもなかよく ポムポムプリン
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Sanrio Characters
+Auto: OnPlay|OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or this card attacks, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SRIO/01S-007
+Name 明るくやさしい女の子 ハローキティ
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Sanrio Characters
+Text No effect
+EndCard
+
+Character: SRIO/01S-008
+Name 歌とダンスが大好き あひるのペックル
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+Text No effect
+EndCard
+
+Character: SRIO/01S-009
+Name 魔法のカード マイメロディ
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Sanrio Characters
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Sanrio Characters && Compare ThatCardsCost 0 OrLess
+		PlaceOnStage False True True False
+		ScheduleEffectForTargets EndOfTurn
+		{
+			Effect:
+			{
+				If InLocation Stage
+				{
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, choose 1 cost 0 or lower <Sanrio Characters> character in your waiting room, put it on any position of your stage, at the end of turn, put that character into your waiting room.
+EndCard
+
+Character: SRIO/01S-010
+Name 双子のきょうだい星 キキ
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Sanrio Characters
+Text No effect
+EndCard
+
+Character: SRIO/01S-011
+Name 双子のきょうだい星 ララ
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Sanrio Characters
+Text No effect
+EndCard
+
+Character: SRIO/01S-012
+Name とってもオシャレさん マロンクリーム
+Color R
+Level 1
+Cost 1
+Power 7000
+Trait1 Sanrio Characters
+Text No effect
+EndCard
+
+Character: SRIO/01S-013
+Name おしゃれなペンギンの男のコ タキシードサム
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Sanrio Characters
+Trait2 HAPIDANBUI
+*1000Assist
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax
+	{
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: When your character's trigger check reveals a card with a climax, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: SRIO/01S-014
+Name 実はとっても乙女チック！？ クロミ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Sanrio Characters
+Text No effect
+EndCard
+
+Character: SRIO/01S-015
+Name かわいいずきんが宝物 マイメロディ
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sanrio Characters
+Text No effect
+EndCard
+
+Character: SRIO/01S-016
+Name 魔法のカード ハローキティ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sanrio Characters
+Combo 一緒ならいつでも
+*Healer
+Auto: OnDamageCancel
+{
+	If Climax 一緒ならいつでも &&& StageContains 4 Other && IsCharacter && HasTrait Sanrio Characters
+	{
+		Question Stand this card?
+		If Yes
+		{		
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "一緒ならいつでも" is in your climax area, and your have other 4 or more <Sanrio Characters> characters, you may stand this card.
+EndCard
+
+Character: SRIO/01S-017
+Name 魔法のカード クロミ
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	If StageContains 4 Other && IsCharacter && HasTrait Sanrio Characters
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Sanrio Characters> characters, you may put the top card of your deck into stock.
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Sanrio Characters
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Put 1 other <Sanrio Characters> character from your stage into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your clock into your stock.
+EndCard
+
+Climax: SRIO/01S-018
+Name 一緒ならいつでも
+*DoorClimax
+EndCard
+
+Climax: SRIO/01S-019
+Name ハッピーにむかって
+Color R
+*2SoulClimax
+EndCard
+
+Character: SRIO/01S-020
+Name すてきなボーイフレンド ディアダニエル
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Sanrio Characters
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+		Discard 1 Any
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw up to 2 cards, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: SRIO/01S-021
+Name とってもチャーミング チャーミーキティ
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Power 4000
+Trait1 Sanrio Characters
+Act: SendSelf WaitingRoom
+{
+	TargetLocation Stage
+	NarrowTargets With No effect
+	ChooseCharacterFromTargets Choose a character to gain the effect.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 1 OrLess
+			ChooseCharacterFromTargets
+			MoveCard OpponentWaitingRoom
+		}
+		Text Auto: When battle opponent of this card becomes reversed, choose 1 Level 1 or lower character in your opponent's center stage, put it to your opponent's waiting room.
+	}
+}
+Text Act: [Send this card to waiting room] Choose 1 of your characters with diamonds, it gets the following effect until end of turn. "Auto: When battle opponent of this card becomes reversed, choose 1 Level 1 or lower character in your opponent's center stage, put it to your opponent's waiting room."
+EndCard
+
+Character: SRIO/01S-022
+Name いっしょにお出かけ ハローキティ & ハローミミィ
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Sanrio Characters
+Backup 3500
+EndCard
+
+Event: SRIO/01S-023
+Name みんなの人気者
+Color R
+Level 2
+Cost 2
+Effect:
+{
+	Message Choose up to 2 characters.
+	SearchLocationForTargets WaitingRoom 0 2 IsCharacter
+	MoveCard Hand
+}
+Text Choose up to 2 characters in your waiting room, and return it to your hand.
+EndCard

@@ -1,0 +1,2443 @@
+Character: FGO/S87-E001
+Name Bearer of the Holy Lance, The Lion King
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Combo Rhongomyniad
+*GainPowerWithEnoughCharacters(1000,2,Chaldea|Camelot)
+Auto: OnAttack
+{
+	RevealExactly Deck 1
+	If NameEquals The Ritual of Holy Selection || HasTrait Chaldea|Camelot
+	{
+		SetXValue TargetCardsLevel
+		Burn X
+		EndPeek
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is "The Ritual of Holy Selection" or a 《Chaldea》 or 《Camelot》 character, deal X damage to your opponent. X is equal to that card's level. 
+Auto: OnSpecificClimaxPlay Rhongomyniad
+{
+	*OptionalHeal
+}
+Text Auto: CxCombo When "Rhongomyniad" is placed on your climax area, if this card is in your center stage, you may put the top card of your clock into your waiting room.
+EndCard
+
+Character: FGO/S87-E002
+Name Divine Spirit, The Lion King
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveAll
+{
+	If HasTrait Knight of the Round Table && HasMarker
+	{
+		GainTrait Gift
+	}
+}
+Text Cont: All of your other 《Knight of the Round Table》 characters with markers get 《Gift》.
+*GlobalPower(500,Chaldea|Camelot)
+Auto: OnPlay
+{
+	Question_Obvious Look at the top card of your deck and place it face down underneath this card as a marker?
+	If Yes
+	{
+		PeekTop Deck
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may look at the top card of your deck. If you do, put that card face down underneath this card as a marker.
+Act: SendMarker WaitingRoom
+{
+	TargetLocation Stage 
+	NarrowTargets Other
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Act: [Put 1 marker underneath this card into your waiting room] Choose 1 of your other characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E003
+Name Aide to The Lion King, Agravain
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Auto: OnGainMarker
+{
+	TargetMarkersUnderTargets
+	MoveCard WaitingRoom
+}
+Text Auto: When your card is put underneath this card as a marker, put all markers underneath this card into your waiting room.
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	TargetOther
+	IfTarget HasTrait Knight of the Round Table
+	{
+		Question_Obvious Look at the top card of your deck?
+		If Yes
+		{
+			PeekTop Deck
+			EndPeek
+		}
+	}
+}
+Text Auto: When this card or your other 《Knight of the Round Table》 character is placed on the stage from your hand, you may look at the top card of your deck.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: FGO/S87-E004
+Name Unwavering Loyalty, Gawain & The Lion King
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+*BondDiscard(The Ritual of Holy Selection)
+EndCard
+
+Character: FGO/S87-E005
+Name Knight of Sorrow, Tristan
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Auto: OnPlay
+{
+	PayCost HandClock Any
+	{
+		SearchDeck HasTrait Chaldea|Camelot
+	}
+}		
+Text Auto: [Put 1 card from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 《Chaldea》 or 《Camelot》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: FGO/S87-E006
+Name As Long as the Sun Shines, Gawain
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Combo Excalibur Galatine
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If Compare CardsInClock 3 OrMore
+				{
+					GainPower 3000
+				}
+			}
+		}
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets the following ability. "Cont: If your clock has 3 or more cards, this card gets +3000 power."
+Cont: GiveSelf
+{
+	If Compare CardsInClock 3 OrLess
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If your clock has 3 or less cards, this card gets +3000 power.
+Auto: OnAttack
+{
+	If Climax Excalibur Galatine
+	{
+		TargetLocation Stage
+		NarrowTargets HasMarker
+		SetXValue TargetCount
+		SearchWaitingRoom HasTrait Chaldea|Camelot && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Excalibur Galatine" is in your climax area, you may choose 1 level X or lower 《Chaldea》 or 《Camelot》 character in your waiting room, and return it to your hand. X is equal to the total number of markers underneath your characters.
+EndCard
+
+Character: FGO/S87-E007
+Name In the Name of the King of Storms, The Lion King
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 2 RestSelf Rest 1 Other && NameEquals Aide to the Lion King, Agravain
+			{
+				SearchLocationForTargets Hand 1 1 NameEquals Bearer of the Holy Lance, The Lion King
+				PlaceOnStage False True True False
+			}
+			Text Act: [(2) Rest this card and 1 of your "Aide to the Lion King, Agravain"] Choose up to 1 "Bearer of the Holy Lance, The Lion King" in your hand, and put it on any position of your stage.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [(2) Rest this card and 1 of your "Aide to the Lion King, Agravain"] Choose up to 1 "Bearer of the Holy Lance, The Lion King" in your hand, and put it on any position of your stage."
+*Level3Assist
+Act: 1 RestSelf Rest 1 Any
+{
+	SearchWaitingRoom NameEquals The Ritual of Holy Selection
+}
+Text Act: [(1) Rest this card and 1 of your other characters] Choose 1 "The Ritual of Holy Selection" in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S87-E008
+Name Blessed Rampage, Mordred
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Tag EarlyPlay
+	Cont: InHand
+	{
+		If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+		{
+			LoseLevel 1
+		}
+	}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 NameEquals Divine Spirit, The Lion King|In the Name of the King of Storms, The Lion King
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if you have another "Divine Spirit, The Lion King" or "In the Name of the King of Storms, The Lion King" in your back stage, this card gets +4000 power.
+Auto: OnPlay
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your clock into your waiting room.
+EndCard
+
+Character: FGO/S87-E009
+Name Reduced to a Monster, Tristan
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+*GlobalPower(500,Knight of the Round Table)
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger DoubleSoul
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom HasTrait Knight of the Round Table
+		}
+	}
+}
+Text Auto: [(1)] When your character's trigger check reveals a climax with DOUBLE SOUL in its trigger icon, you may pay the cost. If you do, choose 1 《Knight of the Round Table》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S87-E010
+Name Monster With the Heart of a Beast, Tristan
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+*ClimaxExchange
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the ability to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			Question Put the battle opponent into your opponent's stock?
+			If Yes
+			{
+				MoveCard OpponentStock
+				TargetBottom OpponentStock 1
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock. If you do, put the bottom card of your opponent's stock into their waiting room."
+EndCard
+
+Character: FGO/S87-E011
+Name King Who Governs the Holy City, The Lion King
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Text 
+EndCard
+
+Character: FGO/S87-E012
+Name Knight of Iron, Agravain
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Auto: OnPlay
+{
+	*PutCardFromWaitingRoomIntoStock(NameEquals King Who Governs the Holy City\, The Lion King)
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "King Who Governs the Holy City, The Lion King" in your waiting room, and put it into stock.
+EndCard
+
+Character: FGO/S87-E013
+Name Agravain of Iron
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+*OnPlayReorderTop2
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		GainPower 1000
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to move.
+		MoveToOpenPosition True True
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, move it to another open position of their stage, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E014
+Name Raider Knight, Mordred
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Auto: OnClimaxPlay
+{
+	PayCost Discard 1 NameEquals Unwavering Loyalty, Gawain & The Lion King
+	{
+		ScheduleEffect EndOfTurn
+		{
+			Effect:
+			{
+				MoveCard WaitingRoom
+			}
+			Text At the end of the turn, put this card into your waiting room.
+			Quick
+		}
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 2 OrLess
+		ChooseCharacterFromTargets Choose a character to put into the waiting room.
+		MoveCard WaitingRoom
+	}
+}	
+Text Auto: [Put 1 "Unwavering Loyalty, Gawain & The Lion King" from your hand into your waiting room] When your climax is placed on your climax area, if this card is in your center stage, you may pay the cost. If you do, choose 1 level 2 or lower character in your opponent's center stage, put it into their waiting room, and at the end of the turn, put this card into your waiting room.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: FGO/S87-E015
+Name Crumbling Tower at the Ends of the World, Agravain
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	If LocationContains OpponentStage 1 NameContains Lancelot
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If your opponent has a character with "Lancelot(ランスロット)" in its card name, this card gets +4000 power.
+*YellowLevel0Bomb
+EndCard
+
+Character: FGO/S87-E016
+Name Knight of Treachery, Mordred
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Combo Clarent Blood Arthur
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Chaldea|Camelot
+		*GiveOtherCharacterPower(1000,Chaldea|Camelot)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Chaldea》 or 《Camelot》 character in your waiting room, return it to your hand, choose 1 of your other 《Chaldea》 or 《Camelot》 characters, it gets +1000 power until end of turn.
+Auto: OnDamageCancel
+{
+	If Climax Clarent Blood Arthur && StageContains 1 Other && HasTrait Chaldea|Camelot
+	{
+		SearchWaitingRoom HasTrait Chaldea|Camelot
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "Clarent Blood Arthur" is in your climax area, and you have another 《Chaldea》 or 《Camelot》 character, you may choose 1 《Chaldea》 or 《Camelot》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S87-E017
+Name Nightless Holy Punishment, Gawain
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 1 SendSelf WaitingRoom
+			{
+				SearchLocationForTargets Hand 0 1 NameEquals Knight of the Sun, Gawain
+				Change
+			}
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [(1) Put this card into your waiting room] Choose up to 1 "Knight of the Sun, Gawain" in your hand, and put it on the stage position that this card was on."
+Auto: StartClimaxPhase
+{
+	PayCost Resonate The Ritual of Holy Selection
+	{
+		GainPower 1000
+		TargetLocation Clock
+		ChooseCardsFromTargets 0 2 HasTrait Chaldea|Camelot
+		MoveCard Memory
+		ScheduleEffect EndOfTurn
+		{
+			Effect:
+			{
+				SearchLocationForTargets Memory 2 2 IsCharacter
+				MoveCardToBottom Clock
+			}
+			Text Choose 2 characters to put on the bottom of your clock
+		}
+	}
+}
+Text Auto: RESONATE [Reveal 1 "The Ritual of Holy Selection" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, choose up to 2 《Chaldea》 or 《Camelot》 characters in your clock, put them into your memory, and this card gets +1000 power until end of turn. At the end of the turn, choose 2 characters in your memory, and put them at the bottom of your clock in any order.
+EndCard
+
+Character: FGO/S87-E018
+Name Return of the Sacred Sword, The Lion King
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+*GainPowerWithEnoughCharacters(2000,2,Chaldea|Camelot)
+*OnPlayCheckTopAddDiscard(Knight of the Round Table)
+EndCard
+
+Character: FGO/S87-E019
+Name The Mercy of Buddha, Mordred
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}		
+Text Cont: If there is a marker underneath this card, this card gets +2000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+EndCard
+
+Character: FGO/S87-E020
+Name Setting Sun, Gawain
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+*BackupBonus1000(Chaldea|Camelot)
+Backup 2500
+EndCard
+
+Character: FGO/S87-E021
+Name Reversed Fairy Strings User, Tristan
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Combo Failnaught
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2500
+		GainSpecialEffect PowerCannotBeLoweredByOpponent
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +2500 power and the following ability. "Cont: This card's power does not decrease by your opponent's effects."
+Auto: OnDamageCancel
+{
+	If Climax Failnaught
+	{
+		If StageContains 1 MyCard && HasTrait Knight of the Round Table
+		{
+			MultipleChoiceQuestion Choose an effect.\n1. "Choose up to 3 《Knight of the Round Table》 characters in your waiting room, and put them into your stock in any order."\n2. "Choose 1 level 1 or lower character in your opponent's back stage, and put it into their waiting room."|Effect 1|Effect 2
+			If Answer 0
+			{
+				SearchLocationForTargets WaitingRoom 0 3 HasTrait Knight of the Round Table
+				RevealTargets
+				MoveCard Stock
+			}
+			Else
+			{
+				TargetLocation OpponentBackstage
+				NarrowTargets Compare ThatCardsLevel 1 OrLess
+				ChooseCharacterFromTargets Choose a character to put into the waiting room.
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "Failnaught" is in your climax area, and you have another 《Knight of the Round Table》 character, choose 1 of the following effects and perform it. "Choose up to 3 《Knight of the Round Table》 characters in your waiting room, and put them into your stock in any order." "Choose 1 level 1 or lower character in your opponent's back stage, and put it into their waiting room."
+EndCard
+
+Character: FGO/S87-E022
+Name Knight of the Sun, Gawain
+Color Y
+Level 2
+Cost 3
+Trigger Soul
+Power 7000
+Soul 3
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Chaldea|Camelot && InLocation Backstage
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each other 《Chaldea》 or 《Camelot》 character in your back stage.
+EndCard
+
+Event: FGO/S87-E023
+Name The Ritual of Holy Selection
+Color Y
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains The Lion King
+Effect:
+{
+	TargetLocation Stage 
+	NarrowTargets Not HasMarker && HasTrait Knight of the Round Table
+	ChooseCharacterFromTargets Choose a character to give +1000 power and marker this under.
+	GainPower 1000
+	SaveTargets
+	TargetSelf
+	MarkerTargetsUnderSavedTarget_FaceUp
+	*Check4Add1(Chaldea|Camelot)
+}
+Text If you do not have a character with "The Lion King" in its card name, this card cannot be played from your hand.\n Choose 1 of your 《Knight of the Round Table》 characters without markers, put this card face up underneath that character as a marker, it gets +1000 power until end of turn.\nLook at up to 4 cards from the top of your deck, choose up to 1 《Chaldea》 or 《Camelot》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Climax: FGO/S87-E024
+Name Rhongomyniad
+Color Y
+*ChoiceClimax
+EndCard
+
+Climax: FGO/S87-E025
+Name Excalibur Galatine
+Color Y
+*ChoiceClimax
+EndCard
+
+Climax: FGO/S87-E026
+Name Clarent Blood Arthur
+Color Y
+*2SoulClimax
+EndCard
+
+Climax: FGO/S87-E027
+Name Failnaught
+Color Y
+*2SoulClimax
+EndCard
+
+Character: FGO/S87-E028
+Name Ancient Queen of the Heavens, Nitocris
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Camelot
+Trait2 Pharaoh
+Act: 1 Discard 1 IsClimax
+{
+	Message Choose a character in your waiting room and return it to your hand
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Put 1 climax from your hand to your waiting room] Choose 1 character in your waiting room, and return it to your hand.
+Act: 1 RestSelf Resonate The Sun King, Ozymandias 
+{
+	*Check3Add1(Chaldea|Camelot)
+}
+Text Act: RESONATE [(1) Reveal 1 "The Sun King, Ozymandias" in your hand & Rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 《Chaldea》 or 《Camelot》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FGO/S87-E029
+Name Bonze Traveling the Wastelands, Xuanzang Sanzang
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Camelot
+Trait2 Bonze
+Combo Five Elements Mountain Buddha Palm
+*GainPowerWithEnoughCharacters(1000,2,Chaldea|Camelot)
+Auto: OnAttack
+{
+	If Climax Five Elements Mountain Buddha Palm && StageContains 2 HasTrait Chaldea|Camelot
+	{
+		PayCost Discard 1 Any
+		{
+			GainPower 2000
+			*Check2Add1(Chaldea|Camelot)
+			*Check2Add1(Chaldea|Camelot)
+		}
+	}
+}			
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Five Elements Mountain Buddha Palm" is in your climax area, and you have 2 or more other 《Chaldea》 or 《Camelot》 characters, you may pay the cost. If you do, this card gets +2000 power until end of turn, and perform the following action 2 times. "Look at up to 2 cards from the top of your deck, choose up to 1 《Chaldea》 or 《Camelot》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room."
+EndCard
+
+Character: FGO/S87-E030
+Name The Sun King, Ozymandias
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Camelot
+Trait2 Pharaoh
+Combo Ramesseum Tentyris
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 6000
+	}
+}
+Text Cont: If there is a face up marker underneath this card, this card gets +6000 power.
+Auto: OnPlay
+{
+	ScheduleEffect EndOfTurn
+	{
+		Effect:
+		{
+			*OptionalHeal
+		}
+	}
+}
+Text Auto: During the turn that this card is placed on the stage from your hand, at the beginning of the encore step, you may put the top card of your clock into your waiting room.
+Auto: OnReverseOpponent
+{
+	If Climax Ramesseum Tentyris
+	{
+		PayCost 2 Discard 2 Any
+		{
+			TargetBattleOpponent
+			MoveCard OpponentClock
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room] When this card's battle opponent becomes reversed, if "Ramesseum Tentyris" is in your climax area, you may pay the cost. If you do, put that character into your opponent's clock, and deal 2 damage to your opponent. 
+EndCard
+
+Character: FGO/S87-E031
+Name Rescue of the World, Ozymandias
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Camelot
+Trait2 Pharaoh
+Cont: GiveAll
+{
+	If HasTrait Pharaoh && Other
+	{
+		GainEffect
+		{
+			*ClockEncore
+		}
+	}
+}
+Text Cont: All of your other 《Pharaoh》 characters get "Auto: ENCORE [Put the top card of your deck into your clock]".
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			RevealTargets
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with BAR in its trigger icon, you may pay the cost. If you do, choose 1 card in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: FGO/S87-E032
+Name The Mercy of Buddha, Xuanzang Sanzang
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Bonze
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Camelot|Chaldea
+	{
+		Question_Obvious Place revealed card face up underneath this card as a marker?
+		If Yes
+		{
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Camelot》 character, you may put it face up underneath this card as a marker. 
+EndCard
+
+Character: FGO/S87-E033
+Name As a Pharaoh, Nitocris
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Camelot
+Trait2 Pharaoh
+Combo To the Land of Eternity
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Chaldea || IsColor Green
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: If all of your characters are green or 《Chaldea》, this card gets +1000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+Auto: OnAttack
+{
+	If Climax To the Land of Eternity
+	{
+		*PutCardFromWaitingRoomIntoStock(IsColor Green || HasTrait Chaldea)
+	}
+}
+Text Auto: CxCombo When this card attacks, if "To the Land of Eternity" is in your climax area, you may choose 1 green or 《Chaldea》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: FGO/S87-E034
+Name The God King, Ozymandias
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Camelot
+Trait2 Pharaoh
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Other && HasTrait Chaldea || IsColor Green
+	{
+		*OptionalBlindStock
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and you have 4 or more green or 《Chaldea》 characters, at the beginning of your climax phase, you may put the top card of your deck into your stock.
+Act: Send 1 WaitingRoom CardPosition Stand && Not Other
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals The Sun King, Ozymandias
+	ChooseCharacterFromTargets
+	SaveTargets
+	TargetSelf
+	MarkerTargetsUnderSavedTarget_FaceUp
+}
+Text Act: [Put this Stand card into your waiting room] You may choose 1 of your "The Sun King, Ozymandias", and put this card face up underneath that card as a marker.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Chaldea || IsColor Green
+	ChooseCharacterFromTargets Choose a character to give +3000 power.
+	GainPower 3000
+}
+Text Act: [Rest this card] Choose 1 of your green or 《Chaldea》 characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E035
+Name Compassionate Mage Queen, Nitocris
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Camelot
+Trait2 Pharaoh
+*EarlyPlay4OrMore(Chaldea|Camelot)
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Chaldea|Camelot && InLocation Backstage
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each other 《Chaldea》 or 《Camelot》 character in your back stage.
+*Healer
+EndCard
+
+Character: FGO/S87-E036
+Name Influence of the Mage Queen, Nitocris
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Camelot
+Trait2 Pharaoh
+*OnPlayTradeClimaxForCharacter(Any)
+Auto: OnReverse
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question_Obvious Return this card to your hand?
+		TargetSelf
+		Bounce
+	}
+}		
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may return this card to your hand. 
+EndCard
+
+Character: FGO/S87-E037
+Name Where Justice Is, Xuanzang Sanzang
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Camelot
+Trait2 Bonze
+Auto: OnReverseOpponent
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, you may put the top card of your deck into your stock.
+EndCard
+
+Character: FGO/S87-E038
+Name Magnanimous Like the Sun, Ozymandias
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Camelot
+Trait2 Pharaoh
+*GreenEarlyPlayBomb
+EndCard
+
+Character: FGO/S87-E039
+Name Condition for the Alliance, Ozymandias
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Camelot
+Trait2 Pharaoh
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Chaldea|Camelot
+	MillOpponent X
+}
+Quick
+Text Auto: When you use this card's "BACKUP", put the bottom X cards of your opponent's deck into their waiting room. X is equal to the number of 《Chaldea》 or 《Camelot》 characters you have.
+Backup 3000
+EndCard
+
+Character: FGO/S87-E040
+Name Body Outside Body, Xuanzang Sanzang
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Camelot
+Trait2 Bonze
+Auto: OnPlay
+{
+	PayCost Rest 1 CardPosition Stand && HasTrait Chaldea|Camelot
+	{
+		TargetLocation Deck
+		ChooseCardsFromTargets 0 2 NameEquals Where Justice Is, Xuanzang Sanzang
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Rest 1 of your standing 《Chaldea》 or 《Camelot》 characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 2 "Where Justice Is, Xuanzang Sanzang", put them on separate positions of your stage, and shuffle your deck.
+Auto: OnClimaxPlay
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E041
+Name Guardian of the Egyptian Region, Nitocris
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Camelot
+Trait2 Pharaoh
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 1 RestSelf Discard 1 Any
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals The God King, Ozymandias
+				PlaceOnStage False True True False
+			}
+			Text Act: [(1) Put 1 card from your hand into your waiting room & Rest this card] Choose 1 "The God King, Ozymandias" in your waiting room, and put it on any position of your stage.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [(1) Put 1 card from your hand into your waiting room & Rest this card] Choose 1 "The God King, Ozymandias" in your waiting room, and put it on any position of your stage."
+*Level3Assist
+EndCard
+
+Character: FGO/S87-E042
+Name Provocative Gaze, Nitocris
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Camelot
+Trait2 Pharaoh
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Chaldea|Camelot
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you have another <Chaldea> or <Camelot> character, this card gets +3000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: FGO/S87-E043
+Name Joining Up With Counterattack Forces, Xuanzang Sanzang
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Camelot
+Trait2 Bonze
+*OnPlayGivePower(1500,Chaldea|Camelot)
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return this card to hand?
+		If Yes
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: During this card's battle, when the damage you received is canceled, you may return this card to your hand.
+EndCard
+
+Character: FGO/S87-E044
+Name King Among Kings, Ozymandias
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Pharaoh
+*BondDiscard(The Sun King's Holy Grail)
+Auto: OnOtherReversed
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetOther
+		Rest
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other 《Chaldea》 or 《Camelot》 character becomes reversed in battle, if this card is in your back stage, you may pay the cost. If you do, Rest that character.
+EndCard
+
+Character: FGO/S87-E045
+Name Confrontation Against the Strong, Xuanzang Sanzang
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Bonze
+*DropSearch(Chaldea|Camelot)
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 IsCharacter
+	{
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: [Return 2 characters from your waiting room to your deck & Shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card's soul does not decrease by side attacking until end of turn.
+EndCard
+
+Character: FGO/S87-E046
+Name Pharaoh's Divine Authority, Ozymandias
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Camelot
+Trait2 Pharaoh
+Cont: GiveSelf
+{
+	If OpponentsTurn && AllYourCharacters HasTrait Chaldea|Camelot
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: During your opponent's turn, if all of your characters are 《Chaldea》 or 《Camelot》, this card gets +1 level and +1500 power.
+EndCard
+
+Character: FGO/S87-E047
+Name Delivery of an Unneeded Item, Nitocris
+Color G
+Level 1
+Cost 1
+Power 5000
+Trait1 Camelot
+Trait2 Pharaoh
+*CannotBeReversedByCost0
+*GainPowerWhenOtherAttacks(1000,Chaldea|Camelot)
+EndCard
+
+Event: FGO/S87-E048
+Name The Sun King's Holy Grail
+Color G
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 1 OrHigher
+	ChooseCharacterFromTargets Choose a character to exchange.
+	*Downgrade
+}
+Text Choose 1 of your opponent's level 1 or higher characters, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.
+EndCard
+
+Climax: FGO/S87-E049
+Name Ramesseum Tentyris
+Color G
+*BarClimax
+EndCard
+
+Climax: FGO/S87-E050
+Name To the Land of Eternity
+Color G
+*BarClimax
+EndCard
+
+Climax: FGO/S87-E051
+Name Five Elements Mountain Buddha Palm
+Color G
+*BarClimax
+EndCard
+
+Character: FGO/S87-E052
+Name Girl of Poison, Hassan of the Serenity
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Auto: OnReverse
+{
+	Question Reveal up to 3 cards from top of deck? 
+	If Yes
+	{
+		RevealUpTo Deck 3
+		Question Choose 1 《Chaldea》 or 《Camelot》 character from among these cards, put it in hand, and then discard 1 card?
+		If Yes
+		{
+			ChooseCardsFromTargets 1 1 HasTrait Chaldea|Camelot
+			MoveCard Hand
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you revealed 1 or more cards, choose up to 1 《Chaldea》 or 《Camelot》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: FGO/S87-E053
+Name Radiant Agateram, Bedivere
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Camelot
+Trait2 Wandering Knight
+Combo Switch On - Agateram
+*GainPowerWithEnoughCharacters(1000,2,Chaldea|Camelot)
+Auto: OnAttack
+{
+	If Climax Switch On - Agateram
+	{
+		GainPower 2000
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Chaldea|Camelot && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Switch On - Agateram" is in your climax area, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Chaldea》 or 《Camelot》 character in your waiting room, return it to your hand, and this card gets +2000 power until end of turn. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: FGO/S87-E054
+Name Silver Knight of Violet, Bedivere
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Camelot
+Trait2 Wandering Knight
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue  TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each character in your opponent's back stage.
+*StockHealer
+EndCard
+
+Character: FGO/S87-E055
+Name Night Before the Decisive Battle, Hassan of the Serenity
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Chaldea|Camelot
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Chaldea》 or 《Camelot》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S87-E056
+Name Loyal Knight, Bedivere
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Wandering Knight
+*OnPlayScry
+*MillRunner(Chaldea|Camelot)
+EndCard
+
+Character: FGO/S87-E057
+Name Replica, Bedivere
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Camelot
+Trait2 Wandering Knight
+Combo Switch On - Agateram
+Act: 2 Clock
+{
+	GainPower 1000
+	Message Choose a climax named "Switch On - Agateram" and put it into your climax area
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Switch On - Agateram
+	MoveCard Climax
+}
+Text Act: CxCombo [(2) Put the top card of your deck into your clock] Choose 1 "Switch On - Agateram" in your waiting room, put it on your climax area, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E058
+Name Arrow of All His Strength, Arash
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Camelot
+Trait2 Hero
+Combo Stella
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnEndOfAttack
+{
+	If Climax Stella
+	{
+		PayCost 3 SendSelf WaitingRoom
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 2 OrLess
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [(3) Put this card into your waiting room] At the end of this card's attack, if "Stella" is in your climax area, you may pay the cost. If you do, put all level 2 or lower characters from your opponent's center stage into their waiting room.
+EndCard
+
+Character: FGO/S87-E059
+Name Independent Knight, Lancelot
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Combo Lancelot of the Light of the Lake
+*GainPowerWithEnoughCharacters(2000,2,Chaldea|Camelot)
+*Healer
+Auto: OnSpecificClimaxPlay Lancelot of the Light of the Lake
+{
+	If InLocation CenterStage
+	{
+		GainPower 2000
+		GainSoul 1
+		TargetLocation OpponentWaitingRoom
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: CxCombo When "Lancelot of the Light of the Lake" is placed on your climax area, if this card is in your center stage, choose up to 2 cards in your opponent's waiting room, return them to their deck, your opponent shuffles their deck, and this card gets +2000 power and +1 soul until end of turn.
+EndCard
+
+Character: FGO/S87-E060
+Name First Hassan-i Sabbah "Old Man of the Mountain"
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 11000
+Soul 2
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Backstage 1 Any
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If you have 1 or less characters in your back stage, this card cannot attack.
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Chooose a character to give -4500 power.
+	LosePower 4500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -4500 power until end of turn.
+Auto: StartAttackPhase|StartOpponentAttackPhase
+{
+	If InLocation CenterStage
+	{
+		BlockEncore
+		BlockOpponentEncore
+	}
+}
+Text Auto: At the beginning of all players' attack phase, if this card is in the center stage, all players cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: FGO/S87-E061
+Name Arash Kamangir
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Camelot
+Trait2 Hero
+Combo Stella
+Auto: OnSpecificClimaxPlay Stella
+{
+	If Compare MyLevel 1 OrMore
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets Hand 0 1 NameEquals Arrow of All His Strength, Arash
+			Change
+		}
+	}
+}		
+Text Auto: CxCombo [Put this card into your waiting room] When "Stella" is placed on your climax area, if your level is 1 or higher, you may pay the cost. If you do, choose up to 1 "Arrow of All His Strength, Arash" in your hand, and put it on the stage position that this card was on.
+Auto: OnReversed
+{
+	If OpponentsTurn && InLocation Stage
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffect StartMyEncorePhase
+			{
+				Effect:
+				{
+					TargetSelf
+					If InLocation Stage
+					{
+						MoveCard WaitingRoom
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: FGO/S87-E062
+Name Grand Assassin "Old Man of the Mountain"
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+*OnPlayFlicker
+*BondDiscard(Evening Bell)
+EndCard
+
+Character: FGO/S87-E063
+Name The Way of a Round Table Knight, Lancelot
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*MoveOtherToBackstageOnReverse
+		}
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +2000 power and the following ability. "Auto: When this card's battle opponent becomes reversed, choose 1 of your other 《Chaldea》 or 《Camelot》 characters, Rest it, and move it to an open position of your back stage."
+Auto: OnPlay|OnPlacedOnStageFromWaitingroom
+{
+	If StageContains 1 NameEquals Divine Spirit, The Lion King || NameEquals In the Name of the King of Storms, The Lion King
+	{
+		*OnPlayChooseMarker(NameEquals The Ritual of Holy Selection)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or waiting room, if you have another "Divine Spirit, The Lion King" or "In the Name of the King of Storms, The Lion King", you may choose 1 "The Ritual of Holy Selection" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Character: FGO/S87-E064
+Name Dance of Pale Death, Hassan of the Serenity
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+Cont: Global
+{
+	IfOwner CardPosition Rest
+	{
+        If InLocation CenterStage || InLocation OpponentCenterStage
+        {
+            If Not NameContains Fujimaru && Not NameContains Arash && Not NameContains Hassan
+            {
+                LosePower 500
+            }
+        }
+	}
+}
+Text Cont: If this card is rested, all players' characters in their center stage without "Fujimaru(藤丸)" or "Arash(アーラシュ)" or "Hassan(ハサン)" in their card names get -500 power.
+Act: RestSelf
+{
+    	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question_Obvious Do you wish to place the opposing character on top of your opponent's deck?
+			If Yes
+			{
+				TargetBattleOpponent
+				MoveCard OpponentDeck
+			}
+		}
+        	Text Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck."
+EndCard
+
+Character: FGO/S87-E065
+Name Confrontation Against the Strong, Lancelot
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+*GainPowerWithEnoughCharacters(2000,2,Chaldea|Camelot)
+*HandEncore
+EndCard
+
+Character: FGO/S87-E066
+Name Return of the Sacred Sword, Bedivere
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Camelot
+Trait2 Wandering Knight
+Combo Switch On - Agateram
+*GiveAll1500OnCenterStage(Chaldea|Camelot)
+Auto: OnEndOfAttack
+{
+	If Climax Switch On - Agateram && StageContains 1 Other && HasTrait Camelot|Chaldea
+	{
+		PayCost 4 Discard 2 Any
+		{
+			Burn 3
+			Burn 3
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: CxCombo [(4) Put 2 cards from your hand into your waiting room] At the end of this card's attack, if "Switch On - Agateram" is in your climax area, and you have another 《Chaldea》 or 《Camelot》 character, you may pay the cost. If you do, deal 3 damage to your opponent 2 times, and put this card into your memory. 
+EndCard
+
+Character: FGO/S87-E067
+Name Zabaniya, Hassan of the Serenity
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+*GlobalPower(500,Chaldea|Camelot)
+Auto: OnAttack
+{
+	PayCost SendMarker WaitingRoom
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 0 OrLower
+		ChooseCharacterFromTargets Choose a character to put into the waiting room.
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [Put 1 marker underneath this card into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 level 0 or lower character in your opponent's center stage, and put it into their waiting room.
+Act: RestSelf
+{
+	If Not HasMarker
+	{
+		TargetTop Deck 1
+		RevealTargets
+		Marker_FaceUp
+	}
+}
+Text Act: [Rest this card] If there are no markers underneath this card, put the top card of your deck face up underneath this card as a marker.
+EndCard
+
+Character: FGO/S87-E068
+Name Journey for Somebody's Sake, Bedivere
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Camelot
+Trait2 Wandering Knight
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+Auto: OnPlay
+{
+	If Compare CardsInMemory 5 OrMore
+	{
+		TargetLocation Memory
+		ChooseCardsFromTargets 4 4 Any
+		ReverseTargets Memory
+		MoveCard WaitingRoom
+	}
+	If Compare CardsInOpponentsMemory 5 OrMore
+	{
+		TargetLocation OpponentMemory
+		OpponentChooseCardsFromTargets 4 4 Any
+		ReverseTargets OpponentMemory
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players perform the following action. "If your memory has 5 or more cards, choose 4 cards in your memory, and put all cards in your memory except those cards into your waiting room."
+EndCard
+
+Character: FGO/S87-E069
+Name Original Law, Hassan of the Cursed Arm
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainEffect
+		{
+			*RedLevel1Bomb
+		}
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets the following ability. "Auto: When this card becomes reversed, if this card's battle opponent is level 1 or lower, you may Reversed that character."
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Camelot|Chaldea
+	{
+		Question_Obvious Place revealed card face up underneath this card as a marker?
+		If Yes
+		{
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Camelot》 character, you may put it face up underneath this card as a marker. 
+Auto: OnAttack
+{
+	PayCost 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to give -1 level.
+		LoseLevel 1
+	}
+}
+Text Auto: [(1)] When this card frontal attacks, you may pay the cost. If you do, choose 1 of your opponent's characters, it gets -1 level until end of turn.
+EndCard
+
+Character: FGO/S87-E070
+Name Great Hero of Persia, Arash
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Camelot
+Trait2 Hero
+*GainPowerWithEnoughCharacters(1000,2,Chaldea|Camelot)
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: FGO/S87-E071
+Name Setting Sun, Bedivere
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Camelot
+Trait2 Wandering Knight
+*RedEarlyPlayBomb
+Backup 1500
+EndCard
+
+Character: FGO/S87-E072
+Name Proud Assassin, Hassan of the Cursed Arm
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Act: [Rest this card] Choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E073
+Name Reality of the Sacred Lance, Bedivere
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Camelot
+Trait2 Wandering Knight
+Auto: OnPlay
+{
+	Peek Deck 4
+	ChooseCardsFromTargets 0 1 IsClimax
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 4 cards from the top of your deck, choose up to 1 climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: FGO/S87-E074
+Name Fierce Knight of the Lake, Lancelot
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue  TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each character in your opponent's back stage.
+*HandEncore
+EndCard
+
+Event: FGO/S87-E075
+Name Evening Bell
+Color R
+Level 1
+Cost 0
+Requirement StageContains 3 IsColor Red
+Effect:
+{
+	MoveCard Memory
+}
+Auto: StartAttackPhase
+{
+	MoveCard WaitingRoom
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	SaveTargets
+	TargetFacingTargets
+	AddSavedToCurrentTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question_Obvious Do you wish to place the opposing character on top of your opponent's deck?
+			If Yes
+			{
+				TargetBattleOpponent
+				MoveCard OpponentDeck
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck.
+	}
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question_Obvious Do you wish to add a character from your waiting room to your hand?
+			If Yes
+			{
+				SearchWaitingRoom IsCharacter
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand
+	}
+}
+InMemory
+Text If you have 2 or less red characters, this card cannot be played from your hand. Put this card into your memory.
+Text Auto: MEMORY At the beginning of your attack phase, if this card is in your memory, put this card into your waiting room, choose 1 of your characters, it and the character facing that character get the following 2 abilities until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck." "Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Event: FGO/S87-E076
+Name Exploration of the Sixth Singularity
+Color R
+Level 2
+Cost 1
+Effect:
+{
+	SearchWaitingRoom IsCharacter
+	SearchWaitingRoom IsCharacter
+	Discard 1 Any
+}
+Text Choose up to 2 characters in your waiting room, return them to your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Climax: FGO/S87-E077
+Name Switch On - Agateram
+Color R
+*DoorClimax
+EndCard
+
+Climax: FGO/S87-E078
+Name Lancelot of the Light of the Lake
+Color R
+*StandbyClimax
+EndCard
+
+Climax: FGO/S87-E079
+Name Stella
+Color R
+*DoorClimax
+EndCard
+
+Character: FGO/S87-E080
+Name With This Flesh and Bone, Mash Kyrielight
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+Trait2 Shielder
+Auto: OnAttack
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: When this card attacks, if your hand has 5 or more cards, choose 1 of your characters, it gets +2000 power until end of turn.
+*FreeRunner
+EndCard
+
+Character: FGO/S87-E081
+Name Great Genius, Leonardo da Vinci
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+Trait2 Genius
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(500,Any)
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, it gets +500 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: FGO/S87-E082
+Name Knight of the Sacred Shield, Mash Kyrielight
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Chaldea
+Trait2 Shielder
+Combo Lord Camelot
+Cont: GiveSelf
+{
+	TargetLocation BackStage
+	NarrowTargets HasTrait Chaldea|Camelot
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each other 《Chaldea》 or 《Camelot》 character in your back stage.
+Auto: OnAttack
+{
+	If Climax Lord Camelot
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain the effect
+        UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 3
+			}
+			Text Cont: The character facing this card gets -3 soul.
+		}
+        UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				PayCost 1 Discard 1 HasTrait Chaldea|Camelot
+				{
+					GainSpecialEffect CannotBeReversed
+				}
+			}
+			Text Auto: [(1) Put 1 《Chaldea》 or 《Camelot》 character from your hand into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, this card cannot become Reversed until end of turn.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Lord Camelot" is in your climax area, choose 1 of your characters, it gets the following 2 abilities until the end of your opponent's next turn. "Cont: The character facing this card gets -3 soul." "Auto: [(1) Put 1 《Chaldea》 or 《Camelot》 character from your hand into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, this card cannot become Reversed until end of turn."
+EndCard
+
+Character: FGO/S87-E083
+Name Rousing Resolution, Mash Kyrielight
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Chaldea
+Trait2 Shielder
+Auto: OnClimaxPlay
+Combo Lord Camelot
+Auto: OnClimaxPlay
+{
+	GainPower 1500
+}
+Text Auto: When your climax is placed on your climax area, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Lord Camelot
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Lord Camelot" is in your climax area, you may choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S87-E084
+Name Qualified to Know Her Origins, Mash Kyrielight
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Chaldea
+Trait2 Shielder
+Combo Lord Camelot
+*Level3Assist
+Auto: OnSpecificClimaxPlay Lord Camelot
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals Knight of the Sacred Shield, Mash Kyrielight
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card into your waiting room] When "Lord Camelot" is placed on your climax area, you may pay the cost. If you do, choose up to 1 "Knight of the Sacred Shield, Mash Kyrielight" in your hand, and put it on the stage position that this card was on.
+Act: RestSelf
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest this card] Draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: FGO/S87-E085
+Name Indestructible Genius, Leonardo da Vinci
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Chaldea
+Trait2 Genius
+*GainPowerForEachOther(500,Camelot|Chaldea)
+Auto: OnPlay|OnPlacedOnStageFromMemory
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or memory, you may put the top card of your clock into your waiting room.
+Auto: StartClimaxPhase
+{
+	If Compare MyLevel 3 OrMore
+	{
+		PayCost 2 Discard 1 Any
+		{
+			PlaceOnStage True True True False
+			GainPower 1000
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY [(2) Put 1 card from your hand into your waiting room] At the beginning of your climax phase, if your level is 3 or higher, and this card is in your memory, you may pay the cost. If you do, put this card on an open position of your stage, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E086
+Name The Way of a Round Table Knight, Mash Kyrielight
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Chaldea
+Trait2 Shielder
+Auto: StartOpponentDrawPhase
+{
+	If InLocation CenterStage
+	{
+		*GiveCharacterPower(4000,Any)
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, if this card is in your center stage, choose 1 of your characters, it gets +4000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBurn(1)
+			}
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent." 
+EndCard
+
+Character: FGO/S87-E087
+Name Ci Vediamo, Leonardo da Vinci
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+Trait2 Genius
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Chaldea|Camelot
+	{
+		Question Draw a card, then discard a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Chaldea》 or 《Camelot》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Indestructible Genius, Leonardo da Vinci
+        If HasTarget
+        {
+            MoveCard Memory
+        }
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, if your memory has 2 or less cards, you may choose 1 "Indestructible Genius, Leonardo da Vinci" in your waiting room, and put it into your memory.
+EndCard
+
+Character: FGO/S87-E088
+Name Reason for the Good Mood, Leonardo da Vinci
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Chaldea
+Trait2 Genius
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to give -1000 power until end of turn.
+		LosePower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+*ClimaxExchange
+EndCard
+
+Character: FGO/S87-E089
+Name Journey for Somebody's Sake, Ritsuka Fujimaru
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Chaldea
+Trait2 Master
+*BackupBonus1000(Chaldea|Camelot)
+Backup 1000
+EndCard
+
+Character: FGO/S87-E090
+Name Heroic Spirit Within Me, Mash Kyrielight
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Chaldea
+Trait2 Shielder
+*GainPowerWithEnoughCharacters(2000,2,Chaldea|Camelot)
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: FGO/S87-E091
+Name Truth of the Holy Selection, Leonardo da Vinci
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Chaldea
+Trait2 Genius
+*OnAttackGivePowerForEachOther(500,Chaldea|Camelot)
+*HandEncore
+EndCard
+
+Character: FGO/S87-E092
+Name Journey for Somebody's Sake, Mash Kyrielight
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Chaldea
+Trait2 Shielder
+*GlobalPower(500,Chaldea|Camelot)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Chaldea|Camelot
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 《Chaldea》 or 《Camelot》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: FGO/S87-E093
+Name Chaldea's Master, Ritsuka Fujimaru
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Chaldea
+Trait2 Master
+Cont: GiveAll
+{
+	If NameEquals Truth of the Holy Selection, Mash Kyrielight
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If OpponentsTurn
+				{
+					GainPower 1000
+				}
+			}
+		}
+		GainEffect
+		{
+			Auto: StartOpponentAttackPhase
+			{
+				PayCost 1
+				{
+					TargetLocation Stage
+					NarrowTargets Other && NameContains Fujimaru && CanMove
+					ChooseCharacterFromTargets
+					If HasTarget
+					{
+						AddSelfToTargets
+						Exchange
+						Stand
+					}
+				}
+			}
+		}			
+	}
+}
+Text Cont: All of your other "Truth of the Holy Selection, Mash Kyrielight" get the following 2 abilities. "Cont: During your opponent's turn, this card gets +1000 power." "Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose this card and 1 of your characters with "Fujimaru(藤丸)" in its card name, and exchange them as standing."
+Auto: OnOpponentReverse
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Chaldea|Camelot
+		AIChoice RestAndMoveToBackstage
+		ChooseCharacterFromTargets Choose a character to rest and move to the backstage.
+		Rest
+		If HasTarget
+		{
+			MoveToOpenPosition False True
+		}
+	}
+Text Auto: When this card's battle opponent becomes reversed, choose 1 of your other 《Chaldea》 or 《Camelot》 characters, Rest it, and move it to an open position of your back stage.
+EndCard
+
+Character: FGO/S87-E094
+Name Entrusted With Goodness, Mash Kyrielight
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Chaldea
+Trait2 Shielder
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a '"Goodness" of Humans' in your waiting room to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals "Goodness" of Humans
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 ""Goodness" of Humans" in your waiting room, and return it to your hand.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Chaldea|Camelot
+}
+Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 《Chaldea》 or 《Camelot》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S87-E095
+Name Truth of the Holy Selection, Mash Kyrielight
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Chaldea
+Trait2 Shielder
+Text 
+EndCard
+
+Character: FGO/S87-E096
+Name Turn for a Genius, Leonardo da Vinci
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Chaldea
+Trait2 Genius
+Combo Worth Tagging Along
+*LevelAssistTrait(Chaldea|Camelot)
+Auto: OnSpecificClimaxPlay Worth Tagging Along
+{
+	If StageContains 1 Other && HasTrait Chaldea|Camelot
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchDeck HasTrait Chaldea|Camelot
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Worth Tagging Along" is placed on your climax area, if you have another 《Chaldea》 or 《Camelot》 character, choose 1 of your other characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, search your deck for up to 1 《Chaldea》 or 《Camelot》 character, reveal it to your opponent, put it into your hand, and shuffle your deck."
+EndCard
+
+Character: FGO/S87-E097
+Name Whereabouts of the Holy Grail, Romani Archaman
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Chaldea
+Trait2 Doctor
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Discard 1 HasTrait Chaldea|Camelot
+	{
+		TargetLocation OpponentStage
+		NarrowTargets EarlyPlay
+		ChooseCharacterFromTargets
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: [(2) Put 1 《Chaldea》 or 《Camelot》 character from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it at the bottom of their deck.
+Backup 2500
+EndCard
+
+Event: FGO/S87-E098
+Name "Goodness" of Humans
+Color B
+Level 2
+Cost 0
+Requirement StageContains 1 NameContains Mash
+Effect:
+{
+	Peek Deck 2
+	Reorder
+    EndPeek
+	PayCost Send 1 WaitingRoom Any
+	{
+		TargetLocation WaitingRoom
+		ChooseCardsFromTargets 0 2 NameEquals Qualified to Know Her Origins, Mash Kyrielight
+		PlaceOnStage False True True False
+	}
+}
+Text If you do not have a character with "Mash(マシュ)" in its card name, this card cannot be played from your hand.
+Text Look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+Text You may choose 1 of your characters, and put it into your waiting room. If you do, choose up to 2 "Qualified to Know Her Origins, Mash Kyrielight" in your waiting room, and put them on any position of your stage.
+EndCard
+
+Climax: FGO/S87-E099
+Name Lord Camelot
+Color B
+*GateClimax
+EndCard
+
+Climax: FGO/S87-E100
+Name Worth Tagging Along
+Color B
+*GateClimax
+EndCard
+
+Character: FGO/S87-E101
+Name Ruling of Death, The Lion King
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Camelot
+Trait2 Knight of the Round Table
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Chaldea|Camelot
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Chaldea》 or 《Camelot》, this card gets +1000 power.
+EndCard
+
+Character: FGO/S87-E102
+Name Pharaoh's Bath, Nitocris
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Camelot
+Trait2 Pharaoh
+Auto: OnOpponentReverse
+{
+	PayCost SendSelf Memory
+	{
+		ScheduleEffect DrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				ChooseCardsFromTargets 1 1 NameEquals Pharaoh's Bath, Nitocris
+				PlaceOnStage False True True False
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Pharaoh's Bath, Nitocris" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: FGO/S87-E103
+Name Rewarded Feelings, Hassan of the Serenity
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Camelot
+Trait2 Old Man of the Mountain
+Auto: OnClimaxPlay
+{
+	TargetLocation Climax
+	IfTarget HasTrigger Door
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to give -1000 power.
+		LosePower 1000
+	}
+}
+Text Auto: When your climax with door in its trigger icon is placed on your climax area, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Chaldea|Camelot
+		*GiveOtherCharacterPower(1000,Chaldea|Camelot)
+	}
+}
+
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Chaldea》 or 《Camelot》 character in your waiting room, return it to your hand, choose 1 of your other 《Chaldea》 or 《Camelot》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: FGO/S87-E104
+Name Unexpected Sight, Mash Kyrielight
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Chaldea
+Trait2 Shielder
+*GainPowerWithEnoughCharacters(2000,2,Chaldea|Camelot)
+Text Cont: If you have 2 or more other 《Chaldea》 or 《Camelot》 characters, this card gets +2000 power.
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, this card gets +1000 power.
+EndCard
+
+Character: FGO/S87-PE01
+Name Commencing Duel, Mash Kyrielight
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+Trait2 Shielder
+Combo Belief in Her Choice
+Combo Lord Camelot
+*GiveNamePower(1000,Trust in Her Master\, Mash Kyrielight)
+Text Cont: All of your other "Trust in Her Master, Mash Kyrielight" get +1000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Belief in her "Choice" || NameEquals Lord Camelot
+	{
+		SearchWaitingRoom NameEquals Belief in her "Choice" || NameEquals Lord Camelot
+	}
+}
+Text Auto: CxCombo [Put 1 "Belief in Her "Choice"" or "Lord Camelot" from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Belief in Her "Choice"" or "Lord Camelot" in your waiting room, and return it to your hand.
+EndCard
+

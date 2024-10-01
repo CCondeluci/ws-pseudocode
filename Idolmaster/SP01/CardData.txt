@@ -1,0 +1,374 @@
+Character: IM/SP01-01
+Name M@STERS OF IDOL WORLD!! Yukiho Hagiwara
+Color Y
+Level 2
+Cost 1
+Power 2500
+Trait1 Music
+Trait2 Tea
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		ChooseCharacterFromTargets Choose a character to send to your opponent's stock
+		MoveCard OpponentStock
+	}
+}
+Text Auto: [(2) Send 1 of your characters on your stage to your waiting room] When you use this cards BACKUP, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it into their stock.
+Backup 2500
+EndCard
+
+Character: IM/SP01-02
+Name M@STERS OF IDOL WORLD!! Mami Futami
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Twins
+Auto: OnPlay
+{
+	PayCost Send 1 WaitingRoom NameEquals Futami Sisters' Healer, Mami
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain the ability
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				*OptionalBurn(1)
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: [Send a "Futami Sisters' Healer, Mami" from your stage to your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 of your characters and that character gains the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, you may deal 1 damage to your opponent."
+Auto: OnDamageCancel
+{
+	If PlayedThisTurn
+	{
+		*OptionalBurn(1)
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. During the turn this card is placed on stage from your hand, when damage dealt by this card is cancelled, you may deal 1 damage to your opponent.
+EndCard
+
+Character: IM/SP01-03
+Name M@STERS OF IDOL WORLD!! Iori Minase
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Doll
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Sidetracked
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a "Sidetracked" in your waiting room and return it to your hand.
+*GreenLevel0Bomb
+EndCard
+
+Character: IM/SP01-04
+Name M@STERS OF IDOL WORLD!! Ritsuko Akizuki
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Glasses
+Combo GO MY WAY!!
+Auto: OnAttack
+{
+	If Climax GO MY WAY!!
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Music && IsCharacter
+		Reveal
+		MoveCard Stock
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "GO MY WAY!!" is in your climax area, choose up to 1 <Music> character in your waiting room and put it into your stock, then this card gains +3000 power until end of turn.
+EndCard
+
+Character: IM/SP01-05
+Name M@STERS OF IDOL WORLD!! Azusa Miura
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Music
+Trait2 Love
+*Level3Assist
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 NameEquals Sidetracked
+	{
+		GainEffect
+		{
+			*1000Assist
+		}
+	}
+}
+Text Cont: MEMORY If there are 2 or more "Sidetracked" in your memory, this card gains the following ability. "Cont: ASSIST Your characters in front of this card get +1000 power."
+EndCard
+
+Character: IM/SP01-06
+Name M@STERS OF IDOL WORLD!! Ami Futami
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Twins
+*EarlyPlay2OrLessClimax
+Auto: OnUseAct
+{
+	SetXToNumberOfCharacters Other && HasTrait Music
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an ACT ability, this card gains +X power until end of turn, where X is equal to 500 times the number of your other <Music> characters.
+*DefensiveScryOnCenterStage
+EndCard
+
+Character: IM/SP01-07
+Name M@STERS OF IDOL WORLD!! Miki Hoshii
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Love
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && HasTrait Music
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to +1 Soul.
+		GainSoul 1
+	}
+}
+Text Auto: When your climax is placed on your climax area, reveal the top card of your Deck. If that card is a <Music> Character, choose a character to +1 soul.
+*Act1Rest2SalvageBrainstorm(Music)
+EndCard
+
+Character: IM/SP01-08
+Name M@STERS OF IDOL WORLD!! Hibiki Ganaha
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Animal
+Auto: OnReversed
+{
+	Message Choose up to 1 character to put on top of the deck
+	OpponentSearchLocationForTargets WaitingRoom 0 1 IsCharacter
+	If HasTarget
+	{
+		MoveCard Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may choose a character in your waiting room and put it on top of your deck.
+Auto: OnReversed
+{
+	BlockEncore
+}
+Quick
+Text Auto: When this card becomes reversed in battle, you cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: IM/SP01-09
+Name M@STERS OF IDOL WORLD!! Haruka Amami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Music
+Trait2 Sweets
+*LevelAssist
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Music
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 4 or more other <Music> characters, you may put the top card of your deck into your stock.
+EndCard
+
+Character: IM/SP01-10
+Name M@STERS OF IDOL WORLD!! Yayoi Takatsuki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Frog
+*EarlyPlayInClock(Acting in a Commercial\, Yayoi)
+*GainPowerForEachOther(500,Music)
+*Healer
+EndCard
+
+Event: IM/SP01-11
+Name M@STERS OF IDOL WORLD!! 2015
+Color R
+Level 2
+Cost 1
+Requirement StageContains 1 HasTrait Music
+Effect:
+{
+	TargetSelf
+	MoveCard Memory
+	TargetLocation Memory
+	NarrowTargets NameEquals M@STERS OF IDOL WORLD!! 2015
+	SetXValue TargetCount
+	SearchLocationForTargets WaitingRoom 0 X IsCharacter && HasTrait Music
+	RevealTargets
+	MoveCard Hand
+}
+Text If you don't have a <Music> character, you cannot play this card from your hand. Send this card to your memory. Choose up to X <Music> characters in your waiting room and return them to your hand. X is equal to the number of "M@STERS OF IDOL WORLD!! 2015" in your memory
+EndCard
+
+Character: IM/SP01-12
+Name M@STERS OF IDOL WORLD!! Kotori Otonashi
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Music
+*BackupBonus1000(Music)
+Backup 1000
+EndCard
+
+Character: IM/SP01-13
+Name M@STERS OF IDOL WORLD!!, Takane Shijou
+Color B
+Level 1
+Cost 0
+Power 6500
+Trait1 Music
+Trait2 Royalty
+*CannotAttackHigherLevel
+EndCard
+
+Character: IM/SP01-14
+Name M@STERS OF IDOL WORLD!! Chihaya Kisaragi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Music
+Combo Rainbow-Colored Miracle
+Auto: OnCardSentFromAToB Hand WaitingRoom
+{
+	IfOther IsCharacter
+	{
+		SetXToNumberOfCharacters Other && HasTrait Music
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When a character is sent to the waiting room from your hand, this card gains +X power until end of turn, where X is equal to 500 times the number of your other <Music> characters.
+Auto: OnSpecificClimaxPlay Rainbow-Colored Miracle
+{
+	If InLocation CenterStage && AllYourCharacters HasTrait Music
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets Deck 0 2 HasTrait Music && IsCharacter
+			Reveal
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [Discard a card] When "Rainbow-Colored Miracle" is placed into your climax area, if this card is in your center stage and all of your characters are <Music>, you may pay the cost. If you do, search your deck for up to 2 <Music> characters and add them to your hand.
+EndCard
+
+Character: IM/SP01-15
+Name M@STERS OF IDOL WORLD!! Makoto Kikuchi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Trait1 Music
+Trait2 Sports
+*Healer
+*OnPlayGainPowerForEach(500,Music)
+Auto: OnUseEvent
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Music
+	ChooseCharacterFromTargets Choose a character to gain +1500 power
+	GainPower 1500
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you play an event, choose 1 of your <Music> characters and that character gains +1500 power until the end of turn.
+EndCard
+
+Event: IM/SP01-16
+Name M@STERS OF IDOL WORLD!! 2015
+Color B
+Level 2
+Cost 1
+Requirement StageContains 1 HasTrait Music
+Effect:
+{
+	TargetSelf
+	MoveCard Memory
+	TargetLocation Memory
+	NarrowTargets NameEquals M@STERS OF IDOL WORLD!! 2015
+	SetXValue TargetCount
+	Repeat X
+	{
+		*OptionalDraw
+	}
+}
+Text If you don't have a <Music> character, you cannot play this card from your hand. Send this card to your memory. Draw up to X cards. X is equal to the number of "M@STERS OF IDOL WORLD!! 2015" in your memory
+EndCard
+
+Character: IM/SP01-17
+Name "M@STERPIECE" Chihaya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Music
+Trait2 Camera
+*OnPlayGainPowerForEach(500,Music)
+*GainPowerWhenAttackingLevel3(3000)
+EndCard
+

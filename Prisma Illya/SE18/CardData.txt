@@ -1,0 +1,750 @@
+Character: PI/SE18-01
+Name “Flame Burst, seven-fold” Luvia
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Jewel
+Trait2 Heiress
+Auto: OnAttack
+{
+	If LocationContains CenterStage 1 NameEquals “Gale Burst, five-fold” Rin
+	{
+		PayCost 3 Discard 1 HasTrait Jewel
+		{
+			Burn 7
+		}
+	}
+}
+Text Auto: [(3) Put a 《Jewel》 character from your hand into your waiting room] When this card attacks, if you have another card named "“Gale Burst, five-fold” Rin" in your center stage, you may pay the cost. If you do, deal seven damage to your opponent. 
+EndCard
+
+Character: PI/SE18-02
+Name “Gale Burst, five-fold” Rin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Jewel
+*OthersCannotSideAttack
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is three or higher, this card gets +1000 power.
+EndCard
+
+Character: PI/SE18-03
+Name Kaleido Ruby, Rin
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Jewel
+Trait2 Magic
+*GiveMiddlePower(500,Any)
+Act: 2 RestSelf
+{
+	SearchWaitingRoom IsCharacter
+}
+Text Act: [(2) Rest this card] Choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: PI/SE18-04
+Name Former Master, Rin
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Jewel
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameEquals Former Master, Luvia
+	MultiplyXValue 1500
+	GainPower X
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			SetXToNumberOfCharacters NameEquals Former Master, Luvia
+			TargetLocation Facing
+			GainSoul X
+		}
+	}		
+}
+Text Cont: This card gets +1500 power and the character facing this card gets +1 soul for each of your other cards named "Former Master, Luvia"
+EndCard
+
+Character: PI/SE18-05
+Name Former Master, Luvia
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Jewel
+Trait2 Heiress
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameEquals Former Master, Rin
+	MultiplyXValue 1500
+	GainPower X
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			SetXToNumberOfCharacters NameEquals Former Master, Rin
+			TargetLocation Facing
+			GainSoul X
+		}
+	}		
+}
+Text Cont: This card gets +1500 power and the character facing this card gets +1 soul for each of your other cards named "Former Master, Rin"
+EndCard
+
+Character: PI/SE18-06
+Name Domineering Princess, Luvia
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Jewel
+Trait2 Heiress
+*RedLevel1Bomb
+EndCard
+
+Character: PI/SE18-07
+Name Kaleido Sapphire, Luvia
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Jewel
+Trait2 Magic
+EndCard
+
+Character: PI/SE18-08
+Name Top Candidate of Clock Tower, Rin
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Jewel
+*GainPowerForEachOther(500,Jewel)
+*ClockEncore
+EndCard
+
+Character: PI/SE18-17
+Name “Kaleidoscope” Illya
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Master
+Trait2 Magic
+Combo Class Card, Saber
+Auto: OnPlay|PlacedBy Change
+{
+	Question_Obvious Draw a card?
+	If Yes
+	{
+		DrawCard
+	}
+	Question_Obvious Draw a card?
+	If Yes
+	{
+		DrawCard
+	}
+	Discard 1 Any
+	}
+Text Auto: When this card is placed on the stage from your hand or by a "CHANGE" effect, draw up to two cards, choose a card in your hand, and put it into your waiting room.
+Auto: OnClimaxPlay
+{
+	If Climax Class Card, Saber
+	{
+		If StageContains 1 NameEquals “Kaleidoscope” Miyu
+		{
+			Mill 1
+			IfTarget Compare TargetCardsLevel 1 OrLess
+			{
+				PayCost Discard 1 NameEquals Class Card, Saber
+				{
+					TargetLocation Stage
+					GainEffect
+					{
+						Auto: OnAttack
+						{
+							Burn 1
+						}
+						Text Auto:When this card attacks, deal one damage to your opponent.
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put a card named "Class Card, Saber" from your hand into your waiting room] When a card named "Class Card, Saber" is placed on your climax area, if you have another card named "“Kaleidoscope” Miyu", put the top card of your deck into your waiting room. If that card is level 1 or lower, you may pay the cost. If you do, all of your characters get the following ability until end of turn. "Auto: When this card attacks, deal one damage to your opponent." 
+EndCard
+
+Character: PI/SE18-18
+Name “Kaleidoscope” Miyu
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Master
+Trait2 Magic
+Combo Class Card, Saber
+Auto: OnPlay|PlacedBy Change
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic
+	SetXToNumberOfCharacters
+	Peek Deck X
+	ChooseCard Choose a card to add to your hand.
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand or by a "CHANGE" effect, look at up to X cards from the top of your deck, choose up to one card from among them, and put it into your hand. Put the rest into your waiting room. X is equal to the number of your 《Magic》 characters.
+Auto: OnClimaxPlay
+{
+	If Climax Class Card, Saber
+	{
+		If InLocation CenterStage
+		{
+			DrawCard
+			GainPower 1500
+			GainEffect
+			{
+				Auto: OnOpponentReverse
+				{
+					TargetLocation Facing
+					MoveCardToBottom Deck
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When a card named "Class Card, Saber" is placed on your climax area, if this card is in your center stage, draw a card, until end of turn, this card gets +1500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck."
+EndCard
+
+Character: PI/SE18-10
+Name Kaleido Magical Girl, Illya
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is two or higher, this card gets +1000 power.
+EndCard
+
+Character: PI/SE18-11
+Name Perfect Super-human? Miyu
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Magic
+Auto: OnAttack
+{
+	If Climax IsColor Blue
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, if a blue climax is in your climax area, draw a card, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: PI/SE18-12
+Name Maid Outfit Miyu
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Master
+Trait2 Magic
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters NameContains Illya | Miyu
+	MultiplyXValue 500
+	TargetMyCharacterInBattle
+	GainPower X
+}
+Text Auto: When you use this card's "BACKUP", choose one of your characters in battle, it gets +X power until end of turn. X is equal to 500 multiplied by the number of characters you have with "Illya" or "Miyu" in its card name.
+Backup 500
+EndCard
+
+Character: PI/SE18-13
+Name Dreamy Girl, Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Master
+Trait2 Magic
+*1000Assist
+Cont: GiveAll
+{
+	If Compare Experience 3 OrMore
+	{
+		If InLocation MiddleCenterStage && Other
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is three or higher, your other character in the middle position of the center stage gets +500 power.
+Auto: StartDrawPhase
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals “Kaleidoscope” Illya
+		ChooseCardFromTargets 0 1
+		Change
+	}
+}
+Text Auto: CHANGE [(1) Put this card into your waiting room] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "“Kaleidoscope” Illya" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: PI/SE18-19
+Name Practicing Magic, Illya
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Master
+Trait2 Magic
+*Bond1(Perfect Super-human? Miyu)
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Miyu
+	ChooseCharacterFromTargets Choose a character to gain +1500 power.
+	GainPower 1500
+}
+Text Act: [(1) Rest this card] Choose one of your characters with "Miyu" in its card name, and that card gets +1500 power until the end of turn.
+EndCard
+
+Character: PI/SE18-21
+Name Kaleido Magical Girl, Miyu
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Master
+Trait2 Magic
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	PerClimax
+	{
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest two of your characters] Reveal four cards from the top of your deck, and put them into your waiting room. For each climax revealed, draw up to one card.
+EndCard
+
+Character: PI/SE18-23
+Name “Promise” Illya
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	If LocationContains Hand 6 Any
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If the number of cards in your hand is six or more, this card gets +1500 power.
+EndCard
+
+Character: PI/SE18-24
+Name Sudden Transfer Student, Miyu
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && InLocation CenterStage
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you do not have any other characters in your center stage, this card gets +1000 power and "Auto: ENCORE [Put a character from your hand into your waiting room]".
+EndCard
+
+Character: PI/SE18-09
+Name Normal Girl, Illya
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Master
+Trait2 Magic
+Combo Birth of A Magical Girl!!
+Auto: OnAttack
+{
+	If Climax Birth of A Magical Girl!!
+	{
+		Mill 2
+		If TargetsContain 2 HasTrait Magic
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Birth of A Magical Girl!!" is in your climax area, put the top two cards of your deck into your waiting room. If all those cards are 《Magic》 characters, draw a card.
+EndCard
+
+Character: PI/SE18-14
+Name “Mama” Irisviel
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Homunculus
+Trait2 Alchemy
+*LevelAssist
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, draw a card, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: PI/SE18-15
+Name At the End of the Night, Illya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Master
+Trait2 Magic
+Combo Class Card, Archer
+Auto: OnAttack
+{
+	If Climax Class Card, Archer
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				TargetLocation Facing
+				SetXValue TargetCardsLevel
+				MultiplyXValue 1500
+				GainPower X
+			}
+			Text Cont: This card gets +X power. X is equal to 1500 multiplied by the level of the character facing this card.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Class Card, Archer" is in your climax area, this card gets the following ability until the end of your opponent's next turn. "Cont: This card gets +X power. X is equal to 1500 multiplied by the level of the character facing this card."
+EndCard
+
+Character: PI/SE18-16
+Name Realistic Miyu
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Master
+Trait2 Magic
+*ClockEncore
+Auto: StartDrawPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals “Kaleidoscope” Miyu
+		ChooseCardFromTargets 0 1
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "“Kaleidoscope” Miyu" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: PI/SE18-32
+Name “Friend” Illya & Miyu
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameEquals "Friend" Illya & Miyu
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other cards named "“Friend” Illya & Miyu".
+*Healer
+EndCard
+
+Character: PI/SE18-20
+Name Magical Sapphire
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Cont: GiveAll
+{
+	If LocationContains Hand 5
+	{
+		GainPower 500
+	}
+}
+Text Cont: If the number of cards in your hand is five or more, all of your other characters get +500 power.
+Cont: GiveSelf
+{
+	CanSendMarkersToPayForActEffect Any
+}
+Text Cont: If you would pay the Act: cost for one of your characters in your hand or stage, you may put a marker from underneath this card into your waiting room instead of a card from your stock.
+Auto: OnPlay
+{
+	PayCost Rest 2 Any
+	{
+		TargetTop Deck 1
+		Marker_FaceDown
+	}
+}
+Text Auto: [Rest two of your standing characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your deck underneath this card as a marker.
+EndCard
+
+Character: PI/SE18-22
+Name Einzbern Family, Sella & Leys
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Homunculus
+Trait2 Maid
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Master
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your other 《Master》 characters, it gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: PI/SE18-25
+Name Miyu in Regular Clothes
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Master
+Trait2 Magic
+EndCard
+
+Character: PI/SE18-26
+Name Magical Ruby
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Jewel
+	{
+		SearchDeck HasTrait Master
+	}
+}
+Text Auto: [Put a 《Jewel》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to one 《Master》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Act: Discard 1 IsClimax
+{
+	TargetLocation Stage
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}	
+Text Act: [Put a climax from your hand into your waiting room] Choose one of your characters, it gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: PI/SE18-27
+Name “Belief” Miyu
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Master
+Trait2 Magic
+Combo Class Card, Lancer
+Cont: GiveSelf
+{
+	If LocationContains Hand 6 Any
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If the number of cards in your hand is six or more, this card gets +1500 power.
+Auto: OnAttack
+{
+	If Climax Class Card, Lancer
+	{
+		PayCost Clock
+		{
+			DrawCard
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo [Put the top card of your deck into your clock] When this card attacks, if a card named "Class Card, Lancer" is in your climax area, you may pay the cost. If you do, draw a card, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: PI/SE18-28
+Name Guided Fate, Illya
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Master
+Trait2 Magic
+Act: Discard 1 HasTrait Magic
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare TargetCardsLevel 0 OrLess
+	{
+		TargetSelf
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CanAttackBackstage
+			}
+			Text Cont: If this card would attack, you may choose 1 character in your opponent's back stage, and this card frontal attacks that character as the defending character instead.
+		}
+	}
+}
+Text Act: [Put a 《Magic》 character from your hand into your waiting room] Reveal the top card of your deck. If that card is level 0 or lower, this card gets the following ability until end of turn. "Cont: When this card attacks, you may instead choose a character on your opponent's back stage, and have this card frontal attack with the chosen character as the defending character." 
+EndCard
+
+Character: PI/SE18-29
+Name Illya in Pajamas
+Color B
+Level 1
+Cost 1
+Power 7000
+Trait1 Master
+Trait2 Magic
+Auto: OnPlay
+{
+	LosePower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets -1500 power until end of turn.
+*HandEncore
+EndCard
+
+Character: PI/SE18-30
+Name Lovestruck Miyu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Master
+Trait2 Magic
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not NameContains Illya | Miyu
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters have "Illya" or "Miyu" in its card name, this card gets +2000 power.
+EndCard
+
+Character: PI/SE18-31
+Name Another Magical Girl, Miyu
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Master
+Trait2 Magic
+EndCard
+
+Climax: PI/SE18-36
+Name Class Card, Saber
+*GateClimax
+EndCard
+
+Climax: PI/SE18-33
+Name Birth of A Magical Girl!!
+Color B
+*DrawClimax
+EndCard
+
+Climax: PI/SE18-34
+Name Class Card, Archer
+*BlueStockSoul
+EndCard
+
+Climax: PI/SE18-35
+Name Class Card, Lancer
+Color B
+*BookClimax
+EndCard
+

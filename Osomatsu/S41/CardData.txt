@@ -1,0 +1,2618 @@
+Character: OMS/S41-001
+Name "Polaroid Shot Together" Nyaa Hashimoto
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Animal
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    If AllYourCharacters IsColor Yellow
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If all your characters are Yellow, this card gets +1000 power.
+Auto: OnPlay
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Yellow
+    SetXValue TargetCount
+    Peek Deck X
+    ChooseCardsFromTargets 0 1 Any
+    MoveCard Hand
+    PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room. X equals the number of your Yellow characters.
+EndCard
+
+Character: OMS/S41-002
+Name "Super Cute Heroine" Totoko
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Fish
+Combo Totoko's Dream
+*Healer
+Auto: OnReverseOpponent
+{
+    If Climax Totoko's Dream
+    {
+        PayCost Discard 1 Any
+        {
+            TargetLocation Stage
+            NarrowTargets Other
+            ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give the effect.
+            GainEffect
+            {
+                Auto: OnDamageCancel
+                {
+                    Mill 1
+                    SetXValue TargetCardsLevel
+                    AddToXValue 1
+                    Burn X
+                }
+                TimesPerTurn 1
+                Text Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, put the top card of your deck in the waiting room, and deal X damage to your opponent. X equals level of that card + 1.
+            }
+        }
+    }
+}
+Text Auto: CxCombo [Put 1 card from your hand to the waiting room] When this card's battle opponent becomes reverse, if "Totoko's Dream" is in your climax area, you may pay the cost. If you do, choose up to 2 of your other characters, and they get the following ability until end of turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is canceled, put the top card of your deck in the waiting room, and deal X damage to your opponent. X equals level of that card + 1." 
+EndCard
+
+Character: OMS/S41-003
+Name "Battle for Main Cast" Totoko
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Fish
+Cont: GiveAll
+{
+    If MyTurn && Other
+    {
+        GainPower 500
+    }
+}
+Text Cont: During your turn, all your other characters get +500 power.
+Act: 1 Rest 2 Any
+{
+    Brainstorm 4
+    If Compare BrainstormedClimax 1 OrMore
+    {
+        SetXValue BrainstormedClimax
+        Repeat X
+        {
+            SearchDeck IsCharacter && IsColor Yellow
+        }
+        ShuffleLocation Deck
+    }
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, search your deck for up to 1 Yellow character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-004
+Name Fujio Akatsuka
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Teacher
+Trait2 Manga
+Auto: OnAttack
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget ColorIs Yellow && IsCharacter
+    {
+        MoveCard Hand
+        Discard 1 Any
+    }
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If it's a Yellow character, put it in your hand and discard a card from your hand to the waiting room. 
+*OnAttackGivePowerTimesSoul
+EndCard
+
+Character: OMS/S41-005
+Name "Battle for Main Cast" Iyami
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Buckteeth
+Combo Iyami's Counterattack
+Cont: GiveSelf
+{
+    If StageContains 2 Other && ColorIs Yellow
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If the number of other Yellow characters you have is 2 or more, this card gets +2000 power.
+Auto: OnAttack
+{
+    If Climax Iyami's Counterattack
+    {
+        PayCost Discard 1 ColorIs Yellow && IsCharacter
+        {
+            SearchDeck ColorIs Yellow && IsCharacter
+            TargetSelf
+            GainPower 1500
+        }
+    }
+}
+Text Auto: CxCombo [Put a Yellow character from your hand to the waiting room] When this card attacks, if "Iyami's Counterattack" is in your climax area, you may pay the cost. If you do, search your deck for up to 1 Yellow character, reveal it, and put it in your hand, shuffle your deck, and this card gets +1500 power until end of turn.
+EndCard
+
+Character: OMS/S41-006
+Name The Girl Jyushimatsu Likes
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Auto: OnReversed
+{
+    PayCost 1 Discard 1 Any &&& SendSelf Memory
+    {
+        SearchDeck NameContains 十四松
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room, put this card into memory] When this card becomes reverse in battle, you may pay the cost. If you do, search your deck for up to 1 character with "Jyushimatsu" in its card name, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-007
+Name "Girlfriend for Rent" Chibimi
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Oden
+Auto: StartOpponentAttackPhase
+{
+    Question Put the top card of your deck into the waiting room?
+    If Yes
+    {
+        Mill 1
+        IfTarget IsCharacter && ColorIs Yellow
+        {
+            TargetLocation CenterStage
+            If Compare TargetCount 2 OrLess
+            {
+                TargetSelf
+                Question Move this card to an open position of your center stage?
+                If Yes
+                {
+                    MoveToOpenPosition True False
+                }
+            }
+        }
+    }
+}
+Text Auto: At the beginning of your opponent's attack phase, you may put the top card of your deck in the waiting room. If it's a Yellow character, you may move this card to an open position in the center stage.
+EndCard
+
+Character: OMS/S41-008
+Name "Santa Outfit" Totoko
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Fish
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters ColorIs Yellow
+    MultiplyXValue 500
+    GainPower X
+}
+Text Cont: This card gets +500 power for each of your other Yellow characters.
+EndCard
+
+Character: OMS/S41-009
+Name "Everyone's Idol" Nyaa Hashimoto
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Animal
+Combo Nyan to Nyaight
+Auto: OnAttack
+{
+    If Climax Nyan to Nyaight && StageContains 1 Other && ColorIs Yellow
+    {
+        RevealUpTo Deck 4
+        ChooseCardsFromTargets 0 1 ColorIs Yellow && IsCharacter
+        RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Nyan to Nyaight" is in your climax area and you have another Yellow character, look at up to 4 cards from the top of your deck and search for up to 1 Yellow character, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: OMS/S41-010
+Name Iyami
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Buckteeth
+Cont: InHand
+{
+    If StageContains 4 IsColor Yellow
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If the number of Yellow characters you have is 4 or more, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+    If StageContains 3 Other && ColorIs Yellow
+    {
+        GainPower 1500
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                TargetBattleOpponent
+                IfTarget OnStage
+                {
+                    Question Put that character in memory ?
+                    If Yes
+                    {
+                        MoveCard Memory
+                    }
+                }
+            }
+            Text Auto: When this card's battle opponent becomes reverse, you may send that character to memory.
+        }
+    }
+}
+Text Cont: If the number of other Yellow characters you have is 3 or more, this card gets +1500 power and the following ability. "Auto: When this card's battle opponent becomes reverse, you may send that character to memory."
+Auto: OnPlay
+{
+    *OptionalDraw
+    TargetSelf
+    GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, and this card gets +2000 power until end of turn.
+EndCard
+
+Character: OMS/S41-011
+Name "Scientist" Dr. Dekapan
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Underwear
+Trait2 Science
+Cont: GiveAll
+{
+    If Other && IsColor Yellow
+    {
+        GainPower 500
+    }
+}
+Text Cont: All your other Yellow characters get +500 power.
+Auto: OnPlay
+{
+    TargetLocation Stage
+    NarrowTargets Other && Compare ThatCardsLevel 1 OrLess
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other level 1 or lower characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: OMS/S41-012
+Name Nyaa Hashimoto
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Animal
+Auto: OnPlay
+{
+    PayCost 1 Clock
+    {
+        SearchDeck Compare ThatCardsLevel 1 OrLess && IsCharacter && ColorIs Yellow
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower Yellow character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-013
+Name Hatabou
+Color Y
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Flag
+Auto: OnPlay
+{
+    TargetLocation OpponentWaitingRoom
+    NarrowTargets IsClimax
+    If Compare TargetCount 3 OrMore
+    {
+        TargetSelf
+        Rest
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if there are 3 or more climax cards in your opponent's waiting room, rest this card.
+EndCard
+
+Character: OMS/S41-014
+Name "Mister Flag" Hatabou
+Color Y
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Flag
+Auto: OnUseThisCardsBackup
+{
+    TargetMyCharacterInBattle
+    IfTarget ColorIs Yellow
+    {
+        GainPower 1000
+    }
+}
+Quick
+Text Auto: When you use this card's "BACKUP", choose 1 of your Yellow characters in battle, and that character gets +1000 power until end of turn.
+Backup 1000
+EndCard
+
+Character: OMS/S41-015
+Name "Girlfriend for Rent" Iyayo
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Buckteeth
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets Other && IsColor Yellow
+    SetXValue TargetCount
+    MultiplyXValue 500
+    TargetSelf
+    GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X equals 500 times the number of your other Yellow characters.
+*HandEncore
+EndCard
+
+Character: OMS/S41-016
+Name Dayoun
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Mystery
+Auto: OnUseThisCardsBackup
+{
+    PayCost 2 Send 1 WaitingRoom Any
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen && EarlyPlay
+        If HasTarget
+        {
+            ChooseCharacterFromTargets choose 1 of your opponent's characters whose level is higher than your opponent's level and put it in stock.
+            MoveCard Stock
+        }
+    }
+}
+Text Auto: [(2) Put 1 character from your stage in the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it in stock.
+Backup 2500
+EndCard
+
+Character: OMS/S41-017
+Name "Oden Stall" Chibita
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Oden
+Combo Apex of Preparation
+*LevelAssist
+Auto: OnSpecificClimaxPlay Apex of Preparation
+{
+    If StageContains 4 Other && ColorIs Yellow
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to return to hand.
+        Bounce
+    }
+}
+Text Auto: CxCombo When "Apex of Preparation" is placed on your climax area, if the number of other Yellow characters you have is 4 or more, you may choose 1 of your opponent's characters and return it to hand.
+EndCard
+
+Character: OMS/S41-018
+Name "Miracle on Christmas" Totoko
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Music
+Trait2 Fish
+Auto: OnPlay
+{
+    If StageContains 3 Other && ColorIs Yellow &&& LocationContainsOrLess Deck 5 Any
+    {
+        Refresh
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to return to hand.
+        Bounce
+        TargetSelf
+        GainPower 2000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other Yellow characters you have is 3 or more and there are 5 or less cards in your deck, return all cards in your waiting room to your deck, shuffle your deck, choose up to 1 of your opponent's characters, return it to hand, and this card gets +2000 power until end of turn.
+EndCard
+
+Character: OMS/S41-019
+Name Dekapan
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Underwear
+Trait2 Science
+Auto: OnPlay
+{
+    If StageContains 4 Other && ColorIs Yellow
+    {
+        *OptionalBlindStock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other Yellow characters you have is 4 or more, you may put the top card of your deck in your stock.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: OMS/S41-020
+Name "Kunoichi" Totoko
+Color Y
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Fish
+EndCard
+
+Character: OMS/S41-021
+Name Shounosuke Hijirisawa
+Color Y
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Mystery
+Cont: GiveSelf
+{
+    GainName NEW Osomatsu Nii-san
+    GainJPName NEWおそ松兄さん
+}
+Text Cont: While on the stage, this card's name is also regarded as "NEW Osomatsu Nii-san".
+EndCard
+
+Character: OMS/S41-022
+Name Chibita
+Color Y
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Oden
+EndCard
+
+Character: OMS/S41-023
+Name "Happy Debut Concert" Totoko
+Color Y
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Fish
+Cont: GiveSelf
+{
+    If AllYourCharacters ColorIs Yellow
+    {
+        GainPower 500
+        GainEffect
+        {
+            *ClockEncore
+        }
+    }
+}
+Text Cont: If all your characters are Yellow, this card gets +500 power and "Auto: ENCORE [Put the top card of your deck in your clock]".
+Auto: OnOtherAttacks
+{
+    IfOther ColorIs Yellow
+    {
+        GainPower 1000
+    }
+}
+Quick
+Text Auto: When your other Yellow character attacks, this card gets +1000 power until end of turn.
+EndCard
+
+Event: OMS/S41-024
+Name Fish Idol
+Color Y
+Level 3
+Cost 4
+Effect: 
+{
+    TargetLocation OpponentDeck
+    SetXValue TargetCount
+    Burn 6
+    TargetLocation OpponentDeck
+    If Not Compare X TargetCount Exactly && LastDamageCanceled
+    {
+        Burn 1
+    }
+}
+Text Deal 6 damage to your opponent. If this damage is canceled, deal 1 damage to your opponent. 
+EndCard
+
+Climax: OMS/S41-025
+Name Totoko's Dream
+*ShotClimax
+EndCard
+
+Climax: OMS/S41-026
+Name Nyan to Nyaight
+*YellowStockSoul
+EndCard
+
+Climax: OMS/S41-027
+Name Iyami's Counterattack
+Color Y
+*DrawClimax
+EndCard
+
+Climax: OMS/S41-028
+Name Apex of Preparation
+*WindClimax
+EndCard
+
+Character: OMS/S41-029
+Name "Favorite Card" Choromatsu
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+*GiveMiddlePower(500,Any)
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    If Compare BrainstormedClimax 1 OrMore
+    {
+        SetXValue BrainstormedClimax
+        Repeat X
+        {
+            SearchDeck IsCharacter && NameContains 松
+        }
+        ShuffleLocation Deck
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax revealed this way, search your deck for up to 1 character with "Matsu" in its card name, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-030
+Name "Favorite Card" Karamatsu
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        RevealUpTo Deck 4
+        ChooseCardsFromTargets 0 1 IsCharacter && NameContains 松
+        RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: [Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck and search for up to 1 character with "Matsu" in its card name, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: OMS/S41-031
+Name "Favorite Card" Osomatsu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sextuplets
+Trait2 Gamble
+Cont: InHand
+{
+	If Compare ClimaxInWaitingRoom 6 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If there are 6 or more climax in your waiting room, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +2000 power.
+*Healer
+EndCard
+
+Character: OMS/S41-032
+Name "Sweets Danshi" Osomatsu
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Cont: GiveAll
+{
+    If Other && NameContains 松
+    {
+        GainPower 500
+    }
+}
+Text Cont: All your other characters with "Matsu" in its card name get +500 power.
+Act: 2 RestSelf
+{
+    SearchDeck IsCharacter && NameContains 松
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 character with "Matsu" in its card name, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-033
+Name "F6" Karamatsu
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+Auto: OnPlay
+{
+    TargetLocation Stage
+    NarrowTargets NameContains 松
+    ChooseCharacterFromTargets Choose a character to give +1500 power.
+    GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters with "Matsu" in its card name, and that character gets +1500 power until end of turn.
+EndCard
+
+Character: OMS/S41-034
+Name "F6" Osomatsu
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Auto: OnAttack
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Quick
+Text Auto: When this card attacks, if the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +2000 power until end of turn.
+*ClockEncore
+EndCard
+
+Character: OMS/S41-035
+Name "Rising Sikorski" Choromatsu
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+Combo Choromatsu Rising
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+    If Climax Choromatsu Rising
+    {
+        *OptionalBlindStock
+        *OptionalBlindStock
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Choromatsu Rising" is in your climax area, put up to 2 cards from the top of your deck in your stock.
+EndCard
+
+Character: OMS/S41-036
+Name "Sweets Danshi" Karamatsu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sextuplets
+Trait2 Brow
+Combo Hedgehog's Dilemma
+Cont: GiveSelf
+{
+    TargetFacing
+    SetXValue ThatCardsLevel
+    AddToXValue ThisCardsLevel
+    If Compare X 6 OrMore
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If the total of level between the character facing this card and this card is 6 or higher, this card gets +2000 power.
+Auto: OnPlay
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to give -4500 power.
+    LosePower 4500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters in the center stage, and that character gets -4500 power until end of turn.
+Auto: OnAttack
+{
+    If Climax Hedgehog's Dilemma
+    {
+        Question_Obvious Put the top card of your clock into stock ?
+        If Yes
+        {
+            TargetTop Clock 1
+            MoveCard Stock
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Hedgehog's Dilemma" is in your climax area, you may put the top card of your clock in your stock.
+EndCard
+
+Character: OMS/S41-037
+Name "Sweets Danshi" Choromatsu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sextuplets
+Trait2 Otaku
+Cont: GiveSelf
+{
+    If LocationContains Stock 6 Any
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If there are 6 or more cards in your stock, this card gets +3000 power.
+*OnPlayDraw2Discard2BlindStock
+Auto: OnReverseOpponent
+{
+    PayCost 2 Discard 1 Any
+    {
+        TargetBattleOpponent
+        IfTarget OnStage
+        {
+            MoveCard OpponentClock
+        }
+    }
+}
+Text Auto: [(2) Put 1 card from your hand to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, put that character in clock.
+EndCard
+
+Character: OMS/S41-038
+Name "F6" Choromatsu
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+*GreenLevel0Bomb
+EndCard
+
+Character: OMS/S41-039
+Name "Calling Names" Osomatsu
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Auto: OnPlay
+{
+    TargetLocation OpponentStage
+    NarrowTargets CanBeChosen
+    ChooseCharacterFromTargets Choose a character to give -500 power.
+    LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets -500 power until end of turn.
+EndCard
+
+Character: OMS/S41-040
+Name "Festival Guy" Karamatsu
+Color G
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+Auto: OnOtherAttacks
+{
+    IfOther NameContains 松
+    {
+        GainPower 1500
+    }
+}
+Quick
+Text Auto: When your other character with "Matsu" in its card name attacks, this card gets +1500 power until end of turn.
+*HandEncore
+EndCard
+
+Character: OMS/S41-041
+Name "Festival Guy" Choromatsu
+Color G
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-042
+Name "Calm Detective" Osomatsu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Combo Calm Osomatsu
+Auto: OnAttack
+{
+    If Climax Calm Osomatsu
+    {
+        *PutCardFromWaitingRoomIntoStock(NameContains 松 && IsCharacter)
+        GainPower 3000
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Calm Osomatsu" is in your climax area, choose up to 1 character with "Matsu" in its card name in your waiting room and put it in your stock, and this card gets +3000 power until end of turn.
+EndCard
+
+Character: OMS/S41-043
+Name "Guilt Guy" Karamatsu
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Sextuplets
+Trait2 Brow
+Cont: InHand
+{
+    If StageContains 4 NameContains 松
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If you have 4 or more characters with "Matsu" in its card name, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+    If AllYourCharacters NameContains 松
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If all your characters have "Matsu" in its card name, this card gets +3000 power.
+EndCard
+
+Character: OMS/S41-044
+Name "Idol Otaku" Choromatsu
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+*PowerInMiddle(3000)
+EndCard
+
+Character: OMS/S41-045
+Name Matsuyo Matsuno & Matsuzou Matsuno
+Color G
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Family
+Act: Rest 2 Any
+{
+    GainPower 2000
+}
+Text Act: [Rest 2 of your characters] This gets +2000 power until end of turn.
+EndCard
+
+Character: OMS/S41-046
+Name "Calling Names" Karamatsu
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+EndCard
+
+Character: OMS/S41-047
+Name "Festival Guy" Osomatsu
+Color G
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Not NameContains 松
+    {
+        Discard 1 Any
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top card of your deck in the waiting room. If it's not a character with "Matsu" in its card name, discard a card from your hand to the waiting room.
+EndCard
+
+Character: OMS/S41-048
+Name "Female Matsu-san" Karako
+Color G
+Level 1
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sports
+Backup 1500
+EndCard
+
+Character: OMS/S41-049
+Name "Oldest Son's Trouble" Osomatsu
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Cont: GiveSelf
+{
+    If StageContains 1 Other NameEquals "Oldest Son's Trouble" Osomatsu
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another '"Oldest Son's Trouble" Osomatsu', this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-050
+Name "Bathrobe Look" Karamatsu
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+Cont: GiveSelf
+{
+    If StageContains 1 Other NameEquals "Bathrobe Look" Karamatsu
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another '"Bathrobe Look" Karamatsu', this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-051
+Name "Ninja Shikomatsu" Choromatsu
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+Cont: GiveSelf
+{
+    If StageContains 1 Other NameEquals "Ninja Shikomatsu" Choromatsu
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another '"Ninja Shikomatsu" Choromatsu', this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-052
+Name "Female Matsu-san" Osoko
+Color G
+Level 1
+Cost 1
+Power 7000
+Soul 1
+EndCard
+
+Character: OMS/S41-053
+Name "Always Together" Matsuno Brothers
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Sextuplets
+Combo Legendary Sextuplets
+Cont: Assist
+{
+    If NameContains 松
+    {
+        SetXValue ThatCardsLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: All your other characters with "Matsu" in its card name get +X power. X equals 500 times level of that character.
+Auto: OnSpecificClimaxPlay Legendary Sextuplets
+{
+    PayCost 1
+    {
+        SearchDeck IsCharacter && NameContains 松
+    }
+}
+Text Auto: CxCombo [(1)] When "Legendary Sextuplets" is placed on your climax area, you may pay the cost. If you do, search your deck for up to 1 character with "Matsu" in its card name, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-054
+Name "Ichimatsu Incident" Karamatsu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 1500
+        GainEffect
+        {
+            Cont: GiveSelf
+            {
+                If InBattle
+                {
+                    GainSpecialEffect NoBackupOnAttack
+                }
+            }
+            Text Cont: During this card's battle, your opponent cannot play "BACKUP" from hand.
+        }
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +1500 power and the following ability. "Cont: During this card's battle, your opponent cannot play "BACKUP" from hand."
+EndCard
+
+Character: OMS/S41-055
+Name "Female Matsu-san" Choroko
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Soul 1
+Trait1 Otaku
+EndCard
+
+Character: OMS/S41-056
+Name Thinking of Little Brothers" Osomatsu, "Big Brother
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Sextuplets
+Trait2 Gamble
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 2000
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +2000 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+EndCard
+
+Character: OMS/S41-057
+Name "Calling Names" Choromatsu
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sextuplets
+Trait2 Otaku
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+    }
+    Else
+    {
+        MoveCard WaitingRoom
+    }
+}
+Text Auto: [Put 1 character from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If not, put this card in the waiting room.
+EndCard
+
+Event: OMS/S41-058
+Name Calm
+Color G
+Level 1
+Cost 1
+Counter
+Effect: 
+{
+    TargetLocation Stage
+    NarrowTargets NameContains 松
+    ChooseCharacterFromTargets Choose a character to give +3500 power.
+    GainPower 3500
+}
+Text Counter Choose 1 of your characters with "Matsu" in its card name, and that character gets +3500 power until end of turn.
+EndCard
+
+Event: OMS/S41-059
+Name Self-Awareness
+Color G
+Level 1
+Cost 1
+Effect: 
+{
+    SearchDeck IsCharacter && NameContains 松
+    TargetLocation Stage
+    NarrowTargets NameContains 松
+    ChooseCharacterFromTargets Choose a character to give +3000 power.
+    GainPower 3000
+}
+Text Search your deck for up to 1 character with "Matsu" in its card name, reveal it, put it in your hand, and shuffle your deck.
+Text Choose 1 of your characters with "Matsu" in its card name, and that character gets +3000 power until end of turn.
+EndCard
+
+Event: OMS/S41-060
+Name Handshake Ticket
+Color G
+Level 2
+Cost 0
+Requirement StageContains 1 NameContains 松
+Text If you have no character with "Matsu" in its card name, you cannot play this card from your hand. 
+Effect: 
+{
+    SearchLocationForTargets WaitingRoom 0 1 NameContains 松 && IsCharacter
+    MoveCard Stock
+    *GiveCharacterPower(2000,Any)
+    TargetSelf
+    MoveCard Stock
+}
+Text Choose up to 1 character in your waiting room with "Matsu" in its card name and put it in your stock. Choose 1 of your characters, and that character gets +2000 power until end of turn. Put this card in your stock.
+EndCard
+
+Climax: OMS/S41-061
+Name Legendary Sextuplets
+*GreenStockSoul
+EndCard
+
+Climax: OMS/S41-062
+Name Calm Osomatsu
+*BarClimax
+EndCard
+
+Climax: OMS/S41-063
+Name Hedgehog's Dilemma
+*BarClimax
+EndCard
+
+Climax: OMS/S41-064
+Name Choromatsu Rising
+*BagClimax
+EndCard
+
+Character: OMS/S41-065
+Name "Favorite Card" Jyushimatsu
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Combo Jyushimatsu in Love
+Cont: GiveSelf
+{
+    If LocationContains Memory 1 NameEquals The Girl Jyushimatsu Likes
+    {
+        GainPower 1000
+    }
+}
+Text Cont: MEMORY If "The Girl Jyushimatsu Likes" is in your memory, this card gets +1000 power.
+Auto: OnAttack
+{
+    If Climax Jyushimatsu in Love && LocationContains Memory 1 NameEquals The Girl Jyushimatsu Likes
+    {
+        SearchWaitingRoom NameContains 松 && IsCharacter
+        TargetSelf
+        GainPower 1000
+    }
+}
+Text Auto: CxCombo MEMORY When this card attacks, if "Jyushimatsu in Love" is in your climax area and "The Girl Jyushimatsu Likes" is in your memory, choose up to 1 character in your waiting room with "Matsu" in its card name and return it to your hand, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: OMS/S41-066
+Name "Favorite Card" Ichimatsu
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sextuplets
+Trait2 Animal
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +2000 power.
+*OnPlayCheck6Send3
+Auto: OnReverseOpponent
+{
+    PayCost 2
+    {
+        Burn 1
+    }
+}
+Text Auto: [(2)] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: OMS/S41-067
+Name "Favorite Card" Todomatsu
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sextuplets
+Trait2 Smartphone
+Combo Todomatsu And 5 Devils
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +2000 power.
+*Healer
+Auto: OnAttack
+{
+    If Climax Todomatsu And 5 Devils
+    {
+        PayCost 2
+        {
+            Mill 6
+            SetXValue TotalSoulTriggers
+            Burn X
+        }
+    }
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Todomatsu And 5 Devils" is in your climax area, you may pay the cost. If you do, put the top 6 cards of your deck in the waiting room, and deal X damage to your opponent. X equals total of the number of soul triggers of the cards put in the waiting room this way. 
+EndCard
+
+Character: OMS/S41-068
+Name "Sweets Danshi" Todomatsu
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+Auto: OnPlay
+{
+    PayCost 1 Clock
+    {
+        SearchWaitingRoom NameContains 松 && IsCharacter
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a character in your waiting room with "Matsu" in its card name and return it to your hand.
+EndCard
+
+Character: OMS/S41-069
+Name "Sweets Danshi" Ichimatsu
+Color R
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+*OnPlayMill2RestIfClimax
+EndCard
+
+Character: OMS/S41-070
+Name "F6" Ichimatsu
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+Cont: Assist
+{
+    If NameContains 松
+    {
+        SetXValue ThatCardsLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: ASSIST Your characters in front of this card with "Matsu" in its card name get +X power. X equals 500 times level of that character.
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameContains 松
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Matsu" in its card name, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: OMS/S41-071
+Name "F6" Jyushimatsu
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Cont: GiveSelf
+{
+    TargetFacing
+    IfTarget Compare ThatCardsLevel 0 OrLess
+    {
+        GainSpecialEffect CannotBeReversed
+    }
+}
+Text Cont: If the cost of the character facing this card is 0 or lower, this card cannot be reverse.
+EndCard
+
+Character: OMS/S41-072
+Name "F6" Todomatsu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+Auto: OnUseThisCardsBackup
+{
+    TargetMyCharacterInBattle
+    IfTarget NameContains 松
+    {        
+        GainPower 1000
+    }
+}
+Quick
+Text Auto: When you use this card's "BACKUP", choose 1 of your characters in battle with "Matsu" in its card name, and that character gets +1000 power until end of turn.
+Backup 2500
+EndCard
+
+Character: OMS/S41-073
+Name "Sweets Danshi" Jyushimatsu
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sextuplets
+Trait2 Sports
+Cont: InHand
+{
+    If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Cont: GiveAll
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainName Jyushimatsu
+        GainJPName 十四松
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +2000 power, and all your characters' card name are also regarded as "Jyushimatsu".
+Auto: StartOpponentEncorePhase
+{
+    If LocationContains Clock 6 Any
+    {
+        Rest
+        TargetLocation Clock
+        MoveCard Deck
+        ShuffleLocation Deck
+    }
+}
+Text Auto: At the beginning of your opponent's encore step, if there are 6 cards in your clock, rest this card, return all cards in your clock to the deck, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-074
+Name "Hidden Kindness" Ichimatsu
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+*GiveNamePower(1000,"F6" Jyushimatsu)
+*BondClock("F6" Jyushimatsu)
+EndCard
+
+Character: OMS/S41-075
+Name "Festival Guy" Jyushimatsu
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+*FreeRunner
+EndCard
+
+Character: OMS/S41-076
+Name "Tragedy's Heroine!?" Todomatsu
+Color R
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+*RedLevel1Bomb
+EndCard
+
+Character: OMS/S41-077
+Name "Festival Guy" Todomatsu
+Color R
+Level 1
+Cost 1
+Power 5500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameContains 松
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If you have another character with "Matsu" in its card name, this card gets +1500 power.
+*HandEncore
+EndCard
+
+Character: OMS/S41-078
+Name "Warm Family" Jyushimatsu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameContains 一松|十四松|Jyushimatsu
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If you have another character with either "Ichimatsu" or "Jyushimatsu" in its card name, this card gets +3000 power.
+EndCard
+
+Character: OMS/S41-079
+Name "Festival Guy" Ichimatsu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+*RedEarlyPlayBomb
+EndCard
+
+Character: OMS/S41-080
+Name "Hidden Side" Jyushimatsu
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameContains 松
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Matsu" in its card name, and that character gets +1000 power until end of turn.
+*Act1SalvageBrainstorm(Any)
+EndCard
+
+Character: OMS/S41-081
+Name "Calling Names" Ichimatsu
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+*RedCost0Bomb
+EndCard
+
+Character: OMS/S41-082
+Name Esper Nyanko
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Animal
+Trait2 ESP
+Auto: OnPlay
+{
+    PayCost Discard 1 IsClimax
+    {
+        SearchWaitingRoom NameContains 一松 && IsCharacter
+    }
+}
+Text Auto: [Put 1 climax from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, choose up to 1 character in your waiting room with "Ichimatsu" in its card name and return it to your hand.
+EndCard
+
+Character: OMS/S41-083
+Name "Cafe Staff" Todomatsu
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+Cont: GiveSelf
+{
+    If StageContainsOrLess 0 Other
+    {
+        GainPower 2000
+        GainTrait Matchmaking Party
+        GainName Totty
+        GainJPName トッティ
+    }
+}
+Text Cont: If you have no other characters, this card gets +2000 power, «Matchmaking Party», and this card's name is also regarded as "Totty".
+EndCard
+
+Character: OMS/S41-084
+Name "Female Matsu-san" Todoko
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+EndCard
+
+Character: OMS/S41-085
+Name "Calling Names" Jyushimatsu
+Color R
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Auto: OnPlay
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget Compare ThatCardsLevel 0 OrLess
+    {
+        TargetSelf
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it's a level 0 or lower character, put this card in your stock. 
+EndCard
+
+Character: OMS/S41-086
+Name "Karamatsu's Perfect Fashion" Ichimatsu
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals "Karamatsu's Perfect Fashion" Ichimatsu
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another '"Karamatsu's Perfect Fashion" Ichimatsu', this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-087
+Name "Dry Monster" Todomatsu
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals "Dry Monster" Todomatsu
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another '"Dry Monster" Todomatsu', this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-088
+Name "Tear Spilling" Jyushimatsu
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals "Tear Spilling" Jyushimatsu
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another '"Tear Spilling" Jyushimatsu', this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-089
+Name "Drive Date" Matsuno Brothers
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Sextuplets
+Combo Flag Corporation
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+    If Climax Flag Corporation
+    {
+        SearchWaitingRoom IsCharacter
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Flag Corporation" is in your climax area, you may choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: OMS/S41-090
+Name "Female Matsu-san" Ichiko
+Color R
+Level 1
+Cost 0
+Power 5500
+Soul 1
+EndCard
+
+Character: OMS/S41-091
+Name "Not Being Honest" Ichimatsu
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Sextuplets
+Trait2 Animal
+Combo True Feeling
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameContains 松|エスパーニャンコ
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If you have another character with either "Matsu" or "Esper Nyanko" in its card name, this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+    If Climax True Feeling
+    {
+        *OptionalBurn(1)
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "True Feeling" is in your climax area, you may deal 1 damage to your opponent. 
+EndCard
+
+Character: OMS/S41-092
+Name "Calling Names" Todomatsu
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Sextuplets
+Trait2 Smartphone
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +3000 power.
+*HandEncore
+EndCard
+
+Character: OMS/S41-093
+Name "Female Matsu-san" Jyushiko
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Gal
+EndCard
+
+Event: OMS/S41-094
+Name Totty
+Color R
+Level 1
+Cost 0
+Effect: 
+{
+    SearchWaitingRoom IsCharacter && NameContains 松
+    Discard 1 Any
+    *GiveCharacterPower(3000,Any)
+}
+Text Choose a character in your waiting room with "Matsu" in its card name and return it to your hand, discard a card from your hand to the waiting room, choose 1 of your characters, and that character gets +3000 power until end of turn.
+EndCard
+
+Event: OMS/S41-095
+Name Ichimatsu-sama, Please Cool These Overheating Boar-like Bodies of Ours
+Color R
+Level 2
+Cost 1
+Effect: 
+{
+    SearchWaitingRoom IsCharacter
+    SearchWaitingRoom IsCharacter
+    Discard 1 Any
+}
+Text Choose up to 2 characters in your waiting room and return them to your hand, and discard a card from your hand to the waiting room.
+EndCard
+
+Event: OMS/S41-096
+Name New Gag
+Color R
+Level 2
+Cost 3
+Counter
+Effect: 
+{
+    If StageContains 5 NameContains 松
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        ChooseCharacterFromTargets Choose a character to rest.
+        Rest
+    }
+}
+Text Counter If you have 5 or more characters with "Matsu" in its card name, choose 1 of your opponent's characters and rest it.
+EndCard
+
+Climax: OMS/S41-097
+Name Flag Corporation
+*RedStockSoul
+EndCard
+
+Climax: OMS/S41-098
+Name Todomatsu And 5 Devils
+*RedStockSoul
+EndCard
+
+Climax: OMS/S41-099
+Name True Feeling
+*DoorClimax
+EndCard
+
+Climax: OMS/S41-100
+Name Jyushimatsu in Love
+*DoorClimax
+EndCard
+
+Character: OMS/S41-101
+Name SD Osomatsu
+Color G
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameContains 松
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If you have another character with "Matsu" in its card name, this card gets +1500 power.
+EndCard
+
+Character: OMS/S41-102
+Name SD Karamatsu
+Color G
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+Auto: OnPlay
+{
+    If StageContains 1 Other && NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another character with "Matsu" in its card name, this card gets +2000 power until end of turn.
+EndCard
+
+Character: OMS/S41-103
+Name SD Choromatsu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+Backup 3000
+EndCard
+
+Character: OMS/S41-104
+Name SD Ichimatsu
+Color R
+Level 1
+Cost 0
+Power 1500
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+Backup 1500
+EndCard
+
+Character: OMS/S41-105
+Name SD Jyushimatsu
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Sextuplets
+Trait2 Sports
+Cont: GiveSelf
+{
+    If AllYourCharacters NameContains 松
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If all your characters have "Matsu" in its card name, this card gets +2000 power.
+EndCard
+
+Character: OMS/S41-106
+Name SD Todomatsu
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+Cont: GiveSelf
+{
+    If StageContainsOrLess 1 Other
+    {
+        GainPower 1000
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If you have 1 or less other characters, this card gets +1000 power and "Auto: ENCORE [Put 1 character from your hand to the waiting room]".
+EndCard
+
+Character: OMS/S41-107
+Name SD Iyami
+Color Y
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 Buckteeth
+Auto: OnOpponentLevelUp
+{
+    MoveCard WaitingRoom
+}
+Quick
+Text Auto: When your opponent levels-up, put this card in the waiting room.
+EndCard
+
+Event: OMS/S41-108
+Name Osomatsu Otoshi
+Color G
+Level 3
+Cost 6
+DeckLimit 1
+Effect: 
+{
+    TargetLocation Hand
+    RevealTargets
+    If TargetsContain 1 NameEquals "Sweets Danshi" Osomatsu &&& TargetsContain 1 NameEquals "Sweets Danshi" Karamatsu &&& TargetsContain 1 NameEquals "Sweets Danshi" Choromatsu &&& TargetsContain 1 NameEquals "Sweets Danshi" Ichimatsu &&& TargetsContain 1 NameEquals "Sweets Danshi" Jyushimatsu &&& TargetsContain 1 NameEquals "Sweets Danshi" Todomatsu
+    {
+        Repeat 10
+        {
+            TargetTop OpponentDeck 1
+            MoveCard OpponentLevel
+        }
+    }
+}
+Text You can only have up to 1 copy of cards with the same name as this card in your deck.
+Text Reveal your hand. If you reveal '"Sweets Danshi" Osomatsu', '"Sweets Danshi" Karamatsu', '"Sweets Danshi" Choromatsu', '"Sweets Danshi" Ichimatsu', '"Sweets Danshi" Jyushimatsu', and '"Sweets Danshi" Todomatsu', you win this game. 
+Text <color=red> * This card is not tournament legal. </color>
+EndCard
+
+Character: OMS/S41-P01
+Name "Lovely NEETs" Osomatsu
+JPName “愛すべきニート達”おそ松
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+EndCard
+
+Character: OMS/S41-P02
+Name "Lovely NEETs" Karamatsu
+JPName “愛すべきニート達”カラ松
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+EndCard
+
+Character: OMS/S41-P03
+Name "Lovely NEETs" Choromatsu
+JPName “愛すべきニート達”チョロ松
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+EndCard
+
+Character: OMS/S41-P04
+Name "Lovely NEETs" Ichimatsu
+JPName “愛すべきニート達”一松
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+EndCard
+
+Character: OMS/S41-P05
+Name "Lovely NEETs" Jyushimatsu
+JPName “愛すべきニート達”十四松
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+EndCard
+
+Character: OMS/S41-P06
+Name "Lovely NEETs" Todomatsu
+JPName “愛すべきニート達”トド松
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+EndCard
+
+Character: OMS/S41-P09
+Name "Nurse" Totoko
+JPName “ナース”トト子
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Music
+Trait2 Fish
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters ColorIs Yellow && Other
+    MultiplyXValue 500
+    GainPower X
+}
+Text Cont: Thsi card gets +500 power for each of your other Yellow characters.
+EndCard
+
+Character: OMS/S41-P10
+Name Totoko Yowai
+JPName 弱井 トト子
+Color Y
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Fish
+Cont: GiveSelf
+{
+    If StageContains 3 Other && ColorIs Yellow
+    {
+        GainPower 1500
+        GainSpecialEffect CannotBeReversedByAutoEffects
+    }
+}
+Text Cont: If the number of other Yellow characters you have is 3 or more, this card gets +1500 power and cannot be reversed by effects of Auto: abilities of your opponent's characters.
+EndCard
+
+Character: OMS/S41-T01
+Name "Everyone Sheh-!!" Matsuno Brothers
+JPName “みんなでシェー!!”松野兄弟
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sextuplets
+Cont: GiveAll
+{
+    If Other && NameContains 松
+    {
+        GainPower 500
+    }
+}
+Text Cont: All your other characters with "Matsu" in its card name get +500 power.
+Auto: OnPlay
+{
+    If LocationContains OpponentStage 1 NameEquals "Everyone Sheh-!!" Matsuno Brothers
+    {
+        Question Say "sheh-!!" ?
+        If Yes
+        {
+            OpponentQuestion Say "sheh-!!" ?
+            If Yes
+            {
+                SearchDeck IsCharacter && NameContains 松
+                OpponentSearchLocationForTargets Deck 0 1 IsCharacter && NameContains 松
+                RevealTargets
+                MoveCard OpponentHand
+                ShuffleLocation OpponentDeck
+            }
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has an '"Everyone Sheh-!!" Matsuno Brothers' and all players agree to, all players say "sheh-!!". If all players do, all players search their deck for up to 1 character with "Matsu" in its card name, reveal it, put it in their hand, and shuffles their deck.
+EndCard
+
+Character: OMS/S41-T02
+Name "Oldest Son of Matsuno Family" Osomatsu
+JPName “松野家の長男”おそ松
+Color G
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Gamble
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        SearchDeck IsCharacter && NameContains 松
+    }
+}
+Text Auto: [(1) Put 1 card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 character with "Matsu" in its card name, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: OMS/S41-T03
+Name "Second Son of Matsuno Family" Karamatsu
+JPName “松野家の次男”カラ松
+Color G
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+*OnPlayGainPower(1500)
+EndCard
+
+Character: OMS/S41-T04
+Name "Let's Get a Job" Choromatsu
+JPName “就職しよう”チョロ松
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+EndCard
+
+Character: OMS/S41-T05
+Name "Idiot With Common Sense" Choromatsu
+JPName “常識的なバカ”チョロ松
+Color G
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+*CannotSideAttack
+EndCard
+
+Character: OMS/S41-T06
+Name "Cool Idiot" Karamatsu
+JPName “クールなバカ ”カラ松
+Color G
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+*PowerInMiddle(1000)
+EndCard
+
+Character: OMS/S41-T07
+Name "Third Son of Matsuno Family" Choromatsu
+JPName “松野家の三男”チョロ松
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Sextuplets
+Trait2 Otaku
+Cont: GiveAll
+{
+    If Other && NameContains 松
+    {
+        GainPower 500
+    }
+}
+Text Cont: All your other characters with "Matsu" in its card name gets +500 power.
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameContains 松
+    ChooseCharacterFromTargets Choose a character to give +1000 power.
+    GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Matsu" in its card name, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: OMS/S41-T08
+Name "Let's Get a Job" Karamatsu
+JPName “就職しよう”カラ松
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Soul 1
+Trait1 Sextuplets
+Trait2 Brow
+EndCard
+
+Character: OMS/S41-T09
+Name "Let's get a job" Osomatsu
+JPName “就職しよう”おそ松
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Sextuplets
+Trait2 Gamble
+EndCard
+
+Character: OMS/S41-T10
+Name "Idiot of Miracles" Osomatsu
+JPName “奇跡のバカ”おそ松
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sextuplets
+Trait2 Gamble
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +1000 power.
+*OnPlayDraw2Discard1
+EndCard
+
+Event: OMS/S41-T11
+Name Chibita's Oden
+JPName チビ太のおでん
+Color G
+Level 2
+Cost 1
+Counter
+Effect: 
+{
+    *GiveCharacterPower(3500,Any)
+}
+Text Counter Choose 1 of your characters, and that character gets +3500 power until end of turn.
+EndCard
+
+Climax: OMS/S41-T12
+Name Taking the World by Storm
+JPName 一世風靡
+*GreenStockSoul
+EndCard
+
+Character: OMS/S41-T13
+Name "Idiot With Good Puppy-Eyes" Todomatsu
+JPName “甘え上手なバカ”トド松
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+*500Assist
+EndCard
+
+Character: OMS/S41-T14
+Name "Fifth Son of Matsuno Family" Jyushimatsu
+JPName “松野家の五男”十四松
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets NameContains 松
+    ChooseCharacterFromTargets Choose a character to give +1500 power.
+    GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your characters with "Matsu" in its card name, and that character gets +1500 power until end of turn.
+EndCard
+
+Character: OMS/S41-T15
+Name "Fourth Son of Matsuno Family" Ichimatsu
+JPName “松野家の四男”一松
+Color R
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+Auto: OnPlay
+{
+    PayCost 2
+    {
+        SearchWaitingRoom IsCharacter && NameContains 松
+    }
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a character in your waiting room with "Matsu" in its card name and return it to your hand.
+EndCard
+
+Character: OMS/S41-T16
+Name "Let's Get a Job" Jyushimatsu
+JPName “就職しよう”十四松
+Color R
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+EndCard
+
+Character: OMS/S41-T17
+Name "Idiot of Darkness" Ichimatsu
+JPName “暗黒のバカ”一松
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+*ClockEncore
+EndCard
+
+Character: OMS/S41-T18
+Name "Idiot of a Different Dimension" Jyushimatsu
+JPName “異次元のバカ”十四松
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Sextuplets
+Trait2 Sports
+Cont: GiveSelf
+{
+    If StageContains 2 Other && NameContains 松
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If the number of other characters with "Matsu" in its card name you have is 2 or more, this card gets +1000 power.
+EndCard
+
+Character: OMS/S41-T19
+Name "Still Idiots Even After Growing Up" Matsuno Brothers
+JPName “成長してもやっぱりバカ”松野兄弟
+Color R
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Sextuplets
+Combo Six Faces, Six Different Personalities
+Auto: OnAttack
+{
+    If Climax Six Faces, Six Different Personalities
+    {
+        PayCost 1
+        {
+            GainPower 6000
+        }
+    }
+}
+Text Auto: [(1)] When this card attacks, if "Six Faces, Six Different Personalities" is in your climax area, you may pay the cost. If you do, this card gets +6000 power until end of turn.
+EndCard
+
+Character: OMS/S41-T20
+Name "Let's Get a Job" Todomatsu
+JPName “就職しよう”トド松
+Color R
+Level 1
+Cost 0
+Power 5500
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+EndCard
+
+Character: OMS/S41-T21
+Name "Let's Get a job" Ichimatsu
+JPName “就職しよう”一松
+Color R
+Level 1
+Cost 1
+Power 7000
+Soul 1
+Trait1 Sextuplets
+Trait2 Animal
+EndCard
+
+Character: OMS/S41-T22
+Name "Youngest Son of Matsuno Family" Todomatsu
+JPName “松野家の末弟”トド松
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Soul 1
+Trait1 Sextuplets
+Trait2 Smartphone
+Auto: OnOtherAttacks
+{
+    IfOther NameContains 松
+    {
+        GainPower 1000
+    }
+}
+Quick
+Text Auto: When your other character with "Matsu" in its card name attacks, this card gets +1000 power until end of turn.
+EndCard
+
+Climax: OMS/S41-T23
+Name The Legend Begins Here
+JPName 伝説はここから
+Color R
+*2SoulClimax
+EndCard
+
+Climax: OMS/S41-T24
+Name Six Faces, Six Different Personalities
+JPName ６つの顔に６つの個性
+*DoorClimax
+EndCard
+

@@ -1,0 +1,2831 @@
+﻿Climax: DDM/S88-BCS02
+Image DDM_BCS2022_02
+Name Descended Gods
+*StandbyClimax
+EndCard
+
+Character: DDM/S88-E001
+Name Exploring the Dungeon, Lili
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 Supporter
+Auto: OnPlay
+{
+	OpponentMultipleChoiceQuestion Declare a level.|0|1|2|3
+	Mill 1
+	If Compare TargetCardsLevel Answer Exactly
+	{
+		SetXValue Answer
+		AddToXValue 1
+		Repeat X
+		{
+			*OptionalDraw
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent declares 0 or 1 or 2 or 3. Put the top card of your deck into your waiting room, and if that card is the level your opponent declared, draw up to X cards. X is equal to the number your opponent declared +1. 
+Auto: StartOpponentDrawPhase
+{
+	Mill 1
+	If OnStage && Compare TargetCardsLevel 1 OrMore
+	{
+		Question Return "Exploring the Dungeon, Lili" to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, put the top card of your deck into your waiting room. If that card is level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: DDM/S88-E002
+Name Reason for Her Strength, Ais
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Familia
+Trait2 Adventurer
+Combo Battle Practice
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		*GiveCharacterPower(2500,Any)
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, choose 1 of your other characters, it gets +2500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Battle Practice && Compare CardsInStock 5 OrLess
+	{
+		PayCost Discard 1 ColorIs Yellow
+		{
+			RevealUpTo Deck 5
+			AIChoice AddToHand
+			Message Choose up to 2 to add to your hand.
+			ChooseCardsFromTargets 0 2 HasTrait Familia|Guild|Hostess of Fertility
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 yellow card from your hand into your waiting room] When this card attacks, if "Battle Practice" is in your climax area, and your stock has 5 or less cards, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 2 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DDM/S88-E003
+Name 【Sword Princess】 Ais
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Familia
+Trait2 Adventurer
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals 【Sword Princess】 Ais
+	{
+		GainPower 1500
+		GainSpecialEffect CannotBeChosen
+	}
+}
+Text Cont: EXPERIENCE If "【Sword Princess】 Ais" is in your level, this card gets +1500 power, and cannot be chosen by your opponent's effects.
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 4500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupInBattle
+		}
+		Text Cont: During this card's battle, all players cannot play "BACKUP" from their hands.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability until the end of your opponent's next turn. "Cont: During this card's battle, all players cannot play "BACKUP" from their hands."
+EndCard
+
+Character: DDM/S88-E004
+Name Encounter by the River, Ais & Hestia
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 Adventurer
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SetXToNumberOfCharacters Other && HasTrait Familia|Guild|Hostess of Fertility
+		*CheckAndAdd(X)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters you have.
+Act: 2 SendSelf WaitingRoom
+{
+	*ChangeWaitingRoom(Moment Between the Two\, Ais)
+}
+Requirement Compare MyLevel 3 OrMore
+Text Act: [(2) Put this card into your waiting room] If your level is 3 or higher, choose 1 "Moment Between the Two, Ais" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: DDM/S88-E005
+Name Victory Feast, Tiona
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 Adventurer
+Auto: OnPlay
+{
+	If Compare MyLevel 1 OrMore
+	{
+		Question Exchange a card in your level with a card in your waiting room?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any,Any)
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your level and 1 card in your waiting room, and exchange them.
+*ClimaxExchange
+EndCard
+
+Character: DDM/S88-E006
+Name Victory Feast, Tione
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 1500
+Trait1 Familia
+Trait2 Adventurer
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice PlaceOnStage
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+*YellowCost0Bomb
+EndCard
+
+Character: DDM/S88-E007
+Name Rivals, Hestia & Lili
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 God
+*BackupBonus1000(Familia|Guild|Hostess of Fertility)
+Backup 1000
+EndCard
+
+Character: DDM/S88-E008
+Name Cue for the Feast, Loki
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Familia|Guild|Hostess of Fertility
+	{
+		SearchDeck NameEquals Reason for Her Strength, Ais
+	}
+}
+Text Auto: [Put 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Reason for Her Strength, Ais", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: DDM/S88-E009
+Name Supporter, Lili
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Familia
+Trait2 Supporter
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	AIChoice Bounce
+	ChooseCharacterFromTargets_Optional Choose a character to return to opponent's hand.
+	Bounce
+	TargetSelf
+	GainSpecialEffect FreeSideAttack
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 of your opponent's characters, return it to their hand, and this card's soul does not decrease by side attacking until end of turn.
+Auto: OnAttack
+{
+	PayCost 2 Discard 1 NameEquals Exploring the Dungeon, Lili
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose another character to give the effect to.
+		AddSelfToTargets
+		GainEffect
+		{
+			*OnCancelBurn1
+		}
+	}
+}
+Text Auto: [(2) Put 1 "Exploring the Dungeon, Lili" from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose this card and 1 of your other characters, and those characters get the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 1 damage to your opponent." 
+EndCard
+
+Character: DDM/S88-E010
+Name Expedition to the Lower Levels, Finn
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 Adventurer
+Auto: StartClimaxPhase
+{
+	If LocationContains WaitingRoom 2 HasTrait Familia|Guild|Hostess of Fertility
+	{
+		Question Put 2 characters from waiting room on the bottom of your clock?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 2 2 HasTrait Familia|Guild|Hostess of Fertility
+			MoveCardToBottom Clock
+			ScheduleEffect EndOfTurn
+			{
+				Effect:
+				{
+					TargetBottom Clock 2
+					MoveCard WaitingRoom
+				}
+				Text Put the bottom 2 cards of your clock into the waiting room.
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, you may choose 2 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters in your waiting room, and put them at the bottom of your clock in any order. If you put 2 cards into your clock, at the end of the turn, put the bottom 2 cards of your clock into your waiting room.
+*Act1RestSelfSalvageBrainstorm(Familia|Guild|Hostess of Fertility)
+EndCard
+
+Character: DDM/S88-E011
+Name Foul-Mouthed Werewolf, Bete
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 Adventurer
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +2 soul until end of turn.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Familia|Guild|Hostess of Fertility
+		AIChoice Bounce
+		ChooseCharacterFromTargets Choose a character to return to your hand.
+		Bounce
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, and return it to your hand.
+EndCard
+
+Character: DDM/S88-E012
+Name Senior Mage, Riveria
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If Other && OpponentsTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all of your other characters get +500 power.
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+Act: RestSelf
+{
+	TargetLocation OpponentCenterStage
+	LosePower 500
+}
+Text Act: [Rest this card] All characters in your opponent's center stage get -500 power until end of turn.
+EndCard
+
+Character: DDM/S88-E013
+Name Unstoppable Words, Lili
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 2
+Trait1 Familia
+Trait2 Supporter
+Combo One More Time
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 4000
+	GainPower X
+}
+Text Cont: This card gets +4000 power for each marker underneath this card.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Familia|Guild|Hostess of Fertility
+	{
+		Question Put this card under "Unstoppable Words, Lili" as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character, you may put it face down underneath this card as a marker. 
+Auto: OnAttack
+{
+	If Climax One More Time && StageContains 4 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		Question Put the top card of your deck under this card as a marker?
+		If Yes
+		{
+			TargetTop Deck 1
+			View
+			IfTarget HasTrait Familia|Guild|Hostess of Fertility
+			{
+				Marker_FaceDown
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "One More Time" is in your climax area, and you have 4 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, you may look at the top card of your deck. If you do, put that card face down underneath this card as a marker.
+EndCard
+
+Character: DDM/S88-E014
+Name Moment Between the Two, Ais
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Familia
+Trait2 Adventurer
+Combo Expedition to the Lower Levels
+Auto: OnPlay|PlacedBy Encounter by the River, Ais & Hestia
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by the Act: effect of "Encounter by the River, Ais & Hestia", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax Expedition to the Lower Levels
+	{
+		PayCost 2
+		{
+			Peek OpponentDeck 3
+			Message Choose cards to return to the top of the deck
+			ChooseCardsFromTargets 0 3 Any
+			SetXValue TargetCount
+			MoveCard OpponentDeck
+			TargetTop OpponentDeck X
+			Message Choose order to return cards. (First on top)
+			Reorder
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Expedition to the Lower Levels" is in your climax area, you may pay the cost. If you do, look at up to 3 cards from the top of your opponent's deck, choose up to 3 cards from among them, put them on the top of their deck in any order, and put the rest into their waiting room.
+EndCard
+
+Character: DDM/S88-E015
+Name End of Special Training, Ais
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 Adventurer
+Combo Expedition to the Lower Levels
+Combo Battle Practice
+Cont: GiveSelfEverywhere
+{
+	//Intentionally empty effect
+	If Climax Expedition to the Lower Levels || Climax Battle Practice
+	{
+		GainTriggerIcon Choice
+	}
+}
+Text Cont: CxCombo If "Battle Practice" or "Expedition to the Lower Levels" is in your climax area, this card in all of your zones gets in the choice trigger icon.
+*YellowLevel0Bomb
+EndCard
+
+Character: DDM/S88-E016
+Name Lure of Alcohol, Loki
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Familia
+Trait2 God
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Familia|Guild|Hostess of Fertility
+	{
+		PayCost 1 SendSelf Memory
+		{
+			TargetOther
+			GainPower 2000
+		}
+	}
+}
+Text Auto: [(1) Put this card into your memory] When your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, it gets +2000 power until end of turn.
+EndCard
+
+Character: DDM/S88-E017
+Name Returning From an Expedition, Tione
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If Compare CardsInClock 3 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If your clock has 3 or more cards, this card gets +3000 power.
+EndCard
+
+Character: DDM/S88-E018
+Name Transformation Magic, Lili
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 Supporter
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost Send 1 WaitingRoom Other
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncoreStep
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard WaitingRoom
+					}
+				}
+				Text At the start of your next encore step, put this card into your waiting room.
+			}
+		}
+	}
+}
+Text Auto: [Put 1 of your other characters from your stage into your waiting room] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the start of your next encore step, put this card into your waiting room.
+EndCard
+
+Character: DDM/S88-E019
+Name Fairy Tale, Tiona
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If Compare CardsInClock 3 OrMore
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If your clock has 3 or more cards, this card gets +4000 power.
+EndCard
+
+Character: DDM/S88-E020
+Name Linked Wishes, Lili
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Familia
+Trait2 Supporter
+*YellowEarlyPlayBomb
+Act: 1
+{
+	GainSoul 1
+}
+Text Act: [(1)] This card gets +1 soul until end of turn.
+EndCard
+
+Character: DDM/S88-E021
+Name Veteran Adventurer, Gareth
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, this card gets +1 level and +2500 power.
+Cont: GiveSelf
+{
+	If Compare ThisCardsLevel 3 OrMore
+	{
+		GainPower 4500
+	}
+}
+Text Cont: If this card is level 3 or higher, this card gets +4500 power.
+EndCard
+
+Character: DDM/S88-E022
+Name All Fired Up, Bete
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If Compare CardsInClock 3 OrMore
+	{
+		GainPower 8000
+	}
+}
+Text Cont: If your clock has 3 or more cards, this card gets +8000 power.
+EndCard
+
+Character: DDM/S88-E023
+Name Compensating With a Lap Pillow, Ais
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupInBattle
+}
+Text Cont: During this card's battle, all players cannot play "BACKUP" from their hands.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Climax: DDM/S88-E024
+Name Battle Practice
+*ChoiceClimax
+EndCard
+
+Climax: DDM/S88-E024R
+Clone DDM/S88-E024
+Image DDM_S88_E024R
+EndCard
+
+Climax: DDM/S88-E025
+Name Expedition to the Lower Levels
+*ChoiceClimax
+EndCard
+
+
+
+Climax: DDM/S88-E026
+Name One More Time
+Color Y
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom IsCharacter && HasTrigger Soul
+	AIChoice GainSoul 1
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with a soul trigger icon in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Climax: DDM/S88-E026R
+Clone DDM/S88-E026
+Image DDM_S88_E026R
+EndCard
+
+Character: DDM/S88-E027
+Name City-Savvy Maiden, Syr
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Hostess of Fertility
+Auto: StartClimaxPhase
+{
+	*GiveCharacterPower(1000,Familia|Guild|Hostess of Fertility)
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets +1000 power until end of turn.
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Familia|Guild|Hostess of Fertility
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: DDM/S88-E028
+Name Gale, Ryu
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Hostess of Fertility
+Combo 【Luminous Wind】
+Auto: OnAttack
+{
+	If Climax 【Luminous Wind】 && Compare Experience 2 OrMore
+	{
+		PayCost Discard 1 Any
+		{
+			RevealUpTo Deck 3
+			NarrowTargets HasTrait Familia|Guild|Hostess of Fertility
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE [Put 1 card from your hand into your waiting room] When this card attacks, if "【Luminous Wind】" is in your climax area, and the total level of the cards in your level is 2 or higher, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 3 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DDM/S88-E029
+Name Cunning Appeal, Syr
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Hostess of Fertility
+Combo Love Is Blind
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}	
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets +1500 power until the end of your opponent's next turn.
+Auto: StartMyEncoreStep
+{
+	If Climax Love Is Blind
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals "Grimoire"
+			SetXValue TargetCount
+			RevealUpTo Deck 2
+			Message Choose cards to put into stock.
+			ChooseCardsFromTargets 0 1 Compare ThatCardsLevel X OrLower
+			MoveCard Stock
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Love Is Blind" from your climax area into your waiting room] At the beginning of your encore step, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 level X or lower cards from among them, reveal them to your opponent, put them into your stock in any order, and put the rest into your waiting room. X is equal to the number of ""Grimoire"" in your waiting room. 
+EndCard
+
+Character: DDM/S88-E030
+Name A Man's Dream, Hermes
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to remove a trait from.
+	RemoveTrait
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters and 1 trait of that character, it loses all of that trait until end of turn.
+Act: 1 SendSelf Memory
+{
+	*Check3Add1(Familia|Guild|Hostess of Fertility)
+}
+Text Act: [(1) Put this card into your memory] Look at up to 3 cards from the top of your deck, choose up to 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DDM/S88-E031
+Name Past Sins, Ryu
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Hostess of Fertility
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Familia|Guild|Hostess of Fertility
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your waiting room, and return it to your hand.
+*OnAttackCheck2ChooseTrigger
+EndCard
+
+Character: DDM/S88-E032
+Name Unusual Interest, Syr
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Hostess of Fertility
+Cont: Assist
+{
+	If HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: ASSIST All of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters in front of this card get +2000 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+Auto: OnPlay
+{
+	SearchDeck HasTrait Familia|Guild|Hostess of Fertility
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: DDM/S88-E033
+Name Ex-Adventurer, Ryu
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Hostess of Fertility
+Cont: GiveSelf
+{
+	If Compare Experience 6 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 6 or higher, this card gets +1500 power.
+Auto: OnPlay
+{
+	Message Choose a character in clock to put on the bottom of your deck.
+	SearchLocationForTargets Clock 0 1 HasTrait Familia|Guild|Hostess of Fertility
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your clock, and put it at the bottom of your deck.
+Auto: OnReverseOpponent
+{
+	IfOther OnStage
+	{
+		PayCost Discard 2 IsCharacter
+		{
+			TargetOther
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [Put 2 characters from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, put that battle opponent into your opponent's clock.
+EndCard
+
+Character: DDM/S88-E034
+Name Sharing Potions, Miach
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Familia
+Trait2 God
+*OnPlayReorderTop2
+*GreenCost0Bomb
+EndCard
+
+Character: DDM/S88-E035
+Name 【Perseus】 Asfi
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainLevel 1
+		GainPower 500
+	}
+}
+Text Cont: If you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, this card gets +1 level and +500 power.
+Cont: GiveSelf
+{
+	If Compare ThisCardsLevel 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If this card is level 2 or higher, this card gets +3000 power.
+EndCard
+
+Character: DDM/S88-E036
+Name Celebration, Syr
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Hostess of Fertility
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character attacks, this card gets +1000 power until end of turn.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: DDM/S88-E037
+Name Mysterious Backup, Ryu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Hostess of Fertility
+*BackupBonus1000(Familia|Guild|Hostess of Fertility)
+Backup 2500
+EndCard
+
+Character: DDM/S88-E038
+Name Chance Meeting in the Back Alley, Ryu
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Hostess of Fertility
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			*500Assist
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets "Cont: ASSIST All of your characters in front of this card get +500 power.".
+*GlobalPower(500,Familia|Guild|Hostess of Fertility)
+EndCard
+
+Character: DDM/S88-E039
+Name Owner of "Hostess of Fertility", Mia
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Hostess of Fertility
+Cont: GiveAll
+{
+	If NameEquals Waitress of "Hostess of Fertility", Syr|Waitress of "Hostess of Fertility", Ryu
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: All of your other "Waitress of "Hostess of Fertility", Syr" and "Waitress of "Hostess of Fertility", Ryu" get +1000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+EndCard
+
+Character: DDM/S88-E040
+Name Waitress of "Hostess of Fertility", Syr
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Hostess of Fertility
+EndCard
+
+Character: DDM/S88-E041
+Name Waitress of "Hostess of Fertility", Ryu
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Hostess of Fertility
+EndCard
+
+Character: DDM/S88-E042
+Name Having It Hard, Asfi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Familia|Guild|Hostess of Fertility
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your back stage.
+Auto: Encore Send 2 WaitingRoom Any
+{
+}
+Text Auto: ENCORE [Put 2 characters from your stage into your waiting room] 
+EndCard
+
+Character: DDM/S88-E043
+Name Today's Lunch Box, Syr
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Hostess of Fertility
+*GainPowerWithEnoughCharacters(2000,2,Familia|Guild|Hostess of Fertility)
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsEvent
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	*GiveOtherCharacterPower(X,Familia|Guild|Hostess of Fertility)
+}
+Text Auto: When this card attacks, choose 1 of your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets +X power until end of turn. X is equal to the number of event cards in your waiting room ×1500.
+EndCard
+
+Character: DDM/S88-E044
+Name Birth of a Hero, Hermes
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Familia|Guild|Hostess of Fertility)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, you may choose 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your waiting room, and put it into your stock.
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		AIChoice GainSoul 2
+		ChooseCharacterFromTargets Choose a character to give +2 soul.
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, choose 1 of your characters, it gets +2 soul until end of turn.
+EndCard
+
+Event: DDM/S88-E045
+Name "Grimoire"
+Color G
+Level 1
+Cost 0
+Effect
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation Stage
+	NarrowTargets HasTrait Familia|Guild|Hostess of Fertility
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			GainSpecialEffect DoubleTrigger
+		}
+		TimesPerTurn 1
+		Quick
+		Text Auto: This ability activates up to 1 time per turn. When this card attacks, during that attack, perform a trigger check 2 times on the trigger step.
+	}
+}
+Text Draw 1 card, choose 1 card in your hand, and put it into your waiting room.\nChoose 1 of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When this card attacks, during that attack, perform a trigger check 2 times on the trigger step."
+EndCard
+
+Climax: DDM/S88-E046
+Name 【Luminous Wind】
+*BarClimax
+EndCard
+
+Climax: DDM/S88-E047
+Name Love Is Blind
+*BarClimax
+EndCard
+
+Character: DDM/S88-E048
+Name First Adventure, Bell
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Familia
+Trait2 Adventurer
+Combo Unyielding Feelings
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals 【Fire Bolt】
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of "【Fire Bolt】" in your waiting room ×1500.
+Auto: OnSpecificClimaxPlay Unyielding Feelings
+{
+	If InLocation CenterStage && StageContains 1 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		MultipleChoiceQuestion Search deck or waiting room?|Deck|Waiting Room
+		If Answer 0
+		{
+			SearchDeck NameEquals 《Hestia Knife》
+		}
+		Else
+		{
+			SearchWaitingRoom NameEquals 《Hestia Knife》
+		}
+	}
+}
+Text Auto: CxCombo When "Unyielding Feelings" is placed on your climax area, if this card is in your center stage, and you have another 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character, choose 1 of the following effects, and perform it. "Choose 1 "《Hestia Knife》" in your waiting room, and return it to your hand." "Search your deck for up to 1 "《Hestia Knife》", reveal it to your opponent, put it into your hand, and shuffle your deck."
+EndCard
+
+Character: DDM/S88-E049
+Name Argonaut, Bell
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Familia
+Trait2 Adventurer
+Combo "The Heroic Shot"
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainPower 7000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 3 or higher, this card gets +7000 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+Auto: OnEndOfAttack
+{
+	If Climax "The Heroic Shot" && Compare Experience 7 OrMore && StageContains 3 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		PayCost 3
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo EXPERIENCE [(3)] This ability activates up to 1 time per turn. At the end of this card's attack, if ""The Heroic Shot"" is in your climax area, the total level of the cards in your level is 7 or higher, and you have 3 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, you may pay the cost. If you do, Stand this card.
+EndCard
+
+Character: DDM/S88-E050
+Name The Story Begins Here, Bell & Hestia
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Familia
+Trait2 Adventurer
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	If Compare TargetCount 1 OrMore
+	{
+		ChooseCardFromTargets 0 1 HasTrait Familia|Guild|Hostess of Fertility
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: DDM/S88-E051
+Name Turf War, Welf
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Familia
+Trait2 Blacksmith Master
+Cont: GiveHand
+{
+	If NameEquals Pyonkichi
+	{
+		ChangeCost -1
+	}
+}
+Text Cont: "Pyonkichi" gets -1 cost while in your hand.
+Act: 1 RestSelf
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Pyonkichi
+	SetXValue TargetCount
+	AddToXValue 1
+	RevealUpTo Deck X
+	AIChoice AddToHand
+	Message Choose a card to add to your hand.
+	ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrHigher
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Rest this card] Look at up to X cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. X is equal to the number of "Pyonkichi" in your waiting room +1. 
+EndCard
+
+Character: DDM/S88-E052
+Name Cursed Clan, Welf
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Familia
+Trait2 Blacksmith Master
+Combo A Blacksmith's Obstinance
+Auto: OnAttack
+{
+	If Climax A Blacksmith's Obstinance && StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals 《Ushiwakamaru》
+		SetXValue TargetCount
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: CxCombo When this card attacks, if "A Blacksmith's Obstinance" is in your climax area, and you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, you may choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the number of "《Ushiwakamaru》" in your waiting room.
+*RedLevel1Bomb
+EndCard
+
+Character: DDM/S88-E053
+Name 【Little Rookie】 Bell
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Familia
+Trait2 Adventurer
+*EarlyPlay4OrMore(Familia|Guild|Hostess of Fertility)
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each marker underneath this card.
+*Healer
+Auto: OnAttack
+{
+	If Not HasMarker
+	{
+		Message Choose up to 1 《Hestia Knife》
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals 《Hestia Knife》
+		Marker_FaceUp
+		Message Choose up to 1 《Ushiwakamaru》
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals 《Ushiwakamaru》
+		Marker_FaceUp
+	}
+}
+Text Auto: When this card attacks, if there are no markers underneath this card, you may choose up to 1 "《Hestia Knife》" and up to 1 "《Ushiwakamaru》" in your waiting room, and put them face up underneath this card in any order as markers.
+EndCard
+
+Character: DDM/S88-E054
+Name Adventurer, Bell
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Familia
+Trait2 Adventurer
+*OnPlayCheckX(Familia|Guild|Hostess of Fertility)
+Auto: OnAttack
+{
+	If LocationContains WaitingRoom 1 NameEquals 《Hestia Knife》
+	{
+		PayCost 1 Discard 1 HasTrait Familia|Guild|Hostess of Fertility
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: [(1) Put 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from your hand into your waiting room] When this card attacks, if "《Hestia Knife》" is in your waiting room, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: DDM/S88-E055
+Name Qualifications of a Hero, Bell
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 Adventurer
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 Clock SendSelf Hand
+	{
+		AIChoice Bounce
+		TargetLocation Stage
+		NarrowTargets HasTrait Familia|Guild|Hostess of Fertility
+		ChooseCharacterFromTargets Choose a character to return to your hand.
+		Bounce
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock & Return this card to your hand] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, and return it to your hand.
+Act: 1 SendSelf WaitingRoom
+{
+	*ChangeWaitingRoom(Argonaut\, Bell)
+}
+ActivationRequirement Compare MyLevel 2 OrMore
+Text Act: [(1) Put this card into your waiting room] If your level is 2 or higher, choose 1 "Argonaut, Bell" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: DDM/S88-E056
+Name Message, Hephaistos
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 God
+*RedLevel0Bomb
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals Cursed Clan, Welf
+}
+Text Act: [(1) Put this card into your memory] Choose 1 "Cursed Clan, Welf" in your waiting room, and return it to your hand.
+EndCard
+
+Character: DDM/S88-E057
+Name 【God of the Masses】 Ganesha
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Familia
+Trait2 God
+*OnPlayTradeClimaxForCharacter(Familia|Guild|Hostess of Fertility)
+Act: 1 SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+	PlaceOnStage False True True False
+	ScheduleEffectForTargets EndOfTurn
+	{
+		Effect:
+		{
+			If OnStage
+			{
+				MoveCard Memory
+			}
+		}
+		Quick
+		Text At the end of the turn, put that character into your memory
+	}
+}
+Text Act: [(1) Put this card into your waiting room] Choose 1 level 0 or lower character in your waiting room, put it on any position of your stage, and at the end of the turn, put that character into your memory.
+EndCard
+
+Character: DDM/S88-E058
+Name Meeting Up for a Date, Bell
+Color R
+Level 1
+Cost 1
+Power 4000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: If you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, this card gets +1 level and +1500 power.
+Cont: GiveSelf
+{
+	If Compare ThisCardsLevel 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If this card is level 2 or higher, this card gets +3000 power.
+EndCard
+
+Character: DDM/S88-E059
+Name A Blacksmith's Resolve, Welf
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Familia
+Trait2 Blacksmith Master
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter || NameEquals "Crozzo's Magic Sword"
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is ""Crozzo's Magic Sword"" or a 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character, you may deal 1 damage to your opponent. 
+Auto: OnReverseOpponent
+{
+	If LocationContains Hand 1 NameEquals "Crozzo's Magic Sword" && Compare MyLevel 3 OrMore
+	{
+		If LocationContains Clock 1 ColorIs Red ||| LocationContains Level 1 ColorIs Red
+		{
+			PayCost 1 Discard 1 HasTrait Familia|Guild|Hostess of Fertility
+			{
+				SearchLocationForTargets Hand 1 1 NameEquals "Crozzo's Magic Sword"
+				PlayEvent
+			}
+		}
+	}
+}
+Text Auto: [(1) Put 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose up to 1 ""Crozzo's Magic Sword"" in your hand, and if the level and color requirements are fulfilled, play it without paying the cost.
+EndCard
+
+Character: DDM/S88-E060
+Name Present Self, Bell
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 Adventurer
+Combo 【Familia Myth】
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Familia|Guild|Hostess of Fertility
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give the effect and 2000 power to.
+	GainPower 2000
+	GainEffect
+	{
+		Auto: OnDamageCancel
+		{
+			If Climax 【Familia Myth】
+			{
+				Question Return 【Familia Myth】 from your climax area to your hand?
+				If Yes
+				{
+					TargetLocation Climax
+					MoveCard Hand
+				}
+			}
+		}
+		Text Auto: When damage dealt by this card is canceled, you may choose 1 "【Familia Myth】" in your climax area, and return it to your hand.
+	}
+}
+Text Act: CxCombo [Rest this card] Choose 1 of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets +2000 power and the following ability until end of turn. "Auto: When damage dealt by this card is canceled, you may choose 1 "【Familia Myth】" in your climax area, and return it to your hand."
+EndCard
+
+Character: DDM/S88-E061
+Name Goddess of Beauty, Freya
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 God
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: Your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in the middle position of your center stage gets +X power. X is equal to that character's level ×500.
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		RevealUpTo Deck 4
+		If TargetsContain 1 NameEquals Trials of an Adventurer, Ottarl
+		{
+			Message Choose card to place on stage
+			ChooseCardsFromTargets 0 1 NameEquals Trials of an Adventurer, Ottarl
+			PlaceOnStage False True True True
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 "Trials of an Adventurer, Ottarl" from among them, put it on any position of your stage as resting, and put the rest into your waiting room.
+EndCard
+
+Character: DDM/S88-E062
+Name Wavering Heart, Welf
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 Blacksmith Master
+Auto: OnPlay
+{
+	If Compare CardsInMemory 5 OrMore || Compare CardsInOpponentsMemory 5 OrMore //Make the effect quick if it does nothing
+	{
+		If Compare CardsInMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			SearchLocationForTargets Memory 4 4 Any
+			ReverseTargets Memory
+			MoveCard WaitingRoom
+		}
+		If Compare CardsInOpponentsMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			OpponentSearchLocationForTargets Memory 4 4 Any
+			ReverseTargets OpponentMemory
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players perform the following action. "If your memory has 5 or more cards, choose 4 cards in your memory, and put all cards in your memory except those cards into your waiting room."
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrigger Soul
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		AIChoice RestAndMoveToBackstage
+		ChooseCharacterFromTargets Choose a character to rest and move to the backstage.
+		Rest
+		If HasTarget
+		{
+			MoveToOpenPosition False True
+		}
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card has soul in its trigger icon, choose 1 of your other characters, Rest it, and move it to an open position of your back stage. 
+EndCard
+
+Character: DDM/S88-E063
+Name Aiming for Greater Heights, Bell
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If MyTurn && Other && Compare MyLevel 3 OrHigher && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, if your level is 3 or higher, all of your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters get +1000 power.
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters get +1000 power.
+EndCard
+
+Character: DDM/S88-E064
+Name Encouraging Words, Bell
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Familia
+Trait2 Adventurer
+Auto: OnUseThisCardsBackup
+{
+	*Scry
+}
+Text Auto: When you use this card's "BACKUP", look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+Backup 2500
+EndCard
+
+Character: DDM/S88-E065
+Name Trials of an Adventurer, Ottarl
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainLevel 5
+		GainPower 2500
+	}
+}
+Text Cont: If you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, this card gets +5 levels and +2500 power.
+EndCard
+
+Character: DDM/S88-E066
+Name Anti-Magic Fire, Welf
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Familia
+Trait2 Blacksmith Master
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+Auto: Encore 1 Send 1 WaitingRoom Other
+{
+}
+Text Auto: ENCORE [(1) Put 1 character from your stage into your waiting room] 
+EndCard
+
+Event: DDM/S88-E067
+Name 《Ushiwakamaru》
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 IsCharacter &&& AllYourCharacters HasTrait Familia|Guild|Hostess of Fertility
+Effect:
+{
+	DrawCard
+}
+Text If all of your characters are 《Familia》 or 《Guild》 or 《Hostess of Fertility》, draw 1 card.
+EndCard
+
+Event: DDM/S88-E068
+Name 【Fire Bolt】
+Color R
+Level 1
+Cost 0
+Effect
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals First Adventure, Bell
+	SetXValue TargetCount
+	SearchWaitingRoom HasTrait Familia|Guild|Hostess of Fertility && Compare ThatCardsLevel X OrLower
+}
+Text Choose 1 level X or lower 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your waiting room, and return it to your hand. X is equal to the number of "First Adventure, Bell" in your waiting room.
+EndCard
+
+Event: DDM/S88-E069
+Name Pyonkichi
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchWaitingRoom HasTrait Familia|Guild|Hostess of Fertility
+	*GiveCharacterPower(4000,Familia|Guild|Hostess of Fertility)
+}
+Text Choose 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your waiting room, return it to your hand, choose 1 of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets +4000 power until end of turn.
+EndCard
+
+Event: DDM/S88-E070
+Name "Crozzo's Magic Sword"
+Color R
+Level 3
+Cost 3
+Requirement StageContains 1 HasTrait Familia|Guild|Hostess of Fertility
+Effect
+{
+	Burn 3
+	MoveCard Memory
+}
+Text If you do not have a 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character, this card cannot be played from your hand. Deal 3 damage to your opponent. Put this card into your memory. 
+EndCard
+
+Climax: DDM/S88-E071
+Name "The Heroic Shot"
+*DoorClimax
+EndCard
+
+Climax: DDM/S88-E072
+Name Unyielding Feelings
+*DoorClimax
+EndCard
+
+Climax: DDM/S88-E073
+Name 【Familia Myth】
+Color R
+*2SoulClimax
+EndCard
+
+Climax: DDM/S88-E074
+Name A Blacksmith's Obstinance
+*StandbyClimax
+EndCard
+
+Character: DDM/S88-E075
+Name Human Activity, Hestia
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Familia
+Trait2 God
+Auto: OnUseEvent
+{
+	Question Draw a card then discard a card?
+	If Yes
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you play an event, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+*Act1RestSelfSearchBrainstorm(Familia|Guild|Hostess of Fertility)
+EndCard
+
+Character: DDM/S88-E076
+Name Advisor of the Labyrinth's Exploration, Eina
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Guild
+*Level3Assist
+Act: RestSelf
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+				GainSpecialEffect CannotUseBackup
+				GainSpecialEffect CannotUseEvents
+			}
+		}
+		Cont: During this card's battle, you cannot play event cards or "BACKUP" from your hand.
+	}
+}
+ActivationRequirement LocationContains WaitingRoom 1 IsEvent
+Text Act: [Rest this card] If there is an event card in your waiting room, choose 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: During this card's battle, you cannot play event cards or "BACKUP" from your hand."
+EndCard
+
+Character: DDM/S88-E077
+Name Proof of Trust, Hestia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Familia
+Trait2 God
+Combo I Shall Make You Win
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && HasTrait Familia|Guild|Hostess of Fertility
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your back stage.
+*StockHealer
+Auto: OnAttack
+{
+	If Climax I Shall Make You Win
+	{
+		TargetLocation Stage
+		//AI should have something specific for this card's ability
+		ChooseCharacterFromTargets Choose a character to give the effect and +1 soul to.
+		GainSoul 1
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				*OptionalBurn(2)
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 2 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "I Shall Make You Win" is in your climax area, choose 1 of your characters, it gets +1 soul and the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 2 damage to your opponent." 
+EndCard
+
+Character: DDM/S88-E078
+Name Goddess's Judgment, Hestia
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 God
+*OnAttackMill1PutLevel0OnField
+Auto: OnReversed
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 2 OrHigher
+	If HasTarget
+	{
+		TargetSelf
+		Question_Obvious Put "Goddess's Judgment, Hestia" into your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, put the top 2 cards of your deck into your waiting room. If there is a level 2 or higher card among those cards, you may put this card into your stock. 
+EndCard
+
+Character: DDM/S88-E079
+Name Balance Between Friends, Mikoto
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Familia
+Trait2 Adventurer
+*Level0Assist
+Act: SendSelf WaitingRoom
+{
+	*ChangeWaitingRoom(Gravity Cage\, Mikoto)
+}
+ActivationRequirement Compare MyLevel 1 OrHigher
+Text Act: [Put this card into your waiting room] If your level is 1 or higher, choose 1 "Gravity Cage, Mikoto" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: DDM/S88-E080
+Name "Guild" Receptionist, Eina
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Guild
+*SacrificeToSave(HasTrait Familia|Guild|Hostess of Fertility)
+Text Auto: [Put this card into your waiting room] When your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, return that character to its previous stage position as resting.
+Act: Discard 1 NameEquals "Magic Stone" &&& RestSelf
+{
+	Message Choose cards to put into stock.
+	AIChoice RemoveFromWaitingRoom
+	SearchLocationForTargets WaitingRoom 1 2 HasTrait Familia|Guild|Hostess of Fertility
+	MoveCard Stock
+	SetXValue TargetCount
+	TargetTop Stock X
+	If Compare X 2 OrMore
+	{
+		Message Choose order to put cards into stock.
+		Reorder
+	}
+}
+Text Act: [Put 1 ""Magic Stone"" from your hand into your waiting room & Rest this card] Choose up to 2 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters in your waiting room, and put them into your stock in any order.
+EndCard
+
+Character: DDM/S88-E081
+Name Gift From Goddess, Hestia
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Argonaut, Bell
+		SetXValue TargetCount
+		SearchWaitingRoom HasTrait Familia|Guild|Hostess of Fertility && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level X or lower 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your waiting room, and return it to your hand. X is equal to the number of "Argonaut, Bell" in your waiting room.
+EndCard
+
+Character: DDM/S88-E082
+Name Receptionist's Day Off, Eina
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Guild
+Cont: GiveSelf
+{
+	//Intentionally Blank, this makes more sense to put this effect on the event
+}
+Text Cont: "Eina's Present" event cards get Counter: while in your hand.
+*LevelAssistTrait(Familia|Guild|Hostess of Fertility)
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 IsClimax
+	{
+		*CheckAndAdd(2)
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When your character's trigger check reveals a climax, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DDM/S88-E083
+Name Loli Goddess, Hestia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Familia
+Trait2 God
+*EarlyPlayInClock(Human Activity\, Hestia)
+*GainPowerForEachOther(500,Familia|Guild|Hostess of Fertility)
+Auto: OnPlay
+{
+	Question_Obvious Put the bottom card of your clock into the waiting room.
+	If Yes
+	{
+		TargetBottom Clock 1
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the bottom card of your clock into the waiting room.
+EndCard
+
+Character: DDM/S88-E084
+Name Case's Conclusion, Eina
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Guild
+*DropSearch(Familia|Guild|Hostess of Fertility)
+*BlueLevel0Bomb
+EndCard
+
+Character: DDM/S88-E085
+Name Role of Sending Off, Takemikazuchi
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	PayCost ShuffleCharacter 2
+	{
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: [Return 2 characters from your waiting room to your deck & Shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card's soul does not decrease by side attacking until end of turn.
+*OnAttackGivePowerForEachOther(500,Familia|Guild|Hostess of Fertility)
+EndCard
+
+Character: DDM/S88-E086
+Name Gravity Cage, Mikoto
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Familia
+Trait2 Adventurer
+Combo 【Futsu-no-Mitama】
+*GainPowerForEachOther(500,Familia|Guild|Hostess of Fertility)
+Auto: OnAttack
+{
+	If Climax 【Futsu-no-Mitama】 && StageContains 4 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 2
+			AIChoice AddToHand
+			Message Choose up to 1 card to add to your hand, the rest go to stock.
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			TargetLocation ScryArea
+			SetXValue TargetCount
+			MoveCard Stock
+			If Compare X 2 OrMore
+			{
+				TargetTop Stock X
+				Message Choose order to put cards into stock. (First on top)
+				Reorder	
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "【Futsu-no-Mitama】" is in your climax area, and you have 4 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your stock in any order.
+EndCard
+
+Character: DDM/S88-E087
+Name Belief in His Victory, Hestia
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Familia
+Trait2 God
+Auto: OnUseEvent
+{
+	IfOther NameEquals 《Hestia Knife》
+	{
+		GainPower 4000
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you play "《Hestia Knife》", this card gets +4000 power until end of turn.
+EndCard
+
+Character: DDM/S88-E088
+Name Meeting Up for a Date, Hestia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Familia
+Trait2 God
+Combo Paradise in Heaven
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Bell
+	{
+		GainPower 7500
+	}
+}
+Text Cont: If you have another character with "Bell in its card name, this card gets +7500 power.
+Auto: OnReverseOpponent
+{
+	If Climax Paradise in Heaven && StageContains 1 Other && NameContains Bell
+	{
+		Message Choose up to 2 cards to put into stock
+		AIChoice RemoveFromWaitingRoom
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Familia|Guild|Hostess of Fertility
+		MoveCard Stock
+		*Check4Add1(Familia|Guild|Hostess of Fertility)
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Paradise in Heaven" is in your climax area, and you have another character with "Bell" in its card name, choose up to 2 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters in your waiting room, put them into your stock in any order, look at up to 4 cards from the top of your deck, choose up to 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DDM/S88-E089
+Name Present of Croquettes, Hestia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Familia
+Trait2 God
+*OnPlayFlicker
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		OpponentMessage Choose a climax to keep in your waiting room.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		ReverseTargets OpponentWaitingRoom
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent chooses 1 climax in their waiting room, returns all cards from their waiting room except that card to their deck, and shuffles their deck.
+EndCard
+
+Character: DDM/S88-E090
+Name Pursuit of Truth, Eina
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Guild
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		RevealUpTo Deck 2
+		NarrowTargets HasTrait Familia|Guild|Hostess of Fertility
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DDM/S88-E091
+Name Part-Time Job on the Side, Hestia
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	If TargetsContain 1 IsEvent
+	{
+		AIChoice AddToHand
+		Message Choose an event to add to your hand
+		ChooseCardsFromTargets 1 1 IsEvent
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Slow
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+EndCard
+
+Character: DDM/S88-E092
+Name Support Role, Chigusa
+Color B
+Level 1
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveAll
+{
+	If NameEquals Man's Obstinance, Ouka
+	{
+		GainPower 3000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: All of your other "A Man's Obstinance, Ouka" get +3000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+Act: RestSelf
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give the effect and +1000 power to.
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			IfOther OnStage
+			{
+				TargetOther
+				Question Put the battle opponent on the bottom of the deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character at the bottom of your opponent's deck.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character at the bottom of your opponent's deck."
+EndCard
+
+Character: DDM/S88-E093
+Name Drunken Goddess, Hestia
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Familia
+Trait2 God
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 HasTrait Familia|Guild|Hostess of Fertility
+	{
+		*BottomDeckEarlyPlay
+	}
+}
+Text Auto: [Put 2 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it at the bottom of their deck.
+Backup 1000
+EndCard
+
+Character: DDM/S88-E094
+Name A Man's Obstinance, Ouka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Familia
+Trait2 Adventurer
+EndCard
+
+Event: DDM/S88-E095
+Name 《Hestia Knife》
+Color B
+Level 1
+Cost 0
+Counter
+Requirement MyTurn && StageContains 1 NameContains Bell|Hestia ||| OpponentsTurn && StageContains 1 NameContains Bell
+Effect:
+{
+	*Check4Add1(Familia|Guild|Hostess of Fertility)
+}
+Text Counter: If you do not have a character with "Hestia" or "Bell" in its card name, this card cannot be played from your hand. If you do not have a character with "Bell" in its card name, this card cannot be played from your hand during the counter step. This card can be played from your hand without fulfilling color requirements. Look at up to 4 cards from the top of your deck, choose up to 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Cont: InHand
+{
+	GainSpecialEffect IgnoreColorRequirement
+}
+EndCard
+
+Event: DDM/S88-E096
+Name Eina's Present
+Color B
+Level 1
+Cost 1
+//Counter for effect of card that gives this counter
+Counter
+Requirement MyTurn || StageContains 1 NameEquals Receptionist's Day Off, Eina
+Effect:
+{
+	ForcePayCost Send 1 WaitingRoom HasTrait Familia|Guild|Hostess of Fertility
+	{
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text You may choose 1 of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, and put it into your waiting room. If you do, put this card into your memory.
+Cont: Memory
+{
+	If HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 1000
+	}
+}
+Text Cont: MEMORY If this card is in your memory, all of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters get +1000 power.
+EndCard
+
+Event: DDM/S88-E097
+Name "Magic Stone"
+Color B
+Level 2
+Cost 1
+Requirement StageContains 3 HasTrait Familia|Guild|Hostess of Fertility
+Effect:
+{
+	TargetLocation OpponentStock
+	SetXValue TargetCount
+	MoveCard OpponentDeck
+	ShuffleLocation OpponentDeck
+	Repeat X
+	{
+		TargetTop OpponentDeck 1
+		MoveCard OpponentStock
+	}
+}
+Text If you have 3 or more 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, your opponent returns all cards from their stock to their deck, shuffles their deck, and puts the same number of cards from the top of their deck into their stock.
+EndCard
+
+Climax: DDM/S88-E098
+Name I Shall Make You Win
+*GateClimax
+EndCard
+
+Climax: DDM/S88-E098R
+Clone DDM/S88-E098
+Image DDM_S88_E098R
+EndCard
+
+Climax: DDM/S88-E099
+Name Paradise in Heaven
+*GateClimax
+EndCard
+
+Climax: DDM/S88-E099R
+Clone DDM/S88-E099
+Image DDM_S88_E099R
+EndCard
+
+Climax: DDM/S88-E100
+Name 【Futsu-no-Mitama】
+*BookClimax
+EndCard
+
+Character: DDM/S88-E101
+Name Choice for Survival, Lili
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 Supporter
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +1 soul.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Familia|Guild|Hostess of Fertility
+		*GiveOtherCharacterPower(1000,Familia|Guild|Hostess of Fertility)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your waiting room, return it to your hand, choose 1 of your other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: DDM/S88-E102
+Name Conquering the Middle Levels, Welf
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Familia
+Trait2 Blacksmith Master
+*CannotBeReversedByCost0
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character, this card gets +1500 power until end of turn.
+EndCard
+
+Character: DDM/S88-E103
+Name Fleeing From Despair, Bell
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Familia
+Trait2 Adventurer
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, this card gets +2000 power until end of turn.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If OnStage && Compare TargetCardsLevel 2 OrMore
+	{
+		TargetSelf
+		Question_Obvious Rest this card?
+		If Yes
+		{
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may Rest this card. 
+EndCard
+
+Character: DDM/S88-E104
+Image DDM_S88_E104
+Name "Skill" Activation, Hestia
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 God
+Auto: OnUseEvent
+{
+	Question Put ""Skill" Activation, Hestia" into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When you play an event, you may put this card into your stock.
+Act: RestSelf
+{
+	*GiveCharacterPower(1000,Familia|Guild|Hostess of Fertility)
+}
+Text Act: [Rest this card] Choose 1 of your 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, it gets +1000 power
+EndCard
+
+
+
+
+Character: DDM/S88-PE02
+Name Sleeping Goddess, Hestia
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 IsEvent
+	{
+		SearchWaitingRoom IsEvent
+	}
+}
+Text Auto: [(1) Put 1 event from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 event in your waiting room, and return it to your hand.
+EndCard
+
+Character: DDM/S88-TE01
+Name Chienthrope? Girl, Lili
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 Supporter
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Familia|Guild|Hostess of Fertility
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: DDM/S88-TE02
+Name First Class Adventurer, Ais
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, this card gets +1500 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: DDM/S88-TE03
+Name Blacksmith Master, Welf
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Familia
+Trait2 Blacksmith Master
+Auto: StartEncorePhase
+{
+	If CardPosition Reverse && Not StageContains 1 InLocation CenterStage && CardPosition Rest
+	{
+		PayCost Clock
+		{
+			Rest
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] At the beginning of the encore step, if you do not have another Rest character in your center stage, you may pay the cost. If you do, Rest this card.
+EndCard
+
+Character: DDM/S88-TE04
+Name Shy Maiden, Lili
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Familia
+Trait2 Supporter
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, this card gets +4000 power.
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return "Shy Maiden, Lili" to your hand?
+		If Yes
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: During this card's battle, when the damage you received is canceled, you may return this card to your hand.
+EndCard
+
+Character: DDM/S88-TE05
+Name Encounter in the Dungeon, Ais
+Color Y
+Level 1
+Cost 1
+Power 5500
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Familia|Guild|Hostess of Fertility
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: DDM/S88-TE06
+Name Monster Feria, Ais
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Familia
+Trait2 Adventurer
+Backup 3000
+EndCard
+
+Character: DDM/S88-TE07
+Name Vow of Atonement, Lili
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Familia
+Trait2 Supporter
+*LevelAssist
+Act: 2 RestSelf
+{
+	SearchWaitingRoom HasTrait Familia|Guild|Hostess of Fertility
+}
+Text Act: [(2) Rest this card] Choose 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character in your waiting room, and return it to your hand.
+EndCard
+
+Climax: DDM/S88-TE08
+Name 【Hestia Familia】
+Color Y
+*2SoulClimax
+EndCard
+
+Character: DDM/S88-TE09
+Name Start of a Day, Hestia
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 God
+Cont: GiveAll
+{
+	If NameEquals Trying to Pick Up Girls, Bell
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				*ScryToBottom
+				TargetSelf
+				GainPower 1000
+			}
+			Text Auto: When this card attacks, look at the top card of your deck, put it on the top or at the bottom of your deck, and this card gets +1000 power until end of turn.
+		}
+	}
+}
+Text Cont: All of your other "Trying to Pick Up Girls, Bell" get the following ability. "Auto: When this card attacks, look at the top card of your deck, put it on the top or at the bottom of your deck, and this card gets +1000 power until end of turn."
+*Bond1(Trying to Pick Up Girls\, Bell)
+EndCard
+
+Character: DDM/S88-TE10
+Name Moment in Labyrinth City, Hestia
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Familia|Guild|Hostess of Fertility
+	{
+		SearchDeck NameEquals Status Update
+	}
+}
+Text Auto: [Put 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Status Update", reveal it to your opponent, put it into your hand, and shuffle your deck.
+*BlueLevel0Bomb
+EndCard
+
+Character: DDM/S88-TE11
+Name Towards His Aspiration, Bell
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+*OnPlayScryToBottom
+EndCard
+
+Character: DDM/S88-TE12
+Name Familia of Just Two People, Hestia
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Familia
+Trait2 God
+Combo A God's Role
+*OnPlayGainPowerForEach(500,Familia|Guild|Hostess of Fertility)
+Auto: OnAttack
+{
+	If Climax A God's Role
+	{
+		Message You may choose a "Status Update" in your hand, and put it into your memory.
+		SearchLocationForTargets Hand 0 1 NameEquals Status Update
+		MoveCard Memory
+	}
+}
+Text Auto: CxCombo When this card attacks, if "A God's Role" is in your climax area, you may choose 1 "Status Update" in your hand, and put it into your memory.
+EndCard
+
+Character: DDM/S88-TE13
+Name Trying to Pick Up Girls, Bell
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Familia
+Trait2 Adventurer
+EndCard
+
+Character: DDM/S88-TE14
+Name Flattery Can Do Wonders, Bell
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Familia
+Trait2 Adventurer
+*OnPlayGainPowerForEach(1000,Familia|Guild|Hostess of Fertility)
+EndCard
+
+Character: DDM/S88-TE15
+Name Moment in Labyrinth City, Bell
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Familia
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+*Healer
+EndCard
+
+Character: DDM/S88-TE16
+Name Goddess, Hestia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Familia
+Trait2 God
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+	PlaceOnStage False True True False
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it on any position of your stage, it gets +2000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Refresh
+		OpponentRefresh
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, all players return all cards from their waiting rooms to their decks, and shuffle their decks.
+EndCard
+
+Event: DDM/S88-TE17
+Name Status Update
+Color B
+Level 1
+Cost 2
+Effect:
+{
+	MoveCard Memory
+}
+Text Put this card into your memory.
+Auto: StartMainPhase
+{
+	PayCost Discard 1 HasTrait Familia|Guild|Hostess of Fertility
+	{
+		TargetSelf
+		MoveCard Hand
+		RevealUpTo Deck 4
+		NarrowTargets HasTrait Familia|Guild|Hostess of Fertility
+		MoveCard Hand
+		PutTheRestInToTheWaitingRoom
+	}
+}
+InMemory
+Text Auto: MEMORY [Put 1 《Familia》 or 《Guild》 or 《Hostess of Fertility》 character from your hand into your waiting room & Return this card to your hand] At the beginning of your main phase, if this card is in your memory, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 4 《Familia》 or 《Guild》 or 《Hostess of Fertility》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Climax: DDM/S88-TE18
+Name Next Stage
+Color B
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	AIChoice RemoveFromWaitingRoom
+	Message Choose a level 1 or lower character to put into your stock.
+	SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 1 OrLower
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Climax: DDM/S88-TE19
+Name A God's Role
+*GateClimax
+EndCard
+
+Climax: DDM/S88-TE19R
+Clone DDM/S88-TE19
+Image DDM_S88_TE19R
+EndCard

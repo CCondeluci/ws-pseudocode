@@ -1,0 +1,653 @@
+Character: N1/WE06-01
+Name Alternate Doll, Fate
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Clone
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	MoveCard Clock
+}
+Text Auto: When this card becomes reversed in battle, put the top card of your deck into your clock.
+EndCard
+
+Character: N1/WE06-02
+Name Equal Partner, Arf
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Familiar
+Trait2 Animal
+*BondClock(Thinking of Mother\, Fate)
+Auto: StartClimaxPhase
+{
+	PayCost 2 Discard 1 Any SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Wolf Form, Arf
+		Change
+	}
+}
+Text Auto: CHANGE [(2) Discard a card and put this card into your waiting room] At the start of your climax phase, you may pay the cost. If you do, choose an "Wolf Form, Arf" in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: N1/WE06-03
+Name The Other Magical Girl, Fate
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Magic
+Trait2 Clone
+Auto: StartClimaxPhase
+{
+	PayCost 2 Discard 1 Any SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Thinking of Mother, Fate
+		Change
+	}
+}
+Text Auto: CHANGE [(2) Discard a card and put this card into your waiting room] At the start of your climax phase, you may pay the cost. If you do, choose an "Thinking of Mother, Fate" in your waiting room and place it on the stage position this card was on.
+*HandEncore
+EndCard
+
+Character: N1/WE06-04
+Name Lost Past, Precia
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Magic
+Trait2 Illness
+*GlobalPower(1500,Magic)
+Auto: StartDrawPhase
+{
+	PayCost Clock
+	{
+	}
+	Else
+	{
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text Auto: At the start of your draw phase, you may put the top card of your deck into your clock. If you do not, send this card to your memory.
+EndCard
+
+Character: N1/WE06-05
+Name Precia Testarossa
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Illness
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: For each marker under this card, this card gains +1000 power.
+Auto: OnOtherOpponentReversed
+{
+	IfOther NameContains Fate
+	{
+		Question Put the top card of your deck underneath this card as a marker?
+		If Yes
+		{
+			TargetTop Deck 1
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When your other character with "Fate" in its card name reverses their battle opponent, you may put the top card of your deck underneath this card as a marker
+Auto: OnReversed
+{
+	PayCost 3
+	{
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: [(3)] When this card is reversed in battle, you may pay the cost. If you do, rest this card.
+EndCard
+
+Character: N1/WE06-06
+Name Educator, Rinis
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Familiar
+Trait2 Animal
+Auto: OnPlay
+{
+	PayCost Send 1 Clock NameContains Fate
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals The Other Magical Girl, Fate
+		PlaceOnStage False False True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put a character with "Fate" in its card name from your stage into your clock and send this card to your memory] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "The Other Magical Girl, Fate" and put it on any position in your back stage. Shuffle your deck afterwards.
+EndCard
+
+Character: N1/WE06-07
+Name Focused, Fate
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Magic
+Trait2 Clone
+EndCard
+
+Character: N1/WE06-08
+Name Wolf Form, Arf
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Familiar
+Trait2 Animal
+Cont: GiveAll
+{
+	If Other && NameContains Fate
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other characters with "Fate" in its card name gain +1000 power.
+Act: 1
+{
+	GainSoul 1
+}
+Text Act: [(1)] This card gains +1 soul until end of turn.
+EndCard
+
+Character: N1/WE06-09
+Name Thinking of Mother, Fate
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Magic
+Trait2 Clone
+Combo Phalanx Shift
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Familiar
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another <Familiar> character, this card gains +2000 power.
+Auto: OnAttack
+{
+	If Climax Phalanx Shift
+	{
+		PayCost 6
+		{
+			SetXToNumberOfCharacters NameEquals Thinking of Mother, Fate
+			Repeat X
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(6)] When this card attacks, if "Phalanx Shift" is in your climax area, you may pay the cost. If you do, for each "Thinking of Mother, Fate" you have, perform the following action. "Deal 1 damage to your opponent"
+EndCard
+
+Climax: N1/WE06-10
+Name Phalanx Shift
+Color Y
+*OldStockSoulClimax
+EndCard
+
+Character: N1/WE06-11
+Name Stubborn, Alisa
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Animal
+Cont: GiveAll
+{
+	If NameContains Nanoha
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: All of your other characters with "Nanoha" in its card name gain "Auto: ENCORE [Discard a character]"
+*OnPlayGivePower(1000,Any)
+EndCard
+
+Character: N1/WE06-12
+Name Own Will, Nanoha
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInStock 5 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 5 or more cards in your stock, this card gains +1000 power.
+EndCard
+
+Character: N1/WE06-13
+Name Suzuka Shikimura
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Animal
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Nanoha
+	ChooseCharacterFromTargets Choose a character to gain +1 level
+	GainLevel 1
+}
+Text Act: [Rest this card] Choose one of your characters with "Nanoha" in its card name and that character gains +1 level until end of turn.
+EndCard
+
+Character: N1/WE06-14
+Name Top Operator, Amy
+Color G
+Level 0
+Cost 0
+Power 1500
+Cont: Alarm
+{
+	If HasTrait Magic && MyCard
+	{
+		GainEffect
+		{
+			Act: 1
+			{
+				GainPower 2000
+			}
+			Text Act: [(1)] This card gains +2000 power until end of turn.
+		}
+	}
+}
+Text Cont: ALARM If this card is the top card of your clock, all of your <Magic> characters gain the following ability. "Act: [(1)] This card gains +2000 power until end of turn."
+EndCard
+
+Character: N1/WE06-15
+Name Kind Girl, Suzuka
+Color G
+Level 1
+Cost 0
+Power 1500
+Trait1 Animal
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck HasTrait Animal
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to one <Animal> character, and add it to your hand.
+EndCard
+
+Character: N1/WE06-16
+Name Alisa Bannings
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Animal
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Nanoha
+	{
+		GainEffect
+		{
+			*OnReverseBlindStock
+		}
+	}
+}
+Text Cont: If you have another character with "Nanoha" in it's card name, this card gains the following ability. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: N1/WE06-17
+Name Chief of Time-Space Administration Bureau, Lindy
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Tea
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		UntilEndOfOpponentsTurn
+		BlockOpponentAct
+	}
+}
+Text Auto: [(2)] When this card is placed on stage from your hand, you may pay the cost. If you do, your opponent cannot use the ACT abilites of characters until the end of their turn.
+EndCard
+
+Character: N1/WE06-18
+Name Asura's Trump Card, Chrono
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Magic
+Trait2 Weapon
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if that character is level 2 or higher, you may put the top card of your deck into your stock.
+EndCard
+
+Character: N1/WE06-19
+Name Nanoha, Believing Thoughts
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Magic
+Trait2 Weapon
+Combo Divine Buster
+Auto: OnAttack
+{
+	If Climax Divine Buster
+	{
+		TargetLocation Stage
+		NarrowTargets NameContains Fate
+		ChooseCharacterFromTargets Choose a character to gain +2000 power
+		AddSelfToTargets
+		GainPower 2000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Divine Buster" is in your climax area, choose 1 of your characters with "Fate" in its card name, that character and this card gain +2000 power until end of turn.
+EndCard
+
+Character: N1/WE06-20
+Name Full Power, Nanoha
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Combo Starlight Breaker
+Auto: OnAttack
+{
+	If Climax Starlight Breaker
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		TargetSelf
+		GainPower X
+		TargetCharacters InBattle
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				SearchWaitingRoom IsCharacter
+			}
+			Text Auto: Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Starlight Breaker" is in your climax area, this card gains +X power and all characters in battle gain the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand." X is equal to the number of climax cards in your waiting room.
+EndCard
+
+Character: N1/WE06-21
+Name Shared Feelings, Nanoha & Fate
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Clone
+Cont: GiveAll
+{
+	If NameEquals Shared Feelings, Nanoha & Fate && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Shared Feelings, Nanoha & Fate" gain +1000 power.
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Magic
+}
+Text Auto: When this card is placed on stage from your hand, you may choose a <Magic> character in your waiting room and return it to your hand.
+EndCard
+
+Character: N1/WE06-22
+Name Nanoha in Uniform
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Weapon
+*GainPowerWithEnoughCharacters(1500,2,Magic|Animal)
+EndCard
+
+Character: N1/WE06-23
+Name Ferret Form, Yuuno
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Animal
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Nanoha
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your characters with "Nanoha" in its card name and that character gains the following ability until end of turn. "Auto: Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand."
+EndCard
+
+Character: N1/WE06-24
+Name Talent for Magic, Nanoha
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 Any SendSelf Clock
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Believing Thoughts, Nanoha
+		Change
+	}
+}
+Text Auto: CHANGE [Discard a card and put this card into your clock]  At the start of your climax phase, you may pay the cost. If you do, choose an "Believing Thoughts, Nanoha" in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: N1/WE06-25
+Name Force Field Magician, Yuuno
+Color R
+Level 1
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Animal
+Backup 1500
+EndCard
+
+Climax: N1/WE06-26
+Name Divine Buster
+Color R
+*DrawClimax
+EndCard
+
+Climax: N1/WE06-27
+Name Starlight Breaker
+*DoorClimax
+EndCard
+
+Character: N1/WE06-28
+Name Barrier Jacket, Nanoha
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If this card has a marker, this card gains +1000 power.
+Auto: OnPlacedOnStageFromWaitingRoom
+{
+	TargetTop Deck 1
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on stage from your waiting room, put the top card of your deck underneath this card as a marker.
+EndCard
+
+Character: N1/WE06-29
+Name Battle Situation, Fate
+Color Y
+Level 1
+Cost 0
+Power 6500
+Trait1 Magic
+Trait2 Clone
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Fate
+	ChooseCharacterFromTargets Choose a character to put into your waiting room
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is placed on stage from your hand, choose a character with "Fate" in its card name on your stage and put it into your waiting room.
+EndCard
+
+Character: N1/WE06-30
+Name Will to Reach Out with Thoughts, Nanoha
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Magic
+Trait2 Weapon
+EndCard
+
+Character: N1/WE06-31
+Name Meaningless Seal, Fate
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Magic
+Trait2 Clone
+Act: 1
+{
+	GainSoul 1
+}
+Text Act: [(1)] This card gains +1 soul until end of turn.
+EndCard
+
+Character: N1/WE06-32
+Name Alicia Testarossa
+Color Y
+Level 0
+Cost 0
+Power 1500
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck NameContains Fate
+	}
+}
+Text Auto: [(2)] When this card is sent from the stage to your waiting room, you may pay the cost. If you do, search your deck for up to 1 character with "Fate" in its card name, reveal it, put it into your hand and shuffle your deck.
+EndCard
+
+Character: N1/WE06-33
+Name Magical Girls, Nanoha & Fate
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Weapon
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+	MoveCard OpponentWaitingRoom
+}
+Text Act: [(1)] Choose a level 0 or lower character in your opponent's center stage and put it into their waiting room.
+EndCard
+
+Character: N1/WE06-34
+Name Uncompromising Thoughts, Nanoha & Fate
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Trait2 Weapon
+Act: 1 RestSelf
+{
+	*Saboutage
+}
+Text Act: [(1) Rest this card] Choose a card in your opponent's waiting room and put it on top of their deck.
+EndCard
+

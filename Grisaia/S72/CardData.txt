@@ -1,0 +1,2700 @@
+﻿Character: GRI/S72-001
+Name Baking Diligently! Makina
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Bread
+*OnAttackCheck2ChooseTrigger
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher
+	{
+		Question Return this character to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: GRI/S72-002
+Name Towards the Shimmering Sea, Michiru
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Tsundere
+Combo Dangerous Air Mattress
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Grisaia
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other «Grisaia» characters, this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax Dangerous Air Mattress && StageContains 1 Other && HasTrait Grisaia
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Grisaia && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Dangerous Air Mattress" is in your climax area, and you have another «Grisaia» character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower «Grisaia» character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: GRI/S72-003
+Name The Fruit in God's Grasp, Kazuki
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Grisaia
+Trait2 Genius
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+*MusashiEffect
+EndCard
+
+Character: GRI/S72-004
+Name Farewell and Promise, Kazuki
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Genius
+Auto: OnReversed
+{
+	If OnStage
+	{
+		PayCost 1
+		{
+			TargetSelf
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: [(1)] When this card becomes reversed in battle, you may pay the cost. If you do, put this card into your memory.
+Auto: OnHealToWaitingRoom|OnOpponentHealToWaitingRoom
+{
+	IfOther MyCard
+	{
+		//Your card was sent
+		If Compare CardsInHand 1 OrMore
+		{
+			Question Discard a card? If you do not, you will put the top card of your deck into your clock.
+			If Yes
+			{
+				Discard 1 Any
+			}
+			Else
+			{
+				TargetTop Deck 1
+				MoveCard Clock
+			}
+		}
+		Else
+		{
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+	Else
+	{
+		//Opponent's card was sent
+		If Compare CardsInOpponentsHand 1 OrMore
+		{
+			OpponentQuestion Discard a card? If you do not, you will put the top card of your deck into your clock.
+			If Yes
+			{
+				OpponentMessage Discard a card.
+				OpponentSearchLocationForTargets Hand 1 1 Any
+				MoveCard OpponentWaitingRoom
+			}
+			Else
+			{
+				TargetTop OpponentDeck 1
+				MoveCard OpponentClock
+			}
+		}
+		Else
+		{
+			TargetTop OpponentDeck 1
+			MoveCard OpponentClock
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY If this card is in your memory, when your card or your opponent's card in the clock is put into the waiting room due to respective card effects, that player may choose 1 card in their hand, and put it into their waiting room. Otherwise, that player puts the top card of their deck into their clock.
+//Hidden effect for asking to heal
+Cont: Memory
+{
+	GainSpecialEffect ConfirmHeals
+}
+EndCard
+
+Character: GRI/S72-005
+Name Afterschool Sunset, Makina
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Grisaia
+Trait2 Bread
+Combo Full-Scale Combat Training
+Cont: GiveSelf
+{
+	TargetLocation Memory
+	NarrowTargets NameEquals Feeding
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: MEMORY This card gets +1000 power for each "Feeding" in your memory.
+Auto: OnAttack
+{
+	If Climax Full-Scale Combat Training
+	{
+		SearchWaitingRoom HasTrait Grisaia && Compare ThatCardsLevel CardsInMemory OrLower
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Full-Scale Combat Training" is in your climax area, you may choose 1 level X or lower «Grisaia» character in your waiting room, and return it to your hand. X is equal to the number of cards in your memory.
+EndCard
+
+Character: GRI/S72-006
+Name Together with Meowmel, Michiru
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Grisaia
+Trait2 Tsundere
+*Level3Assist
+Act: 2 RestSelf
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to return to your opponent's hand.
+	Bounce
+}
+Text Act: [(2) Rest this card] Choose 1 character in your opponent's center stage, and return it to their hand.
+EndCard
+
+Character: GRI/S72-007
+Name Fruit of Remorse, Michiru
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Tsundere
+*Give4000PowerAtStartOfOpponentsTurn
+Auto: StartClimaxPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals Afterschool Sunset, Michiru
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Afterschool Sunset, Michiru
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into the waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Afterschool Sunset, Michiru" in your waiting room, and put it in the stage position that this card was in.
+EndCard
+
+Character: GRI/S72-008
+Name Fruit of Remorse, Makina
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Bread
+Combo Sleepy Eyes
+*Healer
+Auto: OnAttack
+{
+	If Climax Sleepy Eyes
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose the character to give the effect to.
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					SetXValue LastDamageGiven
+					*OptionalBurn(X)
+				}
+				TimesPerTurn 1
+				Text Auto: Once per turn, when damage dealt by this card is cancelled, you may deal the same amount of damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Sleepy Eyes" is in your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal the same damage to your opponent." 
+EndCard
+
+Character: GRI/S72-009
+Name Summer Festival Sniper, Makina
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Bread
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+Character: GRI/S72-010
+Name Atop the Hill Facing the Sea, Michiru
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Tsundere
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+EndCard
+
+Character: GRI/S72-011
+Name Superb Team, Makina & Sachi
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Feeding
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Feeding" in your waiting room, and return it to your hand.
+EndCard
+
+Character: GRI/S72-012
+Name "Ichigaya" JB
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Grisaia
+*BackupBonus1000(Grisaia)
+Backup 1000
+EndCard
+
+Character: GRI/S72-013
+Name Annoying Tsundere, Michiru
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Grisaia
+Trait2 Tsundere
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainPower 4500
+	}
+}
+Text Cont: During your turn, if there is a marker underneath this card, this card gets +4500 power.
+Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Natural Born Tsundere, Michiru
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand or waiting room, you may choose 1 "Natural Born Tsundere, Michiru" in your waiting room, and put it face up underneath this card as a marker.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Natural Born Tsundere, Michiru
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into the waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Natural Born Tsundere, Michiru" in your waiting room, and put it in the stage position that this card was in. 
+EndCard
+
+Character: GRI/S72-014
+Name A Summer Memory, Amane & Makina
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Grisaia
+Cont: GiveSelf
+{
+	TargetLocation Memory
+	NarrowTargets NameEquals Feeding
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: MEMORY This card gets +1500 power for each "Feeding" in your memory.
+EndCard
+
+Character: GRI/S72-015
+Name "Swimsuit" Michiru
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Grisaia
+Trait2 Tsundere
+*GainPowerWhenAttackingLevel3(6000)
+*NoEncoreIfReversed
+EndCard
+
+Character: GRI/S72-016
+Name The Meaning of a "Kiss", Michiru
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Tsundere
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +2 soul until end of turn.
+*OnAttackGivePowerTimesSoul
+EndCard
+
+Character: GRI/S72-017
+Name Overwhelming Difference in Skill, Yuuji
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && HasTrait Bread
+	{
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If Compare Experience 2 OrMore
+				{
+					GainPower 500
+					GainEffect
+					{
+						Auto: Encore 2
+						{
+						}
+						Text Auto: ENCORE [(2)]
+					}
+				}
+			}
+			Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +500 power and "Auto: ENCORE [(2)]"
+		}
+	}
+}
+Text Cont: Your other <Bread> characters get the following ability. "Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +500 power and "Auto: ENCORE [(2)]"
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && Compare ThatCardsLevel 0 OrLower
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other level 0 character in the middle position of your center stage gets +1000 power.
+EndCard
+
+Character: GRI/S72-018
+Name An Abrupt Visit, JB
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameEquals Surprise Attack, Yumiko & Yuuji
+	GainLevel X
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1 level and +1500 power for each of your other "Surprise Attack, Yumiko & Yuuji".
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Grisaia
+	{
+		SearchDeck NameEquals Surprise Attack, Yumiko & Yuuji
+	}	
+}
+Text Auto: [Put 1 «Grisaia» character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Surprise Attack, Yumiko & Yuuji", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: GRI/S72-019
+Name Pretend Lover, Michiru
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Grisaia
+Trait2 Tsundere
+EndCard
+
+Character: GRI/S72-020
+Name Riding Tandem, Makina & Yuuji
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 2000
+Trait1 Grisaia
+Trait2 Weapon
+*YellowCost0Bomb
+Auto: StartClimaxPhase
+{
+	If LocationContains Level 1 NameEquals I'm Not a Child, Makina
+	{
+		PayCost 1 Discard 1 HasTrait Grisaia
+		{
+			TargetLocation Level
+			NarrowTargets NameEquals I'm Not a Child, Makina
+			FirstTarget
+			AddSelfToTargets
+			Exchange
+		}
+	}
+}
+Text Auto: CHANGE [(1) Put 1 «Grisaia» character from your hand into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose this card and 1 "I'm Not a Child, Makina" in your level, and exchange them. 
+EndCard
+
+Character: GRI/S72-021
+Name Naïve and Innocent, Makina
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Grisaia
+Trait2 Bread
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, this card gets +4000 power.
+EndCard
+
+Character: GRI/S72-022
+Name I'm Not a Child, Makina
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Grisaia
+Trait2 Bread
+Auto: OnPlay|PlacedBy Change
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLower
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to put into your opponent's stock.
+	If HasTarget
+	{
+		MoveCard OpponentStock
+		TargetBottom OpponentStock 1
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or by "CHANGE", you may choose 1 of your opponent's level 0 or lower characters, and put it into their stock. If you do, put the bottom card of your opponent's stock into their waiting room.
+EndCard
+
+Event: GRI/S72-023
+Name Feeding
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	SearchWaitingRoom HasTrait Grisaia
+	TargetSelf
+	MoveCard Memory
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter
+	{
+		If Compare TargetCardsLevel 0 OrLess
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Choose 1 «Grisaia» character in your waiting room, and return it to your hand.\nPut this card into your memory.\nReveal the top card of your deck. If that card is a level 0 or lower character, put it into your stock. 
+EndCard
+
+Event: GRI/S72-024
+Name Fresh-Fish Superman Tunafish Man
+Color Y
+Level 2
+Cost 2
+Effect:
+{
+	Message Choose characters to send to the waiting room
+	ChooseMultipleCharacters 1 5 InLocation Stage
+	SetXValue TargetCount
+	MoveCard WaitingRoom
+	Burn X
+}
+Text Choose up to 5 of your characters, put them into the waiting room, and deal X damage to your opponent, X is the number of characters sent by this effect.
+EndCard
+
+
+
+Climax: GRI/S72-025
+Name Dangerous Air Mattress
+*ChoiceClimax
+EndCard
+
+Climax: GRI/S72-026
+Name Full-Scale Combat Training
+*WindClimax
+EndCard
+
+Climax: GRI/S72-027
+Name Sleepy Eyes
+*ChoiceClimax
+EndCard
+
+
+
+
+Character: GRI/S72-028
+Name Derived Answer, Yuuji
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Weapon
+*DropSearch(Grisaia)
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Grisaia
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another «Grisaia» character, this card gets +1500 power until end of turn.
+EndCard
+
+Character: GRI/S72-029
+Name Lone Wolf Disposition, Yumiko
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Heiress
+Combo Thundering Roar Under the Bridge
+*GainPowerOnPlay(1500)
+Auto: OnReverseOpponent
+{
+	If Climax Thundering Roar Under the Bridge
+	{
+		*OptionalBlindStock
+		TargetTop Deck 1
+		Reveal 
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Thundering Roar Under the Bridge" is in your climax area, put up to 1 card from the top of your deck into your stock, and reveal the top card of your deck. If that card is level 1 or higher, put it into your hand. 
+EndCard
+
+Character: GRI/S72-030
+Name During the Peaceful Days, Kazuki
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Genius
+Combo Clinging Wish
+*OnPlayGainPowerForEach(500,Grisaia)
+Auto: OnDamageCancel
+{
+	If Climax Clinging Wish
+	{
+		Message Choose up to 2 cards to put into your stock.
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Grisaia
+		RevealTargets
+		MoveCard Stock
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo This ability activates up to 1 time per turn. When damage dealt by this card is canceled, if "Clinging Wish" is in your climax area, choose up to 2 «Grisaia» characters in your waiting room, and put them into your stock in any order.
+EndCard
+
+Character: GRI/S72-031
+Name Innocent Heart, Makina
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Grisaia
+Trait2 Bread
+*EarlyPlay4OrMore(Grisaia)
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: MEMORY If your memory has 2 or more cards, this card gets +3000 power.
+*Healer
+EndCard
+
+Character: GRI/S72-032
+Name Assertive Stance, Amane
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Housework
+Combo Ticket to Heaven
+Auto: OnEndOfAttack
+{
+	If Climax Ticket to Heaven
+	{
+		PayCost 2 Discard 1 Any
+		{
+			PeekTop OpponentDeck
+			Question Put this card on the bottom of your opponent's deck?
+			If Yes
+			{
+				MoveCardToBottom OpponentDeck
+			}
+			Else
+			{
+				EndPeek
+			}
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2) Discard a card] This ability activates up to 1 time per turn. At the end of this card's attack, if "Ticket to Heaven" is in your climax area, you may pay the cost. If you do, look at the top card of your opponent's deck, put it on the top or at the bottom of their deck, and Stand this card.
+EndCard
+
+Character: GRI/S72-033
+Name Afterschool Sunset, Yumiko
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Heiress
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Clock 1 1 HasTrait Grisaia
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 «Grisaia» character in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: GRI/S72-034
+Name Blazing Clutches, Makina
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Bread
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +1000 power.
+*Act1Rest2SearchBrainstorm(Grisaia)
+EndCard
+
+Character: GRI/S72-035
+Name During the Peaceful Days, Amane
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Housework
+Combo Clinging Wish
+*GlobalPower(500,Grisaia)
+Act: 3
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Clinging Wish
+	FirstTarget
+	If HasTarget
+	{
+		PlayClimax
+	}
+}
+Text Act: CxCombo [(3)] Choose a "Clinging Wish" in your waiting room, and put it into your climax area.
+EndCard
+
+Character: GRI/S72-036
+Name Psychology Test, Kazuki
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Genius
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Grisaia
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 «Grisaia» character in your waiting room, and return it to your hand.
+EndCard
+
+Character: GRI/S72-037
+Name Yuuji Kazami
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Grisaia
+Trait2 Weapon
+*OthersCannotSideAttack
+*OnPlayMill2GainPowerForEachCharacter(1000,Grisaia)
+EndCard
+
+Character: GRI/S72-038
+Name Will to Confront, Yumiko
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Grisaia
+Trait2 Heiress
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Discard 2 cards] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their waiting room.
+Backup 2500
+EndCard
+
+Character: GRI/S72-039
+Name The Worst Outcome, Makina
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Grisaia
+Trait2 Bread
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		TargetSelf
+		If OnStage
+		{
+			Question_Obvious Rest this card?
+			If Yes
+			{
+				Rest
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may rest this card. 
+*GreenEarlyPlayBomb
+EndCard
+
+Character: GRI/S72-040
+Name Raison d'Être, Yumiko
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Heiress
+*OnPlayCheckX(Grisaia)
+Act: Discard 2 Any
+{
+	TargetLocation Stage
+	AIChoice GainPower 7000
+	ChooseCharacterFromTargets Choose a character to give +7000 power.
+	GainPower 7000
+}
+Text Act: [Discard 2 cards] Choose 1 of your characters, it gets +7000 power until end of turn.
+EndCard
+
+Character: GRI/S72-041
+Name Withering Heart, Makina
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Grisaia
+Trait2 Bread
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && HasTrait Grisaia
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: For each <Grisaia> character on your backstage, this card gets +1500 power.
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther NameEquals Yuuji Kazami
+	{
+		TargetSelf
+		If InLocation WaitingRoom
+		{
+			PayCost Discard 1 Any
+			{
+				PlaceOnStage False True True True
+			}
+		}
+	}
+}
+Quick //So that it won't queue every time any card is sent
+InWaitingRoom
+Text Auto: [Discard a card] When your "Yuuji Kazami" is put into your waiting room from the stage, if this card is in your waiting room, you may pay the cost. If you do, put this card in any position of your stage as resting.
+EndCard
+
+
+
+Character: GRI/S72-042
+Name Overly Caring Wife, Amane
+Color G
+Level 1
+Cost 0
+Power 6000
+Trait1 Grisaia
+Trait2 Housework
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If there are 2 or less cards in your stock, this card cannot attack.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: GRI/S72-043
+Name Angelic Howl, Amane
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Grisaia
+Trait2 Housework
+*OnPlayGainPowerForEach(1000,Grisaia)
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+{
+	Question Return the top card of your stock to your hand?
+	If Yes
+	{
+		TargetTop Stock 1
+		MoveCard Hand
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may return the top card of your stock to your hand.
+EndCard
+
+Event: GRI/S72-044
+Name Dere For Me
+Color G
+Level 1
+Cost 1
+Effect
+{
+	ForcePayCost Rest 1 HasTrait Grisaia && CardPosition Stand
+	{
+		TargetLocation OpponentStage
+		AIChoice LosePower 3000
+		ChooseCharacterFromTargets Choose a character to give -3000 power.
+		LosePower 3000
+	}
+}
+Text Rest 1 of your standing <Grisaia> characters, if you do, choose 1 of your opponent's characters, it gets -3000 power until end of turn.
+EndCard
+
+Event: GRI/S72-045
+Name Amane-chan's Beauty School
+Color G
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	SetXValue CardsInStock
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text COUNTER Choose 1 of your <Grisaia> characters, it gets +X power until end of turn, X is 500 times the number of cards in your stock.
+EndCard
+
+Climax: GRI/S72-046
+Name Thundering Roar Under the Bridge
+*BarClimax
+EndCard
+
+Climax GRI/S72-047
+Name Ticket to Heaven
+*BarClimax
+EndCard
+
+Climax: GRI/S72-048
+Name Clinging Wish
+Color G
+*2SoulClimax
+EndCard
+
+
+
+Character: GRI/S72-049
+Name Embracing Affection, Amane
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Housework
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Grisaia
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 «Grisaia» character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: GRI/S72-050
+Name Well-Loved Maid, Sachi
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Grisaia
+Trait2 Maid
+Combo Sunny Park
+*ContForEachOtherTrait(500,Grisaia)
+Auto: OnSpecificClimaxPlay Sunny Park
+{
+	If InLocation CenterStage && StageContains 1 Other && HasTrait Grisaia
+	{
+		MultipleChoiceQuestion Search your deck or your waiting room for "Cooking With Sacchin"?|Deck|WaitingRoom
+		If Answer 0
+		{
+			SearchDeck NameEquals Cooking With Sacchin
+		}
+		Else
+		{
+			SearchWaitingRoom NameEquals Cooking With Sacchin
+		}
+	}
+}
+Text Auto: CxCombo When "Sunny Park" is placed on your climax area, if this card is in your center stage, and you have another «Grisaia» character, choose 1 of the following effects, and perform it. "Choose 1 "Cooking With Sacchin" in your waiting room, and return it to your hand." "Search your deck for up to 1 "Cooking With Sacchin", reveal it to your opponent, put it into your hand, and shuffle your deck."
+EndCard
+
+Character: GRI/S72-051
+Name Fruit of Remorse, Amane
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Grisaia
+Trait2 Housework
+Combo Night of the Summer Festival
+*LevelAssist
+Auto: OnSpecificClimaxPlay Night of the Summer Festival
+{
+	PayCost Discard 1 HasTrait Grisaia
+	{
+		TargetLocation Stage
+		NarrowTargets Other && Not CardPosition Stand
+		ChooseCharacterFromTargets Choose a character to stand.
+		Stand
+	}
+}
+Text Auto: CxCombo [Discard a <Grisaia> character] When "Night of the Summer Festival" is placed on your climax area, you may pay the cost. If you do, choose 1 of your other characters, and Stand it.
+EndCard
+
+Character: GRI/S72-052
+Name Fruit of Remorse, Sachi
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Maid
+Act: 1 RestSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		MultipleChoiceQuestion Choose an effect.\n1. Choose up to 2 of your <Grisaia> characters, they get +1 soul until end of turn.\n2. Reveal the top card of your deck, if it is a <Grisaia> character or event card, add it to your hand.|1|2
+	}
+	Else
+	{
+		OpponentMultipleChoiceQuestion Choose an effect for your opponent.\nn1. Choose up to 2 of your <Grisaia> characters, they get +1 soul until end of turn.\n2. Reveal the top card of your deck, if it is a <Grisaia> character or event card, add it to your hand.|1|2
+	}
+	If Answer 0
+	{
+		AIChoice GainSoul 1
+		ChooseMultipleCharacters 0 2 InLocation Stage
+		GainSoul 1
+	}
+	Else
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Grisaia||IsEvent
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Act: EXPERIENCE [(1) Rest this card] If the total level of the cards in your level is 5 or higher, choose 1 of the following effects, and perform it. If it is not, your opponent chooses 1 of the following effects, and you perform it. "Choose up to 2 of your «Grisaia» characters, and those characters get +1 soul until end of turn." "Reveal the top card of your deck. If that card is an event or a «Grisaia» character, put it into your hand." 
+EndCard
+
+Character: GRI/S72-053
+Name Never-Ending Punishment, Amane
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Housework
+Act 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Grisaia)
+}
+Text Act: [(1) Put this card into the waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 «Grisaia» character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Act RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to get X power. X is 500 times its level.
+	If HasTarget
+	{
+		SetXValue TargetCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +X power until end of turn. X is equal to that character's level ×500.
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	ChooseCharacterFromTargets Choose a character to send to the waiting room.
+	MoveCard OpponentWaitingRoom
+}
+Text Act: [(1)] Choose a level 0 character on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: GRI/S72-054
+Name Embarrassed Smile, Amane
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Grisaia
+Trait2 Housework
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]"
+Auto: Encore Send 1 Clock HasTrait Grisaia
+{
+}
+Text Auto: ENCORE [Put a <Grisaia> character from your stage into your clock].
+EndCard
+
+Character: GRI/S72-055
+Name Skilled and Witty Honor Student, Sachi
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Grisaia
+Trait2 Maid
+*500Assist
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: GRI/S72-056
+Name Suggestive Big Sister, Amane
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Grisaia
+Trait2 Housework
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 1 NameEquals Psychology Test, Kazuki
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Discard a "Psychology Test, Kazuki"] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: GRI/S72-057
+Name Blissful Days, Sachi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Grisaia
+Trait2 Maid
+Cont: GiveAll
+{
+	If Other && HasTrait Grisaia
+	{
+		GainPower 1500
+	}
+}
+Text Cont: All of your other <Grisaia> characters get +1500 power.
+Auto: OnPlay
+{
+	PayCost 2 Discard 1 Any
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets IsEvent
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [(2) Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, deal X damage to your opponent. X is equal to the number of events in your waiting room. 
+EndCard
+
+Character: GRI/S72-058
+Name Afterschool Sunset, Amane
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Grisaia
+Trait2 Housework
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Grisaia
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Grisaia> characters, this card gets +2000 power.
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Grisaia
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a <Grisaia> character in your waiting room, and return it to your hand.
+Auto: OnReverseOpponent
+{
+	PayCost Discard 1 Any Resonate Afterschool Sunset, Amane
+	{
+		Burn 1
+	}
+}
+Text Auto: RESONATE [Discard a card & Reveal 1 "Afterschool Sunset, Amane" in your hand] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: GRI/S72-059
+Name Afterschool Sunset, Michiru
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Tsundere
+Combo Pleading Outcry
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		PayCost 1
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: [(1)] During your turn, when this card's battle opponent becomes reversed, you may pay the cost, deal 1 damage to your opponent.
+Auto: StartEncoreStep
+{
+	If Climax Pleading Outcry
+	{
+		PayCost 2 SendSelf WaitingRoom Discard 2 HasTrait Grisaia
+		{
+			Burn 4
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Fruit of Remorse, Michiru
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard 2 <Grisaia> characters, put this card into the waiting room] At the beginning of your encore step, if "Pleading Outcry" is in your climax area, you may pay the cost. If you do, deal 4 damage to your opponent, choose 1 "Fruit of Remorse, Michiru" in your waiting room, and put it in the stage position that this card was in. 
+EndCard
+
+Character: GRI/S72-060
+Name Guitarist, Amane
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Housework
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Yuuji
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupOnAttack
+			GainSpecialEffect NoEventsOnAttack
+		}
+		Text Cont: During this card's battle, your opponent cannot play events or "BACKUP" from their hand.
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Yuuji" in its name, it gets the following ability until end of turn. "Cont: During this card's battle, your opponent cannot play events or "BACKUP" from their hand."
+EndCard
+
+Character: GRI/S72-061
+Name Never-Ending Tunnel, Michiru
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Tsundere
+*ScryOnPlay
+*OnPlayTradeClimaxForCharacter(Grisaia)
+EndCard
+
+Character: GRI/S72-062
+Name Spirit to Serve, Sachi
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Maid
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 1 OrLower
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of your stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's level 1 or lower characters, it gets the following effect until the end of your opponent's turn, "Cont: This card cannot move to another position of your stage."
+EndCard
+
+Character: GRI/S72-063
+Name Natural Born Tsundere, Michiru
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Tsundere
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 4500
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +4500 power.
+Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+{
+	Message Choose a marker
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Annoying Tsundere, Michiru
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand or waiting room, you may choose 1 "Annoying Tsundere, Michiru" in your waiting room, and put it face up underneath this card as a marker.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Annoying Tsundere, Michiru
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Annoying Tsundere, Michiru" in your waiting room, and put it in the stage position that this card was in.
+EndCard
+
+Character: GRI/S72-064
+Name The Girls of an Enclosed Garden
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Grisaia
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Grisaia
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Grisaia> characters, this card gets +2000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: GRI/S72-065
+Name Always With You, Amane & Yuuji
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Auto: OnPlay
+{
+	*PlayCharacterFromHand(Compare ThatCardsLevel MyLevel OrLess)
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it in any position of your stage, it gets +2000 power until end of turn.
+*OnPlayFlicker
+EndCard
+
+
+Character: GRI/S72-066
+Name Class Representative, Sachi
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Maid
+Cont: GiveAll
+{
+	If NameEquals Pretend Lover, Michiru
+	{
+		GainSoul 1
+	}
+}
+Text Cont: Your other "Pretend Lover, Michiru" get +1 soul.
+Act: 1 Rest 2 Any
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Grisaia && Compare ThatCardsLevel X OrLower
+}
+Text Act: [(1) Rest 2 of your characters] Put the top 2 cards of your deck into your waiting room, choose 1 level X or lower «Grisaia» character in your waiting room, and return it to your hand. X is equal to the total level of those cards. 
+EndCard
+
+Character: GRI/S72-067
+Name Descending Sunset, Yuuji & Sachi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+*RunToCenter
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Grisaia
+	{
+		PayCost Sendself WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			GainPower 1000
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other «Grisaia» character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, it gets +1000 power until end of turn.
+EndCard
+
+Character: GRI/S72-068
+Name Rules to Stay Human, Kazuki
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Genius
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 3 OrMore
+	{
+		GainPower 2000
+		GainSoul 1
+	}
+}
+Text Cont: MEMORY If you have 3 or more cards in your memory, this card gets +2000 power and +1 soul.
+*RedLevel1Bomb
+EndCard
+
+Character: GRI/S72-069
+Name Wanting to Be Loved, Amane
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Grisaia
+Trait2 Housework
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Grisaia
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Grisaia> characters, this card gets +2000 power.
+Auto: Encore 1 Send 1 WaitingRoom Other
+{
+}
+Text Auto: ENCORE [(1) Put another character from your stage into the waiting room]
+EndCard
+
+Character: GRI/S72-070
+Name Admiration for Sharks, Sachi
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Grisaia
+Trait2 Maid
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: For each marker under this card, this gets +2500 power.
+Auto: OnReversed
+{
+	PayCost 1 Resonate Wishing for Sharks, Sachi
+	{
+		TargetLocation Hand
+		NarrowTargets NameEquals Admiration for Sharks, Sachi
+		FirstTarget
+		Marker_FaceDown
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: [(1) Reveal 1 "Admiration for Sharks, Sachi" in your hand & Put it face down underneath this card as a marker] When this card becomes reversed in battle, you may pay the cost. If you do, Rest this card.
+EndCard
+
+Character: GRI/S72-071
+Name Childhood Memories, Sachi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Grisaia
+Trait2 Maid
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsEvent
+	SetXValue TargetCount
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Grisaia
+	MultiplyXValue 1500
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other «Grisaia» characters, it gets +X power until end of turn. X is equal to the number of events in your waiting room ×1500.
+*RedLevel2Bomb
+EndCard
+
+Character: GRI/S72-072
+Name Early Arrival, Michiru
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Grisaia
+Trait2 Tsundere
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Grisaia
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		AIChoice GainSoul 2
+		ChooseCharacterFromTargets Choose a character to give +2 soul.
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other «Grisaia» characters, choose 1 of your characters, it gets +2 soul until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Grisaia
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetOther
+			GainPower 3000
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other «Grisaia» character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, it gets +3000 power until end of turn.
+EndCard
+
+
+Event: GRI/S72-073
+Name Charlie
+Color R
+Level 1
+Cost 0
+Counter
+Effect:
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia
+	ChooseCharacterFromTargets Choose a character to give "Auto: When this card is put into the waiting room from the stage you may return it to its previous position rested."
+	GainEffect
+	{
+		*FreeEncore
+	}
+}
+Text Draw 1 card, choose 1 card in your hand, and put it into your waiting room. Choose 1 of your «Grisaia» characters, it gets the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to its previous stage position as resting."
+EndCard
+
+Event: GRI/S72-074
+Name Cooking With Sacchin
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+}
+Text Put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower «Grisaia» character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Climax: GRI/S72-075
+Name Night of the Summer Festival
+*StandbyClimax
+EndCard
+
+
+Climax: GRI/S72-076
+Name Pleading Outcry
+*StandbyClimax
+EndCard
+
+Climax: GRI/S72-077
+Name Sunny Park
+*DoorClimax
+EndCard
+
+Character: GRI/S72-078
+Name Genius in Name and Reality, Kazuki
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Genius
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1500
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 of your characters, it gets +1500 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Grisaia
+	{
+		PayCost 1 SendSelf Memory
+		{
+			TargetOther
+			IfTarget OnStage
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [(1) Put this card into your memory] When your other «Grisaia» character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: GRI/S72-079
+Name Fruit of Remorse, Yumiko
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Heiress
+*ScryToBottomOnPlay
+*Act1RestSelfSearchBrainstorm(Grisaia)
+EndCard
+
+Character: GRI/S72-080
+Name Je vous suis attaché, Yumiko
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Combo L'oiseau bleu
+Trait1 Grisaia
+Trait2 Heiress
+*StockHealer
+Auto: OnAttack
+{
+	If Climax L'oiseau bleu
+	{
+		PayCost 1
+		{
+			GainPower 2000
+			MultipleChoiceQuestion Choose an effect:\n1. Put your opponent's stock into the waiting room, then put the same number of cards from the top of your opponent's deck into their stock.\n2. Deal 1 damage to your opponent.|Effect 1|Effect2
+			If Answer 0
+			{
+				StockSwap
+			}
+			Else
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "L'oiseau bleu" is in your climax area, you may pay the cost. If you do, this card gets +2000 power until end of turn, choose 1 of the following effects, and perform it. "Put all of your opponent's stock into their waiting room, and your opponent puts the same number of cards from the top of their deck into their stock." "Deal 1 damage to your opponent." 
+EndCard
+
+Character: GRI/S72-081
+Name Shadow Extending in Twilight, Yumiko
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Heiress
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Grisaia
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [Put 1 «Grisaia» character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: GRI/S72-082
+Name Speeding, Yuuji
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Weapon
+Combo Facing the Future
+Auto: OnClimaxPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When your climax is placed on your climax area, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Facing the Future
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				TargetLocation Stage
+				NarrowTargets Other
+				AIChoice Bounce
+				ChooseCharacterFromTargets Choose 1 of your other characters to return to your hand along with this card.
+				Bounce
+				TargetSelf
+				Bounce
+			}
+			Text Auto: When this card is frontal attacked, choose 1 of your other characters and this card, and return them to your hand.
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Facing the Future" is in your climax area, this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may choose this card and 1 of your other characters, and return them to your hand."
+EndCard
+
+
+Character: GRI/S72-083
+Name Ephemeral Girl, Yumiko
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Grisaia
+Trait2 Heiress
+*BlueEarlyPlayBomb
+EndCard
+
+Character: GRI/S72-084
+Name Kuudere, Yumiko
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Grisaia
+Trait2 Heiress
+Combo Kiss in the Middle of the Night
+Auto: OnSpecificClimaxPlay Kiss in the Middle of the Night
+{
+	If InLocation CenterStage
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Grisaia
+		{
+			SetXToNumberOfCharacters NameEquals Kuudere, Yumiko
+			ChooseMultipleCharacters X X InLocation OpponentStage
+			LosePower 2000
+		}
+	}
+}
+Text Auto: CxCombo When "Kiss in the Middle of the Night" is placed on your climax area, if this card is in your center stage, reveal the top card of your deck. If that card is a «Grisaia» character, choose up to X of your opponent's characters, and those characters get -2000 power until end of turn. X is equal to the number of "Kuudere, Yumiko" you have. 
+EndCard
+
+Character: GRI/S72-085
+Name Omnipotent, Kazuki
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Genius
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+				GainSpecialEffect CannotUseBackup
+				GainSpecialEffect CannotUseEvents
+			}
+		}
+		Text Cont: During this card's battle, you cannot use event cards or "BACKUP".
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: During this card's battle, you cannot play events and "BACKUP" from your hand."
+Auto: OnAttack
+{
+	PayCost Discard 1 HasTrait Grisaia
+	{
+		MillOpponentBottom 2
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [Discard a <Grisaia> character] When this card attacks, you may pay the cost. If you do, put the bottom 2 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: GRI/S72-086
+Name Youthful Looks, Chizuru
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Teacher
+Auto: OnPlay
+{
+	TargetTop Deck 2
+	Reorder
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+*ClimaxExchange
+EndCard
+
+Character: GRI/S72-087
+Name Afterschool Sunset, Sachi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Maid
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck IsEvent
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 event card and add it to your hand.
+*GiveTraitPowerOnAttack(1500,Grisaia)
+EndCard
+
+
+Character: GRI/S72-088
+Name “Promise” Sachi
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Maid
+Combo Crazy Apple
+Auto: StartEncoreStep
+{
+	If Climax Crazy Apple
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			SearchWaitingRoom HasTrait Grisaia
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Crazy Apple" from your climax area into the waiting room] At the beginning of your encore step, you may pay the cost, choose a <Grisaia> character in your waiting room, and return it to your hand.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your <Grisaia> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: GRI/S72-089
+Name A Summer Memory, Yumiko
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Grisaia
+Trait2 Heiress
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other
+	{
+		GainPower 1500
+		GainLevel 1
+	}
+}
+Text Cont: If you do not have another character, this card gets +1 level and +1500 power.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: GRI/S72-090
+Name Surprise Attack, Yumiko & Yuuji
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Grisaia
+EndCard
+
+Character: GRI/S72-091
+Name Principal, Chizuru
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Teacher
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 3500
+		GainSoul 1
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +3500 power and +1 soul.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Surprise Attack, Yumiko & Yuuji
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Surprise Attack, Yumiko & Yuuji" in your waiting room, and put it face up underneath this card as a marker.
+EndCard
+
+Character: GRI/S72-092
+Name My Own Will, Sachi
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Grisaia
+Trait2 Maid
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+*HandEncore
+EndCard
+
+Character: GRI/S72-093
+Name Little Expectation, Yumiko
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Grisaia
+Trait2 Heiress
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×500.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: GRI/S72-094
+Name Confession From the Past, Sachi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Grisaia
+Trait2 Maid
+Cont: GiveAll
+{
+	If Other && HasTrait Grisaia
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other «Grisaia» characters get +1000 power.
+Backup 3000
+EndCard
+
+Character: GRI/S72-095
+Name Throbbing Heartbeat, Yumiko
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Grisaia
+Trait2 Heiress
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Grisaia
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you have no other <Grisaia> characters, this card does not stand during your stand phase.
+*OnAttackGainPowerForEachOther(1000,Grisaia)
+EndCard
+
+Event: GRI/S72-096
+Name Turn Around And There's Sachi
+Color B
+Level 2
+Cost 4
+Counter
+Effect:
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose an opponent's character to rest.
+	Rest
+}
+Text COUNTER Choose 1 of your opponent's characters and rest it.
+EndCard
+
+Climax: GRI/S72-097
+Name L'oiseau bleu
+*GateClimax
+EndCard
+
+Climax: GRI/S72-098
+Name Kiss in the Middle of the Night
+*BookClimax
+EndCard
+
+
+
+Climax: GRI/S72-099
+Name Facing the Future
+*BookClimax
+EndCard
+
+Climax: GRI/S72-100
+Name Crazy Apple
+*BlueStockSoul
+EndCard
+
+Character: GRI/S72-101
+Name Heartbreaking Resolve, Yumiko
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Heiress
+Cont: GiveAll
+{
+	If Other && HasTrait Grisaia
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other <Grisaia> characters get +500 power.
+Auto: OnLevelUp
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Grisaia
+	}
+}
+Text Auto: [(2)] When you level up, you may pay the cost, search your deck for up to 1 <Grisaia> character, and add it to your hand.
+EndCard
+
+Character: GRI/S72-102
+Name Two Taking a Bath, Amane
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Housework
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: GRI/S72-103
+Name A New Beginning, Michiru
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Tsundere
+Auto: OnPlay
+{
+	*GiveOtherCharacterPower(2000,Grisaia)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Grisaia> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: GRI/S72-104
+Name Napping, Sachi
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Grisaia
+Trait2 Maid
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Grisaia
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you have no other <Grisaia> characters, this card does not stand during your stand phase.
+Auto: OnUseEvent
+{
+	GainPower 2000
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you play an event card, this card gets +2000 power until end of turn.
+EndCard
+
+Character: GRI/S72-105
+Name Awkward Gratitude, Makina
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Grisaia
+Trait2 Bread
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters HasTrait Grisaia && Other
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +1000 power for each of your other «Grisaia» characters.
+EndCard
+
+Character: GRI/S72-P01
+Name Grisaia Club, Yumiko & Makina
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+*GreenLevel0Bomb
+Act: 1
+{
+	MillOpponent 1
+	Message Choose a card to put on top of your opponent's deck
+	SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+	MoveCard OpponentDeck
+}
+Text Act: [(1)] Put the top card of your opponent's deck into the waiting room, choose a card in your opponent's waiting room, and put it on top of your opponent's deck.
+EndCard
+
+Character: GRI/S72-P02
+Name Bunny Girl, Yumiko
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Heiress
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +1500 power.
+Auto: OnOpponentClimaxPlay
+{
+	If OnStage
+	{
+		Question Put "Bunny Girl, Yumiko" into your stock?
+		If Yes
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When your opponent's climax is placed on their climax area, you may put this card into your stock.
+EndCard
+
+Character: GRI/S72-P03
+Name Sister Play, Amane
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Grisaia
+Trait2 Housework
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrLower
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is level 1 or lower, put it into your stock.
+*RedEarlyPlayBomb
+EndCard
+
+Character: GRI/S72-T01
+Name Her Uneasy Daily Life, Yumiko
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Heiress
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+*500Assist
+EndCard
+
+Character: GRI/S72-T02
+Name Reliable Bodyguard, Yuuji
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Weapon
+*MoveOtherWithTraitToBackstageOnReverse(Grisaia)
+EndCard
+
+Character: GRI/S72-T03
+Name Sisterly Relationship, Makina
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Grisaia
+Trait2 Bread
+EndCard
+
+Character: GRI/S72-T04
+Name Makina Irisu
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Bread
+Combo Sleeping Like A Cat
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Grisaia
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Grisaia> characters, this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax Sleeping Like A Cat
+	{
+		*GainBounceWhenFrontalAttacked
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Sleeping Like A Cat" is in your climax area, this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: GRI/S72-T05
+Name Yumiko Sakaki
+Color G
+Level 1
+Cost 1
+Power 5500
+Trait1 Grisaia
+Trait2 Heiress
+*ContForEachOtherTrait(500,Grisaia)
+*HandEncore
+EndCard
+
+Character: GRI/S72-T06
+Name Spoiled Child, Makina
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Grisaia
+Trait2 Bread
+*LevelAssist
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 2 OrLower
+		ChooseCharacterFromTargets_Optional Choose up to 1 opponent's character to send to the waiting room.
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 3 cards of your deck into the waiting room. If a climax was sent, choose up to 1 level 2 or lower character on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: GRI/S72-T07
+Name Sheltered Young Lady, Yumiko
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Heiress
+Auto: OnPlay
+{
+	TargetLocation Stage
+	GainPower 3000
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all of your characters get +3000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	PayCost 4 Discard 2 Any
+	{
+		Stand
+	}
+}
+TimesPerTurn 1
+Text Auto: [(4) Discard 2 cards] Once per turn, when this card's battle opponent becomes reversed, you may pay the cost, stand this card.
+EndCard
+
+Climax: GRI/S72-T08
+Name Parent-Teacher Conference
+Color G
+*2SoulClimax
+EndCard
+
+Climax: GRI/S72-T09
+Name Sleeping Like A Cat
+*BarClimax
+EndCard
+
+Character: GRI/S72-T10
+Name Sachi Komine
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Maid
+*Revenge(1000)
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: GRI/S72-T11
+Name Important Practice, Michiru
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Tsundere
+*RedLevel0Bomb
+Requirement Compare MyLevel 2 OrHigher
+Act: 1 SendSelf WaitingRoom
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Michiru Matsushima
+	FirstTarget
+	Change
+}
+Text Act: [(1) Put this card into the waiting room] If your level is 2 or higher, choose 1 "Michiru Matsushima" in your waiting room, and put it in the stage position that this card was in.
+EndCard
+
+Character: GRI/S72-T12
+Name Sisterly Relationship, Amane
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Housework
+Cont: GiveAll
+{
+	If NameEquals Sisterly Relationship, Makina
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Sisterly Relationship, Makina" get +1000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Grisaia
+	{
+		SearchDeck NameEquals Sisterly Relationship, Makina
+	}
+}
+Text Auto: [Discard a <Grisaia> character] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Sisterly Relationship, Makina", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: GRI/S72-T13
+Name Love at First Sight, Amane
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Housework
+Auto: OnPlay
+{
+	GainLevel 1
+	GainPower 1000
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1 level and +1000 power until end of turn.
+*OnAttackGivePowerForEachOther(500,Grisaia)
+EndCard
+
+Character: GRI/S72-T14
+Name Together at the Sea, Sachi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Maid
+*GainPowerForEachOther(500,Grisaia)
+EndCard
+
+Character: GRI/S72-T15
+Name Insignificant Worries, Michiru
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Grisaia
+Trait2 Tsundere
+Backup 2500
+EndCard
+
+Character: GRI/S72-T16
+Name Michiru Matsushima
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Grisaia
+Trait2 Tsundere
+*OnAttackGainPowerForEachOther(1000,Grisaia)
+*HandEncoreTrait(Grisaia)
+EndCard
+
+Character: GRI/S72-T17
+Name Winner's Reward, Sachi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Grisaia
+Trait2 Maid
+*GainPowerForEachOther(1000,Grisaia)
+EndCard
+
+Character: GRI/S72-T18
+Name Amane Suou
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Housework
+*Healer
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Event: GRI/S72-T19
+Name Cicada Sisters
+Color R
+Level 2
+Cost 2
+Effect:
+{
+	Message Choose up to 2 characters to return to your hand.
+	SearchLocationForTargets WaitingRoom 0 2 IsCharacter
+	RevealTargets
+	MoveCard Hand
+} 
+Text Choose up to 2 characters in your waiting room, and return them to your hand.
+EndCard
+
+Climax: GRI/S72-T20
+Name Surprise Party
+*DoorClimax
+EndCard
+
+
+
+
+
+
+
+
+

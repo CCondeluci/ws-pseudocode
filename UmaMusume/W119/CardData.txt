@@ -1,0 +1,2617 @@
+
+Character: UMA/W119-001
+Name Go have fun, Fuji Kiseki
+Color Y
+Level 0
+Cost 0
+Trigger Soul
+Power 500
+Trait1 Uma Musume
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+Act: 1 RestSelf
+{
+	Brainstorm 5
+	TargetBrainstormed
+	If TargetsContain 1 IsClimax
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Act: BRANISTORM [(1) Rest this card] Flip over the top 5 cards of your deck and put them into your waiting room. If there is a climax among those cards, choose 1 character in your waiting room and return it to your hand.
+EndCard
+
+Character: UMA/W119-002
+Name Jet-Black Entertainer, Fuji Kiseki
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Uma Musume
+Combo Continuation of the dream
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Uma Musume && IsCharacter
+	{
+		GainLevel 1
+		GainPower 3500
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Uma Musume> characters, this card gets +1 level and +3500 power.
+Auto: OnEndOfAttack
+{
+	If Climax Continuation of the dream &&& StageContains 2 Other && HasTrait Uma Musume && IsCharacter
+	{
+		PeekTop Deck 1
+		IfTarget HasTrait Uma Musume || IsEvent
+		{
+			RevealTargets
+			MoveCard Hand
+		}
+		PutTheRestIntoTheWaitingRoom
+		Question Put "Jet-Black Entertainer, Fuji Kiseki" into memory?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Memory
+			ScheduleEffectForTargets StartDrawPhase
+			{
+				Effect:
+				{
+					SearchLocationForTargets Memory 1 1 NameEquals Jet-Black Entertainer, Fuji Kiseki
+					PlaceOnStage False True True False
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if "Continuation of the dream" is in your climax area, and you have 2 or more other <Uma Musume> characters, look at the top card of your deck, choose an <Uma Musume> character or event card to add to your hand, put the rest into the waiting room. Afterwards, you may put this card into memory. If you do, at the beginning of your next draw phase, choose a "Jet-Black Entertainer, Fuji Kiseki" in your memory and put it in any position on the stage.
+EndCard
+
+Character: UMA/W119-003
+Name Beyond the Limits, Jungle Pocket
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Uma Musume
+Combo I'll go first
+*PowerOnMyTurn(3000)
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose an ability :\n1: You may put the top card of your clock into the waiting room\n2: [Put 1 card form your hand into waiting room] You may pay the cost. If you do, put the top card of your clock face-up underneath this card as a marker.|1|2
+	If Answer 0 
+	{
+		*OptionalHeal
+	}
+	Else 
+	{
+		PayCost Discard 1 Any
+		{
+			TargetTop Clock 1
+			Marker_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of the following 2 abilities and this card gets that ability until the end of your opponent's turn. "You may put the top card of your clock into the waiting room" "[Put 1 card form your hand into waiting room] You may pay the cost. If you do, put the top card of your clock face-up underneath this card as a marker"
+Auto: OnAttack
+{
+	If Climax I'll go first &&& StageContains 2 Other && HasTrait Uma Musume
+	{
+		TargetSelf
+		TargetMarkersUnderTargets
+		SetXValue TargetCount
+		If Compare X 4 OrMore
+		{
+			Repeat 3
+			{
+				Burn 1
+			}
+		}
+		If Compare X 3 Exactly
+		{
+			Repeat 2
+			{
+				Burn 1
+			}
+		}
+		If Compare X 2 OrLess
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "I'll go first" is in your climax area, and you have 2 or more other <Uma Musume> characters, deal 1 damage to your opponent X times. If the markers number of this card underneath is 2 or less then X is 1, if number is 3 then X is 2, if number is 4 or more then X is 3.
+EndCard
+
+Character: UMA/W119-004
+Name Dedicated effort, Dantsu Flame
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Uma Musume
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 <Uma Musume> character from your hand into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: UMA/W119-005
+Name Training Center Academy, Jungle Pocket
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If HasMarker &&& StageContains 1 Other && IsCharacter && HasTrait Uma Musume
+		{
+			GainPower 5000
+		}
+	}
+}
+Text Cont: During your turn, if this card has a marker underneath it, and you have another <Uma Musume> character, this card gets +5000 power.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && With INHERITANCE
+		Marker_FaceUp
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 characters which have [INHERITANCE] in your waiting room, and put it face up underneath this card as a marker.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-006
+Name A Uma Musume who is loved by everyone, Fuji Kiseki
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Auto: OnDirectAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	AIChoice RestAndMoveToBackstage
+	ChooseCharacterFromTargets Choose a character to rest and move to the backstage.
+	Rest
+	If HasTarget
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: When this card direct attacks, choose 1 of your other characters, rest it, and move it to an open position of your back stage.
+EndCard
+
+Character: UMA/W119-007
+Name Kind-hearted Uma Musume, Dantsu Flame
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	If StageContains 1 Other && IsCharacter && HasTrait Uma Musume
+	{
+		MultipleChoiceQuestion Choose an ability :\n1: You may choose 1 card in your hand, and put it into your stock.\n2: Choose 1 of your other characters, choose 1 characters which have [INHERITANCE] in your hand and put it face up underneath that character as a marker.|1|2
+		If Answer 0 
+		{
+			If Compare CardsInHand 1 OrMore
+			{
+				Question Put a card from your hand into your stock?
+				If Yes
+				{
+					SearchLocationForTargets Hand 0 1 Any
+					MoveCard Stock
+				}
+			}
+		}
+		Else 
+		{
+			TargetLocation Stage
+			NarrowTargets Other && IsCharacter
+			ChooseCharacterFromTargets
+			SaveTargets
+			SearchLocationForTargets Hand 1 1 IsCharacter && With INHERITANCE
+			RevealTargets
+			MarkerTargetsUnderSavedTarget_FaceUp
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another <Uma Musume> character, choose 1 of the following 2 effects and perform it. "You may choose 1 card in your hand, and put it into your stock." "Choose 1 of your other characters, choose 1 characters which have [INHERITANCE] in your hand and put it face up underneath that character as a marker."
+EndCard
+
+Character: UMA/W119-008
+Name The wish I entrusted, Fuji Kiseki
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+Cont: GiveAll
+{
+	If Other && IsCharacter && NameContains Jungle Pocket
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: All of your other character with either "Jungle Pocket" in it's card name gets +500 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Character: UMA/W119-009
+Name Proof of trust, Fuji Kiseki
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && NameContains Jungle Pocket
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 character with either "Jungle Pocket" in it's card name in your waiting room, and return it to your hand.
+EndCard
+
+Character: UMA/W119-010
+Name Senior Uma Musume, Fuji Kiseki
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Cont: GiveAll
+{
+	If Other && IsCharacter && NameContains Jungle Pocket
+	{
+		GainEffect
+		{
+			*EncoreStepIfNoneRestedPayToRest
+		}
+	}
+}
+Text Cont: All of your other character with either "Jungle Pocket" in it's card name gets the following ability. "Auto: [(1)] At the beginning of the encore step, if you do not have any other rested characters on your center stage, you may pay the cost. If you do, rest this card."
+EndCard
+
+Character: UMA/W119-011
+Name A new era, Jungle Pocket
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Uma Musume
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: For each marker under this card, this card gets +2000 power.
+Cont: GiveSelf
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Uma Musume
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotSideAttack
+			}
+			Text Cont: This card cannot side attack.
+		}
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: If you have 2 or more other <> characters, this card gets +1000 power and the 2 following abilities. "Cont: This card cannot side attack." "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Character: UMA/W119-012
+Name Entrusted Wish, Jungle Pocket
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Uma Musume
+Combo Victory Roar
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Uma Musume && IsCharacter
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Uma Musume> character, this card gets +3000 power.
+Auto: OnAttack
+{
+	If Climax Victory Roar &&& StageContains 2 Other && HasTrait Uma Musume && IsCharacter
+	{		
+		MultipleChoiceQuestion Choose an effect :\n1: Look at up to 4 cards from the top of your deck, choose up to 1 <Uma Musume> character to add to your hand, and put the rest into the waiting room.\n2: Choose up to 2 of your characters, those gets +1 soul until end of turn.|1|2
+		If Answer 0 
+		{
+			*Check4Add1(Uma Musume)
+		}
+		Else 
+		{
+			ChooseMultipleCharacters 0 2 InLocation Stage
+			GainSoul 2
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Victory Roar" is in your climax area, and you have other 2 or more <Uma Musume> characters, choose 1 of the following 2 effects and perfrom it. "Look at up to 4 cards from the top of your deck, choose up to 1 <Uma Musume> character to add to your hand, and put the rest into the waiting room." "Choose up to 2 of your characters, those gets +1 soul until end of turn."
+EndCard
+
+Character: UMA/W119-013
+Name The First Battle, Dantsu Flame
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all of the cards in your waiting room to your deck and shuffle your deck.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-014
+Name The Entertainer Returns, Fuji Kiseki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Uma Musume
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Beyond the Limits, Jungle Pocket
+	Message Choose 1 of your "Beyond the Limits, Jungle Pocket".
+	ChooseCharacterFromTargets
+	If HasTarget
+	{
+		SaveTargets
+		Message Choose up to 1 character with "INHERITANCE" in your waiting room and put it face-up under your "Beyond the Limits, Jungle Pocket" as a marker.
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && With INHERITANCE
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Beyond the Limits, Jungle Pocket", choose up to 1 character with "INHERITANCE" in your waiting room, and put it face up underneath that character as a marker.
+EndCard
+
+Character: UMA/W119-015
+Name Photo shoot, Haru Urara
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Uma Musume
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards in your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: UMA/W119-016
+Name Declaration of War, Jungle Pocket
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	If StageContains 2 Other && IsCharacter && HasTrait Uma Musume
+	{
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+		Discard 2 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Uma Musume> characters, draw up to 2 cards, choose 2 cards in your hand, put them into your waiting room.
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Declaration of War, Jungle Pocket
+	{
+		StockSwap
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: [Put 1 "Declaration of War, Jungle Pocket" from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, put all of your opponent's stock into the waiting room, then put the same number of cards from the top of your opponent's deck into his or her stock, this card gets +3000 power until end of turn.
+EndCard
+
+Character: UMA/W119-017
+Name Freestyle racing charisma, Jungle Pocket
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Uma Musume
+*GlobalPower(500,Uma Musume)
+*YellowLevel0Bomb
+EndCard
+
+Character: UMA/W119-018
+Name Wish fulfillment, Fuji Kiseki
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	If LocationContains Hand 1 Any
+	{
+		Question Pay the cost?
+		If Yes
+		{
+			Mill 1
+			If Compare TargetCardsLevel 1 OrMore
+			{
+				SearchLocationForTargets Hand 1 1 Any
+				MoveCard WaitingRoom
+				*Check4Add1(Uma Musume)
+			}
+			Else
+			{
+				SearchLocationForTargets Hand 1 1 Any
+				MoveCard WaitingRoom
+				SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 2 OrMore && HasTrait Uma Musume
+				RevealTargets
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your waiting room, put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If the level of the card put from the top of your deck into the waiting room as a cost of this ability is 1 or higher, look at up to 4 cards from the top of your deck, choose up to 1 <Uma Musume> character to add to your hand, and put the rest into the waiting room. If the level of the card put from the top of your deck into the waiting room as a cost of this ability is 0 or lower, choose 1 level 2 or more <Uma Musume> character in your waiting room and return it to your hand.
+EndCard
+
+Character: UMA/W119-019
+Name Following the Light, Dantsu Flame
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Uma Musume
+Auto: OnPlay|OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Uma Musume
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand or this card attacks, choose 1 of your <Uma Musume> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: UMA/W119-020
+Name The dawn of a new era, Fuji Kiseki
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 4000
+Trait1 Uma Musume
+Auto: OnClimaxPlay
+{
+	If PlayedThisTurn
+	{
+		IfOther HasTrigger Choice
+		{
+			PayCost 1 Discard 1 Any
+			{
+				SearchLocationForTargets WaitingRoom 1 1 IsClimax && HasTrigger Choice
+				RevealTargets
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] During the turn this card is placed on the stage from your hand, when your climax with Choice in its trigger icon is placed on your climax area, you may pay the cost. If you do, choose 1 climax with Choice in its trigger icon in your waiting room, and return to your hand.
+EndCard
+
+Character: UMA/W119-021
+Name My Live, Jungle Pocket
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Uma Musume
+Auto: OnTriggerCheck
+{
+	IfOther HasTrigger Soul
+	{
+		*GiveCharacterPower(2000,Uma Musume)
+	}
+}
+Text Auto: When your character's trigger check reveals a soul trigger icon, choose 1 of your <Uma Musume> characters, it gets +2000 power until end of turn.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: UMA/W119-022
+Name An ominous feeling, Jungle Pocket
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Uma Musume
+Auto: OnAttack
+{
+	TargetTop Deck 1 
+	Reveal
+	IfTarget HasTrait Uma Musume && IsCharacter
+	{
+		TargetLocation Stage
+		GainPower 5000
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is an <Uma Musume> character, all of your characters gets +5000 power until end of turn.
+EndCard
+
+Character: UMA/W119-023
+Name Following the Light, Jungle Pocket
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Uma Musume
+*GainPowerWithEnoughCharacters(6000,4,Uma Musume)
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Uma Musume && IsCharacter
+	{
+		Question_Obvious Draw 2 cards?
+		If Yes
+		{
+			DrawCard
+			DrawCard
+			Discard 2 Any
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 2 or more other <Uma Musume> characters, you may draw 2 cards. If so, discard 2 cards.
+EndCard
+
+Event: UMA/W119-024
+Name Veteran trainer Tanabe
+Color Y
+Level 1
+Cost 0
+Counter
+Requirement StageContains 1 HasTrait Uma Musume
+Effect:
+{
+	*Check4Add1(Uma Musume)
+}
+Text COUNTER If you have not <Uma Musume> characters this card cannot be played from your hand. Look at up to 4 cards from the top of your deck, choose up to 1 <Uma Musume> character from among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Climax: UMA/W119-025
+Name I'll go first
+*ChoiceClimax
+EndCard
+
+Climax: UMA/W119-026
+Name Victory Roar
+*ShotClimax
+EndCard
+
+Climax: UMA/W119-027
+Name Continuation of the dream
+*ChoiceClimax
+EndCard
+
+Character: UMA/W119-028
+Name To stand alongside the person I admire, Meisho Doto
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+*OnAttackGiveOtherPower(1500,Any)
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		*CheckAndAddAll(2,HasTrait Uma Musume)
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 <Uma Musume> characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: UMA/W119-029
+Name To the Glory of Victory, T.M. Opera O
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Uma Musume
+Combo The Path of Domination
+*Healer
+Auto: OnAttack
+{
+	If Climax The Path of Domination &&& HasMarker &&& StageContains 1 Other && HasTrait Uma Musume
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Peek Deck 1
+			EndPeek
+			ChooseNumber 1 28
+			SetXValue Answer
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 card from your hand into your waiting room] When this card attacks, if "The Path of Domination" is in your climax area, and there is a marker underneath this card, and you have another <Uma Musume> character, you may pay the cost. If you do, look at the top card of your deck, declare any number, and deal X damage to your opponent. X is equal to the number you declared.
+EndCard
+
+Character: UMA/W119-030
+Name Carrying the thoughts, Narita Top Road
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Uma Musume
+Auto: StartMyEncoreStep
+{
+	PayCost 2 Discard 1 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2) Put 1 card from your hand into your waiting room] At the start of your encore step, you may pay the cost. If you do, deal 1 damage to your opponent.
+Auto: StartDrawPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Uma Musume
+		Change
+		GainPower 3000
+	}
+}
+Text Auto: [Send this card to waiting room] At the start of your draw phase, you may pay the cost. If you do, choose 1 <Uma Musume> character in your waiting room, and put it in the stage position that this card was in, it gets +3000 power until end of turn.
+EndCard
+
+Character: UMA/W119-031
+Name A seasoned champion, T.M. Opera O
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Uma Musume
+*GainPowerOnPlay(1500)
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, all of the character in your opponent's center stage gets -500 power until end of turn.
+EndCard
+
+Character: UMA/W119-032
+Name The road to the top, Narita Top Road
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Uma Musume
+Act: RestSelf
+{
+	If StageContains 4 Other && HasTrait Uma Musume
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Act: [Rest this card] If you have 4 or more other <Uma Musume> characters, draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+*Act1RestSelfSearchBrainstorm(Uma Musume)
+EndCard
+
+Character: UMA/W119-033
+Name Supreme King of the End of the Century, T.M. Opera O
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		*Check4Add1(Uma Musume)
+	}
+}
+Text Auto: [(1)] When a climax is placed in your climax area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Uma Musume> character to add to your hand, and put the rest into the waiting room.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-034
+Name Training Center Academy, Agnes Tachyon
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Auto: OnEndOfAttack
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Uma Musume
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [Put 1 other <Uma Musume> character from your stage into your waiting room] At the end of this card's attack, you may pay the cost. If you do, move this card to an open position of your back stage.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-035
+Name The road to the top, T.M. Opera O
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Uma Musume
+Combo A feat etched in history
+*GainPowerWithEnoughCharacters(2000,2,Uma Musume)
+Auto: OnAttack
+{
+	If Climax A feat etched in history
+	{
+		If StageContains 2 Other && IsCharacter && HasTrait Uma Musume
+		{
+			PayCost Discard 1 Any
+			{
+				SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Uma Musume
+				RevealTargets
+				MoveCard Hand
+				TargetSelf
+				UntilEndOfOpponentsTurn
+				GainEffect
+				{
+					Cont: GiveSelf
+					{
+						If Not MyTurn
+						{
+							GainSpecialEffect CannotBeReversed
+						}
+					}
+					Text Cont: During your opponent's turn, this cannot be reversed.
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this attacks, if you have "Honest Strategy" in your climax area, and you have 2 or more other <Uma Musume> characters, you may pay the cost. If you do, choose 1 <Uma Musume> character in your waiting room, add it to hand, then until the end of your opponent's next turn, this gains the following ability, "Cont: During your opponent's turn, this cannot be reversed."
+EndCard
+
+Character: UMA/W119-036
+Name The road to the top, Meisho Doto
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Uma Musume
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Discard 1 HasTrait Uma Musume
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		LoseSoul 2
+	}
+}
+Text Auto: [(2) Put 1 <Uma Musume> character from your hand into your waiting room] When you use the BACKUP of this you may pay cost. If you do, choose 1 of your opponent's characters, and that character gets -2 soul until end of turn.
+Backup 2500
+EndCard 
+
+Character: UMA/W119-037
+Name Light of Madness, Agnes Tachyon
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Uma Musume
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Uma Musume && IsCharacter
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Uma Musume> character, this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Discard 2 HasTrait Uma Musume
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(1) Put 2 <Uma Musume> characters from your hand into your waiting room] This ability activates up to 1 time per turn. Once during the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, stand this card.
+EndCard
+
+Character: UMA/W119-038
+Name A battle that cannot be lost, Meisho Doto
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Auto: OnDirectAttack
+{
+	GainSoul 1
+}
+Text Auto: When this card direct attacks, this card gets +1 soul until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Uma Musume
+	{
+		TargetOther
+		PayCost 1 SendSelf WaitingRoom
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other <Uma Musume> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: UMA/W119-039
+Name Exploring possibilities, Agnes Tachyon
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		ChooseNumber 0 49
+		SetXValue Answer
+		SearchLocationForTargets Hand X X Any
+		MoveCard WaitingRoom
+		Repeat X
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, declare any number and discard number of you chosen, draw the same number of cards as you discarded.
+EndCard
+
+Character: UMA/W119-040
+Name The Will of the Supreme King, T.M. Opera O
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Uma Musume
+*EarlyPlay4OrMore(Uma Musume)
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainPower 6000
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +6000 power.
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		Question Put the battle opponent onto the top of opponent's deck?
+		If Yes
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				MoveCard OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent is reversed, if you have a climax in your climax area, you may put that character to the top of your opponent's deck.
+EndCard
+
+Character: UMA/W119-041
+Name Roommate, Narita Top Road
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Uma Musume
+*Level3Assist
+Act: RestSelf
+{
+	TargetTop OpponentDeck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Act: [Rest this card] Look at up to 2 cards from top of your Opponent's deck and put them on top of the deck in any order.
+EndCard
+
+Character: UMA/W119-042
+Name Plan B, Agnes Tachyon
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Uma Musume
+Combo Afterglow shine
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 2 Other && HasTrait Uma Musume
+		{
+			GainPower 4000
+		}
+	}
+}
+Text Cont: During your turn, if the number of other <Uma Musume> characters you have is 2 or more, this card gets +4000 power.
+Auto: OnAttack
+{
+	If Climax Afterglow shine
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				TargetSelf
+				LosePower 2000
+			}
+			Text Auto: When this card attacks, this card gets +2000 power until the end of attack.
+		}
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Afterglow shine" is in your climax area, this card gets +2000 power until the end of attack, perform a trigger check 2 times on the trigger step.
+EndCard
+
+Character: UMA/W119-043
+Name My Live, Agnes Tachyon
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+*GainPowerOnPlay(3000)
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Uma Musume
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose 1 <Uma Musume> character in your waiting room and return it to your hand.
+EndCard
+
+Character: UMA/W119-044
+Name Photo shoot, Admire Vega & Curren Chan
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Uma Musume
+*GainPowerOnPlay(4500)
+EndCard
+
+Character: UMA/W119-045
+Name Data collection, Agnes Tachyon
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Uma Musume
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && Compare TargetCardsLevel 0 OrLower
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When a climax is placed in your climax area, reveal the top card of your deck. If that card is a level 0 or lower character, put it into your stock.
+EndCard
+
+Character: UMA/W119-046
+Name A feat yet to be seen, T.M. Opera O
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Uma Musume
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of <Uma Musume> characters you have x1000.
+EndCard
+
+Character: UMA/W119-047
+Name A battle that cannot be lost, Narita Top Road
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Uma Musume
+Auto: OnClimaxPlay
+{
+	GainPower 2500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question_Obvious Send to Memory? 
+			If Yes && InLocation Stage
+			{
+				MoveCard Memory
+				ScheduleEffect StartDrawPhase
+				{
+					Effect:
+					{
+						SearchLocationForTargets Memory 1 1 NameEquals A battle that cannot be lost, Narita Top Road
+						PlaceOnStage False True True False 
+					}
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed in battle, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "A battle that cannot be lost, Narita Top Road" in your memory, and put it on any position of your stage.
+	}
+}
+Text Auto: When a climax is placed in your climax area, this card gets +2500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed in battle, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "A battle that cannot be lost, Narita Top Road" in your memory, and put it on any position of your stage."
+EndCard
+
+Character: UMA/W119-048
+Name Clumsy Uma Musume, Meisho Doto
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Uma Musume
+Cont: GiveSelf
+{
+	If HasMarker &&& StageContains 2 Other && IsCharacter && HasTrait Uma Musume
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*EncoreStepIfNoneRestedPayToRest
+		}
+	}
+}
+Text Cont: If this card has a marker underneath it, and you have 2 or more other <Uma Musume> characters, this card gets +2500 power and the following ability. "Auto: [(1)] At the beginning of the encore step, if you do not have any other rested characters on your center stage, you may pay the cost. If you do, rest this card."
+EndCard
+
+Character: UMA/W119-049
+Name Interest in observed object, Agnes Tachyon
+Color G
+Level 1
+Cost 0
+Power 7000
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to gets +3000 power
+	GainPower 3000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets +3000 power until end of turn.
+EndCard
+
+Character: UMA/W119-050
+Name A refreshing honor student, Narita Top Road
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: When this is placed from hand to the Stage, put the top 3 cards of your deck in the waiting room. If there were at least 1 climax card among them, you may draw 1 card.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: UMA/W119-051
+Name Demonstration experiment, Agnes Tachyon
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Uma Musume
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	If Compare CardsInOpponentsClock 1 OrMore
+	{
+		Question Put the top card of opponent's clock into waiting room to put the battle opponent into clock?
+		If Yes
+		{
+			TargetTop OpponentClock 1
+			MoveCard OpponentWaitingRoom
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock.
+EndCard
+
+Climax: UMA/W119-052
+Name The Path of Domination
+*BarClimax
+EndCard
+
+Climax: UMA/W119-053
+Name A feat etched in history
+*BarClimax
+EndCard
+
+Climax: UMA/W119-054
+Name Afterglow shine
+*BarClimax
+EndCard
+
+Character: UMA/W119-055
+Name Following "Friends", Manhattan Cafe
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Uma Musume
+Combo I will catch up, for sure
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && IsCharacter && HasTrait Uma Musume
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Uma Musume> character, this card gets +3000 power.
+Auto: OnSpecificClimaxPlay I will catch up, for sure
+{
+	If InLocation CenterStage &&& StageContains 2 Other && IsCharacter && HasTrait Uma Musume
+	{
+		Message Choose 2 <Uma Musume> characters.
+		SearchLocationForTargets Deck 0 2 IsCharacter && HasTrait Uma Musume
+		SaveTargets
+		RevealTargets
+		OpponentMessage Choose one of the characters and put it into the WaitingRoom, the rest will be added to your opponent's hand.
+		OpponentChooseCardsFromTargets 1 1 Any
+		ReverseTargets Revealed
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		ShuffleLocation Deck
+		TargetSelf
+		If HasMarker
+		{
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Uma Musume
+			RevealTargets
+			MoveCards Hand
+		}
+	}
+}
+Text Auto: CxCombo When "I will catch up, for sure" is placed into your climax area, if this card is in your center stage and you have 2 or more other <Uma Musume> characters, search your deck for up to 2 <Uma Musume> characters and reveal them. Your opponent then chooses 1 of those characters and puts it into your waiting room, put the rest into your hand and shuffle your deck, if there is a marker underneath this card, choose 1 <Uma Musume> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: UMA/W119-056
+Name Beyond the Possibility, Agnes Tachyon
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Uma Musume
+Combo Following Instinct
+Auto: OnPlay
+{
+	Peek Deck 2
+	AIChoice AddToHand
+	ChooseCard Choose a card to add to your hand.
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck. Choose up to 1 to add to your hand and put the rest into the waiting room.
+Auto: OnAttack
+{
+	If Climax Following Instinct
+	{
+		PayCost 1
+		{
+			MultipleChoiceQuestion Choose one \n1. If your level is 3 and your opponent's level is 2 your clock then has 4 or more cards, choose 2 cards in your hand, and put them into your waiting room. If you put 2 cards into your waiting room, your opponent choose 1 card in their clock, and put it to their level zone, put the rest clock into their waiting room.\n2. Deal 2 damage to your opponent.|Choice 1|Choice 2
+			If Answer 0
+			{
+				If Compare MyLevel 3 Exactly &&& Compare OpponentsLevel 2 Exactly &&& Compare CardsInOpponentsClock 4 OrMore
+				{
+					ForcePayCost Discard 2 Any
+					{
+						TargetLocation OpponentClock
+						OpponentChooseCardsFromTargets 1 1 Any
+						MoveCard OpponentLevel
+						TargetLocation OpponentClock
+						MoveCard OpponentWaitingRoom
+					}
+				}
+			}
+			If Answer 1
+			{
+				Burn 2
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Following Instinct" is in your climax area, you may pay the cost. If you do, choose 1 of the following 2 effects and perform it. "If your level is 3 and your opponent's level is 2 your clock then has 4 or more cards, choose 2 cards in your hand, and put them into your waiting room. If you put 2 cards into your waiting room, your opponent choose 1 card in their clock, and put it to their level zone, put the rest clock into their waiting room." "Deal 2 damage to your opponent."
+EndCard
+
+Character: UMA/W119-057
+Name Unusual Uma Musume, Agnes Tachyon
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	ScheduleEffect EndOfTurn
+	{
+		Effect:
+		{
+			If StageContains 2 Other && IsCharacter && HasTrait Uma Musume
+			{
+				Question Exchange a character in your front stage with a character in your backstage?
+				If Yes
+				{
+					TargetLocation CenterStage
+					NarrowTargets HasTrait Uma Musume
+					ChooseCharacterFromTargets Choose a character in your center stage
+					SaveTargets
+					TargetLocation Backstage
+					NarrowTargets HasTrait Uma Musume
+					ChooseCharacterFromTargets Choose a character to exchange
+					AddSavedToCurrentTargets
+					Exchange
+					Rest
+				}
+			}
+		}
+		Text Optional character exchange
+	}
+}
+Text Auto: During the turn this card is placed on stage from your hand, at the end of your turn, if you have 2 or more other <Uma Musume> characters, you may choose an <Uma Musume> character in your center stage and an <Uma Musume> character in your back stage, rest and exchange them.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-058
+Name Training Center Academy, Manhattan Cafe
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Combo Burned-in afterglow
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Uma Musume && Other
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Uma Musume> characters, it gets +1000 power until end of turn.
+Auto: OnSpecificClimaxPlay Burned-in afterglow
+{
+	If LocationContainsOrLess Hand 6 Any
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			*Check4Add1(Uma Musume)
+			*GiveCharacterPower(1000,Uma Musume)
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Burned-in afterglow" from your climax area into the waiting room] When "Burned-in afterglow" is placed into your climax area, and your hand has 6 or less cards, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Uma Musume> character to add to your hand, and put the rest into the waiting room, choose 1 of your <Uma Musume> character, it gets +1000 power until end of turn.
+EndCard
+
+Character: UMA/W119-059
+Name Mysterious Uma Musume, Manhattan Cafe
+Color R
+Level 1
+Cost 0
+Power 1500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	PayCost Discard 2 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsEvent
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 event in your waiting room and return it to your hand.
+*RedLevel1Bomb
+EndCard
+
+Character: UMA/W119-060
+Name Secret Feelings, Manhattan Cafe
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Uma Musume
+Cont: GiveAll
+{
+	If MyTurn &&& Other && HasTrait Uma Musume
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Uma Musume> characters get +1000 power.
+Auto: OnTriggerCheck
+{
+        IfOther IsClimax && HasTrigger Door
+        {
+                  PayCost 1
+                  {
+                        *CheckAndAdd(2)
+                  }
+        }
+}
+Text Auto: [(1)] When your character's trigger check reveals a climax with door in its trigger icon, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: UMA/W119-061
+Name Mad Scientist, Agnes Tachyon
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Uma Musume && IsCharacter
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have another <Uma Musume> character, this card gains +2000 power until end of turn.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 CardPosition Stand && Other && IsCharacter && HasTrait Uma Musume
+		{
+			SearchDeck IsCharacter && HasTrait Uma Musume
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other <Uma Musume> characters] During the turn this card was placed on stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to 1 <Uma Musume> character and add it to your hand.
+EndCard
+
+Character: UMA/W119-062
+Name Someday, for sure, Manhattan Cafe
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Uma Musume
+*EarlyPlay4OrMore(Uma Musume)
+*StockHealer
+Auto: OnAttack
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		If StageContains 1 Other && IsCharacter && HasTrait Uma Musume
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Uma Musume && IsCharacter
+			{
+				SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+				MoveCard OpponentDeck
+				TargetSelf
+				GainPower 4000
+			}
+		}
+	}
+}
+Text Auto: When this attacks, if you have a climax in your climax area, and you have another <Uma Musume> character, reveal the top card of your deck. If it is either a <Uma Musume> character, choose up to 1 card in your opponent's waiting room and put them on top of your opponent's deck in any order, this card gets +4000 power until end of turn.
+EndCard
+
+Character: UMA/W119-063
+Name My Live, Manhattan Cafe
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Uma Musume
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		RevealUpTo Deck 3
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 Level 1 or higher card among them, put it into your hand, and put the rest into the waiting room.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: UMA/W119-064
+Name Just looking ahead, Manhattan Cafe
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Uma Musume
+		RevealTargets
+		MoveCard Hand
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Uma Musume
+		ChooseCharacterFromTargets Choose a character to give the effect.
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Uma Musume> character in your waiting room, return it to your hand, choose 1 of your other <Uma Musume> characters, and that character gets the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 to return to the top of your deck and put the rest into the waiting room."
+EndCard
+
+Character: UMA/W119-065
+Name Handmade drinks, Agnes Tachyon
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Uma Musume
+*GainPowerWhenAttackingLevel2(6000)
+Auto: StartClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Uma Musume
+	{
+		*Check3Add1(Uma Musume)
+	}
+}
+Text Auto: ACCELERATE [Put 1 <Uma Musume> character from your waiting room on the bottom of your clock] At the beginning of your climax phase, you may pay cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 <Uma Musume> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: UMA/W119-066
+Name Plan A, Agnes Tachyon
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Uma Musume
+*Level3Assist
+Auto: StartClimaxPhase|StartMyEncorePhase
+{
+	If CardPosition Stand &&& StageContains 1 Other && NameEquals Beyond the Possibility, Agnes Tachyon
+	{
+		PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Uma Musume &&& RestSelf
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: [Put 1 <Uma Musume> character from your waiting room at the bottom of your clock, rest this card by standing position] At the beginning of your climax phase or encore step, if you have another "Beyond the Possibility, Agnes Tachyon", you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: UMA/W119-067
+Name A new era, Manhattan Cafe
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Uma Musume
+*1000Assist
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+				BlindStock
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+				BlindStock
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room and put the top card of your deck into your stock.
+*RestGivePower(1500,Uma Musume)
+EndCard
+
+Character: UMA/W119-068
+Name Photo shoot, Rice Shower
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+*Level0Assist
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Uma Musume
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Act: [(1)] Choose 1 of your <Uma Musume> characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: UMA/W119-069
+Name To catch up, Manhattan Cafe
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 HasTrait Uma Musume
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 <Uma Musume> character from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: UMA/W119-070
+Name Towards return, Manhattan Cafe
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Uma Musume
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play event cards or "BACKUP" from your hand.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-071
+Name A new era, Agnes Tachyon
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Uma Musume
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AIChoice RemoveCard
+		ChooseCharacterFromTargets Choose a character to send to memory.
+		MoveCard Memory
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their memory.
+Backup 1000
+EndCard
+
+Character: UMA/W119-072
+Name Cold Fury, Manhattan Cafe
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Uma Musume
+Auto: OnUseThisCardsBackup
+{	
+	TargetSelf
+	MoveCardToBottom Deck
+}
+Quick
+ActivationRequirement Compare MyLevel 2 OrHigher
+Text Act: Backup 3500, Level 2 [(1) Reveal this card in your hand & Put this card at the bottom of your deck]
+Backup 3500
+EndCard
+
+Event: UMA/W119-073
+Name Talented announcer, Nana Izumimoto
+Color R
+Level 1
+Cost 0
+Requirement StageContains 2 IsCharacter && HasTrait Uma Musume
+Effect:
+{
+	ChooseMultipleCharacters 0 2 InLocation Stage && IsCharacter && HasTrait Uma Musume
+	GainSoul 1
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			AddToOtherCardsTriggerIcon Door NameEquals Talented announcer, Nana Izumimoto
+		}
+		Text All of your "Talented announcer, Nana Izumimoto" in all zones gains Door icon.
+	}
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			AddToOtherCardsTriggerIcon Standby NameEquals Talented announcer, Nana Izumimoto
+		}
+		Text All of your "Talented announcer, Nana Izumimoto" in all zones gains Standby icon.
+	}
+}
+Text If you have 1 or less <Uma Musume> characters, this card cannot be played from your hand. Choose up to 2 of your <Uma Musume> characters, those characters gets +1 soul until end of turn. All of your "Talented announcer, Nana Izumimoto" in all zones gains Door and Standby icon until end of turn.
+EndCard
+
+Event: UMA/W119-074
+Name Nutritious tonic drink
+Color R
+Level 2
+Cost 1
+Counter
+Effect:
+{
+	Peek Deck 3
+	ChooseCardsFromTargets 0 3 Any
+	MoveCard WaitingRoom
+	EndPeek
+	ShuffleLocation Deck
+}
+Text COUNTER If you have not <Uma Musume> characters this card cannot be played from your hand. Look at up to 3 cards from the top of your deck, choose up to 3 cards from among them, put them into your waiting room, return the rest to your deck, shuffles your deck.
+EndCard
+
+Climax: UMA/W119-075
+Name Following Instinct
+*DoorClimax
+EndCard
+
+Climax: UMA/W119-076
+Name I will catch up, for sure
+*DoorClimax
+EndCard
+
+Climax: UMA/W119-077
+Name Burned-in afterglow
+*StandbyClimax
+EndCard
+
+Character: UMA/W119-078
+Name Aiming to be the "strongest", Jungle Pocket
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If Other && InLocation MiddleCenterStage && HasTrait Uma Musume
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: During your turn, your other <Uma Musume> character in the middle position of your center stage gets +1000 power.
+Auto: OnCardGainsMarker
+{
+	If CardPosition Stand
+	{
+		PayCost 1 RestSelf
+		{
+			*Check4Add1(Uma Musume)
+		}
+	}
+}
+Text Auto: [(1) Rest this card by standing position] This ability activates up to 1 time per turn. When your card is put into the marker area from any zone except the marker area, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Uma Musume> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: UMA/W119-079
+Name In the center of the stage, Dantsu Flame
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 3000
+Soul 3
+Trait1 Uma Musume
+*EarlyPlay4OrMore(Uma Musume)
+*PowerOnMyTurn(8000)
+*Healer
+Auto: OnEndOfAttack
+{
+	Question Place this card underneath other <Uma Musume> character face-up as markers?
+	If Yes
+	{
+		TargetLocation Marker
+		MoveCard WaitingRoom
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Uma Musume
+		ChooseCharacterFromTargets
+		SaveTargets
+		TargetSelf
+		MarkerTargetsUnderSavedTarget_FaceUp
+		*OptionalBlindStock
+	}
+}
+Text Auto: At the end of this card's attack, you may choose 1 of your other <Uma Musume> character, and place this card underneath that card face-up as markers. If you do, you may put the top card of your deck into stock.
+EndCard
+
+Character: UMA/W119-080
+Name Aiming for victory, Dantsu Flame
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Uma Musume
+Auto: OnBrainstormSuccess
+{
+	If HasMarker
+	{
+		TargetTop Deck 2
+		RevealTargets
+		Message Choose a character or event card to give to your opponent
+		OpponentChooseCardsFromTargets 1 1 IsCharacter || IsEvent
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		TargetLocation Stage
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use "BRAINSTORM", if there is a marker underneath this card, and the effect puts at least 1 climax into the waiting room, reveal the top 2 cards of your deck, your opponent chooses 1 character or event card among them and puts it into your hand, then put the rest of the cards into the waiting room, choose 1 of your character, it gets +1000 power until end of turn.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: UMA/W119-081
+Name Training Center Academy, Fuji Kiseki
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Uma Musume
+*BlueLevel0Bomb
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-082
+Name Training Center Academy, Dantsu Flame
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Uma Musume
+Auto: OnSentFromStageToWaitingRoom
+{
+	*Scry
+}
+Text Auto: When this is put into your waiting room from the stage, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 Level 1 or higher card among them, put it into your hand, and put the rest into the waiting room.
+EndCard
+
+Character: UMA/W119-083
+Name Challenge to be the strongest, Jungle Pocket
+Color B
+Level 2
+Cost 0
+Trigger Soul
+Power 6000
+Trait1 Uma Musume
+Combo Strongest proof
+Auto: OnAttack
+{
+	If Climax Strongest proof
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Uma Musume
+		ScheduleEffect EndOfTurn
+		{
+			Effect:
+			{
+				Question Exchange a character in your front stage with a character in your backstage?
+				If Yes
+				{
+					TargetLocation CenterStage
+					NarrowTargets HasTrait Uma Musume
+					ChooseCharacterFromTargets Choose a character in your center stage
+					SaveTargets
+					TargetLocation Backstage
+					NarrowTargets HasTrait Uma Musume
+					ChooseCharacterFromTargets Choose a character to exchange
+					AddSavedToCurrentTargets
+					Exchange
+					Rest
+				}
+			}
+			Text Optional character exchange
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if "Strongest proof" is in your climax area, choose up to 1 <Uma Musume> character in your waiting room and return it to your hand, at the end of your turn, perform the following action. "You may choose an <Uma Musume> character in your center stage and an <Uma Musume> character in your back stage, rest and exchange them."
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther Not HasMarker
+	{
+		Question Put this card and it's markers underneath the character you just played as markers?
+		If Yes
+		{
+			TargetOther
+			SaveTargets
+			TargetSelf
+			TargetMarkersUnderTargets
+			If HasTarget
+			{
+				Message Choose a marker to move
+				ChooseCardsFromTargets 1 1 Any
+				ReverseTargets Marker
+				MoveCard WaitingRoom
+				TargetSelf
+				TargetMarkersUnderTargets
+				AddSelfToTargets
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+			Else
+			{
+				TargetSelf
+				MarkerTargetsUnderSavedTarget_FaceUp
+			}
+		}
+	}
+}
+Text Auto: INHERITANCE When your other character is placed on stage from your hand, if that character does not have a marker underneath it, you may choose up to 1 marker underneath this card and this card and you may place them underneath that card face-up as markers in any order. If you do, send the rest of the markers to the waiting room.
+EndCard
+
+Character: UMA/W119-084
+Name Innocent Uma Musume, Jungle Pocket
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Uma Musume
+*OnPlayDraw2Discard2BlindStock
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		Peek OpponentDeck 2
+        	If HasTarget
+        	{
+        		Message Choose the cards to put back on top.
+        		ChooseCardsFromTargets 0 2 Any
+        		MoveCard OpponentDeck
+        		Reorder
+        		PutTheRestIntoTheWaitingRoom
+        	}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, look up to 2 cards from the top of your opponent's deck, choose up to 2 of them and put them back on top of their deck in any order and put the rest into their waiting room.
+EndCard
+
+Character: UMA/W119-085
+Name Towards your aspirations, Jungle Pocket
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Uma Musume
+Cont: GiveSelf
+{
+	If MyTurn && StageContains 1 Other && HasTrait Uma Musume && IsCharacter
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another <Uma Musume> character, this card gets +3000 power.
+Auto: StartClimaxPhase
+{
+	If InLocation CenterStage
+	{
+		ChooseMultipleCharacters 0 2 InLocation Stage
+		GainEffect
+		{
+			Auto: OnThisTriggerCheck
+			{
+				GainEffect
+				{
+					Auto: OnThisTriggerCheck
+					{
+						TargetTop Stock 1
+						MoveCard WaitingRoom
+					}
+					TimesPerTurn 1
+					Quick
+				}
+				TriggerCheck
+			}
+			TimesPerTurn 1
+			Quick
+			Text Auto: When this card attacks, perform the trigger check twice during this attack. If checked twice, put top 1 card of your stock to your waiting room.
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, if this card is in your center stage, choose up to 2 of your characters, and those characters gets the following ability until end of turn. "Auto: When this card attacks, perform the trigger check twice during this attack. If checked twice, put top 1 card of your stock to your waiting room."
+EndCard
+
+Character: UMA/W119-086
+Name Words of gratitude, Fuji Kiseki
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Uma Musume
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 Any
+	{
+		SetXvalue MyLevel
+		TargetLocation Stage
+		NarrowTargets Other && Compare ThatCardsLevel X OrLess
+		ChooseCharacterFromTargets
+		GainPower 1000
+		SaveTargets
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && With INHERITANCE
+		MarkerTargetsUnderSavedTarget_FaceUp
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax, you may pay the cost. If you do, choose 1 of your other character with level equal to or lower than your level, choose 1 character with "INHERITANCE" in your waiting room, and put it face up underneath that character as a marker. 
+*RestGivePower(1500,Uma Musume)
+EndCard
+
+Character: UMA/W119-087
+Name My Live, Dantsu Flame
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Uma Musume
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: UMA/W119-088
+Name My Live, Dantsu Flame
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Uma Musume
+Combo Obsession to win
+Auto: OnPlay
+{
+	*OptionalBlindStock
+	TargetSelf
+	GainPower 4500
+	GainEffect
+	{
+		*HexProof
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your deck into stock, this card gets +4500 power and the following ability until end of turn. "Cont: This card cannot be chosen by your opponent's effects."
+Auto: OnEndOfAttack
+{
+	If Climax Obsession to win &&& StageContains 2 Other && IsCharacter && HasTrait Uma Musume
+	{
+		PayCost 2 Discard 1 Any Clock
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: ACCELERATE CxCombo [(2) Put 1 card from your hand to the waiting room, put the top card of your deck in your clock] This ability activates up to 1 time per turn. At the end of this card's attack, if "Obsession to win" is in your climax area, and you have 2 or more other <Uma Musume> characters, you may pay cost. If you do, stand this card.
+EndCard
+
+Character: UMA/W119-089
+Name I can't keep losing! Jungle Pocket
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Uma Musume
+	{
+		TargetSelf
+		GainPower 4000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is either a <Uma Musume> character, this card gets +4000 power until end of turn.
+*GivePowerOnPlay(1500,Uma Musume)
+EndCard
+
+Character: UMA/W119-090
+Name An undying illusion, Jungle Pocket
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Uma Musume
+Combo Remembered feelings
+*OnAttackPay1ToDoubleTrigger
+Auto: OnAttack
+{
+	If Climax Remembered feelings
+	{
+		PayCost Send 1 Hand Other && HasTrait Uma Musume &&& SendClimax WaitingRoom
+		{
+			*GainBounceWhenFrontalAttacked
+		}
+	}
+}
+Text Auto: CxCombo [Return 1 other <Music> character from your stage into your hand, send "Remembered feelings" from your climax area to waiting room] When this card attacks, you may pay the cost. If you do, this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+EndCard
+
+Character: UMA/W119-091
+Name Being manipulated, Dantsu Flame
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Uma Musume
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && HasTrait Uma Musume
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other <Uma Musume> character in the middle position of your center stage gets +1500 power.
+Auto: OnTriggerCheckClimax
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Uma Musume
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your character's trigger reveals a climax, you may pay the cost. If you do, choose 1 <Uma Musume> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: UMA/W119-092
+Name In a hesitation, Jungle Pocket
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Uma Musume
+Auto: OnPlay
+{
+	TargetLocation OpponentBackstage
+	NarrowTargets Compare ThatCardsLevel OpponentsLevel GreaterThan
+	ChooseCharacterFromTargets Choose a character to make unable to stand.
+	DontStand
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's back stage with level higher than your opponent's level. That character cannot stand during your opponent's next stand phase.
+*DropSearch(Uma Musume)
+EndCard
+
+Character: UMA/W119-093
+Name A new era, Dantsu Flame
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Uma Musume
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Uma Musume
+	MultiplyXValue 500
+	TargetMyCharacterInBattle
+	GainPower X
+}
+Quick
+ActivationRequirement Compare MyLevel 1 OrHigher
+Text Act: Backup X, Level 1 [Put this card into your waiting room] X is equal to the number of <Uma Musume> characters you have x500.
+Backup 0
+EndCard
+
+Character: UMA/W119-094
+Name See you next time at the races, Fuji Kiseki
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Uma Musume
+*PowerOnMyTurn(4000)
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: UMA/W119-095
+Name Summer camp, Jungle Pocket
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Uma Musume
+*PowerOnMyTurn(3000)
+*OnAttackGivePowerForEachOther(500,Uma Musume)
+EndCard
+
+Event: UMA/W119-096
+Name Prism
+Color B
+Level 1
+Cost 1
+Counter
+Requirement StageContains 1 HasTrait Uma Musume
+Effect: 
+{
+	Message Choose a character to give the ability to.
+	ChooseCharacters 1 1 MyCard 
+	GainEffect 
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotBeReversed 
+		}
+		Text Cont: This card cannot become reversed.
+	}
+}
+Text Counter: If you do not have a <Uma Musume> character, you cannot play this card from your hand. Choose 1 of your characters, it gets the following ability until end of turn. "Cont: This card cannot become reversed." 
+EndCard
+
+Event: UMA/W119-097
+Name BEGINNING OF A NEW ERA
+Color B
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck HasTrait Uma Musume
+	TargetSelf
+	MoveCard Memory
+}
+Text Search your deck for up to 1 <Uma Musume> character, reveal it to your opponent, put it into your hand, and shuffle your deck. Put this card into your memory.
+EndCard
+
+Climax: UMA/W119-098
+Name Strongest proof
+*GateClimax
+EndCard
+
+Climax: UMA/W119-099
+Name Remembered feelings
+Color B
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	AIChoice RemoveFromWaitingRoom
+	SearchWaitingRoomForTarget Compare ThatCardsLevel 1 OrLess && IsCharacter
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Climax: UMA/W119-100
+Name Obsession to win
+*GateClimax
+EndCard
+
+Character: UMA/W119-P01
+Name I am the strongest, Jungle Pocket
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Uma Musume
+*GainPowerWithEnoughCharacters(2000,2,Uma Musume)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+EndCard

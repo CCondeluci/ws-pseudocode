@@ -1,0 +1,2162 @@
+Character: KC/S31-E001
+Name 1st Yamato-class Battleship, Yamato-Kai
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Battleship
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				Burn 1
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to one time per turn. When damage dealt by this card is canceled, you may deal one damage to your opponent.
+		}	
+	}
+
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose one of your characters, it gets the following ability until end of turn. "Auto: This ability activates up to one time per turn. When damage dealt by this card is canceled, you may deal one damage to your opponent."
+Auto: OnPlay
+{
+	GainEffect
+	{
+		Auto: OnDamageCancel
+		{
+			Burn 1
+		}
+		TimesPerTurn 1
+		Text Auto: This ability activates up to one time per turn. When damage dealt by this card is canceled, you may deal one damage to your opponent.
+	}
+}
+Text Auto: This ability activates up to one time per turn. During the turn that this card is placed on the stage from your hand, when damage dealt by this card is canceled, you may deal one damage to your opponent. 
+EndCard
+
+Character: KC/S31-E002
+Name 2nd Yamato-class Battleship, Musashi-Kai
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Battleship
+Combo The main guns of Musashi, are not just for show.
+Auto: OnPlay
+{
+	SearchDeck HasTrait Fleet Girl
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to one 《Fleet Girl》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnSpecificClimaxPlay The main guns of Musashi, are not just for show.
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+			If HasTarget
+			{
+				MoveCard Deck
+				ShuffleLocation Deck
+			}
+		}
+	}
+}
+Text Auto: [(1)] When a card named "The main guns of Musashi, are not just for show." is placed on your climax area, if this card is in your center stage, you may pay the cost. If you do, choose a character in your waiting room, return it to your deck, and shuffle your deck.
+EndCard
+
+Character: KC/S31-E003
+Name 10th Kagero-class Destroyer, Tokitsukaze
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet Girl
+Trait2 Destroyer
+*Act1SearchBrainstorm(Fleet Girl)
+EndCard
+
+Character: KC/S31-E004
+Name 12th Kagero-class Destroyer, Isokaze-Kai
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Cont: GiveSelf
+{
+	TargetOwner
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	GainLevel X
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1 level and +1500 power for each marker underneath this card. 
+Auto: OnReverseOpponent
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Fleet Girl
+	If HasTarget
+	{
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may choose a 《Fleet Girl》 character in your waiting room, and put it face down underneath this card as a marker.
+EndCard
+
+Character: KC/S31-E005
+Name 9th Kagero-class Destroyer, Amatsukaze-Kai
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck NameEquals Shimakaze-class Destroyer, Shimakaze
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to one card named "Shimakaze-class Destroyer, Shimakaze", reveal it to your opponent, and put it into your hand, shuffle your deck, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: KC/S31-E006
+Name Japan's Largest Light Cruiser, Oyodo-Kai
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Cont: GiveSelf
+{
+	TargetLocation Clock
+	If Not HasTarget
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If the number of cards in your clock is zero, this card cannot attack. 
+*GainPowerWithEnoughCharacters(1000,2,Fleet Girl)
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Fleet Girl && Other
+		ChooseCharacterFromTargets
+		Bounce
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose one of your other 《Fleet Girl》 characters, and return it to your hand.
+Auto: OnReversed
+{
+	Mill 1
+	IfTarget Compare TargetCardsLevel 0 OrLess && IsCharacter
+	{
+		Question Rest this card?
+		If Yes
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When this card becomes reversed in battle, put the top card of your deck into your waiting room. If that card is a level 0 or lower character, you may Rest this card.
+EndCard
+
+Character: KC/S31-E007
+Name 1st Tone-class Aviation Cruiser, Tone-Kai-Ni
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Fleet Girl
+Trait2 Aviation Cruiser
+Combo Aviation Cruisers, Head Out!
+Auto: OnSpecificClimaxPlay Aviation Cruisers, Head Out!
+{
+	If InLocation CenterStage
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Fleet Girl
+		{
+			TargetLocation Stage
+			GainPower 4000
+		}
+	}
+}
+Text Auto: When a card named "Aviation Cruisers, Head Out!" is placed on your climax area, if this card is in your center stage, reveal the top card of your deck. If that card is a 《Fleet Girl》 character, all of your characters get +4000 power until end of turn. 
+EndCard
+
+Character: KC/S31-E008
+Name 2nd Tone-class Aviation Cruiser, Chikuma-Kai-Ni
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Fleet Girl
+Trait2 Aviation Cruiser
+Combo Aviation Cruisers, Head Out!
+*LevelAssist
+Auto: OnSpecificClimaxPlay Aviation Cruisers, Head Out!
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Fleet Girl
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+}
+Text Auto: When a card named "Aviation Cruisers, Head Out!" is placed on your climax area, reveal the top card of your deck. If that card is a 《Fleet Girl》 character, all of your characters get +1 soul until end of turn. 
+EndCard
+
+Character: KC/S31-E009
+Name 2nd Hiyo-class Light Aircraft Carrier, Junyo-Kai-Ni
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Fleet Girl
+		SetXValue TargetCount
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other 《Fleet Girl》 characters. 
+*ClockEncore
+EndCard
+
+Character: KC/S31-E010
+Name 1st Unryu-class Aircraft Carrier, Unryu-Kai
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Trait1 Fleet Girl
+Trait2 Aircraft Carrier
+Cont: GiveSelf
+{
+	TargetSelf
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +2000 power for each marker underneath this card.
+Auto: OnOtherReversed
+{
+	IfOther Compare ThatCardsLevel 2 OrMore &&& HasTrait Aircraft Carrier|Aircraft Carrying|Light Aircraft Carrier|Aircraft Carrying Submarine|Armored Aircraft Carrier
+	{
+		IfOther InLocation Stage
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When another of your level 2 and higher characters with "Aircraft Carrier" or "Aircraft Carrying" in its trait becomes reversed in battle, you may put that character face down underneath this card as a marker.
+EndCard
+
+Character: KC/S31-E011
+Name 12th Kagero-class Destroyer, Isokaze
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Cont: GiveSelf
+{
+	If StageContains 1 Other && Compare ThatCardsLevel 3 OrMore
+	{
+		GainSoul 1
+	}
+}
+Text Cont: If you have another level 3 or higher character, this card gets +1 soul.
+EndCard
+
+Character: KC/S31-E012
+Name 17th Yugumo-class Destroyer, Hayashimo
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Fleet Girl
+Trait2 Destroyer
+*NoEncoreIfReversed
+EndCard
+
+Character: KC/S31-E013
+Name 19th Yugumo-class Destroyer, Kiyoshimo
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Act: Clock RestSelf
+{
+	TargetTop Deck 1
+	Marker_FaceDown
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Act: [Put the top card of your deck into your clock & Rest this card] Put the top card of your deck underneath this card as a marker, choose one of your characters, it gets +1000 power until end of turn.
+Act: Clock RestSelf
+{
+	TargetSelf
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	MoveCard WaitingRoom
+	TargetSelf
+	MoveCard WaitingRoom
+	SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && HasTrait Battleship|Aviation Battleship|Aircraft Battleship
+	Change
+}
+Text Act: [Put the top card of your deck into your clock & Put all markers from underneath this card into your waiting room & Rest this card] Put this card into your waiting room, choose a level X or lower 《Battleship》 or 《Aviation Battleship》 or 《Aircraft Battleship》 character, and put it on the stage position that this card was on. X is equal to the number of markers put into the waiting room with this ability.
+EndCard
+
+Character: KC/S31-E014
+Name 1st Oyodo-class Light Cruiser, Oyodo
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Submarine|Aircraft Carrying Submarine
+	ChooseCharacterFromTargets
+	GainSoul 1
+}
+Text Act: [(1)] Choose one of your 《Submarine》 or 《Aircraft Carrying Submarine》 characters, it gets +1 soul until end of turn.
+Act: RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 3000
+	}
+}
+Text Act: [Rest this card] Reveal the top card of your deck. If that card is level 1 or higher, choose one of your characters, it gets +3000 power until end of turn. 
+EndCard
+
+Character: KC/S31-E015
+Name Shimakaze-class Destroyer, Shimakaze-Kai
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Destroyer
+*OnAttackGivePowerForEachOther(500,Fleet Girl)
+EndCard
+
+Character: KC/S31-E016
+Name 9th Kagero-class Destroyer, Amatsukaze
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Combo This is a good wind…commence the attack!
+Auto: OnAttack
+{
+	If Climax This is a good wind…commence the attack!
+	{
+		GainPower 3000
+		BlockOpponentEncore
+	}
+}
+Text Auto: When this card attacks, if a card named "This is a good wind…commence the attack!" is in your climax area, until end of turn, this card gets +3000 power, and your opponent cannot use "Auto: ENCORE".
+EndCard
+
+Character: KC/S31-E017
+Name 1st Oyodo-class Light Cruiser, Oyodo-Kai
+Color Y
+Level 1
+Cost 2
+Power 7500
+Soul 2
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Text 
+EndCard
+
+Character: KC/S31-E018
+Name 2nd Shokaku-class Aircraft Carrier, Zuikaku-Kai
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Fleet Girl
+Trait2 Aircraft Carrier
+Backup 2500
+Auto: OnUseThisCardsBackup
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		TargetCharacters InBattle
+		ChooseCharacterFromTargets
+		LoseSoul 1
+	}
+}
+Text Auto: When you use this card's "BACKUP", put the top card of your deck into your waiting room. If that card is a climax, choose a character in battle, it gets -1 soul until end of turn. 
+EndCard
+
+Character: KC/S31-E019
+Name 1st Unryu-class Aircraft Carrier, Unryu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Fleet Girl
+Trait2 Aircraft Carrier
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fleet Girl
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			TargetBattleOpponent
+			If Compare ThatCardsLevel ThisCardsLevel OrLess
+			{
+				Question Put the battle opponent into stock?
+				If Yes
+				{
+					MoveCard OpponentStock
+				}
+			}
+		}
+		Text Auto: When this card becomes reversed, if the level of this card's battle opponent is lower than or equal to the level of this card, you may put that character into your opponent's stock.
+	}
+}
+Text Act: [(1)] Choose one of your 《Fleet Girl》 characters, it gets the following ability until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is lower than or equal to the level of this card, you may put that character into your opponent's stock."
+EndCard
+
+Character: KC/S31-E020
+Name Type 3 Submergence Transport Vehicle, Maruyu-Kai
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet Girl
+Trait2 Submarine
+Army
+Auto: OnPlay
+{
+	TargetLocation Level
+	NarrowTargets NameEquals Type 3 Submergence Transport Vehicle, Maruyu-Kai
+	SetXValue TargetCount
+	Repeat X
+	{
+		*OptionalDraw
+	}
+	Repeat X
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: EXPERIENCE When this card is placed on the stage from your hand, draw up to X cards, choose X cards in your hand, and put them into your waiting room. X is equal to the number of "Type 3 Submergence Transport Vehicle, Maruyu-Kai" in your level.
+EndCard
+
+Character: KC/S31-E021
+Name 11th Kagero-class Destroyer, Urakaze
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Fleet Girl
+	{
+		TargetSelf
+		GainPower 1000
+	}
+}
+TimesPerTurn 2
+Text Auto: This ability activates up to two times per turn. When another of your 《Fleet Girl》 characters is placed on the stage from your hand, this card gets +1000 power until end of turn.
+EndCard
+
+Character: KC/S31-E022
+Name 13th Kagero-class Destroyer, Hamakaze
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: StartOpponentAttackPhase
+{
+	PayCost 2 Clock
+	{
+		MoveToOpenPosition False True
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 2 OrMore
+	}
+}
+Text Auto: [(2) Put the top card of your deck into your clock] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage, choose a level 2 or higher character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KC/S31-E023
+Name 14th Kagero-class Destroyer, Tanikaze
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet Girl
+Trait2 Destroyer
+*RunToCenter
+EndCard
+
+Character: KC/S31-E024
+Name Hei-class Landing Craft Carrier, Akitsumaru-Kai
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Fleet Girl
+Trait2 Amphibious Assaultship
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotDirectAttack
+}
+Text Cont: This card cannot direct attack.
+EndCard
+
+Character: KC/S31-E025
+Name 4th Agano-class Light Cruiser, Sakawa
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+*GainPowerWhenOtherAttacks(1000,Fleet Girl)
+EndCard
+
+Character: KC/S31-E026
+Name 1st Hiyo-class Light Aircraft Carrier, Hiyo-Kai
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 9000
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Not HasTrait Fleet Girl
+	{
+		GainSpecialEffect CannotFrontalAttack 
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is not a 《Fleet Girl》 character, this card gets the following ability until end of turn. "Cont: This card cannot frontal attack."
+EndCard
+
+Character: KC/S31-E027
+Name 2nd I-400-class Submarine, I-401-Kai
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Aircraft Carrying Submarine
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power. 
+Auto: OnReversed
+{
+	If InLocation Stage
+	{
+		PayCost SendSelf Memory Discard 1 HasTrait Fleet Girl
+		{
+			MoveCard Memory
+			ScheduleEffect StartDrawPhase
+			{
+				Effect:
+				{
+					TargetLocation Memory
+					NarrowTargets NameEquals 2nd I-400-class Submarine, I-401-Kai
+					FirstTarget
+					If HasTarget
+					{
+						Message 2nd I-400-class Submarine, I-401-Kai returns from memory.
+						PlaceOnStage false true true false
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put a 《Fleet Girl》 character from your hand into your waiting room & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, at the beginning of your next draw phase, choose a card named "2nd I-400-class Submarine, I-401-Kai" in your memory and put it on any position of your stage.
+EndCard
+
+Event: KC/S31-E028
+Name Medal
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	Message Put up to 3 "Medal" into your waiting room.
+	SearchLocationForTargets Deck 0 3 NameEquals Medal
+	RevealTargets
+	MoveCard WaitingRoom
+	SearchDeck NameEquals Remodeling Blueprint	
+}
+Text Search your deck for up to three cards named "Medal", put them into your waiting room, search your deck for up to one card named "Remodeling Blueprint", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Event: KC/S31-E029
+Name Remodeling Blueprint
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	ForcePayCost Rest 2 Any
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Medal
+		SetXValue TargetCount
+		Peek Deck X
+		ChooseCardsFromTargets 0 2 HasTrait Fleet Girl
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+ActivationRequirement LocationContains Stage 2 CardPosition Stand
+Text Choose two of your standing characters, and Rest them. If you Rest two characters, look at up to X cards from the top of your deck, choose up to two 《Fleet Girl》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room. X is equal to the number of cards named "Medal" in your waiting room.
+EndCard
+
+Event: KC/S31-E030
+Name Large Ship Construction
+Color Y
+Level 2
+Cost 1
+Effect:
+{
+	ForcePayCost Rest 2 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait FleetGirl
+		{
+			PlaceOnStage False True True False
+			UntilEndOfOpponentsTurn
+			GainPower 1000
+			UntilEndOfOpponentsTurn
+			GainSpecialEffect CannotBeChosen
+		}
+	}
+}
+ActivationRequirement LocationContains Stage 2 CardPosition Stand
+Text Choose two of your standing characters, and Rest them. If you Rest two characters, reveal the top card of your deck. If that card is a 《Fleet Girl》 character, put it on any position of your stage, and until the end of your opponent's next turn, that character gets +1000 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Climax: KC/S31-E031
+Name This is a good wind…commence the attack!
+*WindClimax
+EndCard
+
+Climax: KC/S31-E032
+Name The main guns of Musashi, are not just for show.
+*YellowStockSoul
+EndCard
+
+Climax: KC/S31-E033
+Name Aviation Cruisers, Head Out!
+Color Y
+*DrawClimax
+EndCard
+
+Character: KC/S31-E034
+Name Glorious First Carrier Division, Kaga
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Fleet Girl
+Trait2 Aircraft Carrier
+*GainPowerForEachOther(500, Fleet Girl)
+Auto: OnPlay
+{
+	SearchLocationForTargets Clock 0 1 HasTrait Fleet Girl
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a 《Fleet Girl》 character in your clock, and put it on any position of your stage. If you do, put the top card of your deck into your clock.
+EndCard
+
+Character: KC/S31-E035
+Name 1st Ayanami-class Destroyer, Ayanami-Kai-Ni
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Combo Ayanami will protect you!
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Flares
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card named "Flares" in your waiting room, and return it to your hand. 
+Auto: OnAttack
+{
+	If Climax Ayanami will protect you!
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Fleet Girl
+		If HasTarget
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card attacks, if a card named "Ayanami will protect you!" is in your climax area, you may choose a 《Fleet Girl》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: KC/S31-E036
+Name Ryujo-class Light Aircraft Carrier, Ryujo-Kai-Ni
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Combo Light Aircraft Carrier Ryujo, heading out!
+Auto: StartClimaxPhase
+{
+	If LocationContainsOrLess Backstage 0 Other && IsCharacter
+	{
+		PayCost 2
+		{
+			TargetLocation Clock
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [(2)] At the beginning of your climax phase, if you do not have any other characters in your back stage, you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+Auto: OnSpecificClimaxPlay Light Aircraft Carrier Ryujo, heading out!
+{
+	SearchWaitingRoom NameEquals Ryujo-class Light Aircraft Carrier, Ryujo-Kai
+}
+Text Auto: When a card named "Light Aircraft Carrier Ryujo, heading out!" is placed on your climax area, you may choose a card named "Ryujo-class Light Aircraft Carrier, Ryujo-Kai" in your waiting room, and return it to your hand.
+Act: RestSelf
+{
+	TargetTop Deck 1
+	MoveCard Stock
+}
+Text Act: [Rest this card] Put the top card of your deck into your stock.
+EndCard
+
+Character: KC/S31-E037
+Name 1st Sendai-class Light Cruiser, Sendai-Kai-Ni
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level while on the stage.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Flares
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card named "Flares" in your waiting room, and return it to your hand. 
+Auto: OnAttack
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+}
+Text Auto: When this card attacks, put the top card of your deck into your waiting room. If that card is a climax, all of your characters get +1 soul until end of turn.
+EndCard
+
+Character: KC/S31-E038
+Name 2nd Sendai-class Light Cruiser, Jintsu-Kai-Ni
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Combo Jintsu, sallying forth!
+Auto: OnAttack
+{
+	If Climax Jintsu, sallying forth!
+	{
+		PayCost Clock
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			GainPower 3500
+			GainSoul 1
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card attacks, if a card named "Jintsu, sallying forth!" is in your climax area, you may pay the cost. If you do, all of your other characters get +3500 power and +1 soul until end of turn.
+EndCard
+
+Character: KC/S31-E039
+Name 3rd Sendai-class Light Cruiser, Naka-Kai-Ni
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 9000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Combo Naka is the center, the number one highlight!
+Cont: GiveSelf
+{
+	TargetLocation Clock
+	SetXValue TargetCount
+	If Compare X 1 OrLess
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If the number of cards in your clock is one or less, this card cannot attack. 
+Auto: OnAttack
+{
+	If Climax Naka is the center, the number one highlight!
+	{
+		TargetLocation Clock
+		ChooseCardsFromTargets 0 1 Any
+		If HasTarget
+		{
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: When this card attacks, if a card named "Naka is the center, the number one highlight!" is in your climax area, you may choose a card in your clock, and return it to your hand. If you do, put the top card of your deck into your clock.
+EndCard
+
+Character: KC/S31-E040
+Name A Winter Moment, Akatsuki
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1(Fleet Girl)
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to four cards from the top of your deck, choose up to one 《Fleet Girl》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KC/S31-E041
+Name To a Special Someone, Sendai
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Auto: OnFrontalAttacked
+{
+	If InLocation Stage
+	{
+		PayCost SendSelf Clock
+		{
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals 1st Sendai-class Light Cruiser, Sendai-Kai-Ni
+			Change
+		}
+	}
+}
+Text Auto: [Put this card into your clock] When this card is frontal attacked, you may pay the cost. If you do, choose up to one "1st Sendai-class Light Cruiser, Sendai-Kai-Ni" in your hand, and put it on this card's stage position as the defending character.
+EndCard
+
+Character: KC/S31-E042
+Name 1st Hatsuharu-class destroyer, Hatsuharu-Kai-Ni
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnReverseOpponent
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets
+	LosePower 1000
+}
+Text Auto: When this card's battle opponent becomes reversed, choose one of your opponent's characters in the center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: KC/S31-E043
+Name Ryujo-class Light Aircraft Carrier, Ryujo-Kai
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Backup 3000
+EndCard
+
+Character: KC/S31-E044
+Name 10th Ayanami-class Destroyer, Ushio-Kai
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleet Girl
+Trait2 Destroyer
+*GreenLevel0Bomb 
+*ClockShift(0,Green) 
+EndCard
+
+Character: KC/S31-E045
+Name A Winter Moment, Hibiki
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: StartClimaxPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetLocation CenterStage
+		NarrowTargets Other
+		If HasTarget
+		{
+			ChooseCharacterFromTargets
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: At the beginning of your climax phase, reveal the top card of your deck. If that card is a climax, choose one of your other characters in the center stage, and put it into your waiting room.
+EndCard
+
+Character: KC/S31-E046
+Name A Winter Moment, Ikaduchi
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fleet Girl
+	ChooseCharacterFromTargets
+	GainPower 1000
+	GainLevel 1
+}
+Text Auto: When this card attacks, choose one of your 《Fleet Girl》 characters, it gets +1 level and +1000 power until end of turn.
+EndCard
+
+Character: KC/S31-E047
+Name A Winter Moment, Inaduma
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnAttack
+{
+	If StageContains 1 Other && NameEquals A Winter Moment, Ikaduchi
+	{
+		PayCost 1 Clock
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card attacks, if you have another card named "A Winter Moment, Ikaduchi", you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: KC/S31-E048
+Name Flagship of the 2nd Torpedo Squadron, Jintsu-Kai-Ni
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Cont: GiveAll
+{
+	IfOwner InLocation MiddleCenterStage
+	{
+		If Other && Compare ThatCardsLevel 1 OrLess
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: If this card is in the middle position of the center stage, all of your other level 1 or lower characters get +1000 power. 
+*HandEncore
+EndCard
+
+Character: KC/S31-E049
+Name 1st Chitose-class Seaplane Carrier, Chitose-Kou
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Fleet Girl
+Trait2 Seaplane Carrier
+Combo Seaplane bomber force, go-!
+Cont: GiveAll
+{
+	If NameEquals 2nd Chitose-class Seaplane Carrier, Chiyoda-Kou
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "2nd Chitose-class Seaplane Carrier, Chiyoda-Kou" get +1000 power. 
+Auto: OnSpecificClimaxPlay Seaplane bomber force, go-!
+{
+	If OnStage
+	{
+		PayCost Send 1 Clock NameEquals 2nd Chitose-class Seaplane Carrier, Chiyoda-Kou &&& SendSelf Clock &&& Discard 1 HasTrait Fleet Girl
+		{
+			Message Search for up to 1 "1st Chitose-class Light Aircraft Carrier, Chitose-Ko" to play on stage.
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals 1st Chitose-class Light Aircraft Carrier, Chitose-Ko
+			If HasTarget
+			{
+				RevealTargets
+				PlaceOnStage False True True False
+			}
+			Message Search for up to 1 "2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko" to play on stage.
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals 2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko
+			If HasTarget
+			{
+				RevealTargets
+				PlaceOnStage False True True False
+			}
+		}
+	}
+}
+Text Auto: [Put a 《Fleet Girl》 character from your hand into your waiting room & Put a card named "2nd Chitose-class Seaplane Carrier, Chiyoda-Kou" from your stage and this card into your clock] When a card named "Seaplane bomber force, go-!" is placed on your climax area, you may pay the cost. If you do, choose up to one card named "1st Chitose-class Light Aircraft Carrier, Chitose-Ko" and up to one card named "2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko" in your waiting room, and put them on seperate positions of your stage.
+EndCard
+
+Character: KC/S31-E050
+Name 2nd Chitose-class Seaplane Carrier, Chiyoda-Kou
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Fleet Girl
+Trait2 Seaplane Carrier
+Combo Seaplane bomber force, go-!
+Cont: GiveAll
+{
+	If NameEquals 1st Chitose-class Seaplane Carrier, Chitose-Kou
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "1st Chitose-class Seaplane Carrier, Chitose-Kou" get +1000 power.
+Auto: OnSpecificClimaxPlay Seaplane bomber force, go-!
+{
+	If OnStage
+	{
+		PayCost Send 1 Clock NameEquals 1st Chitose-class Seaplane Carrier, Chitose-Kou &&& SendSelf Clock &&& Discard 1 HasTrait Fleet Girl
+		{
+			Message Search for up to one "1st Chitose-class Light Aircraft Carrier, Chitose-Ko" to place on stage.
+			*SearchDeckToPlaceOnStage(NameEquals 1st Chitose-class Light Aircraft Carrier\, Chitose-Ko, False)
+			Message Search for up to one "2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko" to place on stage.
+			*SearchDeckToPlaceOnStage(NameEquals 2nd Chitose-class Light Aircraft Carrier\, Chiyoda-Ko, False)
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: [Put a 《Fleet Girl》 character from your hand into your waiting room & Put a card named "1st Chitose-class Seaplane Carrier, Chitose-Kou" from your stage and this card into your clock] When a card named "Seaplane bomber force, go-!" is placed on your climax area, you may pay the cost. If you do, search your deck for up to one card named "1st Chitose-class Light Aircraft Carrier, Chitose-Ko" and up to one card named "2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko", put them on seperate positions of your stage, and shuffle your deck.
+EndCard
+
+Character: KC/S31-E051
+Name 1st Aoba-class Heavy Cruiser, Aoba-Kai
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Heavy Cruiser
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		RevealOpponentHand
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at your opponent's hand, and this card gets +3000 power until end of turn.
+EndCard
+
+Character: KC/S31-E052
+Name 1st Chitose-class Light Aircraft Carrier, Chitose-Ko
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 5000
+		GainSoul 1
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +5000 power and +1 soul. 
+*HexProof
+Auto: OnOtherReversed
+{
+	IfOther NameEquals 2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko
+	{
+		If Not HasMarker
+		{
+			Question Put the reversed 2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko under this as a marker?
+			If Yes
+			{
+				TargetOther
+				Marker_FaceDown
+			}
+		}
+	}
+}
+Text Auto: When another of your "2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko" becomes Reversed in battle, if there are no markers underneath this card, you may put that character face down underneath this card as a marker.
+EndCard
+
+Character: KC/S31-E053
+Name 2nd Chitose-class Light Aircraft Carrier, Chiyoda-Ko
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 5000
+		GainSoul 1
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +5000 power and +1 soul. 
+*HexProof
+Auto: OnOtherReversed
+{
+	IfOther NameEquals 1st Chitose-class Light Aircraft Carrier, Chitose-Ko
+	{
+		If Not HasMarker
+		{
+			Question Put the reversed 1st Chitose-class Light Aircraft Carrier, Chitose-Ko under this as a marker?
+			If Yes
+			{
+				TargetOther
+				Marker_FaceDown
+			}
+		}
+	}
+}
+Text Auto: When another of your "1st Chitose-class Light Aircraft Carrier, Chitose-Ko" becomes Reversed in battle, if there are no markers underneath this card, you may put that character face down underneath this card as a marker.
+EndCard
+
+Event: KC/S31-E054
+Name Flares
+Color G
+Level 2
+Cost 0
+Effect:
+{
+	Peek Deck 2
+	TargetLocation Stage
+	GainPower 1000
+	TargetLocation OpponentCenterStage
+	LosePower 1000
+}
+ActivationRequirement StageContains 3 HasTrait Fleet Girl
+Text If the number of 《Fleet Girl》 characters you have is two or less, this card cannot be played from your hand. Look at up to two cards from the top of your deck, and put them on the top of your deck in the original order. All of your characters get +1000 power until end of turn. All of your opponent's characters in the center stage get -1000 power until end of turn.
+EndCard
+
+Event: KC/S31-E055
+Name Wedding (Tentative)
+Color G
+Level 2
+Cost 1
+Effect:
+{
+	MoveCard Memory
+}
+Text Put this card into your memory.
+Cont: Memory
+{
+	If InLocation MiddleCenterStage && HasTrait Fleet Girl
+	{
+		GainPower 2000
+	}
+}
+Text MEMORY If this card is in your memory, your 《Fleet Girl》 character in the middle position of the center stage gets +2000 power.
+EndCard
+
+Climax: KC/S31-E056
+Name Naka is the center, the number one highlight!
+*BagClimax
+EndCard
+
+Climax: KC/S31-E057
+Name Light Aircraft Carrier Ryujo, heading out!
+*BarClimax
+EndCard
+
+Climax: KC/S31-E058
+Name Ayanami will protect you!
+Color G
+*2SoulClimax
+EndCard
+
+Climax: KC/S31-E059
+Name Jintsu, sallying forth!
+Color G
+*DrawClimax
+EndCard
+
+Climax: KC/S31-E060
+Name Seaplane bomber force, go-!
+*GreenStockSoul
+EndCard
+
+Character: KC/S31-E061
+Name “Tea Time” Kongo
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Fleet Girl
+Trait2 Battleship
+Cont: InHand
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsClimax
+	SetXValue TargetCount
+	If Compare X 6 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of climax in your waiting room is six or more, this card gets -1 level while in your hand.
+*GainPowerWithEnoughCharacters(1000,2,Fleet Girl)
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Fleet Girl
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a 《Fleet Girl》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KC/S31-E062
+Name 3rd Kongo-class Battleship, Haruna-Kai-Ni
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Battleship
+Combo If you are fine with Haruna, I'll take you on any time!
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax If you are fine with Haruna, I'll take you on any time!
+	{
+		TargetLocation OpponentWaitingRoom
+		MoveCard OpponentDeck
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+		UntilEndOfOpponentsTurn
+		GainSpecialEffect CannotBeChosen
+	}
+}
+Text Auto: When this card attacks, if a card named "If you are fine with Haruna, I'll take you on any time!" is in your climax area, choose up to one card in your opponent's waiting room, put it on the top of your opponent's deck, and until the end of your opponent's next turn, this card gets +2500 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Character: KC/S31-E063
+Name 4th Kongo-class Battleship, Kirishima-Kai-Ni
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Battleship
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Fleet Girl
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Fleet Girl》, this card gets +1000 power. 
+*Healer
+EndCard
+
+Character: KC/S31-E064
+Name 4th Mutsuki-class Destroyer, Uduki
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Combo Pu-pukupuu!
+Auto: OnAttack
+{
+	If Climax Pu-pukupuu!
+	{
+		PayCost Clock
+		{
+			SearchWaitingRoom HasTrait Fleet Girl
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card attacks, if a card named "Pu-pukupuu!" is in your climax area, you may pay the cost. If you do, choose a 《Fleet Girl》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KC/S31-E065
+Name Light Cruiser Who Takes Care of Sister Ships, Tatsuta
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Cont: GiveSelf
+{
+	LoseLevel 1
+}
+Text Cont: This card gets -1 level while on the stage. 
+*GainPowerWithEnoughCharacters(1000,2,Fleet Girl)
+EndCard
+
+Character: KC/S31-E066
+Name 4th Mutsuki-class Destroyer, Uduki-Kai
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Cont: GiveSelf
+{
+	CanSendMarkersToPayForActEffect IsCharacter
+}
+Text Cont: If you would pay the Act: cost for one of your characters on the stage, you may put a marker from underneath this card into your waiting room instead of a card from your stock.
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals 4th Mutsuki-class Destroyer, Uduki
+	If HasTarget
+	{
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card named "4th Mutsuki-class Destroyer, Uduki" in your waiting room, and put it face down underneath this card as a marker.
+Auto:  OnUseAct
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When you use an Act:, choose one of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: KC/S31-E067
+Name 1st Nagara-class Light Cruiser, Nagara-Kai
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put three cards from the top of your deck into your waiting room. 
+Backup 2000
+EndCard
+
+Character: KC/S31-E068
+Name 3rd Mutsuki-class Destroyer, Yayoi
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Cont: GiveSelf
+{
+	TargetSelf
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	If Compare X 2 OrMore
+	{
+		TargetSelf
+		GainEffect
+		{
+			*1000Assist
+		}
+	}
+}
+Text Cont: If the number of markers underneath this card is two or more, this card gets "Cont: ASSIST All of your characters in front of this card get +1000 power.". 
+Act: RestSelf
+{
+	TargetSelf
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	If Compare X 1 OrLess
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals 1st Mutsuki-class Destroyer, Mutsuki|2nd Mutsuki-class Destroyer, Kisaragi
+		Marker_FaceDown
+	}	
+}
+Text Act: [Rest this card] If the number of markers underneath this card is one or less, choose a card named "1st Mutsuki-class Destroyer, Mutsuki" or "2nd Mutsuki-class Destroyer, Kisaragi" in your waiting room, and put it face down underneath this card as a marker.
+EndCard
+
+Character: KC/S31-E069
+Name Present of Appreciation, Uduki
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Text 
+EndCard
+
+Character: KC/S31-E070
+Name 3rd Nagara-class Light Cruiser, Natori-Kai
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+*OnAttackGiveOtherPower(1000,Light Cruiser) 
+*RedLevel1Bomb
+EndCard
+
+Character: KC/S31-E071
+Name 3rd Kuma-class Torpedo Cruiser, Kitakami-Kai
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fleet Girl
+Trait2 Torpedo Cruiser
+Cont: GiveAll
+{
+	If NameEquals 4th Kuma-class Torpedo Cruiser, Oi-Kai
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other "4th Kuma-class Torpedo Cruiser, Oi-Kai" get +2000 power.
+EndCard
+
+Character: KC/S31-E072
+Name 4th Kuma-class Torpedo Cruiser, Oi-Kai
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fleet Girl
+Trait2 Torpedo Cruiser
+Cont: GiveAll
+{
+	If NameEquals 3rd Kuma-class Torpedo Cruiser, Kitakami-Kai
+	{
+		GainPower 2000
+	}
+}
+Text Cont: All of your other "3rd Kuma-class Torpedo Cruiser, Kitakami-Kai" get +2000 power.
+EndCard
+
+Character: KC/S31-E073
+Name 2nd Nagara-class Light Cruiser, Isuzu-Kai-Ni
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Fleet Girl
+Trait2 Light Cruiser
+Auto: OnPlay
+{
+	TargetTop OpponentDeck 1
+	Reveal
+	If Compare ThatCardsLevel 1 OrMore
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent reveals the top card of his or her deck. If that card is level 1 or higher, this card gets +2000 power until end of turn. 
+EndCard
+
+Event: KC/S31-E074
+Name Hi-Speed Repair Agent
+Color R
+Level 2
+Cost 0
+Effect:
+{
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 2 OrMore
+}
+Text Choose a level 2 or higher character in your waiting room, and return it to your hand.
+EndCard
+
+Climax: KC/S31-E075
+Name If you are fine with Haruna, I'll take you on any time!
+*DoorClimax 
+EndCard
+
+Climax: KC/S31-E076
+Name Pu-pukupuu!
+Color R
+*DrawClimax
+EndCard
+
+Character: KC/S31-E077
+Name Soryu-class Aircraft Carrier, Soryu-Kai-Ni
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Aircraft Carrier
+Combo Attack force, head out now-!
+Cont: GiveFacing
+{
+	LoseSoul 1
+}
+Text Cont: The character facing this card gets -1 soul.
+*OnPlayScryToBottom
+Auto: OnAttack
+{
+	If Climax Attack force, head out now-!
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2000
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 1	
+			}
+			Text Cont: The character facing this card gets -1 soul.
+		}
+	}
+}
+Text Auto: When this card attacks, if a card named "Attack force, head out now-!" is in your climax area, until the end of your opponent's next turn, this card gets +2000 power and the following ability. "Cont: The character facing this card gets -1 soul."
+EndCard
+
+Character: KC/S31-E078
+Name Hiryu-class Aircraft Carrier, Hiryu-Kai-Ni
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Fleet Girl
+Trait2 Aircraft Carrier
+Cont: InHand
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Hiryu-class Aircraft Carrier, Hiryu-Kai-Ni
+	SetXValue TargetCount
+	If Compare X 2 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of "Hiryu-class Aircraft Carrier, Hiryu-Kai-Ni" in your waiting room is two or more, this card gets -1 level while in your hand.
+*Give4000PowerAtStartOfOpponentsTurn
+EndCard
+
+Character: KC/S31-E079
+Name Obstinate Class Leader, Shiratsuyu-Kai
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: StartOpponentAttackPhase
+{
+	If InLocation CenterStage
+	{
+		Mill 1
+		IfTarget Compare ThatCardsLevel 1 OrMore
+		{
+			TargetSelf
+			MoveCard WaitingRoom
+		}
+		Else
+		{
+			TargetSelf
+			Question Move this card to an open position of your center stage?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if this card is in your center stage, put the top card of your deck into your waiting room. If that card is level 1 or higher, put this card into your waiting room. If that card is level 0 or lower, you may move this card to an open position of your center stage. 
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	PerClimax
+	{
+		Question_Obvious Draw a card?
+		If Yes
+		{
+			DrawCard
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest two of your characters] Reveal four cards from the top of your deck, and put them into your waiting room. For each climax revealed, draw up to one card.
+EndCard
+
+Character: KC/S31-E080
+Name Command Ship of the 2nd Destroyer Squadron, Murasame-Kai
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnClimaxPlay
+{
+	GainPower 1500
+}
+Text Auto: When a climax is placed on your climax area, this card gets +1500 power until end of turn. 
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Fleet Girl
+	}
+}
+Text Auto: [(1) Put a card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, search your deck for up to one 《Fleet Girl》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KC/S31-E081
+Name Newly Constructed Repair Ship, Akashi-Kai
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Fleet Girl
+Trait2 Repair Ship
+Combo From which ship do I start to repair?
+Cont: Assist
+{
+	If HasTrait Fleet Girl
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: ASSIST All of your 《Fleet Girl》 characters in front of this card get +500 power and the following ability. "Auto: ENCORE [Put a character from your hand into your waiting room". 
+Auto: OnSpecificClimaxPlay From which ship do I start to repair?
+{
+	TargetLocation Clock
+	SetXValue TargetCount
+	If HasTarget
+	{
+		If Compare X 1 OrLess
+		{
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text Auto: When a card named "From which ship do I start to repair?" is placed on your climax area, if the number of cards in your clock is one or less, you may put the top card of your clock into your waiting room.
+EndCard
+
+Character: KC/S31-E082
+Name Resupply Vessel, Taigei
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Fleet Girl
+Trait2 Submarine Tender
+*GainPowerForEachOther(500, Fleet Girl)
+EndCard
+
+Character: KC/S31-E083
+Name 1st Myoko-class Heavy Cruiser, Myoko-Kai-Ni
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Fleet Girl
+Trait2 Heavy Cruiser
+*EarlyPlay4OrMore(Fleet Girl)
+Cont: GiveSelf
+{
+	If StageContains 2 Other && With Cont: ASSIST
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If the number of your other characters with "ASSIST" is two or more, this card gets "Auto: ENCORE [Put a character from your hand into your waiting room".
+EndCard
+
+Character: KC/S31-E084
+Name Newly Constructed Repair Ship, Akashi
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Fleet Girl
+Trait2 Repair Ship
+*GlobalPower(500,Fleet Girl)
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Fleet Girl
+}
+Text Act: [(2) Rest this card] Search your deck for up to one 《Fleet Girl》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KC/S31-E085
+Name Ryuho-class Light Aircraft Carrier, Ryuho-Kai
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top three cards of your deck into your waiting room. 
+Backup 3000
+EndCard
+
+Character: KC/S31-E086
+Name 4th Myoko-class Heavy Cruiser, Haguro-Kai-Ni
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fleet Girl
+Trait2 Heavy Cruiser
+Combo Haguro of The Fifth Squadron, heading out!
+Auto: OnSpecificClimaxPlay Haguro of The Fifth Squadron, heading out!
+{
+	If InLocation CenterStage
+	{
+		SearchDeck HasTrait Fleet Girl
+	}
+}
+Text Auto: When a card named "Haguro of The Fifth Squadron, heading out!" is placed on your climax area, if this card is in your center stage, search your deck for up to one 《Fleet Girl》 character, reveal it to your opponent, put it into your hand, and shuffle your deck. 
+*OnOtherAttackedSacrificeToGivePower(3000, Fleet Girl)
+EndCard
+
+Character: KC/S31-E087
+Name 1st Nagato-class Battleship, Nagato-Kai
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Battleship
+Cont: GiveSelf
+{
+	If Compare CardsInHand 4 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If the number of cards in your hand is four or more, this card gets +1500 power. 
+*OnPlayDraw2Discard1
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCard Memory
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card into your memory.
+EndCard
+
+Character: KC/S31-E088
+Name 2nd Nagato-class Battleship, Mutsu-Kai
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Fleet Girl
+Trait2 Battleship
+*Healer
+*GainPowerWhenOtherAttacks(1000,Fleet Girl)
+EndCard
+
+Character: KC/S31-E089
+Name 5th Shiratsuyu-class Destroyer, Harusame
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Fleet Girl
+Trait2 Destroyer
+*500Assist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Drum Can(Transport Use)
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a card named "Drum Can(Transport Use)" in your waiting room, and return it to your hand.
+EndCard
+
+Character: KC/S31-E090
+Name Taigei-class Submarine Tender, Taigei
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Fleet Girl
+Trait2 Submarine Tender
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 1 SendSelf WaitingRoom
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals Ryuho-class Light Aircraft Carrier, Ryuho-Kai
+				If HasTarget
+				{
+					Change
+				}
+			}
+			Text Act: [(1) Put this card into your waiting room] Choose a card named "Ryuho-class Light Aircraft Carrier, Ryuho-Kai" in your waiting room, and put it on the stage position that this card was on.
+		}
+	}
+}
+Text Cont: If your level is two or higher, this card gets the following ability. "Act: [(1) Put this card into your waiting room] Choose a card named "Ryuho-class Light Aircraft Carrier, Ryuho-Kai" in your waiting room, and put it on the stage position that this card was on." 
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fleet Girl
+	ChooseCharacterFromTargets
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose one of your 《Fleet Girl》 characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: KC/S31-E091
+Name 3rd Myoko-class Heavy Cruiser, Ashigara-Kai
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Heavy Cruiser
+*ClockEncore
+EndCard
+
+Character: KC/S31-E092
+Name 4th Shiratsuyu-class Destroyer, Yudachi-Kai-Ni
+Color B
+Level 1
+Cost 1
+Power 6000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: KC/S31-E093
+Name 2nd Shoho-class Light Aircraft Carrier, Zuiho-Kai
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 9500
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Auto: OnReversed
+{
+	OpponentQuestion Draw a card?
+	If Yes
+	{
+		TargetTop OpponentDeck 1
+		MoveCard OpponentHand
+	}
+}
+Text Auto: When this card becomes reversed in battle, your opponent may draw a card.
+EndCard
+
+Character: KC/S31-E094
+Name Ryuho-class Light Aircraft Carrier, Ryuho
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Fleet Girl
+Trait2 Light Aircraft Carrier
+Combo Don't look down on us remodeled Aircraft Carriers!
+*LevelAssist
+Auto: OnSpecificClimaxPlay Don't look down on us remodeled Aircraft Carriers!
+{
+	PayCost 1
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnReversed
+			{
+				TargetBattleOpponent
+				IfThatCard Compare ThatCardsLevel ThisCardsLevel OrLess && OnStage
+				{
+					Question Put the battle opponent on the bottom of the deck?
+					If Yes
+					{
+						MoveCardToBottom OpponentDeck
+					}
+				}
+			}
+			Text Auto: When this card becomes reversed, if the level of this card's battle opponent is lower than or equal to the level of this card, you may put that character on the bottom of your opponent's deck.
+		}
+	}
+}
+Text Auto: [(1)] When a card named "Don't look down on us remodeled Aircraft Carriers!" is placed on your climax area, you may pay the cost. If you do, choose one of your characters, it gets the following ability until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is lower than or equal to the level of this card, you may put that character on the bottom of your opponent's deck."
+EndCard
+
+Event: KC/S31-E095
+Name Drum Can(Transport Use)
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	*Check4Add1(Fleet Girl)
+}
+Text Look at up to four cards from the top of your deck, choose up to one 《Fleet Girl》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Event: KC/S31-E096
+Name Food Supply Ship, Irako
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fleet Girl
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may draw a card.
+	}
+}
+Text Choose one of your 《Fleet Girl》 characters, it gets the following ability until the end your opponent's next turn. "Auto: When this card's battle opponent becomes reversed, you may draw a card."
+EndCard
+
+Climax: KC/S31-E097
+Name Haguro of The Fifth Squadron, heading out!
+*GateClimax
+EndCard
+
+Climax: KC/S31-E098
+Name Attack force, head out now-!
+*BookClimax
+EndCard
+
+Climax: KC/S31-E099
+Name From which ship do I start to repair?
+Color B
+*2SoulClimax
+EndCard
+
+Climax: KC/S31-E100
+Name Don't look down on us remodeled Aircraft Carriers!
+*BlueStockSoul
+EndCard
+
+Character: KC/S31-PE01
+Name 1st Akiduki-class Destroyer, Akiduki
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Auto: OnUseAct
+{
+	GainPower 1500
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When you use an Act:, this card gets +1500 power until end of turn.
+EndCard
+
+Character: KC/S31-PE02
+Name 5th Asashio-class Destroyer, Asagumo
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Fleet Girl
+Trait2 Destroyer
+Act: Rest 2 Any
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Fleet Girl
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Act: [Rest two of your characters] Choose one of your 《Fleet Girl》 characters, it gets +1000 power until the end of your opponent's next turn.
+EndCard

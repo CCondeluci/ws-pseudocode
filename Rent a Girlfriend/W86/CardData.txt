@@ -1,0 +1,3015 @@
+Character: KNK/W86-E001
+Name Ex-Girlfriend, Mami
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		Question Return one of the opponent's characters to their hand?
+		If Yes
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to return to hand.
+			Bounce
+		}
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a climax, you may choose 1 of your opponent's characters, and return it to their hand. 
+EndCard
+
+Character: KNK/W86-E002
+Name Mami Nanami
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Rent-A-GF
+Combo Compared to When We Were Dating
+*Healer
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step.
+Auto: OnEndOfAttack
+{
+	If Climax Compared to When We Were Dating
+	{
+		PayCost 2
+		{
+			Peek OpponentDeck 3
+			If HasTarget
+			{
+				Message Choose the cards to put back on top. 
+				AIChoice If Not IsClimax
+				ChooseCardsFromTargets 0 3 Any
+				MoveCard OpponentDeck
+				Reorder
+				PutTheRestIntoTheWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2)] At the end of this card's attack, if "Compared to When We Were Dating" is in your climax area, you may pay the cost. If you do, look at up to 3 cards from the top of your opponent's deck, choose up to 3 cards from among them, put them on the top of their deck in any order, and put the rest into their waiting room.
+EndCard
+
+Character: KNK/W86-E003
+Name Memories Between the Two, Mami
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsCharacter && HasTrait Rent-A-GF
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of turn. X is equal to the number of 《Rent-A-GF》 characters among those cards ×1000.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Rent-A-GF
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Rent-A-GF
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Rent-A-GF》 character in your waiting room, return it to your hand, choose 1 of your other 《Rent-A-GF》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: KNK/W86-E004
+Name Centimeter, Mami
+Color Y
+Level 1
+Cost 0
+Power 3000
+Trait1 Rent-A-GF
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If Other && InLocation MiddleCenterStage
+		{
+			GainPower 1000
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					GainSpecialEffect CannotBeChosen
+				}
+				Text Cont: This card cannot be chosen by your opponent's effects.
+			}
+		}
+	}
+}
+Text Cont: During your turn, your other character in the middle position of your center stage gets +1000 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+*Act1RestSelfSearchBrainstorm(Rent-A-GF)
+EndCard
+
+Character: KNK/W86-E005
+Name Equally Bad, Mami
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Rent-A-GF
+Combo Let's Date
+Auto: OnSpecificClimaxPlay Let's Date
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		Peek Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 HasTrait Rent-A-GF
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When "Let's Date" is placed on your climax area, if you have 2 or more other 《Rent-A-GF》 characters, look at up to 4 cards from the top of your deck, choose up to 1 《Rent-A-GF》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KNK/W86-E006
+Name Done With Love, Mami
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rent-A-GF
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Rent-A-GF
+	SetXValue TargetCount
+	Peek Deck X
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. X is equal to the number of 《Rent-A-GF》 characters you have.
+EndCard
+
+Character: KNK/W86-E007
+Name Through a Viewfinder, Mami
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Rent-A-GF
+Act: 1
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLess
+	ChooseCharacterFromTargets Choose a character to send to the waiting room.
+	MoveCard WaitingRoom
+}
+Text Act: [(1)] Choose 1 level 0 or lower character in your opponent's center stage, and put it into their waiting room.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	SetXValue BrainstormedClimax
+	Repeat X
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 1 Any
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, perform the following action. "Draw up to 2 cards, choose 1 card in your hand, and put it into your waiting room."
+EndCard
+
+Character: KNK/W86-E008
+Name "Annoying..." Mami
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Rent-A-GF
+*CannotSideAttack
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Rent-A-GF
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your opponent's turn, this card gets +1000 power for each of your other 《Rent-A-GF》 characters.
+Act: SendSelf WaitingRoom
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals As an Ex-Girlfriend, Mami
+	If HasTarget
+	{
+		AIChoice Random
+		ChooseCard
+		Change
+	}
+		Else
+	{
+			Message No change targets in waiting room :(
+	}
+}
+Text Act: [Put this card into your waiting room] Choose 1 "As an Ex-Girlfriend, Mami" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E009
+Name As an Ex-Girlfriend, Mami
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Rent-A-GF
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartMyEncorePhase
+{
+	If InLocation CenterStage
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals "Annoying..." Mami
+			If HasTarget
+			{
+				AIChoice Random
+				ChooseCard
+				Change
+			}
+			Else
+			{
+				Message No change targets in waiting room :(
+			}
+		}
+	}
+}			
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your encore step, if this card is in your center stage, you may pay the cost. If you do, choose 1 ""Annoying..." Mami" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E010
+Name First "Girlfriend", Mami
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Cont: GiveAll
+{
+	If Other && HasTrait Rent-A-GF
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Rent-A-GF》 characters get +500 power.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Mami
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters with "Mami" in its card name, it gets +1000 power until end of turn.
+EndCard
+
+Character: KNK/W86-E011
+Name Bungee Jump of Confession, Mami
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsCost 0 OrLower
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent's center stage has 1 or less characters, you may choose 1 cost 0 or lower character in their center stage, and put it into their waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Rent-A-GF
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Rent-A-GF》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E012
+Name "Fated One" Mami
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Rent-A-GF
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 2 OrMore
+	{
+		TargetSelf
+		Rest
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may Rest this card. 
+EndCard
+
+Character: KNK/W86-E013
+Name Usual Dynamic, Mami
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		PayCost 1
+		{
+			TargetSelf
+			GainPower 1000
+			GainSoul 2
+		}
+	}
+}	
+Text Auto: [(1)] When this card attacks, if you have 2 or more other 《Rent-A-GF》 characters, you may pay the cost. If you do, this card gets +1000 power and +2 soul until end of turn.
+EndCard
+
+Character: KNK/W86-E014
+Name Casual Greeting, Mami
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Rent-A-GF
+		SetXValue TargetCount
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other 《Rent-A-GF》 characters.
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 HasTrait Rent-A-GF	
+	{
+		TargetFacing
+		SaveTargets
+		If HasTarget
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 1 OrLess && Not InLocation Facing
+			ChooseCharacterFromTargets
+			If HasTarget
+			{
+				AddSavedToCurrentTargets
+				Exchange
+				Stand
+			}
+		}
+	}
+}	
+Text Auto: [Put 1 《Rent-A-GF》 character from your hand into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 character facing this card and another of your opponent's level 1 or lower characters, and exchange them as standing.
+EndCard
+
+Character: KNK/W86-E015
+Name Broken Promise, Mami
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Rent-A-GF
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 2 HasTrait Rent-A-GF
+	{
+		RevealOpponentHand
+	}
+}
+Text Auto: When you use this card's "BACKUP", if you have 2 or more 《Rent-A-GF》 characters, look at your opponent's hand.
+Backup 2000
+EndCard
+
+Event: KNK/W86-E016
+Name Could You Stop?
+Color Y
+Level 3
+Cost 1
+Effect:
+{
+	SearchDeck NameContains Mami
+	SearchLocationForTargets Hand 0 1 NameEquals Mami Nanami
+	PlaceOnStage False True True False
+	GainPower 3000
+}
+Text: Search your deck for up to 1 character with "Mami" in its card name, reveal it to your opponent, put it into your hand, choose up to 1 "Mami Nanami" in your hand, put it on any position of your stage, shuffle your deck, it gets +3000 power until end of turn.
+EndCard
+
+Climax: KNK/W86-E017
+Name Compared to When We Were Dating
+*ChoiceClimax
+EndCard
+
+Climax: KNK/W86-E018
+Name Let's Date
+*WindClimax
+EndCard
+
+Character: KNK/W86-E019
+Name Ruka Sarashina
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Rent-A-GF》 characters, this card gets +1000 power.
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		ChooseCardsFromTargets 0 1 IsCharacter && HasTrait Rent-A-GF
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards, choose up to 1 《Rent-A-GF》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: KNK/W86-E020
+Name Sumi Sakurasawa
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo Towards Her "Goal"
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals Shy "Girlfriend", Sumi
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If "Shy "Girlfriend", Sumi" is in your level, this card gets +3000 power.
+*Healer
+Auto: OnAttack
+{
+	If Climax Towards Her "Goal"
+	{
+		If StageContains 1 Other HasTrait Rent-A-GF
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Auto: StartOpponentAttackPhase
+				{
+					TargetLocation OpponentStage
+					ChooseCharactersFromTargets 0 2 Choose up to 2 characters to give -1 soul.
+					LoseSoul 1
+				}
+				Text Auto: At the beginning of your opponent's attack phase, choose up to 2 of your opponent's characters, and those characters get -1 soul until end of turn.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Towards Her "Goal"" is in your climax area, and you have another 《Rent-A-GF》 character, this card gets the following ability until the end of your opponent's next turn. "Auto: At the beginning of your opponent's attack phase, choose up to 2 of your opponent's characters, and those characters get -1 soul until end of turn."
+EndCard
+
+Character: KNK/W86-E021
+Name Treasured Moment, Chizuru
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+*EarlyPlay4OrMore(Rent-A-GF)
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Rent-A-GF》 characters, this card gets +1000 power.
+*StockHealer
+EndCard
+
+Character: KNK/W86-E022
+Name Fantasy Date, Chizuru
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, it gets +1000 power until end of turn.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		AIChoice AddToHand
+		SearchLocationForTargets WaitingRoom 0 X IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E023
+Name Centimeter, Sumi
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: StartAttackPhase
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		Question Put the top card of your deck into the waiting room?
+		If Yes
+		{
+			Mill 1
+			IfTarget HasTrait Rent-A-GF
+			{
+				TargetSelf
+				GainPower 2000
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your attack phase, if this card is in your center stage, you may put the top card of your deck into your waiting room. If that card is a 《Rent-A-GF》 character, this card gets +2000 power until end of turn.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: KNK/W86-E024
+Name Challenging for the First Time, Sumi
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo Surprisingly Resilient?
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Rent-A-GF
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of other 《Rent-A-GF》 characters you have ×500.
+Auto: OnSpecificClimaxPlay Surprisingly Resilient?
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		TargetLocation WaitingRoom
+		Message Choose a card to send to stock.
+		SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: CxCombo When "Surprisingly Resilient?" is placed on your climax area, if this card is in your center stage, you may choose 1 level 1 or higher card in your waiting room, and put it into your stock.
+EndCard
+
+Character: KNK/W86-E025
+Name While I'm Your "Girlfriend", Chizuru
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnReverseOpponent
+{
+	Question Put "While I'm Your "Girlfriend", Chizuru" into memory?
+	If Yes
+	{
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals While I'm Your "Girlfriend", Chizuru
+				FirstTarget
+				If HasTarget
+				{
+					Message While I'm Your "Girlfriend", Chizuru returns from memory.
+					PlaceOnStage false true true false
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "While I'm Your "Girlfriend", Chizuru" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: KNK/W86-E026
+Name About Kazuya, Mami
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Rent-A-GF
+Combo Problem Between the Two
+*LevelAssist
+Auto: OnSpecificClimaxPlay Problem Between the Two
+{
+	PayCost 1
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to return to hand.
+		Bounce
+	}
+}
+Text Auto: CxCombo [(1)] When "Problem Between the Two" is placed on your climax area, you may pay the cost. If you do, choose 1 character in your opponent's center stage, and return it to their hand.
+Auto: OnOtherAttacks
+{
+	IfOther DirectAttacking && NameContains Mami
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Heal
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] This ability activates up to 1 time per turn. When your character with "Mami" in its card name direct attacks, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+EndCard
+
+Character: KNK/W86-E027
+Name Waiting Impatiently, Sumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: Assist
+{
+	If NameContains Sumi
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST All of your characters in front of this card with "Sumi" in their card names get +1500 power.
+Auto: StartMyEncorePhase
+{
+	If LocationContains Level 1 NameEquals Shy "Girlfriend", Sumi
+	{
+		PayCost Discard 1 Any
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: EXPERIENCE [Put 1 card from your hand into your waiting room] At the beginning of your encore step, if "Shy "Girlfriend", Sumi" is in your level, you may pay the cost. If you do, draw 1 card.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +500 power until end of turn.
+EndCard
+
+Character: KNK/W86-E028
+Name Secret Date, Ruka
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Combo Look Here, Kazuya!
+Auto: StartMyEncorePhase
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		If FacingIsEmptyOrReversed
+		{
+			Peek Deck 4
+			AIChoice AddToHand
+			Message Choose a card to add to your hand.
+			ChooseCardsFromTargets 0 1 HasTrait Rent-A-GF
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+			*OptionalBlindStock
+		}
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Look Here, Kazuya!" is in your climax area, this card is in your center stage, and there is no character facing this card or the character facing this card is Reversed, look at up to 4 cards from the top of your deck, choose up to 1 《Rent-A-GF》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and put up to 1 card from the top of your deck into your stock.
+*GreenEarlyPlayBomb
+EndCard
+
+Character: KNK/W86-E029
+Name Serious Gaze, Chizuru
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo Proof of Lovers
+Auto: OnSpecificClimaxPlay Proof of Lovers
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		PayCost Clock
+		{
+			Peek Deck 2
+			ChooseCardsFromTargets 0 2 Compare ThatCardsCost 0 OrLess
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo [Put the top card of your deck into your clock] When "Proof of Lovers" is placed on your climax area, if this card is in your center stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 cost 0 or lower characters from among them, put them on separate positions of your stage, and put the rest into your waiting room.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand. 
+EndCard
+
+Character: KNK/W86-E030
+Name Practicing Smiling, Sumi
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Rent-A-GF
+Trait2 Diamond
+*OnAttackPay1ToDoubleTrigger
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: KNK/W86-E031
+Name Relaxing Through Exercise, Sumi
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Rent-A-GF》 characters, you may draw 1 card. If you do, choose 1 card from your hand, and put it into your waiting room.
+*DropSearch(Rent-A-GF)
+EndCard
+
+Character: KNK/W86-E032
+Name "Let's Not" Mami
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Rent-A-GF
+Auto: OnPlay
+{
+	If LocationContains Memory 5 Any
+	{
+		Message Choose the cards that will stay in memory.
+		SearchLocationForTargets WaitingRoom 4 Any
+		ReverseTargets Memory
+		MoveCard WaitingRoom
+	}
+	If LocationContains OpponentMemory 5 Any
+	{
+		TargetLocation OpponentMemory
+		OpponentMessage Choose the cards that will stay in memory.
+		OpponentChooseCardsFromTargets 4 4 Any
+		ReverseTargets Memory
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players perform the following action. "If your memory has 5 or more cards, choose 4 cards in your memory, and put all cards in your memory except those cards into your waiting room."
+*OnAttackGivePowerForEachOther(500,Rent-A-GF)
+EndCard
+
+Character: KNK/W86-E033
+Name Offering a Bite, Sumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnUseThisCardsBackup
+{
+	SetXToNumberOfCharacters HasTrait Rent-A-GF
+	MillOpponentBottom X
+}
+Text Auto: When you use this card's "BACKUP", put the bottom X cards of your opponent's deck into their waiting room. X is equal to the number of 《Rent-A-GF》 characters you have.
+Backup 3000
+EndCard
+
+Character: KNK/W86-E034
+Name Not a Kiss, Chizuru
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Rent-A-GF
+	{
+		SearchDeck NameEquals "Are You an Idiot!?" Chizuru
+	}
+}
+Text Auto: [Put 1 《Rent-A-GF》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 ""Are You an Idiot!?" Chizuru", reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther NameEquals "Are You an Idiot!?" Chizuru
+	{
+		TargetLocation WaitingRoom
+		Message Choose a card to send to stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Rent-A-GF
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: This ability activates up to 1 time per turn. When your other ""Are You an Idiot!?" Chizuru" is placed on the stage from your hand, you may choose 1 《Rent-A-GF》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: KNK/W86-E035
+Name Bungee Jump of Confession, Sumi
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveAll
+{
+	If Other && HasTrait Rent-A-GF
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Rent-A-GF》 characters get +500 power.
+Act: RestSelf
+{
+	If Compare MyLevel 1 OrMore && Compare CardsInWaitingRoom 1 OrMore
+	{
+		Message Choose a card in your level to exchange.
+		SearchLocationForTargets Level 1 1 Any
+		SaveTargets
+		Message Choose a card in your waiting room to exchange.
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Rent-A-GF
+		AddSavedToCurrentTargets
+		Exchange
+	}
+}
+Text Act: [Rest this card] Choose 1 card in your level and 1 《Rent-A-GF》 character in your waiting room, and exchange them.
+EndCard
+
+Character: KNK/W86-E036
+Name Important Conversation, Ruka
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnPlay
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+*GainPowerWhenOtherAttacks(1500,Rent-A-GF)
+EndCard
+
+Character: KNK/W86-E037
+Name Balcony at 9pm, Chizuru
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to give -1000 power.
+		LosePower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Embarrassed Maiden
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Embarrassed Maiden" in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E038
+Name Realizing the Truth, Mami
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another position of the stage.
+Auto: OnPlay
+{
+	TargetSelf
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Character: KNK/W86-E039
+Name Confused, Sumi
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Diamond
+*BackupBonus1000(Rent-A-GF)
+Backup 1000
+EndCard
+
+Character: KNK/W86-E040
+Name Calling Out Accurately, Ruka
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+*GreenEarlyPlayBomb
+EndCard
+
+Character: KNK/W86-E041
+Name Straw Hat, Chizuru
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Rent-A-GF
+Trait2 Diamond
+*CannotSideAttack
+Auto: StartOpponentClimaxPhase
+{
+	If StageContains 1 Other && HasTrait Rent-A-GF
+	{
+		PayCost 1 Discard 1 Any
+		{
+			TargetSelf
+			GainPower 3000
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					SearchWaitingRoom HasTrait Rent-A-GF
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may choose 1 《Rent-A-GF》 character in your waiting room, and return it to your hand.
+			}
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] At the beginning of your opponent's climax phase, if you have another 《Rent-A-GF》 character, you may pay the cost. If you do, this card gets +3000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose 1 《Rent-A-GF》 character in your waiting room, and return it to your hand."
+Act: SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Sea and Girlfriend, Chizuru
+	Change
+}
+Text Act: [Put this card into your waiting room] Choose 1 "Sea and Girlfriend, Chizuru" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E042
+Name "Are You an Idiot!?" Chizuru
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Rent-A-GF
+Trait2 Diamond
+EndCard
+
+Event: KNK/W86-E043
+Name Embarrassed Maiden
+Color G
+Level 2
+Cost 1
+Requirement StageContains 2 NameContains Sumi
+Effect:
+{
+	SearchLocationForTargets Hand 0 1 NameEquals Sumi Sakurasawa
+	PlaceOnStage False True True False
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupOnAttack
+		}
+		Text Cont: During this card's battle, your opponent cannot play "BACKUP" from their hand.
+	}
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotBeChosen
+		}
+		Text Cont: This card cannot be chosen by your opponent's effects.
+	}
+}
+Text If you have 1 or less characters with "Sumi" in its card name, this card cannot be played from your hand. Choose up to 1 "Sumi Sakurasawa" in your hand, put it on any position of your stage, it gets the following 2 abilities until the end of your opponent's next turn. "Cont: During this card's battle, your opponent cannot play "BACKUP" from their hand." "Cont: This card cannot be chosen by your opponent's effects."
+EndCard
+
+Climax: KNK/W86-E044
+Name Proof of Lovers
+Color G
+*2SoulClimax
+EndCard
+
+Climax: KNK/W86-E045
+Name Problem Between the Two
+*BarClimax
+EndCard
+
+Climax: KNK/W86-E046
+Name Look Here, Kazuya!
+*BagClimax
+EndCard
+
+Climax: KNK/W86-E047
+Name Towards Her "Goal"
+*BarClimax
+EndCard
+
+Climax: KNK/W86-E048
+Name Surprisingly Resilient?
+*BarClimax
+EndCard
+
+Character: KNK/W86-E049
+Name Shy "Girlfriend", Sumi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Rent-A-GF
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your 《Rent-A-GF》 characters, it gets +500 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		AIChoice AddToHand
+		SearchLocationForTargets WaitingRoom 0 X IsCharacter
+		RevealTargets
+		MoveCards Hand
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E050
+Name Chizuru Mizuhara
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo An Apology Present
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 1 Other && HasTrait Rent-A-GF
+		{
+			GainPower 3000
+		}
+	}
+}
+Text Cont: During your turn, if you have another 《Rent-A-GF》 character, this card gets +3000 power.
+Auto: OnReverseOpponent
+{
+	If Climax An Apology Present
+	{
+		SearchWaitingRoom HasTrait Rent-A-GF
+		PayCost Discard 1 HasTrait Rent-A-GF
+		{
+			SearchWaitingRoom NameEquals Um... Do You Mind? ||| HasTrait Rent-A-GF
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 《Rent-A-GF》 character from your hand into your waiting room] When this card's battle opponent becomes reversed, if "An Apology Present" is in your climax area, choose up to 1 《Rent-A-GF》 character in your waiting room, return it to your hand, and you may pay the cost. If you do, choose 1 "Um... Do You Mind?" or 《Rent-A-GF》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E051
+Name Everyone's "Girlfriend", Chizuru
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo Each Other's Feelings
+Auto: OnPlay|PlacedBy "You're the One" Chizuru
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by the Auto: effect of ""You're the One" Chizuru", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax Each Other's Feelings
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Burn 2
+			TargetSelf
+			GainPower 1000
+			*GainBounceWhenFrontalAttacked
+		}
+	}
+}	
+Text Auto: CxCombo [(1) Put 1 card from your hand into your waiting room] When this card attacks, if "Each Other's Feelings" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent, this card gets +1000 power until end of turn, and gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand." 
+EndCard
+
+Character: KNK/W86-E052
+Name Non-Refundable Feelings, Chizuru
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Door
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Rent-A-GF
+		ChooseCharacterFromTargets Choose a character to give +1 soul.
+		GainSoul 1
+	}
+}
+Text Auto: When your climax with Door in its trigger icon is placed on your climax area, choose 1 of your 《Rent-A-GF》 characters, it gets +1 soul until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets HasTrigger Door
+	SetXValue TargetCount
+	Repeat X
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax with Door in its trigger icon revealed among those cards, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E053
+Name Filling the Hole in the Heart, Chizuru
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: KNK/W86-E054
+Name Clearing Things Up, Chizuru
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If Other && NameContains Chizuru
+		{
+			GainPower 500
+		}
+	}
+}
+Text Cont: During your turn, all of your other characters with "Chizuru" in their card names get +500 power.
+Cont: GiveAll
+{
+	If Other && HasTrait Rent-A-GF
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other 《Rent-A-GF》 characters get +1000 power.
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax && HasTrigger Door
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 2
+			AIChoice AddToHand
+			Message Choose a card to add to your hand.
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with Door in its trigger icon, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KNK/W86-E055
+Name Morning Routine, Sumi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo Routine Walk
+Cont: InHand
+{
+	If LocationContains Level 1 NameEquals Shy "Girlfriend", Sumi
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: EXPERIENCE If "Shy "Girlfriend", Sumi" is in your level, this card gets -1 level while in your hand.
+Auto: OnReverseOpponent
+{
+	If Climax Routine Walk
+	{
+		PayCost 1 SendClimax WaitingRoom
+		{
+			Peek Deck 4
+			AIChoice AddToHand
+			Message Choose a card to add to your hand.
+			ChooseCardsFromTargets 0 4 NameEquals Embarrassed Maiden ||| HasTrait Rent-A-GF
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give +3000 power.
+			GainPower 3000
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put 1 "Routine Walk" from your climax area into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 4 "Embarrassed Maiden" or 《Rent-A-GF》 characters from among them, reveal them to your opponent, put them into your hand, put the rest into your waiting room, choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: KNK/W86-E056
+Name "You're the One" Chizuru
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo Each Other's Feelings
+Auto: OnPlay
+{
+	Peek Deck 3
+	AIChoice AddToHand
+	Message Choose a card to add to your hand.
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnSpecificClimaxPlay Each Other's Feelings
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1  NameEquals Everyone's "Girlfriend", Chizuru
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card into your waiting room] When "Each Other's Feelings" is placed on your climax area, you may pay the cost. If you do, choose 1 "Everyone's "Girlfriend", Chizuru" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E057
+Name High-End Specs, Sumi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	*OptionalDraw
+	*OptionalDraw
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 2 cards, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnAttack
+{
+	If StageContains 2 Other && NameContains Sumi
+	{
+		PayCost Discard 2 Any
+		{
+			MillOpponentBottom 4
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+			TargetSelf
+			GainPower 2000
+		}
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When this card attacks, if you have 2 or more other characters with "Sumi" in their card names, you may pay the cost. If you do, put the bottom 4 cards of your opponent's deck into their waiting room, deal X damage to your opponent, and this card gets +2000 power until end of turn. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: KNK/W86-E058
+Name Bungee Jump of Confession, Chizuru
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: Assist
+{
+	GainPower 500
+}
+Text Cont: ASSIST All of your characters in front of this card get +500 power.
+Act: 1
+{
+	Brainstorm 4
+	SetXValue BrainstormedClimax
+	Repeat X
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Rent-A-GF
+		Discard 1 Any
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, perform the following action. "Choose 1 《Rent-A-GF》 character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room."
+EndCard
+
+Character: KNK/W86-E059
+Name Merry Christmas, Chizuru
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Rent-A-GF
+	{
+		Peek Deck 4
+		AIChoice AddToHand
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [(1) Put 1 《Rent-A-GF》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KNK/W86-E060
+Name "One Question" Chizuru
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +3000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Um... Do You Mind?
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 "Um... Do You Mind?" in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E061
+Name First Date, Chizuru
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 1 or lower character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E062
+Name Sudden Visitor, Chizuru
+Color R
+Level 1
+Cost 0
+Power 500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnFrontalAttacked
+{
+	*Scry
+}
+Text Auto: When this card is frontal attacked, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+*HandEncore
+Act: SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1  NameEquals Nerves of Steel, Chizuru
+	Change
+}
+Text Act: [Put this card into your waiting room] Choose 1 "Nerves of Steel, Chizuru" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E063
+Name Nerves of Steel, Chizuru
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 1 Other && HasTrait Rent-A-GF
+		{
+			GainPower 3000
+		}
+	}
+}
+Text Cont: During your turn, if you have another 《Rent-A-GF》 character, this card gets +3000 power.
+Auto: StartMyEncorePhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1  NameEquals Sudden Visitor, Chizuru
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your encore step, if this card is in your center stage, you may pay the cost. If you do, choose 1 "Sudden Visitor, Chizuru" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E064
+Name Step by Step, Sumi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Rent-A-GF
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Rent-A-GF》 character, this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 1 Rest 1 Other && NameContains Sumi && CardPosition Stand
+		{
+			SearchDeck NameEquals Embarrassed Maiden ||| NameContains Sumi
+		}
+	}
+}
+Text Auto: [(1) Rest 1 of your other Stand characters with "Sumi" in its card name] During the turn that this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to 1 "Embarrassed Maiden" or character with "Sumi" in its card name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KNK/W86-E065
+Name Overly Shy Sumi
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Diamond
+*OnPlayFlicker
+*RedLevel0Bomb
+EndCard
+
+Character: KNK/W86-E066
+Name Lucky Lecher, Chizuru
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		If Not StageContains 1 Not HasTrait Rent-A-GF
+		{
+			GainLevel 1
+			GainPower 1500
+		}
+	}
+}
+Text Cont: During your opponent's turn, if all of your characters are 《Rent-A-GF》, this card gets +1 level and +1500 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Rent-A-GF
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Rent-A-GF》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-E067
+Name Bowling, Sumi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveSelf
+{
+	If LocationContains Hand 5 Any
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +2000 power.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Rent-A-GF
+	{
+		TargetOther
+		PayCost SendSelf WaitingRoom
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other 《Rent-A-GF》 character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, it gets +1000 power until end of turn.
+EndCard
+
+Character: KNK/W86-E068
+Name Happy New Year, Chizuru
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, this card gets +2000 power.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Rent-A-GF
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1 level and +1000 power.
+	GainPower 1000
+	GainLevel 1
+}
+Text Auto: When this card attacks, choose 1 of your 《Rent-A-GF》 characters, it gets +1 level and +1000 power until end of turn.
+EndCard
+
+Character: KNK/W86-E069
+Name Meeting at the Station, Chizuru
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: KNK/W86-E070
+Name An Opportunity To Take, Chizuru
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other 《Rent-A-GF》 characters, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: KNK/W86-E071
+Name Sea and Girlfriend, Chizuru
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Rent-A-GF
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Rent-A-GF》, this card gets +1000 power.
+*OnAttackGainPowerForEachOther(1000,Rent-A-GF)
+Auto: StartMyEncorePhase
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 1 1  NameEquals Straw Hat, Chizuru
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your encore step, if this card is in your center stage, you may pay the cost. If you do, choose 1 "Straw Hat, Chizuru" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Event: KNK/W86-E072
+Name Um... Do You Mind?
+Color R
+Level 2
+Cost 0
+Requirement StageContains 2 HasTrait Rent-A-GF
+Effect:
+{
+	If LocationContainsOrLess Memory 2 Any
+	{
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Auto: StartMainPhase
+{
+	If InLocation Memory
+	{
+		TargetSelf
+		GainEffect
+		{
+			Act: 0
+			{
+				If InLocation Memory
+				{
+					TargetSelf
+					MoveCard WaitingRoom
+					SearchLocationForTargets Hand 1 1 NameEquals Everyone's "Girlfriend", Chizuru
+					PlaceOnStage False True True False
+					GainPower 1000
+				}
+			}
+			InMemory
+			Text Act: MEMORY [Put this card from your memory into your waiting room] Choose up to 1 "Everyone's "Girlfriend", Chizuru" in your hand, put it on any position of your stage, it gets +1000 power until end of turn.
+		}
+	}
+}
+InMemory
+Text If you have 1 or less 《Rent-A-GF》 characters, this card cannot be played from your hand. If your memory has 2 or less cards, put this card into your memory. Auto: MEMORY At the beginning of your main phase, if this card is in your memory, this card gets the following ability until end of turn. "Act: MEMORY [Put this card from your memory into your waiting room] Choose up to 1 "Everyone's "Girlfriend", Chizuru" in your hand, put it on any position of your stage, it gets +1000 power until end of turn."
+EndCard
+
+Event: KNK/W86-E073
+Name This Month's #1
+Color R
+Level 2
+Cost 3
+Counter
+Requirement OpponentsTurn
+Effect:
+{ 
+	If StageContains 5 HasTrait Rent-A-GF
+	{
+		TargetBattleOpponent
+		IfTarget CanBeChosen
+		{
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					GainSpecialEffect CannotDealDamage
+				}
+				Text Cont: This card cannot deal damage to a player.
+			}
+		}
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1500 power.
+		GainPower 1500
+	}
+}
+Text Counter: If you have 5 or more 《Rent-A-GF》 characters, choose 1 character in battle, it gets the following ability until end of turn. "Cont: This card cannot deal damage to a player." Choose 1 of your characters, it gets +1500 power until end of turn.
+EndCard
+
+Climax: KNK/W86-E074
+Name An Apology Present
+*DoorClimax
+EndCard
+
+Climax: KNK/W86-E075
+Name Routine Walk
+*StandbyClimax
+EndCard
+
+Climax: KNK/W86-E076
+Name Each Other's Feelings
+*DoorClimax
+EndCard
+
+Character: KNK/W86-E077
+Name Bouldering Date, Ruka
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Rent-A-GF
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another 《Rent-A-GF》 character, this card gets +1500 power.
+*CleanCut(Rent-A-GF)
+EndCard
+
+Character: KNK/W86-E078
+Name "I'm an Adult" Ruka
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Combo I am Fully Prepared!!!
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Rent-A-GF》 characters, this card gets +1000 power.
+Auto: OnAttack
+{
+	If Climax I am Fully Prepared!!!
+	{
+		If StageContains 1 Other && HasTrait Rent-A-GF
+		{
+			PayCost Discard 1 Any
+			{
+				Peek Deck 4
+				ChooseCardsFromTargets 0 2 HasTrait Rent-A-GF
+				RevealTargets
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "I am Fully Prepared!!!" is in your climax area, and you have another 《Rent-A-GF》 character, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 2 《Rent-A-GF》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KNK/W86-E079
+Name At Least a "Trial Run", Ruka
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnUseAccelerate
+{
+	*OptionalDrawDiscard
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use "ACCELERATE", you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+*Act1RestSelfSearchBrainstorm(Rent-A-GF)
+EndCard
+
+Character: KNK/W86-E080
+Name "Cheater!!" Ruka
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}			
+Text Cont: If you have 2 or more other 《Rent-A-GF》 characters, this card gets +1000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+EndCard
+
+Character: KNK/W86-E081
+Name "What Do You Think?" Ruka
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Ribbon
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation OpponentStage
+	AIChoice Bounce
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to return to the hand.
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, draw 1 card, choose 1 card in your hand, put it into your waiting room, choose up to 1 of your opponent's characters, and return it to their hand.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Rent-A-GF
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to give -2 soul.
+		LoseSoul 2
+	}
+}
+Text Auto: ACCELERATE [(1) Put 1 《Rent-A-GF》 character from your waiting room at the bottom of your clock] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your opponent's characters, it gets -2 soul until end of turn.
+EndCard
+
+Character: KNK/W86-E082
+Name "Say Ahh♡" Ruka
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Combo Increased Heartrate
+Auto: OnEndOfAttack
+{
+	If Climax Increased Heartrate
+	{
+		If StageContains 2 Other && HasTrait Rent-A-GF
+		{
+			PayCost 2
+			{
+				MultipleChoiceQuestion Choose an effect.\n1: Stand this card.\n2: Choose up to 3 characters in your waiting room, return them to your hand, return all cards from your waiting room to your deck, and shuffle your deck.|1|2
+				If Answer 0
+				{
+					TargetSelf
+					Stand
+				}
+				If Answer 1
+				{
+					SearchLocationForTargets WaitingRoom 0 3 IsCharacter
+					RevealTargets
+					MoveCards Hand
+					Refresh
+				}
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2)] This ability activates up to 1 time per turn. At the end of this card's attack, if "Increased Heartrate" is in your climax area, and you have 2 or more other 《Rent-A-GF》 characters, you may pay the cost. If you do, choose 1 of the following effects, and perform it. "Stand this card." "Choose up to 3 characters in your waiting room, return them to your hand, return all cards from your waiting room to your deck, and shuffle your deck."
+EndCard
+
+Character: KNK/W86-E083
+Name I'm the "Girlfriend", Ruka
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Combo Increased Heartrate
+*Healer
+Auto: OnSpecificClimaxPlay Increased Heartrate
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1  NameEquals "Say Ahh♡" Ruka
+		Change
+	}
+}
+Text Auto: CxCombo [Put this card into your waiting room] When "Increased Heartrate" is placed on your climax area, you may pay the cost. If you do, choose 1 ""Say Ahh♡" Ruka" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E084
+Name "Hugs♥" Ruka
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+*BlueLevel0Bomb
+Act: 1 SendSelf WaitingRoom
+{
+	Peek Deck 4
+	ChooseCardsFromTargets 0 1 HasTrait Rent-A-GF
+	RevealTargets
+	MoveCard Hand
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Rent-A-GF》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KNK/W86-E085
+Name We Finally Meet, Ruka
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck NameEquals Just a Little More
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Just a Little More", reveal it to your opponent, put it into your hand, shuffle your deck, and this card gets +2000 power until end of turn.
+EndCard
+
+Character: KNK/W86-E086
+Name Girlfriend and Girlfriend, Ruka
+Color B
+Level 1
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnUseThisCardsBackup
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Rent-A-GF
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 HasTrait Rent-A-GF
+		RevealTargets
+		MoveCard Hand
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Rent-A-GF》 character from your waiting room at the bottom of your clock] When you use this card's "BACKUP", you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 《Rent-A-GF》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, choose 1 of your characters in battle, it gets +1000 power until end of turn.
+Backup 1000
+EndCard
+
+Character: KNK/W86-E087
+Name Why Are You Here!? Ruka
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Rent-A-GF
+	{
+		PayCost Discard 1 HasTrait Rent-A-GF
+		{
+			TargetSelf
+			GainPower 3500
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					*OptionalDraw
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may draw 1 card.
+			}
+		}
+	}
+}
+Text Auto: [Put 1 《Rent-A-GF》 character from your hand into your waiting room] When this card attacks, if you have 4 or more other 《Rent-A-GF》 characters, you may pay the cost. If you do, this card gets +3500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw 1 card."
+Auto: StartMyEncorePhase
+{
+	TargetSelf
+	If InLocation CenterStage
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 1 1  NameEquals Friend's "Girlfriend", Ruka
+			Change
+		}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your encore step, if this card is in your center stage, you may pay the cost. If you do, choose 1 "Friend's "Girlfriend", Ruka" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E088
+Name Friend's "Girlfriend", Ruka
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Cont: GiveSelf
+{
+	If OpponentsTurn
+	{
+		If StageContains 1 Other && HasTrait Rent-A-GF
+		{
+			GainPower 3000
+		}
+	}
+}
+Text Cont: During your opponent's turn, if you have another 《Rent-A-GF》 character, this card gets +3000 power.
+Auto: OnPlay
+{
+	If Not StageContains 1 Other && HasTrait Rent-A-GF
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you do not have another 《Rent-A-GF》 character, put this card into your waiting room.
+Act: SendSelf WaitingRoom
+{
+	SearchLocationForTargets WaitingRoom 1 1  NameEquals Why Are You Here!? Ruka
+	Change
+}
+Text Act: [Put this card into your waiting room] Choose 1 "Why Are You Here!? Ruka" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KNK/W86-E089
+Name "Is There Something in This Room?" Ruka
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Cont: GiveSelf
+{
+	CanSendMarkersToPayForAutoEffect NameEquals "Say Ahh♡" Ruka
+}
+Text Cont: If you would pay the cost for the Auto effect of ""Say Ahh♡" Ruka", you may put 1 marker from underneath this card into your waiting room instead of 1 card from your stock.
+*LevelAssistTrait(Rent-A-GF)
+Auto: OnPlay
+{
+	SearchWaitingRoomForTarget HasTrait Rent-A-GF
+	Marker_FaceDown
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Rent-A-GF》 character in your waiting room, and put it face down underneath this card as a marker.
+EndCard
+
+Character: KNK/W86-E090
+Name "Come Along Blindfolded" Ruka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Rent-A-GF
+	{
+		TargetLocation WaitingRoom
+		Message Choose a card to send to stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Rent-A-GF
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Rent-A-GF》 characters, you may choose 1 《Rent-A-GF》 character in your waiting room, and put it into your stock.
+*ClimaxExchange
+EndCard
+
+Character: KNK/W86-E091
+Name Bungee Jump of Confession, Ruka
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, you may put the top card of your deck into your stock.
+EndCard
+
+Character: KNK/W86-E092
+Name Happy New Year, Ruka
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: StartOpponentClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Rent-A-GF
+	{
+		TargetSelf
+		GainPower 2000
+		GainEffect
+		{
+			*RunInFrontOfCharacter
+		}
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Rent-A-GF》 character from your waiting room at the bottom of your clock] At the beginning of your opponent's climax phase, you may pay the cost. If you do, this card gets +2000 power and the following ability until end of turn. "Auto: At the beginning of your opponent's attack phase, you may move this card to an open position of your center stage with a character facing this card."
+EndCard
+
+Character: KNK/W86-E093
+Name "I Can't Take it!" Ruka
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+EndCard
+
+Character: KNK/W86-E094
+Name The Real Me, Ruka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: StartClimaxPhase
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Rent-A-GF
+	{
+		TargetSelf
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchDeck HasTrait Rent-A-GF
+			}
+		}
+	}
+}
+Text Auto: ACCELERATE [Put 1 《Rent-A-GF》 character from your waiting room at the bottom of your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, search your deck for up to 1 《Rent-A-GF》 character, reveal it to your opponent, put it into your hand, and shuffle your deck."
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×1000.
+EndCard
+
+Character: KNK/W86-E095
+Name My Position, Ruka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+*GainPowerForEachOther(1000,Rent-A-GF)
+Auto: OnReverseOpponent
+{
+	PayCost Discard 1 NameEquals "I Can't Take it!" Ruka
+	{
+		Burn 1
+	}
+}
+Text Auto: [Put 1 ""I Can't Take it!" Ruka" from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Character: KNK/W86-E096
+Name A Move in a "Battle of Endurance", Ruka
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Ribbon
+*GainPowerWhenOtherAttacks(2000,Rent-A-GF)
+Auto: Encore Discard 1 HasTrait Rent-A-GF
+{
+}
+Text Auto: ENCORE [Discard a 《Rent-A-GF》 character]
+Tag Encore
+EndCard
+
+Event: KNK/W86-E097
+Name Just a Little More
+Color B
+Level 1
+Cost 1
+Requirement StageContains 2 NameContains Ruka
+Effect:
+{
+	TargetTop Deck 1
+	MoveCard Clock
+	Burn 79
+	SearchLocationForMultipleTargets Deck 0 2 NameEquals "I'm an Adult" Ruka
+	PlaceOnStage False True True False
+	GainPower 1000
+	GainSoul 1
+}
+Text If you have 1 or less characters with "Ruka" in their card names, this card cannot be played from your hand. Put the top card of your deck into your clock, deal 79 damage to your opponent, search your deck for up to 2 ""I'm an Adult" Ruka", put them on separate positions of your stage, shuffle your deck, and those characters get +1000 power and +1 soul until end of turn. 
+EndCard
+
+Event: KNK/W86-E098
+Name Shut Up and Come Along!
+Color B
+Level 2
+Cost 1
+Effect:
+{
+	OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+	ReverseTargets OpponentWaitingRoom
+	MoveCards OpponentDeck
+	ShuffleLocation OpponentDeck
+	TargetLocation Stage
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Your opponent chooses 1 climax in their waiting room, returns all cards except that card from their waiting room to their deck, shuffles their deck, you choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Climax: KNK/W86-E099
+Name I am Fully Prepared!!!
+*GateClimax
+EndCard
+
+Climax: KNK/W86-E100
+Name Increased Heartrate
+*GateClimax
+EndCard
+
+Character: KNK/W86-E101
+Name Coincidental Meeting, Mami
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Rent-A-GF
+Auto: OnAttack
+{
+	*Scry
+}
+Text Auto: When this card attacks, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Rent-A-GF
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, search your deck for up to 1 《Rent-A-GF》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KNK/W86-E102
+Name Junior of Chizuru, Sumi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+Cont: GiveAll
+{
+	IfOwner InLocation CenterStage
+	{
+		If HasTrait Rent-A-GF
+		{
+			GainPower 1500
+		}
+	}
+}
+Text Cont: If this card is in your center stage, all of your 《Rent-A-GF》 characters get +1500 power.
+Auto: OnAttack
+{
+	PayCost 1
+	{
+		TargetSelf
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				Question Put the battle opponent on the top of your opponent's deck?
+				If Yes
+				{
+					TargetFacing
+					MoveCard OpponentDeck
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck.
+		}
+	}
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, this card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck."
+EndCard
+
+Character: KNK/W86-E103
+Name Top-Class Girlfriend, Chizuru
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Rent-A-GF
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your 《Rent-A-GF》 characters, it gets +1000 power until end of turn.
+Act: Discard 1 IsClimax &&& Rest 2 HasTrait Rent-A-GF
+{
+	SearchDeck With CHANGE
+}
+Text Act: [Put 1 climax from your hand into your waiting room & Rest 2 of your 《Rent-A-GF》 characters] Search your deck for up to 1 character with "CHANGE", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KNK/W86-E104
+Name Next Strategy, Ruka
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Cont: GiveAll
+{
+	If Other && HasTrait Rent-A-GF
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Rent-A-GF》 characters get +500 power.
+Auto: OnUseAccelerate
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 0 OrLess
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When you use "ACCELERATE", choose 1 of your characters, that character gets +500 power until end of turn, and reveal the top card of your deck. If that card is level 0 or lower, put it into your stock. 
+EndCard
+
+Character: KNK/W86-PE01
+Name Mami & Sumi & Chizuru & Ruka
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Rent-A-GF
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Rent-A-GF
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each other 《Rent-A-GF》 character in your back stage.
+Auto: OnUseAct
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Rent-A-GF
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you use an Act, this card gets +X power until end of turn. X is equal to the number of other 《Rent-A-GF》 characters you have ×500.
+EndCard
+
+Character: KNK/W86-PE02
+Name New Part-Timer, Ruka
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+*OnPlayReorderTop2
+*GainPowerWhenOtherAttacks(1500,Rent-A-GF)
+EndCard
+
+Character: KNK/W86-TE01
+Name Coincidental Reunion, Mami
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Rent-A-GF
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+Cont: Assist
+{
+	GainPower 500
+}
+Text Cont: ASSIST All of your characters in front of this card get +500 power.
+EndCard
+
+Character: KNK/W86-TE02
+Name Chilly Gaze, Mami
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Rent-A-GF
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+EndCard
+
+Character: KNK/W86-TE03
+Name Original Appearance, Ruka
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Combo Please Go Out With Me!!
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Rent-A-GF》 characters, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If Climax Please Go Out With Me!!
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Please Go Out With Me!!" is in your climax area, you may choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-TE04
+Name Waiting Impatiently, Ruka
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Rent-A-GF
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have 2 or more other 《Rent-A-GF》 characters, this card gets +2000 power until end of turn.
+EndCard
+
+Character: KNK/W86-TE05
+Name Suspicious Gaze, Ruka
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Backup 2500
+EndCard
+
+Character: KNK/W86-TE06
+Name Parting Words, Ruka
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Rent-A-GF
+Trait2 Ribbon
+*LevelAssist
+Auto: OnPlay
+{
+	*OptionalDrawDiscard
+}
+Text Auto: When this card is placed on the stage from your hand, draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: KNK/W86-TE07
+Name Mysterious Cute Girl, Ruka
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Rent-A-GF
+Trait2 Ribbon
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Rent-A-GF
+	{
+		Message Choose a card to put into your stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Rent-A-GF
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Rent-A-GF》 characters, you may choose 1 《Rent-A-GF》 character in your waiting room, and put it into your stock.
+*OnAttackGainPowerForEachOther(1000,Rent-A-GF)
+EndCard
+
+Character: KNK/W86-TE08
+Name Unexpected Words, Mami
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Rent-A-GF
+*GainPowerForEachOther(1000,Rent-A-GF)
+EndCard
+
+Character: KNK/W86-TE09
+Name Through a Viewfinder, Sumi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	Peek Deck 3
+	AIChoice AddToHand
+	Message Choose a card to add to your hand.
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnReversed
+{
+	If StageContains 2 Other && Rent-A-GF
+	{
+		TargetLocation OpponentClock
+		If HasTarget
+		{
+			TargetBattleOpponent
+			IfThatCard Compare ThatCardsLevel 3 OrLess && OnStage
+			{
+				Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+				If Yes
+				{
+					TargetTop OpponentClock 1
+					MoveCard OpponentWaitingRoom
+					TargetBattleOpponent
+					MoveCard OpponentClock
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if you have 2 or more other 《Rent-A-GF》 characters, and this card's battle opponent is level 3 or lower, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock.
+EndCard
+
+Climax: KNK/W86-TE10
+Name Please Go Out With Me!!
+*BagClimax
+EndCard
+
+Character: KNK/W86-TE11
+Name Subtle Distance, Kazuya
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Rent-A-GF
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If NameEquals Subtle Distance, Chizuru
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, all of your other "Subtle Distance, Chizuru" get +2000 power.
+Auto: OnPlayedNormally
+{
+	PayCost 1
+	{
+		Bond Subtle Distance, Chizuru
+	}
+}
+Text Auto: BOND/ <b>"Subtle Distance, Chizuru"</b>" [(1)] (<i>When this card is played and placed on the stage, you may pay the cost, choose 1 "CARDNAME" in your waiting room, and return it to your hand</i>)
+EndCard
+
+Character: KNK/W86-TE12
+Name The Start of Chaos, Chizuru
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: StartMainPhase
+{
+	*Scry
+}
+Text Auto: At the beginning of your main phase, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: KNK/W86-TE13
+Name Beyond Reach, Kazuya
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Combo Girlfriend Mode
+Combo Please Go Out With Me!!
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Girlfriend Mode|Please Go Out With Me!!
+	{
+		SearchWaitingRoom NameEquals Girlfriend Mode|Please Go Out With Me!!
+	}
+}
+Text Auto: CxCombo [Put 1 "Girlfriend Mode" or "Please Go Out With Me!!" from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Girlfriend Mode" or "Please Go Out With Me!!" in your waiting room, and return it to your hand.
+EndCard
+
+Character: KNK/W86-TE14
+Name Rental Girlfriend, Chizuru
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && HasTrait Rent-A-GF
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Rent-A-GF》 character, put it into your hand, choose 1 card in your hand, and put it into your waiting room. 
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Rent-A-GF
+	{
+		DrawCard
+	}
+}
+Text Auto: [Put 1 《Rent-A-GF》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: KNK/W86-TE15
+Name Ideal Lover, Chizuru
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Rent-A-GF
+Trait2 Diamond
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Rent-A-GF
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of 《Rent-A-GF》 characters you have ×500.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Rent-A-GF
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose 1 of your 《Rent-A-GF》 characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: KNK/W86-TE16
+Name Subtle Distance, Chizuru
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Rent-A-GF
+Trait2 Diamond
+EndCard
+
+Character: KNK/W86-TE17
+Name Girlfriend's Late Arrival, Chizuru
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Rent-A-GF
+Trait2 Diamond
+Combo Girlfriend Mode
+*Healer
+Auto: OnAttack
+{
+	If Climax Girlfriend Mode
+	{
+		Question_Obvious Deal 1 damage to the opponent?
+		If Yes
+		{
+			Burn 1
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Girlfriend Mode" is in your climax area, you may deal 1 damage to your opponent. 
+EndCard
+
+Event: KNK/W86-TE18
+Name Not a Word to Anyone!
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck HasTrait Rent-A-GF
+	TargetSelf
+	MoveCard Memory
+}
+Text Search your deck for up to 1 《Rent-A-GF》 character, reveal it to your opponent, put it into your hand, and shuffle your deck. Put this card into your memory.
+EndCard
+
+Climax: KNK/W86-TE19
+Name Girlfriend Mode
+*DoorClimax
+EndCard

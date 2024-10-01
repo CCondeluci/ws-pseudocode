@@ -1,0 +1,2927 @@
+﻿Character: KGL/S79-E001
+Image KGL_S79_E001
+Name Supreme Bliss, Chika
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Shuchiin
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a <Shuchiin> character, choose 1 of your characters, and that character gets +2000 power until end of turn.             
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+
+
+
+Character: KGL/S79-E002
+Image KGL_S79_E002
+Name Serious Showdown Between Geniuses, Chika
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Shuchiin
+Trait2 Secretary
+Combo Yo! Man♪
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Shuchiin
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Shuchiin>, this card gets +1000 power.
+Auto: OnSpecificClimaxPlay Yo! Man♪
+{
+	If StageContains 1 Other && HasTrait Shuchiin
+	{
+		MultipleChoiceQuestion Choose an effect. \n1. "Auto: When this card attacks, choose 1 cost 0 or lower character in your opponent's center stage, put it into their waiting room, and this card gets +1000 power until end of turn." \n2. "Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand."|1|2
+		If Answer 0
+		{
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					TargetLocation OpponentCenterStage
+					NarrowTargets Compare ThatCardsCost 0 OrLower
+					ChooseCharacterFromTargets Choose a character to put into the waiting room.
+					MoveCard OpponentWaitingRoom
+					TargetSelf
+					GainPower 1000
+				}
+				Text Auto: When this card attacks, choose 1 cost 0 or lower character in your opponent's center stage, put it into their waiting room, and this card gets +1000 power until end of turn.
+			}
+		}
+		If Answer 1
+		{
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					SearchWaitingRoom IsCharacter
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "Yo! Man♪" is placed on your climax area, if you have another <Shuchiin> character, choose 1 of the following abilities, and this card gets that ability until end of turn. "Auto: When this card attacks, choose 1 cost 0 or lower character in your opponent's center stage, put it into their waiting room, and this card gets +1000 power until end of turn." "Auto: When this card's battle opponent becomes reversed, you may choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+
+Character: KGL/S79-E003
+Image KGL_S79_E003
+Name Critical Hit, Chika
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Love Detective
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Love Detective" in your waiting room, and return it to your hand.
+EndCard
+
+Character: KGL/S79-E004
+Image KGL_S79_E004
+Name Shameful, Chika
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 6000
+Trait1 Shuchiin
+Trait2 Secretary
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Shuchiin
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If you have 2 or more other <Shuchiin> characters, this card gets +4000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation WaitingRoom
+		MoveCard Deck
+		ShuffleLocation Deck
+		TargetLocation OpponentWaitingRoom
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, all players return all cards from their waiting room to their decks, and all players shuffle their decks.
+EndCard
+
+Character: KGL/S79-E005
+Image KGL_S79_E005
+Name Fireworks Display, Yu
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 6000
+Trait1 Shuchiin
+Trait2 Treasurer
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Shuchiin
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other <Shuchiin> characters.
+*HandEncore
+EndCard
+
+Character: KGL/S79-E006
+Image KGL_S79_E006
+Name Consumer, Chika
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Shuchiin
+Trait2 Secretary
+Combo Ramen Connoisseur
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Shuchiin
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other <Shuchiin> characters, this card gets +1000 power.
+Cont: GiveFacing
+{
+	LoseSoul 1
+}
+Text Cont: The character facing this card gets -1 soul.
+Auto: OnAttack
+{
+	If Climax Ramen Connoisseur && StageContains 1 Other && HasTrait Shuchiin
+	{
+		PayCost Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			AIChoice Bounce
+			ChooseCharacterFromTargets_Optional Choose a character to return to your opponent's hand
+			MoveCard OpponentHand
+			Question_Obvious Put the top card of your clock into the waiting room?
+			If Yes
+			{
+				TargetTop Clock 1
+				MoveCard WaitingRoom
+			}
+		}
+	}
+}
+Quick
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Ramen Connoisseur" is in your climax area, and you have another <Shuchiin> character, you may pay the cost. If you do, choose up to 1 of your opponent's characters, return it to their hand, and put up to 1 card from the top of your clock into your waiting room.
+EndCard
+
+
+Character: KGL/S79-E007
+Image KGL_S79_E007
+Name Escaping From Reality, Yu
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Shuchiin
+Trait2 Treasurer
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Shuchiin
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When this card attacks, choose 1 of your other <Shuchiin> characters, and that character gets +2000 power until end of turn.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+Character: KGL/S79-E008
+Image KGL_S79_E008
+Name Tank-Class, Chika
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Secretary
+Cont: GiveAll
+{
+	If Other && HasTrait Shuchiin
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other <Shuchiin> characters get +500 power.
+*OnPlayFlicker
+EndCard
+
+Character: KGL/S79-E009
+Image KGL_S79_E009
+Name God of Thunder, Chika
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Shuchiin
+Trait2 Treasurer
+Auto: OnPlay
+{
+	If StageContainsOrLess 0 Other && HasTrait Shuchiin
+	{
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you do not have another <Shuchiin> character, put this card into your waiting room.
+*Act1RestSelfSalvageBrainstorm(Shuchiin)
+EndCard
+
+Character: KGL/S79-E010
+Image KGL_S79_E010
+Name Additional Blow, Yu
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Shuchiin
+Trait2 Treasurer
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "<b>Backup</b>", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 1000
+EndCard
+
+Character: KGL/S79-E011
+Image KGL_S79_E011
+Name Seasonal Uniform Change, Chika
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 Secretary
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Shuchiin
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Shuchiin>, this card gets +1000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: KGL/S79-E012
+Image KGL_S79_E012
+Name Flustered, Chika
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 6000
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnPlay
+{
+	Peek Deck 3
+	If Compare TargetCount 1 OrMore
+	{
+		Message Select card order (first is on top)
+		Reorder
+	}
+	TargetLocation OpponentStage
+	AIChoice Bounce
+	ChooseCharacterFromTargets Choose a character to return to your opponent's hand.
+	Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand.
+Act: Discard 1 NameEquals Love Detective
+{
+	AIChoice GainPower 2000
+	ChooseMultipleCharacters 0 2 InLocation Stage
+	GainPower 2000
+}
+Text Act: [Put 1 "Love Detective" from your hand into your waiting room] Choose up to 2 of your characters, and those characters get +2000 power until end of turn.
+EndCard
+
+Character: KGL/S79-E013
+Image KGL_S79_E013
+Name Happiness Tax, Yu
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Shuchiin
+Trait2 Treasurer
+*OnPlayCheckTopTraitOrEventAddDiscard(Shuchiin)
+Auto: OnReversed
+{
+	If Compare CardsInOpponentsClock 1 OrMore
+	{
+		SearchLocationForTargets OpponentClock 0 1 Any
+		If HasTarget
+		{
+			MoveCard OpponentWaitingRoom
+			TargetTop OpponentDeck 1
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may choose 1 card in your opponent's clock, and put it into their waiting room. If you do, your opponent puts the top card of their deck into their clock.
+EndCard
+
+Character: KGL/S79-E014
+Image KGL_S79_E014
+Name Meddling, Chika
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Shuchiin
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Shuchiin
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Shuchiin> characters, and that character gets +X power until end of turn. X is equal to the number of other <Shuchiin> characters you have ×500.
+EndCard
+
+Character: KGL/S79-E015
+Image KGL_S79_E015
+Name Chika Having Faraway Thoughts
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Shuchiin
+Trait2 Secretary
+*YellowEarlyPlayBomb
+EndCard
+
+Character: KGL/S79-E016
+Image KGL_S79_E016
+Name Full Throttle! Yu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Shuchiin
+Trait2 Treasurer
+*Level3Assist
+Auto: OnOpponentBrainstormSuccess
+{
+	TargetLocation Stage
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When your opponent uses "<b>Brainstorm</b>", if a climax is put into their waiting room by that effect, choose 1 of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: KGL/S79-E017
+Image KGL_S79_E017
+Name Unstoppable Yu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Shuchiin
+Trait2 Treasurer
+Combo Broken Brakes
+Cont: InHand
+{
+	If StageContains 4 HasTrait Shuchiin
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more <Shuchiin> characters, this card gets -1 level while in your hand.
+Auto: OnAttack
+{
+	If Climax Broken Brakes && Not StageContains 1 Not HasTrait Shuchiin
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets Deck 0 2 HasTrait Shuchiin
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Broken Brakes" is in your climax area, and all of your characters are <Shuchiin>, you may pay the cost. If you do, search your deck for up to 2 <Shuchiin> characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Event: KGL/S79-E018
+Image KGL_S79_E018
+Name Love Detective
+Color Y
+Level 1
+Cost 0
+Requirement StageContains 1 NameContains Chika
+Effect:
+{
+	*Check4Add1(Shuchiin)
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsCost 0 OrLower
+	AIChoice Bounce
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand.
+	Bounce
+}
+Text If you do not have a character with "Chika" in its card name, this card cannot be played from your hand. Look at up to 4 cards from the top of your deck, choose up to 1 <Shuchiin> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. You may choose 1 cost 0 or lower character in your opponent's center stage, and return it to their hand.
+EndCard
+
+
+Event: KGL/S79-E019
+Image KGL_S79_E019
+Name Shut Up, You Moron!
+Color Y
+Level 1
+Cost 1
+Requirement StageContains 1 NameContains Miyuki|Yu
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect. \n1. "All of your characters get +1 soul until end of turn."\n2. "Choose up to 5 of your opponent's characters, put them into their memory, and your opponent puts those characters from their memory on separate positions of their stage."\n3. "If your opponent has 5 or more cards in their memory, your opponent puts all cards from their memory into their waiting room."|1|2|3
+	If Answer 0
+	{
+		TargetLocation Stage
+		GainSoul 1
+	}
+	If Answer 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharactersFromTargets 0 5 Choose up to 5 characters to put into memory, then return.
+		MoveCard OpponentMemory
+		ForEachTarget
+		{
+			RevealTargets
+			OpponentPlaceOnStage False True True True
+		}
+	}
+	If Answer 2
+	{
+		If Compare CardsInOpponentsMemory 5 OrMore
+		{
+			TargetLocation OpponentMemory
+			NarrowTargets IsCharacter
+			MoveCard WaitingRoom
+		}
+	}
+}
+Text If you do not have a character with "Miyuki" or "Yu" in its card name, this card cannot be played from your hand.\nChoose 1 of the following effects, and perform it.\n"All of your characters get +1 soul until end of turn."\n"Choose up to 5 of your opponent's characters, put them into their memory, and your opponent puts those characters from their memory on separate positions of their stage."\n"If your opponent has 5 or more cards in their memory, your opponent puts all characters from their memory into their waiting room."
+EndCard
+
+Event: KGL/S79-E020
+Image KGL_S79_E020
+Name Marked Deck
+Color Y
+Level 2
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Shuchiin
+	AIChoice GainPower 3000
+	ChooseCharacterFromTargets Choose a character to give +3000 power.
+	GainPower 3000
+	TargetSelf
+	MoveCard Stock
+	TargetTop Deck 1
+	Reveal
+	SetXValue TargetCardsLevel
+	TargetTop OpponentDeck 1
+	Reveal
+	If Compare X TargetCardsLevel GreaterThan
+	{
+		SearchWaitingRoom HasTrait Shuchiin
+	}
+	Else
+	{
+		If Compare X TargetCardsLevel LessThan
+		{
+			TargetLocation OpponentStage
+			AIChoice GainPower 5000
+			OpponentChooseCharactersFromTargets 1 1 Choose 1 of your characters to give +5000 power.
+			GainPower 5000
+		}
+	}
+}
+Text Choose 1 of your <Shuchiin> characters, and that character gets +3000 power until end of turn.\nPut this card into your stock.\nAll players reveal the top card of their deck. If the level of your revealed card is higher than your opponent's, choose 1 <Shuchiin> character in your waiting room, and return it to your hand. If the level of your opponent's revealed card is higher than yours, your opponent chooses 1 of their characters, and that character gets +5000 power until end of turn.
+EndCard
+
+Climax: KGL/S79-E021
+Image KGL_S79_E021
+Name Yo! Man♪
+*ChoiceClimax
+EndCard
+
+
+Climax: KGL/S79-E022
+Image KGL_S79_E022
+Name Ramen Connoisseur
+*ChoiceClimax
+EndCard
+
+
+
+Climax: KGL/S79-E023
+Image KGL_S79_E023
+Name Broken Brakes
+*WindClimax
+EndCard
+
+
+Character: KGL/S79-E024
+Image KGL_S79_E024
+Name Serious Showdown Between Geniuses, Kei
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Treasurer
+*MoveOtherWithTraitToBackstageOnReverse(Shuchiin)
+Auto: StartOpponentAttackPhase
+	{
+		Question Put the top card of your deck into the waiting room?
+		If Yes
+		{
+			Mill 1
+			IfTarget HasTrait Shuchiin || NameEquals A Romantic Battle of the Brains
+			{
+				TargetLocation CenterStage
+				If Compare TargetCount 2 OrLess
+				{
+					TargetSelf
+					Question Move this card to an open position of your center stage?
+					If Yes
+					{
+						MoveToOpenPosition True False
+					}
+				}
+			}
+		}
+	}
+Text Auto: At the beginning of your opponent's attack phase, you may put the top card of your deck into your waiting room. If that card is a <Shuchiin> character or "A Romantic Battle of the Brains", you may move this card to an open position of your center stage.
+EndCard
+
+
+
+Character: KGL/S79-E025
+Image KGL_S79_E025
+Name Love Detective, Chika
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Shuchiin
+Trait2 Secretary
+Combo Rebelling Against Society
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Shuchiin
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other <Shuchiin> characters.
+*Healer
+Auto: OnReverseOpponent
+{
+	If Climax Rebelling Against Society
+	{
+		PayCost 3 Discard 2 Any
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals Love Detective
+			SetXValue TargetCount
+			Burn X
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [(3) Put 2 cards from your hand into your waiting room] When this card's battle opponent becomes reversed, if "Rebelling Against Society" is in your climax area, you may pay the cost. If you do, perform the following action 2 times. "Deal X damage to your opponent. X is equal to the number of "Love Detective" in your waiting room."
+EndCard
+
+
+
+Character: KGL/S79-E026
+Image KGL_S79_E026
+Name Persisting Conviction, Miyuki
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Shuchiin
+Trait2 President
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 4500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupInBattle
+		}
+		Text Cont: During this card's battle, all players cannot play "<b>Backup</b>" from their hands.
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability until the end of your opponent's next turn. "Cont: During this card's battle, all players cannot play "Backup" from their hands."
+Auto: OnReverseOpponent
+{
+	If Compare Experience 4 OrMore
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetOther
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: EXPERIENCE [(2) Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, if the total level of the cards in your level is 4 or higher, you may pay the cost. If you do, put that character into your opponent's clock.
+EndCard
+
+
+
+Character: KGL/S79-E027
+Image KGL_S79_E027
+Name Flag? Chika
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Spartan Training
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Spartan Training" in your waiting room, and return it to your hand.
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		TargetSelf
+		Question Return "Flag? Chika" to your hand?
+		If Yes
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: KGL/S79-E028
+Image KGL_S79_E028
+Name Pressure of the Top Seat, Miyuki
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Shuchiin
+Trait2 President
+Auto: OnTriggerCheck_Climax
+{
+	TargetLocation Stage
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give 2000 power to.
+	GainPower 2000
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, and that character gets +2000 power until end of turn.
+Auto: OnCardEntersLevel
+{
+	PayCost 1
+	{
+		*Check4Add1(Shuchiin)
+	}
+}
+TimesPerTurn 1
+Text Auto: [(1)] This ability activates up to 1 time per turn. When your card is put into your level, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Shuchiin> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KGL/S79-E029
+Image KGL_S79_E029
+Name Psychological Test, Chika
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 4000
+Trait1 Shuchiin
+Trait2 Secretary
+*2000Assist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchDeck IsEvent
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 event, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnUseEvent
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Shuchiin
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you play an event, choose 1 of your <Shuchiin> characters, and that character gets +1500 power until end of turn.
+EndCard
+
+
+Character: KGL/S79-E030
+Image KGL_S79_E030
+Name A Certain Summer Day, Kei
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Shuchiin
+Trait2 Treasurer
+*EarlyPlay2OrLessClimax
+*StockHealer
+EndCard
+
+Character: KGL/S79-E031
+Image KGL_S79_E031
+Name Overflowing Smiles, Kei
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Shuchiin
+Trait2 Treasurer
+Cont: GiveAll
+{
+	If Other && HasTrait Shuchiin
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other <Shuchiin> characters get +500 power.
+Auto: OnTriggerCheck_Climax
+{
+	IfOther HasTrigger Bag
+	{
+		PayCost 1
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: [(1)] When your character's trigger check reveals a climax, if that card's trigger icon is Bag, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: KGL/S79-E032
+Image KGL_S79_E032
+Name Fireworks Display, Chika
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Secretary
+Cont: GiveAll
+{
+	If NameEquals Vice President, Kaguya|Uncertainty and Expectations, Kaguya
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other "Vice President, Kaguya" and "Uncertainty and Expectations, Kaguya" get +500 power.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets NameEquals Blessed Me|I Can't Hear the Fireworks
+	SetXValue TargetCount
+	Repeat X
+	{
+		SearchDeck HasTrait Shuchiin
+		TargetLocation Stage
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power
+		GainPower 1000
+	}
+}
+Text Act: CxCombo BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each <b>"Blessed Me"</b> or <b>"I Can't Hear the Fireworks"</b> revealed among those cards, search your deck for up to 1 <Shuchiin> character, reveal it to your opponent, put it into your hand, shuffle your deck, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: KGL/S79-E033
+Image KGL_S79_E033
+Name Twisted Product of the Times, Miyuki
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 President
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals President's Pride|Get Better at Making Conversation
+	{
+		SearchWaitingRoom NameEquals President's Pride|Get Better at Making Conversation
+	}
+}
+Text Auto: CxCombo [Put 1 <b>"President's Pride"</b> or <b>"Get Better at Making Conversation"</b> from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <b>"President's Pride"</b> or <b>"Get Better at Making Conversation"</b> in your waiting room, and return it to your hand.
+*GreenCost0Bomb
+EndCard
+
+Character: KGL/S79-E034
+Image KGL_S79_E034
+Name His Mother!? Chika
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 Secretary
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Shuchiin
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Shuchiin> characters, this card gets +1500 power and "Auto: <b>Encore</b> [Put 1 character from your hand into your waiting room]".
+Auto: OnUseEvent
+{
+	GainPower 2000
+}
+Quick
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When you play an event, this card gets +2000 power until end of turn.
+EndCard
+
+Character: KGL/S79-E035
+Image KGL_S79_E035
+Name Hawaii Vacation, Chika
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Shuchiin
+Trait2 Secretary
+*LevelAssistTrait(Shuchiin)
+Act: Rest 2 HasTrait Shuchiin
+{
+	If Compare CardsInWaitingRoom 1 OrMore && Compare MyLevel 1 OrMore
+	{
+		Message Choose a card in your level.
+		SearchLocationForTargets Level 1 1 Any
+		SaveTargets
+		Message Choose a card in your waiting room
+		SearchLocationForTargets WaitingRoom 1 1 Any
+		AddSavedToCurrentTargets
+		Exchange
+	}
+}
+Text Act: [Rest 2 of your <Shuchiin> characters] Choose 1 card in your level and 1 card in your waiting room, and exchange them.
+EndCard
+
+Character: KGL/S79-E036
+Image KGL_S79_E036
+Name A Man's Dignity, Miyuki
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 7500
+Trait1 Shuchiin
+Trait2 President
+Combo President's Pride
+Cont: GiveSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 5 or higher, this card gets +3000 power.
+Auto: OnSpecificClimaxPlay President's Pride
+{
+	If InLocation CenterStage
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Shuchiin
+		MoveCard Stock
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower 1500
+	}
+}
+Text Auto: CxCombo When "President's Pride" is placed on your climax area, if this card is in your center stage, choose up to 1 <Shuchiin> character in your waiting room, put it into your stock, and this card gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: KGL/S79-E037
+Image KGL_S79_E037
+Name Hello, Way of the Sword! Chika
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Shuchiin
+Trait2 Secretary
+Cont: GiveAll
+{
+	If NameEquals Hello, Way of the Sword Back! Kei
+	{
+		GainLevel 1
+		GainEffect
+		{
+			*ContForEachOtherTrait(500, Shuchiin)
+		}
+	}
+}
+Text Cont: All of your other "Hello, Way of the Sword Back! Kei" get +1 level and the following ability. "Cont: During your turn, this card gets +500 power for each of your other <Shuchiin> characters."
+Act: 1 RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Shuchiin | IsEvent
+	{
+		MoveCard Hand
+	}
+}
+Text Act: [(1) Rest this card] Reveal the top card of your deck. If that card is a <Shuchiin> character or an event, put it into your hand. (Otherwise, return it to its original place)
+EndCard
+
+Character: KGL/S79-E038
+Image KGL_S79_E038
+Name Marked Deck, Chika
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	TargetOther
+	If HasTarget
+	{
+		IfOther HasTrait Shuchiin
+		{
+			TargetTop Deck 1
+			View
+		}
+	}
+	Else
+	{
+		TargetTop Deck 1
+		View
+	}
+}
+Text Auto: When this card or your other <Shuchiin> character is placed on the stage from your hand, you may look at the top card of your deck.
+Act: 1
+{
+	MillOpponent 1
+	Message Choose a card in your opponent's waiting room to place on top of deck.
+	SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+	MoveCard OpponentDeck
+}
+Text Act: [(1)] Put the top card of your opponent's deck into their waiting room, choose 1 card in your opponent's waiting room, and put it on the top of their deck.
+EndCard
+
+Character: KGL/S79-E039
+Image KGL_S79_E039
+Name Bribery, Chika
+Color G
+Level 0
+Cost 0
+Power 3500
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && Compare TargetCardsLevel 0 OrLower
+	{
+		TargetSelf
+		If OnStage
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a level 0 or lower character, put this card into your stock. 
+Auto: OnPlay
+{
+	PayCost Rest 1 Other && HasTrait Shuchiin
+	{
+		If Compare CardsInWaitingRoom 1 OrMore && Compare MyLevel 1 OrMore
+		{
+			Message Choose a card in your level.
+			SearchLocationForTargets Level 1 1 Any
+			SaveTargets
+			Message Choose a card in your waiting room
+			SearchLocationForTargets WaitingRoom 1 1 Any
+			AddSavedToCurrentTargets
+			Exchange
+		}
+	}
+}
+Text Auto: [Rest 1 of your other <Shuchiin> characters] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 card in your level and 1 card in your waiting room, and exchange them.
+EndCard
+
+Character: KGL/S79-E040
+Image KGL_S79_E040
+Name Miyuki Taken Aback
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 President
+*OpponentMayPay2ToPreventFrontalAttack
+EndCard
+
+Character: KGL/S79-E041
+Image KGL_S79_E041
+Name Miyuki Watching Over
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 President
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +2000 power.
+Auto: OnUseEvent
+{
+	GainPower 2000
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you play an event, this card gets +2000 power until end of turn.
+EndCard
+
+Character: KGL/S79-E042
+Image KGL_S79_E042
+Name Head Tilt Kei
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 Treasurer
+Combo Get Better at Making Conversation
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Shuchiin
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other <Shuchiin> characters in your back stage.
+Auto: OnAttack
+{
+	If Climax Get Better at Making Conversation
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Shuchiin
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Get Better at Making Conversation" is in your climax area, reveal the top card of your deck. If that card is a <Shuchiin> character, put it into your hand.
+EndCard
+
+Character: KGL/S79-E043
+Image KGL_S79_E043
+Name Hello, Way of the Sword Back! Kei
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Shuchiin
+Trait2 Treasurer
+EndCard
+
+Event: KGL/S79-E044
+Image KGL_S79_E044
+Name That's It!
+Color G
+Level 2
+Cost 1
+Counter
+Effect:
+{
+	TargetLocation Stage
+	AIChoice If InBattle
+	ChooseCharacterFromTargets Choose character to give the effect to
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+				GainSpecialEffect ReceiveNoDamageFromAutoEffects
+			}
+		}
+		Text Cont: During this card's battle, you cannot receive damage by "AUTO" effects of your opponent's characters.
+	}
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotBeReversed
+		}
+		Text Cont: This card cannot become reversed.
+	}
+}
+Text COUNTER Choose 1 of your characters, and that character gets the following 2 abilities until end of turn.\n"Cont: During this card's battle, you cannot receive damage by Auto: effects of your opponent's characters."\n"Cont: This card cannot become reversed."
+EndCard
+
+
+Event: KGL/S79-E045
+Image KGL_S79_E045
+Name Spartan Training
+Color G
+Level 1
+Cost 0
+Counter
+Requirement StageContains 1 NameContains Miyuki|Chika
+Effect:
+{
+	If LocationContains WaitingRoom 1 IsClimax
+	{
+		Message Choose a climax in your waiting room
+		SearchLocationForTargets WaitingRoom 1 1 IsClimax
+		SaveTargets
+		SearchLocationForTargets Level 1 1 Any
+		AddSavedToCurrentTargets
+		Exchange
+	}
+	TargetLocation Stage
+	AIChoice GainPower 3500
+	ChooseCharacterFromTargets Choose a character to give +3500 power.
+	GainPower 3500
+}
+Text COUNTER If you do not have a character with "Miyuki" or "Chika" in its card name, this card cannot be played from your hand.\nChoose 1 card in your level and 1 climax in your waiting room, and exchange them. Choose 1 of your characters, and that character gets +3500 power until end of turn.
+EndCard
+
+Climax: KGL/S79-E046
+Image KGL_S79_E046
+Name Rebelling Against Society
+*BarClimax
+EndCard
+
+
+Climax: KGL/S79-E047
+Image KGL_S79_E047
+Name President's Pride
+*BagClimax
+EndCard
+
+
+Climax: KGL/S79-E048
+Image KGL_S79_E048
+Name Get Better at Making Conversation
+*BagClimax
+EndCard
+
+Character: KGL/S79-E049
+Image KGL_S79_E049
+Name Skill "Miss Innocent", Kaguya
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Vice President
+Auto: OnPlay
+{
+	PayCost 3
+	{
+		StockSwap
+	}
+}
+Text Auto: [(3)] When this card is placed on the stage from your hand, you may pay the cost. If you do, your opponent puts all of their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+
+Character: KGL/S79-E050
+Image KGL_S79_E050
+Name Serious Showdown Between Geniuses, Kaguya
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 Shuchiin
+Trait2 Vice President
+Combo Exchange Party Aftermath
+*Healer
+Auto: OnAttack
+{
+	If Climax Exchange Party Aftermath && StageContains 1 Other && HasTrait Shuchiin
+	{
+		PayCost 1
+		{
+			Burn 1
+			UntilEndOfOpponentsTurn
+			GainPower 2000
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Exchange Party Aftermath" is in your climax area, and you have another <Shuchiin> character, you may pay the cost. If you do, deal 1 damage to your opponent, and this card gets +2000 power until the end of your opponent's next turn.
+Auto: OnReverseOpponent
+{
+	PayCost Discard 1 Any Resonate Ai Bestowing Courage
+	{
+		Burn 1
+	}
+}
+Text Auto: RESONATE [Put 1 card from your hand into your waiting room & Reveal 1 "Ai Bestowing Courage" in your hand] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+
+Character: KGL/S79-E051
+Image KGL_S79_E051
+Name Trembling, Kaguya
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Vice President
+*FreeRunner
+*RedLevel0Bomb
+Text
+EndCard
+
+
+Character: KGL/S79-E052
+Image KGL_S79_E052
+Name Panic, Kaguya
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Vice President
+*BackupBonus1000(Shuchiin)
+Backup 1000
+EndCard
+
+Character: KGL/S79-E053
+Image KGL_S79_E053
+Name In the Corridor at Dusk, Kaguya
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Shuchiin
+Trait2 Vice President
+Combo Now We're Even
+Auto: OnAttack
+{
+	If Climax Now We're Even && StageContains 1 Other && HasTrait Shuchiin
+	{
+		Question_Obvious Put the top card of your deck under "In the Corridor at Dusk, Kaguya" as a marker?
+		If Yes
+		{
+			TargetTop Deck 1
+			View
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Now We're Even" is in your climax area, and you have another <Shuchiin> character, you may look at the top card of your deck. If you do, put that card face down underneath this card as a marker.
+Auto: OnReverseOpponent
+{
+	PayCost SendMarker WaitingRoom
+	{
+		SearchDeck HasTrait Shuchiin
+	}
+}
+Text Auto: [Put 1 marker underneath this card into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to 1 <Shuchiin> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+
+Character: KGL/S79-E054
+Image KGL_S79_E054
+Name Hopeless at I.T., Kaguya
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Shuchiin
+Trait2 Vice President
+*LevelAssistTrait(Shuchiin)
+Act: 1 RestSelf Resonate Ai Bestowing Courage
+{
+	*Check3Add1(Shuchiin)
+}
+Text Act: RESONATE [(1) Reveal 1 "Ai Bestowing Courage" in your hand & rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 <Shuchiin> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KGL/S79-E055
+Image KGL_S79_E055
+Name Fireworks Display, Miyuki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Shuchiin
+Trait2 President
+Combo I Can't Hear the Fireworks
+*Healer
+Auto: OnSpecificClimaxPlay I Can't Hear the Fireworks
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Shuchiin
+		AIChoice Stand
+		ChooseCharacterFromTargets Choose a character to stand.
+		Stand
+	}
+}
+Text Auto: CxCombo When "I Can't Hear the Fireworks" is placed on your climax area, if this card is in your center stage, choose 1 of your other <Shuchiin> characters, and stand it.
+Auto: OnAttack
+{
+	If Climax I Can't Hear the Fireworks
+	{
+		If StageContains 1 NameEquals Vice President, Kaguya
+		{
+			If StageContains 1 NameEquals Fireworks Display, Yu
+			{
+				If StageContains 1 NameEquals Fireworks Display, Chika
+				{
+					Burn 1
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "I Can't Hear the Fireworks" is in your climax area, and you have another "Vice President, Kaguya", another "Fireworks Display, Yu", and another "Fireworks Display, Chika", you may deal 1 damage to your opponent.
+EndCard
+
+Character: KGL/S79-E056
+Image KGL_S79_E056
+Name "20 Questions" Kaguya
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Shuchiin
+Trait2 Vice President
+*ScryOnPlay
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: KGL/S79-E057
+Image KGL_S79_E057
+Name Bluff, Kaguya
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Vice President
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom HasTrait Shuchiin
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals A Romantic Battle of the Brains
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "A Romantic Battle of the Brains" in your waiting room, and return it to your hand.
+EndCard
+
+Character: KGL/S79-E058
+Image KGL_S79_E058
+Name Dignified Appearance, Kaguya
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Vice President
+*OnPlayReorderTop2
+*ClimaxExchange
+EndCard
+
+Character: KGL/S79-E059
+Image KGL_S79_E059
+Name Flurried, Miyuki
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Shuchiin
+Trait2 President
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Kaguya
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If you have another character with "Kaguya" in its card name, this card gets +1 level and +2500 power.
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 1000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +1000 power.
+EndCard
+
+Character: KGL/S79-E060
+Image KGL_S79_E060
+Name Skill "A Maiden's Tears", Kaguya
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Shuchiin
+Trait2 Vice President
+Cont: GiveSelf
+{
+	If LocationContains Stage 2 HasTrait Shuchiin
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Shuchiin> characters, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: KGL/S79-E061
+Image KGL_S79_E061
+Name Mission Accomplished, Kaguya
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Shuchiin
+Trait2 Vice President
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+{
+	*OptionalBlindStock
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may put the top card of your deck into your stock.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Ai Bestowing Courage
+	{
+		GainPower 6000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Ai Bestowing Courage" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +6000 power until end of turn. 
+EndCard
+
+Character: KGL/S79-E062
+Image KGL_S79_E062
+Name As a Brother, Miyuki
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 President
+Cont: GiveAll
+{
+	If NameContains Kei
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Kei" in its card name get +500 power.
+*BondDiscard(Head Tilt Kei)
+EndCard
+
+Character: KGL/S79-E063
+Image KGL_S79_E063
+Name Wall-Down, Miyuki
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 President
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another position of the stage.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Shuchiin
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other <Shuchiin> characters.
+EndCard
+
+Character: KGL/S79-E064
+Image KGL_S79_E064
+Name Romantic Advice, Nagisa
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Volunteer
+*Level0Assist
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther NameContains Kaguya
+	{
+		If InLocation Backstage
+		{
+			PayCost SendSelf WaitingRoom
+			{
+				TargetOther
+				Revive
+			}
+		}
+	}
+}
+Text Auto: [Put this card into your waiting room] When your other character with "Kaguya" in its card name is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, return that character to its previous stage position as rest.
+EndCard
+
+Character: KGL/S79-E065
+Image KGL_S79_E065
+Name Smartphone Debut, Miyuki
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 President
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 1 OrMore
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 1 or higher, this card gets +2500 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+EndCard
+
+Character: KGL/S79-E066
+Image KGL_S79_E066
+Name Confess Your Love! Kaguya
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Shuchiin
+Trait2 Vice President
+*BackupBonus1000(Shuchiin)
+Backup 2500
+EndCard
+
+Character: KGL/S79-E067
+Image KGL_S79_E067
+Name Weakness, Kaguya
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Shuchiin
+Trait2 Vice President
+Cont: GiveSelf
+{
+	If Compare Experience 5 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 5 or higher, this card gets +3000 power.
+Auto: StartClimaxPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to move
+		MoveToOpenPosition True True
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 of your opponent's characters, move it to another open position of their stage, and this card gets +1000 power until end of turn.
+EndCard
+
+Event: KGL/S79-E068
+Image KGL_S79_E068
+Name A Romantic Battle of the Brains
+Color R
+Level 3
+Cost 1
+Requirement StageContains 1 NameContains Kaguya|Miyuki
+Effect:
+{
+	*OptionalDraw
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 3 Choose up to 3 characters.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			GainSpecialEffect CannotSideAttack
+		}
+		Text Cont: This card cannot side attack.
+	}
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect FreeSideAttack
+		}
+		Text Cont: This card's soul does not decrease by side attacking.
+	}
+}
+Text If you do not have a character with "Kaguya" or "Miyuki" in its card name, this card cannot be played from your hand.\nDraw up to 1 card, choose up to 3 of your characters, and they get the following 2 abilities until end of your opponent's next turn.\n"Cont: The character facing this card cannot side attack."\n"Cont: This card's soul does not decrease by side attacking."
+EndCard
+
+
+Event: KGL/S79-E069
+Image KGL_S79_E069
+Name No Longer Friends
+Color R
+Level 1
+Cost 0
+Requirement StageContains 1 HasTrait Shuchiin
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom HasTrait Shuchiin
+			TargetLocation Stage
+			AIChoice GainPower 1500
+			ChooseCharacterFromTargets Choose a character to give +1500 power.
+			GainPower 1500
+		}
+		Text Auto: When this card's battle opponent becomes reversed, choose 1 <Shuchiin> character in your waiting room, return it to your hand, choose 1 of your characters, and that character gets +1500 power until end of turn.
+	}
+	TargetLocation OpponentStage
+	AIChoice LosePower 500
+	ChooseCharacterFromTargets choose a character to give -500 power.
+	LosePower 500
+}
+Text If you do not have a <Shuchiin> character, this card cannot be played from your hand.\nChoose 1 of your characters, and that character gets the following ability until end of turn.\n"Auto: When this card's battle opponent becomes reversed, choose 1 <Shuchiin> character in your waiting room, return it to your hand, choose 1 of your characters, and that character gets +1500 power until end of turn."\nChoose 1 of your opponent's characters, and that character gets -500 power until end of turn.
+EndCard
+
+Climax: KGL/S79-E070
+Image KGL_S79_E070
+Name Exchange Party Aftermath
+*DoorClimax
+EndCard
+
+
+
+Climax: KGL/S79-E071
+Image KGL_S79_E071
+Name Now We're Even
+*StandbyClimax
+EndCard
+
+
+Climax: KGL/S79-E072
+Image KGL_S79_E072
+Name I Can't Hear the Fireworks
+*StandbyClimax
+EndCard
+
+
+Character: KGL/S79-E073
+Image KGL_S79_E073
+Name Miraculous Compatibility, Kaguya
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Vice President
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 500
+	ChooseCharacterFromTargets Choose a character to give -500 power.
+	LosePower 500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, and that character gets -500 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Shuchiin)
+EndCard
+
+
+Character: KGL/S79-E074
+Image KGL_S79_E074
+Name Subservient Relationship, Ai
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 Maid
+Combo Brief Respite
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && NameContains Kaguya
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each other character with "Kaguya" in its card name in your back stage.
+Auto: OnReverseOpponent
+{
+	If Climax Brief Respite
+	{
+		SearchDeck HasTrait Shuchiin
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Brief Respite" is in your climax area, search your deck for up to 1 <Shuchiin> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+
+Character: KGL/S79-E075
+Image KGL_S79_E075
+Name Serious Showdown Between Geniuses, Ai
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 8500
+Trait1 Shuchiin
+Trait2 Maid
+Cont: InHand
+{
+	If StageContains 4 HasTrait Shuchiin
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more <Shuchiin> characters, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Shuchiin
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoEventsOnAttack
+			}
+			Text Cont: During this card's battle, your opponent cannot play event cards from their hand.
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Shuchiin> characters, this card gets +1500 power and the following ability. "Cont: During this card's battle, your opponent cannot play event cards from their hand."
+*Healer
+EndCard
+
+
+Character: KGL/S79-E076
+Image KGL_S79_E076
+Name First Phone Call, Kaguya
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Vice President
+Act: 1 RestSelf Resonate Incident of the Century
+{
+	SearchDeck NameEquals Subservient Relationship, Ai
+}
+Text Act: RESONATE [(1) Reveal 1 "Incident of the Century" in your hand & Rest this card] Search your deck for up to 1 "Subservient Relationship, Ai", reveal it to your opponent, put it into your hand, and shuffle your deck.
+Act: 1 RestSelf Resonate Incident of the Century
+{
+	SearchWaitingRoom NameEquals Subservient Relationship, Ai
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Act: RESONATE [(1) Reveal 1 "Incident of the Century" in your hand & Rest this card] Choose 1 "Subservient Relationship, Ai" in your waiting room, return it to your hand, choose 1 of your characters, and that character gets +1000 power until end of turn.
+EndCard
+
+
+Character: KGL/S79-E077
+Image KGL_S79_E077
+Name Ai Bestowing Courage
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Maid
+*DropSearch(Shuchiin)
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+
+Character: KGL/S79-E078
+Image KGL_S79_E078
+Name Bewitching Pose♪ Kaguya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Shuchiin
+Trait2 Vice President
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "Backup", you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+
+Character: KGL/S79-E079
+Image KGL_S79_E079
+Name At the School Gates, Ai
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Shuchiin
+Trait2 Maid
+Combo A Rainy Day
+Auto: OnAttack
+{
+	If Climax A Rainy Day && StageContains 2 Other && HasTrait Shuchiin
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+		Repeat 2
+		{
+			*Check3Add1(Shuchiin)
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "A Rainy Day" is in your climax area, and you have 2 or more other <Shuchiin> characters, this card gets +1000 power until the end of your opponent's next turn, and perform the following action 2 times. "Look at up to 3 cards from the top of your deck, choose up to 1 <Shuchiin> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room."
+EndCard
+
+Character: KGL/S79-E080
+Image KGL_S79_E080
+Name Smart Proposal, Kaguya
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Shuchiin
+Trait2 Vice President
+Combo Delightful and Embarrassing First Mail
+Cont: GiveSelf
+{
+	If LocationContains Stage 2 HasTrait Shuchiin
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Shuchiin> characters, this card gets +2000 power.
+*OnPlayCheckX(Shuchiin)
+Auto: OnEndOfAttack
+{
+	If Climax Delightful and Embarrassing First Mail
+	{
+		PayCost 3 Discard 2 Any
+		{
+			TargetLocation Stage
+			NarrowTargets Other 
+			AIChoice Stand
+			ChooseCharacterFromTargets Choose a character to stand.
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(3) Put 2 cards from your hand into your waiting room] This ability activates up to 1 time per turn. At the end of this card's attack, if "Delightful and Embarrassing First Mail" is in your climax area, you may pay the cost. If you do, choose 1 of your other characters, and stand it.
+EndCard
+
+Character: KGL/S79-E081
+Image KGL_S79_E081
+Name Reminder, Herthaka
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Maid
+Cont: GiveAll
+{
+	If Other && HasTrait Shuchiin
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other <Shuchiin> characters get +500 power.
+Auto: OnOpponentPlacedBy Standby
+{
+	If Phase Attack && StageContains 1 Other && HasTrait Shuchiin
+	{
+		Question Put the top card of your deck into your stock?
+		If Yes
+		{
+			TargetTop Deck 1
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When your opponent's character is placed on their stage by the standby effect revealed during your opponent's character's trigger check, if you have another <Shuchiin> character, you may put the top card of your deck into your stock.
+EndCard
+
+Character: KGL/S79-E082
+Image KGL_S79_E082
+Name Fearless Smile, Kaguya
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Vice President
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		If Compare MyLevel 1 OrMore && Compare CardsInHand 1 OrMore
+		{
+			Message Choose a card in your hand.
+			SearchLocationForTargets Hand 1 1 Any
+			SaveTargets
+			Message Choose a card in your level.
+			SearchLocationForTargets Level 1 1 Any
+			AddSavedToCurrentTargets
+			Exchange
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 card in your hand and 1 card in your level, and exchange them.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Shuchiin)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Shuchiin> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KGL/S79-E083
+Image KGL_S79_E083
+Name Thumbs Up! Ai
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Shuchiin
+Trait2 Maid
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Shuchiin
+	{
+		SearchDeck NameEquals Incident of the Century
+	}
+}
+Text Auto: [Put 1 <Shuchiin> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Incident of the Century", reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KGL/S79-E084
+Image KGL_S79_E084
+Name Outcasted, Maki
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Shuchiin
+Trait2 Volunteer
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Shuchiin
+	SetXValue TargetCount
+	TargetSelf
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of turn. X is equal to the number of <Shuchiin> characters among those cards ×1000.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: KGL/S79-E085
+Image KGL_S79_E085
+Name Envious Gazes, Karen & Erika
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Shuchiin
+Trait2 Mass Media
+Cont: GiveAll
+{
+	If OpponentsTurn && Other && HasTrait Shuchiin
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, all of your other <Shuchiin> characters get +1000 power.
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Shuchiin
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 2 Any
+	}
+}
+Alarm
+Text Auto: ALARM At the beginning of your climax phase, if this card is the top card of your clock, and you have 4 or more <Shuchiin> characters, draw up to 2 cards, choose 2 cards in your hand, and put them into your waiting room.
+EndCard
+
+Character: KGL/S79-E086
+Image KGL_S79_E086
+Name About a Friend, Kaguya
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Shuchiin
+Trait2 Vice President
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Shuchiin
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, you may reveal up to 3 cards from the top of your deck. If you revealed 1 or more cards, choose up to 1 <Shuchiin> character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Ai Bestowing Courage
+	{
+		GainPower 2000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Ai Bestowing Courage" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2000 power until end of turn.
+EndCard
+
+Character: KGL/S79-E087
+Image KGL_S79_E087
+Name Psychological Test, Kaguya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500 
+Trait1 Shuchiin
+Trait2 Vice President
+*Level3Assist
+Auto: OnTriggerCheck_Climax
+{
+	IfOther HasTrigger Book
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax, if that card's trigger icon is Book, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: KGL/S79-E088
+Image KGL_S79_E088
+Name Smithee A. Herthaka
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Soul 2
+Power 7000
+Trait1 Shuchiin
+Trait2 Maid
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Shuchiin
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other <Shuchiin> characters.
+EndCard
+
+Character: KGL/S79-E089
+Image KGL_S79_E089
+Name Kaguya in a Yukata
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Shuchiin
+Trait2 Vice President
+*Bond1(Fireworks Display\, Miyuki)
+Auto: StartClimaxPhase
+{
+	PayCost 1 SendSelf Clock
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Reluctant Summons, Ai
+		Change
+	}
+}
+Text Auto: CHANGE [(1) Put this card into your clock] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Reluctant Summons, Ai" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KGL/S79-E090
+Image KGL_S79_E090
+Name Unusual Morning, Ai
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Maid
+Cont: GiveAll
+{
+	If NameContains Kaguya
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with "Kaguya" in its card name get +500 power.
+Act: RestSelf Discard 1 NameEquals Unusual Morning, Kaguya
+{
+	SearchDeck IsCharacter && NameContains Kaguya
+}
+Text Act: [Put 1 "Unusual Morning, Kaguya" from your hand into your waiting room & rest this card] Search your deck for up to 1 character with "Kaguya" in its card name, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KGL/S79-E091
+Image KGL_S79_E091
+Name Flying Ace, Kaguya
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Vice President
+*OnPlayTradeClimaxForCharacter(Shuchiin)
+EndCard
+
+Character: KGL/S79-E092
+Image KGL_S79_E092
+Name Unusual Morning, Kaguya
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Shuchiin
+Trait2 Vice President
+EndCard
+
+Character: KGL/S79-E093
+Image KGL_S79_E093
+Name Ai Giving a Vague Answer
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Shuchiin
+Trait2 Maid
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Shuchiin
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other <Shuchiin> characters.
+*HandEncore
+EndCard
+
+Character: KGL/S79-E094
+Image KGL_S79_E094
+Name After School, Ai
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Shuchiin
+Trait2 Maid
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 1 Discard 1 Any SendSelf WaitingRoom
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals Smithee A. Herthaka
+				Change
+			}
+			Text Act: [(1) Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 "Smithee A. Herthaka" in your waiting room, and put it on the stage position that this card was on.
+		}
+	}
+}
+Text Cont: If your level is 2 or higher, this card gets the following ability. "Act: [(1) Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 "Smithee A. Herthaka" in your waiting room, and put it on the stage position that this card was on."
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Ai Giving a Vague Answer
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Ai Giving a Vague Answer" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: KGL/S79-E095
+Image KGL_S79_E095
+Name Reluctant Summons, Ai
+Color B
+Level 1
+Cost 1
+Power 4500
+Trait1 Shuchiin
+Trait2 Maid
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Shuchiin
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Shuchiin> characters, this card gets +2000 power.
+Cont: GiveSelf
+{
+	TargetFacing
+	If Compare TargetCardsCost 0 OrLess
+	{
+		GainSpecialEffect CannotBeReversed
+	}
+}
+Text Cont: If the character facing this card is cost 0 or lower, this card cannot become reversed.
+EndCard
+
+Character: KGL/S79-E096
+Image KGL_S79_E096
+Name Playful Spirit, Kaguya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Shuchiin
+Trait2 Vice President
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 3 or higher, this card gets "Auto: <b>Encore</b> [Put 1 character from your hand into your waiting room]".
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsEvent
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Shuchiin
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power until end of turn.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Shuchiin> characters, and that character gets +X power until end of turn. X is equal to the number of event cards in your waiting room ×1500.
+EndCard
+
+Event: KGL/S79-E097
+Image KGL_S79_E097
+Name Incident of the Century
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	AIChoice Attacker
+	ChooseCharacterFromTargets Choose a character to give the effects to.
+	GainPower 500
+	GainEffect
+	{
+		*OnAttackPay1ToDoubleTrigger
+	}
+	GainEffect
+	{
+		Auto: EndOfTurn
+		{
+			If InLocation CenterStage
+			{
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Shuchiin
+				MoveCard Stock
+			}
+		}
+		Text Auto: At the end of the turn, if this card is in your center stage, choose up to 1 <Shuchiin> character in your waiting room, and put it into your stock.
+	}
+}
+Text Choose 1 of your characters, and that character gets +500 power and the following 2 abilities until end of turn.\n"Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."\n"Auto: At the end of the turn, if this card is in your center stage, choose up to 1 <Shuchiin> character in your waiting room, and put it into your stock."
+EndCard
+
+
+Climax: KGL/S79-E098
+Image KGL_S79_E098
+Name Brief Respite
+*BookClimax
+EndCard
+
+
+Climax: KGL/S79-E099
+Image KGL_S79_E099
+Name A Rainy Day
+*GateClimax
+EndCard
+
+Climax: KGL/S79-E100
+Image KGL_S79_E100
+Name Delightful and Embarrassing First Mail
+*BookClimax
+EndCard
+
+Character: KGL/S79-E101
+Image KGL_S79_E101
+Name Full of Smiles, Chika
+Color Y
+Level 1
+Cost 1
+Power 1000
+Trigger Soul
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your deck into your waiting room.
+Backup 2000
+EndCard
+
+Character: KGL/S79-E102
+Image KGL_S79_E102
+Name Kei Looking Around
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Treasurer
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KGL/S79-E103
+Image KGL_S79_E103
+Name Full Sprint, Kaguya
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Vice President
+Act: RestSelf
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1SalvageBrainstorm(Shuchiin)
+EndCard
+
+Character: KGL/S79-E104
+Image KGL_S79_E104
+Name Sideways Peace Sign, Ai
+Color B
+Level 2
+Cost 1
+Power 6000
+Trait1 Shuchiin
+Trait2 Maid
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Kaguya
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other characters with "Kaguya" in its card name, and that character gets +1000 power until end of turn.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: KGL/S79-TE01
+Image KGL_S79_TE01
+Name Romantic Advice, Yu
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Shuchiin
+Trait2 Treasurer
+Cont: GiveAll
+{
+	If NameEquals Romantic Advice, Miyuki
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: All of your other "Romantic Advice, Miyuki" get +1500 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+*BondDiscard(Romantic Advice\, Miyuki)
+EndCard
+
+Character: KGL/S79-TE02
+Image KGL_S79_TE02
+Name Student Council President, Miyuki
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Treasurer
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Shuchiin
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [(1)] Choose 1 of your <Shuchiin> characters, it gets +1500 power until end of turn.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: KGL/S79-TE03
+Image KGL_S79_TE03
+Name The Birdie from Tottori, Chika
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Secretary
+*GlobalPower(500,Shuchiin)
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into your waiting room.
+EndCard
+
+Character: KGL/S79-TE04
+Image KGL_S79_TE04
+Name Secretary, Chika
+Color Y
+Level 1
+Cost 0
+Power 6500
+Trait1 Shuchiin
+Trait2 Secretary
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Shuchiin
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another <Shuchiin> character, this card cannot stand during your stand phase.
+*CannotSideAttack
+EndCard
+
+Character: KGL/S79-TE05
+Image KGL_S79_TE05
+Name Romantic Advice, Miyuki
+Color Y
+Level 1
+Cost 1
+Power 7000
+Trait1 Shuchiin
+Trait2 President
+EndCard
+
+Character: KGL/S79-TE06
+Image KGL_S79_TE06
+Name Tabletop Games Club, Chika
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Shuchiin
+Trait2 Secretary
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Shuchiin
+	MultiplyXValue 1000
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of other <Shuchiin> characters you have x1000.
+*HandEncoreTrait(Shuchiin)
+EndCard
+
+Character: KGL/S79-TE07
+Image KGL_S79_TE07
+Name At That Age, Chika
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Trait1 Shuchiin
+Trait2 Secretary
+*Healer
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Shuchiin
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, all of your <Shuchiin> characters get +500 power and +1 soul until end of turn.
+EndCard
+
+
+Climax: KGL/S79-TE08
+Image KGL_S79_TE08
+Name Student Council Pair
+*ChoiceClimax
+EndCard
+
+Climax: KGL/S79-TE09
+Image KGL_S79_TE09
+Name Shuchiin's Student Council
+Color Y
+*2SoulClimax
+EndCard
+
+Character: KGL/S79-TE10
+Image KGL_S79_TE10
+Name Ai Sitting at the Bedside
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Shuchiin
+Trait2 Maid
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Shuchiin
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 <Shuchiin> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: KGL/S79-TE11
+Image KGL_S79_TE11
+Name Kaguya in a Great Mood
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Vice President
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +2000 power.
+EndCard
+
+Character: KGL/S79-TE12
+Image KGL_S79_TE12
+Name Valet, Ai
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Shuchiin
+Trait2 Maid
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If your stock has 3 or less cards, this card gets +1000 power.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Shuchiin
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Shuchiin
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Shuchiin> character in your waiting room, return it to your hand, choose 1 of your other <Shuchiin> characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: KGL/S79-TE13
+Image KGL_S79_TE13
+Name Uncertainty and Expectations, Kaguya
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Shuchiin
+Trait2 Vice President
+Combo Blessed Me
+Auto: StartMyEncorePhase
+{
+	If Climax Blessed Me && InLocation CenterStage && Compare CardsInHand 6 OrLess
+	{
+		*Check3Add1(Shuchiin)
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Blessed Me" is in your climax area, this card is in your center stage, and your hand has 6 or less cards, look at up to 3 cards from the top of your deck, choose up to 1 <Shuchiin> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: KGL/S79-TE14
+Image KGL_S79_TE14
+Name Scene Inspection, Ai
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Shuchiin
+Trait2 Maid
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Shuchiin
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of <Shuchiin> characters you have ×500.
+EndCard
+
+Character: KGL/S79-TE15
+Image KGL_S79_TE15
+Name Picking Out Clothes, Ai
+Color B
+Level 1
+Cost 0
+Trigger Soul
+Power 1000
+Trait1 Shuchiin
+Trait2 Maid
+Backup 2500
+EndCard
+
+Character: KGL/S79-TE16
+Image KGL_S79_TE16
+Name Shirogane's Lineage? Kei
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Shuchiin
+Trait2 Treasurer
+*GlobalPower(1000,Shuchiin)
+Act: 1 Discard 1 IsClimax
+{
+	SearchWaitingRoom IsCharacter
+}
+Text Act: [(1) Put 1 climax from your hand into your waiting room] Choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+
+Character: KGL/S79-TE17
+Image KGL_S79_TE17
+Name Vice President, Kaguya
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Shuchiin
+Trait2 Vice President
+Cont: GiveAll
+{
+	IfOwner InLocation CenterStage
+	{
+		If HasTrait Shuchiin
+		{
+			GainPower 1500
+		}
+	}
+}
+Text Cont: If this card is in your center stage, all of your <Shuchiin> characters get +1500 power.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		MillOpponentBottom 3
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the bottom 3 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards.
+EndCard
+
+
+Event: KGL/S79-TE18
+Image KGL_S79_TE18
+Name A Romantic Battle of the Brains
+Color B
+Level 2
+Cost 2
+Effect:
+{
+	SetXToNumberOfCharacters HasTrait Shuchiin
+	Peek Deck X
+	ChooseCardsFromTargets 0 2 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Look at up to X cards from the top of your deck, choose up to 2 cards from among them, put them into your hand, and put the rest into your waiting room. X is equal to the number of <Shuchiin> characters you have.
+EndCard
+
+Climax: KGL/S79-TE19
+Image KGL_S79_TE19
+Name Blessed Me
+*GateClimax
+EndCard
+

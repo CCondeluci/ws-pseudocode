@@ -1,0 +1,596 @@
+Character: DC3/WE30-01
+Name Views Seen With You, Sakura Yoshino
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+*HexProof
+*OnAttackGivePowerForEachOther(500,Magic)
+Auto: StartMyEncoreStep
+{
+	If PlayedThisTurn
+	{
+		Mill 2
+		SetXValue 0
+		ForEachTarget
+		{
+			IfTarget HasTrigger Soul
+			{
+				AddToXValue 1
+			}
+			IfTarget HasTrigger DoubleSoul
+			{
+				AddToXValue 1
+			}
+		}
+		Burn X
+	}
+}
+Text Auto: During the turn this card is placed on the stage from your hand, at the start of your encore step, put the top 2 cards of your deck into the waiting room, and deal X damage to your opponent. X is the number of soul triggers on the sent cards.
+EndCard
+
+Character: DC3/WE30-02
+Name Weaving Feelings of Love, Ricca
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Newspaper
+Trait2 Student Council
+Auto: OnReversed
+{
+	PayCost 1 Clock SendSelf Memory
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock, Put this card into your memory] When this card becomes reversed in battle, you may pay the cost, choose a level 1 or lower character in your waiting room and return it to your hand.
+EndCard
+
+
+Character: DC3/WE30-03
+Name Future Alongside Each Other, Himeno
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Newspaper
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Newspaper
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoBackupOnAttack
+			}
+			Text Cont: During this card's battle, you opponent cannot play "BACKUP" from hand.
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Newspaper> characters, this card gets +1500 power and "Cont: During this card's battle, you opponent cannot play "BACKUP" from hand."
+*StockHealer
+EndCard
+
+
+
+Character: DC3/WE30-04
+Name With the Person Important to Her, Sara
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Newspaper
+Trait2 Sports
+*ContForEachOtherTrait(500,Newspaper|Sports)
+Auto: OnMiddleCharacterAttacks
+{
+	If PlayedThisTurn
+	{
+		PayCost 2 Discard 2 HasTrait Newspaper|Sports
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(2) Discard 2 <Newspaper> or <Sports> characters] Once during the turn this card is placed on the stage from your hand, when the character in the middle position of your center stage attacks, you may pay the cost, stand this card.
+EndCard
+
+Character: DC3/WE30-05
+Name Mikoto in Wedding Dress
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Newspaper
+Trait2 Love
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Newspaper|Love
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets HasTrait Newspaper|Love
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Newspaper> or <Love> characters, it gets +X power until end of turn. X is 500 times the number of <Newspaper> or <Love> characters you have.
+EndCard
+
+Character: DC/WE30-06
+Name "Asaki Yumemishi and You" Otome
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Magic
+Combo Don't Forget This Day
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax Don't Forget This Day
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose another character to give the ability to.
+		AddSelfToTargets
+		GainEffect
+		{
+			*OnCancelBurn1
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Don't Forget This Day" is in your climax area, choose 1 of your other characters and this card, they get the following ability until end of turn. "Auto: Once per turn, when damage dealt by this card is canceled, you may deal 1 damage to your opponent."
+EndCard
+
+
+Character: DC/WE30-07
+Name Season of Cherry Blossoms, Erica & Yume
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Royalty
+Trait2 Student Council
+Cont: GiveSelf
+{
+	GainTrait Magic
+}
+Text Cont: This card gets <Magic> while on the stage.
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Slow
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+
+Character: DC/WE30-08
+Name Taking That Step, Koko
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Fireworks Launched
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a "Fireworks Launched" in your waiting room, and return it to your hand.
+*GreenLevel0Bomb
+EndCard
+
+
+Event: DC/WE30-09
+Name Fireworks Launched
+Color G
+Level 1
+Cost 0
+Counter
+Requirement StageContains 1 HasTrait Music
+Effect:
+{
+	*Check4Add1(Music)
+}
+Text COUNTER If you have no <Music> characters this card cannot be played from your hand. Look at up to 4 cards from the top of your deck, choose up to 1 <Music> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: DC/WE30-10
+Name Kotori in Wedding Dress
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Music
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters HasTrait Music|Magic
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Music
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your <Magic> or <Music> characters, it gets +X power until end of turn. X is 500 times the number of <Magic> or <Music> characters you have.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 1
+		{
+			TargetFacing
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [(1)] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost, put that character into your opponent's clock.
+EndCard
+
+
+Character: DC3/WE30-11
+Name Going to School on a Snow Day, Charles
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Newspaper
+Trait2 Student Council
+*RevengeTrait(1500,Newspaper|Student Council)
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Newspaper|Student Council
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent becoems reversed, choose a character in your waiting room, and return it to your hand.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your <Newspaper> or <Student Council> characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becoems reversed, choose a character in your waiting room, and return it to your hand."
+EndCard
+
+
+Character: DC3/WE30-12
+Name "Very Happy" Aoi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Newspaper
+Trait2 Waitress
+*GainPowerWhenAttackingLevel3(6000)
+*HandEncoreTrait(Newspaper|Waitress)
+EndCard
+
+Character: DC3/WE30-13
+Name "Happy" Time, Sumomo
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Chairman
+Trait2 Play
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or less cards in your stock, this card gets +1500 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: DC/WE30-14
+Name Caretaker, Yuuki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Magic
+*Level3Assist
+Auto: OnPlay
+{
+	If Compare CardsInClock 1 OrMore && LocationContains WaitingRoom 1 HasTrait Magic
+	{
+		Question Exchange a <Magic> character in your waiting room with the bottom card of your clock?
+		If Yes
+		{
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Magic
+			SaveTargets
+			TargetBottom Clock 1
+			AddSavedToCurrentTargets
+			Exchange
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a <Magic> character in your waiting room, and exchange it with the bottom card of your clock.
+EndCard
+
+
+Character: DC/WE30-15
+Name Good Friends, "Snow-Moon-Flower", Anzu & Koko & Akane
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Music
+Trait2 Play
+Combo I Shall Not Forget
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Backstage 1 Any
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If there are 1 or fewer characters on your backstage, this card cannot attack.
+Auto: OnReverseOpponent
+{
+	If Climax I Shall Not Forget
+	{
+		TargetLocation Backstage
+		ChooseCharacterFromTargets Choose a character to search for a character with the same trait.
+		SaveTargets
+		SearchDeck IsCharacter &&& SameTraitAsSavedTarget || HasTrait None
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "I Shall Not Forget" is in your climax area, choose a character on your backstage. Search your deck for up to 1 character with one of the same traits as the chosen character or a character with no traits, and add it to your hand.
+EndCard
+
+Character: DC/WE30-16
+Name Minatsu in Ski Wear
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Mecha
+Trait2 Banana
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost HandClock Any
+	{
+		SearchDeck HasTrait Mecha|Banana|Chairman
+	}
+}
+Text Auto: [Put a card from your hand into your clock] When this card is put into your waiting room from the stage, you may pay the cost, search your deck for up to 1 <Mecha> <Banana> or <Chairman> character, and add it to your hand.
+EndCard
+
+Character: DC/WE30-17
+Name Colorful Love Story, Miharu & Nemu
+Color R
+Level 1
+Cost 0
+Power 6500
+Trait1 Magic
+Trait2 Banana
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose an opponent's character to give +1000 power.
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose a character on your opponent's center stage, it gets +1000 power until the end of your opponent's turn.
+EndCard
+
+Character: DC/WE30-18
+Name Innocent Lady, Sakura
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrHigher
+	{
+		Question_Obvious Rest this card?
+		If Yes
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when this card becomes reversed in battle, reveal the top card of your deck, if it is level 2 or higher, you may rest this card.
+EndCard
+
+Climax: DC/WE30-19
+Name Don't Forget This Day
+*YellowStockSoul
+EndCard
+
+Character: DC/WE30-20
+Name Nanaka in Gymnastics Outfit
+Color G
+Level 1
+Cost 0
+Power 6500
+Trait1 Music
+Trait2 Sports
+*CannotSideAttack
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [Discard a character]".
+EndCard
+
+
+Climax: DC/WE30-21
+Name I Shall Not Forget
+*GateClimax
+EndCard
+
+Character: DC/WE30-22
+Name Special Foreign Student, Erica
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Royalty
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Royalty
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 2 or more other <Royalty> characters, this card gets +1500 power and "Auto: ENCORE [Discard a character]".
+EndCard
+
+Character: DC/WE30-23
+Name Big Ruckus! Mahiru
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Myth
+Auto: OnReversed
+{
+	PayCost 1 Clock SendSelf Memory
+	{
+		SearchDeck HasTrait Myth|Chairman
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Myth> or <Chairman> character, and put it into your hand.
+EndCard
+
+Climax: DC/WE30-24
+Name Heyo Brother
+*BarClimax
+EndCard
+
+Character: DC/WE30-25
+Name Caring Person, Nemu
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Magic
+Trait2 Judgement
+*GainPowerForEachOther(1000,Magic|Banana|Judgement)
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(1)] When this card's level 2 or higher battle opponent becomees reversed, you may pay the cost. If you do, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Climax: DC/WE30-26
+Name Kotori's Song
+*BarClimax
+EndCard
+
+Character: DC/WE30-27
+Name Mako & Moe in Swimsuits
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Hotpot
+Cont: GiveAll
+{
+	IF Other && InLocation MiddleCenterStage && OpponentsTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, your other character in the middle position of your center stage gets +1000 power.
+*Act1RestSelfSearchBrainstorm(Music|Hotpot)
+EndCard
+
+Character: DC3/WE30-P01
+Name Two Santa Clauses, Charles & Aisia
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Newspaper
+Trait2 Magic
+*YellowEarlyPlayBomb
+EndCard
+
+Character: DC/WE30-P03
+Name Important Family, Otome & Yume
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Student Council
+*OnPlayGainPowerForEach(500,Magic|Student Council)
+EndCard
+
+Character: DC/WE30-P05
+Name Midsummer Love, Koko & Nemu & Nanaka
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Music
+*EarlyPlay2OrLessClimax
+*Give4000PowerAtStartOfOpponentsTurn
+EndCard
+
+
+
+
+
+
+
+
+
+
+

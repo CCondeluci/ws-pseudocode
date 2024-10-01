@@ -1,0 +1,219 @@
+Character: CL/WP01-01
+Name A Field Full of Flowers, Ushio
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Dango
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && Other && NameContains Nagisa|Tomoya
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other character with either "Nagisa" or "Tomoya" in its card name in the middle position of your center stage gain +1000 power.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		Repeat X
+		{
+			SearchDeck IsCharacter && IsColor Yellow
+		}
+		ShuffleLocation Deck
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck and put them into the waiting room, for each climax revealed, search your deck for up to 1 YELLOW character and add it to your hand.
+EndCard
+
+Character: CL/WP01-02
+Name Promise of That Day, Akio
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Bread
+Trait2 Play
+*YellowLevel0Bomb
+*BondDiscard(Energetic Greeting\, Nagisa)
+EndCard
+
+Character: CL/WP01-03
+Name Path to Walk Together, Nagisa
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Play
+Trait2 Dango
+Auto: OnReversed
+{
+	PayCost 1 Clock SendSelf Memory
+	{
+		SearchDeck Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock and send this card to your memory] When this card becomes reversed in batle, you may pay the cost. If you do, search your deck for up to one level 1 or lower character, reveal it, put it into your hand and shuffle your deck.
+EndCard
+
+Character: CL/WP01-04
+Name Big Dango Family, Ushio & Nagisa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Love
+Trait2 Dango
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals Path to Walk Together, Nagisa
+	{
+		GainPower 3000
+	}
+}
+Text Cont: Memory If "Path to Walk Together, Nagisa" is in your memory, this card gains +3000 power.
+EndCard
+
+Character: CL/WP01-05
+Name The Play She Wants to Act in, Nagisa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Play
+Trait2 Dango
+Combo Family's Bond
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Ushio
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another character with "Ushio" in its card name, this card gains +1500 power.
+Auto: OnOpponentReverse
+{
+	If Climax Family's Bond
+	{
+		SearchDeck IsCharacter && IsColor Yellow
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Family's Bond" is in your climax area, search your deck for up to 1 YELLOW character, reveal it, put it into your hand and shuffle your deck.
+EndCard
+
+Character: CL/WP01-06
+Name Energetic Greeting, Nagisa
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Play
+Trait2 Dango
+Cont: InHand
+{
+	If LocationContains Level 1 NameEquals Energetic Greeting, Nagisa &&& LocationContains Level 1 NameEquals Good Husband And Wife, Nagisa & Tomoya
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: EXPERIENCE If "Energetic Greeting, Nagisa" and "Good Husband And Wife, Nagisa & Tomoya" are in your level, this card gets -1 level while in hand.
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && IsColor Yellow
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other YELLOW characters
+*Healer
+EndCard
+
+Character: CL/WP01-07
+Name Friendly Family Members Nagisa & Sanae
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Bread
+Trait2 Dango
+Combo Strong Life
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets IsColor Yellow
+	SetXToNumberOfCharacters
+	Peek Deck X
+	AIChoice AddToHand
+	ChooseCard Choose a card to add to your hand.
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck. Choose up to 1 to add to your hand and put the rest into the waiting room. X is the number of YELLOW characters you have.
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters IsColor Yellow
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this gets +X power until end of turn. X is 500 times the number of YELLOW characters you have.
+Auto: OnOtherAttacks
+{
+	If Climax Strong Life
+	{
+		If Compare ThatCardsLevel 2 OrLess
+		{
+			PayCost 2 Discard 1 NameEquals Big Dango Family, Ushio & Nagisa
+			{
+				TargetSelf
+				Stand
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(2) Discard a character with "Big Dango Family, Ushio & Nagisa" in name] This ability activates up to once per turn. When your other level 2 or lower character attacks, if "Strong Life" is in your climax area, you may pay the cost. If you do, stand this card.
+EndCard
+
+Climax: CL/WP01-08
+Name Strong Life
+*WindClimax
+EndCard
+
+Climax: CL/WP01-09
+Name Family's Bond
+*ShotClimax
+EndCard
+
+Character: CL/WP01-10
+Name Nagisa, Warm Miracle
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Dango
+Trait2 Play
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		ChooseCharacterFromTargets Choose a character to send to your opponent's stock
+		MoveCard OpponentStock
+	}
+}
+Text Auto: [(2) Put a character from your stage into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters whose level is higher than the level of your opponent and put it into their stock.
+Backup 1500
+EndCard
+

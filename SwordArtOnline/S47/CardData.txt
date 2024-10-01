@@ -1,0 +1,513 @@
+﻿Character: SAO/S47-E101
+Name Inherited Sword Skill, Asuna
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Avatar
+Trait2 Weapon
+Combo Demise of 《Zekken》
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card get +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Demise of 《Zekken》 && StageContains 3 Other && HasTrait Avatar|Net
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if a card named "Demise of 《Zekken》" is in your climax area, and the number of other 《Avatar》 or 《Net》 characters you have is three or more, look at up to three cards from the top of your deck, choose up to one card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SAO/S47-E102
+Name Attack in Waves, Asuna
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 5000
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+Combo Quest to Get 《Excalibur》
+Cont: Assist
+{
+	If HasTrait Avatar|Net
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question Put the battle opponent into memory?
+					If Yes
+					{
+						MoveCard OpponentMemory
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+		}
+	}
+}
+Text Cont: ASSIST All of your 《Avatar》 or 《Net》 characters in front of this card get +2000 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory."
+Auto: OnPlay
+{
+	SearchDeck HasTrait Avatar|Net
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to one 《Avatar》 or 《Net》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnOtherAttacks
+{
+	If Climax Quest to Get 《Excalibur》 && StageContains 4 Other && HasTrait Avatar|Net && StageContains 1 NameEquals Attack in Waves, Kirito && CanMove
+	{
+		PayCost 2 Discard 1 Any
+		{
+			TargetLocation Stage
+			NarrowTargets NameEquals Attack in Waves, Kirito && CanMove
+			ChooseCharacterFromTargets Choose a character to exchange with.
+			AddSelfToTargets
+			Exchange
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put a card from your hand into your waiting room] When your other character attacks, if a card named "Quest to Get 《Excalibur》" is in your climax area, and the number of other 《Avatar》 or 《Net》 characters you have is four or more, you may pay the cost. If you do, choose one of your cards named "Attack in Waves, Kirito" and this card, and exchange them. 
+EndCard
+
+Character: SAO/S47-E103
+Name Comforting Moment, Asuna
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 IsCharacter
+	{
+		GainSoul 1
+	}
+}
+Text Auto: [Return two characters in your waiting room to your deck, and shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card gets +1 soul until end of turn.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrHigher && OnStage
+	{
+		Question Put "Comforting Moment, Asuna" into your stock?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 1 or higher, you may put this card into your stock. 
+EndCard
+
+Character: SAO/S47-E104
+Name Agile Start, Asuna
+Color Y
+Level 1
+Cost 1
+Power 8000
+Trait1 Avatar
+Trait2 Weapon
+*CannotAttackHigherLevel
+EndCard
+
+Climax: SAO/S47-E105
+Name Quest to Get 《Excalibur》
+*YellowStockSoul
+EndCard
+
+Character: SAO/S47-E106
+Name Summer Festival, Suguha
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Net
+Trait2 Sports
+Combo Fairy Dance
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Avatar|Net
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1 soul.
+		GainSoul 1
+	}
+}
+Text Auto: When a climax is put on your climax area, reveal the top card of your deck. If that card is an 《Avatar》 or 《Net》 character, choose one of your characters, it gets +1 soul until end of turn. 
+Auto: OnOpponentLevelUp
+{
+	If Climax Fairy Dance
+	{
+		*Check4Add1(Avatar|Net)
+	}
+}
+Text Auto: CxCombo When your opponent levels up, if a card named "Fairy Dance" is in your climax area, look at up to four cards from the top of your deck, choose up to one 《Avatar》 or 《Net》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Act: RestSelf
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Act: [Rest this card] Choose one of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: SAO/S47-E107
+Name Adventure with Everyone, Leafa
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+*GainPowerForEachOther(500,Avatar|Net)
+*OnPlayCheckX(Avatar|Net)
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		PayCost Discard 2 IsCharacter
+		{
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [Put two characters from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, put that battle opponent into your opponent's clock.
+EndCard
+
+Character: SAO/S47-E108
+Name Adventure with Everyone, Lisbeth
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+*EarlyPlay2OrLessClimax
+*GainPowerForEachOther(500,Avatar|Net)
+*StockHealer
+EndCard
+
+Character: SAO/S47-E109
+Name Adventure with Everyone, Silica
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Avatar
+Trait2 Weapon
+*OnPlayScry
+*OnAttackMill1PutLevel0OnStage
+EndCard
+
+Character: SAO/S47-E110
+Name After Party, Keiko
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Net
+*OnPlayTradeClimaxForCharacter(Avatar|Net)
+*RedLevel1Bomb
+EndCard
+
+Character: SAO/S47-E111
+Name Rika Delighted at the Meeting
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Net
+*BackupBonus1000(Avatar|Net)
+Backup 1500
+EndCard
+
+Character: SAO/S47-E112
+Name Attack in Waves, Kirito
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Avatar
+Trait2 Weapon
+HandAction Send 1 WaitingRoom NameEquals After the Battle, Kirito
+{
+	PlaceOnStage False True True False
+}
+ActivationRequirement Compare MyLevel 3 OrHigher && HaveColor Blue
+Text Cont: When this card is played from your hand, you may choose one of your cards named "After the Battle, Kirito", and put it into your waiting room. If you do, you may play this card with 0 cost.
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Avatar|Net
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*MoveOtherWithTraitToBackstageOnReverse(Avatar|Net)
+		}
+	}
+}
+Text Cont: If the number of other 《Avatar》 or 《Net》 characters you have is three or more, this card gets +1500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, choose one of your other 《Avatar》 or 《Net》 characters, Rest it, and move it to an open position of your back stage."
+*Healer
+EndCard
+
+Character: SAO/S47-E113
+Name After the Battle, Kirito
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnUseAct
+{
+	*GiveCharacterPower(500,Any)
+}
+TimesPerTurn 1
+Quick
+Text Auto: This ability activates up to one time per turn. When you use an "ACT", choose one of your characters, it gets +500 power until end of turn.
+*Act1Rest2Draw2Discard1Brainstorm
+EndCard
+
+Character: SAO/S47-E114
+Name Determination with Life on the Line, Kirito
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Avatar|Net
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an 《Avatar》 or 《Net》 character, this card gets +2000 power until end of turn. 
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		Message Choose a card to add to your hand.
+		ChooseCardFromTargets 0 1 HasTrait Avatar|Net
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, you may reveal up to three cards from the top of your deck. If you revealed one or more cards, choose up to one 《Avatar》 or 《Net》 character from among them, put it into your hand, put the rest into your waiting room, choose a card in your hand, and put it into your waiting room.
+EndCard
+
+Character: SAO/S47-E115
+Name Adventure with Everyone, Yui
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Net
+*OnPlayReorderTop2
+Auto: OnClimaxPlay
+{
+	PayCost 1 SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +2500 power until end of opponent's turn.
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+	}
+}
+Text Auto: [(1) Return this card to your hand] When a climax is put on your climax area, you may pay the cost. If you do, choose one of your characters, it gets +2500 power until end of your opponent's next turn.
+EndCard
+
+Character: SAO/S47-E116
+Name Frightened Eyes, Sinon
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseEvents
+	GainSpecialEffect CannotUseBackup
+}
+Text Cont: You cannot play event cards and "BACKUP" from your hand.
+EndCard
+
+Character: SAO/S47-E117
+Name Intense Spirit, Klein
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Avatar
+Trait2 Weapon
+Auto: OnUseAct
+{
+	GainPower 1500
+}
+TimesPerTurn 1
+Quick
+Text Auto: This ability activates up to one time per turn. When you use an "ACT", this card gets +1500 power until end of turn.
+Auto: OnClimaxPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When a climax is put on your climax area, this card gets +1500 power until end of turn.
+EndCard
+
+Character: SAO/S47-E118
+Name “Dicey Cafe” Gilbert
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Net
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Discard 1 HasTrait Avatar|Net
+	{
+		*BottomDeckEarlyPlay
+	}
+}
+Text Auto: [(2) Put an 《Avatar》 or 《Net》 character from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it on the bottom of his or her deck.
+Backup 2500
+EndCard
+
+Character: SAO/S47-E119
+Name Adventure with Everyone, Sinon
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Avatar
+Trait2 Weapon
+*ClimaxExchange
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget && Compare TargetCardsLevel 3 OrLower
+	{
+		SetXToNumberOfCharacters HasTrait Avatar|Net
+		MultiplyXValue 1000
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +X power until end of turn. X is equal to 1000 multiplied by the number of 《Avatar》 or 《Net》 characters you have.
+EndCard
+
+Character: SAO/S47-PE01
+Name Heading for the Memorable Floor 22, Asuna
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each character on your opponent's back stage.
+Auto: OnReversed
+{
+	OpponentMessage Choose up to 1 card to put on top of your opponent's deck.
+	OpponentSearchLocationForTargets OpponentWaitingRoom 0 1 IsCharacter
+	RevealTargets
+	MoveCard Deck
+}
+Text Auto: When this card becomes reversed in battle, your opponent may choose a character in your waiting room, and put it on the top of your deck.
+EndCard
+
+Character: SAO/S47-PE02
+Name Promise to Meet Again, Kirito
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Avatar
+Trait2 Weapon
+Cont: InHand
+{
+	If LocationContains OpponentWaitingRoom 5 IsClimax
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of climax in your opponent's waiting room is 5 or more, this card gets -1 level in your hand.
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Avatar|Net
+	{
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When another of your <Avatar> or <Net> characters attack, this card gets +1000 power until end of turn.
+EndCard
+
+Character: SAO/S47-E123
+Name Sinon Takes on a Powerful Opponent
+Color B
+Level 1
+Cost 1
+Power 6000
+Trait1 Avatar
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Avatar|Net
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of other <Avatar> or <Net> characters you have is 3 or more, this card gets +1000 power.
+*HandEncore
+EndCard
+
+
+
+
+
+
+
+
+
+

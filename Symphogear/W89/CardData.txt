@@ -1,0 +1,2507 @@
+Character: SG/W89-001
+Name Miku, Our Ultimate Song
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*OnAttackGivePower(500,Any)
+Auto: OnReversed
+{
+    PayCost 1 Clock
+    {
+        SearchDeck HasTrait Music
+    }
+}
+Text Auto: [(1) Put the top card of your deck to clock] When this card becomes reverse in battle, you may pay the cost. If you do, search your deck for up to 1 «Music» character, show it to your opponent, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SG/W89-002
+Name Hibiki, Amalgam
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Combo Courage to Bloom
+Auto: OnAttack
+{
+	If Climax Courage to Bloom && StageContains 2 Other && HasTrait Music
+	{
+		MultipleChoiceQuestion Choose an effect.\n1: Look at up to the top 4 cards of your deck, choose up to 1 «Music» character among them, show it to your opponent, put it in your hand, and put the remaining cards into the waiting room.\n2: Perform trigger check twice during this card attack's trigger step.|1|2
+		If Answer 0
+		{
+			RevealUpTo Deck 4
+			ChooseCardsFromTargets 0 1 HasTrait Music && IsCharacter
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		If Answer 1
+		{
+			GainSpecialEffect DoubleTrigger
+		}
+	}
+}
+Text Auto: CxComboWhen this card attacks, if "Courage to Bloom" is in your climax area and the number of other «Music» characters you have is 2 or more, choose and perform 1 of the following 2 effects. "Look at up to the top 4 cards of your deck, choose up to 1 «Music» character among them, show it to your opponent, put it in your hand, and put the remaining cards into the waiting room." "Perform trigger check twice during this card attack's trigger step."
+EndCard
+
+Character: SG/W89-003
+Name Hibiki, Power to Kill a God
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Combo METANOIA
+*Healer
+Auto: OnAttack
+{
+    If Climax METANOIA
+    {
+        PayCost 1 Discard 1 Any
+        {
+            GainEffect
+            {
+                Auto: OnDamageCancel
+                {
+                    *OptionalBurn(3)
+                    If LastDamageCanceled
+                    {
+                        *OptionalBurn(1)
+                    }
+                }
+                TimesPerTurn 1
+                Text Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may deal 3 damage to your opponent. If that damage is cancelled, you may deal 1 damage to your opponent.
+            }
+        }
+    }
+}
+Text Auto: CxCombo[(1) Put a card from hand to the waiting room] When this card attacks, if "METANOIA" is in your climax area, you may pay the cost. If you do, until end of turn this card gets the following ability. "Auto: This ability activates up to once per turn. When this card's damage is cancelled, you may deal 3 damage to your opponent. If that damage is cancelled, you may deal 1 damage to your opponent."
+EndCard
+
+Character: SG/W89-004
+Name Hibiki & Miku, Light of the Gods
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*OnPlayScry
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	TargetBrainstormed
+	NarrowTargets HasTrigger Choice
+	SetXValue TargetCount
+    Repeat X
+    {
+        SearchDeck IsCharacter && HasTrait Music
+        *GiveCharacterPower(1000,Any)
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over the top 4 cards of your deck and put them in the waiting room. For each climax card with a Choice trigger icon revealed this way, search your deck for up to 1 «Music» character, reveal it, put it in your hand, shuffle your deck, choose 1 character, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: SG/W89-005
+Name Autoscorer Leiur
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Alchemy
+Trait2 Doll
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchLocationForTargets WaitingRoom 1 1 NameEquals Autoscorer Phara && Compare ThatCardsLevel 0 OrLess
+        PlaceOnStage false true true false
+        UntilEndOfOpponentsTurn
+        GainLevel 1
+    }
+}
+Text Auto: [Put a card from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a level 0 or lower "Autoscorer Phara" from your waiting room, place it to any slot on the stage, and until the end of your opponent's next turn this card gets +1 level.
+Auto: OnReversed
+{
+    PayCost 1 Clock SendSelf Memory
+    {
+        SearchWaitingRoom HasTrait Alchemy && IsCharacter
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock, Put this card into memory] When this card becomes reverse in battle, you may pay the cost. If you do, choose an <Alchemy> character in your waiting room and return it to your hand.
+EndCard
+
+Character: SG/W89-006
+Name Hibiki, Holy Chant
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        RevealExactly Deck 2
+        NarrowTargets IsCharacter || IsEvent
+        If HasTarget
+        {
+            OpponentChooseCardsFromTargets 1 1 Any
+            MoveCard Hand
+        }
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: [Put a «Music» character from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top 2 cards of your deck, your opponent choose a character or an event among them, put that card to your hand, and put the rest into the waiting room.
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        SearchDeck NameEquals Gungnir
+    }
+}
+Text Auto: [Put a «Music» character card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Gungnir", reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SG/W89-007
+Name Hibiki, Ultimate Song of the Valkyrie
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+*PowerOnMyTurn(1000)
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: SG/W89-008
+Name Miku, For Example
+Color Y
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Music
+Auto: OnReverseOpponent
+{
+	Question_Obvious Put this card into memory?
+	If Yes
+	{
+		TargetSelf
+		MoveCard Memory
+		ScheduleEffectForTargets StartDrawPhase
+		{
+			Effect:
+			{
+				If InLocation Memory
+				{
+					PlaceOnStage False True True False
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reverse, you may Put this card into memory. If you do, at the beginning of your next draw phase, choose an "Miku, For Example" in your memory and put it into any position on the stage.
+EndCard
+
+Character: SG/W89-009
+Name Miku, Beach Promenade
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 1
+Trait1 Music
+*Level3Assist
+Auto: OnTriggerCheckClimax
+{
+    IfOther HasTrigger Choice
+    {
+        PeekTop OpponentDeck
+        Question Place this card on the bottom of the deck? (Press no to return it to the top)
+        If Yes
+        {
+            MoveCardToBottom OpponentDeck
+        }
+        If No
+        {
+            EndPeek
+        }
+
+    }
+}
+Text Auto: When your character's trigger Check reveals a climax card with a Choice trigger icon, look at the top card of your opponent's deck and place it on the top or bottom of their deck.
+*RestGivePower(1000,Music)
+EndCard
+
+Character: SG/W89-010
+Name Hibiki, Beach Promenade
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    If LocationContains Level 1 NameEquals Gungnir
+    {
+        GainPower 2000
+    }
+}
+Text Cont: EXPERIENCE If "Gungnir" is in your level, this card gets +2000 power.
+*OnPlayCheckX(Music)
+EndCard
+
+Character: SG/W89-011
+Name Hibiki, Clenched Fists
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*OnPlayFlicker
+*DropSearch(Music)
+EndCard
+
+Character: SG/W89-012
+Name Hibiki, Energetic
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+*SacrificeToSave(HasTrait Music)
+Text Auto: [Put this card in the waiting room] When your other «Music» character is placed from the stage to the waiting room, if this card is in the back stage, you may pay the cost. If you do, put that character rest in the position thsi card was in.
+*RestGivePower(1500,Music)
+EndCard
+
+Character: SG/W89-013
+Name Hibiki, For Example
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Soul 1
+Trait1 Music
+*YellowEarlyPlayBomb
+EndCard
+
+Character: SG/W89-014
+Name Shem-Ha, God For Those to Look Up To
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Soul 2
+Trait1 God
+Cont: GiveSelf
+{
+    TargetLocation Level
+    If Compare TotalLevel 5 OrMore && StageContainsOrLess 0 Other
+    {
+        GainPower 12000
+        GainEffect
+        {
+            Cont: GiveSelf
+            {
+                GainSpecialEffect NoBackupOnAttack
+                GainSpecialEffect NoEventsOnAttack
+            }
+            Text Cont: During battles involving this card, your opponent may not play events or "BACKUP" from hand.
+        }
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                PayCost 1 Discard 1 Any
+                {
+                    GainSpecialEffect AdditionalTrigger
+                    GainSpecialEffect AdditionalTrigger
+                }
+            }
+            Text Auto: [(1) Put a card from hand to the waiting room] When this card attacks you may pay the cost. If you do, perform trigger check 3 times during this card attack's trigger step.
+        }
+        GainEffect
+        {
+            Auto: OnReverseOpponent
+            {
+                PayCost Discard 3 Any
+                {
+                    Burn 1
+                    Burn 1
+                }
+            }
+            Text Auto: [Put 3 cards from hand to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 1 damage to your opponent twice.
+        }
+    }
+}
+Text Cont: EXPERIENCE If the sum of levels of cards in your level is 5 or more and you have no other characters, this card gets +12000 power and the following 3 abilities. "Cont:During battles involving this card, your opponent may not play events or "BACKUP" from hand." "Auto:[(1) Put a card from hand to the waiting room] When this card attacks you may pay the cost. If you do, perform trigger check 3 times during this card attack's trigger step." "Auto:[Put 3 cards from hand to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, deal 1 damage to your opponent twice."
+Act: Send 1 WaitingRoom Any
+{
+    *GiveCharacterPower(1500,Any)
+}
+Text Act: [Put a character from stage to waiting room] Choose a character and that character gets +1500 power until end of turn.
+EndCard
+
+Character: SG/W89-015
+Name Elfnein, "Until the Day we Meet Again"
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Soul 1
+Trait1 Alchemy
+Cont: InHand
+{
+    GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: You may play this card from your hand without meeting the color requirement.
+*Level3Assist
+Act: 1 RestSelf
+{
+    If LocationContainsOrLess Memory 5 Any
+    {
+        SearchLocationForTargets WaitingRoom 1 1 HasTrait Alchemy && IsCharacter
+        MoveCard Memory
+    }
+}
+Text Act: [(1) Rest this card] If you have 5 or less cards in memory, choose an <Alchemy> character in your waiting room and send it to memory.
+EndCard
+
+Character: SG/W89-016
+Name Miku, Anxious Look
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+*Level0Assist
+*YellowLevel0Bomb
+EndCard
+
+Character: SG/W89-017
+Name Shem-Ha, Evil Look
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 God
+Cont: GiveAll
+{
+    If MyTurn && NameEquals Vanessa, Noble Red | Millaarc, Noble Red | Elsa, Noble Red
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your turn, your other "Vanessa, Noble Red", "Millaarc, Noble Red", and "Elsa, Noble Red" get +2000 power.
+*GlobalPower(500,Alchemy)
+EndCard
+
+Character: SG/W89-018
+Name Miku, Prepared for Death
+Color Y
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Combo In the Ferris Wheel
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        TargetSelf
+        GainPower 2000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another «Music» character, this card gets +2000 power until end of turn.
+Auto: OnReverseOpponent
+{
+    If Climax In the Ferris Wheel
+    {
+        MillUpTo Deck 3
+        NarrowTargets IsCharacter && HasTrait Music
+        SetXValue TargetCount
+        SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Music && IsCharacter
+        *GiveCharacterPower(1000,Any)
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "In the Ferris Wheel" is in your climax area, put up to 3 cards from the top of your deck into your waiting room, choose up to 1 level X or lower «Music» character in your waiting room, put it in your hand, choose 1 of your characters and that character gets +1000 power until end of turn. X equals the number of «Music» characters placed in the waiting room by this card's effect.
+EndCard
+
+Character: SG/W89-019
+Name Miku, How to Spend the Holiday
+Color Y
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Cont: GiveAll
+{
+    If Not MyTurn && Other && HasTrait Music
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your opponent's turn, all your other «Music» characters get +1000 power.
+Auto: StartClimaxPhase
+{
+    If StageContains 4 HasTrait Music
+    {
+        *OptionalDraw
+        *OptionalDraw
+        Discard 2 Any
+    }
+}
+Alarm
+Text Auto: ALARM If this card is on top of your clock and the number of «Music» characters you have is 4 or more, at the beginning of your climax phase, draw up to 2 cards, and discard 2 cards from your hand to the waiting room.
+EndCard
+
+Character: SG/W89-020
+Name Hibiki, How to Spend the Holiday
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Cont: GiveSelf
+{
+    If MyTurn && ClockedThisTurn
+    {
+        GainPower 3000
+    }
+}
+Text Cont: During your turn, if you drew a card during your clock phase, this card gets +3000 power.
+EndCard
+
+Character: SG/W89-021
+Name Miku, Plan to Relax
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Soul 1
+Trait1 Music
+Auto: OnUseThisCardsBackup
+{
+    Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your deck in the waiting room.
+Backup 2000
+EndCard
+
+Character: SG/W89-022
+Name Hibiki, Heartfelt Feelings
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Music
+    {
+        SearchLocationForTargets WaitingRoom 0 1 HasTrait Music && IsCharacter
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 4 or more, you may choose a «Music» character in your waiting room and put it in your stock.
+Auto: OnUseEvent
+{
+    IfOther NameEquals Gungnir
+    {
+        PayCost 1
+        {
+            SearchWaitingRoom HasTrait Music && IsCharacter
+        }
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+TimesPerTurn 1
+Text Auto: [(1)] This ability activates up to once per turn. When you play a "Gungnir", you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand.
+*OnAttackGainPowerForEachOther(1000,Music)
+EndCard
+
+Event: SG/W89-023
+Name Gungnir
+Color Y
+Level 2
+Cost 1
+Requirement StageContains 4 HasTrait Music
+Effect: 
+{
+    Message Place an Hibiki, Holy Chant to memory.
+    PayCost Send 1 Memory NameEquals Hibiki, Holy Chant && CardPosition Stand
+    {
+        Message Choose a character with "Hibiki" in its card name in your hand, place it into any position on your stage.
+        SearchLocationForTargets Hand 0 1 NameContains 響
+        PlaceOnStage false true true false
+        ScheduleEffect StartClimaxPhase
+        {
+            Effect:
+            {
+                SearchLocationForTargets Memory 1 1 NameEquals Hibiki, Holy Chant
+                MoveCard Hand
+            }
+        }
+    }
+    SearchLocationForTargets Level 0 1 Any
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        AddSavedToCurrentTargets
+        Exchange
+        TargetSelf
+        RemoveCurrentFromSavedTargets
+        LoadTargets
+        MoveCard WaitingRoom
+    }
+}
+Text You cannot play this card from hand if you have 3 or fewer «Music» characters. You may choose 1 of your stand "Hibiki, Holy Chant" and put it into memory. If you do, choose a character with "Hibiki" in its card name in your hand, place it into any position on your stage, and at the beginning of your climax phase, choose a "Hibiki, Holy Chant" in memory and return it to hand. You may choose a card in your level and place it in the waiting room. If you do, place this card in your level.
+EndCard
+
+Climax: SG/W89-024
+Name METANOIA
+*ChoiceClimax
+EndCard
+
+Climax: SG/W89-025
+Name Courage to Bloom
+*ChoiceClimax
+EndCard
+
+Climax: SG/W89-026
+Name In the Ferris Wheel
+*ChoiceClimax
+EndCard
+
+Character: SG/W89-027
+Name Kirika, Amalgam
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Weapon
+Combo Polyfilm Scissor Love Dreams
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        MultipleChoiceQuestion Choose an effect.\n1: You may put the top card of your clock in your waiting room.\n2: You may put the top card of your stock into the waiting room. If you do, draw a card, choose up to 1 'Kirika, Amalgam' or 'Shirabe, Amalgam' from hand and place it to any position on your stage.|1|2
+        If Answer 0
+        {
+            *OptionalHeal
+        }
+        If Answer 1
+        {
+            PayCost 1
+            {
+                DrawCard
+                SearchLocationForTargets Hand 0 1 NameEquals Kirika, Amalgam | Shirabe, Amalgam
+                PlaceOnStage false true true false
+            }
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another «Music» character, choose and perform 1 of the following 2 effects. "You may put the top card of your clock in your waiting room." "You may put the top card of your stock into the waiting room. If you do, draw a card, choose up to 1 'Kirika, Amalgam' or 'Shirabe, Amalgam' from hand and place it to any position on your stage."
+Auto: OnAttack
+{
+    If Climax Polyfilm Scissor Love Dreams
+    {
+        Peek OpponentDeck 2
+        If HasTarget
+        {
+            Message Choose the cards to put back on top.
+            ChooseCardsFromTargets 0 2 Any
+            MoveCard OpponentDeck
+            Reorder
+            PutTheRestIntoTheWaitingRoom
+        }
+        TargetSelf
+        GainPower 1000
+    }
+}
+Text Auto: CxCombo When this card attacks, if "Polyfilm Scissor Love Dreams" is in your climax area, look at up to 2 cards from the top of your opponent's deck, put up to 2 from among them on top of their deck in any order, put the remaining cards in their waiting room, and until end of turn this card gets +1000 power.
+EndCard
+
+Character: SG/W89-028
+Name Shirabe, Amalgam
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Weapon
+Combo Polyfilm Scissor Love Dreams
+Auto: OnPlay
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        MultipleChoiceQuestion Choose an effect.\n1: You may put the top card of your clock in your waiting room.\n2: You may put the top card of your stock into the waiting room. If you do, draw a card, choose up to 1 'Kirika, Amalgam' or 'Shirabe, Amalgam' from hand and place it to any position on your stage.|1|2
+        If Answer 0
+        {
+            *OptionalHeal
+        }
+        If Answer 1
+        {
+            PayCost 1
+            {
+                DrawCard
+                SearchLocationForTargets Hand 0 1 NameEquals Kirika, Amalgam | Shirabe, Amalgam
+                PlaceOnStage false true true false
+            }
+        }
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another «Music» character, choose and perform 1 of the following 2 effects. "You may put the top card of your clock in your waiting room." "You may put the top card of your stock into the waiting room. If you do, draw a card, choose up to 1 'Kirika, Amalgam' or 'Shirabe, Amalgam' from hand and place it to any position on your stage."
+Auto: OnAttack
+{
+    If Climax Polyfilm Scissor Love Dreams && LocationContains Level 1 NameEquals Igalima | Shul Shagana
+    {
+        PayCost Discard 1 HasTrait Music && IsCharacter
+        {
+            Burn 2
+        }
+    }
+}
+Text Auto: CxCombo EXPERIENCE [Put a «Music» character from hand to the waiting room] When this card attacks, if "Polyfilm Scissor Love Dreams" is in your climax area and you have a "Igalima" or "Shul Shagana" in your level, you may pay the cost. If you do, deal 2 damage to your opponent.
+Text <color=red> * This card is part of a 2C1 restriction alongside W89-034 in JP. </color>
+EndCard
+
+Character: SG/W89-029
+Name Shirabe, Ultimate Song of the Valkyrie
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*OnPlayGainPower(1500)
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Return this card to your deck and draw 1?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Deck
+			ShuffleLocation Deck
+			DrawCard
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, if you have another «Music» character, reveal the top card of your deck. If that card is level 1 or higher, you may return that card to your deck. If you do, shuffle your deck and draw a card.
+EndCard
+
+Character: SG/W89-030
+Name Kirika, Burning X-Drive
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*GlobalPower(500,Music)
+Auto: OnTriggerCheckClimax
+{
+    IfOther HasTrigger Bar
+    {
+        PayCost Discard 1 Any
+        {
+            Peek Deck 2
+            ChooseCard Choose a card to add to your hand
+            MoveCard Hand
+            PutTheRestIntoTheWaitingRoom
+        }
+    }
+}
+Text Auto: [Put a card from hand to the waiting room] When your character's trigger check reveals a climax with a Bar trigger icon, you may pay the cost. If you do, look at up to the top 2 cards of your deck, choose up to 1 among them, put it in your hand, and put the rest into the waiting room.
+EndCard
+
+Character: SG/W89-031
+Name Shirabe, Burning X-Drive
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnTriggerCheckClimax
+{
+    IfOther HasTrigger Bar
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1000 power.
+        UntilEndOfOpponentsTurn
+        GainPower 1000
+    }
+}
+Text Auto: When your character's trigger check reveals a climax with a Bar trigger icon, choose a character, and that character gets +1000 power until the end of your opponent's next turn.
+*Act1RestSelfSearchBrainstorm(Music)
+EndCard
+
+Character: SG/W89-032
+Name Kirika, Close Call
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Combo Fatal Chains: Star Money
+*GainPowerWithEnoughCharacters(1000,2,Music)
+Auto: StartMyEncorePhase
+{
+    If Climax Fatal Chains: Star Money && InLocation CenterStage && FacingIsEmptyOrReversed && LocationContainsOrLess Hand 5 Any
+    {
+        SearchWaitingRoom HasTrait Music && IsCharacter
+    }
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Fatal Chains: Star Money" is in your climax area, this card is in your center stage, you have 5 or less cards in hand, and either there is no character facing this card or the character facing this card is reverse, you may choose a «Music» character in your waiting room and return it to your hand.
+EndCard
+
+Character: SG/W89-033
+Name Kirika, Ultimate Song of the Valkyrie
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*LevelAssist
+Auto: OnTriggerCheckClimax
+{
+    IfOther HasTrigger Bar
+    {
+        PayCost Discard 1 Any
+        {
+            Peek Deck 2
+            ChooseCard Choose a card to add to your hand
+            MoveCard Hand
+            PutTheRestIntoTheWaitingRoom
+        }
+    }
+}
+Text Auto: [Put a card from hand to the waiting room] When your character's trigger check reveals a climax with a Bar trigger icon, you may pay the cost. If you do, look at up to the top 2 cards of your deck, choose up to 1 among them, put it in your hand, and put the rest into the waiting room.
+Act: RestSelf
+{
+    If LocationContains Level 1 NameEquals Igalima | Shul Shagana
+    {
+        *GiveCharacterPower(1500,Any)
+    }
+}
+Text Act: EXPERIENCE [Rest this card] if you have a "Igalima" or "Shul Shagana" in your level, choose 1 of your characters and that character gets +1500 power until end of turn.
+EndCard
+
+Character: SG/W89-034
+Name Kirika, Holy Chant
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        SearchDeck NameEquals Igalima
+    }
+}
+Text Auto: [Put a «Music» character card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Igalima", reveal it, put it in your hand, and shuffle your deck.
+*OnPlayTradeClimaxForCharacter(Music)
+Text <color=red> * This card is part of a 2C1 restriction alongside W89-028 in JP. </color>
+EndCard
+
+Character: SG/W89-035
+Name Shirabe, Holy Chant
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        SearchDeck NameEquals Shul Shagana
+    }
+}
+Text Auto: [Put a «Music» character card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Shul Shagana", reveal it, put it in your hand, and shuffle your deck.
+Auto: OnAttack
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Music
+    {
+        MoveCard Hand
+        Discard 1 Any
+    }
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If it's a «Music» character, put it in your hand and discard a card from your hand to the waiting room.
+EndCard
+
+Character: SG/W89-036
+Name Autoscorer Phara
+Color G
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Alchemy
+Trait2 Doll
+Auto: OnPlay
+{
+     PayCost Discard 1 Any
+     {
+        SearchLocationForTargets WaitingRoom 0 1 NameEquals Autoscorer Leiur
+        PlaceOnStage false true true false
+        UntilEndOfOpponentsTurn
+        GainLevel 1
+     }
+}
+Text Auto: [Put a card from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Autoscorer Leiur" in your waiting room, place it into any position on your stage, and this card gets +1 level until the end of your opponent's next turn.
+Auto: OnReversed
+{
+    PayCost 1
+    {
+        TargetSelf
+        MoveCard Memory
+    }
+}
+Text Auto: [(1)] When this card becomes reverse in battle, you may pay the cost. If you do, put this card into memory.
+EndCard
+
+Character: SG/W89-037
+Name Shirabe, Connected Hope
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*OnPlayGivePower(1500, Music)
+Auto: OnSentFromStageToWaitingRoom
+{
+    RevealUpTo Deck 3
+    If HasTarget
+    {
+        ChooseCardsFromTargets 0 1 HasTrait Music && IsCharacter
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+        Discard 1 Any
+    }
+}
+Text Auto: When this card is placed from the stage to the waiting room, reveal up to 3 cards from the top of your deck. If you reveal 1 or more cards this way, choose up to 1 «Music» characters among them, put it in your hand, put the rest into your waiting room, and discard a card from your hand to the waiting room.
+EndCard
+
+Character: SG/W89-038
+Name Kirika, Carefree?
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+*GainPowerForEachOther(500,Music)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: SG/W89-039
+Name Shirabe & Kirika, Always Together
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*GainPowerWhenAttackingLevel3(6000)
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: SG/W89-040
+Name Carol, Overwhelming Power
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Alchemy
+Trait2 Music
+Combo Awakening Heartbeat
+*OnAttackGainPowerForEachOther(500, Alchemy)
+Auto: OnReverseOpponent
+{
+    If Climax Awakening Heartbeat
+    {
+        RevealExactly Deck 4
+        ChooseCardsFromTargets 0 2 HasTrait Alchemy && IsCharacter
+        RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+        *GiveCharacterPower(1000,Any)
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reverse, if "Awakening Heartbeat" is in your climax area, reveal the top 4 cards of your deck, choose up to 2 <Alchemy> characters among them, add them to your hand, put the rest into the waiting room, choose 1 of your character and that character gets +1000 power until end of turn.
+EndCard
+
+Character: SG/W89-041
+Name Shirabe, Rocket Guarding Mission
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        SetXToNumberOfCharacters Other && HasTrait Music
+        MultiplyXValue 2000
+        GainPower X
+    }
+}
+Text Cont: During your turn, this card gets +2000 power for each other «Music» character you have.
+Auto: OnPlay
+{
+    If StageContains 4 Other && HasTrait Music
+    {
+        SearchLocationForTargets WaitingRoom 0 1 HasTrait Music && IsCharacter
+        MoveCard Stock
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 4 or more, you may choose a «Music» character in your waiting room and put it in your stock.
+EndCard
+
+Character: SG/W89-042
+Name Kirika, Rocket Guarding Mission
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    UntilEndOfOpponentsTurn
+    GainEffect
+    {
+        Cont: GiveSelf
+        {
+            If Not MyTurn
+            {
+                GainPower 3000
+            }
+        }
+        Text Cont: During your opponent's turn, this card gets +3000 power.
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets the following ability until the end of your opponent's next turn. "Cont:During your opponent's turn, this card gets +3000 power."
+Act: Rest 1 Other && CardPosition Stand
+{
+    TargetSelf
+    If CardPosition Stand
+    {
+        MoveCard Stock
+    }
+}
+Text Act: [Rest 1 of your other «Music» characters] If this card is stand, put this card in stock.
+EndCard
+
+Character: SG/W89-043
+Name Kirika, Stunning Landing
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*PowerInMiddle(3000)
+Auto: OnPlay
+{
+    PayCost 2
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        If HasTarget
+        {
+            ChooseCharacterFromTargets Choose a character to bounce.
+            Bounce
+        }
+    }
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters and return it to their hand.
+EndCard
+
+Character: SG/W89-044
+Name Shirabe, Staring
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnDamageNotCanceled
+{
+    TargetSelf
+    GainPower 3000
+}
+Text Auto: When this card's damage is not cancel, this card gets +3000 power until end of turn.
+Auto: OnReverseOpponent
+{
+    Question_Obvious Draw a card and discard a card ?
+    If Yes
+    {
+        DrawCard
+        Discard 1 Any
+    }
+}
+Text Auto: When this card's battle opponent becomes reverse, you may draw a card. If you do, discard a card from your hand to the waiting room.
+EndCard
+
+Character: SG/W89-045
+Name Kirika, Pleasant Melody
+Color G
+Level 1
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*BackupBonus1000(Music)
+Backup 1000
+EndCard
+
+Character: SG/W89-046
+Name Shirabe, Pleasant Melody
+Color G
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets Compare ThatCardsLevel 0 OrLess && IsCharacter
+    If HasTarget
+    {
+        GainSpecialEffect FreeSideAttack
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there is at least 1 level 0 or lower character card among them, this card may side attack without soul penalty until end of turn.
+Auto: OnReversed
+{
+    PayCost 1
+    {
+        SearchWaitingRoom NameEquals Kirika, Pleasant Melody
+    }
+}
+Text Auto: [(1)] When this card becomes reverse in battle, you may pay the cost. If you do, choose a "Kirika, Pleasant Melody" in your waiting room and return it to hand.
+EndCard
+
+Character: SG/W89-047
+Name Shirabe, Hell's Ensaring Thread Dance Beta
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*OnPlayMax4Memory
+Auto: OnPlay
+{
+    Peek Deck 2
+    If HasTarget
+    {
+        Message Choose the cards to put back on top.
+        ChooseCardsFromTargets 0 2 Any
+        MoveCard Deck
+        Reorder
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to the top 2 cards of your deck, choose up to 2 cards among them, place them on top of your deck in any order, and put the rest into the waiting room.
+EndCard
+
+Character: SG/W89-048
+Name Carol, Confronting a God
+Color G
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Alchemy
+Trait2 Music
+*OnAttackGivePowerForEachOther(500,Alchemy)
+EndCard
+
+Character: SG/W89-049
+Name Alca-Noise, Attacking from the Sky
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Alchemy
+Trait2 Noise
+Combo A Crisis Never Seen Before
+Army
+*Healer
+Auto: OnAttack
+{
+    If Climax A Crisis Never Seen Before
+    {
+        StockSwap
+    }
+}
+Text Auto: CxCombo When this card attacks, if "A Crisis Never Seen Before" is in your climax area, put all of your opponent's stock in the waiting room, and put the same number if cards from the top of their deck into their stock.
+EndCard
+
+Event: SG/W89-050
+Name Igalima
+Color G
+Level 2
+Cost 1
+Requirement StageContains 4 HasTrait Music
+Effect:
+{
+    Message Place an Kirika, Holy Chant to memory.
+    PayCost Send 1 Memory NameEquals Kirika, Holy Chant && CardPosition Stand
+    {
+        Message Choose a character with "Kirika" in its card name in your hand, place it to any position on your stage
+        SearchLocationForTargets Hand 0 1 NameContains 切歌
+        PlaceOnStage false true true false
+        ScheduleEffect StartClimaxPhase
+        {
+            Effect:
+            {
+                SearchLocationForTargets Memory 1 1 NameEquals Kirika, Holy Chant
+                MoveCard Hand
+            }
+        }
+    }
+    SearchLocationForTargets Level 0 1 Any
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        AddSavedToCurrentTargets
+        Exchange
+        TargetSelf
+        RemoveCurrentFromSavedTargets
+        LoadTargets
+        MoveCard WaitingRoom
+    }
+}
+Text You cannot play this card from hand if you have 3 or fewer «Music» characters. You may choose 1 of your Standing "Kirika, Holy Chant" and Send it to memory. If you do, choose a character with "Kirika" in its card name in your hand, place it to any position on your stage, and at the beginning of your climax phase, choose a "Kirika, Holy Chant" in memory and return it to hand. You may choose a card in your level and place it in the waiting room. If you do, place this card in your level.
+EndCard
+
+Event: SG/W89-051
+Name Shul Shagana
+Color G
+Level 2
+Cost 1
+Requirement StageContains 4 HasTrait Music
+Effect:
+{
+    Message Place an Shirabe, Holy Chant to memory.
+    PayCost Send 1 Memory NameEquals Shirabe, Holy Chant && CardPosition Stand
+    {
+        Message Choose a character with "Shirabe" in its card name in your hand, place it to any position on your stage.
+        SearchLocationForTargets Hand 0 1 NameContains 調
+        PlaceOnStage false true true false
+        ScheduleEffect StartClimaxPhase
+        {
+            Effect:
+            {
+                SearchLocationForTargets Memory 1 1 NameEquals Shirabe, Holy Chant
+                MoveCard Hand
+            }
+        }
+    }
+    SearchLocationForTargets Level 0 1 Any
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        AddSavedToCurrentTargets
+        Exchange
+        TargetSelf
+        RemoveCurrentFromSavedTargets
+        LoadTargets
+        MoveCard WaitingRoom
+    }
+}
+Text You cannot play this card from hand if you have 3 or fewer «Music» characters. You may choose 1 of your Standing "Shirabe, Holy Chant" and Send it to memory. If you do, choose a character with "Shirabe" in its card name in your hand, place it to any position on your stage, and at the beginning of your climax phase, choose a "Shirabe, Holy Chant" in memory and return it to hand. You may choose a card in your level and place it in the waiting room. If you do, place this card in your level.
+EndCard
+
+Climax: SG/W89-052
+Name Polyfilm Scissor Love Dreams
+*BarClimax
+EndCard
+
+Climax: SG/W89-053
+Name Fatal Chains: Star Money
+*BarClimax
+EndCard
+
+Character: SG/W89-054
+Name Chris, Amalgam
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 Any
+    {
+        *Check4Add1Level1OrHigher
+    }
+}
+Text Auto: [Put a card from your hand to the waiting room] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, reveal it, put it in your hand, and put the rest into your waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost 2
+    {
+        SearchWaitingRoom HasTrait Music && IsCharacter
+    }
+}
+Text Auto: [(2)] When this card is placed from the stage to the waiting room, you may pay the cost. If you do, choose a «Music» character in your waiting room and return it to your hand.
+EndCard
+
+Character: SG/W89-055
+Name Maria, Amalgam
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Music
+Trait2 Weapon
+Combo Highest Good: Rose Cross
+Cont: GiveSelf
+{
+    If LocationContains Level 1 NameEquals Airget-Lamh || NameEquals Ame-no-Habakiri
+    {
+        GainPower 3000
+    }
+}
+Text Cont: EXPERIENCE If "Airget-Lamh" or "Ame-no-Habakiri" is in your level, this card gets +3000 power.
+Auto: OnEndOfAttack
+{
+    If Climax Highest Good: Rose Cross && StageContains 1 Other && HasTrait Music
+    {
+        PayCost 1 Discard 1 HasTrait Music && IsCharacter
+        {
+            TargetLocation Stage
+            NarrowTargets NameEquals Tsubasa, Resurrected Phoenix && Other
+            SaveTargets
+            TargetSelf
+            AddSavedToCurrentTargets
+            ChooseCharacterFromTargets Choose a character to stand and give the following 2 abilities. "[C] During this card's battle, your opponent may not use "BACKUP" from hand." "[C] This cannot be chosen by your opponent's abilities."
+            Stand
+            GainSpecialEffect NoBackupOnAttack
+            GainSpecialEffect CannotBeChosen
+        }
+    }
+}
+TimesPerTurn 1
+Text Auto: CxCombo[(1) Put a «Music» character from hand to the waiting room] This ability activates up to once per turn. At the end of this card's attack, If "Highest Good: Rose Cross" is in your climax area and you have another «Music» character, you may pay the cost. If you do, choose either 1 of your other "Tsubasa, Resurrected Phoenix" or this card, stand that card, and that card gets the following 2 abilities until end of turn. "Cont: During this card's battle, your opponent may not use "BACKUP" from hand." "Cont: This cannot be chosen by your opponent's abilities."
+EndCard
+
+Character: SG/W89-056
+Name Chris, Ultimate Song of the Valkyrie
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Music
+Trait2 Weapon
+*GainPowerWithEnoughCharacters(1000,2,Music)
+*Healer
+Auto: OnAttack
+{
+    If LocationContains Level 1 NameEquals Ichaival
+    {
+        PayCost 1 Discard 1 Any
+        {
+            Burn 1
+        }
+    }
+}
+Text Auto: EXPERIENCE [(1) Put a card from hand to the waiting room] When this card attacks, if you have "Ichaival" in your level, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: SG/W89-057
+Name Maria, Burning X-Drive
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*OnPlayScry
+Auto: OnClimaxPlay
+{
+    PayCost 1
+    {
+        *Check4Add1Level1OrHigher
+    }
+}
+Text Auto: [(1)] When a climax is placed on your climax area, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 1 level 1 or higher card among them, show it to your opponent, put it in your hand, and put the rest into the waiting room.
+EndCard
+
+Character: SG/W89-058
+Name Chris, Solid Preparatory Exercise
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    If StageContains 2 Other && HasTrait Music
+    {
+        *OptionalDrawDiscard
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other «Music» characters you have is 2 or more, you may draw a card. If you do, discard a card from your hand to the waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost 2
+    {
+        SearchDeck HasTrait Music && IsCharacter
+    }
+}
+Text Auto: [(2)] When this card is placed from stage to the waiting room, you may pay the cost. If you do, search your deck for up to 1 «Music» character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SG/W89-059
+Name Maria, Beyond Line of Sight
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*RedLevel1Bomb
+*HandEncore
+EndCard
+
+Character: SG/W89-060
+Name Maria, Under Treatment
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 4000
+Soul 2
+Trait1 Music
+Trait2 Weapon
+*1500Assist
+Auto: OnTriggerCheckClimax
+{
+    IfOther HasTrigger Standby
+    {
+        *OptionalDrawDiscard
+    }
+}
+Text Auto: When your character reveals a climax with a Standby trigger icon during trigger check, you may draw a card. If you do, discard a card from your hand to the waiting room.
+EndCard
+
+Character: SG/W89-061
+Name Maria, Ultimate Song of the Valkyrie
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Music
+Trait2 Weapon
+*GainPowerForEachOther(1000, Music)
+Auto: OnAttack
+{
+    Peek Deck 2
+    If HasTarget
+    {
+        Message Choose the cards to put back on top.
+        ChooseCardsFromTargets 1 1 Any
+        MoveCard Deck
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: When this card attacks, look at up to the top 2 cards of your deck, choose a card among them, place it on top of your deck, and put the rest into waiting room.
+*HandEncoreTrait(Music)
+EndCard
+
+Character: SG/W89-062
+Name Carol, Time of Rebirth
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Alchemy
+Trait2 Music
+Combo Four Element Alchemy
+*OnPlayStockSwap(1)
+Auto: OnAttack
+{
+    If Climax Four Element Alchemy && If LocationContains Memory 1 NameEquals Autoscorer Leiur &&& LocationContains Memory 1 NameEquals Autoscorer Phara &&& LocationContains Memory 1 NameEquals Autoscorer Micha &&& LocationContains Memory 1 NameEquals Autoscorer Galie
+    {
+        *OptionalBurn(2)
+    }
+}
+Text Auto: CxCombo MEMORY When this card attacks, if "Four Element Alchemy" is in your climax area, and "Autoscorer Phara" and "Autoscorer Leiur" and "Autoscorer Micha" and "Autoscorer Galie" are in your memory, you may deal 2 damage to your opponent.
+EndCard
+
+Character: SG/W89-063
+Name Chris, Feelings Within a Strike
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    SearchLocationForTargets Hand 0 1 Compare ThatCardsLevel MyLevel OrLess
+    PlaceOnStage false true true false
+    GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 character from your hand whose level is equal to or lower than your level, place it into any position on the stage, and that character gets +2000 power until end of turn.
+*OnPlayFlicker
+EndCard
+
+Character: SG/W89-064
+Name Chris, Holy Chant
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        SearchDeck NameEquals Ichaival
+    }
+}
+Text Auto: [Put a «Music» character card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Ichaival", reveal it, put it in your hand, and shuffle your deck.
+Auto: OnAttack
+{
+    TargetTop Deck 1
+    Reveal
+    IfTarget HasTrait Music
+    {
+        MoveCard Hand
+        Discard 1 Any
+    }
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If it's a «Music» character, put it in your hand and discard a card from your hand to the waiting room.
+EndCard
+
+Character: SG/W89-065
+Name Maria, Holy Chant
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        RevealExactly Deck 2
+        NarrowTargets IsCharacter || IsEvent
+        If HasTarget
+        {
+            OpponentChooseCardsFromTargets 1 1 Any
+            MoveCard Hand
+        }
+        PutTheRestIntoTheWaitingRoom
+    }
+}
+Text Auto: [Put a «Music» character from hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top 2 cards of your deck, your opponent choose a character or an event among them, put that card to your hand, and put the rest into the waiting room.
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        SearchDeck NameEquals Airget-Lamh
+    }
+}
+Text Auto: [Put a «Music» character card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Airget-Lamh", reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SG/W89-066
+Name Autoscorer Micha
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Alchemy
+Trait2 Doll
+Cont: InHand
+{
+    GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: You may play this card from your hand without meeting the color requirement.
+Auto: OnPlay
+{
+    If LocationContainsOrLess Memory 2 Any
+    {
+        SearchLocationForTargets WaitingRoom 0 1 NameContains 自動人形
+		MoveCard Memory
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or less cards in your memory, you may choose a character with "Autoscorer" in the name in your waiting room and put it to memory.
+Act: 2 SendSelf Memory
+{
+    *CheckAndAdd(3)
+}
+ActivationRequirement CardPosition Stand
+Text Act: [(2) Put this card stand to memory] Look at up to the top 3 cards of your deck, choose up to 1 card among them, put it in your hand, and put the rest into waiting room.
+EndCard
+
+Character: SG/W89-067
+Name Chris, Looking Straight Ahead
+Color R
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*PowerOnMyTurn(1000)
+*OnAttackGivePowerForEachOther(500, Music)
+EndCard
+
+Character: SG/W89-068
+Name Chris, Burning X-Drive
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Combo De Re Metallica
+Cont: InHand
+{
+    If LocationContainsOrLess OpponentWaitingRoom 3 IsClimax
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If there are 3 or fewer climax cards in your opponent's waiting room, this card gets -1 level while in your hand.
+Auto: OnReverseOpponent
+{
+    If Climax De Re Metallica
+    {
+        PayCost 1 SendClimax WaitingRoom
+        {
+            RevealUpTo Deck 4
+            ChooseCardsFromTargets 0 4 HasTrait Music && IsCharacter || NameEquals Ichaival
+            RevealTargets
+            MoveCard Hand
+            PutTheRestIntoTheWaitingRoom
+			TargetSelf
+            *GainBounceWhenFrontalAttacked
+        }
+    }
+}
+Text Auto: CxCombo [(1) Put a "De Re Metallica" from climax area to the waiting room] When this card's battle opponent becomes reverse, you may pay the cost. If you do, look at up to the top 4 cards of your deck, choose up to 4 «Music» characters or "Ichaival" among them, show them to your opponent, put them in your hand, put the rest into waiting room, and this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return it to your hand."
+EndCard
+
+Character: SG/W89-069
+Name Maria, Emergency Convocation
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    TargetLocation OpponentCenterStage
+    NarrowTargets CanBeChosen
+    If HasTarget
+    {
+        ChooseCharacterFromTargets Choose a character to give -1000 power.
+        LosePower 1000
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, choose a character in your opponent's center stage, and that character gets -1000 power until end of turn.
+*OnAttackGiveOtherPower(1000,Music)
+EndCard
+
+Character: SG/W89-070
+Name Chris, Battling
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Combo HORNET PISTOLS
+*GlobalPower(500, Music)
+Auto: OnSpecificClimaxPlay HORNET PISTOLS
+{
+    PayCost RestSelf
+    {
+        SearchLocationForTargets WaitingRoom 1 1 HasTrait Music && IsCharacter
+        MoveCard Stock
+    }
+}
+Text Auto: CxCombo [Rest this card] When "HORNET PISTOLS" is placed to your climax area, you may pay the cost. If you do, choose a «Music» character in your waiting room and put it to your stock.
+EndCard
+
+Character: SG/W89-071
+Name Maria, Gentle Care
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 2
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    GainPower 2500
+    GainEffect
+    {
+        Auto: EndOfTurn
+        {
+            TargetSelf
+            MoveCard WaitingRoom
+        }
+        Text Auto: At the end of this turn, put this card in waiting room.
+    }
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +2500 power and the following ability until end of turn. "Auto: At the end of this turn, put this card in waiting room."
+EndCard
+
+Character: SG/W89-072
+Name Chris, Precision Shooting
+Color R
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot Side attack.
+Auto: OnReversed
+{
+    OpponentQuestion Draw and discard a card ?
+    If Yes
+    {
+        TargetTop OpponentDeck 1
+        MoveCard OpponentHand
+        Message Choose a card to discard.
+        OpponentSearchLocationForTargets OpponentHand 1 1 Any
+        MoveCard OpponentWaitingRoom
+    }
+}
+Text Auto: When this card becomes reverse in battle, your opponent may draw a card. If you do, your opponent discards a card from hand to the waiting room.
+EndCard
+
+Character: SG/W89-073
+Name Maria, On Stage Once Again
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals Tsubasa, On Stage Once Again
+    {
+        GainPower 4000
+    }
+}
+Text Cont: If you have another "Tsubasa, On stage Once Again", this card gets +4000 power.
+Auto: OnTriggerCheckClimax
+{
+    *GiveCharacterPower(2000,Any)
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: SG/W89-074
+Name Maria, Connected Hopes
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*ScryBackup(Music)
+Backup 2000
+EndCard
+
+Character: SG/W89-075
+Name Chris, One-Act Poolside
+Color R
+Level 1
+Cost 1
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        GainPower 1500
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                Peek Deck 2
+                If HasTarget
+                {
+                    Message Choose the cards to put back on top.
+                    ChooseCardsFromTargets 1 1 Any
+                    MoveCard Deck
+                    PutTheRestIntoTheWaitingRoom
+                }
+            }
+            Text Auto: When this card attacks, look at up to the top 2 cards of your deck, choose 1 card among them, put it on top of your deck, and put the rest into waiting room.
+        }
+        GainEffect
+        {
+            *HandEncore
+        }
+    }
+}
+Text Cont: If you have another «Music» character, this card gets +1500 power and the following 2 abilities. "Auto: When this card attacks, look at up to the top 2 cards of your deck, choose 1 card among them, put it on top of your deck, and put the rest into waiting room." "Auto: ENCORE [Put a character from hand to the waiting room]"
+Auto: OnThisTriggerCheck
+{
+    IfOther HasTrigger Soul
+    {
+        TargetSelf
+        UntilEndOfOpponentsTurn
+        GainPower 1000
+    }
+}
+Text Auto: When this card's trigger check reveals a soul trigger icon, this card gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Event: SG/W89-076
+Name Ichaival
+Color R
+Level 2
+Cost 1
+Requirement StageContains 4 HasTrait Music
+Effect:
+{
+    Message Place an Chris, Holy Chant to memory.
+    PayCost Send 1 Memory NameEquals Chris, Holy Chant && CardPosition Stand
+    {
+        Message Choose a character with "Chris" in name from your hand and put it in any Slot on the Stage.
+        SearchLocationForTargets Hand 0 1 NameContains クリス
+        PlaceOnStage false true true false
+        ScheduleEffect StartClimaxPhase
+        {
+            Effect:
+            {
+                SearchLocationForTargets Memory 1 1 NameEquals Chris, Holy Chant
+                MoveCard Hand
+            }
+        }
+    }
+    SearchLocationForTargets Level 0 1 Any
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        AddSavedToCurrentTargets
+        Exchange
+        TargetSelf
+        RemoveCurrentFromSavedTargets
+        LoadTargets
+        MoveCard WaitingRoom
+    }
+}
+Text You cannot play this card from hand if you have 3 or fewer «Music» characters. You may choose 1 of your Standing "Chris, Holy Chant" and Send it to memory. If you do, choose a character with "Chris" in its card name in your hand, place it to any position on your stage, and at the beginning of your climax phase, choose a "Chris, Holy Chant" in memory and return it to hand. You may choose a card in your level and place it in the waiting room. If you do, place this card in your level.
+EndCard
+
+Event: SG/W89-077
+Name Airget-Lamh
+Color R
+Level 2
+Cost 1
+Requirement StageContains 4 HasTrait Music
+Effect:
+{
+    Message Place an Maria, Holy Chant to memory.
+    PayCost Send 1 Memory NameEquals Maria, Holy Chant && CardPosition Stand
+    {
+        Message Choose a character with "Maria" in name from your hand and put it in any Slot on the Stage.
+        SearchLocationForTargets Hand 0 1 NameContains マリア
+        PlaceOnStage false true true false
+        ScheduleEffect StartClimaxPhase
+        {
+            Effect:
+            {
+                SearchLocationForTargets Memory 1 1 NameEquals Maria, Holy Chant
+                MoveCard Hand
+            }
+        }
+    }
+    SearchLocationForTargets Level 0 1 Any
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        AddSavedToCurrentTargets
+        Exchange
+        TargetSelf
+        RemoveCurrentFromSavedTargets
+        LoadTargets
+        MoveCard WaitingRoom
+    }
+}
+Text You cannot play this card from hand if you have 3 or fewer «Music» characters. You may choose 1 of your Standing "Maria, Holy Chant" and Send it to memory. If you do, choose a character with "Maria" in its card name in your hand, place it to any position on your stage, and at the beginning of your climax phase, choose a "Maria, Holy Chant" in memory and return it to hand. You may choose a card in your level and place it in the waiting room. If you do, place this card in your level.
+EndCard
+
+Climax: SG/W89-078
+Name Highest Good: Rose Cross
+*StandbyClimax
+EndCard
+
+Climax: SG/W89-079
+Name Four Element Alchemy
+*DoorClimax
+EndCard
+
+Climax: SG/W89-080
+Name De Re Metallica
+*StandbyClimax
+EndCard
+
+Climax: SG/W89-081
+Name HORNET PISTOLS
+*DoorClimax
+EndCard
+
+Character: SG/W89-082
+Name Tsubasa, Amalgam
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Combo The Value of Those Who Should Be Protected
+Cont: GiveSelf
+{
+    If MyTurn && StageContains 1 Other && HasTrait Music
+    {
+        GainPower 1500
+    }
+}
+Text Cont: During your turn, if you have another «Music» character, this card gets +1500 power.
+Auto: OnReverseOpponent
+{
+    If Climax The Value of Those Who Should Be Protected && StageContains 1 Other && HasTrait Music
+    {
+        PayCost Discard 1 HasTrait Music && IsCharacter
+        {
+            SearchLocationForTargets Deck 0 2 HasTrait Music && IsCharacter
+            Reveal
+            MoveCard Hand
+            ShuffleLocation Deck
+        }
+    }
+}
+Text Auto: CxCombo [Put a «Music» character from hand to the waiting room] When this card's battle opponent becomes reverse, if "The Value of Those Who Should Be Protected" is in your climax area and you have another «Music» character, you may pay the cost. If you do, search your deck for up to 2 «Music» characters, show them to your opponent, put them in your hand, and Shuffle your deck.
+EndCard
+
+Character: SG/W89-083
+Name Tsubasa, Ultimate Song of the Valkyrie
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Music
+Trait2 Weapon
+*EarlyPlay2OrLessClimax
+*GainPowerForEachOther(500, Music)
+*StockHealer
+EndCard
+
+Character: SG/W89-084
+Name Tsubasa, Holy Chant
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait Music && IsCharacter
+    {
+        SearchDeck NameEquals Ame-no-Habakiri
+    }
+}
+Text Auto: [Put a «Music» character card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Ame-no-Habakiri", reveal it, put it in your hand, and shuffle your deck.
+*OnPlayTradeClimaxForCharacter(Music)
+EndCard
+
+Character: SG/W89-085
+Name Tsubasa, Solid Preparatory Exercise
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Combo Chaos Flame Wrath Slash
+Auto: StartMyEncorePhase
+{
+    If Climax Chaos Flame Wrath Slash && InLocation CenterStage && StageContains 1 Other && HasTrait Music &&& FacingIsEmptyOrReversed
+    {
+        SearchLocationForTargets Deck 0 2 HasTrait Music && IsCharacter
+        Reveal
+        MoveCard Stock
+        ShuffleLocation Deck
+    }
+}
+Text Auto: CxCombo At the beginning of your encore step, If "Chaos Flame Wrath Slash" is in your climax area, this card is in your center stage, you have another «Music» character, and either there is no character facing this card or the character facing this card is reverse, search your deck for up to 2 «Music» characters, show them to your opponent, place them to your stock in any order, and Shuffle your deck.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: SG/W89-086
+Name Tsubasa, Resurrected Phoenix
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    If LocationContains Level 1 NameEquals Airget-Lamh | Ame-no-Habakiri
+    {
+        GainPower 4500
+    }
+}
+Text Cont: EXPERIENCE If you have "Airget-Lamh" or "Ame-no-Habakiri" in your level, this card gets +4500 power.
+*Healer
+Auto: OnAttack
+{
+    PayCost 1
+    {
+        TargetTop Deck 1
+        Reveal
+        IfTarget HasTrait Music && IsCharacter || NameEquals Airget-Lamh | Ame-no-Habakiri
+        {
+            Burn 1
+        }
+    }
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, reveal the top card of your deck, if it is a «Music» character, "Airget-Lamh" or "Ame-no-Habakiri", deal 1 damage to your opponent.
+EndCard
+
+Character: SG/W89-087
+Name Tsubasa, Deco Pin
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*OnPlayGivePower(1500,Music)
+*OnAttackGivePower(1500,Music)
+EndCard
+
+Character: SG/W89-088
+Name Autoscorer Galie
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Alchemy
+Trait2 Doll
+Auto: OnReversed
+{
+    PayCost 1 Discard 1 Any SendSelf Memory
+    {
+        DrawCard
+    }
+}
+Text Auto: [(1) Put a card from your hand to the waiting room, put this card into memory] When this card becomes reverse in battle, you may pay the cost. If you do, draw a card.
+*Act1Rest2SearchBrainstorm(Alchemy)
+EndCard
+
+Character: SG/W89-089
+Name Tsubasa, Prepared Facial Expression
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*ClimaxExchange
+EndCard
+
+Character: SG/W89-090
+Name Elfnein, What Can Be Done for Everyone
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Alchemy
+Combo Awakening Heartbeat
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If HasTarget
+    {
+        PayCost Discard 1 Any
+        {
+            SearchWaitingRoom IsCharacter
+        }
+    }
+}
+Text Auto: [Put a card from your hand to the waiting room] When this card is placed on the stage from your hand, put the top 2 cards of your deck in the waiting room. If there's at least 1 climax card among them, you may pay the cost. If you do, choose a character in your waiting room and return it to your hand.
+Auto: OnSpecificClimaxPlay Awakening Heartbeat
+{
+    RememberSlot
+    PayCost SendSelf WaitingRoom
+    {
+        SearchLocationForTargets Hand 0 1 NameEquals Carol, Overwhelming Power
+        If HasTarget
+        {
+            PlaceOnRememberedSlot
+        }
+    }
+}
+Text Auto: CxCombo [Put this card in the waiting room] When "Awakening Heartbeat" is placed on your climax area, you may pay the cost. If you do, choose up to 1 "Carol, Overwhelming power" in your hand and put it in the position this card was in.
+EndCard
+
+Character: SG/W89-091
+Name Elsa, Noble Red
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Alchemy
+*FreeRunner
+*RedLevel0Bomb
+EndCard
+
+Character: SG/W89-092
+Name Tsubasa, On Stage Once Again
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals Maria, On Stage Once Again
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If you have another "Maria, On Stage Once Again", this card gets +3000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: SG/W89-093
+Name Millaarc, Noble Red
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Alchemy
+*OnAttackGiveOtherPower(1000,God|Alchemy)
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: SG/W89-094
+Name Tsubasa, Devilish Appearance
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+    If StageContains 1 Other && HasTrait Music
+    {
+        TargetSelf
+        MultipleChoiceQuestion Choose an effect to gain.\n1: [A] When this card's battle opponent becomes reverse, choose 1 of your other characters, Rest it, and move it to an open position in your back stage.\n2: [A] At the beginning of your opponent's attack phase, you may move this card to an open position in your center stage.|1|2
+        If Answer 0
+        {
+            UntilEndOfOpponentsTurn
+            GainEffect
+            {
+                *MoveOtherToBackstageOnReverse
+            }
+        }
+        If Answer 1
+        {
+            UntilEndOfOpponentsTurn
+            GainEffect
+            {
+                *FreeRunner
+            }
+        }
+    }
+}
+Text Auto: At the beginning of your climax phase, if you have another «Music» character, this card gets 1 of the following 2 abilities of your choice until the end of your opponent's next turn. "Auto: When this card's battle opponent becomes reverse, choose 1 of your other characters, Rest it, and move it to an open position in your back stage." "Auto: At the beginning of your opponent's attack phase, you may move this card to an open position in your center stage."
+EndCard
+
+Character: SG/W89-095
+Name Tsubasa, Burning X-Drive
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+    TargetLocation Stage
+    NarrowTargets HasTrait Music
+    SetXValue TargetCount
+    MillOpponent X
+}
+Text Auto: When you use this card's "BACKUP", put X cards from the bottom of your opponent's deck into the waiting room. X equals the number of your «Music» characters.
+Backup 3000
+EndCard
+
+Character: SG/W89-096
+Name Vanessa, Noble Red
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Alchemy
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartOpponentAttackPhase
+{
+    PayCost Discard 1 NameEquals Millaarc, Noble Red &&& Discard 1 NameEquals Elsa, Noble Red &&& SendSelf WaitingRoom
+    {
+        TargetLocation OpponentStage
+        NarrowTargets CanBeChosen
+        If HasTarget
+        {
+            ChooseCharacterFromTargets Choose a character to rest
+            Rest
+        }
+    }
+}
+Text Auto: [Discard a "Millaarc, Noble Red" and a "Elsa, Noble Red" to the waiting room, put this card in the waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your opponent's characters and rest it.
+EndCard
+
+Event: SG/W89-097
+Name Ame-no-Habakiri
+Color B
+Level 2
+Cost 1
+Requirement StageContains 4 HasTrait Music
+Effect:
+{
+    Message Place an Tsubasa, Holy Chant to memory.
+    PayCost Send 1 Memory NameEquals Tsubasa, Holy Chant && CardPosition Stand
+    {
+        Message Choose a character with "Tsubasa" in name from your hand and put it in any Slot on the Stage.
+        SearchLocationForTargets Hand 0 1 NameContains 翼
+        PlaceOnStage false true true false
+        ScheduleEffect StartClimaxPhase
+        {
+            Effect:
+            {
+                SearchLocationForTargets Memory 1 1 NameEquals Tsubasa, Holy Chant
+                MoveCard Hand
+            }
+        }
+    }
+    SearchLocationForTargets Level 0 1 Any
+    If HasTarget
+    {
+        SaveTargets
+        TargetSelf
+        AddSavedToCurrentTargets
+        Exchange
+        TargetSelf
+        RemoveCurrentFromSavedTargets
+        LoadTargets
+        MoveCard WaitingRoom
+    }
+}
+Text You cannot play this card from hand if you have 3 or fewer «Music» characters. You may choose 1 of your Standing "Tsubasa, Holy Chant" and Send it to memory. If you do, choose a character with "Tsubasa" in its card name in your hand, place it to any position on your stage, and at the beginning of your climax phase, choose a "Tsubasa, Holy Chant" in memory and return it to hand. You may choose a card in your level and place it in the waiting room. If you do, place this card in your level.
+EndCard
+
+Climax: SG/W89-098
+Name The Value of Those Who Should Be Protected
+*GateClimax
+EndCard
+
+Climax: SG/W89-099
+Name Chaos Flame Wrath Slash
+*BookClimax
+EndCard
+
+Climax: SG/W89-100
+Name Awakening Heartbeat
+*GateClimax
+EndCard
+
+Character: SG/W89-108
+Name Hibiki, To the World of Tomorrow
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+*OnPlayGainPowerForEach(500, Music)
+Act: 1
+{
+    If StageContains 2 Other && HasTrait Music
+    {
+        TargetSelf
+        GainPower 1000
+        BlockOpponentEncore
+    }
+}
+Text Act: [(1)] If the number of other «Music» characters you have is 2 or more, this card gets +1000 power and your opponent cannot use "ENCORE" until end of turn.
+EndCard
+
+Character: SG/W89-109
+Name Shirabe, To the World of Tomorrow
+Color G
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*GreenCost0Bomb
+Act: Rest 2 Any
+{
+    *GiveCharacterPower(2000,Music)
+}
+Text Act: [Rest 2 of your characters] Choose 1 of your «Music» characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: SG/W89-110
+Name Kirika, To the World of Tomorrow
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*BackupBonus1000(Music)
+Backup 2500
+EndCard
+
+Character: SG/W89-111
+Name Maria, To the World of Tomorrow
+Color R
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*GainPowerWhenOtherAttacks(2000,Music)
+EndCard
+
+Character: SG/W89-112
+Name Chris, To the World of Tomorrow
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+*OnPlayGainPowerForEach(1000, Music)
+EndCard
+
+Character: SG/W89-113
+Name Tsubasa, To the World of Tomorrow
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    If Not MyTurn && LocationContains Hand 5 Any
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your opponent's turn, if there are 5 or more cards in your hand, this card gets +2000 power.
+EndCard
+
+Character: SG/W89-P01
+Name Hibiki & Miku, Intimate Relationship
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Soul 1
+Trait1 Music
+*PowerOnMyTurn(1000)
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: SG/W89-P02
+Name Chris & Tsubasa, Brilliance of the Beach
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Music
+Trait2 Weapon
+Cont: GiveSelf
+{
+    If StageContainsOrLess 0 Other
+    {
+        GainPower 1500
+        GainEffect
+        {
+            *FreeRunner
+        }
+    }
+}
+Text Cont: If you have no other characters, this card gets +1500 power and the following ability. "Auto: At the beginning of your opponent's attack phase, you may move this card to an open position of your center stage."
+EndCard
+

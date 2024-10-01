@@ -1,0 +1,1625 @@
+Character: N2/W25-001
+Name Return of Lightning, Fate
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Magic
+Trait2 Clone
+Cont: InHand
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If there are 5 or less cards in your deck, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 HasTrait Magic
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Memory If there are 2 or more <Magic> characters in your memory, this card gains +1000 power.
+*Healer
+EndCard
+
+Character: N2/W25-002
+Name Something to Protect, Signum
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters HasTrait Magic && Other
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other <Magic> characters.
+Auto: OnDamageCancel
+{
+	If PlayedThisTurn
+	{
+		*OptionalBurn(1)
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. During the turn this card is placed on stage from your hand, if the damage dealt by this card is cancelled, you may deal 1 damage to your opponent.
+*OnReverseMayMemoryOpponent
+EndCard
+
+Character: N2/W25-003
+Name Afterwards, Fate
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Clone
+Cont: GiveAll
+{
+	If Other && NameContains Nanoha
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: All of your other characters with "Nanoha" in its card name gain "Auto: ENCORE [Discard a character]"
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +1 soul
+		GainSoul 1
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose 1 of your characters and that character gains +1 soul.
+EndCard
+
+Character: N2/W25-004
+Name For Her Friends, Fate
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Clone
+Auto: OnPlay
+{
+	GainLevel 1
+	GainPower 1000
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, this card gains +1 level and +1000 power until end of turn.
+Auto: OnReversed
+{
+	PayCost 1
+	{
+		MoveCard Memory
+	}
+}
+Text Auto: [(1)] When this card becomes reversed in battle, you may pay the cost. If you do, send this card to your memory.
+EndCard
+
+Character: N2/W25-005
+Name Victory Declaration, Fate
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Magic
+Trait2 Clone
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Magic
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a <Magic> character, this card gains +200 power until end of turn.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Fate|Arf
+	ChooseCharacterFromTargets Choose a character to rest
+	Rest
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your standing characters with either "Fate" or "Arf" in its card name and rest it.
+EndCard
+
+Character: N2/W25-006
+Name Sonic Drive, Fate
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Magic
+Trait2 Clone
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInMemory 1 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Memory During your turn, if there is a card is your memory, this card gains +1500 power.
+*HandEncore
+EndCard
+
+Character: N2/W25-007
+Name Place Where She Should Be At, Fate
+Color Y
+Level 1
+Cost 1
+Power 6500
+Trait1 Magic
+Trait2 Clone
+Combo End of the Dreams
+Auto: StartMyEncoreStep
+{
+	If Climax End of the Dreams
+	{
+		Question Send this card to your memory?
+		If Yes
+		{
+			MoveCard Memory
+			ScheduleEffectForTargets StartDrawPhase
+			{
+				Effect:
+				{
+					If InLocation Memory
+					{
+						PlaceOnStage False True True False
+						GainPower 1500
+						GainSoul 1
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the start of your encore step, if "End of the Dreams" is in your climax area, you may send this card to your memory. If you do, at the start of your next draw phase, choose a "Place Where She Should Be At, Fate" in your memory and place it on any position on your stage and that character gains +1500 power and +1 soul.
+EndCard
+
+Character: N2/W25-008
+Name Ideal Family, Fate
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Magic
+Trait2 Clone
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Magic
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 2 or more other <Magic> characters, this card gains +2000 power until end of turn.
+EndCard
+
+Character: N2/W25-009
+Name Reunited After A Long Time, Fate
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Clone
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		TargetSelf
+		GainPower 1000
+		GainSoul 1
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, this card gains +1000 power and +1 soul until end of turn.
+EndCard
+
+Character: N2/W25-010
+Name Mysterious Swordsman, Signum
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Weapon
+Combo Strong Enemy in the Way
+Auto: OnAttack
+{
+	If Climax Strong Enemy in the Way
+	{
+		PayCost 1 Rest 1 Any
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+			Bounce
+		}
+	}
+}
+Text Auto: CxCombo [(1) Rest 1 of your standing characters] When this card attacks, if "Strong Enemy in the Way" is in your climax area, you may pay the cost. If you do, choose 1 of your opponent's characters and return it to their hand.
+EndCard
+
+Character: N2/W25-011
+Name Encounter on the Rooftop, Signum
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 1500
+		GainSoul 1
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the start of your climax phase, you may pay the cost. If you do, this card gains +1500 power and +1 soul until end of turn.
+EndCard
+
+Character: N2/W25-012
+Name Declaration of a General, Signum
+Color Y
+Level 1
+Cost 1
+Power 6500
+Trait1 Magic
+Trait2 Weapon
+Auto: OnPlay|PlacedBy Awakening of the Book of Darkness
+{
+	If StageContains 2 Other && HasTrait Magic
+	{
+		GainSoul 1
+	}
+}
+Quick
+Text Auto: When this card is placed on stage from your hand or via the effect of "Awakening of the Book of Darkness", if you have 2 or more other <Magic> characters, this card gains +1 soul until end of turn.
+EndCard
+
+Character: N2/W25-013
+Name Feeling of Gratitude, Arf
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Familiar
+Trait2 Animal
+Auto: OnUseThisCardsBackup
+{
+	If Compare CardsInMemory 2 OrMore
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: Memory When you use this card's BACKUP, if you have 2 or more cards in your memory, your character in battle gets +1000 power until end of turn.
+Backup 2500
+EndCard
+
+Character: N2/W25-014
+Name Final Battle, Fate
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Magic
+Trait2 Clone
+Combo Strike of Lightning God
+Auto: OnAttack
+{
+	If Climax Strike of Lightning God
+	{
+		BlockOpponentEvents
+		BlockOpponentBackup
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Strike of Lightning God" is in your climax area, your opponent cannot use events or BACKUP from their hand until end of turn.
+EndCard
+
+Character: N2/W25-015
+Name Feeling Nice, Fate
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Clone
+*HexProof
+*500Assist
+EndCard
+
+Character: N2/W25-016
+Name Schlangebeiβen, Signum
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Weapon
+Act: Discard 1 Any Rest 2 Any
+{
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Magic && Compare ThatCardsLevel 0 OrLess
+	PlaceOnStage False True True False
+}
+Text Act: [Discard a card and rest 2 of your characters] Choose a level 0 or lower <Magic> character and place it on any position on your stage.
+EndCard
+
+Character: N2/W25-017
+Name Pestering, Alicia 
+Color Y
+Level 0
+Cost 0
+Power 2500
+*HandEncore
+EndCard
+
+Character: N2/W25-018
+Name Waking Up, Signum
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Weapon
+EndCard
+
+Character: N2/W25-019
+Name New Power, Fate
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Clone
+*OnPlayGiveOtherPower(1000,Magic)
+Auto: StartClimaxPhase
+{
+	PayCost 1 SendSelf Memory
+	{
+		*ChangeWaitingRoom(Sonic Drive\, Fate)
+	}
+}
+Text Auto: CHANGE [(1) Send this card to your memory] At the start of your climax phase, you may pay the cost. If you do, choose a "Sonic Drive, Fate" is in your waiting room and place it on the stage position this card was on.
+EndCard
+
+Character: N2/W25-020
+Name Ideal Family, Precia & Rinis
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Magic
+Trait2 Animal
+EndCard
+
+Character: N2/W25-021
+Name Bureau Worker, Signum
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Magic
+Trait2 Weapon
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Magic
+	{
+		GainPower 1000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When your other <Magic> character is placed on stage from your hand, this card gains +1000 power until end of turn.
+EndCard
+
+Event: N2/W25-022
+Name Walking Together Nicely
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	MoveCard Memory
+}
+Cont: Memory
+{
+	If InLocation MiddleCenterStage && NameContains Fate
+	{
+		GainPower 1000
+	}
+}
+Text Send this card to your memory.
+Text Cont: Memory If this card is in your memory, your other character with "Fate" in its card name in the middle position of your center stage gets +1000
+EndCard
+
+Climax: N2/W25-023
+Name End of the Dreams
+*WindClimax
+EndCard
+
+Climax: N2/W25-024
+Name Strike of Lightning God
+*ShotClimax
+EndCard
+
+Climax: N2/W25-025
+Name Strong Enemy in the Way
+Color Y
+*DrawClimax
+EndCard
+
+Character: N2/W25-026
+Name Battle Stance, Lindy
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Magic
+Trait2 Tea
+*OnPlayGainPower(3000)
+EndCard
+
+Character: N2/W25-027
+Name Memory of the Past, Lindy
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Magic
+Trait2 Tea
+Cont: GiveAll
+{
+	If NameContains Chrono|Lindy && Other
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other characters with either "Chrono" or "Lindy" in its card name gain +1000 power.
+EndCard
+
+Character: N2/W25-028
+Name "Extremely Large Freezing Magic" Chrono
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Lindy && Other
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have another character with "Lindy" in its card name, this card gains +2000 power and "Auto: ENCORE [Discard a character]".
+EndCard
+
+Character: N2/W25-029
+Name Memories about the "Book of Darkness" Incident, Chrono
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Weapon
+Act: 1 Rest 1 Any
+{
+	GainPower 2500
+}
+Text Act: [(1) Rest 1 of your characters] This card gains +2500 power until end of turn.
+EndCard
+
+Character: N2/W25-030
+Name Christmas Party, Alisa & Suzuka
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Animal
+Trait2 Book
+EndCard
+
+Character: N2/W25-031
+Name Determined Look, Nanoha
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 HasTrait Magic
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Memory If your memory has 2 or more <Magic> characters, this card gains +2000 power.
+Auto: OnPlay
+{
+	If StageContains 3 HasTrait Magic && Other
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 3 or more other <Magic> characters, you may put the top card of your deck into your stock.
+*ScryWhenAttacked
+EndCard
+
+Character: N2/W25-032
+Name Angry Look, Vita
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Doll
+Cont: InHand
+{
+	If Compare ClimaxInWaitingRoom 6 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of climax in your waiting room is 6 or more, this card gets -1 level in your hand.
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotBeReversedByAutoEffects
+}
+Text Cont: This card cannot be reversed by your opponent's character AUTO effects.
+Auto: OnOpponentReverse
+{
+	If MyTurn
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 2 OrLess
+			ChooseCharacterFromTargets Choose a character to put to the top of your opponent's deck
+			MoveCard OpponentDeck
+		}
+	}
+}
+Text Auto: [(1)] During your turn, when this card's battle opponent becomes reversed, you may pay the cost. If you do, choose a level 2 or lower character in your opponent's center stage and put it on top of your opponent's deck.
+EndCard
+
+Character: N2/W25-033
+Name Cheerful, Nanoha
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Weapon
+Combo Morning of Promise
+Auto: OnAttack
+{
+	If Climax Morning of Promise
+	{
+		Mill 3
+		NarrowTargets HasTrait Magic
+		If Compare TargetCount 3 Exactly
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Morning of Promise" is in your climax area, put the top 3 cards of your deck into your waiting room. If all of the cards put into the waiting room by this effect are <Magic> characters, choose a character in your waiting room and return it to your hand.
+EndCard
+
+Character: N2/W25-034
+Name Eating, Vita
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Magic
+Trait2 Doll
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Not HasTrait Magic
+	{
+		MoveCard Clock
+	}
+	Else
+	{
+		EndPeek
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is not a <Magic> character, put it into your clock.
+EndCard
+
+Character: N2/W25-035
+Name Cartridge System, Nanoha
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Trait2 Weapon
+*GainPowerWithEnoughCharacters(1000,3,Magic)
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 3000
+		GainLevel 1
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the start of your climax phase, you may pay the cost. If you do, this card gains +1 level and +3000 power until end of turn.
+EndCard
+
+Character: N2/W25-036
+Name Accel Mode, Nanoha
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 1 OrMore
+	{
+		GainLevel 1
+		GainPower 1000
+	}
+}
+Text Cont: Memory If there is at least 1 card in your memory, this card gains +1 level and +1000 power.
+Auto: OnPlay|PlacedBy CHANGE
+{
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			Question Put the battle opponent on top of your opponent's deck?
+			If Yes
+			{
+				TargetBattleOpponent
+				MoveCard OpponentDeck
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck.
+	}
+}
+Text Auto: When this card is placed on stage from your hand or via CHANGE, this card gains the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck."
+EndCard
+
+Character: N2/W25-037
+Name Heroic Determination, Vita
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Magic
+Trait2 Doll
+Combo For Hayate
+Auto: OnAttack
+{
+	If Climax For Hayate
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			GainEffect
+			{
+				*FreeEncore
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "For Hayate" is in your climax area, you may pay the cost. If you do, all of your characters gain the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to its previous position as rested."
+EndCard
+
+Character: N2/W25-038
+Name Exelion Mode, Nanoha
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Combo Exelion Buster A.C.S
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 Other && HasTrait Magic
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Memory If your memory has 2 or more <Magic> characters in your memory, this card gains +2000 power.
+Auto: OnAttack
+{
+	If Climax Exelion Buster A.C.S
+	{
+		PayCost 2
+		{
+			Burn 1
+			GainPower 3000
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Exelion Buster A.C.S" is in your climax area, you may pay the cost. If you do, deal 1 damage to your opponent and this card gains +3000 power until end of turn.
+EndCard
+
+Character: N2/W25-039
+Name Sudden Attack, Nanoha
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Weapon
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any SendSelf Memory
+	{
+		SearchWaitingRoom HasTrait Magic && IsCharacter
+	}
+}
+Text Auto: [(1) Discard a card and send this card to your memory] When this card becomes reversed in battle, you may pay the cost. If you do, choose a <Magic> character in your waiting room and return it to your hand.
+EndCard
+
+Character: N2/W25-040
+Name Schwalbefliegen, Vita
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Doll
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				PayCost 1
+				{
+					SearchWaitingRoom HasTrait Magic
+				}
+			}
+			Text Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose a <Magic> character in your waiting room and return it to your hand.
+		}
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the start of your climax phase, you may pay the cost. If you do, this card gains +1000 power and the following ability until end of turn. "Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose a <Magic> character in your waiting room and return it to your hand."
+EndCard
+
+Character: N2/W25-041
+Name New Power, Nanoha
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Weapon
+*OnPlayGiveOtherPower(1000,Magic)
+Auto: StartClimaxPhase
+{
+	PayCost 1 SendSelf Memory
+	{
+		*ChangeWaitingRoom(Accel Mode\, Nanoha)
+	}
+}
+Text Auto: [(1) Send this card to your memory] At the start of your climax phase, you may pay the cost. If you do, choose a "Accel Mode, Nanoha" in your waiting room and put it on the stage position this card was on.
+EndCard
+
+Character: N2/W25-042
+Name Encounter of the Rooftop, Vita
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Doll
+Auto: OnPlay|PlacedBy Awakening of the Book of Darkness
+{
+	SetXToNumberOfCharacters HasTrait Magic
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand or via the effect of "Awakening of the Book of Darkness", this card gets +X power until end of turn. X is 500 times the number of <Magic> characters you have.
+EndCard
+
+Character: N2/W25-043
+Name Accel Shooter, Nanoha
+Color R
+Level 1
+Cost 1
+Power 7000
+Trait1 Magic
+Trait2 Weapon
+EndCard
+
+Character: N2/W25-044
+Name First Time Fighting Together, Vita
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Magic
+Trait2 Doll
+Auto: OnOtherReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Vita
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: When your other character becomes reversed in battle, choose 1 of your characters with "Vita" in its card name, it gets +1000 power until end of turn.
+*RestGivePower(3000,Any)
+EndCard
+
+Character: N2/W25-045
+Name Truth to be Told, Nanoha
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Magic
+Trait2 Weapon
+*LevelAssist
+*RestGivePower(500,Magic)
+EndCard
+
+Character: N2/W25-046
+Name Present from Hayate, Vita
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Doll
+*500Assist
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic
+	ChooseCharacterFromTargets Choose a character to gain +500 power.
+	GainPower 500
+}
+Text Act: [(1)] Choose 1 of your <Magic> characters and that character gains +500 power until end of turn.
+EndCard
+
+Character: N2/W25-047
+Name Oath Between Two, Nanoha & Fate
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Weapon
+*BondClock(Place Where She Should Be At\, Fate)
+EndCard
+
+Character: N2/W25-048
+Name Reuinited After A Long Time, Nanoha
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Weapon
+*OnAttackGiveOtherPower(1500,Any)
+EndCard
+
+Character: N2/W25-049
+Name Happy Days, Vita
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Doll
+EndCard
+
+Character: N2/W25-050
+Name Advisor, Yuuno
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Book
+Auto: OnPlay
+{
+	PayCost 1 Rest 2 HasTrait Magic
+	{
+		SearchWaitingRoom NameContains Nanoha
+	}
+}
+Text Auto: [(1) Rest 2 of  your standing <Magic> characters] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a character in your waiting room with "Nanoha" in its card name and return it to your hand.
+EndCard
+
+Character: N2/W25-051
+Name Bureau Worker, Vita
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Magic
+Trait2 Doll
+Backup 2500
+EndCard
+
+Event: N2/W25-052
+Name To Not Hurt Anyone
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchWaitingRoom HasTrait Magic
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Choose a <Magic> character in your waiting room and return it to your hand.
+Text Choose 1 of your characters and that character gains +1000 power until end of turn.
+EndCard
+
+Climax: N2/W25-053
+Name For Hayate
+Color R
+*2SoulClimax
+EndCard
+
+Climax: N2/W25-054
+Name Morning of Promise
+Color R
+*DrawClimax
+EndCard
+
+Climax: N2/W25-055
+Name Exelion Buster A.C.S
+*DoorClimax
+EndCard
+
+Character: N2/W25-056
+Name Unison in! Hayate
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Magic
+Trait2 Doll
+*GlobalPower(1000,Magic|Book)
+Requirement StageContains 1 NameEquals Nap Time, Reinforce
+Act: 2
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Nap Time, Reinforce
+	ChooseCharacterFromTargets Choose a character to send to your memory
+	RememberSlot
+	MoveCard Memory
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Hayate & Reinforce as One
+	PlaceOnRememberedSlot
+}
+Text Act: [(2) Send 1 "Nap Time, Reinforce" from stage to your memory] Choose a "Hayate & Reinforce as One" in your waiting room and place it on the stage position the card sent to your memory was in.
+EndCard
+
+Character: N2/W25-057
+Name Hayate & Reinforce as One
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Book
+Combo Petrifying Lance, Mistilteinn
+Cont: GiveSelf
+{
+	If OpponentsTurn &&& LocationContains Memory 2 NameContains Hayate || HasTrait Magic
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Memory During your opponent's turn, if your memory has 2 or more characters with either <Magic> or "Hayate" is in its card name, this card gains +2000 power.
+Auto: OnAttack
+{
+	If Climax Petrifying Lance, Mistilteinn
+	{
+		PayCost 1 Rest 2 HasTrait Magic
+		{
+			GainPower 2000
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLess
+			ChooseCharactersFromTargets 0 2 Choose up to 2 characters to not stand
+			DontStand
+		}
+	}
+}
+Text Auto: CxCombo [(1) Rest 2 of your standing <Magic> characters] When this card attacks, if "Petrifying Lance, Mistilteinn" is in your climax area, you may pay the cost. If you do, this card gains +2000 power until end of turn, and choose up to 2 of your opponent's level 3 or lower characters to not stand during your opponent's next stand phase.
+*ScryWhenAttacked
+EndCard
+
+Character: N2/W25-058
+Name Support Role, Shamal
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Cont: GiveAll
+{
+	If OpponentsTurn &&& Other && HasTrait Book|Magic
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all of your <Magic> or <Book> chracters gain +500 power.
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Book
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainSpecialEffect NoBackupOnAttack
+	GainSpecialEffect NoEventsOnAttack
+}
+Text Act: [(1)] Choose 1 of your <Magic> or <Book> characters and that character gains the following ability until end of turn. "Cont: During battles involving this card, your opponent cannot play events or BACKUP from their hand."
+EndCard
+
+Character: N2/W25-059
+Name Making Breakfast, Hayate
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Book
+Auto: OnAttack
+{
+	If Climax Morning at the Hayate Household
+	{
+		DrawCard
+		Discard 1 Any
+		GainPower 500
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Morning at the Hayate Household" is in your climax area, draw a card, discard a card, and this card gains +500 power until end of turn.
+EndCard
+
+Character: N2/W25-060
+Name Happy Phone Time, Hayate
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Book
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 1 OrMore &&& OpponentsTurn
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Memory During your opponent's turn, if your memory has at least one card in it, this card gains +1500 power.
+*HandEncore
+EndCard
+
+Character: N2/W25-061
+Name Overspilling Passion, Reinforce
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Book
+Auto: OnPlay
+{
+	If StageContains 3 Other && HasTrait Magic|Book
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 3 or more other <Magic> or <Book> characters, this card gains +1000 power until the end of your opponent's turn.
+EndCard
+
+Character: N2/W25-062
+Name Moment of Farewell, Reinforce
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 10000
+Trait1 Magic
+Trait2 Book
+Auto: StartDrawPhase
+{
+	PayCost Clock
+	{
+	}
+	Else
+	{
+		TargetSelf
+		MoveCard Memory
+	}
+}
+Text Auto: AT the start of your draw phase, you may put the top card of your deck into your clock. If you do not, send this card to your memory.
+EndCard
+
+Character: N2/W25-063
+Name Overslept, Shamal
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Magic || NameContains Hayate
+	}
+}
+Text Auto: [(1) Put a card from your hand into the waiting room] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to one <Magic> character or has "Hayate" in its card name, and add it to your hand.
+EndCard
+
+Character: N2/W25-064
+Name Master of "Yagami Household", Hayate
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Book
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Magic || NameContains Hayate
+	{
+		GainPower 1000
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 2
+Text Auto: This ability activates up to twice per turn. When your other character with either <Magic> or "Hayate" in its card name, this card gains +1000 power until end of turn.
+Auto: OnReversed
+{
+	PayCost 1
+	{
+		MoveCard Memory
+	}
+}
+Text Auto: [(1)] When this card becomes reversed in battle, you may pay the cost. If you do, send this card to your memory.
+EndCard
+
+Character: N2/W25-065
+Name Nap Time, Reinforce
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Book
+*BondDiscard(Unison in! Hayate)
+EndCard
+
+Character: N2/W25-066
+Name Piercing, Zafira
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Familiar
+Trait2 Animal
+*GlobalPower(500,Book|Magic)
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to gain hand encore
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Act: [(1) Rest this card] Choose up to 2 of your characters and both of them gain "Auto: ENCORE [Discard a character]" until the end of your opponent's turn.
+EndCard
+
+Character: N2/W25-067
+Name Moment of Farewell, Hayate
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Magic
+Trait2 Book
+Cont: GiveSelf
+{
+	If Compare CardsInMemory 2 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Memory If your memory has 2 or more cards, this card gains +1500 power.
+EndCard
+
+Character: N2/W25-068
+Name Wishing Upon Friends, Reinforce
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Magic
+Trait2 Book
+*GainPowerWithEnoughCharacters(1500,3,Magic|Book)
+EndCard
+
+Character: N2/W25-069
+Name Spring Winds, Reinforce II
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Unison
+*500Assist
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Magic || NameContains Hayate
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 <Magic> character or has "Hayate" in its card name, reveal it, put it into your hand, and shuffle your deck afterwards
+EndCard
+
+Character: N2/W25-070
+Name Looking for Something, Hayate
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Book
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Magic || NameContains Hayate
+		ChooseCharacterFromTargets Choose a character to gain +1000 power
+		UntilEndOfOpponentsTurn
+		GainPower 1000
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over 4 cards from the top of your deck. For each climax revealed, choose 1 of your <Magic> or "Hayate" characters and that character gains +1000 power until the end of your opponent's turn.
+EndCard
+
+Character: N2/W25-071
+Name "Reminiscence" Reinforce
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Book
+EndCard
+
+Character: N2/W25-072
+Name Free from Curse, Hayate
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Book
+Backup 1500
+EndCard
+
+Character: N2/W25-073
+Name Expert of Supporting Magic, Shamal
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Heal
+	}
+}
+Text Auto: [(2)] When this card is placed on stage from your hand, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+EndCard
+
+Character: N2/W25-074
+Name Punishing Misbehaving Kids, Hayate
+Color B
+Level 1
+Cost 1
+Power 6500
+Trait1 Book
+Act: Rest 2 Any
+{
+	GainPower 2000
+}
+Text Act: [Rest 2 of your characters] This card gains +2000 power until the end of turn.
+EndCard
+
+Character: N2/W25-075
+Name Captured Core, Shamal
+Color B
+Level 1
+Cost 1
+Power 7000
+Trait1 Magic
+EndCard
+
+Character: N2/W25-076
+Name Bureau Worker, Shamal
+Color B
+Level 2
+Cost 1
+Power 7000
+Trait1 Magic
+*HandEncore
+Act: Rest 1 HasTrait Magic
+{
+	GainPower 1000
+}
+Text Act: [Rest 1 of your <Magic> characters] This card gains +1000 power until end of turn.
+EndCard
+
+Character: N2/W25-077
+Name Full Speed Sprint, Zafira
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Familiar
+Trait2 Animal
+EndCard
+
+Event: N2/W25-078
+Name Awakening of the Book of Darkness
+Color B
+Level 3
+Cost 2
+Requirement StageContains 1 NameContains Hayate
+Effect:
+{
+	TargetLocation WaitingRoom 
+	ChooseCardsFromTargets 0 1 NameEquals Declaration of a General, Signum
+	SaveTargets
+	TargetLocation WaitingRoom
+	ChooseCardsFromTargets 0 1 NameEquals Encounter on the Rooftop, Vita
+	AddCurrentToSavedTargets
+	TargetLocation WaitingRoom
+	ChooseCardsFromTargets 0 1 NameEquals Support Role, Shamal
+	AddCurrentToSavedTargets
+	TargetLocation WaitingRoom
+	ChooseCardsFromTargets 0 1 NameEquals Piercing, Zafira
+	AddCurrentToSavedTargets
+	LoadTargets
+	PlaceOnStage False True True False
+}
+Text If you do not have a character with "Hayate" in its card name, you cannot play this card from your hand.
+Text Choose up to 1 "Declaration of a General, Signum", up to 1 "Encounter on the Rooftop, Vita", up to 1 "Support Role, Shamal", up to 1 "Piercing, Zafira" and place them on seperate positions on your stage.
+EndCard
+
+Climax: N2/W25-079
+Name Morning at the Yagami Household
+Color B
+*DrawClimax
+EndCard
+
+Climax: N2/W25-080
+Name Petrifying Lance, Mistilteinn
+*BookClimax
+EndCard
+
+Character: N2/W25-081
+Name Time to Rest, Fate
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Clone
+Combo Maintenance for Everyone
+Auto: OnAttack
+{
+	If Climax Maintenance for Everyone &&& StageContains 2 Other && HasTrait Magic
+	{
+		TargetLocation Stage
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Maintenance for Everyone" is in your climax area and you have 2 or more other <Magic> characters, all of your characters gain +1000 power until end of turn.
+EndCard
+
+Character: N2/W25-082
+Name Time to Rest, Nanoha
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Weapon
+Auto: OnSpecificClimaxPlay Maintenance for Everyone
+{
+	If InLocation CenterStage &&& StageContains 2 Other && HasTrait Magic
+	{
+		BlockOpponentEncore
+	}
+}
+Text Auto: CxCombo When "Maintenance for Everyone" is placed in your climax area from your hand, if this card is in your center stage and you have 2 or more other <Magic> characters, your opponent may not use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: N2/W25-083
+Name Time to Rest, Hayate
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Book
+Auto: StartMyEncoreStep
+{
+	If Climax Maintenance for Everyone
+	{
+		PayCost 1 SendClimax WaitingRoom
+		{
+			DrawCard
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put a "Maintenance for Everyone" from your climax area into your waiting room] At the start of your encore step, you may pay the cost. If you do, draw a card.
+EndCard
+
+Climax: N2/W25-084
+Name Maintenance for Everyone
+Color B
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	DrawCard
+	TargetLocation Stage
+	GainPower 1000
+}
+Text Auto: When this card is placed on your climax area from your hand, draw a card and all of your characters gain +1000 power until end of turn.
+EndCard
+
+Character: N2/W25-P01
+Name Time of Smiles, Nanoha & Fate & Hayate
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Magic
+*HandEncore
+EndCard
+
+Character: N2/W25-P02
+Name Hayate & Vita & Signum
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Magic
+Trait2 Book
+Cont: GiveAll
+{
+	If OpponentsTurn &&& Other && HasTrait Magic
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your opponent's turn, all of your other <Magic> characters gain +1000 power.
+EndCard
+
+Character: N2/W25-P04
+Name The Yagami Household, Happy Family
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Book
+Act: Rest 2 Any
+{
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Act: [Rest 2 of your characters] This card gains +1000 power until the end of your opponent's turn.
+EndCard
+
+Character: N2/W25-P05
+Name Report for the "Family", Fate
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Clone
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any SendSelf Memory
+	{
+		SearchDeck HasTrait Clone
+	}
+}
+Text Auto: [(1) Discard a card and send this card to your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Clone> character, reveal it, put it into your hand and shuffle your deck.
+EndCard
+
+Character: N2/W25-P06
+Name "Revealed Secret" Nanoha
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Weapon
+*GainPowerWithEnoughCharacters(1000,3,Magic)
+EndCard
+

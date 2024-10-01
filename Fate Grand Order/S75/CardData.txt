@@ -1,0 +1,2328 @@
+// Babylonia Booster
+
+Character: FGO/S75-E001
+Name New Being Created by the Gods, Kingu
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 New Humanity
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Chaldea|Babylonia
+	{
+		TargetSelf
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Babylonia》 character, this card gets +2000 power until end of turn. 
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: FGO/S75-E002
+Name Acquiring Freedom, Ereshkigal
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Babylonia
+Trait2 Goddess
+*OnPlayMill2GainPowerForEachCharacter(1000,Chaldea|Babylonia)
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Chaldea|Babylonia
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S75-E003
+Name Pledge Severed, Ereshkigal
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 Goddess
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +1000 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 6
+	TargetBrainstormed
+	NarrowTargets IsClimax && HasTrigger Wind
+	If HasTarget
+	{
+		SearchWaitingRoom HasTrait Chaldea|Babylonia
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 6 cards from the top of your deck, and put them into your waiting room. If there is a climax with Wind in its trigger icon revealed among those cards, choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S75-E004
+Name Absolute Tactics, Kingu
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Babylonia
+Trait2 New Humanity
+Combo Emerged Fault
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Chaldea|Babylonia
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other 《Chaldea》 or 《Babylonia》 characters on your back stage.
+Auto: OnAttack
+{
+	If Climax Emerged Fault &&& StageContains 1 Other && HasTrait Babylonia|Chaldea
+	{
+		*CheckAndAddOne(1,HasTrait Chaldea|Babylonia)
+		PayCost 1
+		{
+			TargetSelf
+			GainSpecialEffect DoubleTrigger
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Emerged Fault" is in your climax area, and you have another 《Chaldea》 or 《Babylonia》 character, look at the top card of your deck, choose up to 1 《Chaldea》 or 《Babylonia》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step.
+EndCard
+
+Character: FGO/S75-E005
+Name Head-On Fight, Quetzalcoatl
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Babylonia
+Trait2 Goddess
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets_Optional
+	If HasTarget
+	{
+		Bounce
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, draw 1 card, choose 1 card in your hand, put it into your waiting room, choose up to 1 of your opponent's characters, and return it to their hand.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+		UntilEndOfOpponentsTurn
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +2500 power and +1 soul until the end of your opponent's next turn.
+EndCard
+
+Character: FGO/S75-E006
+Name Observing the State of Battle, Kingu
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Babylonia
+Trait2 New Humanity
+*Healer
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Chaldea|Babylonia
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, all of your 《Chaldea》 or 《Babylonia》 characters get +500 power and +1 soul until end of turn.
+EndCard
+
+Character: FGO/S75-E007
+Name The Goddess of Revenge, Gorgon
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Babylonia
+Trait2 Goddess
+Combo Enormous Size and Strength
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax Enormous Size and Strength
+	{
+		PayCost 1
+		{
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					*OptionalBurn(3)
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 3 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Enormous Size and Strength" is in your climax area, you may pay the cost. If you do, this card gets the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 3 damage to your opponent." 
+EndCard
+
+Character: FGO/S75-E008
+Name Coldhearted Eyes, Kingu
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Babylonia
+Trait2 New Humanity
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Chaldea|Babylonia
+	{
+		*CheckAndAdd(4)
+	}
+}
+Text Auto: [(1) Put 1 《Chaldea》 or 《Babylonia》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FGO/S75-E009
+Name Irritated Outcry, Gorgon
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Babylonia
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+EndCard
+
+Character: FGO/S75-E010
+Name The Great Bird of the Sun, Quetzalcoatl
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Babylonia
+Trait2 Goddess
+Combo Thrilling Fight
+*OnAttackGainPowerForEachOther(500,Chaldea|Babylonia)
+Auto: OnReverseOpponent
+{
+	If Climax Thrilling Fight
+	{
+		SearchDeck HasTrait Chaldea|Babylonia
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Thrilling Fight" is in your climax area, search your deck for up to 1 《Chaldea》 or 《Babylonia》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: FGO/S75-E011
+Name Resolve to Persist, Ereshkigal
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Babylonia
+Trait2 Goddess
+Combo Dignity of a Goddess
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Chaldea|Babylonia
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each of your other 《Chaldea》 or 《Babylonia》 characters on your back stage.
+Auto: OnReverseOpponent
+{
+	*CheckAndAddAll(3, HasTrait Chaldea|Babylonia)
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Dignity of a Goddess" is in your climax area, look at up to 3 cards from the top of your deck, choose up to 3 《Chaldea》 or 《Babylonia》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FGO/S75-E012
+Name Seated in the Temple, Quetzalcoatl
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 Goddess
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your 《Chaldea》 or 《Babylonia》 characters, it gets +1500 power until end of turn.
+Text Auto: When this card's trigger check reveals a climax, if that card has in its trigger icon, you may choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S75-E013
+Name Proud Warrior of the Jungle, Jaguar Warrior
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Babylonia
+Trait2 Divine
+*GiveAllOpponentsEncore2
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Chaldea|Babylonia
+		ChooseCharacterFromTargets
+		If HasTarget
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other 《Chaldea》 or 《Babylonia》 characters, and return it to your hand.
+EndCard
+
+Character: FGO/S75-E014
+Name Imminent Threat, Gorgon
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Babylonia
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameEquals For the Sake of the Plan, Kingu
+	{
+		GainEffect
+		{
+			Auto: StartOpponentDrawPhase
+			{
+				TargetTop Deck 1
+				Reveal
+				IfTarget HasTrait Chaldea|Babylonia
+				{
+					Question Return this card to hand?
+					If Yes
+					{
+						TargetSelf
+						Bounce
+					}
+				}
+			}
+			Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Babylonia》 character, you may return this card to your hand.
+		}
+	}
+}
+Text Cont: If you have another "For the Sake of the Plan, Kingu", this card gets the following ability. "Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Babylonia》 character, you may return this card to your hand." 
+*OnPlayGainPower(1500)
+EndCard
+
+Character: FGO/S75-E015
+Name For the Sake of the Plan, Kingu
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Babylonia
+Trait2 New Humanity
+Text 
+EndCard
+
+Character: FGO/S75-E016
+Name Frantic Retort! Ereshkigal
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Babylonia
+Trait2 Goddess
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters HasTrait Chaldea|Babylonia
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are 《Chaldea》 or 《Babylonia》, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: FGO/S75-E017
+Name Act of Madness, Gorgon
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Babylonia
+Trait2 Goddess
+*CannotSideAttack
+*OnPlayGainPowerForEach(1000,Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-E018
+Name Virtuous Terror, Quetzalcoatl
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 9000
+Trait1 Babylonia
+Trait2 Goddess
+*GainPowerWithEnoughCharacters(3000,2,Chaldea|Babylonia)
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	If OnStage
+	{
+		Rest
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, Rest that character.
+EndCard
+
+Event: FGO/S75-E019
+Name Terrorizing Gaze
+Color Y
+Level 2
+Cost 0
+Text If you do not have a 《Chaldea》 or 《Babylonia》 character, this card cannot be played from your hand.
+Effect:
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 3 OrLess
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position on the stage.
+	}
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotStand
+		}
+		Text Cont: This card cannot Stand during your stand phase.
+	}
+}
+ActivationRequirement StageContains 1 HasTrait Chaldea|Babylonia
+Text Choose 1 of your opponent's level 3 or lower characters, it gets the following 2 abilities until the end of your opponent's next turn. "Cont: This card cannot move to another position on the stage." "Cont: This card cannot Stand during your stand phase."
+EndCard
+
+Event: FGO/S75-E020
+Name Fierce Attack
+Color Y
+Level 3
+Cost 2
+Effect:
+{
+	Mill 4
+	NarrowTargets Compare ThatCardsLevel 1 OrMore
+	SetXValue TargetCount
+	Burn X
+}
+Text Put 4 cards from the top of your deck into your waiting room, and deal X damage to your opponent. X is equal to the number of level 1 or higher cards among those cards.
+EndCard
+
+Climax: FGO/S75-E021
+Name Emerged Fault
+*ChoiceClimax
+EndCard
+
+Climax: FGO/S75-E022
+Name Enormous Size and Strength
+*WindClimax
+EndCard
+
+Climax: FGO/S75-E023
+Name Thrilling Fight
+*WindClimax
+EndCard
+
+Climax: FGO/S75-E024
+Name Dignity of a Goddess
+*WindClimax
+EndCard
+
+Character: FGO/S75-E025
+Name No Buts! Ishtar
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 Goddess
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Return this card to hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Chaldea|Babylonia)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Chaldea》 or 《Babylonia》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FGO/S75-E026
+Name King Who Leads the People, Gilgamesh
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Babylonia
+Trait2 Wise King
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Chaldea|Babylonia
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are 《Chaldea》 or 《Babylonia》, this card gets +2000 power.
+Auto: OnPlay
+{
+	SearchDeck HasTrait Chaldea|Babylonia
+}
+Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 《Chaldea》 or 《Babylonia》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnReverseOpponent
+{
+	PayCost Discard 2 IsCharacter
+	{
+		TargetBattleOpponent
+		MoveCard OpponentClock
+	}
+}
+Text Auto: [Put 2 characters from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, put that battle opponent into your opponent's clock.
+EndCard
+
+Character: FGO/S75-E027
+Name Time for the Final Battle, Gilgamesh
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Babylonia
+Trait2 Wise King
+Combo The Will of Uruk to Continue Fighting
+*StockHealer
+Auto: OnSpecificClimaxPlay The Will of Uruk to Continue Fighting
+{
+	If InLocation CenterStage
+	{
+		PayCost 2 RestSelf
+		{
+			Repeat 3
+			{
+				Burn 1
+			}
+			TargetFacing
+			IfTarget Compare ThatCardsLevel 3 OrLess
+			{
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Rest this card] When "The Will of Uruk to Continue Fighting" is placed on your climax area, if this card is in your center stage, you may pay the cost. If you do, deal 1 damage to your opponent 3 times, choose 1 level 3 or lower character facing this card, and put it into your opponent's waiting room. 
+EndCard
+
+Character: FGO/S75-E028
+Name The High Priestess of Uruk, Siduri
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Babylonia
+Trait2 High Priestess
+*500Assist
+Act: 1 Discard 1 IsClimax
+{
+	SearchLocationForTargets Clock 1 1 Any
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 500
+	}
+}
+Text Act: [(1) Put 1 climax from your hand into your waiting room] Choose 1 card in your clock, return it to your hand, put the top card of your deck into your clock, choose 1 of your characters, it gets +500 power until end of turn.
+EndCard
+
+Character: FGO/S75-E029
+Name Brimming with Power, Ana
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Babylonia
+Trait2 Sweets
+*CharacterFacingThisCannotMove
+*CannotSideAttack
+EndCard
+
+Character: FGO/S75-E030
+Name Battle Where Sand Clouds Whirl, Gilgamesh
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Babylonia
+Trait2 Wise King
+Combo Recollections Through Battle
+*OnPlayGainPowerForEach(500,Chaldea|Babylonia)
+Auto: OnReverseOpponent
+{
+	If Climax Recollections Through Battle &&& StageContains 2 Other && HasTrait Chaldea|Babylonia
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 1 Any
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Recollections Through Battle" is in your climax area, and you have 2 or more other 《Chaldea》 or 《Babylonia》 characters, draw up to 2 cards, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: FGO/S75-E031
+Name Wise King's Orders, Gilgamesh
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Babylonia
+Trait2 Wise King
+*LevelAssist
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Bar
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When your character's trigger check reveals a climax, if that card has Bar in its trigger icon, you may put the top card of your deck into your stock.
+EndCard
+
+Character: FGO/S75-E032
+Name All That Was Wished For, Kingu
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Babylonia
+Trait2 New Humanity
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position on the stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position on the stage."
+*GreenEarlyPlayBomb
+EndCard
+
+Character: FGO/S75-E033
+Name Grand Caster, Merlin
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Babylonia
+*GlobalPower(1500,Chaldea|Babylonia)
+*Healer
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Chaldea|Babylonia
+	{
+		PeekTop Deck
+		EndPeek
+	}
+}
+Text Auto: When this card or your other 《Chaldea》 or 《Babylonia》 character is placed on the stage from your hand, you may look at the top card of your deck. 
+EndCard
+
+Character: FGO/S75-E034
+Name Wise King Seated on the Throne, Gilgamesh
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Babylonia
+Trait2 Wise King
+*500Assist
+Auto: StartClimaxPhase
+{
+	PayCost RestSelf Resonate Wise King's Holy Grail
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 2000
+	}
+}
+Text Auto: RESONATE [Reveal 1 card named "Wise King's Holy Grail" in your hand & Rest this card] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: FGO/S75-E035
+Name Halving With a Single Stroke, Gilgamesh
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Babylonia
+Trait2 Wise King
+Combo The Will of Uruk to Continue Fighting|Belief in Her "Choice"
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Belief in Her "Choice"|The Will of Uruk to Continue Fighting
+	{
+		SearchWaitingRoom NameEquals Belief in Her "Choice"|The Will of Uruk to Continue Fighting
+	}
+}
+Text Auto: CxCombo [Put 1 "The Will of Uruk to Continue Fighting" or "Belief in Her "Choice"" from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "The Will of Uruk to Continue Fighting" or "Belief in Her "Choice"" in your waiting room, and return it to your hand.
+*OnAttackCheck2ChooseTrigger
+EndCard
+
+Character: FGO/S75-E036
+Name Dreamlike Existence, Merlin
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Babylonia
+*OnAttackGiveOtherPower(1000,Chaldea|Babylonia)
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+Character: FGO/S75-E037
+Name Seething Fighting Spirit, Quetzalcoatl
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Babylonia
+Trait2 Goddess
+*ScryBackup(Chaldea|Babylonia)
+Backup 2000
+EndCard
+
+Character: FGO/S75-E038
+Name Writhing in Conflict, Ishtar
+Color G
+Level 1
+Cost 1
+Power 4500
+Trait1 Babylonia
+Trait2 Goddess
+*PowerOnMyTurn(2000)
+*CannotBeReversedByCost0
+EndCard
+
+Character: FGO/S75-E039
+Name Time to Part, Ana
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Babylonia
+Trait2 Sweets
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets
+		LosePower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent's center stage has 1 or less characters, choose 1 character on their center stage, it gets -3000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to send to memory.
+		MoveCard OpponentMemory
+		RememberTargets
+		ScheduleEffect StartMyEncoreStep
+		{
+			Effect:
+			{
+				If LocationContains OpponentMemory 1 RememberedByThisCard
+				{
+					TargetRemembered
+					OpponentPlaceOnStage False True True False
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, put it into their memory, and at the beginning of the encore step, your opponent places that character from their memory on any position of the stage.
+EndCard
+
+Character: FGO/S75-E040
+Name All-Out Seriousness, Jaguar Warrior
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 Divine
+*OnPlayReorderTop2
+*OnPlayGainPower(1500)
+EndCard
+
+Character: FGO/S75-E041
+Name Souvenir for the Travelers, Gilgamesh
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Babylonia
+Trait2 Wise King
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, this card gets +3000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Wise King's Holy Grail
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 "Wise King's Holy Grail" in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S75-E042
+Name Delicious Meal, Ana
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Babylonia
+Trait2 Sweets
+Combo She Actually Loves It?
+*GlobalPower(500, Chaldea|Babylonia)
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, it gets +1000 power until end of turn.
+Auto: OnSpecificClimaxPlay She Actually Loves It?
+{
+	PayCost RestSelf
+	{
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Chaldea|Babylonia
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: CxCombo [Rest this card] When "She Actually Loves It?" is placed on your climax area, you may pay the cost. If you do, choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: FGO/S75-E043
+Name Sudden Visit, Gilgamesh
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Babylonia
+Trait2 Wise King
+*OnAttackGivePower(2500,Any)
+EndCard
+
+Character: FGO/S75-E044
+Name Return of the King, Siduri
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Babylonia
+Trait2 High Priestess
+Cont: GiveAll
+{
+	If Other && NameEquals Wise King Returned From the Underworld, Gilgamesh
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Chaldea|Babylonia)
+		}
+	}
+}
+Text Cont: All of your other "Wise King Returned From the Underworld, Gilgamesh" get +1500 power and "Auto: ENCORE [Put 1 《Chaldea》 or 《Babylonia》 character from your hand into your waiting room]".
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther NameEquals Wise King Returned From the Underworld, Gilgamesh
+	{
+		*OptionalBlindStock
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When your other "Wise King Returned From the Underworld, Gilgamesh" is placed on the stage from your hand, you may put the top card of your deck into your stock.
+EndCard
+
+Character: FGO/S75-E045
+Name Wise King Returned From the Underworld, Gilgamesh
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Babylonia
+Trait2 Wise King
+Text 
+Text How about you get used to it by now?
+EndCard
+
+Event: FGO/S75-E046
+Name Wise King's Holy Grail
+Color G
+Level 1
+Cost 0
+Effect:
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Chaldea|Babylonia && Compare ThatCardsLevel X OrLess
+}
+Text Put 2 cards from the top of your deck into your waiting room, choose up to 1 level X or lower 《Chaldea》 or 《Babylonia》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Event: FGO/S75-E047
+Name Operation Marduk Blitz
+Color G
+Level 1
+Cost 1
+Text If you do not have a character with "Quetzalcoatl" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets
+	LosePower 6000
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	LosePower 6000
+}
+ActivationRequirement StageContains 1 NameContains Quetzalcoatl
+Text Choose 1 of your opponent's characters, that character gets -6000 power until end of turn, choose 1 of your characters, it gets -6000 power until end of turn.
+EndCard
+
+Event: FGO/S75-E048
+Name Awakening To...
+Color G
+Level 2
+Cost 1
+Effect:
+{
+	ForcePayCost Send 1 WaitingRoom Any
+	{
+		SearchDeck HasTrait Chaldea|Babylonia
+		SearchDeck HasTrait Chaldea|Babylonia
+	}
+}
+Text Choose 1 of your characters, and put it into your waiting room. If you do, search your deck for up to 2 《Chaldea》 or 《Babylonia》 characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Climax: FGO/S75-E049
+Name The Will of Uruk to Continue Fighting
+*BarClimax
+EndCard
+
+Climax: FGO/S75-E050
+Name Recollections Through Battle
+*BarClimax
+EndCard
+
+Climax: FGO/S75-E051
+Name She Actually Loves It?
+*BarClimax
+EndCard
+
+Character: FGO/S75-E052
+Name The Mistress of the Underworld, Ereshkigal
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Babylonia
+Trait2 Goddess
+Combo Together With Bloomed Flowers in the Underworld
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Chaldea|Babylonia
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another 《Chaldea》 or 《Babylonia》 character, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Together With Bloomed Flowers in the Underworld
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom Compare ThatCardsLevel X OrLess && IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Together With Bloomed Flowers in the Underworld" is in your climax area, put 2 cards from the top of your deck into your waiting room, choose up to 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: FGO/S75-E053
+Name Goddess Who Rules Over Venus, Ishtar
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Babylonia
+Trait2 Goddess
+Combo Final Battle With Mother
+*GainPowerForEachOther(500,Chaldea|Babylonia)
+*Healer
+Auto: OnAttack
+{
+	If Climax Final Battle With Mother
+	{
+		PayCost 2 Discard 2 Any
+		{
+			SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+			If HasTarget
+			{
+				RevealTargets
+				MoveCard OpponentDeck
+				ShuffleLocation OpponentDeck
+				Burn 4
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room] When this card attacks, if "Final Battle With Mother" is in your climax area, you may pay the cost. If you do, choose up to 2 cards in your opponent's waiting room, return them to their deck, your opponent shuffles their deck, and deal 4 damage to your opponent. 
+EndCard
+
+Character: FGO/S75-E054
+Name Goddess-Style Contract, Ishtar
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 Goddess
+*OnPlayScry
+*OnAttackMill1PutLevel0OnStage
+EndCard
+
+Character: FGO/S75-E055
+Name Splendid Appearance, Ereshkigal
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Babylonia
+Trait2 Goddess
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 1500
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 of your characters, it gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Chaldea|Babylonia
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Chaldea|Babylonia
+		ChooseCharacterFromTargets
+		GainPower 1000
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, return it to your hand, choose 1 of your other 《Chaldea》 or 《Babylonia》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: FGO/S75-E056
+Name Reassuring Ally, Ishtar
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Babylonia
+Trait2 Goddess
+*OnPlayTradeClimaxForCharacter(Chaldea|Babylonia)
+*RedLevel1Bomb
+EndCard
+
+Character: FGO/S75-E057
+Name Bringing the Underworld Beneath Uruk! Ereshkigal
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Babylonia
+Trait2 Goddess
+*GainPowerWithEnoughCharacters(2000,2,Chaldea|Babylonia)
+*HandEncore
+EndCard
+
+Character: FGO/S75-E058
+Name Steady Accumulation, Ereshkigal
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Babylonia
+Trait2 Goddess
+*GlobalPower(1000, Chaldea|Babylonia)
+*RestGivePower(1000,Any)
+EndCard
+
+Character: FGO/S75-E059
+Name Firing a Shot at a God, Ishtar
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Babylonia
+Trait2 Goddess
+*EarlyPlay4OrMore(Chaldea|Babylonia)
+*OnPlayCheckX(Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-E060
+Name Granting Special Rights, Ereshkigal
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Babylonia
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Chaldea|Babylonia
+	{
+		GainEffect
+		{
+			Act: 1 RestSelf
+			{
+				BlockOpponentEncore
+			}
+			Text Act: [(1) Rest this card] Your opponent cannot use "Auto: ENCORE" until end of turn.
+		}
+	}
+}
+Text Cont: If you have another 《Chaldea》 or 《Babylonia》 character, this card gets the following ability. "Act: [(1) Rest this card] Your opponent cannot use "Auto: ENCORE" until end of turn."
+*500Assist
+Act: 2 RestSelf
+{
+	SearchWaitingRoom HasTrait Chaldea|Babylonia
+}
+Text Act: [(2) Rest this card] Choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S75-E061
+Name Fused Consciousness, Ishtar
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Babylonia
+Trait2 Goddess
+*RedLevel0Bomb
+*Act1SalvageBrainstorm(Any)
+EndCard
+
+Character: FGO/S75-E062
+Name Intense Mid-Air Battle, Ishtar
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Babylonia
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 1 Other && HasTrait Chaldea|Babylonia
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your turn, if you have another 《Chaldea》 or 《Babylonia》 character, this card gets +3000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Chaldea|Babylonia
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: FGO/S75-E063
+Name Careful Aim, Ishtar
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Babylonia
+Trait2 Goddess
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Chaldea|Babylonia
+	{
+		Message Choose up to 1 《Chaldea》 or 《Babylonia》 character to put to stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Chaldea|Babylonia
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Chaldea》 or 《Babylonia》 characters, you may choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and put it into your stock.
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: FGO/S75-E064
+Name Expectant Gaze, Ereshkigal
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Babylonia
+Trait2 Goddess
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrait Chaldea|Babylonia
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and return it to your hand.
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may put the top card of your deck into your stock.
+EndCard
+
+Character: FGO/S75-E065
+Name Great Warrior, Benkei
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 Hero
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If Other && NameEquals Storied Hero, Ushiwakamaru
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, all of your other "Storied Hero, Ushiwakamaru" get +2000 power.
+*RestGivePower(1500,Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-E066
+Name Battle in the Underworld, Ereshkigal
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Babylonia
+Trait2 Goddess
+Combo Final Battle With Mother
+*GlobalPower(500,Chaldea|Babylonia)
+Auto: OnSpecificClimaxPlay Final Battle With Mother
+{
+	If StageContains 2 Other && HasTrait Chaldea|Babylonia
+	{
+		SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 0 OrLess && HasTrait Chaldea|Babylonia
+		If HasTarget
+		{
+			RevealTargets
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo When "Final Battle With Mother" is placed on your climax area, if you have 2 or more other 《Chaldea》 or 《Babylonia》 characters, you may choose 1 level 0 or lower 《Chaldea》 or 《Babylonia》 character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: FGO/S75-E067
+Name Triumphant Expression, Ishtar
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Babylonia
+Trait2 Goddess
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Chaldea|Babylonia
+	{
+		Question Put the revealed card as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Babylonia》 character, you may put it face down underneath this card as a marker. 
+EndCard
+
+Character: FGO/S75-E068
+Name The Spartan King, Leonidas I
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Babylonia
+Trait2 Hero
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, this card gets +1500 power.
+Cont: GiveAll
+{
+	If Other && StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, all of your other characters get +1500 power.
+EndCard
+
+Character: FGO/S75-E069
+Name Storied Hero, Ushiwakamaru
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Babylonia
+Trait2 Hero
+Text 
+EndCard
+
+Character: FGO/S75-E070
+Name Self-Reflection, Ishtar
+Color R
+Level 1
+Cost 0
+Power 6500
+Trait1 Babylonia
+Trait2 Goddess
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets
+	GainPower 3000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets +3000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: FGO/S75-E071
+Name Gifted in Warfare, Ushiwakamaru
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Babylonia
+Trait2 Hero
+*BackupBonus1000(Chaldea|Babylonia)
+Backup 2500
+EndCard
+
+Event: FGO/S75-E072
+Name Bribing a Goddess
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	MultipleChoiceQuestion Perform one of the following effects.\n1. Put up to 2 cards from the top of your deck into your stock.\n2. Choose 1 character in your waiting room, and return it to your hand.|Choice 1|Choice 2
+	If Answer 0
+	{
+		*OptionalBlindStock
+		*OptionalBlindStock
+	}
+	If Answer 1
+	{
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Choose 1 of the following effects, and perform it.
+Text "Put up to 2 cards from the top of your deck into your stock."
+Text "Choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Climax: FGO/S75-E073
+Name Together With Bloomed Flowers in the Underworld
+*StandbyClimax
+EndCard
+
+Climax: FGO/S75-E074
+Name Final Battle With Mother
+*DoorClimax
+EndCard
+
+Climax: FGO/S75-E075
+Name Final Battle With Mother
+Color R
+*2SoulClimax
+EndCard
+
+Character: FGO/S75-E076
+Name Towards the Final Singularity, Mash
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+Trait2 Shielder
+*GiveMiddlePower(500,Any)
+*Act1RestSelfSearchBrainstorm(Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-E077
+Name Trust in Her Master, Mash Kyrielight
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Chaldea
+Trait2 Shielder
+Combo Belief in Her "Choice"
+*GainPowerWithEnoughCharacters(1000,2,Chaldea|Babylonia)
+Auto: OnAttack
+{
+	If Climax Belief in Her "Choice" &&& StageContains 1 Other && HasTrait Chaldea|Babylonia
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 4
+			ChooseCardsFromTargets 0 2 HasTrait Chaldea|Babylonia
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Belief in Her "Choice"" is in your climax area, and you have another 《Chaldea》 or 《Babylonia》 character, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 2 《Chaldea》 or 《Babylonia》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: FGO/S75-E078
+Name Shared Journey, Mash
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Chaldea
+Trait2 Shielder
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	TargetLocation Backstage
+	NarrowTargets Other && HasTrait Chaldea|Babylonia
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other 《Chaldea》 or 《Babylonia》 characters in your back stage.
+*StockHealer
+EndCard
+
+Character: FGO/S75-E079
+Name Battle With a Strong Enemy, Mash
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Chaldea
+Trait2 Shielder
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets
+		LosePower 1000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+*ClimaxExchange
+EndCard
+
+Character: FGO/S75-E080
+Name Coordination with Comrades, Mash
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Chaldea
+Trait2 Shielder
+Cont: GiveAll
+{
+	If Not MyTurn
+	{
+		If Other && HasTrait Chaldea|Babylonia
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: During your opponent's turn, all of your other 《Chaldea》 or 《Babylonia》 characters get +1000 power.
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets Chaldea|Babylonia
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			LoseSoul 1
+		}
+		Text Cont: The character facing this card gets -1 soul.
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your 《Chaldea》 or 《Babylonia》 characters, it gets the following ability until the end of your opponent's next turn. "Cont: The character facing this card gets -1 soul."
+EndCard
+
+Character: FGO/S75-E081
+Name Special Honorary Advisor of Chaldea's Tech Division, Leonardo da Vinci
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Chaldea
+Trait2 Genius
+*BlueEarlyPlayBomb
+EndCard
+
+Character: FGO/S75-E082
+Name Raising Her Shield, Mash
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Chaldea
+Trait2 Shielder
+*GainPowerForEachOther(1000,Chaldea|Babylonia)
+*HandEncore
+EndCard
+
+Character: FGO/S75-E083
+Name Attack by a Formidable Enemy, Fujimaru & Mash
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Chaldea
+Cont: GiveAll
+{
+	If Other && NameContains Mash
+	{
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				PayCost 2
+				{
+					Burn 1
+				}
+			}
+			Text Auto: [(2)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent.
+		}
+	}
+}
+Text Cont: All of your other characters with "Mash" in its card name get the following ability. "Auto: [(2)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent." 
+*OnPlayDraw2Discard2BlindStock
+EndCard
+
+Character: FGO/S75-E084
+Name Resilient Heart, Romani Archaman
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Chaldea
+Trait2 Doctor
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Chaldea|Babylonia
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Chaldea|Babylonia
+		ChooseCharacterFromTargets
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Babylonia》 character, choose 1 of your characters, it gets +2000 power until end of turn.
+*GainPowerWhenOtherAttacks(1000,Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-E085
+Name Enticing Words, Fujimaru
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Chaldea
+Trait2 Master
+*OnPlayScryToBottom
+*DropSearch(Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-E086
+Name Short Break, Mash
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Chaldea
+Trait2 Shielder
+*GainPowerForEachOther(500,Chaldea|Babylonia)
+Act: Discard 1 IsClimax
+{
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may draw 1 card.
+	}
+}
+Text Act: [Put 1 climax from your hand into your waiting room] This card gets +1000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw 1 card."
+EndCard
+
+Character: FGO/S75-E087
+Name Shuddering Genius, Da Vinci
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Chaldea
+Trait2 Genius
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their waiting room.
+Backup 2500
+EndCard
+
+Character: FGO/S75-E088
+Name Supporting Comrades, Mash
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Chaldea
+Trait2 Shielder
+*GiveAll1500OnCenterStage(Chaldea|Babylonia)
+*HandEncoreTrait(Chaldea|Babylonia) 
+EndCard
+
+Character: FGO/S75-E089
+Name Unfortunate Reality, Da Vinci
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Chaldea
+Trait2 Genius
+Auto: OnLevelUp
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Chaldea|Babylonia
+	}
+}
+Text Auto: [(2)] When you level up, you may pay the cost. If you do, search your deck for up to 1 《Chaldea》 or 《Babylonia》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Act: Rest 2 Any
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalBlindStock
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+	}
+}
+Text Act: [Rest 2 of your characters] Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: FGO/S75-E090
+Name Rescue From a Crisis, Fou
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Chaldea
+Trait2 Beast
+Auto: OnOtherReversed
+{
+	If InLocation Backstage
+	{
+		IfOther HasTrait Chaldea|Sweets
+		{
+			PayCost 2 SendSelf Hand
+			{
+				TargetOther
+				Bounce
+				*ScryToBottom
+			}
+		}
+	}
+}
+Text Auto: [(2) Return this card to your hand] When your other 《Chaldea》 or 《Sweets》 character becomes reversed in battle, if this card is in your back stage, you may pay the cost. If you do, return that character to your hand, look at the top card of your deck, and put it on the top or at the bottom of your deck.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power until the end of your opponent's next turn.
+EndCard
+
+Character: FGO/S75-E091
+Name Loss of Observational Waves, Da Vinci & Romani
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Chaldea
+Combo Chaldea Support
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Chaldea|Babylonia
+	ChooseCharacterFromTargets
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Chaldea》 or 《Babylonia》 characters, it gets +1000 power until end of turn.
+Auto: OnSpecificClimaxPlay Chaldea Support
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Chaldea|Babylonia
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Chaldea|Babylonia && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: CxCombo When "Chaldea Support" is placed on your climax area, reveal the top card of your deck. If that card is a 《Chaldea》 or 《Babylonia》 character, put 2 cards from the top of your deck into your waiting room, choose up to 1 level X or lower 《Chaldea》 or 《Babylonia》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: FGO/S75-E092
+Name Integrated Offense and Defense, Mash
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Chaldea
+Trait2 Shielder
+*OnAttackGivePowerForEachOther(500,Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-E093
+Name Exchange of Sarcasm, Romani
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Chaldea
+Trait2 Doctor
+*Level3Assist
+*OnClimaxPlayGivePower(1000)
+EndCard
+
+Character: FGO/S75-E094
+Name Valiantly Breaking Through, Fujimaru Ritsuka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Chaldea
+Trait2 Master
+Combo Path to the Conclusion
+*GainPowerForEachOther(500,Chaldea|Babylonia)
+Auto: OnAttack
+{
+	If Climax Path to the Conclusion
+	{
+		*CheckAndAddOne(1,HasTrait Chaldea|Babylonia)
+		TargetSelf
+		GainPower 2000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoBackupInBattle
+				If InBattle
+				{
+					GainSpecialEffect OpponentCannotUseEvents
+				}
+			}
+			Text Cont: During this card's battle, your opponent cannot play event cards or "BACKUP" from hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Path to the Conclusion" is in your climax area, look at the top card of your deck, choose up to 1 《Chaldea》 or 《Babylonia》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and this card gets +2000 power and the following ability until end of turn. "Cont: During this card's battle, your opponent cannot play event cards or "BACKUP" from hand."
+EndCard
+
+Character: FGO/S75-E095
+Name Tears of Relief, Mash
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Chaldea
+Trait2 Shielder
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Chaldea|Babylonia
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another 《Chaldea》 or 《Babylonia》 character, this card cannot Stand during your stand phase.
+*OnAttackGainPowerForEachOther(1000,Chaldea|Babylonia)
+EndCard
+
+Event: FGO/S75-E096
+Name Proof of a Master, Command Seals
+Color B
+Level 1
+Cost 1
+Text If you do not have a character with "Fujimaru" in its card name, this card cannot be played from your hand.
+Effect:
+{
+	MultipleChoiceQuestion Perform one of the following effects.\n1. You may put 1 face up card in your level face down. If you do, put the top card of your clock into your waiting room.\n2. You may put 2 face up cards in your level face down. If you do, draw up to 3 cards, choose 2 cards in your hand, and put them into your waiting room.|You may put 3 face up cards in your level face down. If you do, put up to 3 cards from the top of your deck into your stock, choose 1 of your characters, it gets +2 soul until end of turn.|Choice 1|Choice 2|Choice 3
+	If Answer 0
+	{
+		PayCost FlipCardsFaceDown 1 Level Any
+		{
+			Heal
+		}
+	}
+	If Answer 1
+	{
+		PayCost FlipCardsFaceDown 2 Level Any
+		{
+			*OptionalDraw
+			*OptionalDraw
+			*OptionalDraw
+			Discard 2 Any
+		}
+	}
+	If Answer 2
+	{
+		PayCost FlipCardsFaceDown 3 Level Any
+		{
+			*OptionalBlindStock
+			*OptionalBlindStock
+			*OptionalBlindStock
+			TargetLocation Stage
+			ChooseCharacterFromTargets
+			GainSoul 2
+		}
+	}
+}
+ActivationRequirement StageContains 1 NameContains Fujimaru
+Text Choose 1 of the following effects and perform it.
+Text "You may put 1 face up card in your level face down. If you do, put the top card of your clock into your waiting room."
+Text "You may put 2 face up cards in your level face down. If you do, draw up to 3 cards, choose 2 cards in your hand, and put them into your waiting room."
+Text "You may put 3 face up cards in your level face down. If you do, put up to 3 cards from the top of your deck into your stock, choose 1 of your characters, it gets +2 soul until end of turn."
+EndCard
+
+Event: FGO/S75-E097
+Name Entrusted Shield
+Color B
+Level 2
+Cost 0
+Counter
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotBeReversed
+		}
+		Text Cont: This card cannot become Reversed.
+	}
+}
+ActivationRequirement StageContains 1 NameContains Mash
+Text Counter: If you do not have a character with "Mash" in its card name, this card cannot be played from your hand. Choose 1 of your characters, it gets the following ability until end of turn. "Cont: This card cannot become Reversed."
+EndCard
+
+Climax: FGO/S75-E098
+Name Belief in Her "Choice"
+*BookClimax
+EndCard
+
+Climax: FGO/S75-E099
+Name Chaldea Support
+*BlueStockSoul
+EndCard
+
+Climax: FGO/S75-E100
+Name Path to the Conclusion
+*GateClimax
+EndCard
+
+// Babylonia TD
+
+Character: FGO/S75-TE01
+Name The Wise King of Uruk, Gilgamesh
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Babylonia
+Trait2 Wise King
+Auto: StartMainPhase
+{
+	*Scry
+}
+Text Auto: At the beginning of your main phase, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: FGO/S75-TE02
+Name The Goddess of Fertility and War, Ishtar
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Babylonia
+Trait2 Goddess
+*FreeRunner
+EndCard
+
+Character: FGO/S75-TE03
+Name Mysterious Servant "Enkidu"
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Babylonia
+Trait2 New Humanity
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Chaldea|Babylonia
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Chaldea》 or 《Babylonia》 character, this card gets +2000 power until end of turn.
+EndCard
+
+Character: FGO/S75-TE04
+Name Forest of Schemes, Kingu
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Babylonia
+Trait2 New Humanity
+*GainPowerForEachOther(500,Chaldea|Babylonia)
+*HandEncore
+EndCard
+
+Character: FGO/S75-TE05
+Name The Mage of Flowers, Merlin
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Babylonia
+*LevelAssist
+Act: RestSelf
+{
+	PeekTop Deck
+	EndPeek
+}
+Text Act: [Rest this card] Look at the top card of your deck. 
+EndCard
+
+Character: FGO/S75-TE06
+Name Girl Who Shoulders a Heavy Destiny, Ana
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Babylonia
+Trait2 Sweets
+*OnAttackGivePower(3000,Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-TE07
+Name The One Who Has Seen Everything, Gilgamesh
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Babylonia
+Trait2 Wise King
+*GainPowerForEachOther(1000,Chaldea|Babylonia)
+Auto: OnDirectAttack
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Chaldea|Babylonia
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: When this card direct attacks, you may choose 1 《Chaldea》 or 《Babylonia》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: FGO/S75-TE08
+Name Power of a Goddess, Ishtar
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Babylonia
+Trait2 Goddess
+*OnPlayCheck3
+Auto: OnAttack
+{
+	PayCost 2 Discard 1 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+Climax: FGO/S75-TE09
+Name Wise King's Ascertainment
+*BagClimax
+EndCard
+
+Climax: FGO/S75-TE10
+Name Rage-Filled Attack
+Color G
+*2SoulClimax
+EndCard
+
+Character: FGO/S75-TE11
+Name Time to Display Strength, Fujimaru
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+*OnAttackGiveOtherPower(1500,Any)
+*BondDiscard(Time to Display Strength\, Mash)
+EndCard
+
+Character: FGO/S75-TE12
+Name Firm Courage, Mash
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+Trait2 Shielder
+Cont: GiveSelf
+{
+	If Not MyTurn &&& StageContains 1 Other && HasTrait Chaldea|Babylonia
+	{
+		GainPower 3000
+	}
+}
+Text Cont: During your opponent's turn, if you have another 《Chaldea》 or 《Babylonia》 character, this card gets +3000 power.
+*OnPlayTradeClimaxForCharacter(Chaldea|Babylonia)
+EndCard
+
+Character: FGO/S75-TE13
+Name Acting Director of Chaldea, Romani
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Chaldea
+Trait2 Doctor
+*500Assist
+*OnPlayScryToBottom
+EndCard
+
+Character: FGO/S75-TE14
+Name Mankind's Last Master, Fujimaru
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Chaldea
+Trait2 Master
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Chaldea|Babylonia
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Chaldea》 or 《Babylonia》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: FGO/S75-TE15
+Name The Universal Genius, Da Vinci
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Chaldea
+Trait2 Genius
+*DropSearch(Chaldea|Babylonia)
+*OnAttackGivePower(500,Any)
+EndCard
+
+Character: FGO/S75-TE16
+Name Time to Display Strength, Mash
+Color B
+Level 1
+Cost 1
+Power 7000
+Trait1 Chaldea
+Trait2 Shielder
+Text 
+EndCard
+
+Character: FGO/S75-TE17
+Name Perfect Proof of Existence, Da Vinci
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Chaldea
+Trait2 Genius
+Backup 3000
+EndCard
+
+Character: FGO/S75-TE18
+Name Shield Maiden, Mash
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Chaldea
+Trait2 Shielder
+Combo Instant Offense and Defense
+*Healer
+Auto: OnAttack
+{
+	If Climax Instant Offense and Defense
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2500
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			*GreatPerformance
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "Instant Offense and Defense" is in your climax area, this card gets +2500 power and "Cont: Great Performance" until the end of your opponent's next turn.
+EndCard
+
+Event: FGO/S75-TE19
+Name Round Table Deployment
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	*Check4Add1(Chaldea|Babylonia)
+}
+Text Look at up to 4 cards from the top of your deck, choose up to 1 《Chaldea》 or 《Babylonia》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Climax: FGO/S75-TE20
+Name Instant Offense and Defense
+*GateClimax
+EndCard
+

@@ -1,0 +1,1095 @@
+Character: DD/WE23-01
+Name Beloved Lord, Couvert
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Animal
+Trait2 Royalty
+*GlobalPower(500,Hero|Royalty)
+*ClockShift(0,yellow)
+Act: 1 RestSelf
+{
+	SearchLocationForTargets Clock 1 1 IsColor Yellow
+	RevealTargets
+	MoveCard Hand
+	Repeat 2
+	{
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Act: [(1) Rest this card] Choose a yellow card in your clock, return it to your hand, and put the top 2 cards of your deck into your clock.
+EndCard
+
+Character: DD/WE23-02
+Name Hero of Pastillage, Rebecca
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Hero
+Trait2 Book
+Combo Demon God Crystal
+*EarlyPlayInClock(Beloved Lord\, Couvert)
+Auto: OnAttack
+{
+	*GiveCharacterPower(4000,Any)
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +4000 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Demon God Crystal
+	{
+		Burn 1
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals Hero of Pastillage, Rebecca
+				FirstTarget
+				PlaceOnStage False True True False
+				GainPower 3500
+			}
+			Text "Hero of Pastillage, Rebecca" returns from memory.
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Demon God Crystal" is in your climax area, deal 1 damage to your opponent, put this card into your memory, and at the beginning of your next draw phase, choose 1 "Hero of Pastillage, Rebecca" in your memory, put it on any position of your stage, and that character gets +3500 power until end of turn.
+EndCard
+
+Character: DD/WE23-03
+Name "Reminiscence" Fi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Animal
+Trait2 Royalty
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room.
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any &&& SendSelf Memory
+	{
+		SearchDeck HasTrait Animal|Hero
+	}
+}
+Text Auto: [(1) Discard a card & Put this card into your memory] When this card becomes reversed, you may pay the cost. If you do, search your deck for up to 1 <Animal> or <Hero> character, and put it into your hand.
+EndCard
+
+Character: DD/WE23-04
+Name Hero King, Adel
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Hero
+Trait2 Weapon
+Combo Story of the Hero and the Princess
+Auto: StartMyEncoreStep
+{
+	If Climax Story of the Hero and the Princess && InLocation CenterStage
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to put into the waiting room.
+		If HasTarget
+		{
+			SaveTargets
+			MoveCard WaitingRoom
+			SearchDeck IsCharacter && SameTraitAsSavedTarget
+		}
+	}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Story of the Hero and the Princess" is in your climax area and this card is on your center stage, you may choose 1 of your other characters, and put it into the waiting room. If you do, search your deck for up to 1 character that shares a trait with the character put into the waiting room by this effect, and put it into your hand.
+EndCard
+
+Character: DD/WE23-05
+Name Hero's Rest, Rebecca
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Hero
+Trait2 Book
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+*LevelAssistTrait(Hero|Royalty)
+*ClockShift(1,yellow)
+EndCard
+
+Character: DD/WE23-06
+Name Demon King Valeri
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Animal
+Trait2 Royalty
+*500Assist
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals "Reminiscence" Fi
+	{
+		GainEffect
+		{
+			Act: RestSelf
+			{
+				*GiveCharacterPower(1000,Any)
+			}
+			Text Act: [Rest this card] Choose 1 of your characters, and it gets +1000 power until end of turn.
+		}
+	}
+}
+Text Cont: MEMORY If ""Reminiscence" Fi" is in your memory, this card gets the following ability. "Act: [Rest this card] Choose 1 of your characters, and it gets +1000 power until end of turn."
+EndCard
+
+Character: DD/WE23-07
+Name The Hero Princess, Fi
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Animal
+Trait2 Royalty
+*OnPlayGainPowerForEach(500,Animal|Hero)
+EndCard
+
+Character: DD/WE23-08
+Name The Hero Princess' Gun, Adel
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Hero
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost SendFromMemoryToWaitingRoom 1 NameEquals "Reminiscence" Fi
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Animal|Hero
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Auto: [Put 1 ""Reminiscence" Fi" from your memory into the waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, all of your <Animal> or <Hero> characters get "Auto: ENCORE [Discard a character]" until end of turn.
+Backup 3000
+EndCard
+
+Character: DD/WE23-09
+Name Descendant of the Hero King, Couvert
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Animal
+Trait2 Royalty
+*GainPowerForEachOther(500,Hero|Royalty)
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Hero|Royalty
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Hero> or <Royalty> characters, you may put the top card of your deck into your stock.
+EndCard
+
+Event: DD/WE23-10
+Name Legendary Hero Summoning
+Color Y
+Level 1
+Cost 0
+Effect
+{
+	Message Choose an <Animal> character.
+	SearchDeck HasTrait Animal
+	Message Choose a <Hero> character
+	SearchDeck HasTrait Hero
+	Discard 1 Any
+	TargetSelf
+	MoveCard Clock
+}
+Text Search your deck for up to 1 <Animal> character and up to 1 <Hero> character, put them into your hand, discard a card, and put this card into your clock.
+EndCard
+
+Climax: DD/WE23-11
+Name Demon God Crystal
+*WindClimax
+EndCard
+
+Climax: DD/WE23-12
+Name Story of the Hero and the Princess
+*YellowStockSoul
+EndCard
+
+Character: DD/WE23-13
+Name Naive and Romantic, Nanami
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Hero
+Trait2 Sports
+Cont: GiveSelf
+{
+	If Compare MyLevel 1 OrHigher
+	{
+		GainEffect
+		{
+			Auto: StartClimaxPhase
+			{
+				If LocationContains Clock 1 NameEquals Hero's Rest, Nanami
+				{
+					Question Exchange "Naive and Romantic, Nanami" with "Hero's Rest, Nanami" in your clock?
+					If Yes
+					{
+						SearchLocationForTargets Clock 1 1 NameEquals Hero's Rest, Nanami
+						AddSelfToTargets
+						Exchange
+					}
+				}
+			}
+			Text Auto: At the beginning of your climax phase, you may choose 1 "Hero's Rest, Nanami" in your clock, and exchange it with this card.
+		}
+	}
+}
+Text Cont: If your level is 1 or higher, this card gets the following ability. "Auto: At the beginning of your climax phase, you may choose 1 "Hero's Rest, Nanami" in your clock, and exchange it with this card."
+*FreeRunner
+EndCard
+
+Character: DD/WE23-14
+Name Young Lion Princess, Leo
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Animal
+Trait2 Royalty
+*GainPowerForEachOther(500,Animal|Hero)
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Message Choose a character to return to your hand.
+		SearchLocationForTargets Clock 1 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a character in your clock, return it to your hand, and put the top card of your deck into your clock.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 1
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: [(1)] During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: DD/WE23-15
+Name Leaf Lang de Shar Harva
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Animal
+Trait2 Royalty
+Combo Guidance
+Auto: OnOtherAttacks
+{
+	IfOther HasTrait Animal|Hero
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When your other <Animal> or <Hero> character attacks, this card gets +1500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	If Climax Guidance
+	{
+		Message Choose a card to add to your hand.
+		SearchLocationForTargets Clock 0 1 Any
+		RevealTargets
+		MoveCard Hand
+		If HasTarget
+		{
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Guidance" is in your climax area, you may choose a card in your clock, and return it to your hand. If you do, put the top card of your deck into your clock.
+EndCard
+
+Character: DD/WE23-16
+Name Being Aggressive, Gaol
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Animal
+Trait2 Royalty
+Combo Duel in the Sky Sea
+*EarlyPlayInClock(Young Lion Princess\, Leo)
+Auto: OnAttack
+{
+	If Climax Duel in the Sky Sea
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to give +1500 power and the ability to.
+		GainPower 1500
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoBackupOnAttack
+			}
+			Text Cont: During this card's battle, your opponent cannot play "BACKUP" from hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Duel in the Sky Sea" is in your climax area, choose 1 of your other characters. It gets +15000 power and the following ability until end of turn. "Cont: During this card's battle, your opponent cannot play "BACKUP" from hand."
+EndCard
+
+Character: DD/WE23-17
+Name Leaf's Relative, Vert
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Animal
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Clock 1 1 HasTrait Animal|Hero
+		RevealTargets
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose an <Animal> or <Hero> character in your clock. Return it to your hand, and put the top card of your deck into your clock.
+Auto: OnUseEvent
+{
+	*GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you play an event card, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: DD/WE23-18
+Name Searching for a Hero, Gaol
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Animal
+Trait2 Royalty
+*ClockShift(0,green)
+*Act1RestSelfClockBrainstorm
+EndCard
+
+Character: DD/WE23-19
+Name Hero's Rest, Nanami
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Hero
+Trait2 Sports
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is a climax, rest this card.
+Auto: Encore SendFromWaitingRoomToBottom 1 Clock HasTrait Animal|Hero
+{
+}
+Text Auto: ENCORE [Put 1 <Animal> or <Hero> character from your waiting room on the bottom of your clock]
+EndCard
+
+Character: DD/WE23-20
+Name Lion's Match, Leo
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Animal
+Trait2 Royalty
+Cont: GiveSelf
+{
+	If LocationContainsOrLess OpponentCenterStage 2 Any
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If there are 2 or less characters on your opponent's center stage, this card gets +1000 power.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets Choose a character to rest.
+	Rest
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your standing characters, and rest it.
+EndCard
+
+Character: DD/WE23-21
+Name Searching for the Sky Sea, Jaune
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Animal
+Trait2 Weapon
+Auto: OnOtherSentFromStageToClock
+{
+	IfOther MyCard
+	{
+		*GiveCharacterPower(3000,Any)
+	}
+}
+Text Auto: When your other character is put into your clock from your stage, choose 1 of your characters. It gets +3000 power until end of turn.
+EndCard
+
+Character: DD/WE23-22
+Name Gaol's Personal Guard, Noir
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Animal
+Trait2 Weapon
+Cont: Assist
+{
+	If HasTrait Animal|Hero
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST All your <Animal> or <Hero> characters in front of this card get +1500 power.
+EndCard
+
+Event: DD/WE23-23
+Name Lion Princess's Match
+Color G
+Level 1
+Cost 0
+Counter
+Requirement Compare CardsInStock 5 OrLess
+Effect:
+{
+	*Check4Add1(Animal|Hero)
+}
+Text Counter: If the number of cards in your stock is 6 or more, this card cannot be played from your hand.\nLook at up to 4 cards from the top of your deck. Choose up to 1 <Animal> or <Hero> character from among them, put it into your hand, and put the rest into the waiting room.
+EndCard
+
+Climax: DD/WE23-24
+Name Guidance
+*BarClimax
+EndCard
+
+Climax: DD/WE23-25
+Name Duel in the Sky Sea
+*GreenStockSoul
+EndCard
+
+Character: DD/WE23-26
+Name Kind Smile, Millhi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Animal
+Trait2 Music
+*RevengeTrait(500,Animal|Hero)
+*Act1Rest2SalvageBrainstorm(Any)
+EndCard
+
+Character: DD/WE23-27
+Name Within the Rays Shining Through the Leaves, Hina
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Animal
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or less cards in your stock, this card gets +1500 power.
+EndCard
+
+Character: DD/WE23-28
+Name Wielder of Dual Swords, Ecle
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Animal
+Trait2 Weapon
+Auto: OnPlay
+{
+	Mill 2 
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If a climax card was revealed, this card gets +3000 power until end of turn.
+*RedLevel1Bomb
+EndCard
+
+Character: DD/WE23-29
+Name Princess's Rest, Millhi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Animal
+Trait2 Music
+Combo Healing Song
+Cont: GiveAll
+{
+	If NameEquals Hero of Biscotti, Cinque
+	{
+		GainPower 1000
+	}
+}
+Text Cont: All of your other "Hero of Biscotti, Cinque" get +1000 power.
+*LevelAssist
+Auto: OnSpecificClimaxPlay Healing Song
+{
+	Mill 3
+	If TargetsContain 1 ColorIs Red &&& TargetsContain 1 ColorIs Blue
+	{
+		PayCost 1
+		{
+			Heal
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When "Healing Song" is placed on your climax area, put the top 3 cards of your deck into the waiting room. If a red card and a blue card were revealed, you may pay the cost. If you do, put the top card of your clock into the waiting room.
+EndCard
+
+Character: DD/WE23-30
+Name Hero of Biscotti, Cinque
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Hero
+Trait2 Sports
+*OnPlayDraw2Discard1
+Combo Hero Mode
+Auto: OnReverseOpponent
+{
+	If Climax Hero Mode
+	{
+		PayCost 4 Discard 1 Any
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				MoveCard OpponentDeck
+			}
+			TargetSelf
+			Stand
+		}
+	}
+}
+Text Auto: CxCombo [(4) Discard a card] When this card's battle opponent becomes reversed, if "Hero Mode" is in your climax area, you may pay the cost. If you do, put that character on top of your opponent's deck, and stand this card.
+EndCard
+
+Character: DD/WE23-31
+Name Academic Research? Rico
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Animal
+Trait2 Science
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Animal|Hero
+	ChooseCharacterFromTargets Choose a character to give +1 level and +1000 power.
+	GainLevel 1
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, it gets +1 level and +1000 power until end of turn.
+EndCard
+
+Character: DD/WE23-32
+Name Proud Passerby, Hina
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Animal
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If LocationContains Memory 1 NameEquals "Reminiscence" Fi
+	{
+		GainPower 2000
+	}
+}
+Text Cont: MEMORY IF ""Reminiscence" Fi" is in your memory, this card gets +2000 power.
+EndCard
+
+Character: DD/WE23-33
+Name Flonyard's Autumn, Yukikaze
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Animal
+Trait2 God
+Cont: InHand
+{
+	If StageContains 2 ColorIs Red &&& StageContains 2 ColorIs Blue
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 2 or more red characters and 2 or more blue characters, this card gets -1 level in your hand.
+Auto: Encore SendFromWaitingRoomToBottom Clock 1 IsCharacter && ColorIs Blue || IsCharacter && ColorIs Red
+{
+}
+Text Auto: ENCORE [Put 1 blue or red character from your waiting room on the bottom of your clock]
+EndCard
+
+Character: DD/WE23-34
+Name Arrival of the Hero! Cinque
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Hero
+Trait2 Sports
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a character in your waiting room whose level is less than or equal to your level, and return it to your hand.
+EndCard
+
+Character: DD/WE23-35
+Name Proud Passerby, Isuka
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Animal
+Trait2 Smithing
+Auto: OnReverseOpponent
+{
+	If LocationContains Memory 1 NameEquals "Reminiscence" Fi
+	{
+		TargetBattleOpponent
+		IfTarget OnStage
+		{
+			Question Put the battle opponent on top of your opponent's deck?
+			If Yes
+			{
+				MoveCard OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: MEMORY When this card's battle opponent becomes reversed, if ""Reminiscence" Fi" is in your memory, you may put that character on top of your opponent's deck.
+EndCard
+
+Character: DD/WE23-36
+Name Lively Personality, Cinque
+Color R
+Level 1
+Cost 1
+Power 5000
+Trait1 Hero
+Trait2 Sports
+Cont: GiveSelf
+{
+	TargetFacing
+	If HasTarget && Compare TargetCardsCost 0 OrLower
+	{
+		GainLevel 1
+		GainPower 3500
+	}
+}
+Text Cont: If the character facing this card is cost 0 or lower, this card gets +1 level and +3500 power.
+EndCard
+
+Character: DD/WE23-37
+Name Battle Stance, Rico
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Animal
+Trait2 Science
+Auto: OnUseThisCardsBackup
+{
+	PayCost 3
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(3)] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is greater than your opponent's level, and put it into the waiting room.
+Backup 2500
+EndCard
+
+Climax: DD/WE23-38
+Name Healing Song
+*RedStockSoul
+EndCard
+
+Climax: DD/WE23-39
+Name Hero Mode
+*DoorClimax
+EndCard
+
+Character: DD/WE23-40
+Name Protector of Dragons, Sharu
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Animal
+Trait2 Dragon
+Cont: InHand
+{
+	If StageContains 2 ColorIs Red &&& StageContains 2 ColorIs Blue
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 2 or more red characters and 2 or more blue characters, this card gets -1 level in your hand.
+*Healer
+EndCard
+
+Character: DD/WE23-41
+Name Lost Girl, Aria
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Miko
+Trait2 Music
+*500Assist
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Animal|Hero
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 <Animal> or <Hero> character, and put it into your hand.
+EndCard
+
+Character: DD/WE23-42
+Name Shy Girl, Sharu
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Animal
+Trait2 Dragon
+Combo Dragon Forest
+Auto: OnAttack
+{
+	If Climax Dragon Forest
+	{
+		PayCost 1
+		{
+			SearchDeck IsCharacter &&& ColorIs Blue || ColorIs Red
+			GainPower 2500
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Dragon Forest" is in your climax area, you may pay the cost. If you do, search your deck for up to 1 red or blue character, put it into your hand, and this card gets +2500 power until end of turn.
+EndCard
+
+Character: DD/WE23-43
+Name Dragon Priestess, Sharu
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Animal
+Trait2 Dragon
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each marker underneath this card.
+Auto: OnPlay
+{
+	RevealExactly Deck 2
+	Message Choose up to 1 red card to marker.
+	ChooseCardsFromTargets 0 1 IsColor Red
+	Marker_FaceDown
+	TargetLocation ScryArea
+	Message Choose up to 1 blue card to marker.
+	ChooseCardsFromTargets 0 1 IsColor Blue
+	Marker_FaceDown
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top 2 cards of your deck. Choose up to 1 red card and up to 1 blue card from among them, put them face-down underneath this card as markers, and put the rest into your waiting room.
+EndCard
+
+Character: DD/WE23-44
+Name Longing for the Surface, Aria
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Miko
+Trait2 Music
+Auto: OnPlay
+{
+	If StageContains 1 Other && ColorIs Red
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand. If you have another red character, this card gets +2000 power until end of turn.
+EndCard
+
+Character: DD/WE23-45
+Name Miko, Farine
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Animal
+Trait2 Miko
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		DrawCard
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw a card.
+EndCard
+
+Character: DD/WE23-46
+Name Visit from the Sky, Sharu
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Animal
+Trait2 Dragon
+Backup 1500
+EndCard
+
+Character: DD/WE23-47
+Name Songstress of the Sky Sea, Aria
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Miko
+Trait2 Music
+Combo Healing Song
+Auto: OnAttack
+{
+	If Climax Healing Song
+	{
+		PayCost 2
+		{
+			TargetBottom Clock 1
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "Healing Song" is in your climax area, you may pay the cost. If you do, return the bottom card of your clock to your hand.
+EndCard
+
+Character: DD/WE23-48
+Name Apostle of Sickness, Verde
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 10000
+Soul 3
+Cont: GiveAll
+{
+	If Not HasMarker
+	{
+		If Other && HasTrait Music
+		{
+			GainPower 1500
+		}
+		If Not Other
+		{
+			GainSpecialEffect CannotStand
+		}
+	}
+}
+Text Cont: If there are no markers underneath this card, all of your other <Music> characters get +1500 power, and this card does not stand during your stand phase.
+Auto: OnPlay
+{
+	Message Choose a climax to marker.
+	SearchLocationForTargets WaitingRoom 1 1 IsClimax
+	Marker_FaceDown
+}
+Text When this card is placed on the stage from your hand, choose 1 climax in your waiting room, and put it face-down underneath this card as a marker.
+Auto: OnReversed
+{
+	If HasMarker
+	{
+		TargetLocation Marker
+		FirstTarget
+		MoveCard Clock
+		TargetSelf
+		Rest
+	}
+}
+Text Auto: When this card becomes reversed, put 1 marker from underneath this card into your clock. If you do, rest this card.
+EndCard
+
+Event: DD/WE23-49
+Name Hero Crystal
+Color B
+Level 2
+Cost 1
+Counter
+Effect
+{
+	Message You may discard a "Hero Crystal".
+	SearchLocationForTargets Hand 0 1 NameEquals Hero Crystal
+	If HasTarget
+	{
+		MoveCard WaitingRoom
+		TargetLocation AnyStage
+		NarrowTargets InBattle
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotDealDamage
+			}
+			Text Cont: This card cannot deal damage to players.
+		}
+	}
+}
+Text Counter: You may discard a "Hero Crystal", if you do, choose a character in battle, it gets the following ability until end of turn. "Cont: This card cannot deal damage to players."
+EndCard
+
+Climax: DD/WE23-50
+Name Dragon Forest
+*GateClimax
+EndCard
+
+Character: DD/WE23-P01
+Name Marvelous Day, Millhi
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Animal
+Trait2 Music
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && Compare ThatCardsLevel 0 OrLower
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other level 0 or lower characters.
+EndCard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

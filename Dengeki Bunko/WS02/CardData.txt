@@ -1,0 +1,3771 @@
+
+Character: Gbl/WS02-001
+Name Journey to the capital, Jess & Pig
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Yesma
+Trait3 Animal
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 2
+	If Compare TargetCount 2 OrMore
+	{
+		Reorder
+	}
+	Else
+	{
+		View
+	}
+}
+Text Auto: When your climax is placed into your climax area, Look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: Gtd/WS02-004
+Name Palmtop Tiger, Taiga
+Color Y
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Weapom
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupInBattle 
+}
+Text Cont: During battles involving this, no player may play "BACKUP" from hand.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		MultipleChoiceQuestion Choose one of the following effects and perform it,\n1. Your opponent sends all of their stock to waiting room, then puts an equal number of cards from the top of their deck into stock.\n2. Deal 1 damage to your opponent and this card gets +2000 power until end of turn.|Choice 1|Choice 2
+		If Answer 0
+		{
+			StockSwap
+		}
+		If Answer 1
+		{
+			Burn 1
+			GainPower 2000
+		}
+	}
+}
+Text Auto: [(1)] When this is placed on stage from hand, You may pay the cost. If you do, choose 1 of the following 2 effects and perform it, "Your opponent sends all of their stock to waiting room, then puts an equal number of cards from the top of their deck into stock." "Deal 1 damage to your opponent and this card gets +2000 power until end of turn."
+EndCard
+
+Character: Gok/WS02-008
+Name Spice and Wolf, Lawrence & Holo
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Animal
+Trait3 Merchant
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Dengeki Bunko
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Dengeki Bunko> characters get +1000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*SearchDeckToPlaceOnStage(NameEquals Wise Wolf\, Holo, False)
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Wise Wolf, Holo", and put it in any position of your stage.
+EndCard
+
+Character: Gtd/WS02-009
+Name Glutton, Taiga
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Weapom
+Combo Toradora!
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue 500
+	MultiplyXValue TargetCount
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is 500 times the number of characters your opponent has.
+Auto: OnOpponentReverse
+{
+	If Climax Toradora! && StageContains 2 Other
+	{
+		Peek Deck 3
+		ChooseCardsFromTargets 0 2 HasTrait Dengeki Bunko
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if a card named "Toradora!" is in your climax area and you have another 2 Character, look at up to 3 cards from the top of your deck, choose up to 2 <Dengeki Bunko> character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room.
+EndCard
+
+Character: Gbl/WS02-010
+Name Unexpected encounter, Pig & Ceres & Black Pig
+Color Y
+Level 1
+Cost 1
+Power 4000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Yesma
+Trait3 Animal
+Auto: OnPlayedNormally
+{
+	TargetLocation OpponentHand
+	Message Viewing opponent's hand
+	View
+}
+Quick
+Text Auto: When this card is played and placed on the stage, look at your opponent's hand.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: Gtd/WS02-012
+Name Fashion model, Ami
+Color Y
+Level 3
+Cost 2
+Power 9000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Model
+*EarlyPlay2OrLessClimax
+*PowerOnMyTurn(2000)
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn && StageContains 2 Other
+	{
+		Repeat 2
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Dengeki Bunko
+		}
+	}
+}
+Text Auto: During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, if you have another 2 Character, choose up to 2 <Dengeki Bunko> characters in your waiting room, and return them to your hand.
+EndCard
+
+Character: Gbc/WS02-013
+Name Baccano!
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Baccano!
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Slow
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+Auto: OnAttack
+{
+	Message Choose a other character to give +1000 power and "Auto: Encore [Discard a character]"
+	ChooseCharacters 1 1 HasTrait Dengeki Bunko && Other
+	UntilEndOfOpponentsTurn
+	GainPower 1000
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Auto: When this card attacks, choose 1 of your other <Dengeki Bunko> characters, it gets +1000 power and "Auto: ENCORE [Discard a character]" until the end of your opponent's turn. 
+EndCard
+
+Character: Gkl/WS02-015
+Name Girl who can see dead people, Kiiri
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Journey
+Trait3 Spirit
+Auto: OnPlay
+{
+	*CheckTopTraitOrEventAddDiscard(Dengeki Bunko)
+}
+Text Auto: When this is placed on stage from hand, reveal the top card of your deck. If that card is a <Dengeki Bunko> character, or an event card, add it to hand and discard 1 card.
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room. If there's at least 1 climax among them, you may pay the cost. If you do, choose a character in your waiting room and return it to your hand. 
+EndCard
+
+Character: Gtd/WS02-017
+Name Super self-paced girl, Minori
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Young
+Trait3 Sports
+*GiveTraitPowerOnAttack(1500,Dengeki Bunko)
+Auto: OnOtherFrontalAttacked 
+{
+	IfOther HasTrait Dengeki Bunko && OnStage
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther 
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other <Dengeki Bunko> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: Gtd/WS02-020
+Name Ryuji & Taiga
+Color Y
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Young
+Trait3 Housework
+Cont: GiveHand
+{
+	IfOwner Compare MarkersUnderThis 2 OrMore
+	{
+		If NameEquals Palmtop Tiger, Taiga | Each's Feelings, Minori & Taiga & Ami &&& Compare MyLevel 3 OrMore &&& LocationContains Clock 1 IsColor Yellow || LocationContains Level 1 IsColor Yellow
+		{
+			GainEffect
+			{
+				HandAction 1
+				{
+					TargetLocation Stage
+					NarrowTargets NameEquals Shared Front, Ryuji & Taiga && Compare MarkersUnderThis 2 OrMore
+					ChooseCharacterFromTargets Choose a character to send 2 markers from.
+					TargetMarkersUnderTargets
+					If Compare TargetCount 3 OrMore
+					{
+						//Only ask which markers if there are more than 2 markers
+						Message Choose 2 markers to send
+						ChooseCardsFromTargets 2 2 Any
+					}
+					MoveCard WaitingRoom
+					TargetSelf
+					PlaceOnStage False True True False
+				}
+				Text Play for 1 stock by sending 2 markers from 1 Shared Front, Ryuji & Taiga.
+			}
+			If StageContains 2 NameEquals Shared Front, Ryuji & Taiga && Compare MarkersUnderThis 2 OrMore
+			{
+				GainEffect
+				{
+					HandAction 0
+					{
+						TargetLocation Stage
+						NarrowTargets NameEquals Shared Front, Ryuji & Taiga && Compare MarkersUnderThis 2 OrMore
+						ChooseCharactersFromTargets 2 2 Choose 2 characters to send 2 markers from.
+						ForEachTarget
+						{
+							TargetMarkersUnderTargets
+							If Compare TargetCount 3 OrMore
+							{
+								Message Choose 2 markers to send
+								ChooseCardsFromTargets 2 2 Any
+							}
+							MoveCard WaitingRoom
+						}
+						TargetSelf
+						PlaceOnStage False True True False
+					}
+					Text Play for 2 stock by sending 2 markers from 2 different Shared Front, Ryuji & Taiga.
+				}
+			}
+			IfOwner Compare MarkersUnderThis 4 OrMore
+			{
+				GainEffect
+				{
+					HandAction 0
+					{
+						TargetLocation Stage
+						NarrowTargets NameEquals Shared Front, Ryuji & Taiga && Compare MarkersUnderThis 4 OrMore
+						ChooseCharacterFromTargets Choose a character to send 2 markers from.
+						TargetMarkersUnderTargets
+						If Compare TargetCount 5 OrMore
+						{
+							Message Choose 4 markers to send
+							ChooseCardsFromTargets 4 4 Any
+						}
+						MoveCard WaitingRoom
+						TargetSelf
+						PlaceOnStage False True True False
+					}
+					Text Play for 2 stock by sending 4 markers from 1 Shared Front, Ryuji & Taiga.
+				}
+			}
+		}
+	}
+}
+Text Cont: When you would pay for the cost of "Palmtop Tiger, Taiga" or "Each's Feelings, Minori & Taiga & Ami", you may put 2 markers from underneath this card into your waiting room in place of 1 stock.
+*LevelAssist
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +2000 power and <Bento Box>
+	GainPower 2000
+	GainTrait Bento Box
+	TargetLocation Stage
+	TargetMarkersUnderTargets
+	SetXValue TargetCount
+	If Compare X 3 OrLess
+	{
+		Message Choose a <Dengeki Bunko> character to put face-down as a marker
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Dengeki Bunko && IsCharacter
+		RevealTargets
+		Marker_FaceDown
+	}
+}
+Text Act: [Rest this card] Choose 1 of your characters and that character gains +2000 power and a trait <Bento Box> until end of turn. If there are 3 or less cards between all of your marker areas, choose a <Dengeki Bunko> character in your waiting room and put it face-down underneath this card as a marker.
+EndCard
+
+Character: Gsc/WS02-021
+Name Hero of Justice, Dokkoider
+Color Y
+Level 2
+Cost 1
+Power 5000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Cosmos-so
+Trait3 Powered suit
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 6000
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotSideAttack
+			}
+		}
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				TargetBattleOpponent
+				Question Put the battle opponent into your opponent's stock?
+				If Yes
+				{
+					MoveCard OpponentStock
+					TargetBottom OpponentStock 1
+					MoveCard OpponentWaitingRoom
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock, if you do, put a card from the bottom of your opponent's stock into their waiting room.
+		}
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +5000 power and the following 2 effects."Cont: The character facing this card cannot side attack." "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's stock, if you do, put a card from the bottom of your opponent's stock into their waiting room."
+Auto: OnPlay
+{
+	Message Choose a marker.
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Hero of Justice, Dokkoider
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 "Hero of Justice, Dokkoider" in your waiting room, and put it face-up underneath this card as a marker.
+EndCard
+
+
+Character: Gdr/WS02-022
+Name City in turmoil, Ikebukuro
+Color Y
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Ikebukuro
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && NameEquals City in turmoil, Ikebukuro && Other
+	GainSoul X
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power and +1 soul for each of your other "City in turmoil, Ikebukuro" in your center stage.
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: Text Cont: This card gets +1000 power for each character in your opponent's back stage.
+EndCard
+
+Character: Gtd/WS02-023
+Name Glasses committee chairperson, Kitamura
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Young
+Trait3 Student Council
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Dengeki Bunko
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your <Dengeki Bunko> characters, it gets +500 power until end of turn.
+Act: RestSelf
+{
+	*GiveCharacterPower(2000,Dengeki Bunko)
+}
+Text Act: [Rest this card] Choose 1 of your <Dengeki Bunko> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: Gok/WS02-024
+Name Parchment and Wolf, Myuri & Col
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Animal
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko
+	{
+		Question Draw a card then discard a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Dengeki Bunko> characters, you may draw 1 card if you do, discard a card.
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+EndCard
+
+Character: Gtd/WS02-025
+Name Hyper working girl, Minori
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Young
+Trait3 Sports
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Dengeki Bunko
+		*GiveOtherCharacterPower(1000,Dengeki Bunko)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Dengeki Bunko> character in your waiting room, return it to your hand, choose 1 of your other <Dengeki Bunko> characters, and that character gets +1000 power until end of turn.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		TargetSelf
+		Bounce
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck, if it is level 2 or higher, you may return this to hand.
+EndCard
+
+Character: Gtd/WS02-026
+Name Out-of-season transfer student, Ami 
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Young
+Trait3 Model
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Stock 2 Any
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If the number of cards in your stock is 2 or less, this card gets +1500 power.
+Act: SendSelf BottomOfDeck Send 1 WaitingRoom HasTrait Dengeki Bunko
+{
+	TargetLocation OpponentStage
+	AIChoice Move
+	ChooseCharacterFromTargets Choose a character to move.
+	MoveToOpenPosition True True
+}
+Text Act: [Put 1 other <Dengeki Bunko> character from your stage into your waiting room & Put this card on the bottom of your deck] Choose 1 of your opponent's characters, and move it to another open position of their stage.
+EndCard
+
+Character: Gok/WS02-030
+Name Wise Wolf, Holo
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Dengeki Bunko
+Trait2 Animal
+Cont: GiveSelf
+{
+	If LocationContains Backstage 1 NameEquals Spice and Wolf, Lawrence & Holo
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another "Spice and Wolf, Lawrence & Holo" in your back tage, this card gets +2000 power.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Rest this card?
+		If Yes
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When this is reversed, reveal the top card of your deck. If that card is level 2 or higher, you may rest this.
+EndCard
+
+Character: Gbl/WS02-033
+Name Longed-for daily life, Jess & Pig
+Color Y
+Level 3
+Cost 2
+Power 10500
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Yesma
+Trait3 Animal
+Combo Beautiful sunset
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, choose 1 climax in your waiting room, and return it to your hand.
+Auto: OnAttack
+{
+	If Climax Beautiful sunset
+	{
+		If StageContains 2 Other && HasTrait Dengeki Bunko
+		{	
+			Heal
+			TargetLocation Stage
+			NarrowTargets Other
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo When this card's attack, if "Beautiful sunset" is in your climax area, and you have 2 or more other <Dengeki Bunko> characters, you may put the top card of your clock into your waiting room, and all your other characters get +1000 power until end of turn.
+EndCard
+
+Event: Gok/WS02-034
+Name The incarnation of the wolf that governs fertility
+Color Y
+Level 2
+Cost 3
+Counter
+Text COUNTER If you have 2 or less <Dengeki Bunko> characters, this cannot be played from hand.
+Effect:
+{
+	TargetLocation Stage && HasTrait Dengeki Bunko
+	ChooseCharacterFromTargets Choose a character to give the effect and +1500 power to.
+	GainPower 1500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Burn 3
+		}
+		Text Auto: When this card's battle opponent becomes reversed, deal 3 damage to your opponent.
+	}
+}
+ActivationRequirement StageContains 3 HasTrait Dengeki Bunko
+Text Choose 1 of your <Dengeki Bunko> characters, it gets +1500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, deal 3 damage to your opponent."
+EndCard
+
+Climax: Gbl/WS02-036
+Name Beautiful sunset
+*WindClimax
+EndCard
+
+Climax: Gtd/WS02-038
+Name Toradora!
+*ChoiceClimax
+EndCard
+
+Character: Ghm/WS02-039
+Name Tele appointment hero, Emi
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Ente Isla
+Trait3 Hero
+*PowerOnMyTurn(1000)
+Auto: OnPlay
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Dengeki Bunko
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put 1 <Dengeki Bunko> character from your waiting room on the bottom of your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 Level 1 or lower character, put it into your hand, and shuffle your deck. 
+EndCard
+
+Character: Gem/WS02-040
+Name Hentai manga master, Sagiri
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Dengeki Bunko
+Trait2 Illustrator
+Trait3 Social withdrawal
+Combo A story of creation and love
+*PowerOnMyTurn(1000)
+Auto: OnAttack
+{
+	If Climax A story of creation and love &&& StageContains 3 Other
+	{
+		*Check3Add1(Dengeki Bunko)
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "A story of creation and love" in your climax area, and you have 3 or more other characters, look at up to 3 cards from the top of your deck, choose up to 1 <Dengeki Bunko> character from among them, show it to your opponent, add it to hand, send the rest to waiting room, and choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: Goi/WS02-041
+Name Life counseling, Kirino
+Color G
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Model
+Combo Arguing with friends
+*Healer
+Auto: OnAttack
+{
+	If Climax Arguing with friends &&& StageContains 2 Other
+	{
+		Peek OpponentDeck 2
+		*ChooseCardsToPutIntoWaitingRoomReturnTheRestInAnyOrder(0,2)
+		{
+			PayCost Discard 3 Any
+			{
+				TargetSelf
+				GainEffect
+				{
+					Auto: OnEndOfAttack
+					{
+						*OptionalBurn(2)	
+					}
+					Text Auto: At the end of this card's attack, you may deal 2 damage to your opponent.
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 3 cards from your hand into your waiting room] When this card attacks, if "Arguing with friends" is in your climax area, if you have another 2 Character, look at up to 2 cards from the top of your opponent's deck, choose up to 2 cards from among them, put them on the top of their deck in any order, and put the rest into their waiting room , you may pay the cost. If you do, This card gets the following ability. "Auto: At the end of this card's attack, you may deal 2 damage to your opponent."
+EndCard
+
+Character: Gom/WS02-042
+Name I'll never lose, Shirokusa & Maria & Kuroha
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Childhood friend
+*GreenLevel0Bomb
+*Act1SearchBrainstorm(Dengeki Bunko)
+EndCard
+
+Character: Ghm/WS02-043
+Name Six tatami mat room demon king army, Mao
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Ente Isla
+Trait3 Demon
+Auto: OnTriggerCheckClimax
+{
+	TargetSent
+	IfThatCard HasTrigger Bar
+	{
+		If Compare MarkersUnderThis 1 OrLess
+		{
+			Question Look at the top card of your deck and put it under this card as a marker?
+			If Yes
+			{
+				PeekTop Deck
+				Marker_FaceDown
+			}
+		}
+	}
+}
+Text Auto: When your character's trigger reveals a climax with a Bar trigger icon, if there are 1 or less markers underneath this card, you may look at the top card of your deck. If you do, then put that card face-down under this card as a marker.
+Auto: OnAttack
+{
+	PayCost SendMarkers 2 WaitingRoom
+	{
+		GainPower 9000
+	}
+}
+Text Auto: [Put 2 marker from underneath this in the waiting room] When this card attacks, you may pay the cost. If you do, this card gets +9000 power until end of turn. 
+Act: RestSelf
+{
+	TargetLocation OpponentCenterStage
+	AIChoice LosePower 1000
+	ChooseCharacterFromTargets Choose a character to give -1000 power.
+	LosePower 1000
+}
+Text Act: [RestSelf] Choose a character on your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: Gem/WS02-044
+Name Love rival, Sagiri & Erufu
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Illustrator
+Trait3 Novel
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Dengeki Bunko
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this becomes reversed in battle, you reveal up to 3 cards from top of your deck. If you revealed one or more card, choose up to 1 <Dengeki Bunko> character among them, put it into your hand, put the rest into your waiting room, and discard a card. 
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Hentai manga master, Sagiri
+	{
+		GainPower 2000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Hentai manga master, Sagiri" from your hand] At the start of your climax phase, you may pay the cost. If you do, this turn, this gets +2000 power.
+EndCard
+
+Character: Goi/WS02-045
+Name First confession, Ayase
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Model
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 IsCharacter
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Auto: [Return 2 characters from your waiting room to your deck & Shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card gets +1000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+Auto: OnAttack
+{
+	If StageContains 3 Other
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if you have another 3 Character, this card gets +2000 power until end of turn.
+EndCard
+
+Character: Gny/WS02-046
+Name Netoge's wife, Ako
+Color G
+Level 1
+Cost 1
+Power 4000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Array cats
+Cont: Assist
+{
+	If HasTrait Dengeki Bunko
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST All of your <Dengeki Bunko> characters in front of this card get +X power. X is equal to that character's level ×500.
+Act: 1 RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard Compare ThatCardsLevel 1 OrMore
+	{
+		Heal
+	}
+}
+Text Act: [(1)RestSelf] Reveal the top card of your deck. If that card is level 1 or higher, put the top card of your clock into your waiting room.
+EndCard
+
+Character: Goi/WS02-047
+Name Limited time lover, Kyousuke & Kirino
+Color G
+Level 2
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Model
+Cont: GiveSelf
+{
+	TargetLocation Climax
+	IfTarget HasTrigger Bar
+	{
+		AddToOtherCardsTriggerIcon Bar NameEquals Life counseling, Kirino
+	}
+}
+Text Cont: If there is a climax with a Bar trigger in your climax area, all of your characters named "Life counseling, Kirino" in all of your other areas gain a Bar trigger.
+Cont: Assist
+{
+	SetXValue 500
+	MultiplyXValue ThatCardsLevel
+	GainPower X
+}
+Text Cont: ASSIST All of your characters in front of this card get +X power. X is 500 times level of that character.
+EndCard
+
+Character: Gds/WS02-049
+Name Beginning of youth, Erio
+Color G
+Level 3
+Cost 2
+Power 11000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Space
+Auto: OnPlay|OnPlacedOnStageFromMemory
+{
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			PayCost 1
+			{
+				TargetBattleOpponent
+				MoveCard Clock
+			}
+		}
+	}
+}
+Text Auto: [(1)] During the turn that this card is placed on the stage from your hand or from memory, when this card's battle opponent becomes reversed, you may pay the cost. If you do, put that character into your opponent's clock.
+Auto: OnReversed
+{
+	MoveCard Memory
+}
+Text Auto: When this card becomes reversed, put this card into your memory.
+Auto: StartClimaxPhase
+{
+	If Compare MyLevel 3 OrHigher && LocationContainsOrLess Stage 4 Any
+	{
+		PayCost Discard 2 Any
+		{
+			PlaceOnStage True True True False
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY [Discard 2 cards] At the beginning of your climax phase, if this card is in your memory, you may pay the cost, put this card on an open position of your stage.
+EndCard
+
+Character: Gas/WS02-050
+Name Adachi & Shimamura
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Cont: GiveSelf
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameEquals Adachi & Shimamura
+	If HasTarget
+	{
+		GainPower 2500
+		GainLevel 1
+	}
+}
+Text Cont: If you have another "Adachi & Shimamura" in your stage, this gets +2500 power and +1 level.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*SearchDeckToPlaceOnStage(NameEquals THIS_CARDS_NAME, False)
+	}
+}
+Text Auto: [Discard 1 into your waiting room] When this is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 "Adachi & Shimamura", and put it in any position of your stage.
+EndCard
+
+Character: Goi/WS02-052
+Name What-if story, Kanako
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Dance
+Auto: StartOpponentAttackPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(2) Return this card to your hand] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other characters, and return it to your hand.
+EndCard
+
+Character: Goi/WS02-053
+Name Behind the sunset, Kuroreko
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Chuunibyou
+Combo Bringing tension
+Auto: OnSpecificClimaxPlay Bringing tension
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko
+	{
+		
+		TargetTop Deck 1
+		Reveal
+		IfThatCard HasTrait Dengeki Bunko
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo When "Bringing tension" is placed on your climax area, if you have 2 or more other <Dengeki Bunko> characters, reveal the top card of your deck. If that card is a <Dengeki Bunko> character, put it into your hand.
+Requirement CardPosition Stand
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 Any RestSelf
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room and Put this standing card to rest] When your character's trigger check reveals a climax, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: Gny/WS02-054
+Name Newborn array cats
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Array cats
+*OnPlayGainPower(1500)
+Auto: StartOpponentDrawPhase
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Bounce this card to hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the start of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this to hand.
+EndCard
+
+Character: Ghm/WS02-055
+Name A bridge between two worlds, Suzuno & Chiho
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Dengeki Bunko
+Trait2 Ente Isla
+Trait3 Part-Time Job
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainTrait Udon
+	GainEffect
+	{
+		*OnAttackCheck2ChooseTrigger
+	}
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets a Trait <Udon> and the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+*GreenCost0Bomb
+EndCard
+
+Character: Gdy/WS02-056
+Name Best friend, Himari
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Accessories
+Trait3 Flower
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Dengeki Bunko || IsEvent
+	{
+			*GiveCharacterPower(3000,Any)
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a <Dengeki Bunko> character or event, choose 1 of your characters, it gets +3000 power until end of turn.
+EndCard
+
+Character: Gnh/WS02-057
+Name School idol, Haruka
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Daughter
+*GainPowerForEachOther(500, Dengeki Bunko)
+Auto: OnOtherFrontalAttacked 
+{
+	IfOther HasTrait Dengeki Bunko && OnStage
+	{
+		PayCost Discard 1 Any SendSelf WaitingRoom
+		{
+			TargetOther 
+			GainPower 3000
+		}
+	}
+}
+Text Auto: [Put a cards from your hand into your waiting room and this card into your waiting room] When your other <Dengeki Bunko> character is frontal attacked, you may pay the cost. If you do, that character gets +3000 power until end of turn.
+EndCard
+
+Character: Gds/WS02-058
+Name Self-proclaimed alien, Erio
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Space
+*OnPlayScryToBottom
+Act: Discard 2 Any SendSelf WaitingRoom
+{
+	AIChoice PlaceOnStage
+	Message Choose a character to place in this card's previous position.
+	SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+	Change
+}
+Text Act: [Put 2 cards from your hand into your waiting room and put this card into your waiting room] Choose up to 1 character from your waiting room whose level is equal or lower than your level and put it on the stage position that this card was on.
+EndCard
+
+Character: Gsr/WS02-059
+Name A scene of chaos in the background, Chika & Yumiko
+Color G
+Level 1
+Cost 1
+Power 3000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Voice Actor
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to downgrade.
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		Message Choose a character in waiting room to exchange.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: When this is placed from hand to the Stage, put the top 2 cards of your deck in the waiting room. If there were at least 1 Climax card among them, Choose 1 of your opponent's level 1 or higher characters, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.
+Auto: OnReversed
+{
+	TargetLocation OpponentClock
+	If HasTarget
+	{
+		TargetBattleOpponent
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		IfThatCard Compare ThatCardsLevel X OrMore && OnStage
+		{
+			Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+			If Yes
+			{
+				TargetTop OpponentClock 1
+				MoveCard OpponentWaitingRoom
+				TargetBattleOpponent
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Quick
+Text Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock.
+EndCard
+
+Character: Gos/WS02-060
+Name Oresuki, Sumireko Sanshokuin
+Color G
+Level 2
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Book
+*GainPowerWithEnoughCharacters(6000,4,Dengeki Bunko)
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko
+	{
+		Question Draw 2 cards then discard 2 cards?
+		If Yes
+		{
+			DrawCard
+			DrawCard
+			Discard 2 Any
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 2 or more other <Dengeki Bunko> characters, you may draw 2 cards. If so, discard 2 cards.
+EndCard
+
+Character: Gmm/WS02-061
+Name Kowareta Maa-chan
+Color G
+Level 2
+Cost 1
+Power 5500
+Trigger Soul
+Trait1 Dengeki Bunko
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each character in your opponent's back stage.
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		TargetLocation Stage
+		NarrowTargets Other && CanMove && InLocation MiddleCenterStage
+		ChooseCharacterFromTargets
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+			Stand
+			TargetSelf
+			GainPower 1000
+		}
+	}
+}
+Text Auto: [(1)] At the start of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other characters in the center stage center slot and this card, stand and exchange them, and this turn, this gets +1000 power.
+EndCard
+
+Character: Gsp/WS02-062
+Name Resident of Sakurasou, Mashiro
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Sakurasou
+Trait3 Art
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Dengeki Bunko
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another <Dengeki Bunko> character, this card gets +2000 power until end of turn.
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Clock 1 1 HasTrait Dengeki Bunko
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost, choose 1 <Dengeki Bunko> character from your clock, add it to hand, and put the top card of your deck into clock.
+EndCard
+
+Character: Gdc/WS02-063
+Name Bludgeoning Angel Dokuro-chan
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Angel
+Cont: GiveSelf
+{
+	If InLocation MiddleCenterStage
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If this card is in the middle position of your center stage, this card gets +3000 power.
+Act: 2 RestSelf
+{
+	SearchWaitingRoom HasTrait Dengeki Bunko
+}
+Text Act: [(2)RestSelf] choose 1 <Dengeki Bunko> character in your waiting room, return it to your hand.
+EndCard
+
+Character: Gds/WS02-064
+Name Aiming for space, Erio
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Space
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		{
+			SetXToNumberOfCharacters Other && HasTrait Dengeki Bunko
+			*CheckAndAdd(X)
+		}
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 of them, put it into your hand, and put the rest into the waiting room. X is the number of other <Dengeki Bunko> characters you have.
+Auto: OnSentFromStageToWaitingRoom
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Beginning of youth, Erio
+		If HasTarget
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or less cards in your memory, you may choose 1 "Beginning of youth, Erio" in your waiting room, and put it into your memory.
+EndCard
+
+Character: Goi/WS02-065
+Name Her in a swimsuit, Ayase
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Model
+Cont: GiveSelf
+{
+	If OpponentsTurn && LocationContainsOrLess Stock 3 Any
+	{
+		GainLevel 1
+		GainPower 1500
+	}
+}
+Text Cont: During your opponent's turn, if the number of cards in your stock is 3 or less, this card gets +1 level and +1500 power.
+*RunInFrontOfCharacter
+EndCard
+
+Character: Goi/WS02-066
+Name Her in a swimsuit, Kuroneko
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Chuunibyou
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Dengeki Bunko
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another <Dengeki Bunko> character, this card gets +2000 power until end of turn.
+Auto: OnAttack
+{
+	TargetLocation Climax && HasTrigger Bar
+	If HasTarget
+	{
+		Question Draw a card then discard a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: When this card attacks, if you have a climax with a Bar trigger icon in your climax area, you may draw 1 card , if you do, discard a card.
+EndCard
+
+Character: Gms/WS02-067
+Name "Witch Beatrice" Ayako
+Color G
+Level 1
+Cost 1
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Beatrice
+*PowerOnMyTurn(6000)
+Auto: OnOpponentReverse
+{
+	TargetBattleOpponent
+	IfThatCard CardPosition Reverse
+	{
+		TargetBattleOpponent
+		GainSpecialEffect CannotEncoreThis
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, that character cannot use "Auto: ENCORE" until end of turn. (That character cannot use the "Auto: ENCORE [(3)]" rule either)
+EndCard
+
+Character: Gny/WS02-068
+Name Stray Nekohime Bodyguard
+Color G
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Array cats
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2 Send 1 WaitingRoom HasTrait Dengeki Bunko
+	{
+		TargetTop OpponentClock
+		MoveCard OpponentWaitingRoom
+		If HasTarget
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel OpponentsLevel GreaterThan && CanBeChosen
+			ChooseCharacterFromTargets Choose a character to put into your opponent's clock.
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: [(2) Send a character from your stage to the waiting room] When you use this card's <b>"Backup"</b>, you may pay the cost. If you do, you may send the top card of your opponent's clock to waiting room. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level, and send it to clock.
+Backup 2500
+EndCard
+
+Character: Gem/WS02-069
+Name Nice meeting, Muramasa
+Color G
+Level 2
+Cost 1
+Power 6500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 
+Trait3 
+Auto: OnReverseOpponent
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		SearchDeck HasTrait Dengeki Bunko
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, search your deck for up to one <Dengeki Bunko> character, and add it to your hand.
+Auto: OnPlay
+{
+	PayCost Resonate Hentai manga master, Sagiri
+	{
+		GainPower 6000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Hentai manga master, Sagiri" from your hand] When this card is placed on the stage from your hand, you may pay the cost. If you do, this turn, this gets +6000 power.
+EndCard
+
+Character: Ghm/WS02-070
+Name Six tatami mat room demon king army, Urushihara & Ashiya
+Color G
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Ente Isla
+Trait3 Demon
+*Healer
+Auto: OnAttack
+{
+	PayCost 1 Discard 2 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		GainEffect
+		{
+			Auto: OnDamageNotCanceled
+			{
+				Burn 1
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to 1 time per turn. When damage dealt by this card is not canceled, deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: When this card attacks, you may pay the cost. If you do, all of your other characters get the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is not canceled, deal 1 damage to your opponent."
+EndCard
+
+Climax: Gem/WS02-072
+Name A story of creation and love
+*BarClimax
+EndCard
+
+Climax: Goi/WS02-073
+Name Arguing with friends
+*BarClimax
+EndCard
+
+Climax: Goi/WS02-074
+Name Bringing tension
+*BarClimax
+EndCard
+
+Character: Gnm/WS02-075
+Name Girl from the east, Nanao
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*RunToCenter
+		}
+	}
+}
+Text Cont: If the number of cards in your hand is five or more, this card gets +2500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck."
+Auto: OnOpponentReverse
+{
+	Question Draw a card then discard a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may draw 1 card if you do, discard a card.
+EndCard
+
+Character: Gmf/WS02-076
+Name Witch of Destruction, Sasha
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Mazoku
+Trait3 Magic
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		Question Choose character move to the waiting room?
+		If Yes
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 0 OrLess
+			ChooseCharacterFromTargets
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this attacks, reveal the top card of your deck. If that card is level 1 or higher, you may choose 1 of your opponent's center stage level 0 or lower character, you may send it to waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Discard a card] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+EndCard
+
+Character: Grk/WS02-078
+Name "Shiny Gift" Tomoka
+Color R
+Level 3
+Cost 2
+Power 10500
+Combo Keishin Academy girls' basketball team
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Sports
+Auto: OnAttack
+{
+	If LocationContains Level 1 NameEquals "Shiny Gift" Tomoka
+	{
+		Mill 2
+		NarrowTargets Compare ThatCardsLevel 2 OrMore
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: EXPERIENCE When this card attacks, If ""Shiny Gift" Tomoka Minato" is in your level, mill 2, deal X damage to your opponent, X is equal to the number of level 2 or higher cards among those cards. 
+Auto: StartAttackPhase
+{
+	If Climax Keishin Academy girls' basketball team &&& InLocation CenterStage &&& Compare CardsInHand 5 OrLess
+	{
+		MultipleChoiceQuestion Choose one of the following effects and perform it,\n1. Stand this card.\n2. [(1) Send climax from your climax area to waiting room] deal 3 damage to your opponent.|Choice 1|Choice 2
+		If Answer 0
+		{
+			TargetSelf
+			Stand
+		}
+		If Answer 1
+		{
+			If StageContains 4 Other && HasTrait Dengeki Bunko
+			{
+				PayCost 1 SendClimax WaitingRoom
+				{
+					Burn 3
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the start of your attack phase, if "Keishin Academy girls' basketball team" is in your climax area and your hand has 5 or less cards, this card is in your center stage, choose 1 of the following 2 abilities and this card gets that ability until the end of turn. "Stand this card" "[(1) Send climax from your climax area to waiting room] If you have other <Dengeki Bunko> characters 4 or more, you may pay the cost. If you do, deal 3 damage to your opponent."
+EndCard
+
+Character: G86/WS02-080
+Name Tears of battle, Lena
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 86th Independent Mobile Strike Group
+Auto: OnPlay
+{
+	*Scry
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, perform the following action two times. "Look at the top card of your deck, and put it on the top of your deck or into your waiting room."
+Auto: OnPlay
+{
+	If StageContains 1 Compare ThatCardsLevel 2 OrMore
+	{
+		TargetLocation Stage
+		NarrowTargets Compare ThatCardsLevel 2 OrMore
+		ChooseCharacterFromTargets Choose a character to gain +3000 power
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your level 2 or higher characters and that character gains +3000 power until end of turn.
+EndCard
+
+Character: Grk/WS02-082
+Name "Innocent Charm" Hinata
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Sports
+Cont: GiveAll
+{
+	If LocationContains Level 1 NameEquals "Shiny Gift" Tomoka &&& LocationContains CentreStage 1 NameEquals "Shiny Gift" Tomoka && other
+	{
+		*GlobalPower(500,Any)
+	}
+}
+Text Cont: EXPERIENCE If ""Shiny Gift" Tomoka" is in your level and you have another ""Shiny Gift" Tomoka", all of your other characters get +500 power.
+Act: 1 RestSelf
+{
+	Brainstorm 5
+	TargetBrainstormed
+	NarrowTargets HasTrigger Standby
+	If HasTarget
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Act: BRANISTORM [(1) Restself] Flip over the top 5 cards of your deck and put them into your waiting room. If there is a climax among those cards with STANDBY, choose up to 1 character in your waiting room with "Nanoha" or "Fate" and return it to your hand.
+EndCard
+
+Character: Gnm/WS02-084
+Name On match, Oliver & Nanao
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Magic
+Trait3 Weapon
+Combo Kimberly Magic Academy
+Auto: OnPlay
+{
+	GainPower 2000
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			If OpponentsTurn
+			{
+				TargetBattleOpponent
+				IfThatCard Compare ThatCardsLevel 1 OrLess && OnStage && Not CardPosition Reverse
+				{
+					Question Reverse the battle opponent?
+					If Yes
+					{
+						Reverse
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, this card gain +2000 power the end of turn and the following abilities until the end of your opponent's next turn. "Auto: During your opponent's turn, the level of this card's battle opponent is 1 or lower, you may reverse the battle opponent."
+Auto: OnAttack
+{
+	If Climax Kimberly Magic Academy
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Dengeki Bunko && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Kimberly Magic Academy" is in your climax area, reveal the top card of your deck, choose 1 level X or lower <Dengeki Bunko> character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+EndCard
+
+Character: Grk/WS02-085
+Name "Ice Age" Saki
+Color R
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Sports
+Combo Sleepless night
+Cont: InHand
+{
+	If LocationContains Level 1 NameEquals "Shiny Gift" Tomoka
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: EXPERIENCE If ""Shiny Gift" Tomoka" is in your level, this card gets -1 level while in your hand.
+Auto: OnSpecificClimaxPlay Sleepless night
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Dengeki Bunko
+		ChooseCharacterFromTargets_Optional Choose up to one of your other characters and stand it
+		Stand
+	}
+}
+Text Auto: CxCombo When "Sleepless night" is placed on your climax area, if this card is in your center stage, you may choose 1 of your other <Dengeki Bunko> characters, and Stand it.
+EndCard
+
+
+Character: Gmf/WS02-086
+Name Two Thousand Years Promise, Lay & Anos
+Color R
+Level 3
+Cost 2
+Power 10500
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Mazoku
+Trait3 Magic
+Combo To peaceful times
+Auto: OnPlay
+{
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			PayCost Discard 1 Any
+			{
+				Burn 1
+				GainPower 2000
+			}
+		}
+	}
+}
+Text Auto: [Discard a card] During the turn this card is placed on the stage from your hand, when this card's attack, you may pay the cost. If you do, deal 1 damage to your opponent and this card gets +2000 power until end of turn.
+Auto: OnEndOfAttack
+{
+	If Climax To peaceful times
+	{
+		PayCost 1 Discard 2 Any SendClimax WaitingRoom
+		{
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: Cxcombo [(1) Put two cards from your hand into your waiting room and send "To peaceful times" from your climax area to waiting room] This ability activates up to one time per turn. At the end of this card's attack, you may pay the cost. If you do, Stand this card.
+EndCard
+
+Character: Ggu/WS02-087
+Name For the dreams, Arina
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Guild
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Other
+	{
+		GainLevel 1
+		GainPower 3500
+	}
+}
+Text Cont: If you have no other characters, this gets +1 level and +3500 power.
+*500Assist
+EndCard
+
+Character: Gkm/WS02-088
+Name NEET detective, Arisu
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Detective
+Auto: StartMainPhase
+{
+	PeekTop Deck
+	EndPeek Deek
+	TargetLocation Stock
+	View
+}
+Text Auto: At the start of your main phase, look at the top card of your deck, and look at all of your stock.
+*Act1RestSelfSearchBrainstorm(Dengeki Bunko)
+EndCard
+
+Character: Gyf/WS02-089
+Name Partner, Etika & Harold
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2
+Act: 1 SendSelf Memory
+{
+	*Check3Add1(Dengeki Bunko)
+}
+Text Act: [(1) Put this card into your memory] Look at up to 3 cards from the top of your deck, choose up to 1 <Dengeki Bunko> character, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: Gbb/WS02-090
+Name Tendo Civil Security
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Civil security
+Trait3 Weapon
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseBackup
+	GainSpecialEffect CannotUseEvents
+}
+Text Cont: You cannot play event cards or backup from your hand.
+EndCard
+
+Character: Grk/WS02-091
+Name Coming of night, Maho
+Color R
+Level 1
+Cost 0
+Power 2500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Sports
+Auto: StartAttackPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		*GainPowerWhenAttackingLevel2(6000)
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, at the beginning of your attack phase, choose 1 of your characters, it gets the following ability until end of turn. "Auto: +6000PowerWhenAttacking Level2 characters"
+EndCard
+
+Character: Gbd/WS02-092
+Name The girl who loved dragons, Brunnhilde
+Color R
+Level 1
+Cost 1
+Power 3500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Dragon
+Auto: OnPlay
+{
+	Mill 1
+	SetXValue TargetCardsLevel
+	MillOpponent 1
+	If Compare X TargetCardsLevel GreaterThan
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players put the top card of their deck into their waiting room. If the level of the card put into your waiting room by this effect is higher than your opponent's, you may put the top card of your deck into your stock.
+*EarlyPlayMemoryBomb
+EndCard
+
+Character: Gfq/WS02-093
+Name Beginning of a new adventure
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Dengeki Bunko
+Trait2 Adventurer
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other <Dengeki Bunko> characters, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: Gga/WS02-094
+Name "Anima" Girl, Gripen
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Dengeki Bunko
+Trait2 Anima
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait Dengeki Bunko
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you don't have another <Dengeki Bunko> character, this card cannot stand during your stand phase.
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	GainLevel X
+	MultiplyXValue 1500
+	GainPower X
+	GainTrait Drinking yogurt
+}
+Text Cont: For each marker under this card, this card gains +1 level and +1500 power and a Trait <drinking yogurt>.
+Auto: OnOpponentReverse
+{
+	Question Look at the top card of your deck and put it under this card as a marker?
+	If Yes
+	{
+		PeekTop Deck
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card's battle opponent becomes [REVERSE], you may look at the top card of your deck. If you do, then put that card face-down under this card as a marker.
+EndCard
+
+Character: Ghh/WS02-095
+Name Princess Knight and Her Kept Man, Alwyn & Matthew
+Color R
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Adventurer
+Trait3 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Dengeki Bunko
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets IsCharacter && Compare ThatCardsLevel 2 OrLess
+		ChooseCardsFromTargets 2 2 Any
+		SetXValue TargetCount
+		If Compare X 2 Exactly
+		{
+			MultipleChoiceQuestion Choose one of the following effects and perform it,\n1. Choose 1 Character with the lowest Power among those Characters and put it in the Waiting Room.\n2. If all those Characters have the same Power, put all those Characters in the Waiting Room.|Choice 1|Choice 2
+			If Answer 0
+			{
+				NarrowToLowestPower
+				ChooseCharacterFromTargets
+				MoveCard OpponentWaitingRoom
+			}
+			If Answer 1
+			{
+				NarrowToLowestPower
+				SetXValue TargetCount
+				If Compare X 2 Exactly
+				{
+					MoveCard OpponentWaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [Discard 1 <Dengeki Bunko> character] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 2 of your opponent's level 2 or less characters if you chose 2 Charcaters this way, choose 1 of the following 2 effects and perform it. "Choose 1 Character with the lowest Power among those Characters and put it in the Waiting Room." "If all those Characters have the same Power, put all those Characters in the Waiting Room." 
+EndCard
+
+Character: G86/WS02-098
+Name Battlefield without dead, Shi & Lena
+Color R
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 86th Independent Mobile Strike Group
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	SearchLocationForTargets Clock 0 1 HasTrait Dengeki Bunko
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a <Dengeki Bunko> character in your clock and return it at the bottom of your deck.
+Act: 1
+{
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			Question Put this card's battle opponent on the top of your opponent's deck?
+			If Yes
+			{
+				TargetBattleOpponent
+				If OnStage
+				{
+					MoveCard OpponentDeck
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck.
+	}
+}
+Text Act: [(1)]This card gets +1000 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character on the top of your opponent's deck."
+EndCard
+
+Character: Gsk/WS02-099
+Name An encounter that moves the world, Bisco & Milo
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Mushroom guard
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets HasTrait Dengeki Bunko
+	If Compare TargetCount 2 OrHigher
+	{
+		TargetLocation OpponentBackstage
+		NarrowTargets Compare ThatCardsLevel 3 OrLower
+		ChooseCharacterFromTargets Choose a Character
+		DontStand
+		
+	}
+}
+Text Auto: When this card is placed on stage from your hand, put the top 2 cards of your deck into your waiting room. If they are all <Dengeki Bunko> characters, choose a Level 3 or lower character in your opponent's backstage. That character doesn't stand during your opponent's next stand phase.
+*RedLevel0Bomb
+EndCard
+
+Character: Grk/WS02-101
+Name "Fire Works" Maho
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Sports
+Cont: GiveAll
+{
+	If MyTurn && LocationContains Level 1 NameEquals "Shiny Gift" Tomoka &&& LocationContains CentreStage 1 NameEquals "Shiny Gift" Tomoka && other
+	{
+		*GlobalPower(1000,Any)
+	}
+}
+Text Cont: EXPERIENCE During your turn,if ""Shiny Gift" Tomoka" is in your level and you have another ""Shiny Gift" Tomoka Minato", all of your other characters get +1000 power.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainPower 2000
+	}
+}
+Text Auto: [Return this card to your hand] When a climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, this turn, it gets +2000 power.
+EndCard
+
+Character: Gns/WS02-102
+Name Genius engineer, Rikka
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Dengeki Bunko
+Trait2 SE
+Auto: StartEncorePhase
+{
+	If CardPosition Reverse && Not StageContains 1 InLocation CenterStage && CardPosition Rest
+	{
+		PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Dengeki Bunko
+		{
+			Rest
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] At the beginning of the encore step, if you do not have another Rest character in your center stage, you may pay the cost. If you do, Rest this card.
+EndCard
+
+Character: Gc3/WS02-103
+Name "Fear-In-Cube" Fear
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Cursed Tool
+*BackupBonus1000(Dengeki Bunko)
+Backup 1000
+EndCard
+
+Character: Gmf/WS02-105
+Name Anniversary, Misha
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Cursed Tool
+Auto: OnUseAct
+{
+	If MyTurn
+	{
+		TargetLocation OpponentStage
+		AIChoice Flicker
+		ChooseCharacterFromTargets_Optional Choose a character to send to memory, then it returns to the stage.
+		Flicker
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you use an act ability, choose one of your opponent's characters, put it into your opponent's memory, your opponent puts that character from your opponent's memory on any position of his or her stage.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Two Thousand Years Promise, Lay & Anos
+	ChooseCharacterFromTargets Choose a character to gain +3000 power
+	GainPower 3000
+}
+Text Auto: At the beginning of your climax phase, choose one of your "Two Thousand Years Promise, Lay & Anos", and that character gains +3000 power until end of turn.
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom Ischaracter
+		}
+	}
+}
+Text Act: [(1) Rest this card] Choose 1 of your characters, it gets the following ability until end of turn."Auto: When this card's battle opponent becomes reversed, choose 1 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: G86/WS02-107
+Name To the battlefield together, Lena
+Color R
+Level 1
+Cost 1
+Power 3000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 86th Independent Mobile Strike Group
+Cont: Assist
+{
+	If HasTrait Dengeki Bunko
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST All of your <Dengeki Bunko> characters in front of this card get +X power. X is equal to that character's level ×500.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage 
+	ChooseCharacterFromTargets Choose a character to give 500 times level power to.
+	SetXValue TargetCardsLevel
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, it gets +X power until end of turn. X is equal to that character's level ×500.
+Act: RestSelf
+{
+	TargetLocation AnyStage
+	AIChoice GainLevel 1
+	ChooseCharacterFromTargets Choose a character to give +1 level
+	UntilEndOfOpponentsTurn
+	GainLevel 1
+}
+Text Act: [Rest this card] Choose another character, it gets +1 level until the end of your opponent's turn.
+EndCard
+
+Character: Gnm/WS02-108
+Name New encounters, new classes Katie & chela & Nanao
+Color R
+Level 2
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Magic
+Trait3 Weapon
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Dengeki Bunko
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, all of your other <Dengeki Bunko> characters get +2000 power.
+Act: RestSelf
+{
+	*ScryToBottom
+}
+Text Act: [Rest this card] Look at the top card of your deck and return it to the top or bottom of your deck.
+EndCard
+
+Character: Grk/WS02-109
+Name "Prismatic Bud" Airi
+Color R
+Level 2
+Cost 2
+Power 7000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Sports
+Cont: GiveSelf
+{
+	If LocationContains Level 1 NameEquals "Shiny Gift" Tomoka
+	{
+		If InLocation MiddleCenterStage
+		{
+			GainPower 5000
+		}
+	}
+}
+Text Cont: If ""Shiny Gift" Tomoka" is in your level and this card is in the middle position of your center stage, this card gets +5000 power.
+*HandEncore
+EndCard
+
+Event: Grk/WS02-110
+Name Wonder Shoot, Hinata
+Color R
+Level 2
+Cost 0
+Counter
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect \n1. If you have a <Dengeki Bunko> character, choose 1 character in your waiting room with either "Tomoka", "Maho", "Saki", "Airi", or "Hinata" in it's card name and return it to your hand. \n2. [(3)] If you have a character with "Tomoka" in it's card name, a character with "Maho" in it's card name, a character with "Saki" in it's card name, a character with "Airi" in it's card name, and a character with "Hinata" in it's card name, you may pay the cost. If you do, choose 1 of your opponent's characters and rest it. |1|2
+	If Answer 0
+	{
+		If StageContains 1 HasTrait Dengeki Bunko
+		{
+			SearchWaitingRoom NameContains Tomoka|Maho|Saki|Airi|Hinata && IsCharacter
+		}
+	}
+	If Answer 1
+	{
+		If LocationContainsSeparateCardsThatMeetConditions Stage NameContains Tomoka, NameContains Maho, NameContains Saki, NameContains Airi, NameContains Hinata
+		{
+			PayCost 3
+			{
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets Choose a character to rest
+				Rest
+			}
+		}
+	}
+}
+Text Choose 1 of the following 2 effects and perform it. 
+Text "If you have a <Dengeki Bunko> character, choose 1 character in your waiting room with either "Tomoka", "Maho", "Saki", "Airi", or "Hinata" in it's card name and return it to your hand."
+Text "[(3)] If you have a character with "Tomoka" in it's card name, a character with "Maho" in it's card name, a character with "Saki" in it's card name, a character with "Airi" in it's card name, and a character with "Hinata" in it's card name, you may pay the cost. If you do, choose 1 of your opponent's characters and rest it."
+EndCard
+
+Climax: Gmf/WS02-111
+Name To peaceful times
+*DoorClimax
+EndCard
+
+Climax: Gnm/WS02-112
+Name Kimberly Magic Academy
+*DoorClimax
+EndCard
+
+Climax: Grk/WS02-113
+Name Keishin Academy girls' basketball team
+*StandbyClimax
+EndCard
+
+Climax: Grk/WS02-114
+Name Sleepless night
+*StandbyClimax
+EndCard
+
+Character: Gsb/WS02-117
+Name Sword shaman from the Lion King Agency, Yukina
+Color B
+Level 2
+Cost 1
+Power 5000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Itogami Island
+Trait3 Weapon
+Combo Fourth Progenitor and Observer
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Dengeki Bunko
+	{
+		GainPower 5000
+	}
+}
+Text Cont: If all your characters are <Dengeki Bunko> characters, this card gains +5000 power.
+Auto: OnSpecificClimaxPlay Fourth Progenitor and Observer
+{
+	If InLocation CenterStage
+	{
+		*SearchDeckToPlaceOnStage(NameEquals THIS_CARDS_NAME, False)
+	}
+}
+Text Auto: CxCombo When "Fourth Progenitor and Observer" is placed on your climax area, if this is in your center stage, search your deck for up to 1 "Sword shaman from the Lion King Agency, Yukina", place it on stage in any slot, and shuffle your deck afterwards.
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget Compare ThatCardsLevel 1 OrHigher
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you have a climax in your climax area, reveal the top card of your deck. If it is level 1 or higher, put it into your hand.
+EndCard
+
+Character: Ggh/WS02-118
+Name Two people on the borderline, Horizon
+Color B
+Level 3
+Cost 2
+Power 8500
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Musashi
+Trait3 Student
+Cont: InHand
+{
+	If StageContains 4 HasTrait Dengeki Bunko
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more <Dengeki Bunko> characters, this card gets -1 level while in your hand.
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each character in your opponent's back stage.
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if your have other 2 <Dengeki Bunko> character, you may pay the cost. If you do, choose a card in your clock and return it to your hand. 
+EndCard
+
+Character: Gmr/WS02-119
+Name Honor student and Irregular, Miyuki & Tatsuya
+Color B
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Magic
+Combo Bestowed power
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	*CheckAndAdd(X)
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck, choose up to 1 from among them, show it to your opponent, add it to hand, and send the rest to waiting room. X equals the number of your opponent's characters.
+Auto: StartAttackPhase
+{
+	If Climax Bestowed power && InLocation CenterStage && StageContains 3 Other
+	{
+		MultipleChoiceQuestion Choose 1 of the following 2 abilities \n1. Auto: [(2) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 3 damage to your opponent, and this card gets +2000 power until end of turn.\n2. Auto: At the start of your opponent's attack phase, choose up to 1 of your opponent's characters, it get -2 soul until end of turn.|Choice 1|Choice 2
+		If Answer 0
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					PayCost 2 Discard 1 Any
+					{
+						Burn 3
+						GainPower 2000
+					}
+				}
+				Text Auto: [(2) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 3 damage to your opponent, and this card gets +2000 power until end of turn. 
+			}
+		}
+		If Answer 1
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Auto: StartOpponentAttackPhase
+				{
+					TargetLocation OpponentCenterStage
+					ChooseCharacterFromTargets Choose a character to get -2 soul
+					LoseSoul 2
+				}
+				Text Auto: At the start of your opponent's attack phase, choose up to 1 of your opponent's characters, it get -2 soul until end of turn.
+			}
+		}
+	}
+}
+Text Auto: At the start of attack phase, if "Bestowed power" is in your climax area and you have another 3 Character, choose 1 of the following 2 abilities and this card gets that ability until the end of your opponent's turn. "Auto: [(2) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 3 damage to your opponent, and this card gets +2000 power until end of turn." "At the start of your opponent's attack phase, choose up to 1 of your opponent's characters, it get -2 soul until end of turn."
+EndCard
+
+Character: Gmr/WS02-120
+Name Summer festival, Miyuki & Tatsuya
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Combo Bestowed power
+Auto: OnSpecificClimaxPlay Bestowed power
+{
+	If Phase Climax && Compare MyLevel 2 OrMore 
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			SearchLocationForTargets Hand 0 1 NameEquals Honor student and Irregular, Miyuki & Tatsuya
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put this card into your waiting room] During your climax phase, when "Bestowed power" is placed on your climax area, if your level is 2 or higher, you may pay the cost. If you do, choose up to 1 "Honor student and Irregular, Miyuki & Tatsuya" in your hand, and put it in the stage position that this card was in.
+Act: RestSelf
+{
+	*GiveCharacterPower(1000,Any)
+}
+Text Act: [Rest this card] Choose 1 of your characters, it gets +1000 power until end of turn. 
+EndCard
+
+Character: Gsb/WS02-121
+Name World's strongest vampire, Kojo
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Dengeki Bunko
+Trait2 Itogami Island
+Trait3 Blood
+*PowerOnMyTurn(2000)
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget Compare ThatCardsLevel 1 OrHigher
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you have a climax in your climax area, reveal the top card of your deck. If it is level 1 or higher, put it into your hand.
+Act: SendSelf Clock
+{
+	TargetLocation Hand
+	NarrowTargets NameEquals Sword shaman from the Lion King Agency, Yukina
+	FirstTarget
+	Change
+}
+Text Act: [Put this card into your clock] Choose up to 1 "Sword shaman from the Lion King Agency, Yukina" in your hand, and put it in the stage position that this card was in.
+EndCard
+
+Character: Gsd/WS02-122
+Name Agent and bodyguard, Hinagiku & Sakura
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Dengeki Bunko
+Trait2 Yamato
+Trait3 Substitute
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && HasTrait Dengeki Bunko
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other <Dengeki Bunko> character in the middle position of your center stage gets +1500 power.
+Auto: OnTriggerCheck
+{
+	IfOther HasTrigger Soul 
+	{
+		TargetLocation OpponentCenterStage
+		AIChoice LosePower 500
+		ChooseCharacterFromTargets Choose a character to give -500 power.
+		LosePower 500
+	}
+}
+Text Auto: When your character's trigger check reveals a card with a soul trigger icon, choose a character on your opponent's center stage, it gets -500 power until end of turn.
+Act: 1
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [(1)] Draw a card, choose a card in your hand and put it into your waiting room.
+*Act1RestSelfReviveBrainstorm
+EndCard
+
+Character: Ggh/WS02-123
+Name Two people on the borderline, Tori
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Dengeki Bunko
+Trait2 Musashi
+Trait3 Student
+Combo Impossible man
+*GainPowerForEachOther(500,Dengeki Bunko)
+Auto: OnAttack
+{
+	If Climax Impossible man
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Dengeki Bunko
+		RevealTargets
+		MoveCard Stock
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Impossible man" is in your climax area, you may choose a <Dengeki Bunko> Character in your waiting room and put it into your stock. 
+EndCard
+
+Character: Gmr/WS02-125
+Name Graduation, Miyuki & Tatsuya
+Color B
+Level 2
+Cost 1
+Power 5000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Magic
+*HexProof
+*Level3Assist
+Auto: OnOtherReversed
+{
+	IfOther NameEquals Honor student and Irregular, Miyuki & Tatsuya
+	{
+		PayCost Discard 2 IsColor Blue
+		{
+			TargetOther
+			Rest
+			TargetBattleOpponent
+			Reverse
+		}
+	}
+}
+Text Auto: [Put 2 blue cards from your hand into your waiting room] When your other "Honor student and Irregular, Miyuki & Tatsuya" becomes reversed in battle, you may pay the cost. If you do, rest that character, and reverse that card's battle opponent. 
+EndCard
+
+Character: Gkb/WS02-126
+Name Traveller, Kino
+Color B
+Level 2
+Cost 1
+Power 6500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Journey
+Trait3 Weapon
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Backstage && Other && HasTrait Dengeki Bunko
+		SetXValue TargetCount
+		MultiplyXValue 3000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +3000 power for each <Dengeki Bunko> character in your back stage.
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		Question Put the battle opponent at the bottom of your opponent's deck?
+		If Yes
+		{
+			TargetBattleOpponent
+			MoveCard BottomOfOpponentDeck
+		}	
+	}
+}
+Text Auto: When this card's battle opponent is reversed, if you have a climax in your climax area, you may put that battle opponent at the bottom of your opponent's deck.
+EndCard
+
+Character: Giy/WS02-130
+Name UFO of summer, Irino
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Dengeki Bunko
+Trait2 Summer
+*OnAttackGainPowerForEachOther(1000,Dengeki Bunko)
+Auto: OnReversed 
+{
+	PayCost 1 Discard 1 Any SendSelf Memory 
+	{
+		*CheckAndAdd(2)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: Gmr/WS02-131
+Name Dress up, Miyuki & Lina
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Dengeki Bunko
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +2000 power
+		GainPower 2000
+	}
+}
+Text Auto: When this card is placded on stage from your hand, reveal the top card of your deck. If that card is a <Dengeki Bunko> character, choose one of your characters and that character gains +2000 power until end of turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose a character to place on stage
+		SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel 0 OrLess && IsCharacter
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a level 0 or lower character in your waiting room and put it in any position of your stage.
+EndCard
+
+Character: Gmr/WS02-133
+Name Juniors and seniors, Tatsuya & Mayumi
+Color B
+Level 2
+Cost 1
+Power 2000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Dengeki Bunko
+	{
+		TargetLocation OpponentCenterStage
+		AIChoice LosePower 6000
+		ChooseCharacterFromTargets Choose a character to give -6000 power.
+		LosePower 6000
+	}
+}
+Text Auto: When this card is placded on stage from your hand, reveal the top card of your deck. If that card is a <Dengeki Bunko> character, choose a character on your opponent's center stage, it gets -6000 power until end of turn.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: Gkb/WS02-134
+Name Man and motorcycle, Kino & Hermes
+Color B
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Journey
+Trait3 Weapon
+Auto: OnClimaxPlay
+{
+	*GiveCharacterPower(3000,Any)
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of your characters, it gets +3000 power until end of turn.
+Auto: EndOfMyTurn
+{
+	Question Put other card into this card Marker?
+	If Yes
+	{	
+		TargetLocation Stage && Other
+		NarrowTargets NameEquals Traveller, Kino|Anniversary, Kino
+		ChooseCharacterFromTargets Choose a character to put it face up underneath
+		Marker_FaceUp
+		ScheduleEffectForTargets StartDrawPhase
+		{
+			Effect:
+			{
+				Reveal 
+				PlaceOnStage False True True False
+			}
+		}
+	}		
+}
+Text Auto: At the end of your turn, choose 1 of your other "Traveller, Kino" or "Anniversary, Kino", and put it face up underneath this card as a marker.At the next beginning of your draw phase, choose 1 "Traveller, Kino" or "Anniversary, Kino" marker underneath this card, put it on any position of your stage.
+EndCard
+
+Character: Ggh/WS02-135
+Name Silver Wolf, Mitotsudaira
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Musashi
+Trait3 Student
+*OnPlayGiveOtherPower(1000,Dengeki Bunko)
+*BlueLevel0Bomb
+EndCard
+
+Character: Gmr/WS02-137
+Name First course, Shizuku & Honoka
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 2 or higher, put it into your stock.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all of the cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: Gsb/WS02-139
+Name "Empress of electrons" Asagi
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Itogami Island
+Trait3 Net
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 2 NameEquals Sword shaman from the Lion King Agency, Yukina
+	RevealTargets
+	MoveCardToBottom Deck
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 2 "Sword shaman from the Lion King Agency, Yukina" in your waiting room and put them on the bottom of your deck.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Dengeki Bunko && Other
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Dengeki Bunko> characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: Gmr/WS02-140
+Name Second course, Mikihiko & Mizuki
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Cont: GiveAll
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: All of your characters gain "Cont: This cannot side attack."
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Dengeki Bunko
+}
+Text Act: [Discard a cards and this card into your waiting room] Choose 1 <Dengeki Bunko> character in your waiting room, return it to your hand.
+EndCard
+
+Character: Glt/WS02-141
+Name Minase Akiha/Haruka
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Dual personality
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 6000
+		GainSoul 1
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +6000 power and +1 soul.
+Auto: OnPlay
+{
+	Message Choose a marker.
+	SearchLocationForTargets WaitingRoom 0 1 NameEquals Minase Akiha/Haruka
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand, choose up to 1 "Minase Akiha/Haruka" in your waiting room, and put it face-up underneath this card as a marker.
+EndCard
+
+Character: Gmr/WS02-142
+Name Second course, Erika & Leo
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Dengeki Bunko
+	{
+		TargetSelf
+		UntilEndOfOpponentsTurn
+		GainPower 3000
+	}
+}
+Text Auto: When this card is placded on stage from your hand, reveal the top card of your deck. If that card is a <Dengeki Bunko> character, this character gains +3000 power until end of your opponent's turn.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter
+	GainEffect
+	{
+		Auto: OnTriggerCheckClimax
+		{
+			If InBattle
+			{
+				PayCost 1
+				{
+					BlindStock
+					TargetLocation Stage
+					ChooseCharacterFromTargets Choose a character to gain +2000 power
+					GainPower 2000						
+				}
+			}
+		}
+		Text Auto: [(1)] When this card's trigger check reveals a climax, you may pay the cost. If you do, put 1 card from the top of your deck into your stock, and you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+	}
+}
+Text Auto: When this card attacks, all of your characters get the following ability until end of turn. "Auto: [(1)] When this card's trigger check reveals a climax, you may pay the cost. If you do, put 1 card from the top of your deck into your stock, choose one of your characters and that character gains +2000 power until end of turn."
+EndCard
+
+Event: Gkb/WS02-146
+Name Kino's Journey
+Color B
+Level 1
+Cost 1
+Effect: 
+{
+	Mill 4  
+	*CountSoulTriggers
+	SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Dengeki Bunko
+	TargetSelf
+	MoveCard Memory
+}
+Text Put the top 4 cards of your deck into your waiting room, choose up to 1 level X or lower <Dengeki Bunko> character in your waiting room, and return it to your hand. X is equal to the total number of SOUL in the trigger icons of those cards. Put this card into your memory.
+Auto: StartMyEncoreStep
+{
+	If Compare CardsInMemory 2 OrMore && NameEquals Kino's Journey
+	{
+		PayCost Discard 1 Any FlipSelfFaceDown &&& FlipCardsFaceDown 1 Memory Other && NameEquals Kino's Journey
+		{
+			Heal
+		}
+	}
+}
+Quick
+InMemory
+Text Auto: [Discard a card, flip this card and another "Kino's Journey" face-down from memory] MEMORY If this card is in your memory, at the beginning of your encore step, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+EndCard
+
+Climax: Ggh/WS02-147
+Name Impossible man
+*GateClimax
+EndCard
+
+Climax: Gmr/WS02-149
+Name Bestowed power
+*GateClimax
+EndCard
+
+Climax: Gsb/WS02-150
+Name Fourth Progenitor and Observer
+*GateClimax
+EndCard
+
+Character: Gok/WS02-P04
+Name DengekiBunko 30th Anniversary Holo
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Animal
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Dengeki Bunko
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your <Dengeki Bunko> characters, it gets +500 power until end of turn.
+Act: RestSelf
+{
+	*GiveCharacterPower(2000,Dengeki Bunko)
+}
+Text Act: [Rest this card] Choose 1 of your <Dengeki Bunko> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: Gsd/WS02-P05
+Name DengekiBunko 30th Anniversary Hinagiku
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Yamato
+Trait3 Substitute
+*OnPlayGiveOtherPower(1000,Dengeki Bunko)
+*BlueLevel0Bomb
+EndCard
+
+Character: Ghm/WS02-P10
+Name DengekiBunko 30th Anniversary Emi
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Ente Isla
+Trait3 Hero
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Dengeki Bunko
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another <Dengeki Bunko> character, this card gets +2000 power until end of turn.
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Clock 1 1 HasTrait Dengeki Bunko
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost, choose 1 <Dengeki Bunko> character from your clock, add it to hand, and put the top card of your deck into clock.
+EndCard
+
+Character: Gdy/WS02-P13
+Name DengekiBunko 30th Anniversary Himari
+Color G
+Level 2
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Accessories
+Trait3 Flower
+*GainPowerWithEnoughCharacters(6000,4,Dengeki Bunko)
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko
+	{
+		Question Draw 2 cards then discard 2 cards?
+		If Yes
+		{
+			DrawCard
+			DrawCard
+			Discard 2 Any
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 2 or more other <Dengeki Bunko> characters, you may draw 2 cards. If so, discard 2 cards.
+EndCard
+
+Character: Gbd/WS02-P14
+Name DengekiBunko 30th Anniversary Brunnhilde
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Dengeki Bunko
+Trait2 Dragon
+Auto: StartAttackPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		*GainPowerWhenAttackingLevel2(6000)
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, at the beginning of your attack phase, choose 1 of your characters, it gets the following ability until end of turn. "Auto: +6000PowerWhenAttacking Level2 characters"
+EndCard
+
+Character: Gok/WS02-T02
+Name Something Important, Lawrence & Holo
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Animal
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, this card gets +1500 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: Ghm/WS02-T03
+Name Anniversary, Emi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Ente Isla
+Trait3 Hero
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainPower 4000
+	}
+}
+Text Cont: During your turn, if there is a marker underneath this card, this card gets +4000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Dengeki Bunko
+	{
+		Question Put this card underneath "Anniversary, Emi" as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a <Dengeki Bunko> character, you may put it face down underneath this card as a marker. 
+EndCard
+
+Character: Gtd/WS02-T05
+Name Anniversary, Taiga
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Weapom
+*PowerOnMyTurn(5000)
+*BondDiscard(Each's Feelings\, Minori & Taiga & Ami)
+EndCard
+
+Character: Gtd/WS02-T08
+Name Each's Feelings, Minori & Taiga & Ami
+Color Y
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Youth
+Combo Tiger's Rest
+*Healer
+Auto: OnAttack
+{
+	If Climax Tiger's Rest
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain +2000 power and the ability
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				PayCost 1 Discard 1 Any
+				{
+					Burn 2
+				}
+			}
+			Text Auto: [(1) Discard a card] When this card's battle opponent becomes reversed, you may pay the cost, deal 2 damage to your opponent.
+		}
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "Tiger's Rest" in your climax area, choose 1 of your other characters gets +2000 power until end of turn, it gets: "Auto: [(1) Discard a card] When this card's battle opponent becomes reversed, you may pay the cost, deal 2 damage to your opponent."
+EndCard
+
+Climax: Gtd/WS02-T11
+Name Tiger's Rest
+*ChoiceClimax
+EndCard
+
+Character: Gny/WS02-T12
+Name Anniversary, Ako
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Array cats
+*500Assist
+Act: RestSelf
+{
+	*GiveCharacterPower(1000,Dengeki Bunko)
+}
+Text Act: [Rest this card] Choose 1 of your <Dengeki Bunko> characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: Goi/WS02-T13
+Name What-if story, Kuroneko
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Chuunibyou
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 1 OrMore
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 1 or higher, put it into your hand, discard a card.
+*DropSearch(Dengeki Bunko)
+EndCard
+
+Character: Grk/WS02-T14
+Name A blossoming encounter, Hinata
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Sports
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this is placed from hand to the Stage, put the top 2 cards of your deck in the waiting room. If there were at least 1 Climax card among them, this gains +2 Soul for the turn.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Dengeki Bunko
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 <Dengeki Bunko> character] When this is placed on stage from hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: Grk/WS02-T15
+Name Encounter at dusk, Airi
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Sports
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Dengeki Bunko
+	SetXValue ThatCardsSoul
+	MultiplyXValue 1000
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other <Dengeki Bunko> characters, and that character gets +X power until end of turn. X is equal to that character's soul ×1000.
+EndCard
+
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Dengeki Bunko
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 <Dengeki Bunko> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: Gds/WS02-T16
+Name Psychoelectric girl, Erio
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Youth
+Trait3 Space
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Dengeki Bunko
+	ChooseCharacterFromTargets Choose a character to gain +500 power
+	GainPower 500
+}
+Text Auto: At the beginning of your climax phase, choose one of your <Dengeki Bunko> characters, and that character gains +500 power until end of turn.
+Auto: OnReverseOpponent
+{
+	Question_Obvious Send to Memory? 
+	If Yes && InLocation Stage
+	{
+		MoveCard Memory
+		ScheduleEffectForTargets StartDrawPhase
+		{
+			Effect:
+			{
+				Reveal 
+				PlaceOnStage False True True False 
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed in battle, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Psychoelectric girl, Erio" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: Grk/WS02-T17
+Name Anniversary, Tomoka
+Color G
+Level 1
+Cost 1
+Power 1000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Sports
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Dengeki Bunko
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are <Dengeki Bunko>, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: Gem/WS02-T19
+Name Anniversary, Sagiri
+Color G
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Illustrator
+Trait3 Social withdrawal
+Cont: GiveSelf
+{
+	If OpponentTurn &&& StageContains 2 Other && HasTrait Dengeki Bunko && IsCharacter
+	{
+		GainPower 4000
+	}
+}
+Text Auto: During your opponent's turn, if you have 2 more other <Dengeki Bunko> characters, this card gets +4000 power until end of turn.
+Auto: StartOpponentAttackPhase
+{
+	Question Exchange the characters?
+	If Yes
+	{
+		TargetLocation Stage
+		NarrowTargets Other && NameEquals Last Life counseling, Kirino
+		ChooseCharacterFromTargets Choose a character to swap with.
+		AddSelfToTargets
+		Exchange
+		Stand
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 of your other "Last Life counseling, Kirino" and this card, and exchange them as standing.
+EndCard
+
+Character: Goi/WS02-T20
+Name Last Life counseling, Kirino
+Color G
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Game
+Trait3 Model
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Dengeki Bunko
+	{
+		Message Choose a character to place on stage
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Anniversary, Sagiri
+		RevealTargets
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard 1 <Dengeki Bunko> character] When this is placed on stage from hand, you may pay the cost. If you do, choose a "Anniversary, Sagiri" in your waiting room and put it in any position of your stage.
+*OnAttackGainPowerForEachOther(1500,Dengeki Bunko)
+EndCard
+
+Character: Goi/WS02-T21
+Name What-if story, Ayase
+Color G
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Model
+Auto: OnPlay
+{
+	*OptionalDraw
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give the effect to
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If InBattle
+			{
+				GainSpecialEffect CannotUseEvents
+				GainSpecialEffect CannotUseBackup
+			}
+		}
+		Text Cont: During this card's battle you cannot play event cards or "BACKUP" from your hand.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose 1 of your opponent's characters, it gets the following effect until end of turn. "Cont: During this card's battle you cannot play event cards or "BACKUP" from your hand."
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Dengeki Bunko
+	{
+		*PutCardFromWaitingRoomIntoStock(HasTrait Dengeki Bunko)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Dengeki Bunko> characters, you may choose 1 <Dengeki Bunko> character in your waiting room, and put it into your stock.
+EndCard
+
+Character: Gnm/WS02-T24
+Name Kenkadan, Nanao & Oliver
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Dengeki Bunko
+Trait2 Magic
+Trait3 Weapon
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Dengeki Bunko
+		ChooseCharacterFromTargets Choose a character to return to hand.
+		MoveCard Hand
+	}	
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other <Dengeki Bunko> characters, and return it to your hand.
+EndCard
+
+Character: Gmf/WS02-T25
+Name The Misfit, Anos
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Dengeki Bunko
+Trait2 Mazoku
+Trait3 Magic
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]".
+Auto: OnOpponentReverse
+{
+	If Not StageContains 1 IsCharacter && InLocation Backstage
+	{
+		Peek Deck 2
+		Message Choose a card to place on your back stage.
+		ChooseCardsFromTargets 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLess && HasTrait Dengeki Bunko
+		PlaceOnStage False False True False
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if you do not have another character in your back stage, look at up to 2 cards from the top of your deck, choose up to 1 level 0 or lower <Dengeki Bunko> character, put that character in any position of your back stage, and put the rest into your waiting room.
+EndCard
+
+Character: Gbl/WS02-T26
+Name Neat girl, Jess
+Color R
+Level 2
+Cost 1
+Power 2000
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Magic
+*BackupBonus1000(Dengeki Bunko)
+Backup 2500
+EndCard
+
+Character: G86/WS02-T28
+Name Anniversary, Lena
+Color R
+Level 2
+Cost 1
+Power 5500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 86th Independent Mobile Strike Group
+Cont: GiveSelf
+{
+	If StageContains 3 Other
+	{
+		GainPower 4500
+		GainEffect
+		{
+			*HandEncoreTrait(Dengeki Bunko)	
+		}
+	}
+}
+Text Cont: If you have 3 or more other characters, this card gets +4500 power.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		AIChoice GainSoul 1
+		ChooseMultipleCharacters 1 3 InLocation Stage && HasTrait Dengeki Bunko
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, choose up to 3 of your <Dengeki Bunko> characters, and those characters get +500 power and +1 soul until end of turn.
+EndCard
+
+Character: Gkb/WS02-T29
+Name Anniversary, Kino
+Color R
+Level 2
+Cost 1
+Power 6500
+Trigger Soul
+Trait1 Dengeki Bunko
+Trait2 Journey
+Trait3 Weapon
+*OnAttackGivePowerForEachOther(1000,Dengeki Bunko)
+Auto: OnOpponentReverse
+{
+	*GiveCharacterPower(2000,Any)
+}
+Text Auto: When this card's battle opponent becomes reversed,  choose 1 of your characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: Gmr/WS02-T32
+Name Non-standard siblings, Tatsuya & Miyuki
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess Backstage 1
+	{
+		PayCost 1
+		{
+			MoveToOpenPosition False True
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost, move this card to an open position of your back stage.
+*BondDiscard(Strategic magician\, Tatsuya)
+EndCard
+
+Character: Gmr/WS02-T33
+Name Anniversary, Miyuki
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Cont: GiveAll
+{
+	If NameEquals Strategic magician, Tatsuya
+		{
+			GainPower 1000
+		}
+}
+Text Cont: All of your other "Strategic magician, Tatsuya" get +1000 power.
+*GlobalPower(500,Dengeki Bunko)
+EndCard
+
+Character: Gsb/WS02-T35
+Name Anniversary, Yukina
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Dengeki Bunko
+Trait2 Itogami Island
+Trait3 Weapon
+*CannotSideAttack
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsCharacter && HasTrait Dengeki Bunko
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	UntilEndOfOpponentsTurn
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and this card gets +X power until end of opponents turn. X is equal to the number of <Dengeki Bunko> cards among those cards ×1000. 
+EndCard
+
+Character: Gmr/WS02-T38
+Name Strategic magician, Tatsuya
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Dengeki Bunko
+Trait2 Magic
+Combo Conflict with visitors
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 2 Other && HasTrait Dengeki Bunko
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Dengeki Bunko> characters, this card gets +2000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Conflict with visitors
+	{
+		If StageContains 2 Other && HasTrait Dengeki Bunko
+		{	
+			PayCost Discard 1 Any
+			{
+				SearchLocationForTargets Deck 0 2 HasTrait Dengeki Bunko
+				RevealTargets
+				MoveCards Hand
+				ShuffleLocation Deck
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, if "Conflict with visitors" is in your climax area, and you have 2 or more other <Dengeki Bunko> characters, you may pay the cost. If you do, search your deck for up to 2 <Dengeki Bunko> characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Character: Ggh/WS02-T39
+Name Anniversary, Horizon
+Color B
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Dengeki Bunko
+Trait2 Musashi
+Trait3 Student
+Cont: GiveAll
+{
+	If StageContains 2 Other && HasTrait Dengeki Bunko
+	{
+		*GlobalPower(1000,Dengeki Bunko)
+	}
+}
+Text Cont: If you have 2 or more other <Dengeki Bunko> characters, all of your other <Dengeki Bunko> characters get +1000 power.
+*Healer
+EndCard
+
+Climax: Gmr/WS02-T41
+Name Conflict with visitors
+*GateClimax
+EndCard
+
+

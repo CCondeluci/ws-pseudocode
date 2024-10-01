@@ -1,0 +1,325 @@
+// Clannad Key All-Star
+
+Character: Kcl/W102-002
+Name In the Light of Spring, Nagisa
+Color Y
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Anniversary
+Trait2 Play
+Trait3 Dango
+Combo The Place Where Wishes Come True
+*Healer
+Auto: OnEndOfAttack
+{
+	If Climax The Place Where Wishes Come True
+	{
+		PayCost 1 Discard 2 Any
+		{
+			MillOpponent 1
+			IfTarget IsCharacter || IsEvent
+			{
+				TargetTop OpponentDeck 2
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1) Discard 2 cards] At the end of this card’s attack, if you have "The Place Where Wishes Come True" in your climax area, you may pay the cost. If you do, put the top card of your opponent’s deck into the waiting room. If that card is a character or event, send the top 2 cards of your opponent’s deck to their clock. 
+EndCard
+
+Character: Kcl/W102-004
+Name Shape of a Miracle, Nagisa & Tomoya
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Anniversary
+Trait2 Love
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	SetXValue TargetCount
+	If Compare X 1 OrLess
+	{
+		ChooseCharacterFromTargets Choose a cost 0 or lower character.
+		Question Move card to bottom deck?
+		If Yes
+		{
+			MoveCard BottomOfOpponentDeck
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, if your opponent has 1 or less characters in their center stage, choose 1 cost 0 or lower character in your opponent's center stage, you may send it to the bottom of your opponent's deck.
+*ClimaxExchange
+EndCard
+
+Character: Kcl/W102-007
+Name Real Feelings, Kyou
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Chairman
+Auto: OnPlay
+{
+	TargetLocation Deck
+	SetXValue TargetCount
+	If Compare X 6 OrLess
+	{
+		Question Shuffle all cards from your waiting room into your deck?
+		If Yes
+		{
+			Refresh
+		}
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have 6 or less cards in your deck, you may shuffle all cards from your waiting room into your deck. 
+EndCard
+
+Character: Kcl/W102-008
+Name Seafood Differences, Fuuko
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Anniversary
+Trait2 Starfish
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	Question Return an opponent's character to hand?
+	If Yes
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose 1 character to return to hand.
+		Bounce
+	}	
+}
+Text Auto: When this is placed on stage from hand, draw 1 card, discard 1 card, then choose up to 1 of your opponent's characters, return it to hand. 
+EndCard
+
+Character: Kcl/W102-010
+Name Gravure Pose, Kotomi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Book
+Trait3 Music
+*OnPlayGivePower(2000, Any)
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: [Discard 1 card] When this attacks, you may pay the cost. If you do, during the trigger step of this attack, perform trigger check twice.
+EndCard
+
+Character: Kcl/W102-011
+Name A Ball Full of Hate, Ryou
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Fortune Reading
+*Act1SalvageBrainstorm(Any)
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	If LocationContains Memory 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}	
+}
+Text Act: MEMORY [Discard 1 card, send this to waiting room] If you have a card in memory, choose 1 character in your waiting room, add it to hand.
+EndCard
+
+Character: Kcl/W102-014
+Name Different Dango, Nagisa
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Anniversary
+Trait2 Play
+Trait3 Dango
+Combo The Hillside Path Where The Cherry Blossoms Scatter
+Cont: GiveSelfEverywhere
+{
+	If InLocation WaitingRoom
+	{
+		GainName The Hillside Path Where The Cherry Blossoms Scatter
+	}
+}
+Text Cont: CxCombo If this is in your waiting room, this card's name is also treated as "The Hillside Path Where The Cherry Blossoms Scatter".
+*OnPlayGivePower(1000, Any)
+Act: SendSelf WaitingRoom
+{
+	If Compare MyLevel 1 OrMore
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Child of the Two, Ushio
+		If HasTarget
+		{
+			Change
+		}
+	}	
+}
+Text Act: [Send this to Waiting Room] If you are level 1 or higher, choose one "Child of the Two, Ushio" in your waiting room, place it in this card's former slot.
+EndCard
+
+Character: Kcl/W102-019
+Name The Only Heroine With Glasses, Tomoyo
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Anniversary
+Trait2 Student Council
+Trait3 Sports
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 2 or less stock, this gets +1500 power.
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return this card to hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: During this card's battle, when the damage you take is cancelled, you may return this to your hand.
+EndCard
+
+Character: Kcl/W102-021
+Name Happy Future, Ushio & Nagisa
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Anniversary
+Trait2 Love
+Trait3 Dango
+Cont: GiveSelf
+{
+	If MyTurn && LocationContains Memory 1 Any
+	{
+		GainPower 2500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetFacing
+				If HasTarget
+				{
+					If Compare TargetCardsLevel 2 Exactly
+					{
+						TargetSelf
+						GainPower 6000
+					}
+				}
+			}
+			Quick
+			Text Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn.
+		}
+	}
+}
+Text Cont: MEMORY During your turn, if you have a card in memory, this gets 2500 power and the following ability, "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+EndCard
+
+Character: Kcl/W102-022
+Name Twin Beach Volleyball, Kyou
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Anniversary
+Trait2 Twins
+Trait3 Chairman
+Combo Losing Heroines
+*PowerOnMyTurn(1000)
+Auto: OnAttack
+{
+	If Climax Losing Heroines
+	{
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsCost 0 OrLess
+		RevealTargets
+		PlaceOnStage True True True False
+		TargetLocation Stage
+		GainEffect
+		{
+			Cont: GiveAll
+			{
+				If Compare AttacksThisTurn 3 OrMore
+				{
+					GainSpecialEffect CannotAttack
+				}
+			}
+			Text Cont: You cannot attack 4 or more times this turn.
+		}
+	}
+}
+Text Auto: CxCombo When this attacks, if you have "Losing Heroines" in your climax area, choose up to 1 cost 0 or lower character in your waiting room, place it on an empty slot of your center stage, this turn, you cannot attack 4 or more times this turn.
+EndCard
+
+Character: Kcl/W102-023
+Name After Tomoyo
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Anniversary
+Trait2 Student Council
+Trait3 Sports
+*YellowEarlyPlayBomb
+EndCard
+
+Event: Kcl/W102-027
+Name Sanma Bread
+Color Y
+Level 1
+Cost 0
+Text If you don't have a yellow character, this cannot be played from hand.
+Effect:
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+}
+ActivationRequirement StageContains 1 IsColor Yellow
+Text Put the top 2 cards of your deck into waiting room, then choose up to 1 level X or lower character from your waiting room, and add it to hand. X equals the sum of levels of cards milled by this effect.
+EndCard
+
+Climax: Kcl/W102-029
+Name The Place Where Wishes Come True
+*ChoiceClimax
+EndCard
+
+Climax: Kcl/W102-031
+Name Losing Heroines
+*ShotClimax
+EndCard

@@ -1,0 +1,3331 @@
+//DATE A LIVE BOOSTER SET
+
+Character: DAL/W79-E001
+Name "Frenzied Nightmare" Kurumi
+Image DAL_W79_E001
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your characters, it gets +500 power until end of turn.
+*Act1RestSelfSearchBrainstorm(Date| Celestial Spirit)
+EndCard
+
+
+Character: DAL/W79-E002
+Name Reliable Little Sister, Kotori
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Ratatoskr
+Combo With Candy in One Hand
+Cont: GiveSelf
+{
+	If MyTurn && If StageContains 1 Other && HasTrait Date| Celestial Spirit
+	{
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, if you have another 《Date》 or 《Celestial Spirit》 character, this card gets +1500 power.
+Auto: OnAttack
+{
+	If Climax With Candy in One Hand
+		{
+			TargetTop Deck 1
+			Reveal
+			IfThatCard HasTrait Date|Celestial Spirit||IsEvent
+				{
+					MoveCard Hand
+				}
+			TargetTop Deck 1
+			Reveal
+			IfThatCard HasTrait Date|Celestial Spirit||IsEvent
+				{
+					MoveCard Hand
+				}
+		}
+}
+Text Auto: CxCombo When this card attacks, if "With Candy in One Hand" is in your climax area, perform the following action 2 times. "Reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character or an event, put it into your hand." 
+EndCard
+
+
+Character: DAL/W79-E003
+Name Kurumi Tokisaki
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 1500
+		GainEffect
+			{
+				*OnReverseMayMemoryOpponent
+			}
+	}
+}
+Text Cont: If you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, this card gets +1500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory."
+*Healer
+Auto: OnAttack
+{
+	PayCost 3 Discard 1 Any
+		{
+			GainPower 2000
+			MillOpponentBottom 5
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			If HasTarget
+			{
+				Burn X
+			}
+		}
+}
+Text Auto: [(3) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the bottom 5 cards of your opponent's deck into their waiting room, deal X damage to your opponent, and this card gets +2000 power until end of turn. X is equal to the number of climax among those cards. 
+EndCard
+
+
+Character: DAL/W79-E004
+Name Transfer Student, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Date》 or 《Celestial Spirit》 characters get +500 power.
+Act: RestSelf
+{
+	SearchLocationForTargets Clock 0 2 HasTrait Date|Celestial Spirit
+	MoveCard Memory
+	ScheduleEffect EndOfTurn
+		{
+			Effect:
+				{
+					TargetLocation Memory
+					ChooseCardsFromTargets 2 2 IsCharacter
+					MoveCardToBottom Clock
+					Reorder
+				}
+			Text: Choose 2 characters in your memory, and put them at the bottom of your clock in any order
+		}
+}		
+Text Act: [Rest this card] Choose up to 2 《Date》 or 《Celestial Spirit》 characters in your clock, and put them into your memory. At the end of the turn, choose 2 characters in your memory, and put them at the bottom of your clock in any order.
+Act: RestSelf
+{
+	SearchLocationForTargets WaitingRoom 2 2 HasTrait Date|Celestial Spirit
+	MoveCardToBottom Clock
+	If Compare TargetCount 2 OrMore
+	{
+		ScheduleEffect EndOfTurn
+		{	
+			Effect:
+				{
+					TargetBottom Clock 2
+					MoveCard WaitingRoom
+				}
+			Text: Put 2 cards from the bottom of your clock into your waiting room
+		}
+	}
+}
+Text Act: [Rest this card] Choose 2 《Date》 or 《Celestial Spirit》 characters in your waiting room, and put them at the bottom of your clock in any order. If you put 2 cards into your clock, at the end of the turn, put 2 cards from the bottom of your clock into your waiting room.
+EndCard
+
+
+Character: DAL/W79-E005
+Name "Time-Eating Castle" Kurumi
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Special Existence
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +500 power for each of your other 《Date》 or 《Celestial Spirit》 characters.
+Auto: OnAttack
+{
+	If Climax Special Existence && StageContains 1 Other && HasTrait Date|Celestial Spirit
+	{
+		Peek Deck 2
+		If HasTarget
+			{
+				Message Choose a card to put into stock.
+				ChooseCardsFromTargets 0 1 Any
+				MoveCard Stock
+				MultipleChoiceQuestion Put rest into waiting room or top of deck?|Waiting Room|Top Of Deck
+				If Answer 0
+					{
+						PutTheRestIntoTheWaitingRoom
+					}
+				Else
+					{
+						TargetLocation ScryArea
+						MoveCard Deck
+						Reorder
+					}
+			}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Special Existence" is in your climax area, and you have another 《Date》 or 《Celestial Spirit》 character, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your stock, and put the rest into your waiting room or on the top of your deck in any order.
+EndCard
+
+
+Character: DAL/W79-E006
+Name Swimsuit, Kurumi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+		{
+			TargetLocation WaitingRoom
+			MoveCard Deck
+			ShuffleLocation Deck
+		}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: DAL/W79-E007
+Name To Save Spirits, Kotori
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 3500
+Soul 2
+Trait1 Date
+Trait2 Ratatoskr
+*2000Assist
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose an effect:\n1. Look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. \n2. You may choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, and return it to your hand. \n3. All of your characters get +1000 power and +1 soul until end of turn."|1|2|3
+	If Answer 0
+		{
+			*CheckAndAdd(3)
+		}
+	If Answer 1
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Date|Celestial Spirit
+		}
+	If Answer 2
+		{
+			TargetLocation Stage
+			GainPower 1000
+			GainSoul 1
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of the following effects, and perform it. "Look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room." "You may choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, and return it to your hand." "All of your characters get +1000 power and +1 soul until end of turn."
+EndCard
+
+Character: DAL/W79-E008
+Name Under the Azure Skies, Kurumi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: InHand
+{
+	If LocationContains Clock 1 NameEquals "Frenzied Nightmare" Kurumi
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If ""Frenzied Nightmare" Kurumi" is in your clock, this card gets -1 level while in your hand.
+*OnPlayCheckX(Date|Celestial Spirit)
+EndCard
+
+Character: DAL/W79-E009
+Name Restraining Oneself, Kotori
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnAttack
+{
+	If StageContainsOrLess 1 Other
+	{
+		Question Put the top card of your deck into your waiting room?
+		If Yes
+		{
+			Mill 1
+			IfThatCard IsCharacter && Compare TargetCardsLevel 0 OrLess
+			{
+				PlaceOnStage False False True False
+			}
+		}
+	}		
+}			
+Text Auto: When this card attacks, if you have 1 or less other characters, you may put the top card of your deck into your waiting room. If that card is a level 0 or lower character, put that character in any position of your back stage.
+*YellowLevel0Bomb
+EndCard
+
+Character: DAL/W79-E010
+Name Shido Itsuka
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+*OnPlayFlicker
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Date|Celestial Spirit)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Date》 or 《Celestial Spirit》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DAL/W79-E011
+Name "Your Choices, Everyone!" Kotori
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Date|Celestial Spirit || NameEquals My Little Shido
+	{
+		TargetSelf
+		GainSoul 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character or "My Little Shido", this card gets +1 soul until end of turn. 
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Date|Celestial Spirit && IsCharacter
+			ChooseCharacterFromTargets Choose a character to return to hand
+			Bounce
+		}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, and return it to your hand.
+EndCard
+
+Character: DAL/W79-E012
+Name Under the Azure Skies, Kotori
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Date
+Trait2 Ratatoskr
+Cont: GiveSelf
+{
+	If Compare MyLevel 3 OrMore
+	{
+		GainEffect
+		{
+			Act: 2 SendSelf WaitingRoom
+				{
+					SearchLocationForTargets WaitingRoom 1 1 NameEquals Expression of Killing Intent, Kotori
+					Change
+				}
+		}
+	}
+}
+Text Cont: If your level is 3 or higher, this card gets the following ability. "Act: [(2) Put this card into your waiting room] Choose 1 "Expression of Killing Intent, Kotori" in your waiting room, and put it on the stage position that this card was on."
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other 《Date》 or 《Celestial Spirit》 characters get +1000 power.
+EndCard
+
+Character: DAL/W79-E013
+Name "The Me From That Time" Kurumi
+Color Y
+Level 1
+Cost 0
+Power 6000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: ENCORE [(2)]".
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		TargetSelf
+		Rest
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 2 or higher, you may Rest this card. 
+EndCard
+
+Character: DAL/W79-E014
+Name Proactive Approach, Kurumi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+*LevelAssist
+Act: RestSelf
+{
+	SearchLocationForTargets Clock 0 2 IsCharacter && HasTrait Date|Celestial Spirit
+	MoveCard Memory
+	ScheduleEffect EndOfTurn
+		{
+			Effect:
+			{
+				SearchLocationForTargets Memory 0 2 IsCharacter
+				MoveCardToBottom Clock
+				Reorder
+			}
+		}
+}
+Text Act: [Rest this card] Choose up to 2 《Date》 or 《Celestial Spirit》 characters in your clock, and put them into your memory. At the end of the turn, choose 2 characters in your memory, and put them at the bottom of your clock in any order.
+Act: RestSelf
+{
+	SearchLocationForTargets WaitingRoom 0 2 IsCharacter && HasTrait Date|Celestial Spirit
+	MoveCardToBottom Clock
+	Reorder
+	ScheduleEffect EndOfTurn
+		{
+			Effect:
+			{
+				TargetBottom Clock 2
+				MoveCard WaitingRoom
+			}
+		}
+}
+Text Act: [Rest this card] Choose 2 《Date》 or 《Celestial Spirit》 characters in your waiting room, and put them at the bottom of your clock in any order. If you put 2 cards into your clock, at the end of the turn, put 2 cards from the bottom of your clock into your waiting room.
+EndCard
+
+Character: DAL/W79-E015
+Name Seemingly-Happy Expression, Kotori
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Ratatoskr
+*500Assist
+Auto: OnTriggerCheckClimax
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1 soul to.
+	GainSoul 1
+}
+Text Auto: When your character's trigger check reveals a climax, choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: DAL/W79-E016
+Name Day After the Date, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Obstructing Existence
+Act: 1 RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Date|Celestial Spirit
+		{
+			MoveCard Hand
+		}
+}
+Text Act: [(1) Rest this card] Reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character, put it into your hand. 
+Act: Discard 2 Any
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Obstructing Existence && IsClimax
+	PlayClimax
+}
+Text Act: CxCombo [Put 2 cards from your hand into your waiting room] Choose 1 "Obstructing Existence" in your waiting room, and put it on your climax area.
+EndCard
+
+Character: DAL/W79-E017
+Name Questioning Gaze, Kotori
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Ratatoskr
+Act: RestSelf Discard 1 NameEquals Proposing a Break, Kannazuki
+{
+	MultipleChoiceQuestion Choose an effect:\n1."Choose 1 character in your opponent's center stage, and return it to their hand."\n2."Choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, and return it to your hand."|1|2
+	If Answer 0
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+		Bounce
+	}
+	If Answer 1
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Date|Celestial Spirit
+	}
+}
+Text Act: [Put 1 "Proposing a Break, Kannazuki" from your hand into your waiting room & Rest this card] Choose 1 of the following effects, and perform it. "Choose 1 character in your opponent's center stage, and return it to their hand." "Choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, and return it to your hand."
+EndCard
+
+Character: DAL/W79-E018
+Name Clone, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Army
+Auto: StartClimaxPhase
+{
+	TargetLocation Clock
+	NarrowTargets NameEquals Clone, Kurumi
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	UntilEndOfOpponentsTurn
+	GainPower X
+}
+Text Auto: At the beginning of your climax phase, this card gets +X power until the end of your opponent's next turn. X is equal to the number of "Clone, Kurumi" in your clock ×1000.
+EndCard
+
+
+Character: DAL/W79-E019
+Name Enjoying the Amusement Park, Kotori
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnOtherPlacedOnStageFromHand
+{
+    IfOther HasTrait Date|Celestial Spirit
+    {
+        GainPower 1000
+    }
+    Else
+    {
+        RefundTimesPerTurn
+    }
+}
+Quick
+TimesPerTurn 2
+Text Auto: This ability activates up to 2 times per turn. When your other 《Date》 or 《Celestial Spirit》 character is placed on the stage from your hand, this card gets +1000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+		{
+			SearchWaitingRoom HasTrait Date|Celestial Spirit && IsCharacter
+		}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: DAL/W79-E020
+Name Proposing a Break, Kannazuki
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Date
+Trait2 Ratatoskr
+Text 
+EndCard
+
+Character: DAL/W79-E021
+Name Words of Bravado, Kotori
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Date|Celestial Spirit
+	{
+		Message Choose a card in waiting room to put into your stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Date|Celestial Spirit && IsCharacter
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Date》 or 《Celestial Spirit》 characters, you may choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, and put it into your stock.
+*YellowEarlyPlayBomb
+EndCard
+
+Event: DAL/W79-E022
+Name My Little Shido
+Color Y
+Level 1
+Cost 0
+Effect:
+{
+	If StageContains 1 HasTrait Date|Celestial Spirit
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Date|Celestial Spirit && IsCharacter
+		ChooseCharacterFromTargets Choose a character to rest
+		Rest	
+		MultipleChoiceQuestion Choose 1 of your standing 《Date》 or 《Celestial Spirit》 characters, and Rest it. If you do, choose 1 of the following effects and perform it"\n1."Look at up to 4 cards from the top of your deck, choose up to 1 《Date》 or 《Celestial Spirit》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room."\n2."Choose 1 of your opponent's level 1 or higher characters, and your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose by this effect -1."\n3."If your hand has 6 or less cards, choose 1 level 3 or higher character in your waiting room, and return it to your hand."|1|2|3
+		If Answer 0
+			{
+				*Check4Add1(Date|Celestial Spirit)
+			}
+		If Answer 1
+			{
+				TargetLocation OpponentStage
+				NarrowTargets Compare ThatCardsLevel 1 OrHigher
+				ChooseCharacterFromTargets Choose a character to downgrade.
+				*Downgrade
+			}
+		If Answer 2
+			{
+				If Compare CardsInHand 6 OrLess
+					{
+						SearchWaitingRoom IsCharacter && Compare ThatCardsLevel 3 OrMore
+					}
+			}
+	}
+}
+Text Choose 1 of your standing 《Date》 or 《Celestial Spirit》 characters, and Rest it. If you do, choose 1 of the following effects and perform it. \n"Look at up to 4 cards from the top of your deck, choose up to 1 《Date》 or 《Celestial Spirit》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room." \n"Choose 1 of your opponent's level 1 or higher characters, and your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose by this effect -1." \n"If your hand has 6 or less cards, choose 1 level 3 or higher character in your waiting room, and return it to your hand."
+EndCard
+
+Climax: DAL/W79-E023
+Name With Candy in One Hand
+*ChoiceClimax
+EndCard
+
+
+Climax: DAL/W79-E024
+Name Special Existence
+*ChoiceClimax
+EndCard
+
+
+Climax: DAL/W79-E025
+Name Obstructing Existence
+Color Y
+*2SoulClimax
+EndCard
+
+Character: DAL/W79-E026
+Name Mysterious Classmate, Origami
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 AST
+Auto: OnOpponentClimaxPlay
+{
+	Question Put "Mysterious Classmate, Origami" into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When a climax is placed on your opponent's climax area, you may put this card into your stock.
+*GreenLevel0Bomb
+EndCard
+
+
+Character: DAL/W79-E027
+Name Yoshino & Yoshinon
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Freezing Earth
+Cont: InHand
+{
+	If Compare ClimaxInWaitingRoom 2 OrLess
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your waiting room has 2 or less climax, this card gets -1 level while in your hand.
+Auto: OnSpecificClimaxPlay Freezing Earth
+{
+	If InLocation CenterStage && If StageContains 4 Other && HasTrait Date|Celestial Spirit
+		{
+			TargetSelf
+			GainSpecialEffect FreeSideAttack
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveFacing
+					{
+						LoseSoul 2
+					}
+					Text Cont: The character facing this card gets -2 soul
+			}
+		}
+}
+Text Auto: CxCombo When "Freezing Earth" is placed on your climax area, if this card is in your center stage, and you have 4 or more other 《Date》 or 《Celestial Spirit》 characters, this card's soul does not decrease by side attacking and gets the following ability until the end of your opponent's next turn. "Cont: The character facing this card gets -2 soul."
+Auto: StartOpponentAttackPhase
+{
+	PayCost Discard 1 Any
+		{
+			GainPower 2000
+			TargetLocation Stage
+			NarrowTargets Other
+			ChooseCharacterFromTargets
+			If HasTarget
+			{
+				AddSelfToTargets
+				Exchange
+				Stand
+			}
+		}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose this card and 1 of your other characters, exchange them as standing, and this card gets +2000 power until end of turn.
+EndCard
+
+
+Character: DAL/W79-E028
+Name Swimsuit, Yoshino
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Compare ThatCardsLevel 2 OrMore
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your level 2 or higher characters, it gets +1500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+		{
+			SearchDeck HasTrait Date|Celestial Spirit
+		}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 《Date》 or 《Celestial Spirit》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: DAL/W79-E029
+Name Returning to School, Origami
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 AST
+Combo Apology From a Super Genius
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Date|Celestial Spirit
+		{
+			GainPower 2000
+		}
+}
+Text Cont: If all of your characters are 《Date》 or 《Celestial Spirit》, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+	If Climax Apology From a Super Genius
+		{
+			Message Choose a level 1 or lower character to put into stock
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 1 OrLess
+			MoveCard Stock
+			TargetTop Deck 1
+			Reveal
+			IfThatCard Compare ThatCardsLevel 1 OrMore
+				{
+					MoveCard Hand
+				}
+		}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Apology From a Super Genius" is in your climax area, choose up to 1 level 0 or lower character in your waiting room, put it into your stock, and reveal the top card of your deck. If that card is level 1 or higher, put it into your hand. 
+EndCard
+
+Character: DAL/W79-E030
+Name Swimsuit, Origami
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 AST
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Date|Celestial Spirit || NameEquals Basic Realizer
+		{
+			TargetLocation OpponentCenterStage
+			IfTarget CanBeChosen
+				{
+					LosePower 500
+				}
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character or "Basic Realizer", all characters in your opponent's center stage get -500 power until end of turn. 
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit && Other
+	SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+	MultiplyXValue 500
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, it gets +X power until end of turn. X is equal to the number of other 《Date》 or 《Celestial Spirit》 characters you have ×500.
+EndCard
+
+Character: DAL/W79-E031
+Name Yoshino Missing Her Yoshinon
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Large Tears
+Auto: StartEncoreStep
+{
+	If Climax Large Tears
+	{
+		PayCost SendSelf Memory
+				{
+					ScheduleEffect StartDrawPhase
+						{
+							Effect:
+								{
+									TargetLocation Memory
+									NarrowTargets NameEquals Yoshino Missing Her Yoshinon
+									FirstTarget
+									If HasTarget
+										{
+											Message Yoshino Missing Her Yoshinon returns from memory.
+											PlaceOnStage false true true false
+											GainPower 3500
+										}
+								}
+							Text Choose 1 "Yoshino Missing Her Yoshinon" in your memory, put it on any position of your stage, it gets +3500 power until end of turn
+						}
+				}	
+	}	
+}
+Text Auto: CxCombo At the beginning of your encore step, if "Large Tears" is in your climax area, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Yoshino Missing Her Yoshinon" in your memory, put it on any position of your stage, it gets +3500 power until end of turn.
+EndCard
+
+Character: DAL/W79-E032
+Name Battle Stance, Origami
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 AST
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 0 OrLower
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 0 or lower, put it into your stock. 
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+		{
+			SearchDeckForTarget IsEvent
+			Reveal
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 event card, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Act: 1
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [(1)] Choose 1 of your 《Date》 or 《Celestial Spirit》 characters, it gets +1500 power until end of turn.
+EndCard
+
+
+Character: DAL/W79-E033
+Name Visiting the Sick, Yoshino
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If Other && HasTrait Date|Celestial Spirit && IsCharacter
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Date》 or 《Celestial Spirit》 characters get +500 power.
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 IsClimax
+	{
+		*CheckAndAdd(2)
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When your character's trigger check reveals a climax, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: DAL/W79-E034
+Name Happy Incoming Message, Origami
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 AST
+Auto: OnPlay
+{
+	Question Do you want to reveal your hand?
+	If Yes
+		{
+			TargetLocation Hand
+			RevealHand
+			NarrowTargets IsClimax
+			If HasTarget
+				{
+					TargetLocation OpponentCenterStage
+					IfTarget CanBeChosen
+						{
+							LosePower 500
+						}
+				}
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, you may reveal your hand. If you do, and there is a climax among those cards, all characters in your opponent's center stage get -500 power until end of turn.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1) Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: DAL/W79-E035
+Name Reason for Wanting Time Together, Yoshino
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If HasTrait Date|Celestial Spirit && IsCharacter
+	{
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character, this card's soul does not decrease by side attacking until end of turn. 
+*Act1SalvageBrainstorm(Date|Celestial Spirit)
+EndCard
+
+Character: DAL/W79-E036
+Name Mana Takamiya
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 AST
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+EndCard
+
+Character: DAL/W79-E037
+Name Unexpected Meeting in Town, Origami
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Date
+Trait2 AST
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets IsEvent
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	*GiveOtherCharacterPower(X,Date|Celestial Spirit)
+}
+Text Auto: When this card attacks, choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, it gets +X power until end of turn. X is equal to the number of event cards in your waiting room ×1500.
+Auto: OnReversed
+*GreenEarlyPlayBomb
+EndCard
+
+Character: DAL/W79-E038
+Name Angel Manifestation, Yoshino
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnAttack
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Lonely Eyes, Yoshino
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Lonely Eyes, Yoshino" in your waiting room, and put it on the stage position that this card was on. 
+EndCard
+
+Character: DAL/W79-E039
+Name Prompt Judgement, Origami
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 AST
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+		{
+			TargetLocation OpponentCenterStage
+			IfTarget CanBeChosen
+			{
+				ChooseCharacterFromTargets Choose an opponent's character get -1000 power
+				LosePower 1000
+			}
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit && IsCharacter
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Date》 or 《Celestial Spirit》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: DAL/W79-E040
+Name Gathering Information, Origami
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 AST
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait Date|Celestial Spirit
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are 《Date》 or 《Celestial Spirit》, this card gets +1000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost StockClock
+	{
+		SearchLocationForTargets Clock 1 1 Any
+		MoveCard Hand
+		TargetTop Deck 1
+		MoveCard Clock
+	}
+}
+Text Auto: [Put the top card of your stock into your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 card in your clock, return it to your hand, and put the top card of your deck into your clock.
+EndCard
+
+Character: DAL/W79-E041
+Name Shido Pinned Down
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && NameContains Exchanging Conditions, Origami
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Your other "Exchanging Conditions, Origami" in the middle position of your center stage gets +2000 power.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+	GainEffect
+		{
+			Auto: OnReverseOpponent
+				{
+					Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+					If Yes
+					{
+						TargetTop OpponentClock 1
+						MoveCard OpponentWaitingRoom
+						TargetBattleOpponent
+						MoveCard OpponentClock
+					}
+				}
+		}
+}
+Text Act: [Rest this card] Choose 1 of your 《Date》 or 《Celestial Spirit》 characters, it gets +500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock."
+EndCard
+
+Character: DAL/W79-E042
+Name Sensing Danger, Yoshino
+Color G
+Level 1
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetTop OpponentClock 1
+		If HasTarget
+		{
+			MoveCard OpponentWaitingRoom
+			TargetLocation OpponentStage
+			SetXValue OpponentsLevel
+			AddToXValue 1
+			NarrowTargets Compare ThatCardsLevel X OrHigher
+			NarrowTargets CanBeChosen
+			ChooseCharacterFromTargets Choose a character to send to your opponent's clock.
+			MoveCardToBottom OpponentClock
+		}
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, you may put the top card of your opponent's clock into their waiting room. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their clock.
+Backup 1000
+EndCard
+
+Character: DAL/W79-E043
+Name Date Support, Yoshino
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, this card gets +2000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: DAL/W79-E044
+Name Exchanging Conditions, Origami
+Color G
+Level 1
+Cost 1
+Power 7000
+Trait1 Date
+Trait2 AST
+Text 
+EndCard
+
+Character: DAL/W79-E045
+Name Halving With a Single Stroke, Kusakabe
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 AST
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "BACKUP", put the top 3 cards of your deck into your waiting room.
+Backup 3000
+EndCard
+
+Character: DAL/W79-E046
+Name Choosing a Swimsuit, Yoshino
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: StartMainPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		Refresh
+	}
+}
+Alarm
+Text Auto: 【CLOCK】 ALARM [(1) Put 1 card from your hand into your waiting room] If this card is the top card of your clock, at the beginning of your main phase, you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+EndCard
+
+Event: DAL/W79-E047
+Name Basic Realizer
+Color G
+Level 3
+Cost 3
+Counter
+Effect:
+{
+	TargetLocation Stage
+	AIChoice If InLocation CenterStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			LoseSoul 1
+		}
+		Text Cont: The character facing this card gets -1 soul.
+	}
+	TargetLocation Stage
+	AIChoice If InLocation CenterStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			LoseSoul 1
+		}
+		Text Cont: The character facing this card gets -1 soul.
+	}
+	TargetLocation Stage
+	AIChoice If InLocation CenterStage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		Cont: GiveFacing
+		{
+			LoseSoul 1
+		}
+		Text Cont: The character facing this card gets -1 soul.
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text COUNTER Perform the following action 3 times. "Choose 1 of your characters, it gets the following ability until end of turn. "Cont: The character facing this card gets -1 soul."" Put this card into your memory.
+EndCard
+
+Climax: DAL/W79-E048
+Name Freezing Earth
+*BarClimax
+EndCard
+
+
+Climax: DAL/W79-E049
+Name Apology From a Super Genius
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	Message Choose a level 1 or lower character to put into stock
+	SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 1 OrLess
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Climax: DAL/W79-E050
+Name Large Tears
+*BarClimax
+EndCard
+
+Character: DAL/W79-E051
+Name Kotori Itsuka
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnAttack
+{
+	If Not StageContains 1 Not HasTrait Date|Celestial Spirit
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +1000 power to
+		GainPower 1000
+	}
+}
+Text Auto: When this card attacks, if all of your characters are 《Date》 or 《Celestial Spirit》, choose 1 of your characters, it gets +1000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrHigher
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+
+Character: DAL/W79-E052
+Name Dignified Appearance, Tohka
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: InHand
+{
+	If StageContains 4 HasTrait Date|Celestial Spirit
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have 4 or more 《Date》 or 《Celestial Spirit》 characters, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	Heal
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your clock into your waiting room.
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Date|Celestial Spirit
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Date》 or 《Celestial Spirit》 character, this card gets +2000 power until the end of your opponent's next turn.
+EndCard
+
+Character: DAL/W79-E053
+Name "Terrible Spirit" Kurumi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Fearless Smile
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, this card gets +1000 power.
+Auto: OnPlay
+{
+	Heal
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax Fearless Smile && StageContains 2 Other && HasTrait Date|Celestial Spirit
+		{
+			MultipleChoiceQuestion Choose an effect:\n1. Your opponent puts all cards in their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock. \n2. Choose up to 3 cards in your opponent's waiting room, return them to their deck, and your opponent shuffles their deck. \n3. Choose 2 cards in your hand, and put them into your waiting room. If you put 2 cards into your waiting room, deal 3 damage to your opponent.|1|2|3
+			If Answer 0
+				{
+					StockSwap
+				}
+			If Answer 1
+				{
+					Message Choose up to 3 cards to return to your opponent's deck
+					AIChoice If Not IsClimax
+					SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+					MoveCard OpponentDeck
+					ShuffleLocation OpponentDeck
+				}
+			If Answer 2
+				{
+					ForcePayCost Discard 2 Any
+						{
+							Burn 3
+						}
+				}
+		}
+}					
+Text Auto: CxCombo When this card attacks, if "Fearless Smile" is in your climax area, and you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, choose 1 of the following effects, and perform it. \n"Your opponent puts all cards in their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock." \n"Choose up to 3 cards in your opponent's waiting room, return them to their deck, and your opponent shuffles their deck." \n"Choose 2 cards in your hand, and put them into your waiting room. If you put 2 cards into your waiting room, deal 3 damage to your opponent." 
+EndCard
+
+
+Character: DAL/W79-E054
+Name Swimsuit, Kotori
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnPlay
+{
+	TargetTop Deck 2
+	Reorder
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+		{
+			SearchWaitingRoom HasTrait Date|Celestial Spirit
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Date|Celestial Spirit
+			ChooseCharacterFromTargets Choose a character to give +1000 power.
+			GainPower 1000
+		}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, return it to your hand, choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: DAL/W79-E055
+Name Power to Turn Back Time, Kurumi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnAttack
+{
+	If Compare CardsInClock 4 OrMore
+	{
+		PayCost 1
+			{
+				GainSpecialEffect DoubleTrigger
+			}
+	}
+}			
+Text Auto: [(1)] When this card attacks, if your clock has 4 or more cards, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step.
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess Clock 3
+		{
+			PayCost SendSelf AnyCenterStage
+				{
+					MoveToOpenPosition True False
+				}
+		}
+}
+Text Auto: At the beginning of your opponent's attack phase, if your clock has 3 or less cards, you may move this card to an open position of your center stage.
+EndCard
+
+
+Character: DAL/W79-E056
+Name A Spring Moment, Tohka
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnOpponentReverse
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Date|Celestial Spirit && CanBeChosen
+	ChooseCharacterFromTargets Choose a character to rest.
+	Rest
+	MoveToOpenPosition False True
+}
+Text Auto: When this card's battle opponent becomes reversed, choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, Rest it, and move it to an open position of your back stage.
+Auto: OnReversed
+{
+	TargetSelf
+	IfTarget OnStage
+	{
+		MoveCard BottomOfDeck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+
+Character: DAL/W79-E057
+Name Tohka Yatogami
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 1 HasTrait Date|Celestial Spirit
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Date|Celestial Spirit
+		ChooseCharacterFromTargets Choose a character to give +1000 power
+		GainPower 1000
+	}
+}
+Text Auto: When you use this card's "BACKUP", if you have a 《Date》 or 《Celestial Spirit》 character, choose 1 of your characters in battle, it gets +1000 power until end of turn.
+Backup 1000
+EndCard
+
+
+Character: DAL/W79-E058
+Name Expression of Killing Intent, Kotori
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Flames Which Pierce Through Time
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other 《Date》 or 《Celestial Spirit》 characters.
+Auto: OnAttack
+{
+	If Climax Flames Which Pierce Through Time
+		{
+			Mill 1
+			SetXValue TargetCardsLevel
+			AddToXValue 1
+			Burn X
+		}
+}
+Text Auto: CxCombo When this card attacks, if "Flames Which Pierce Through Time" is in your climax area, put the top card of your deck into your waiting room, and deal X damage to your opponent. X is equal to that card's level +1. 
+EndCard
+
+Character: DAL/W79-E059
+Name "Efreet" Kotori
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Date|Celestial Spirit || IsEvent
+		{
+			Burn 1
+		}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character or an event, you may deal 1 damage to your opponent. 
+Auto: StartClimaxPhase
+{
+	If LocationContains WaitingRoom 1 NameEquals Expression of Killing Intent, Kotori
+	{
+		PayCost SendSelf WaitingRoom
+			{
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals Expression of Killing Intent, Kotori
+				Change
+			}
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Expression of Killing Intent, Kotori" in your waiting room, and put it on the stage position that this card was on. 
+EndCard
+
+
+Character: DAL/W79-E060
+Name Strong Emotions, Tohka
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +500 power.
+Act: 3 Discard 1 Any RestSelf
+{
+	Message Search your deck for up to 2 《Date》 or 《Celestial Spirit》 characters.
+	SearchLocationForTargets Deck 0 2 HasTrait Date|Celestial Spirit
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Deck
+}
+Text Act: [(3) Put 1 card from your hand into your waiting room & Rest this card] Search your deck for up to 2 《Date》 or 《Celestial Spirit》 characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Character: DAL/W79-E061
+Name Cruel Reality, Tohka
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Brunt of Fury
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+Auto: OnSpecificClimaxPlay Brunt of Fury
+{
+	If LocationContains Hand 1 NameEquals Descent of Calamity, Tohka
+		{
+			PayCost SendSelf WaitingRoom
+				{
+					TargetLocation Hand
+					NarrowTargets NameEquals Descent of Calamity, Tohka
+					FirstTarget
+					Change
+				}
+		}
+}
+Text Auto: CxCombo [Put this card into your waiting room] When "Brunt of Fury" is placed on your climax area, you may pay the cost. If you do, choose up to 1 "Descent of Calamity, Tohka" in your hand, and put it on the stage position that this card was on.
+EndCard
+
+Character: DAL/W79-E062
+Name Descent of Calamity, Tohka
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Brunt of Fury
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, this card gets +1000 power.
+Auto: StartAttackPhase
+{
+	If Climax Brunt of Fury && InLocation CenterStage
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Date|Celestial Spirit && CardPosition Rest
+			ChooseCharacterFromTargets Choose a character to stand
+			Stand
+		}
+}
+Text Auto: CxCombo At the beginning of your attack phase, if "Brunt of Fury" is in your climax area, and this card is in your center stage, you may choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, and Stand it.
+EndCard
+
+Character: DAL/W79-E063
+Name Analyst of Ratatoskr, Reine
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnAttack
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +2500 power until end of opponents turn.
+	GainPower 2500
+}
+Text Auto: When this card attacks, choose 1 of your characters, it gets +2500 power until end of turn.
+EndCard
+
+Character: DAL/W79-E064
+Name Power to Stop Time, Kurumi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another position of the stage.
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Character: DAL/W79-E065
+Name Wavering Heart, Kurumi
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+		{
+			If LocationContainsOrLess Clock 3
+				{
+					SearchLocationForTargets Deck 0 1 HasTrait Date|Celestial Spirit
+					RevealTargets
+					MoveCard Hand
+					ShuffleLocation Deck
+				}
+			If LocationContains Clock 4 Any
+				{
+					SearchWaitingRoom HasTrait Date|Celestial Spirit
+					TargetLocation Stage
+					NarrowTargets Other && HasTrait Date|Celestial Spirit
+					ChooseCharacterFromTargets Choose a character to give +1000 power until end of opponents turn.
+					GainPower 1000
+				}
+		}		
+}				
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of the following effects and perform it. \n"If your clock has 3 or less cards, search your deck for up to 1 《Date》 or 《Celestial Spirit》 character, reveal it to your opponent, put it into your hand, and shuffle your deck." \n"If your clock has 4 or more cards, choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, return it to your hand, choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, it gets +1000 power until end of turn."
+EndCard
+
+Character: DAL/W79-E066
+Name A Pity, Kurumi
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay|OnAttack
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, attacks, or is put into your waiting room from the stage, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, attacks, or is put into your waiting room from the stage, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+EndCard
+
+Character: DAL/W79-E067
+Name Surveillance at the Bun Shop? Kotori
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Date|Celestial Spirit
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are 《Date》 or 《Celestial Spirit》, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: DAL/W79-E068
+Name Meeting up for a Date, Tohka
+Color R
+Level 1
+Cost 1
+Power 5000
+Trait1 Date
+Trait2 Celestial Spirit
+*CannotBeReversedByCost0
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Date|Celestial Spirit
+	{
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other 《Date》 or 《Celestial Spirit》 character attacks, this card gets +1000 power until end of turn.
+EndCard
+
+Character: DAL/W79-E069
+Name Great Interest, Kurumi
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: Encore Discard 1 IsCharacter
+			{
+			}
+			Text Auto: ENCORE [Put 1 character from your hand into your waiting room]
+		}
+	}
+}
+Text Cont: If you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, this card gets +1500 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+EndCard
+
+Character: DAL/W79-E070
+Name Cornered, Kurumi
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other 《Date》 or 《Celestial Spirit》 characters.
+*HandEncore
+EndCard
+
+Event: DAL/W79-E071
+Name "What About This?" Course
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	TargetLocation Stock
+	MoveCard WaitingRoom
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetLocation Stage
+	NarrowTargets NameContains Tohka
+	UntilEndOfOpponentsTurn
+	GainPower X
+	GainEffect
+	{
+		Cont: GiveSelf
+			{
+				GainSpecialEffect GreatPerformance
+			}
+		Text Cont: GREAT PERFORMANCE
+	}
+}
+Text Put all cards from your stock into your waiting room, choose 1 of your characters with "Tohka (十香)" in its card name, it gets +X power and "Cont: Great Performance" until the end of your opponent's next turn. X is equal to the number of cards put into your waiting room by this effect ×1000.
+EndCard
+
+Event: DAL/W79-E072
+Name Practicing Hitting on the Teacher
+Color R
+Level 2
+Cost 0
+Effect:
+{
+    MoveCard Memory
+}
+Text Put this card into your memory.
+Auto: StartMainPhase
+{
+    SearchLocationForTargets WaitingRoom 0 2 HasTrait Date|Celestial Spirit
+    MoveCard Hand
+    SetXValue TargetCount
+    If Compare X 2 OrMore
+    {
+        Discard 1 Any
+    }
+    TargetSelf
+    MoveCard WaitingRoom
+}
+InMemory		
+Text Auto: MEMORY At the beginning of your main phase, if this card is in your memory, choose up to 2 《Date》 or 《Celestial Spirit》 characters in your waiting room, return them to your hand, and put this card into your waiting room. If you returned 2 cards to your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Climax: DAL/W79-E073
+Name Fearless Smile
+Color R
+*StandbyClimax
+EndCard
+
+
+Climax: DAL/W79-E074
+Name Brunt of Fury
+Color R
+*StandbyClimax
+EndCard
+
+Climax: DAL/W79-E075
+Name Flames Which Pierce Through Time
+Color R
+*DoorClimax
+EndCard
+
+Character: DAL/W79-E076
+Name "Rainy Girl" Yoshino
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	Question Put the top card of your deck into your waiting room?
+	If Yes
+		{
+			Mill 1
+			IfThatCard IsCharacter && Compare TargetCardsLevel 1 OrMore
+			{
+				TargetSelf
+				GainPower 2000
+			}
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your deck into your waiting room. If that card is a level 1 or higher character, this card gets +2000 power until end of turn.
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess CenterStage 2 Any
+	{
+		TargetFacing
+		If HasTarget
+		{
+			TargetSelf
+			Question Move ""Rainy Girl" Yoshino" to another position?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+
+Character: DAL/W79-E077
+Name Important Promise, Tohka
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Date
+Trait2 Celestial Spirit
+Combo In This Town Basked in Sunset
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, this card gets +2000 power.
+Auto: StartEncoreStep
+{
+	If Climax In This Town Basked in Sunset && StageContains 1 Other && HasTrait Date|Celestial Spirit
+		{
+			TargetFacing
+			If Not HasTarget
+				{
+					*Check5Add1(Date|Celestial Spirit)
+					TargetLocation Stage
+					ChooseCharacterFromTargets Choose a character to give +500 power.
+					UntilEndOfOpponentsTurn
+					GainPower 500
+				}
+			Else
+				{
+					IfTarget CardPosition Reversed
+					{
+						*Check5Add1(Date|Celestial Spirit)
+						TargetLocation Stage
+						ChooseCharacterFromTargets Choose a character to give +500 power.
+						UntilEndOfOpponentsTurn
+						GainPower 500
+					}
+				}
+		}
+}
+Text Auto: CxCombo At the beginning of your encore step, if "In This Town Basked in Sunset" is in your climax area, you have another 《Date》 or 《Celestial Spirit》 character, and there is no character facing this card or the character facing this card is Reversed, look at up to 5 cards from the top of your deck, choose up to 1 《Date》 or 《Celestial Spirit》 character from among them, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and this card gets +500 power until the end of your opponent's next turn.
+EndCard
+
+
+Character: DAL/W79-E078
+Image DAL_W79_E078
+Name Enjoying the Amusement Park, Shido
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give +1500 power.
+			GainPower 1500
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 of your characters, it gets +1500 power until end of turn.
+Auto: OnReversed
+{
+	PayCost HandClock Any
+		{
+			Message Choose a <Date> or <Celestial Spirit> character to add to hand
+			SearchLocationForTargets Deck 0 1 HasTrait Date|Celestial Spirit
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+}
+Text Auto: [Put 1 card from your hand into your clock] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 《Date》 or 《Celestial Spirit》 character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: DAL/W79-E079
+Name "For the Sky and the Sword" Tohka
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give +1000 power until end of opponent's turn
+			UntilEndOfOpponentsTurn
+			GainPower 1000
+		}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets +1000 power until the end of your opponent's next turn.
+*Act1Rest2SearchBrainstorm(Date|Celestial Spirit)
+EndCard
+
+Character: DAL/W79-E080
+Name Lonely Eyes, Yoshino
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Date
+Trait2 Celestial Spirit
+*LevelAssist
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When your character's trigger check reveals a climax, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Angel Manifestation, Yoshino
+		Change
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your climax phase, you may pay the cost. If you do, choose 1 "Angel Manifestation, Yoshino" in your waiting room, and put it on the stage position that this card was on. 
+EndCard
+
+
+Character: DAL/W79-E081
+Name Naïve and Innocent Girl, Tohka
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Combo Delicious Date
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other 《Date》 or 《Celestial Spirit》 characters.
+Auto: OnPlay
+{
+	Heal
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top card of your clock into your waiting room.
+Auto: OnOpponentReverse
+{
+	If Climax Delicious Date
+	{
+		PayCost 3 Discard 2 Any
+			{
+				Message Choose up to 3 cards to return to your opponent's deck
+				SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+				MoveCard OpponentDeck
+				Reorder
+				Burn 5
+			}
+	}
+}
+Text Auto: CxCombo [(3) Put 2 cards from your hand into your waiting room & Put 1 "Delicious Date" from your climax area into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, choose up to 3 cards in your opponent's waiting room, put them on the top of their deck in any order, and deal 5 damage to your opponent. 
+EndCard
+
+
+Character: DAL/W79-E082
+Name "Sullen Rain" Yoshino
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+		{
+			TargetTop Clock 1
+			MoveCard Stock
+		}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your clock into your stock.
+Auto: OnPlay
+{
+	PayCost 2
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose an opponent's character to return to the hand.
+			Bounce
+		}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+
+Character: DAL/W79-E083
+Name Origami Tobiichi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Date
+Trait2 AST
+Combo Revenge for 5 Years Ago
+Cont: GiveSelf
+{
+	GainSpecialEffect NoBackupOnAttack
+}
+Text Cont: During this card's battle, your opponent cannot play "BACKUP" from their hand.
+Auto: OnPlay
+{
+	*CheckAndAdd(3)
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnAttack
+{
+	If Climax Revenge for 5 Years Ago && StageContains 4 Other && HasTrait Date|Celestial Spirit
+		{
+			GainPower 1000
+			MillOpponentBottom 4
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			If HasTarget
+				{
+					Repeat X
+						{
+							Burn 1
+						}
+				}	
+		}
+}
+Text Auto: CxCombo When this card attacks, if "Revenge for 5 Years Ago" is in your climax area, and you have 4 or more other 《Date》 or 《Celestial Spirit》 characters, this card gets +1000 power until end of turn, put the bottom 4 cards of your opponent's deck into their waiting room, and deal 1 damage to your opponent X times. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: DAL/W79-E084
+Name Unexpected Meeting in Town, Tohka
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom HasTrait Date|Celestial Spirit
+	}
+}
+Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 《Date》 or 《Celestial Spirit》 character in your waiting room, and return it to your hand.
+Auto: OnDamageCancel
+{
+	Question Put "Unexpected Meeting in Town, Tohka" into your stock?
+	If Yes
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may put this card into your stock.
+EndCard
+
+Character: DAL/W79-E085
+Name A Spring Moment, Origami
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Date
+Trait2 AST
+Cont: GiveSelf
+{
+    If Phase Attack
+    {
+        GainSpecialEffect CannotReturnCharactersFromWaitingRoomToHand
+    }
+}
+Text Cont: During the attack phase, you cannot return characters from your waiting room to your hand by your cards' effects.
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess CenterStage 2 Any
+		{
+			TargetSelf
+			Question Move "A Spring Moment, Origami" to another position with a character facing this card?
+			If Yes
+			{
+				MoveToOpenPositionWithOpponent
+			}
+		}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may move this card to an open position of your center stage with a character facing this card.
+EndCard
+
+Character: DAL/W79-E086
+Name School Uniform, Tohka
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: StartOpponentDrawPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: At the beginning of your opponent's draw phase, choose 1 of your characters, it gets +1500 power until end of turn.
+Auto: OnOpponentReverse|OnOtherOpponentReversed
+{
+	If OpponentsTurn
+	{
+		Peek Deck 1
+		MultipleChoiceQuestion Put on top or bottom of deck? |Top|Bottom
+		If Answer 0
+		{
+			MoveCard Deck
+		}
+		Else
+		{	
+			MoveCardToBottom Deck
+		}
+	}
+}
+Text Auto: During your opponent's turn, when your opponent's character becomes reversed, look at the top card of your deck, and put it on the top or at the bottom of your deck.
+EndCard
+
+Character: DAL/W79-E087
+Name Long Range Shot, Origami
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Date
+Trait2 AST
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit
+	ChooseCharacterFromTargets Choose a character to give +3000 power.
+	GainPower 3000
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Date》 or 《Celestial Spirit》 characters, it gets +3000 power until end of turn.
+Act: RestSelf Discard 1 NameEquals Basic Realizer
+{
+	MultipleChoiceQuestion Choose an effect:\n1. Look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room. \n2. Choose 1 of your opponent's level 3 or lower characters. That character cannot Stand during your opponent's next stand phase |1|2
+	If Answer 0
+		{
+			Peek Deck 2
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	Else
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLess && CanBeChosen
+			ChooseCharacterFromTargets Choose a character to prevent standing next turn.
+			DontStand
+		}
+}
+Text Act: [Put 1 "Basic Realizer" from your hand into your waiting room & Rest this card] Choose 1 of the following effects and perform it. "Look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room." "Choose 1 of your opponent's level 3 or lower characters. That character cannot Stand during your opponent's next stand phase."
+EndCard
+
+Character: DAL/W79-E088
+Name A Spring Moment, Yoshino
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Date
+Trait2 Celestial Spirit
+*PayToExchange(Date|Celestial Spirit)
+*BlueEarlyPlayBomb
+EndCard
+
+Character: DAL/W79-E089
+Name Battle to Protect, Tohka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+*BackupBonus1000(Date|Celestial Spirit)
+Backup 2500
+EndCard
+
+Character: DAL/W79-E090
+Name Intensifying Battlefield? Origami
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Date
+Trait2 AST
+*GainPowerWhenAttackingLevel3(6000)
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: DAL/W79-E091
+Name Under the Azure Skies, Tohka
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other 《Date》 or 《Celestial Spirit》 characters.
+Auto: OnReverseOpponent
+{
+	TargetTop Deck 2
+	Message Reorder the top 2 cards of your deck.
+	Reorder
+}
+Text Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+EndCard
+
+Character: DAL/W79-E092
+Name Out of the Bath, Origami
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 AST
+Auto: OnClimaxPlay
+{
+	ChooseMultipleCharacters 1 2 InLocation Stage && HasTrait Date|Celestial Spirit
+	GainPower 500
+}
+Text Auto: When your climax is placed on your climax area, choose up to 2 of your characters, and those characters get +500 power until end of turn.
+Act: 1 RestSelf
+{
+	Peek Deck 2
+	ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrHigher
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Rest this card] Look at up to 2 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: DAL/W79-E093
+Name Spirit Barrier, Tohka
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit
+	ChooseCharacterFromTargets Choose a character to give +1500 power until the end of opponent's next turn
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your 《Date》 or 《Celestial Spirit》 characters, it gets +1500 power until the end of your opponent's next turn.
+EndCard
+
+Character: DAL/W79-E094
+Name Sulking, Tohka
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If there is a marker underneath this card, this card gets +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Date|Celestial Spirit
+	{
+		Question Put this card underneath as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character, you may put it face down underneath this card as a marker. 
+EndCard
+
+Character: DAL/W79-E095
+Name Under the Azure Skies, Yoshino
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 1 OrLess
+	ChooseCharacterFromTargets Choose a character to give effect "Cont: This card cannot move to another position on the stage" to
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's level 1 or lower characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position on the stage."
+EndCard
+
+Character: DAL/W79-E096
+Image DAL_W79_E096
+Name Swimsuit, Tohka
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 2000
+		GainEffect
+			{
+				Cont: GiveSelf
+					{
+						GainSpecialEffect CannotSideAttack
+					}
+			}
+		GainEffect
+			{
+				Cont: GiveFacing
+					{
+						GainSpecialEffect CannotSideAttack
+					}
+			}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Date》 or 《Celestial Spirit》 character, this card gets +2000 power and the following ability until the end of your opponent's next turn. "Cont: This card and the character facing this card cannot side attack."
+EndCard
+
+Event: DAL/W79-E097
+Name Draw Back in Disgust
+Color B
+Level 1
+Cost 1
+Effect:
+{
+	SetXValue CardsInHand
+	TargetLocation Hand
+	MoveCard WaitingRoom
+	AddToXValue 1
+	Repeat X
+		{
+			DrawCard
+		}
+}
+Text Put all cards from your hand into your waiting room, and draw X cards. X is equal to the number of cards put into your waiting room by this effect +1.
+EndCard
+
+Climax: DAL/W79-E098
+Name In This Town Basked in Sunset
+*BookClimax
+EndCard
+
+Climax: DAL/W79-E099
+Name Delicious Date
+*GateClimax
+EndCard
+
+
+Climax: DAL/W79-E100
+Name Revenge for 5 Years Ago
+*GateClimax
+EndCard
+
+
+Character: DAL/W79-E101
+Name Trying On, Kurumi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	PayCost SendFromWaitingRoom 2 Deck IsCharacter
+		{
+			ShuffleLocation Deck
+			TargetSelf
+			GainSpecialEffect FreeSideAttack
+		}
+}
+Text Auto: [Return 2 characters from your waiting room to your deck & Shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card's soul does not decrease by side attacking until end of turn.
+Auto: OnAttack
+{
+	*GiveOtherCharacterPower(1500,Date|Celestial Spirit)
+}
+Text Auto: When this card attacks, choose 1 of your 《Date》 or 《Celestial Spirit》 characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: DAL/W79-E102
+Name Confirmation of Feelings, Kotori
+Color Y
+Level 1
+Cost 1
+Power 6000
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Date|Celestial Spirit && IsCharacter
+	{
+		SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Quick
+Text Auto: When your other 《Date》 or 《Celestial Spirit》 character attacks, this card gets +X power until end of turn. X is equal to the number of other 《Date》 or 《Celestial Spirit》 characters you have ×500.
+*ClockEncore
+EndCard
+
+Character: DAL/W79-E103
+Name Within the Frozen Barrier, Yoshino
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	*CheckAndAdd(3)
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Date|Celestial Spirit
+	MultiplyXValue 500
+	TargetLocation Stage
+	NarrowTargets HasTrait Date|Celestial Spirit && IsCharacter
+	ChooseCharacterFromTargets Choose a character to give +1000 power until end of opponents turn.
+	UntilEndOfOpponentsTurn
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other 《Date》 or 《Celestial Spirit》 characters, it gets +X power until the end of your opponent's next turn. X is equal to the number of other 《Date》 or 《Celestial Spirit》 characters you have ×500.
+EndCard
+
+Character: DAL/W79-E104
+Name Complex Feelings, Tohka
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets IsCharacter
+	ChooseCharacterFromTargets Choose a character to give +1000 power
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 character in your opponent's center stage, it gets +1000 power until the end of your opponent's next turn.
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	NarrowTargets IsCharacter
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×1000.
+EndCard
+
+Character: DAL/W79-E105
+Name Meeting up for a Date, Origami
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 AST
+Auto: OnPlay
+{
+	Peek OpponentDeck 2
+	EndPeek
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your opponent's deck, and put them on the top of their deck in the original order.
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 IsCharacter
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsCost 1 OrLower
+			ChooseCharacterFromTargets_Optional Choose a character to put on the bottom of your opponent's deck.
+			MoveCardToBottom OpponentDeck
+		}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, choose 1 cost 0 or lower character in your opponent's center stage, and put it at the bottom of their deck.
+EndCard
+
+Character: DAL/W79-P01
+Name Tohka, Room Appearance
+Image DAL_W79_P01
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Date|Celestial Spirit
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Date》 or 《Celestial Spirit》 character, gets +2000 power until end of turn.  
+
+Character: DAL/W79-P02
+Name Yoshino & Kotori & Tohka, Relaxing at the Hot Springs
+Image DAL_W79_P02
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this gains +1000 Power.
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+		{
+			*CheckAndAdd(3)
+		}
+}
+Text Auto: [(1) Discard a card from hand to the waiting room]. When this is placed from hand to the Stage, you may pay cost. If so, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+
+Character: DAL/W79-PE03
+Name "Chance Meeting at Dusk" Kurumi
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, it gets +1000 power until end of turn.
+*RedLevel1Bomb
+EndCard
+
+
+
+//END OF BOOSTER SET
+
+//DATE A LIVE TRIAL DECK
+
+Character: DAL/W79-TE01
+Name Yesterday's Incident, Shido
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Date
+Cont: GiveAll
+{
+	If MyTurn && Other && NameEquals Date Day, Tohka
+	{
+		GainPower 2000
+	}
+}
+
+Text Cont: During your turn, all of your other "Date Day, Tohka" get +2000 power.
+*Bond1(Date Day\, Tohka)
+EndCard
+
+Character: DAL/W79-TE02
+Name Worst Awakening Method, Kotori
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+
+Cont: GiveSelf
+{
+	If Compare MyLevel 1 OrMore
+	{
+		GainEffect
+				{
+					Act: SendSelf WaitingRoom
+						{
+							SearchLocationForTargets WaitingRoom 1 1  NameEquals Commander of Ratatoskr, Kotori
+							Change
+						}
+				}
+	}
+}
+Text Cont: If your level is 1 or higher, this card gets the following ability. "Act: [Put this card into your waiting room] Choose 1 "Commander of Ratatoskr, Kotori" in your waiting room, and put it on the stage position that this card was on."
+
+Cont: GiveAll
+{
+	If Other && HasTrait Date | Celestial Spirit
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other 《Date》 or 《Celestial Spirit》 characters get +500 power.
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE03
+Name Confrontation With Humans, Tohka
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Date| Celestial Spirit
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Date》 or 《Celestial Spirit》 character, put it into your hand, choose 1 card in your hand, and put it into your waiting room. 
+
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Date| Celestial Spirit
+	{
+		DrawCard
+	}
+}
+
+
+Text Auto: [Put 1 《Date》 or 《Celestial Spirit》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+
+
+
+
+
+Character: DAL/W79-TE04
+Name Meeting up for a Date, Kurumi
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Date
+Trait2 Celestial Spirit
+
+Auto: OnPlay
+{
+	If StageContains 1 Other && HasTrait Date| Celestial Spirit
+	{
+		GainPower 2000
+	}
+}
+
+Text Auto: When this card is placed on the stage from your hand, if you have another 《Date》 or 《Celestial Spirit》 character, this card gets +2000 power until end of turn.
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE05
+Name Commander of Ratatoskr, Kotori
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Date
+Trait2 Ratatoskr
+
+Auto: OnAttack
+{
+	*GiveCharacterPower(2500,Any)
+}
+
+Text Auto: When this card attacks, choose 1 of your characters, it gets +2500 power until end of turn.
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE06
+Name Engraving Despair, Kurumi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If Not StageContains 1 Not HasTrait Date| Celestial Spirit
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, if all of your characters are 《Date》 or 《Celestial Spirit》, this card gets +2000 power.
+
+Auto: OnSpecificClimaxPlay Us
+{
+	If InLocation CenterStage
+	{
+		PayCost Clock
+		{
+			MultipleChoiceQuestion Choose an effect:\n1. Search your deck for up to 2 "Engraving Despair, Kurumi", put them on separate positions of your stage, and shuffle your deck.\n2. Choose up to 2 "Engraving Despair, Kurumi" in your waiting room, and put them on separate positions of your stage. |1|2
+			If Answer 0
+			{
+				Message Search your deck for up to 2 "Engraving Despair, Kurumi"
+				SearchLocationForTargets Deck 0 2 NameEquals Engraving Despair, Kurumi
+				RevealTargets
+				PlaceOnStage False True True False
+				ShuffleLocation Deck
+			}
+	Else
+			{
+			Message Choose up to 2 "Engraving Despair, Kurumi" in your waiting room
+			SearchLocationForTargets WaitingRoom 0 2 NameEquals Engraving Despair, Kurumi
+			RevealTargets
+			PlaceOnStage False True True False
+			}
+		}
+	}
+}
+
+Text Auto: CxCombo [Put the top card of your deck into your clock] When "Us" is placed on your climax area, if this card is in your center stage, you may pay the cost. If you do, choose 1 of the following effects and perform it. "Search your deck for up to 2 "Engraving Despair, Kurumi", put them on separate positions of your stage, and shuffle your deck." "Choose up to 2 "Engraving Despair, Kurumi" in your waiting room, and put them on separate positions of your stage."
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE07
+Name Date Day, Tohka
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Date
+Trait2 Celestial Spirit
+Text 
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE08
+Name Maximum Support, Kotori
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Date
+Trait2 Ratatoskr
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Date| Celestial Spirit
+	{
+			GainPower 2000
+	}
+}
+
+
+Text Auto: When your other 《Date》 or 《Celestial Spirit》 character attacks, this card gets +2000 power until end of turn.
+*HandEncoreTrait(Date| Celestial Spirit)
+EndCard
+
+
+
+
+
+
+
+Character: DAL/W79-TE09
+Name Overwhelming Emotions, Kurumi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Date
+Trait2 Celestial Spirit
+
+Cont: GiveSelf
+	{
+		SetXToNumberOfCharacters Other && HasTrait Date| Celestial Spirit
+		MultiplyXValue 1000
+		GainPower X
+	}
+Text Cont: This card gets +1000 power for each of your other 《Date》 or 《Celestial Spirit》 characters.
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE10
+Name Hostile, Tohka
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 Celestial Spirit
+
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 4500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect NoBackupInBattle
+		}
+		Text Cont: During this card's battle, all players cannot play "BACKUP" from their hands.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +4500 power and the following ability until the end of your opponent's next turn. "Cont: During this card's battle, all players cannot play "BACKUP" from their hand."
+
+Auto: OnOpponentReverse
+{
+	PayCost 2
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent. 
+EndCard
+
+
+
+
+
+Climax: DAL/W79-TE11
+Name Us
+Color R
+*DoorClimax
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE12
+Name Abrupt Greeting, Origami
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Date
+Trait2 AST
+
+Auto: StartMainPhase
+{
+	*Scry
+}
+Text Auto: At the beginning of your main phase, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE13
+Name Fearful Yoshino
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Date
+Trait2 Celestial Spirit
+
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		MoveToOpenPosition False True
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, move this card to an open position of your back stage.
+EndCard
+
+
+
+
+
+
+Character: DAL/W79-TE14
+Name Stopped by the Doctor, Yoshino
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Date
+Trait2 Celestial Spirit
+Backup 2500
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE15
+Name Strange Conversation, Origami
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Date
+Trait2 AST
+
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Date| Celestial Spirit
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your other 《Date》 or 《Celestial Spirit》 characters.
+
+
+*ClockEncore
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE16
+Image DAL_W79_TE16
+Name Cool? Yoshino
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Date
+Trait2 Celestial Spirit
+
+*LevelAssist
+
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+		{
+			Peek Deck 4
+			NarrowTargets HasTrait Date| Celestial Spirit
+			ChooseCardsFromTargets 0 1
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 《Date》 or 《Celestial Spirit》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+
+
+
+
+Character: DAL/W79-TE17
+Name Confrontation With Spirits, Origami
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Date
+Trait2 AST
+
+*Healer
+
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Date| Celestial Spirit
+		{
+			PayCost Discard 2 Any
+				{
+					TargetLocation OpponentBackStage
+					NarrowTargets Compare ThatCardsLevel 1 OrLess
+					ChooseCharacterFromTargets_Optional Choose a character to put on the bottom of your opponent's deck.
+					MoveCardToBottom OpponentDeck
+				}
+		}	
+}								
+Text Auto: [Put 2 cards from your hand into your waiting room] When this card attacks, if you have 2 or more other 《Date》 or 《Celestial Spirit》 characters, you may pay the cost. If you do, choose 1 cost 1 or lower character in your opponent's back stage, and put it at the bottom of their deck.
+EndCard
+
+
+
+
+
+
+
+Event: DAL/W79-TE18
+Name My Little Shido
+Color B
+Level 1
+Cost 1
+Requirement StageContains 1 && HasTrait Date|Celestial Spirit
+Effect:
+{
+	*CheckAndAdd(3)
+}
+Text Look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+
+
+
+
+Climax: DAL/W79-TE19
+Name Battle Begins
+Color B
+*BookClimax
+EndCard
+
+
+
+
+
+Climax: DAL/W79-TE20
+Name Searching for Yoshinon
+Color B
+*2SoulClimax
+EndCard

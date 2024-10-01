@@ -1,0 +1,2499 @@
+﻿
+Character: P4/EN_S01-001
+Name Protagonist(P4)
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Magic
+Trait2 Glasses
+Combo Emerged Izanagi
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Message Search for up to 1 <Glasses> character
+		SearchDeck HasTrait Glasses
+		Message Search for up to 1 character with "&" in its name.
+		SearchDeck IsCharacter && NameContains &
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to one «Glasses» character and up to one character with "&" in its card name, reveal them to your opponent, and put them into your hand. Shuffle your deck afterwards.
+Auto: OnAttack
+{
+	ChooseAnyTrait
+	GainEffectUntil OnAttack
+	{
+		Cont: GiveSelf
+		{
+			GainTrait CHOSEN_TRAIT
+		}
+	}
+}
+Text Auto: When this card attacks, you may choose a trait. If you do, until the next time you choose a trait with this ability, this card gets the chosen trait.
+Auto: OnAttack
+{
+	If Climax Emerged Izanagi
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Magic
+		GainPower 2000
+		GainSoul 1
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Emerged Izanagi" is in your climax area, all of your «Magic» characters get +2000 power and +1 soul until end of turn.
+EndCard
+
+
+Character: P4/EN_S01-002
+Name Yosuke in Yukata
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Junes
+Trait2 Japanese Clothes
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	If Compare TargetCardsLevel 0 OrLower
+	{
+		IfTarget OnStage
+		{
+			MoveCard OpponentHand
+			OpponentDiscard 1 Any
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if this card's battle opponent is level 0 or lower, return your opponent's battle character into your opponent's hand, your opponent chooses a card in his or her hand and puts it into your opponent's waiting room.
+EndCard
+
+Character: P4/EN_S01-003
+Name Protagonist & Izanagi-no-Okami
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 God
+Combo Myriad Truths
+Cont: GiveSelf
+{
+	TargetFacing
+	If HasTarget
+	{
+		SetXValue TargetCardsLevel
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: This card gets +X power. X is equal to 1000 multiplied by the level of the character facing this card.
+Auto: OnAttack
+{
+	If Climax Myriad Truths
+	{
+		BlockOpponentEncore
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if a card named "Myriad Truths" is in your climax area, your opponent cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: P4/EN_S01-004
+Name Loves Junes! Nanako
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Junes
+Trait2 TV
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals Junes
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a card named "Junes" in your waiting room, and return it to your hand.
+EndCard
+
+Character: P4/EN_S01-005
+Name Store Manager's Son, Yosuke
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Junes
+Trait2 Magic
+Auto: OnAttack
+{
+	Mill 3
+	NarrowTargets HasTrait Junes
+	SetXValue TargetCount
+	If Compare X 1 OrMore
+	{
+		TargetSelf
+		GainPower 2000
+	}
+	If Compare X 2 OrMore
+	{
+		*OptionalHeal
+	}
+	If Compare X 3 OrMore
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 3 OrLower
+		ChooseCharacterFromTargets Choose a character to put into your opponent's stock.
+		MoveCard OpponentStock
+	}
+}
+Text Auto: When this card attacks, put the top three cards of your deck into your waiting room. If there is one or more «Junes» characters among those cards, this card gets +2000 power until end of turn. If there are two or more «Junes» characters among those cards, you may put the top card of your clock into your waiting room. If there are three or more «Junes» characters among those cards, you may choose one of your opponent's level 3 or lower characters on the center stage, and put it into your opponent's stock.
+EndCard
+
+Character: P4/EN_S01-006
+Name Nanako Dojima
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 TV
+Trait2 Junes
+*Bond1(Protagonist(P4))
+Act: 1 RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Hero|Brave || NameContains Protagonist
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Act: [(1) Rest this card] Choose one of your characters with «Brave» or "Protagonist(主人公)" in its card name, it gets +1 soul until end of turn.
+EndCard
+
+Character: P4/EN_S01-007
+Name Liquor Store's Daughter, Saki Konishi
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Junes
+Trait2 Liquor
+*GlobalPower(1000,Junes)
+Cont: Alarm
+{
+	If HasTrait Junes && MyCard
+	{
+		GainPower 1000
+	}
+}
+Text Cont: ALARM If this card is the top card of your clock, all of your «Junes» characters get +1000 power.
+EndCard
+
+Character: P4/EN_S01-008
+Name Friendly Siblings, Protagonist & Nanako
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Junes
+Trait2 TV
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget
+	{
+		SetXValue TargetCardsLevel
+		MultiplyXValue 1000
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to 1000 multiplied by the level of the character facing this card.
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-009
+Name Leader, Protagonist
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Magic
+Combo Never More
+Auto: OnAttack
+{
+	If Climax Never More
+	{
+		PayCost 4 Discard 1 IsClimax
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: CxCombo [(4) Put a climax from your waiting room into your memory] This ability activates up to one time per turn. When this card attacks, if a card named "Never More" is in your climax area, you may pay the cost. If you do, Stand this card.
+EndCard
+
+Character: P4/EN_S01-010
+Name Signs of a Family, Dojima
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Police
+*Bond1(Friendly Siblings\, Protagonist & Nanako)
+Act: RestSelf
+{
+	TargetLocation AnyStage
+	ChooseCharacterFromTargets Choose a character to give +1 level.
+	GainLevel 1
+}
+Text Act: [Rest this card] Choose another character, it gets +1 level until end of turn.
+EndCard
+
+Character: P4/EN_S01-011
+Name Declaration of Marriage, Nanako
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Junes
+Trait2 TV
+Cont: GiveAll
+{
+	If Other && HasTrait Brave || NameContains Protagonist
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other characters with «Brave» or "Protagonist" in its card name get +500 power.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Protagonist & Izanagi-no-Okami
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Act: [Rest this card] Choose one of your characters named "Protagonist & Izanagi-no-Okami", it gets +1 soul until end of turn.
+EndCard
+
+Character: P4/EN_S01-012
+Name WILD Power, Protagonist
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Glasses
+Auto: OnPlay
+{
+	TargetLocation AnyStage
+	ChooseCharacterFromTargets Choose a character to give +1 level.
+	GainLevel 1
+}
+Text Auto: When this card is placed on stage from your hand, choose another character, it gets +1 level until end of turn.
+Auto: StartDrawPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		*ChangeWaitingRoom(Protagonist & Izanagi-no-Okami)
+	}
+}
+Text Auto: CHANGE [(2) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Protagonist & Izanagi-no-Okami" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: P4/EN_S01-013
+Name Prince of Disappointment, Yosuke
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Junes
+Trait2 Female Impersonator
+Auto: OnPlay
+{
+	Mill 1
+	*CountSoulTriggers
+	If Compare X 1 OrMore
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Junes
+		ChooseCharacterFromTargets Choose a character to give +X soul.
+		GainSoul X
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may put the top card of your deck into your waiting room. If you do, choose another of your characters with «Junes», for each soul trigger icon on the card put into your waiting room, that character gets +1 soul until end of turn.
+EndCard
+
+Character: P4/EN_S01-014
+Name Ryotaro Dojima
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Police
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Brave|Hero || NameContains Protagonist
+	ChooseCharacterFromTargets Choose a character to give +3000 power and +1 soul.
+	GainPower 3000
+	GainSoul 1
+}
+Text Auto: When this card is placed on stage from your hand, choose one of your characters with «Brave» or "Protagonist" in its card name, it gets +3000 power and +1 soul until end of turn.
+Auto: EndOfMyTurn
+{
+	If LocationContains Memory 1 IsCharacter
+	{
+		Bounce
+	}
+}
+Text Auto: At the end of your turn, if you have a character in your memory, return this card to your hand.
+EndCard
+
+Event: P4/EN_S01-015
+Name Junes
+Color Y
+Level 2
+Cost 0
+Effect
+{
+	SearchDeck HasTrait Junes || NameContains Protagonist && IsCharacter
+}
+Text Search your deck for up to one character with «Junes» or "Protagonist" in its card name, reveal it to your opponent, and put it into your hand. Shuffle your deck afterwards.
+EndCard
+
+Event: P4/EN_S01-016
+Name Midnight Channel
+Color Y
+Level 2
+Cost 2
+Effect:
+{
+	ForcePayCost Rest 1 CardPosition Stand
+	{
+		TargetLocation OpponentStage
+		NarrowTargets CardPosition Stand
+		ChooseCharacterFromTargets Choose a character to rest.
+		Rest
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 3 OrLower
+		ChooseCharacterFromTargets Choose a level 3 or lower character to put into stock.
+		MoveCard Stock
+	}
+}
+Text Choose one of your standing characters, and rest it. If you do, choose one of your opponent's standing characters, rest it, choose one of your opponent's level 3 or lower characters on the center stage, and put it into your opponent's stock.
+EndCard
+
+Climax: P4/EN_S01-017
+Name Myriad Truths
+Color Y
+*2SoulClimax
+EndCard
+
+Climax: P4/EN_S01-018
+Name Emerged Izanagi
+Color Y
+*2SoulClimax
+EndCard
+
+Climax: P4/EN_S01-019
+Name Never More
+Color Y
+*OldStockSoul
+EndCard
+
+Character: P4/EN_S01-020
+Name "Yasogami's Steel Council President!" Labrys
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Mecha
+Trait2 Student Council
+Combo Labrys's Wrath
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, this card gets +1500 power until end of turn.
+Auto: OnSpecificClimaxPlay Labrys's Wrath
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentCenterStage
+			ChooseCharacterFromTargets Choose a character to give -4000 power.
+			LosePower 4000
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When a card named "Labrys's Wrath" is placed on your climax area, if this card is on your center stage, you may pay the cost. If you do, choose one of your opponent's characters on the center stage, it gets -4000 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-021
+Name Kung Fu Club, Chie
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Sports
+Trait2 Magic
+Auto: OnAttack
+{
+	SearchLocationForTargets Deck 0 1 HasTrait Sports
+	RevealTargets
+	MoveCard Stock
+	ShuffleLocation Deck
+}
+Text Auto: When this card attacks, search your deck for up to one «Sports» character, reveal it to your opponent, and put it into your stock. Shuffle your deck afterwards.
+Auto: OnReverseOpponent
+{
+	If Not LocationContains OpponentStage 1 CardPosition Stand
+	{
+		PayCost 5
+		{
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(5)] This ability activates up to one time per turn. When this card's battle opponent becomes reversed, if your opponent does not have any standing characters, you may pay the cost. If you do, stand this card.
+EndCard
+
+Character: P4/EN_S01-022
+Name "The Raging Bull of Destruction" Shadow Labrys
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Shadow
+Trait2 Weapon
+Combo Arrival of Asterius
+*Healer
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+{
+	If Climax Arrival of Asterius
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 2 OrLower
+			ChooseCharacterFromTargets Choose a character to put into your opponent's clock.
+			MoveCard OpponentClock
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card's level 2 or higher battle opponent becomes reversed, if a card named "Arrival of Asterius" is in your climax area, you may pay the cost. If you do, choose one of your opponent's level 2 or lower characters on the center stage, and put it into your opponent's clock.
+EndCard
+
+Character: P4/EN_S01-023
+Name Show Biz People, Rise
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 TV
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals King's Game
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a card named "King's Game" in your waiting room, and return it to your hand.
+Act: Rest 1 Any
+{
+	TargetLocation OpponentStage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets Choose a character to rest.
+	Rest
+}
+Text Act: [Rest one of your characters] Choose one of your opponent's standing characters, and rest it.
+EndCard
+
+Character: P4/EN_S01-024
+Name "The Heartless Armed Angel" Aigis
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Mecha
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you do not have any other characters, this card gets +2000 power.
+*Act1RestSelfClockBrainstorm
+EndCard
+
+Character: P4/EN_S01-025
+Name Rise & Himiko
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Music
+Trait2 Glasses
+Auto: OnPlay
+{
+	*GiveOtherCharacterPower(1500,Any)
+}
+Text Auto: When this card is placed on stage from your hand, choose another of your characters, it gets +1500 power until end of turn.
+Auto: StartDrawPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		*ChangeWaitingRoom(Rise & Kanzeon)
+	}
+}
+Text Auto: CHANGE [(2) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Rise & Kanzeon" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: P4/EN_S01-026
+Name Fox of Tatsuhime Shrine
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Animal
+Trait2 God
+Cont: GiveAll
+{
+	If Other && Compare CardsInStock 5 OrMore
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If the number of cards in your stock is five or more, all of your other characters get "Auto: ENCORE [Put a character from your hand into your waiting room]".
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Glasses || NameContains Protagonist
+	{
+		If CardPosition Stand
+		{
+			PayCost RestSelf
+			{
+				BlindStock
+			}
+		}
+	}
+}
+Text Auto: [Rest this card] When another of your characters with «Glasses» or "Protagonist" in its card name is placed on stage from your hand, if this card is standing, you may pay the cost. If you do, put the top card of your deck into your stock.
+EndCard
+
+Character: P4/EN_S01-027
+Name Destined Confrontation, Labrys
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Mecha
+Trait2 Student Council
+Auto: OnPlay
+{
+	PayCost 3 SendSelf Memory
+	{
+		SearchLocationForTargets Hand 0 1 NameEquals "The Raging Bull of Destruction" Shadow Labrys
+		PlaceOnStage False True True False
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals Destined Confrontation, Labrys
+				FirstTarget
+				PlaceOnStage False True True False
+			}
+			Text At the beginning of your next draw phase, choose a card named "Destined Confrontation, Labrys" in your memory, and put it on any position of your stage.
+		}
+	}
+}
+Text Auto: [(3) Put this card into your memory] When this card is placed on stage from your hand, you may pay the cost. If you do, choose up to one card named ""The Raging Bull of Destruction" Shadow Labrys" in your hand, put it on any position of your stage, at the beginning of your next draw phase, choose a card named "Destined Confrontation, Labrys" in your memory, and put it on any position of your stage.
+EndCard
+
+Character: P4/EN_S01-028
+Name Chie & Suzuka Gongen
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Sports
+Trait2 Glasses
+Combo God's Hand
+Auto: OnAttack
+{
+	If Climax God's Hand
+	{
+		*PutCardFromWaitingRoomIntoStock(Any)
+		TargetSelf
+		GainPower 2500
+	}
+}
+Text Auto: When this card attacks, if a card named "God's Hand" is in your climax area, choose a card in your waiting room, put it into your stock, and this card gets +2500 power until end of turn.
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-029
+Name Reliable Prince, Chie
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Sports
+Trait2 Magic
+*Bond1(Yukiko & Amaterasu)
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Yukiko
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Act: [Rest this card] Choose one of your characters with "Yukiko" in its card name, it gets +500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-030
+Name P-1 Grand Prix Host! General Teddie
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Shadow
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 2 OrHigher
+	}
+}
+Text Auto: [(2)] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to one level 2 or higher character, reveal it to your opponent, and put it into your hand. Shuffle your deck afterwards
+EndCard
+
+Character: P4/EN_S01-031
+Name Chie in Yukata
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Sports
+Trait2 Japanese Clothes
+Auto: OnAttack|OnFrontalAttacked
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget IsCharacter && Compare TargetCardsLevel 0 OrLower
+		{
+			TargetSelf
+			GainPower 1000
+			GainLevel 1
+		}
+	}
+}
+Text Auto: When this card attacks or is frontal attacked, you may put the top card of your deck into your waiting room. If that card is a level 0 or lower character, this card gets +1 level and +1000 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-032
+Name Rise Kujikawa
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Music
+Trait2 TV
+Combo Active Teen Idol
+Cont: Assist
+{
+	If Compare ThatCardsLevel 2 OrHigher
+	{
+		GainPower 1000
+	}
+}
+Text Cont: ASSIST All of your level 2 or higher characters in front of this card get +1000 power.
+Auto: OnSpecificClimaxPlay Active Teen Idol
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Glasses
+	ChooseCharacterFromTargets Choose a character to give +1 level and +4000 power.
+	GainLevel 1
+	GainPower 4000
+}
+Text Auto: CxCombo [(1)] When a card named "Active Teen Idol" is put in your climax area, you may pay the cost. If you do, choose one of your «Magic» or «Glasses» characters, it gets +1 level and +4000 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-033
+Name Future Policewoman, Chie
+Color G
+Level 1
+Cost 1
+Power 6500
+Trait1 Sports
+Trait2 Magic
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-034
+Name Special Friends, Chie & Yukiko
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Fan
+Trait2 Sports
+Auto: OnAttack|OnFrontalAttacked
+{
+	Question Put the top card of your deck into the waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget IsCharacter && Compare TargetCardsLevel 1 OrHigher
+		{
+			TargetSelf
+			GainPower 2500
+		}
+	}
+}
+Text Auto: When this card attacks or is frontal attacked, you may put the top card of your deck into your waiting room. If that card is a level 1 or higher character, this card gets +2500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-035
+Name Unit #024
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Mecha
+Auto: OnPlay
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, this card gets +1500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-036
+Name Chie Satonaka
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Sports
+Trait2 Glasses
+EndCard
+
+Character: P4/EN_S01-037
+Name P-1 Grand Prix Exclusive Commentator! Rise
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Music
+Trait2 TV
+Act: Rest 2 Any
+{
+	GainPower 2000
+}
+Text Act: [Rest two of your characters] This card gets +2000 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-038
+Name Golden Right Leg, Chie
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Sports
+Trait2 Magic
+Combo Chie's Pursuit
+Auto: OnAttack
+{
+	If Climax Chie's Pursuit
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to give -1000 power.
+			LosePower 1000
+			If Not LocationContains OpponentStage 1 CardPosition Stand
+			{
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets Choose a character to give -1000 power.
+				LosePower 1000
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "Chie's Pursuit" is in your climax area, you may pay the cost. If you do, choose one of your opponent's characters, it gets -1000 power until end of turn, and if your opponent does not have any Stand characters, choose one of your opponent's characters, it gets -1000 power for that turn.
+Auto: StartDrawPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		*ChangeWaitingRoom(Chie & Suzuka Gongen)
+	}
+}
+Text Auto: CHANGE [(2) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Chie & Suzuka Gongen" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: P4/EN_S01-039
+Name Rise's True Self
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Music
+Trait2 TV
+*HandEncore
+Act: Rest 2 HasTrait Music
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the ability to.
+	GainEffect
+	{
+		*OnReverseBlindStock
+	}
+}
+Text Act: [Rest two of your «Music» characters] Choose one of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: P4/EN_S01-040
+Name Sisters' Reunion, Aigis
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Mecha
+Trait2 Weapon
+Backup 3000
+EndCard
+
+Character: P4/EN_S01-041
+Name Rise & Kanzeon
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Music
+Trait2 Glasses
+Combo Full Analysis
+Auto: OnSpecificClimaxPlay Full Analysis
+{
+	TargetLocation Stage
+	GainPower 1000
+}
+Quick
+Text Auto: CxCombo When a card named "Full Analysis" is placed on your climax area, all of your characters get +1000 power until end of turn.
+Act: 2 RestSelf
+{
+	MillOpponent 1
+	IfTarget IsCharacter
+	{
+		SaveTargets
+		TargetLocation OpponentStage
+		NarrowTargets SameTraitAsSavedTarget
+		LosePower 2000
+	}
+}
+Text Act: [(2) Rest this card] Put the top card of your opponent's deck into your opponent's waiting room. If that card is a character, all of your opponent's characters with one or more of the same trait as that character get -2000 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-042
+Name Chie & Tomoe
+Color G
+Level 2
+Cost 2
+Power 8500
+Soul 2
+Trait1 Sports
+Trait2 Magic
+HandAction Send 1 WaitingRoom NameEquals Chie Satonaka
+{
+	PlaceOnStage False True True False
+}
+Text Cont: When this card is played from your hand, you may choose one of your cards named "Chie Satonaka", and put it into your waiting room. If you do, you may play this card with 0 cost.
+Auto: OnOpponentRest
+{
+	If MyTurn
+	{
+		PayCost 2
+		{
+			TargetLocation OpponentStage
+			NarrowTargets CardPosition Stand
+			ChooseCharacterFromTargets Choose a character to put into memory.
+			MoveCard OpponentMemory
+		}
+	}
+}
+Text Auto: [(2)] During your turn, when your opponent's standing character becomes rested, you may pay the cost. If you do, choose one of your opponent's Stand characters, and put that character into your opponent's memory.
+EndCard
+
+Event: P4/EN_S01-043
+Name King's Game
+Color G
+Level 1
+Cost 1
+Effect:
+{
+	Message Choose a card to return to your hand.
+	SearchLocationForTargets Clock 1 1 Any
+	MoveCard Hand
+	TargetTop Deck 1
+	MoveCard Clock
+	If Not LocationContains OpponentStage 1 CardPosition Stand
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Choose a character in your clock, return it to your hand, and put the top card of your deck into your clock.\nIf your opponent does not have any Stand characters, put this card into your stock.
+EndCard
+
+Event: P4/EN_S01-044
+Name Fishing for the River Guardian
+Color G
+Level 2
+Cost 0
+Effect:
+{
+	TargetTop Deck 1
+	MoveCard Stock
+	Message Choose up to 1 character in your stock to return to your hand.
+	SearchLocationForTargets Stock 0 1 IsCharacter
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Stock
+}
+Text Put the top card of your deck into your stock. Search your stock for up to one character, reveal it to your opponent, and return it to your hand. Shuffle your stock afterwards.
+EndCard
+
+Climax: P4/EN_S01-045
+Name Labrys's Wrath
+Color G
+*2SoulClimax
+EndCard
+
+Climax: P4/EN_S01-046
+Name Arrival of Asterius
+*BarClimax
+EndCard
+
+Climax: P4/EN_S01-047
+Name God's Hand
+*BagClimax
+EndCard
+
+Climax: P4/EN_S01-048
+Name Full Analysis
+Color G
+*OldStockSoul
+EndCard
+
+Climax: P4/EN_S01-049
+Name Chie's Pursuit
+Color G
+*2SoulClimax
+EndCard
+
+Climax: P4/EN_S01-050
+Name Active Teen Idol
+Color G
+*Draw3SoulClimax
+EndCard
+
+Character: P4/EN_S01-051
+Name Yukiko in Yukata
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Fan
+Trait2 Japanese Clothes
+*GlobalPower(1000,Fan|Japanese Clothes)
+Auto: StartDrawPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		*ChangeWaitingRoom(Young Okami\, Yukiko)
+	}
+}
+Text Auto: CHANGE [(2) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Young Okami, Yukiko" in your waiting room, and put it on the stage position that this card was on.
+Act: RestSelf
+{
+	TargetLocation OpponentStage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets Choose a character to rest
+	Rest
+}
+Text Act: [Rest this card] Choose one of your opponent's Stand characters, and Rest it.
+EndCard
+
+Character: P4/EN_S01-052
+Name Young Okami, Yukiko
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Fan
+Trait2 Japanese Clothes
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Fan|Japanese Clothes
+	{
+		Burn 1
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If the revealed card is a «Fan» or «Japanese Clothes» character, deal one damage to your opponent.
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-053
+Name Promise with Allies, Yukiko
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Fan
+Trait2 Magic
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: P4/EN_S01-054
+Name "The Bloodcurdling Beefcake Emperor" Kanji Tatsumi
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Delinquent
+Trait2 Magic
+Combo Bond with Fists
+Auto: OnSpecificClimaxPlay Bond with Fists
+{
+	If InLocation CenterStage
+	{
+		PayCost 1 Clock
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsCost 0 OrLower
+			ChooseCharacterFromTargets Choose a character to put into the waiting room.
+			MoveCard OpponentWaitingRoom
+			TargetSelf
+			GainPower 3000
+		}
+	}
+}
+Text Auto: CxCombo [(1) Put the top card of your deck into your clock] When a card named "Bond with Fists" is placed on your climax area, if this card is on the center stage, you may pay the cost. If you do, choose one of your opponent's cost 0 or lower characters, put it into your opponent's waiting room, and this card gets +3000 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-055
+Name “The Unconquerable Snow Black” Yukiko Amagi
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Fan
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Fan|Japanese Clothes
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If the number of other «Fan» or «Japanese Clothes» characters you have is three or more, this card gets +500 power and "Auto: ENCORE [Put a character from your hand into your waiting room]".
+EndCard
+
+Character: P4/EN_S01-056
+Name Yukiko & Konohana Sakuya
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Fan
+Trait2 Magic
+HandAction: Send 1 WaitingRoom NameEquals Yukiko Amagi
+{
+	PlaceOnStage False True True False
+}
+Text Cont: When this card is played from your hand, you may choose one of your cards named "Yukiko Amagi", and put it into your waiting room. If you do, you may play this card with 0 cost.
+Cont: GiveSelf
+{
+	TargetLocation OpponentStage
+	NarrowTargets CardPosition Rest
+	SetXValue TargetCount
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each of your opponent's rested characters.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets Choose a character to rest.
+	Rest
+}
+Text Auto: When this card is placed on stage from your hand, choose one of your opponent's standing characters, and rest it.
+EndCard
+
+Character: P4/EN_S01-057
+Name Yukiko's Laughing Fits
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Fan
+Trait2 Magic
+Auto: OnOpponentRest
+{
+	GainPower 1500
+}
+Quick
+Text Auto: When your opponent's Stand character becomes Rest, this card gets +1500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-058
+Name Brains of the Station, Adachi
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Police
+Trait2 Junes
+*RedEarlyPlayBomb
+EndCard
+
+Character: P4/EN_S01-059
+Name Totally Wrong, Miss Kanji
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Delinquent
+Trait2 Female Impersonator
+Auto: OnUseThisCardsBackup
+{
+	PayCost 3
+	{
+		*SendEarlyPlayToWaitingRoom
+	}
+}
+Text Auto: [(3)] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and put it into your opponent's waiting room.
+Backup 2500
+EndCard
+
+Character: P4/EN_S01-060
+Name Reliable Princess, Yukiko
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Fan
+Trait2 Magic
+*Bond1(Chie & Suzuka Gongen)
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Chie
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Act: [Rest this card] Choose one of your characters with "Chie" in its card name, it gets +500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-061
+Name Yukiko Amagi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Fan
+Trait2 Glasses
+Combo Scoring a Hot Stud
+Auto: OnSpecificClimaxPlay Scoring a Hot Stud
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals Yukiko & Konohana Sakuya
+	}
+}
+Text Auto: CxCombo [(1)] When a card named "Scoring a Hot Stud" is placed on your climax area, you may pay the cost. If you do, choose a card named "Yukiko & Konohana Sakuya"in your waiting room, and return it to your hand.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Chie
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose one of your characters with "Chie" in its card name, it gets +1500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-062
+Name Gas Station Attendant
+Color R
+Level 0
+Cost 0
+Power 2500
+Cont: GiveSelf
+{
+	TargetFacing
+	SetXValue TargetCardsLevel
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: This card gets +X power. X is equal to 2000 multiplied by the level of the character facing this card.
+EndCard
+
+Character: P4/EN_S01-063
+Name Finish with a Single Blow, Yukiko
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Fan
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to rest.
+	Rest
+}
+Text Auto: When this card is placed on stage from your hand, you may choose one of your opponent's standing characters, and rest it.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals Inedible Curry
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a card named "Inedible Curry" in your waiting room, and return it to your hand.
+EndCard
+
+Character: P4/EN_S01-064
+Name Like a Game, Adachi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Police
+Trait2 Weapon
+Combo Will of the World
+Auto: OnAttack
+{
+	If Climax Will of the World
+	{
+		PayCost 3
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLower
+			ChooseCharacterFromTargets Choose a character to put on top of your opponent's deck.
+			MoveCard OpponentDeck
+		}
+	}
+}
+Text Auto: [(3)] When this card attacks, if a card named "Will of the World" is in your climax area, you may pay the cost. If you do, choose one of your opponent's level 3 or lower characters on the center stage, and put it on the top of your opponent's deck.
+EndCard
+
+Character: P4/EN_S01-065
+Name "The Two-Fisted Protein Junkie" Akihiko Sanada
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Magic
+Trait2 Sports
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Cont: The character facing this card gets "Auto: ENCORE [Put a character from your hand into your waiting room]".
+EndCard
+
+Event: P4/EN_S01-066
+Name Inedible Curry
+Color R
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the ability to.
+	GainEffect
+	{
+		Auto: OnReversed
+		{
+			TargetBattleOpponent
+			If Compare TargetCardsLevel ThisCardsLevel OrLower
+			{
+				IfTarget OnStage
+				{
+					Question Reverse this card's battle opponent
+					If Yes
+					{
+						Reverse
+					}
+				}
+			}
+		}
+		Text Auto: When this card becomes reversed, if the level of this card's battle opponent is lower than or equal to the level of this card, you may reverse that character.
+	}
+	If Not LocationContains OpponentStage 1 CardPosition Stand
+	{
+		Message Choose up to 1 card to put on top of your opponent's deck.
+		SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+		MoveCard OpponentDeck
+	}
+}
+Text Choose one of your characters, it gets the following ability until end of turn. "Auto: When this card becomes reversed, if the level of this card's battle opponent is lower than or equal to the level of this card, you may reverse that character."\nIf your opponent has no standing characters, you may choose a card in your opponent's waiting room, and put it on the top of your opponent's deck.
+EndCard
+
+Event: P4/EN_S01-067
+Name One Strike
+Color R
+Level 2
+Cost 1
+Effect:
+{
+	ForcePayCost Rest 1 CardPosition Stand
+	{
+		TargetLocation OpponentStage
+		NarrowTargets CardPosition Stand
+		ChooseCharacterFromTargets Choose a character to rest.
+		Rest
+		Burn 1
+	}
+}
+Text Choose one of your standing characters, and rest it. If you do, choose one of your opponent's Stand characters, Rest it, and deal one damage to your opponent. 
+EndCard
+
+Event: P4/EN_S01-068
+Name It's my turn!
+Color R
+Level 2
+Cost 1
+Effect:
+{
+	ForcePayCost Rest 1 CardPosition Stand
+	{
+		TargetLocation OpponentStage
+		NarrowTargets CardPosition Stand
+		ChooseCharacterFromTargets Choose a character to rest.
+		Rest
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 2 OrLower
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Choose one of your standing characters, and Rest it. If you do, choose one of your opponent's Stand characters, Rest it, choose one of your opponent's level 2 or lower characters on the center stage, and put it into your opponent's waiting room.
+EndCard
+
+Climax: P4/EN_S01-069
+Name Scoring a Hot Stud
+*DoorClimax
+EndCard
+
+Climax: P4/EN_S01-070
+Name Will of the World
+Color R
+*DrawClimax
+EndCard
+
+Climax: P4/EN_S01-071
+Name Bond with Fists
+*DoorClimax
+EndCard
+
+Character: P4/EN_S01-072
+Name Naoto & Yamato Takeru
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Male Impersonator
+Trait2 Glasses
+Auto: OnAttack
+{
+	PayCost 1
+	{
+		Mill 1
+		IfTarget HasTrait Male Impersonator|Female Impersonator
+		{
+			*OptionalHeal
+		}
+	}
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, put the top card of your deck into your waiting room. If that card is a «Male Impersonator» or «Female Impersonator» character, you may put the top card of your clock into your waiting room.
+EndCard
+
+Character: P4/EN_S01-073
+Name "The 2000-IQ Killjoy Detective" Naoto Shirogane
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Male Impersonator
+Trait2 Detective
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Male Impersonator|Female Impersonator
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+			{
+				*OptionalDraw
+			}
+			Text Auto: When this card's level 2 or higher battle opponent becomes reversed, you may draw a card.
+		}
+	}
+}
+Text Cont: If the number of other «Male Impersonator» or «Female Impersonator» characters you have is three or more, this card gets +1000 power and the following ability. "Auto: When this card's level 2 or higher battle opponent becomes reversed, you may draw a card."
+*OnPlayDraw2Discard1
+EndCard
+
+Character: P4/EN_S01-074
+Name Full Power Follow Up, Naoto
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Male Impersonator
+Trait2 Detective
+Auto: OnOtherFrontalAttacked
+{
+	PayCost 1 SendSelf WaitingRoom
+	{
+		TargetMyCharacterInBattle
+		IfTarget OnStage
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When another of your characters is being frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: P4/EN_S01-075
+Name Middle of a Long Journey, Elizabeth
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 God
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of cards in your hand is five or more, this card gets +2000 power.
+*ClockEncore
+EndCard
+
+Character: P4/EN_S01-076
+Name Infinite Possibilities, Naoto
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Male Impersonator
+Trait2 Glasses
+Combo Megidolaon
+Auto: OnAttack
+{
+	If Climax Megidolaon
+	{
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalDraw
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may draw a card.
+		}
+	}
+}
+Quick
+Text Auto: When this card attacks, if a card named "Megidolaon" is in your climax area, this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw a card."
+Auto: StartDrawPhase
+{
+	PayCost 3 SendSelf HAnd
+	{
+		*ChangeWaitingRoom(Naoto & Yamato Takeru)
+	}
+}
+Text Auto: CHANGE [(3) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do so, choose a card named "Naoto & Yamato Takeru" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: P4/EN_S01-077
+Name Paper Thin Teddie
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Shadow
+Trait2 Animal
+Auto: StartEncoreStep
+{
+	If OpponentsTurn && InLocation Backstage
+	{
+		PayCost 4
+		{
+			TargetLocation Stage
+			GainEffect
+			{
+				*FreeEncore
+			}
+		}
+	}
+}
+Text Auto: [(4)] At the beginning of your opponent's encore step, if this card is on the back stage, you may pay the cost. If you do, all of your characters get the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to its previous stage position as resting."
+EndCard
+
+Character: P4/EN_S01-078
+Name Naoto Shirogane
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Detective
+Trait2 Police
+Auto: OnUseThisCardsBackup
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Protagonist || HasTrait Police
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When you use this card's "BACKUP", choose one of your characters with «Police» or "Protagonist" in its card name, it gets +1000 power until end of turn.
+Backup 2000
+EndCard
+
+Character: P4/EN_S01-079
+Name One who Wields Power, Margaret
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 God
+Auto: OnAttack
+{
+	PayCost 3
+	{
+		Mill 3
+		SaveTargets
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			*OptionalHeal
+		}
+		LoadTargets
+		NarrowTargets IsEvent
+		If HasTarget
+		{
+			TargetLocation Stock
+			MoveCard WaitingRoom
+			TargetSelf
+			Stand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(3)] This ability activates up to one time per turn. When this card attacks, you may pay the cost. If you do, put three cards from the top of your deck into your waiting room. If there is a climax among those cards, put up to one card from the top of your clock into your waiting room. If there is an event among those cards, put all cards in your stock into your waiting room, and Stand this card.
+EndCard
+
+Character: P4/EN_S01-080
+Name Detective Prince, Naoto
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Male Impersonator
+Trait2 Detective
+*GlobalPower(500,Male Impersonator|Female Impersonator)
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Male Impersonator|Female Impersonator
+	{
+		*GiveCharacterPower(500,Any)
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 3
+Text Auto: This ability activates up to three times per turn. When your other «Male Impersonator» or «Female Impersonator» character is placed on stage from hand, choose one of your characters, it gets +500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-081
+Name Teddie in Yukata
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Shadow
+Trait2 Japanese Clothes
+Cont: GiveAll
+{
+	If Other && OpponentsTurn
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all of your other characters get +500 power.
+Auto: OnUseEvent
+{
+	*GiveCharacterPower(1000,Any)
+}
+TimesPerTurn 3
+Text Auto: This ability activates up to three times per turn. When you play an event, choose one of your characters, it gets power +1000 until end of turn.
+EndCard
+
+Character: P4/EN_S01-082
+Name "The Beast in Heat" Teddie
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Shadow
+Trait2 Animal
+*SacrificeToSave(Any)
+Text Auto: [Put this card into your waiting room] When another of your characters is put into your waiting room from the stage, if this card is on the back stage, you may pay the cost. If you do, return this card to its previous stage position as resting.
+EndCard
+
+Character: P4/EN_S01-083
+Name "Assertion of Youth" Teddie
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Shadow
+Trait2 Rose
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+		OpponentRefresh
+	}
+}
+Text Auto: [(2)] When this card is placed on stage from your hand, you may pay the cost. If you do, each player returns all cards in the waiting room to his or her deck. Each player shuffles his or her deck afterwards.
+EndCard
+
+Character: P4/EN_S01-084
+Name Companion on a Journey, Margaret
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Gag
+Trait2 Book
+Cont: Assist
+{
+	If Compare ThatCardsLevel 2 OrHigher
+	{
+		GainPower 1000
+	}
+}
+Text Cont: ASSIST All of your level 2 or higher characters in front of this card get +1000 power.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals Aria of the Soul
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from hand, you may pay the cost. If you do, choose a card named "Aria of the Soul" in your waiting room, and return it to your hand.
+EndCard
+
+Character: P4/EN_S01-085
+Name Undercover Investigation, Naoto
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Male Impersonator
+Trait2 Detective
+Combo Charging into the Announcement Room
+*GainPowerForEachOther(500,Male Impersonator|Female Impersonator)
+Auto: OnAttack
+{
+	If Climax Charging into the Announcement Room
+	{
+		PayCost 1
+		{
+			DrawCard
+			DrawCard
+			Discard 1 Any
+			TargetSelf
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Charging into the Announcement Room" is in your climax area, you may pay the cost. If you do, draw two cards, choose a card in your hand, and put it into your waiting room, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-086
+Name Teddie
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Animal
+Trait2 Shadow
+*GlobalPower(500,Glasses)
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give <Glasses>
+	GainTrait Glasses
+}
+Text Act: [Rest this card] Choose one of your characters, it gets «Glasses» until end of turn.
+EndCard
+
+Character: P4/EN_S01-087
+Name Teddie & Kintoki-Douji
+Color B
+Level 1
+Cost 0
+Power 1000
+Trait1 Shadow
+Trait2 Animal
+Auto: StartDrawPhase
+{
+	PayCost 3 SendSelf Hand
+	{
+		*ChangeWaitingRoom(Teddie & Kamui)
+	}
+}
+Text Auto: CHANGE [(3) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Teddie & Kamui" in your waiting room, and put it on the stage position this card was on.
+Backup 1500
+EndCard
+
+Character: P4/EN_S01-088
+Name Naoto & Sukuna-Hikona
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Male Impersonator
+Trait2 Glasses
+EndCard
+
+Character: P4/EN_S01-089
+Name Miss "Teddie"
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Shadow
+Trait2 Female Impersonator
+Auto: OnAttack
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		TargetSelf
+		GainSoul 4
+	}
+}
+Text Auto: When this card attacks, put a card from the top of your deck into your waiting room. If that card is a climax, this card gets +4 soul until end of turn.
+EndCard
+
+Character: P4/EN_S01-090
+Name Investigation Team, Teddie
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Shadow
+Trait2 Animal
+Cont: Assist
+{
+	If OpponentsTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: ASSIST During your opponent's turn, all of your characters in front of this card get +1000 power.
+*OnPlayScryToBottom
+EndCard
+
+Character: P4/EN_S01-091
+Name New Legend of Teddie
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Shadow
+Trait2 Animal
+Combo Mabufudyne
+Auto: OnAttack
+{
+	If Climax Mabufudyne
+	{
+		PayCost 1
+		{
+			DrawCard
+			Message Choose a card in your hand to put on top of your deck.
+			SearchLocationForTargets Hand 1 1 Any
+			MoveCard Deck
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "Mabufudyne" is on your climax area, you may pay the cost. If you do, draw a card, choose a card from your hand, and put that card on top of your deck.
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-092
+Name Sailor Uniform Naoto
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Mecha
+Trait2 Police
+Combo My Christmas Eve
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Protagonist
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another character with "Protagonist" in its card name, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax My Christmas Eve
+	{
+		SearchDeck NameContains Protagonist && IsCharacter
+	}
+}
+Text Auto: When this card attacks, if a card named "My Christmas Eve" is in your climax area, search your deck for up to one character with "Protagonist" in its card name, reveal it to your opponent, and put it into your hand. Shuffle your deck afterwards.
+EndCard
+
+Character: P4/EN_S01-093
+Name Teddie & Kamui
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Shadow
+Trait2 Animal
+Cont: GiveSelf
+{
+	SetXValue CardsInHand
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gets +500 power for each card in your hand.
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-094
+Name "The Imperious Queen of Executions" Mitsuru Kirijo
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+*HandEncore
+Act: 1 Discard 1 Any
+{
+	UntilEndOfOpponentsTurn
+	GainPower 3000
+}
+Text Act: [(1) Put a card from your hand into your waiting room] This card gets +3000 power until end of your opponent's next turn.
+EndCard
+
+Event: P4/EN_S01-095
+Name Aria of the Soul
+Color B
+Level 2
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +3000 power and the ability to.
+	GainPower 3000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDraw
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may draw a card.
+	}
+}
+Text Choose one of your characters, and until end of turn that character gets +3000 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may draw a card."
+EndCard
+
+Event: P4/EN_S01-096
+Name Maggie's Tarot Reading
+Color B
+Level 2
+Cost 3
+Counter
+Effect:
+{
+	TargetLocation Stage
+	OpponentChooseCharactersFromTargets 0 1 Choose up to 1 of your opponent's character to return to hand
+	Bounce
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to rest
+	Rest
+	
+}
+Text Counter: Your opponent may choose one of your characters, and return that character to your hand. Choose one of your opponent's characters, and Rest it.
+EndCard
+
+Climax: P4/EN_S01-097
+Name Megidolaon
+*BookClimax
+EndCard
+
+Climax: P4/EN_S01-098
+Name Mabufudyne
+Color B
+*2SoulClimax
+EndCard
+
+Climax: P4/EN_S01-099
+Name Charging into the Announcement Room!
+Color B
+*2SoulClimax
+EndCard
+
+Climax: P4/EN_S01-100
+Name My Christmas Eve
+Color B
+*DrawClimax
+EndCard
+
+Character: P4/EN_S01-T01
+Name "Contract Key" Protagonist
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Cont: GiveSelf
+{
+	If StageContains 1 RememberedByThisCard
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have a character chosen by this card's effect, this card gets +2000 power.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character.
+	RememberTargets
+}
+Text Auto: When this card is placed on stage, choose one of your other characters.
+Auto: OnSentFromStageToWaitingRoom
+{
+	TargetRemembered
+	NarrowTargets OnStage
+	MoveCard WaitingRoom
+}
+Text Auto: When this card is put into your waiting room from the stage, put the character chosen by this card's effect into your waiting room.
+EndCard
+
+Character: P4/EN_S01-T02
+Name Investigation Team, Yosuke
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Junes
+Trait2 Headphone
+*500Assist
+Act: RestSelf
+{
+	*GiveCharacterPower(500,Junes)
+}
+Text Act: [Rest this card] Choose one of your «Junes» characters, it gets +500 power until end of turn.
+EndCard
+
+Character: P4/EN_S01-T03
+Name Yosuke Hanamura
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Junes
+Trait2 Glasses
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+EndCard
+
+Character: P4/EN_S01-T04
+Name Nanako Helping Out
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Junes
+Trait2 TV
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If the number of other characters you have is one or less, this card gets +1000 power and the following ability. "Auto: ENCORE [Put a character from your hand into your waiting room]"
+EndCard
+
+Character: P4/EN_S01-T05
+Name Beauty Pageant? Miss Protagonist
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Junes
+Trait2 Female Impersonator
+EndCard
+
+Character: P4/EN_S01-T06
+Name Protagonist's Partner, Yosuke
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Magic
+Auto: StartDrawPhase
+{
+	PayCost 3 SendSelf Hand
+	{
+		*ChangeWaitingRoom(Yosuke & Susano-O)
+	}
+}
+Text Auto: CHANGE [(3) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Yosuke & Susano-O" in your waiting room, and put it on the stage position that this card was on.
+Backup 1500
+EndCard
+
+Character: P4/EN_S01-T07
+Name Investigation Team, Yu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Junes
+Trait2 Weapon
+Combo P-1 Grand Prix Begins!
+Cont: GiveSelf
+{
+	GainName Investigation Team, Protagonist
+}
+Text Cont: If this card is on the stage, this card's card name will also be regarded as "Investigation Team, Protagonist".
+Auto: OnAttack
+{
+	If Climax P-1 Grand Prix Begins!
+	{
+		PayCost 1
+		{
+			GainPower 3000
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					*OptionalBurn(1)
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to one time per turn. When damage dealt by this card is canceled, you may deal one damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "P-1 Grand Prix Begins!" is in your climax area, you may pay the cost. If you do, until end of turn, this card gets +3000 power and the following ability. "Auto: This ability activates up to one time per turn. When damage dealt by this card is canceled, you may deal one damage to your opponent." 
+EndCard
+
+Character: P4/EN_S01-T08
+Name Yosuke & Jiraiya
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Junes
+Trait2 Magic
+HandAction Send 1 WaitingRoom NameEquals Yosuke Hanamura
+{
+	PlaceOnStage False True True False
+}
+Text Cont: When this card is played from your hand, you may choose one of your cards named "Yosuke Hanamura", and put it into your waiting room. If you do, you may play this card with 0 cost.
+Auto: OnPlay
+{
+	GainSoul 1
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, this card gets +1 soul until end of turn.
+EndCard
+
+Character: P4/EN_S01-T09
+Name Yosuke & Susano-O
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Junes
+Trait2 Glasses
+Combo Brave Blade
+Auto: OnSpecificClimaxPlay Brave Blade
+{
+	If Not LocationContains OpponentStage 1 Not CardPosition Rest
+	{
+		If LocationContains OpponentStage 1 Any
+		{
+			GainPower 4000
+			GainSoul 1
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When a card named "Brave Blade" is placed on your climax area, if all of your opponent's characters are rested, this card gets +4000 power and +1 soul until end of turn. (This does not activate if there are no cards on your opponent's stage)
+Auto: OnAttack
+{
+	If Climax Brave Blade
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to return to your opponent's hand.
+			Bounce
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "Brave Blade" is in your climax area, you may pay the cost. If you do, choose one of your opponent's characters, and return it to your opponent's hand.
+EndCard
+
+Character: P4/EN_S01-T10
+Name "Sister-Complex Kingpin of Steel" Yu Narukami
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	GainName "Sister-Complex Kingpin of Steel" Protagonist
+}
+Text Cont: If this card is on the stage, this card's card name will also be regarded as ""Sister-Complex Kingpin of Steel" Protagonist".
+*Healer
+Auto: OnReverseOpponent_Conditional Compare ThatCardsLevel 2 OrHigher
+{
+	PayCost 1
+	{
+		SearchDeck HasTrait Magic || NameContains Nanako && IsCharacter
+	}
+}
+Text Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed, you may pay the cost. If you do, search your deck for up to one «Magic» character or character with "Nanako" in its card name, reveal it to your opponent, and put it into your hand.
+EndCard
+
+Climax: P4/EN_S01-T11
+Name P-1 Grand Prix Begins!
+Color Y
+*DrawClimax
+EndCard
+
+Climax: P4/EN_S01-T12
+Name Brave Blade
+*WindClimax
+EndCard
+
+Character: P4/EN_S01-T13
+Name Kanji Tatsumi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Delinquent
+Trait2 Glasses
+*RedLevel0Bomb
+EndCard
+
+Character: P4/EN_S01-T14
+Name Real Strength, Kanji
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Delinquent
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	NarrowTargets CardPosition Stand
+	ChooseCharacterFromTargets_Optional Choose up to 1 character to rest.
+	Rest
+}
+Text Auto: When this card is placed on stage from your hand, you may choose one of your opponent's standing characters, and rest it.
+Auto: StartDrawPhase
+{
+	PayCost 2 SendSelf Hand
+	{
+		*ChangeWaitingRoom(Kanji & Rokuten Maou)
+	}
+}
+Text Auto: CHANGE [(2) Return this card to your hand] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Kanji & Rokuten Maou" in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: P4/EN_S01-T15
+Name Kanji & Take-Mikazuchi
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Delinquent
+Trait2 Magic
+Auto: OnUseBackup
+{
+	TargetMyCharacterInBattle
+	GainPower 1000
+}
+TimesPerTurn 1
+Quick
+Text Auto: This ability activates up to one time per turn. When you use "BACKUP", choose one of your characters in battle, it gets +1000 power until end of turn.
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-T16
+Name Kanji & Rokuten Maou
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Delinquent
+Trait2 Glasses
+Combo Mighty Swing
+Auto: OnAttack
+{
+	If Climax Mighty Swing
+	{
+		GainEffect
+		{
+			*RedLevel2Bomb
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if a card named "Mighty Swing" is in your climax area, until end of turn, this card gets the following ability. "Auto: When this card becomes reversed, if this card's battle opponent is level 2 or lower, you may reverse that character."
+*HandEncore
+EndCard
+
+Character: P4/EN_S01-T17
+Name Yukiko & Amaterasu
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Fan
+Trait2 Glasses
+Combo Salvation
+Cont: GiveSelf
+{
+	If Not LocationContains OpponentStage 1 CardPosition Stand
+	{
+		GainPower 2000
+	}
+}
+Auto: OnAttack
+{
+	If Climax Salvation
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: CxCombo When this card attacks, if a card named "Salvation" is in your climax area, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Event: P4/EN_S01-T18
+Name Musha Training
+Color R
+Level 2
+Cost 2
+Effect:
+{
+	Message Choose 2 characters to return to your hand.
+	SearchLocationForTargets WaitingRoom 1 2 IsCharacter
+	RevealTargets
+	MoveCard Hand
+}
+Text Choose up to two characters in your waiting room, and return them to your hand.
+EndCard
+
+Climax: P4/EN_S01-T19
+Name Mighty Swing
+Color R
+*2SoulClimax
+EndCard
+
+Climax: P4/EN_S01-T20
+Name Salvation
+Color R
+*DoorClimax
+EndCard
+
+Character: P4/EN_S01-E103
+Image P4_S08_E103
+Name "Another Self" Protagonist & Izanagi
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Weapon
+Trait2 Magic
+Auto: Encore 2
+{
+}
+Text Auto: ENCORE [(2)]
+EndCard
+
+Character: P4/EN_S01-E105
+Image P4_S08_E105
+Name Idol on a Break, Risette
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Music
+Trait2 TV
+Auto: Encore Discard 1 IsClimax
+{
+}
+Text Auto: ENCORE [Put a climax from your hand into your waiting room] 
+EndCard
+
+Character: P4/EN_S01-PE01
+Image P4_SE15_PE01
+Name Final Break! Aigis
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Mecha
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainPower 4500
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +4500 power until end of turn.
+EndCard
+
+
+
+

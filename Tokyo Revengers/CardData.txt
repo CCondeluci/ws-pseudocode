@@ -1,0 +1,2685 @@
+Character: TRV/S92-E001
+Name A Future Where You're Saved, Takemichi & Hina
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Revenge
+Combo First Kiss
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Revenge
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other 《Revenge》 characters, this card gets +2000 power.
+
+Auto: OnSpecificClimaxPlay First Kiss
+{
+	If InLocation CenterStage && StageContains 1 Other && HasTrait Revenge
+	{
+		PayCost Resonate Thanks for the Courage, Takemichi
+		{
+			*CheckAndAddAll(2, HasTrait Revenge || NameEquals Clover Necklace)
+		}
+	}
+}
+
+Text Auto: CxCombo RESONATE [Reveal 1 "Thanks for the Courage, Takemichi" in your hand] When "First Kiss" is placed on your climax area, if this card is in your center stage, and you have another 《Revenge》 character, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 "Clover Necklace" or 《Revenge》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E002
+Name Special Person, Hina
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Revenge
+Trait2 Japanese Clothes
+*EarlyPlay4OrMore(Revenge)
+Auto: OnPlay 
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Revenge
+	{
+		TargetTop Clock 1
+		MoveCard Stock
+	}
+}
+Text Auto: [Put 1 other 《Revenge》 character from your stage into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your clock into your stock.
+EndCard
+
+Character: TRV/S92-E003
+Name Thanks for the Courage, Takemichi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+Combo Time Leap
+Auto: OnPlay|PlacedBy Thanks for the Courage, Takemichi
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on the stage from your hand or by the CxCombo effect of "Thanks for the Courage, Takemichi", you may put the top card of your clock into your waiting room.
+Auto: OnEndOfAttack
+{
+    If Climax Time Leap && StageContains 1 Other && NameEquals Trigger, Naoto
+	{
+		PayCost 2 Discard 2 Any SendSelf Memory
+		{
+			Message Choose a character to place in this card's previous position.
+			SearchLocationForTargets WaitingRoom 1 1 NameContains Takemichi
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [(2) Put 2 cards from your hand into your waiting room & Put this card into your memory] At the end of this card's attack, if "Time Leap" is in your climax area, and you have another "Trigger, Naoto", you may pay the cost. If you do, choose 1 character with "Takemichi" in its card name in your waiting room, and put it on the stage position that this card was on.
+EndCard
+
+Character: TRV/S92-E004
+Name Special Person, Emma
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Trait2 Japanese Clothes
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		*OnAttackCheck2ChooseTrigger
+	}
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: TRV/S92-E005
+Name Festival, Draken & Mikey
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Revenge
+Auto: OnPlay
+{
+	If Compare CardsInMemory 5 OrMore || Compare CardsInOpponentsMemory 5 OrMore //Make the effect quick if it does nothing
+	{
+		If Compare CardsInMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			SearchLocationForTargets Memory 4 4 Any
+			ReverseTargets Memory
+			MoveCard WaitingRoom
+		}
+		If Compare CardsInOpponentsMemory 5 OrMore
+		{
+			Message Choose 4 cards to keep in your memory
+			OpponentSearchLocationForTargets Memory 4 4 Any
+			ReverseTargets OpponentMemory
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, all players perform the following action. "If your memory has 5 or more cards, choose 4 cards in your memory, and put all cards in your memory except those cards into your waiting room."
+*ClimaxExchange
+EndCard
+
+Character: TRV/S92-E006
+Name Changing the Tides of Battle, Draken
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Revenge
+*ScryBackup(Revenge)
+Backup 2500
+EndCard
+
+Character: TRV/S92-E007
+Name No Matter How Many Times I Fail, Takemichi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Revenge
+Trait2 Flame
+Cont: Assist
+{
+	If HasTrait Revenge
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnFrontalAttacked
+			{
+				PayCost 1 Discard 1 HasTrait Revenge
+				{
+					GainSpecialEffect CannotBeReversed
+				}
+			}
+
+		}
+	}
+}
+
+Text Cont: ASSIST All of your 《Revenge》 characters in front of this card get +2000 power and the following ability. "Auto: [(1) Put 1 《Revenge》 character from your hand into your waiting room] When this card is frontal attacked, you may pay the cost. If you do, this card cannot become Reversed until end of turn."
+Auto: OnPlay
+{
+    TargetTop Deck 3
+    If Compare TargetCount 2 OrMore
+    {
+        Reorder
+    }
+    Else
+    {
+        View
+    }
+    TargetLocation OpponentStage
+    ChooseCharacterFromTargets_Optional Choose up to 1 character to return to hand.
+    Bounce
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+Character: TRV/S92-E008
+Name Kid's Meal, Mikey
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+Trait2 Flag
+Auto: OnPlay
+{
+	Message Choose up to 1 character to put underneath this card as a marker.
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Revenge
+	If HasTarget
+	{
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 《Revenge》 character in your waiting room, and put it face down underneath this card as a marker.
+Auto: OnAttack
+{
+	SetXValue MarkersUnderThis 
+	If Compare X 1 OrMore
+	{
+		PayCost 0
+		{
+			TargetLocation Marker
+			MoveCardToBottom Deck
+			TargetBottom Deck X
+			Message Select order to put cards on bottom of deck (bottom first)
+			Reorder
+			Repeat X
+			{
+				Burn 1
+			}
+		}
+	}
+}
+Text Auto: [Put all markers underneath this card at the bottom of your deck in any order] When this card attacks, you may pay the cost. If you do, deal 1 damage X times to your opponent. X is equal to the number of markers put at the bottom of your deck for the cost of this ability. 
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+
+Character: TRV/S92-E009
+Name Having It the Hardest, Mikey
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+*YellowLevel0Bomb
+EndCard
+
+Character: TRV/S92-E010
+Name Hooked on the Occult, Naoto
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+*OnPlayReorderTop2
+Auto: OnReverse
+{
+	If OnStage
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget Compare ThatCardsLevel 1 OrMore
+		{
+			Question Put this card into your stock?
+			If Yes
+			{
+				TargetSelf
+				MoveCard Stock
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, reveal the top card of your deck. If that card is level 1 or higher, you may put this card into your stock. 
+EndCard
+
+Character: TRV/S92-E011
+Name Birthday Present, Emma & Draken
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	LosePower 500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, all characters in your opponent's center stage get -500 power until end of turn.
+*DropSearch(Revenge)
+EndCard
+
+Character: TRV/S92-E012
+Name You Always Turn Up Suddenly, Hina
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge
+*GiveOthersPowerOnMyTurn(500)
+Act: RestSelf
+{
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Revenge || NameEquals Clover Necklace
+	Marker_FaceUp
+}
+ActivationRequirement Not HasMarker
+Text Act: [Rest this card] If there are no markers underneath this card, choose 1 "Clover Necklace" or 《Revenge》 character in your waiting room, and put it face up underneath this card as a marker.
+Act: 1 RestSelf
+{
+	TargetLocation Marker
+	FirstTarget
+	MoveCard Hand
+}
+ActivationRequirement HasMarker
+Text Act: [(1) Rest this card] Return 1 marker underneath this card to your hand.
+EndCard
+
+Character: TRV/S92-E013
+Name Successful Surgery, Hina & Emma
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+Combo Hope It Goes Well
+*OnClimaxPlayGivePower(1500)
+Auto: OnSpecificClimaxPlay Hope It Goes Well
+{
+	Mill 1
+	IfTarget HasTrait Revenge
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				GainSpecialEffect DoubleTrigger
+			}
+			Quick
+			TimesPerTurn 1
+			Text Auto: Once per turn, when this card attacks, perform a trigger check 2 times on the trigger step.
+		}
+	}
+}
+Text Auto: CxCombo When "Hope It Goes Well" is placed on your climax area, put the top card of your deck into your waiting room. If that card is a 《Revenge》 character, choose 1 of your characters, it gets the following ability until end of turn. "Auto: Once per turn, when this card attacks, perform a trigger check 2 times on the trigger step."
+EndCard
+
+Character: TRV/S92-E014
+Name Half-Siblings, Emma & Mikey
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Revenge
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		RevealTargets
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 0 or lower character, put it on any position of your stage, and shuffle your deck.
+EndCard
+
+Character: TRV/S92-E015
+Name Please Save Everyone, Akkun
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Revenge
+
+Auto: OnReverse
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		Question Would you like to put this card to memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if you have 2 or less cards in your memory, you may put this card into your memory.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: TRV/S92-E016
+Name Friends Starting Today, Takemichi & Mikey
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Revenge
+*GlobalPower(500,Revenge)
+Act: 1 RestSelf
+{
+	TargetLocation OpponentStage
+	NarrowTargets Compare ThatCardsLevel 1 OrHigher
+	ChooseCharacterFromTargets Choose a character to downgrade.
+	*Downgrade
+}
+Text Act: [(1) Rest this card] Choose 1 of your opponent's level 1 or higher characters, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.
+EndCard
+
+Character: TRV/S92-E017
+Name Caring Towards Comrades, Akkun
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Revenge
+Combo Mizo Middle Five
+*EarlyPlayInClock(Thanks for the Courage\, Takemichi)
+
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Revenge
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have 2 or more other 《Revenge》 characters, this card gets +3000 power.
+
+Cont: GiveSelf
+{
+    If Climax Mizo Middle Five &&& StageContains 2 Other && HasTrait Revenge
+    {
+        AddToOtherCardsTriggerIcon Choice NameEquals Thanks for the Courage, Takemichi|Caring Towards Comrades, Akkun|Childhood Friend, Takuya|Preoccupied with Perversions, Makoto|Mood Maker, Yamagishi
+    }
+}
+Text Cont: CxCombo If "Mizo Middle Five" is in your climax area, this card is in your center stage, and you have 2 or more other 《Revenge》 characters, your other "Thanks for the Courage, Takemichi" and "Caring Towards Comrades, Akkun" and "Childhood Friend, Takuya" and "Preoccupied with Perversions, Makoto" and "Mood Maker, Yamagishi" in all of your zones get in the trigger icon.
+EndCard
+
+Character: TRV/S92-E018
+Name Trigger, Naoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Revenge
+Cont: GiveAll
+{
+	If Compare Experience 3 OrMore && Other && HasTrait Revenge
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+
+Text Cont: EXPERIENCE If the total level of the cards in your level is 3 or higher, all of your other 《Revenge》 characters get +X power. X is equal to that character's level ×500.
+EndCard
+
+Character: TRV/S92-E019
+Name Mood Maker, Yamagishi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Auto: OnPlay
+{
+	TargetLocation Clock
+	If HasTarget
+	{
+		Question Return a card from your clock to your hand?
+		If Yes
+		{
+			ChooseCardFromTargets 1 1 Any
+			RevealTargets
+			MoveCard Hand
+			SearchLocationForTargets Hand 1 1 Any
+			MoveCard Clock
+		}
+
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your clock, and return it to your hand. If you do, choose 1 card in your hand, and put it into your clock.
+Auto: StartOpponentAttackPhase
+{
+    TargetFacing
+    If HasTarget && LocationContainsOrLess CenterStage 2 Any
+    {
+        TargetSelf
+		If CanMove
+		{
+			Question Move this card to an open position of your center stage?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+    }
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: TRV/S92-E020
+Name Shampoo Hat, Draken
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+*OnPlayMill2GainPowerForEachCharacter(1000,Revenge)
+*OnAttackGivePowerForEachOther(500,Revenge)
+EndCard
+
+Character: TRV/S92-E021
+Name Childhood Friend, Takuya
+Color Y
+Level 0
+Cost 0
+Power 3000
+Trait1 Revenge
+EndCard
+
+Character: TRV/S92-E022
+Name Bathhouse Buddies, Mikey
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Revenge
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Revenge
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to give -6000 power.
+		LosePower 6000
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a 《Revenge》 character, choose 1 character in your opponent's center stage, it gets -6000 power until end of turn. 
+EndCard
+
+Character: TRV/S92-E023
+Name Preoccupied with Perversions, Makoto
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Revenge
+
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainPower 4000
+		GainEffect
+		{
+			*OnAttackPay1ToDoubleTrigger
+		}
+	}
+}
+Text Cont: During your turn, if there is a marker underneath this card, this card gets +4000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+*OnPlayChooseMarker(Childhood Friend\, Takuya)
+EndCard
+
+Character: TRV/S92-E024
+Name Reason Behind His Maturity, Draken
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Revenge
+Cont: GiveSelf
+{
+	TargetLocation OpponentBackstage
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	GainPower X
+}
+Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+EndCard
+
+Character: TRV/S92-E025
+Name Cheerful Tone, Hina
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Revenge
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Thanks for the Courage, Takemichi
+	{
+		GainPower 4000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "Thanks for the Courage, Takemichi" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +4000 power until end of turn.
+EndCard
+
+Character: TRV/S92-E026
+Name Hopeless Freeter, Takemichi
+Color Y
+Level 1
+Cost 1
+Power 7000
+Trait1 Revenge
+Auto: OnFrontalAttacked
+{
+	MoveCard WaitingRoom
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter
+	{
+		Change
+	}
+}
+Text Auto: When this card is frontal attacked, put this card into your waiting room, and reveal the top card of your deck. If that card is a character, put it on the stage position that this card was on as the defending character. 
+EndCard
+
+Character: TRV/S92-E027
+Name Impatient to Be an Adult, Emma
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Revenge
+*BackupBonus1000(Revenge)
+Backup 2500
+EndCard
+
+Event: TRV/S92-E028
+Name Clover Necklace
+Color Y
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck HasTrait Revenge
+	TargetSelf
+	MoveCard Memory
+}
+Text Search your deck for up to 1 《Revenge》 character, reveal it to your opponent, put it into your hand, and shuffle your deck. Put this card into your memory.
+EndCard
+
+Climax: TRV/S92-E029
+Name First Kiss
+Color Y
+*ChoiceClimax
+EndCard
+
+Climax: TRV/S92-E030
+Name Time Leap
+Color Y
+*ChoiceClimax
+EndCard
+
+Climax: TRV/S92-E031
+Name Hope It Goes Well
+Color Y
+*ChoiceClimax
+EndCard
+
+Climax: TRV/S92-E032
+Name Mizo Middle Five
+Color Y
+*ChoiceClimax
+EndCard
+
+Character: TRV/S92-E033
+Name Light of the 1st Division, Chifuyu
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+*OnPlayGainPowerForEach(500,Revenge)
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: TRV/S92-E034
+Name Way of the Delinquent, Draken
+Color R
+Level 1
+Cost 1
+Power 3500
+Trait1 Revenge
+Combo The "Heart" That Cares for Others
+ConditionalTrigger LoneStandby Climax The "Heart" That Cares for Others
+Text Cont: CxCombo If "The "Heart" That Cares for Others" is in your climax area, this card in all of your zones gets standby in the trigger icon.
+Cont: GiveSelf
+{
+	If Compare CardsInStock 5 OrLess
+	{
+		GainPower 4000
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If your stock has 5 or less cards, this card gets +4000 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+EndCard
+
+Character: TRV/S92-E035
+Name New Era for Delinquents, Mikey
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+Combo New Era for Delinquents
+*Healer
+Auto: OnEndOfAttack
+{
+	If Climax New Era for Delinquents
+	{
+		PayCost 3 Discard 1 Any Resonate New Era for Delinquents, Mikey
+		{
+			SetXValue ThisCardsPower
+			RevealUpTo OpponentDeck 3
+			Message Choose up to 3 characters whose total powers equal to less than this card's power.
+			SaveTargets
+			Repeat 3
+			{
+				LoadTargets
+				Message Choose a character with X or lower power.
+				ChooseCardsFromTargets 0 1 IsCharacter && Compare ThatCardsPower X OrLower
+				If HasTarget
+				{
+					MoveCard OpponentClock
+					RemoveCurrentFromSavedTargets
+					SubtractFromXValue TargetCardsPower
+				}
+			}
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo RESONATE [(3) Put 1 card from your hand into your waiting room & Reveal 1 "New Era for Delinquents, Mikey" in your hand] At the end of this card's attack, if "New Era for Delinquents" is in your climax area, you may pay the cost. If you do, look at up to 3 cards from the top of your opponent's deck, choose up to 3 characters with X or lower total power from among them, put them into their clock in any order, and put the rest into their waiting room. X is equal to the power of this card.
+EndCard
+
+Character: TRV/S92-E036
+Name Everyday Lives, Mikey & Draken
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+*Healer
+Auto: OnAttack
+{
+	PayCost 3 Discard 2 Any
+	{
+		Burn 2
+		Message Choose up to 1 card to put on the top of your opponent's deck.
+		SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+		RevealTargets
+		MoveCard OpponentDeck
+	}
+}
+Text Auto: [(3) Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 2 damage to your opponent, choose up to 1 card in your opponent's waiting room, and put it on the top of their deck. 
+EndCard
+
+Character: TRV/S92-E037
+Name My Treasure, Baji
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost 1
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncoreStep
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard Memory
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1)] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your memory.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Revenge)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 《Revenge》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E038
+Name Older Brother Figure, Mitsuya
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+Auto: StartClimaxPhase
+{
+	PayCost Resonate New Era for Delinquents, Mikey
+	{
+		Message Choose 2 characters to give +500 power.
+		ChooseCharacters 0 2 InLocation Stage && HasTrait Revenge
+		GainPower 500
+	}
+}
+Text Auto: RESONATE [Reveal 1 "New Era for Delinquents, Mikey" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, choose up to 2 of your 《Revenge》 characters, and those characters get +500 power until end of turn.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: TRV/S92-E039
+Name Just a Scratch, Baji
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+*OnPlayFlicker
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		Message Choose a card to add to your hand.
+		ChooseCardsFromTargets 0 1 HasTrait Revenge
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you revealed 1 or more cards, choose up to 1 《Revenge》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: TRV/S92-E040
+Name Draken & Mikey & Takemichi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: TRV/S92-E041
+Name Let's Split Halves, Baji & Chifuyu
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+*OnPlayGiveOtherPower(1000,Revenge)
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Revenge
+		ChooseCharacterFromTargets Choose a character to give +1 soul
+		GainSoul 1
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: TRV/S92-E042
+Name See? There's No One! Mikey
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Revenge
+*OthersCannotSideAttack
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	IfTarget HasTrait Revenge
+	{
+		TargetLocation Stage
+		GainPower 1500
+	}
+	
+}
+Text Auto: When this card attacks, reveal the top of your deck. If that card is a 《Revenge》 character, all of your characters get +1500 power until end of turn. 
+EndCard
+
+Character: TRV/S92-E043
+Name Commander, Mikey
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Revenge
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AIChoice RemoveCard
+		ChooseCharacterFromTargets Choose a character to send to memory.
+		MoveCard OpponentMemory
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their memory.
+Backup 1000
+EndCard
+
+Character: TRV/S92-E044
+Name Can't Promise It, Chifuyu & Baji
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Revenge
+Combo The First Person I Wanted to Follow
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Revenge
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		GainPower X
+	}
+}
+Text Cont: During your turn, this card gets +1000 power for each of your other 《Revenge》 characters.
+Auto: OnEndOfAttack
+{
+	If Climax The First Person I Wanted to Follow
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Revenge
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo At the end of this card's attack, if "The First Person I Wanted to Follow" is in your climax area, reveal the top card of your deck. If that card is a 《Revenge》 character, put it into your hand. 
+EndCard
+
+Character: TRV/S92-E045
+Name Can't Hit Ya, Chifuyu
+Color R
+Level 2
+Cost 1
+Power 2500
+Trait1 Revenge
+Auto: OnUseThisCardsBackup
+{
+	MoveCard Memory
+}
+Text Auto: When you use this card's "BACKUP", put this card into your memory.
+Backup 3000
+EndCard
+
+Character: TRV/S92-E046
+Name I'm Never Going to Back Down! Takemichi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Revenge
+Trait2 Flame
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Light of the 1st Division, Chifuyu
+	SetXValue TargetCount
+	MultiplyXValue 3000
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of "Light of the 1st Division, Chifuyu" in your waiting room ×3000.
+EndCard
+
+Character: TRV/S92-E047
+Name The Only Way is Attacking, Draken
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+Cont: InHand
+{
+	If LocationContains Memory 2 NameEquals Becoming a Man That's Fitting, Takemichi
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: MEMORY If your memory has 2 or more "Becoming a Man That's Fitting, Takemichi", this card gets -1 level while in your hand.
+*GiveAll1500OnCenterStage(Revenge)
+EndCard
+
+Character: TRV/S92-E048
+Name Unwavering Loyalty, Chifuyu
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+*OnPlayDraw2Discard2BlindStock
+Auto: OnAttack
+{
+	PayCost 3
+	{
+		StockSwap
+	}
+	
+}
+Text Auto: [(3)] When this card attacks, you may pay the cost. If you do, your opponent puts all of their stock into their waiting room, and puts the same number of cards from the top of their deck into their stock.
+EndCard
+
+Character: TRV/S92-E049
+Name 5th Division Captain, Mucho
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. 
+EndCard
+
+Character: TRV/S92-E050
+Name Becoming a Man That's Fitting, Takemichi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+Cont: GiveSelf
+{
+	If LocationContainsOrLess Stage 1 Other
+	{
+		GainPower 2500
+		GainLevel 1
+	}
+}
+Text Cont: If you have 1 or less other characters, this card gets +1 level and +2500 power.
+Auto: OnReversed
+{
+	If OnStage && LocationContainsOrLess Memory 2 Any
+	{
+		Question Would you like to put this card to memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+		
+	}
+}
+Text Auto: When this card becomes reversed in battle, if your memory has 2 or less cards, you may put this card into your memory.
+EndCard
+
+Character: TRV/S92-E051
+Name Sin and Punishment, Hanma
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainLevel 1
+		GainPower 1500
+		GainEffect
+		{
+			Cont: Global
+			{
+				If Not Other
+				{
+					GainSpecialEffect CannotSideAttack
+				}
+				If InLocation Facing
+				{
+					GainSpecialEffect CannotSideAttack
+				}
+			}
+			Text Cont: This card and the character facing it cannot side attack.
+		}
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +1 level, +1500 power, and the following ability. "Cont: This card and the character facing this card cannot side attack."
+*RunInFrontOfCharacter
+EndCard
+
+Character: TRV/S92-E052
+Name 3rd Division Vice-Captain, Peh-yan
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Revenge
+*GiveNamePower(4000,3rd Division Captain\, Pah-Chin)
+
+Auto: OnPlay
+{
+	PayCost ShuffleFromWaitingRoom 2 HasTrait Revenge
+	{
+		*GiveCharacterPower(2000,Revenge)
+	}
+}
+
+Text Auto: [Return 2 《Revenge》 characters from your waiting room to your deck & Shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your 《Revenge》 characters, it gets +2000 power until end of turn.
+
+Act: 1
+{
+	Brainstorm 3
+	TargetBrainstormed
+	NarrowTargets NameEquals 3rd Division Captain, Pah-Chin
+	If HasTarget
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals 3rd Division Captain, Pah-Chin
+		PlaceOnStage False True True False
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over 3 cards from the top of your deck, and put them into your waiting room. If "3rd Division Captain, Pah-chin" is revealed among those cards, choose 1 "3rd Division Captain, Pah-chin" in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: TRV/S92-E053
+Name Most Important Thing, Baji
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Revenge
+Cont: GiveSelf
+{
+	If LocationContainsOrLess CenterStage 1 Other
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If you have 1 or less other characters in your center stage, this card gets +4000 power.
+Auto: StartAttackPhase
+{
+	If CardPosition Stand && LocationContainsOrLess CenterStage 1 Other
+	{
+		TargetLocation CenterStage
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetTop Deck 1
+				Reveal
+				IfTarget HasTrait Revenge
+				{
+					MoveCard Hand
+				}
+			}
+			Text Auto: When this card attacks, look at the top card of your deck, choose up to 1 《Revenge》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+		}
+	}
+}
+Quick
+Text Auto: At the beginning of your attack phase, if this card is standing, and you have 1 or less other characters in your center stage, all characters in your center stage get the following ability until end of turn. "Auto: When this card attacks, look at the top card of your deck, choose up to 1 《Revenge》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room."
+EndCard
+
+Character: TRV/S92-E054
+Name Man Shrouded in Mystery, Kisaki
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Revenge
+*GainPowerWhenOtherAttacks(1000,Revenge)
+Auto: OnAttack
+{
+	PayCost Send 1 WaitingRoom Other && HasTrait Revenge
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Revenge
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 other 《Revenge》 character from your stage into your waiting room] When this card attacks, you may pay the cost. If you do, reveal the top card of your deck. If that card is a 《Revenge》 character, put it into your hand. 
+EndCard
+
+Character: TRV/S92-E055
+Name Reason for Not Turning Back, Takemichi
+Color R
+Level 1
+Cost 1
+Power 4500
+Trait1 Revenge
+Cont: GiveSelf
+{
+	TargetFacing
+	If Compare TargetCardsCost 0 OrLower
+	{
+		GainLevel 1
+		GainPower 3500
+	}
+}
+Text Cont: If the character facing this card is cost 0 or lower, this card gets +1 level and +3500 power.
+*OnOtherAttackedSacrificeToGivePower(2500,Revenge)
+EndCard
+
+Character: TRV/S92-E056
+Name Last Wishes, Takemichi & Chifuyu
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Revenge
+Auto: OnOtherCharacterAttacks
+{
+	TargetOther
+	IfTarget HasTrait Revenge
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Revenge
+		SetXValue TargetCount
+		MultiplyXValue 500
+		TargetSelf
+		GainPower X
+	}
+}
+Quick
+Text Auto: When your other 《Revenge》 character attacks, this card gets +X power until end of turn. X is equal to the number of other 《Revenge》 characters you have ×500.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: TRV/S92-E057
+Name No One's Losing, Mikey
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Revenge
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets "Auto: ENCORE [Put 1 character from your hand into your waiting room]".
+*Level3Assist
+EndCard
+
+Character: TRV/S92-E058
+Name 3rd Division Captain, Pah-chin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Revenge
+EndCard
+
+Character: TRV/S92-E059
+Name 4th Division Captain, Smiley
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Revenge
+*GainPowerWithEnoughCharacters(3000,2,Revenge)
+*OnAttackPay1ToDoubleTrigger
+*HandEncoreTrait(Revenge)
+EndCard
+
+Character: TRV/S92-E060
+Name Strongest Man, Mikey
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Revenge
+	ChooseCharacterFromTargets Choose a character to give 1000 times level power to.
+	SetXValue TargetCardsLevel
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your 《Revenge》 characters, it gets +X power until end of turn. X is equal to that character's level ×1000.
+Act: RestSelf
+{
+	TargetLocation AnyStage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give +1 level.
+	UntilEndOfOpponentsTurn
+	GainLevel 1
+}
+
+Text Act: [Rest this card] Choose another character, it gets +1 level until the end of your opponent's next turn.
+EndCard
+
+Character: TRV/S92-E061
+Name Most Important Thing, Kazutora
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge
+Auto: OnReverse
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Most Important Thing, Kazutora
+	SetXValue TargetCount
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		If Compare TargetCardsLevel X OrLess
+		{
+			Question Reverse the battle opponent?
+			If Yes
+			{
+				Reverse
+			}
+		}
+	}
+}
+
+Text Auto: When this card becomes reversed, if this card's battle opponent is level X or lower, you may reverse that character. X is equal to the number of "Most Important Thing, Kazutora" in your waiting room.
+EndCard
+
+Character: TRV/S92-E062
+Name Revenge, Takemichi
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 Any
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets CanBeChosen && Compare ThatCardsCost 0 OrLower
+		ChooseCharacterFromTargets_Optional You may choose a character to put into the waiting room.
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, you may choose 1 cost 0 or lower character in their center stage, and put it into their waiting room.
+Auto: OnPlay
+{
+	PayCost Clock
+	{
+		BlindStock
+	}
+	
+}
+Text Auto: [Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, put the top card of your deck into your stock.
+EndCard
+
+Character: TRV/S92-E063
+Name 3rd Division Captain, Kisaki
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+Combo My "Hero"
+Act: 2 Send 1 WaitingRoom Other && HasTrait Revenge
+{
+	SearchWaitingRoom NameEquals My "Hero"
+}
+Text Act: CxCombo [(2) Put 1 other 《Revenge》 character from your stage into your waiting room] Choose 1 "My "Hero"" in your waiting room, and return it to your hand.
+EndCard
+
+Character: TRV/S92-E064
+Name 2nd Division Captain, Mitsuya
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Revenge
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger DoubleSoul
+	{
+		PayCost Discard 1 HasTrait Revenge
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [Put 1 《Revenge》 character from your hand into your waiting room] When your character's trigger check reveals a climax with two soul trgger icons, you may pay the cost. If you do, choose 1 character in your waiting room, and return it to your hand.
+
+Act: Discard 1 Any Rest 2 Any
+{
+	TargetLocation OpponentStage
+	SaveTargets
+	TargetLocation Stage
+	AddCurrentToSavedTargets
+	SearchLocationForTargets WaitingRoom 0 1 SameNameAsSavedTarget
+	RevealTargets
+	MoveCard Hand
+
+}
+Text Act: [Put 1 card from your hand into your waiting room & Rest 2 of your characters] Choose in your waiting room, 1 character with the same card name as a character in your stage or your opponent's stage, and return it to your hand.
+EndCard
+
+Character: TRV/S92-E065
+Name The Enemy In Front of You, Chifuyu
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Revenge
+
+Cont: GiveSelf
+{
+	If LocationContainsOrLess CenterStage 1 Other
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If you have 1 or less other characters in your center stage, this card gets +4000 power.
+
+Auto: StartAttackPhase
+{
+	If CardPosition Stand && LocationContainsOrLess CenterStage 1 Other
+	{
+		TargetLocation CenterStage
+		GainEffect
+		{
+		Auto: OnAttack
+			{
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Revenge
+				RevealTargets
+				MoveCard Stock
+			}
+			Text Auto: When this card attacks, you may choose 1 《Revenge》 character in your waiting room, and put it into your stock.
+		}
+	}
+}
+Quick
+Text Auto: At the beginning of your attack phase, if this card is standing, and there are 1 or less other characters in your center stage, all of your characters in your center stage get the following ability until end of turn. "Auto: When this card attacks, you may choose 1 《Revenge》 character in your waiting room, and put it into your stock."
+EndCard
+
+Character: TRV/S92-E066
+Name "Temporary" In-Charge, Hanma
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Revenge
+*500Assist
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Revenge && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [(1)] When your climax is placed on your climax area, you may pay the cost. If you do, put the top 2 cards of your deck into your waiting room, choose 1 level X or lower 《Revenge》 character in your waiting room, and return it to your hand. X is equal to the total level of those cards. 
+EndCard
+
+Character: TRV/S92-E067
+Name The Heart Can't Keep Up, Mikey
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Revenge
+*OnAttackGivePowerForEachOther(500,Revenge)
+EndCard
+
+Character: TRV/S92-E068
+Name Handicrafts Club Leader, Mitsuya
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Revenge
+Trait2 Headphone
+
+Act: RestSelf
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Founding Member, Mitsuya
+	SetXValue TargetCount
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel X OrLess && IsCharacter
+	{
+		MoveCard Hand
+	}
+}
+Text Act: [Rest this card] Reveal the top card of your deck. If that card is a level X or lower character, put it into your hand. X is equal to the number of "Founding Member, Mitsuya" in your waiting room. 
+EndCard
+
+Character: TRV/S92-E069
+Name Concluding the Gamble on a Fight, Draken
+Color R
+Level 2
+Cost 1
+Power 13500
+Trait1 Revenge
+Auto: StartMyEncoreStep
+{
+	MoveCard BottomOfDeck
+}
+Text Auto: At the beginning of your encore step, put this card at the bottom of your deck.
+Auto: OnEndOfAttack
+{
+	If LocationContains Memory 1 NameEquals Becoming a Man That's Fitting, Takemichi
+	{
+		PayCost 1 Discard 1 Any SendSelf WaitingRoom
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals The Only Way is Attacking, Draken
+			FirstTarget
+			ChangeRested
+		}
+	}
+}
+Text Auto: MEMORY [(1) Put 1 card from your hand into your waiting room & Put this card into your waiting room] At the end of this card's attack, if "Becoming a Man That's Fitting, Takemichi" is in your memory, you may pay the cost. If you do, choose 1 "The Only Way is Attacking, Draken" in your waiting room, and put it on the stage position that this card was on rested.
+EndCard
+
+Character: TRV/S92-E070
+Name Allegiance Test, Baji
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Revenge
+
+Auto: OnReversed
+{
+	If Not MyTurn
+	{
+		PayCost Discard 1 Any
+		{
+			Rest
+			ScheduleEffectForTargets StartMyEncorePhase
+			{
+				Effect:
+				{
+					TargetSelf
+					MoveCard WaitingRoom
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, Rest this card, and at the beginning of your next encore step, put this card into your waiting room.
+Auto: StartClimaxPhase
+{
+	PayCost Resonate New Era for Delinquents, Mikey
+	{
+		GainPower 6000
+	}
+}
+Text Auto: RESONATE [Reveal 1 "New Era for Delinquents, Mikey" in your hand] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +6000 power until end of turn.
+EndCard
+
+Character: TRV/S92-E071
+Name Apologize Properly, Mitsuya
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Revenge
+Combo Captain of the Bodyguard Squad
+Auto: OnPlay
+{	
+	Mill 2
+	*CountSoulTriggers
+	Burn X
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room, and deal X damage to your opponent. X is equal to the total number of soul trigger icons on those cards. 
+Auto: OnAttack
+{
+	If Climax Captain of the Bodyguard Squad
+	{
+		GainPower 6000
+		TargetLocation OpponentWaitingRoom
+		ChooseCardsFromTargets 0 1 Any
+		RevealTargets
+		MoveCard OpponentDeck
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Captain of the Bodyguard Squad" is in your climax area, choose up to 1 card in your opponent's waiting room, put it on the top of their deck, and this card gets +6000 power until end of turn.
+EndCard
+
+Event: TRV/S92-E072
+Name Kick Like a Nuclear Warhead
+Color R
+Level 1
+Cost 1
+Effect:
+{
+	SearchDeck IsClimax
+}
+Text Search your deck for up to 1 climax, reveal it to your opponent, put it into your hand, and shuffle your deck.
+EndCard
+
+Climax: TRV/S92-E073
+Name The "Heart" That Cares for Others
+Color R
+*StandbyClimax
+EndCard
+
+Climax: TRV/S92-E074
+Name New Era for Delinquents
+Color R
+*StandbyClimax
+EndCard
+
+Climax: TRV/S92-E075
+Name The First Person I Wanted to Follow
+Color R
+Trigger DoubleSoul
+Auto: OnPlay
+{
+    SearchWaitingRoom HasTrigger Soul && IsCharacter
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with in its trigger icon in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Climax: TRV/S92-E076
+Name My "Hero"
+Color R
+*StandbyClimax
+EndCard
+
+Climax: TRV/S92-E077
+Name Captain of the Bodyguard Squad
+Color R
+Trigger DoubleSoul
+Auto: OnPlay
+{
+    SearchWaitingRoom HasTrigger Soul && IsCharacter
+    TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with in its trigger icon in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Character: TRV/S92-E078
+Name Founding Member, Baji
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			*OptionalDrawDiscard
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+	}
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room."
+*Act1RestSelfSearchBrainstorm(Revenge)
+EndCard
+
+Character: TRV/S92-E079
+Name Founding Member, Mitsuya
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+*OnPlayGainPower(1500)
+
+Auto: StartOpponentDrawPhase
+{
+	Mill 2
+	NarrowTargets Compare ThatCardsLevel 2 OrMore
+	If HasTarget
+	{
+		Question Return Founding Member, Mitsuya to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	} 
+}
+Text Auto: At the beginning of your opponent's draw phase, put the top 2 cards of your deck into your waiting room. If there is a level 2 or higher card among those cards, you may return this card to your hand. 
+EndCard
+
+Character: TRV/S92-E080
+Name Founding Member, Kazutora
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Revenge
+Combo I'll Forgive You
+*OnPlayGainPowerForEach(500,Revenge)
+Auto: OnAttack
+{
+	If Climax I'll Forgive You && StageContains 1 Other && HasTrait Revenge
+	{
+		PayCost Discard 1 Any
+		{
+			RevealUpTo Deck 4
+			ChooseCardsFromTargets 0 2 HasTrait Revenge || NameEquals Amulet From "That Day"
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "I'll Forgive You" is in your climax area, and you have another 《Revenge》 character, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 2 "Amulet From "That Day"" or 《Revenge》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E081
+Name Bloody Halloween, Kazutora & Mikey
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+*OnPlayCheckTopTraitOrEventAddDiscard(Revenge)
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Revenge
+	{
+		*OptionalDrawDiscard
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Revenge》 characters, you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: TRV/S92-E082
+Name Draken & Mitsuya
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+*GlobalPower(500,Revenge)
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger Gate
+	{
+		PayCost Discard 1 Any
+		{
+			*CheckAndAdd(2)
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When your character's trigger check reveals a climax with Gate in its trigger icon, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E083
+Name Founding Member, Mikey
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Revenge
+*OnPlayGivePower(1500,Revenge)
+Combo A Team Where Each Person Protects Everyone
+Auto: StartMyEncoreStep
+{
+    If Climax A Team Where Each Person Protects Everyone && InLocation CenterStage
+    {
+        If Compare CardsInHand 5 OrLess && AllYourCharacters HasTrait Revenge
+        {
+            PayCost SendClimax WaitingRoom SendFromHand 1 Stock NameEquals Founding Member, Mikey
+            {
+                *CheckAndAddAll(4,HasTrait Revenge)
+            }
+        }
+    }
+}
+Text Auto: CxCombo [Reveal 1 "Founding Member, Mikey" in your hand and put it into your stock & Put 1 "A Team Where Each Person Protects Everyone" from your climax area into your waiting room] At the beginning of your encore step, if this card is in your center stage, your hand has 5 or less cards, and all of your characters are 《Revenge》, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 4 《Revenge》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E084
+Name Together 'Til the End, Baji & Kazutora
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Revenge
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: TRV/S92-E085
+Name Our Everything, Baji
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+Combo We'll Entrust Our Everything to You
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 climax in your waiting room, and return it to your hand.
+
+Auto: OnEndOfAttack
+{
+	If Climax We'll Entrust Our Everything to You
+	{
+		PayCost 8 Discard 3 Any MarkerOtherUnderThis 4 Any SendClimax WaitingRoom
+		{
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals Kid's Meal, Mikey
+			Fusion
+		}
+	}
+}
+
+Text Auto: CxCombo [(8) Put 3 cards from your hand into your waiting room & Put 4 other characters from your stage face up underneath this card as markers & Put 1 "We'll Entrust Our Everything to You" from your climax area into your waiting room] At the end of this card's attack, you may pay the cost. If you do, choose 1 "Kid's Meal, Mikey" in your waiting room, put it on the stage position that this card was on, and put this card and all markers underneath this card face up underneath that "Kid's Meal, Mikey" as markers.
+EndCard
+
+Character: TRV/S92-E086
+Name Bodyguard Squad, Mitsuya
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge
+Auto: StartOpponentAttackPhase
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets
+		Marker_FaceUp
+		TargetSelf
+		ScheduleEffectForTargets StartDrawPhase
+		{
+			Effect:
+			{
+				If OnStage
+				{
+					TargetLocation Marker
+					If HasTarget
+					{
+						Message Choose a character to place on stage.
+						ChooseCardsFromTargets 1 1 IsCharacter
+						PlaceOnStage False True True False
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other characters, put it face up underneath this card as a marker, at the beginning of your next draw phase, choose 1 character from the markers underneath this card, and put it on any position of your stage.
+Act: 1 RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrigger Soul
+	{
+		MoveCard Hand
+	}
+}
+Text Act: [(1) Rest this card] Reveal the top card of your deck. If that card has a Soul in its trigger icon, put it into your hand. 
+EndCard
+
+Character: TRV/S92-E087
+Name Seventh Elementary, Mikey
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+Trait2 Candy
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×1000.
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Revenge
+	{
+		*CheckAndAddOne(5,IsCharacter)
+	}
+}
+Text Auto: [Put 1 《Revenge》 character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 1 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E088
+Name Founding Member, Draken
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Revenge
+Auto: OnPlay
+{
+	PayCost Discard 1 Any Resonate Take Good Care of Her, Mikey
+	{
+		*Check4Add1(Revenge)
+	}
+}
+Text Auto: RESONATE [Put 1 card from your hand into your waiting room & Reveal 1 "Take Good Care of Her, Mikey" in your hand] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 《Revenge》 character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E089
+Name To Become a Hero, Kazutora
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Revenge
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && HasTrait Revenge && InLocation Backstage
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each other 《Revenge》 character in your back stage.
+Auto: OnPlay
+{
+	If StageContains 2 Other && HasTrait Revenge
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				LoseSoul 2
+			}
+			Text Cont: The character facing this card gets -2 soul.
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other 《Revenge》 characters, this card gets the following ability until the end of your opponent's next turn. "Cont: The character facing this card gets -2 soul."
+EndCard
+
+Character: TRV/S92-E090
+Name Race to the Shrine, Mikey
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+*OnPlayScryToBottom
+Auto: OnDamageNotCanceled
+{
+	GainPower 6000
+}
+Quick
+Text Auto: When damage dealt by this card is not canceled, this card gets +6000 power until end of turn.
+EndCard
+
+Character: TRV/S92-E091
+Name Race to the Shrine, Kazutora
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Auto: OnFrontalAttack
+{
+	PayCost 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to give -1 level.
+		LoseLevel 1
+	}
+}
+Text Auto: [(1)] When this card frontal attacks, you may pay the cost. If you do, choose 1 of your opponent's characters, it gets -1 level until end of turn.
+*BlueLevel0Bomb
+EndCard
+
+Character: TRV/S92-E092
+Name Race to the Shrine, Mitsuya
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Revenge
+*BackupBonus1000(Revenge)
+Backup 1000
+EndCard
+
+Character: TRV/S92-E093
+Name Founding Member, Pah-chin
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 Revenge
+Auto: OnPlay
+{
+	Question Put a card from your hand into your stock?
+	If Yes
+	{
+		SearchLocationForTargets Hand 0 1 Any
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+*BlueCost0Bomb
+EndCard
+
+Character: TRV/S92-E094
+Name King of the World, Mikey
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Revenge
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainSpecialEffect CannotAttack
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card cannot attack.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: TRV/S92-E095
+Name Race to the Shrine, Draken
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Revenge
+*EarlyPlay2OrLessClimax
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +4000 power.
+	UntilEndOfOpponentsTurn
+	GainPower 4000
+}
+Text Auto: When your climax is placed on your climax area, choose 1 of your characters, it gets +4000 power until the end of your opponent's next turn.
+EndCard
+
+Character: TRV/S92-E096
+Name Mumbling, Mikey
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Revenge
+*GainPowerForEachOther(1000,Revenge)
+Auto: OnReversed
+{
+	PayCost 2 Discard 1 NameEquals Founding Member, Mitsuya
+	{
+		Rest
+		TargetBattleOpponent
+		Reverse
+	}
+}
+Text Auto: [(2) Put 1 "Founding Member, Mitsuya" from your hand into your waiting room] When this card becomes reversed in battle, you may pay the cost. If you do, rest this card, and reverse this card's battle opponent.
+EndCard
+
+Event: TRV/S92-E097
+Name Amulet From "That Day"
+Color B
+Level 1
+Cost 0
+Effect:
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom HasTrait Revenge && Compare ThatCardsLevel X OrLower
+}
+Text Put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Revenge》 character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Climax: TRV/S92-E098
+Name I'll Forgive You
+Color B
+*GateClimax
+EndCard
+
+Climax: TRV/S92-E099
+Name A Team Where Each Person Protects Everyone
+Color B
+*GateClimax
+EndCard
+
+Climax: TRV/S92-E100
+Name We'll Entrust Our Everything to You
+Color B
+*GateClimax
+EndCard
+
+Character: TRV/S92-E101
+Name 1st Division Captain, Takemichi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: TRV/S92-E102
+Name I'll Protect It, Chifuyu
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Baji
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another character with "Baji" in its card name, this card gets +3000 power.
+EndCard
+
+Character: TRV/S92-E103
+Name Special Attack Unit, Baji
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+Cont: GiveSelf
+{
+	If StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, this card gets +1500 power.
+Cont: GiveAll
+{
+	If Other && StageContainsOrLess 1 Other 
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have 1 or less other characters, all of your other characters get +1500 power.
+EndCard
+
+Character: TRV/S92-E104
+Name Childish Side, Mikey
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Revenge
+Auto: OnAttack
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has ×1000.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: TRV/S92-E105
+Name Vice-Commander, Draken
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Revenge
+*OnAttackGivePowerForEachOther(500,Revenge)
+EndCard
+
+Character: TRV/S92-E106
+Name Bringing Everyone Together, Mitsuya
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Revenge
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait Revenge
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give +2 soul.
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, if you have 4 or more other 《Revenge》 characters, choose 1 of your characters, it gets +2 soul until end of turn.
+Act: 1
+{
+	TargetSelf
+	GainSoul 1
+}
+Text Act: [(1)] This card gets +1 soul until end of turn.
+EndCard
+
+Character: TRV/S92-PE01
+Name Being Worn By the Clothes Instead, Takemichi
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Revenge
+*OnOtherAttackedSacrificeToGivePower(1500,Revenge)
+*RedLevel1Bomb
+EndCard
+
+Character: TRV/S92-TE01
+Name Wrecked, Chifuyu
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Cont: GiveAll
+{
+	If Other && NameEquals Race to the Shrine, Baji 
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost 1 
+				{
+					GainSpecialEffect DoubleTrigger
+				}
+			}
+			Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step.
+		}
+	}
+}
+Text Cont: All of your other "Race to the Shrine, Baji" get the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+*Bond1(Race to the Shrine\, Baji)
+EndCard
+
+Character: TRV/S92-TE02
+Name I'll Protect You, Hinata
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Revenge
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+Auto: OnPlay
+{
+	PayCost ShuffleCharacter 2
+	{
+		GainPower 2000
+	}
+}
+Text Auto: [Return 2 characters from your waiting room to your deck & Shuffle your deck] When this card is placed on the stage from your hand, you may pay the cost. If you do, this card gets +2000 power until end of turn.
+EndCard
+
+Character: TRV/S92-TE03
+Name Fight Me One-On-One, Takemichi
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Revenge
+*GainPowerWithEnoughCharacters(1000,2,Revenge)
+Auto: OnReverseOpponent 
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, you may put the top card of your deck into your stock.
+EndCard
+
+Character: TRV/S92-TE04
+Name Unfathomable Woman's Mind, Emma
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Revenge
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	SetXValue TargetCardsSoul
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your other characters, it gets +X power until end of turn. X is equal to that character's soul ×1000.
+EndCard
+
+Character: TRV/S92-TE05
+Name Man of the Times, Takemichi
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Revenge
+Backup 2500
+EndCard
+
+Character: TRV/S92-TE06
+Name To Save His Sister, Naoto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Revenge
+Act: RestSelf
+{
+	TargetLocation Stage
+	AIChoice GainPower 4500
+	ChooseCharacterFromTargets Choose a character to give +4500 power
+	GainPower 4500
+}
+Text Act: [Rest this card] Choose 1 of your 《Revenge》 characters, it gets +4500 power until end of turn.
+EndCard
+
+Character: TRV/S92-TE07
+Name First Time Using Polite Speech, Chifuyu
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Revenge
+*OnPlayGainPowerForEach(1000,Revenge)
+//Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of 《Revenge》 characters you have ×1000.
+EndCard
+
+Event: TRV/S92-TE08
+Name The Moment He Thought “I’m Dead”
+Color Y
+Level 3
+Cost 4
+Counter
+Requirement OpponentsTurn //Adding this so you can't accidentally play it when it would do nothing
+Effect 
+{
+	ForcePayCost Discard 2 Any //Changed to ForcePayCost since it's not technically a cost effect and you would never choose to not pay.
+	{
+		TargetLocation AnyStage //Changed from Stage since it includes opponent's characters
+		NarrowTargets InBattle
+		ChooseCharacterFromTargets Choose a character in battle to gain the ability and burn equal to that card's soul.
+		SetXValue TargetCardsSoul
+		Burn X
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotDealDamage
+			}
+			Text Cont: This card cannot deal damage to players.
+		}
+	}
+}
+Text Counter: You may choose 2 cards in your hand, and put them into your waiting room. If you do, choose 1 character in battle, deal X damage to your opponent, it gets the following ability until end of turn. "Cont: This card cannot deal damage to a player." X is equal to that character's soul. 
+EndCard
+
+Climax: TRV/S92-TE09
+Name Promise to Take Over the World
+*ShotClimax
+EndCard
+
+Climax: TRV/S92-TE10
+Name Gathering at Musashi Shrine
+Color Y
+*2SoulClimax
+EndCard
+
+Character: TRV/S92-TE11
+Name Commander's Right-Hand Man, Draken
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Revenge
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 2
+	Reorder
+}
+Text Auto: When your climax is placed on your climax area, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+Act: 1 RestSelf
+{
+	Brainstorm 5
+	PerClimax
+	{
+		*OptionalDraw
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 5 cards from the top of your deck, and put them into your waiting room. For each climax revealed among those cards, draw up to 1 card.
+EndCard
+
+Character: TRV/S92-TE12
+Name Everyone'll Understand, Mitsuya
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Revenge
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power
+	GainPower 1000
+}
+Text Act: [Rest this card] Choose 1 of your 《Revenge》 characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: TRV/S92-TE13
+Name Flag Wielder, Pah-chin
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Revenge
+Cont: GiveSelf 
+{
+	If Compare CardsInStock 2 OrLess 
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+Auto: StartEncorePhase
+{
+	PayCost 1 Resonate Take Good Care of Her, Mikey
+	{
+		Rest
+	}
+}
+Text Auto: RESONATE [(1) Reveal 1 "Take Good Care of Her, Mikey" in your hand] At the beginning of the encore step, you may pay the cost. If you do, Rest this card.
+EndCard
+
+Character: TRV/S92-TE14
+Name Special Attack Unit, Kazutora
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Revenge
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseBackup
+	GainSpecialEffect CannotUseEvents //Changed from CannotUseEvent
+}
+Text Cont: You cannot play event cards or "BACKUP" from your hand.
+EndCard
+
+Character: TRV/S92-TE15
+Name Race to the Shrine, Baji
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Revenge
+Text 
+EndCard
+
+Character: TRV/S92-TE16
+Name Path Towards a Dream, Mikey
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Revenge
+*GainPowerForEachOther(500, Revenge)
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Revenge
+	{
+		AIChoice RemoveFromWaitingRoom
+		Message Choose a card in your waiting room to put into your stock.
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Revenge
+		RevealTargets //Reveal the card before putting it in stock
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other 《Revenge》 characters, you may choose 1 《Revenge》 character in your waiting room, and put it into your stock.
+EndCard
+
+Character: TRV/S92-TE17
+Name 1st Division Captain, Baji
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Revenge
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && InLocation Backstage
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each other 《Revenge》 character in your back stage.
+EndCard
+
+Character: TRV/S92-TE18
+Name Changing the Tides of Battle Alone, Draken
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Revenge
+*OnPlayCheckX(Revenge)
+Auto: OnAttack
+{
+	PayCost Discard 2 Any 
+	{
+		Mill 7
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the top 7 cards of your deck into your waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. 
+EndCard
+
+Character: TRV/S92-TE19
+Name Take Good Care of Her, Mikey
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Revenge
+Combo You Should Come Along Too
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Revenge 
+	{
+		TargetTop Clock 1
+		MoveCard Hand
+	}
+}
+Text Auto: [Put 1 《Revenge》 character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, return the top card of your clock to your hand.
+Auto: OnAttack
+{
+	If Climax You Should Come Along Too 
+	{
+		MillOpponentBottom 4
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: CxCombo When this card attacks, if "You Should Come Along Too" is in your climax area, put the bottom 4 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. 
+EndCard
+
+Climax: TRV/S92-TE20
+Name You Should Come Along Too
+*GateClimax
+EndCard
+
+

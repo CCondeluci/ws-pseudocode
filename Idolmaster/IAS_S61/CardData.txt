@@ -1,0 +1,638 @@
+Character: IAS/S61-002
+Name Unpredictable Little Demon, Miki Hoshii
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Nail
+Combo Hoshikuzu no Symphonia
+*OnPlayGainPower(1500)
+Auto: OnSpecificClimaxPlay Hoshikuzu no Symphonia
+{
+	If InLocation CenterStage
+	{
+		TargetLocation Stage
+		NarrowTargets Other
+		ChooseCharacterFromTargets Choose a character to gain the ability
+		AddSelfToTargets
+		GainEffect
+		{
+			*OnReverseBlindStock
+		}
+	}
+}
+Text Auto: CxCombo When "Hoshikuzu no Symphonia" is placed into your climax area, if this card is in your center stage, choose 1 of your other characters and this card, and they gain the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: IAS/S61-005
+Name Just Like an Elder Sister, Yayoi Takatsuki
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Family
+*OnPlayGiveOtherPower(1000,Music)
+*YellowLevel0Bomb
+EndCard
+
+Character: IAS/S61-011
+Name Magical Transformation! Ami Futami
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Twins
+*GainPowerForEachOther(500,Music)
+EndCard
+
+Character: IAS/S61-016
+Name Can I Waitress? Mami Futami
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Music
+Trait2 Twins
+Auto: OnOtherPlacedOnStageFromWaitingRoom
+{
+	GainPower 2000
+}
+TimesPerTurn 3
+Text Auto: This ability can be activated up to 3 times per turn. When another one of your characters is placed on stage from your waiting room, this card gains +2000 power.
+*YellowEarlyPlayBomb
+EndCard
+
+Character: IAS/S61-018
+Name Fascinating Proposition, Azusa Miura
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Trait2 Fortune Reading
+Auto: OnAttack
+{
+	SetXToNumberOfCharacters Other && HasTrait Music
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card attacks, This card gains +X power until end of turn. X is equal to 1000 times the number of your other <Music> characters.
+Auto: OnOpponentReverse
+{
+	If PlayedThisTurn
+	{
+		Mill 1
+		IfTarget HasTrigger Soul
+		{
+			TargetSelf
+			Stand
+		}
+	}
+}
+Text Auto: This ability may be activated up to once per turn. During the turn that this card is placed on stage from your hand, if this card's battle opponent becomes reversed, put the top card of your deck into your waiting room. If that card has a SOUL trigger, stand this card.
+EndCard
+
+Character: IAS/S61-021
+Name Mischief Twins' Younger Sister, Ami Futami
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Twins
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may choose 1 card in your hand and put it into your stock.
+Auto: OnAttack
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card attacks, put the top 2 cards of your deck into your waiting room. If there is at least 1 climax from among those cards, this card gains +2 soul until end of turn.
+EndCard
+
+Character: IAS/S61-022
+Name Overflowing Talent, Miki Hoshii
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 Music
+Trait2 Nail
+Auto: OnPlay
+{
+	If LocationContains OpponentWaitingRoom 3 IsClimax
+	{
+		Rest
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if your opponent has 3 or more climaxes in their waiting room, rest this card.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrHigher
+	{
+		Question_Obvious Rest this card?
+		If Yes
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When this card becomes reversed in battle, reveal the top card of your deck. If that card is a level 2 or higher card, you may rest this card.
+EndCard
+
+Character: IAS/S61-027
+Name Mischief Twins' Elder Sister, Mami Futami
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Twins
+*GiveMiddlePower(500,Any)
+Act: 1 RestSelf
+{
+	RevealUpTo Deck 2
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+	RevealTargets
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+}
+Text Act: [(1) Rest this card] Look at the top 2 cards of your deck, choose a level 1 or higher card from among them, reveal it to your opponent and put it into your hand. Put the rest of the cards into your waiting room
+EndCard
+
+Character: IAS/S61-029
+Name Easygoing Healer, Azusa Miura
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Fortune Telling
+*StockOnCancel
+Auto: OnReversed
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		Question Put this card into your memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if there are 2 or less cards in your memory, you may send this card to your memory.
+*ClockShift(0,yellow)
+EndCard
+
+Character: IAS/S61-033
+Name Full-Power Energetic! Yayoi Takatsuki
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Family
+Combo Good-Sleep, Baby?
+*GainPowerWithEnoughCharacters(1000,2,Music)
+Auto: StartMyEncoreStep
+{
+	If Climax Good-Sleep, Baby?
+	{
+		Question Put this card in your memory?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Memory
+			ScheduleEffectForTargets StartDrawPhase
+			{
+				Effect:
+				{
+					If InLocation Memory
+					{
+						PlaceOnStage False True True False
+						GainPower 3500
+					}
+				}
+				Text Put this card onto your stage and give it +3500 power
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the start of your encore step, if "Good-Sleep Baby?" is in your climax area, you may put this card in your memory. If you do, at the start of your draw phase, choose one "Full-Power Energetic, Yayoi Takatsuki" in your memory, place it on any position on your stage, and that card gets +3500 power until end of turn.
+EndCard
+
+Climax: IAS/S61-039
+Name Hoshikuzu no Symphonia
+*WindClimax
+EndCard
+
+Climax: IAS/S61-044
+Name Good-Sleep, Baby?
+*WindClimax
+EndCard
+
+Character: IAS/S61-045
+Name Sweet Princess, Haruka Amami
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Sweets
+Combo Home, Sweet Friendship
+Auto: OnSpecificClimaxPlay Home, Sweet Friendship
+{
+	PayCost SendSelf Hand
+	{
+		*CheckAndAdd(2)
+		Discard 1 Any
+	}
+}
+Text Auto: CxCombo [Return this card to your hand] When "Home, Sweet Friendship" is placed into your climax area, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 of them and put it into your hand, put the rest into your waiting room and discard a card.
+*RestGivePower(1000,Any)
+EndCard
+
+Character: IAS/S61-050
+Name Magic Time, Makoto Kikuchi
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Karate
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If there are 2 or less cards in your stock, this card gains +1500 power.
+EndCard
+
+Character: IAS/S61-055
+Name Affordable Work, Hibiki Ganaha
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Music
+Trait2 Animal
+Combo Aikotoba wa Start Up!
+Auto: OnAttack
+{
+	If Climax Aikotoba wa Start Up! &&& StageContains 1 HasTrait Music|Animal && Other
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsLevel X OrLess && HasTrait Music|Animal
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Aikotoba wa Start Up!" is in your climax area, and you have another 《Music》 or 《Animal》 character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower 《Music》 or 《Animal》 character in your waiting room, and return it to your hand. X is the total level of the cards put into your waiting room by this effect. 
+EndCard
+
+Character: IAS/S61-061
+Name Reliably Trusting, Yukiho Hagiwara
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Music
+Trait2 Tea
+*EarlyPlay4OrMore(Music)
+*OnPlayRevealBurnIfTrait(Music)
+EndCard
+
+Character: IAS/S61-069
+Name Growing Step-by-Step, Yukiho Hagiwara
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+Trait2 Tea
+*OnAttackGiveOtherPower(2000,Music)
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		TargetLocation Backstage
+		If Compare TargetCount 1 OrLess
+		{
+			TargetSelf
+			MoveToOpenPosition False True
+		}
+	}
+}
+Text Auto: [(1)] At the start of your opponent's attack phase, you may pay the cost. If you do, move this card to an empty position in your backstage.
+EndCard
+
+Character: IAS/S61-071
+Name Perfect Tropical Country Girl, Hibiki Ganaha
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Music
+Trait2 Animal
+*DropSearch(Music)
+EndCard
+
+Character: IAS/S61-075
+Name Bright and Positive! Haruka Amami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Music
+Trait2 Sweets
+*BackupBonus1000(Music)
+Backup 2500
+EndCard
+
+Character: IAS/S61-077
+Name Handsome Girl, Makoto Kikuchi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Music
+Trait2 Karate
+Combo Birth of Color
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation CenterStage && Other && NameEquals Handsome Girl, Makoto Kikuchi
+	MultiplyXValue 2000
+	GainPower X
+}
+Text Cont: For each of your other "Handsome Girl, Makoto Kikuchi" in your center stage, this card gains +2000 power.
+Auto: OnOpponentReverse
+{
+	If Climax Birth of Color
+	{
+		Message Choose up to 1 <Music> character to put into your stock
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Music
+		If HasTarget
+		{
+			MoveCard Stock
+		}
+		SearchDeck HasTrait Music && IsCharacter
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "Birth of Color" is in your climax area, choose up to 1 <Music> character in your waiting room and put it into your stock, search your deck for up to 1 <Music> character and add it to your hand.
+EndCard
+
+Climax: IAS/S61-081
+Name Home, Sweet Friendship
+*StandbyClimax
+EndCard
+
+Climax: IAS/S61-083
+Name Aikotoba wa Start Up!
+*RedStockSoul
+EndCard
+
+Climax: IAS/S61-087
+Name Birth of Color
+*RedStockSoul
+EndCard
+
+Character: IAS/S61-091
+Name Singing in the Evening Sun, Chihaya Kisaragi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Music
+Trait2 Camera
+Combo Eternal Harmony
+*GainPowerForEachOther(500,Music)
+*Healer
+Auto: OnAttack
+{
+	If Climax Eternal Harmony
+	{
+		PayCost Discard 2 Any
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+}
+Text Auto: CxCombo [Discard 2 cards] When this card attacks, if "Eternal Harmony" is in your climax area, you may pay the cost. If you do, deal X damage to your opponent. X is equal to the number of climax cards in your waiting room.
+EndCard
+
+Character: IAS/S61-096
+Name Once During a Journey, Takane Shijou
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Music
+Trait2 Noble
+Auto: OnTriggerCheckClimax
+{
+	IfOther HasTrigger DoubleSoul
+	{
+		PayCost Discard 1 HasTrait Music
+		{
+			*CheckAndAdd(2)
+		}
+	}
+}
+Text Auto: [Discard a <Music> character] When your character's trigger check reveals a climax, if that card's trigger icon is DOUBLE SOUL, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 card to add to your hand and put the rest into your waiting room.
+*Act1Rest2SearchBrainstorm(Music)
+EndCard
+
+Character: IAS/S61-098
+Name Ritsuko Akizuki in Wonderland
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Music
+Trait2 Glasses
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is two or higher, this card gets +2000 power.
+EndCard
+
+Character: IAS/S61-101
+Name Powerful Goddess, Iori Minase
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Music
+Trait2 Stuffed Animal
+*Level3Assist
+*ClimaxExchange
+EndCard
+
+Character: IAS/S61-105
+Name Tightly Supportive, Ritsuko Akizuki
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Music
+Trait2 Glasses
+Auto: OnReversed
+{
+	PayCost 1 SendSelf Clock
+	{
+		*CheckAndAdd(2)
+	}
+}
+Text Auto: [(1) Put this card into your clock] When this card becomes reversed, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 1 of them and put it into your hand, put the rest into your waiting room and discard a card.
+EndCard
+
+Character: IAS/S61-106
+Name Domineering Lady, Iori Minase
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Trait2 Stuffed Animal
+*Level0Assist
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Music)
+}
+Text Auto: [(1) Put this card into your waiting room] Look at up to four cards from the top of your deck, choose up to one «Magic» character from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: IAS/S61-108
+Name Aloof Diva, Chihaya Kisaragi
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Music
+Trait2 Camera
+*OnAttackGivePowerForEachOther(500,Music)
+EndCard
+
+Character: IAS/S61-111
+Name Noble Princess, Takane Shijou
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Music
+Trait2 Noble
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Music && IsCharacter
+	{
+		TargetSelf
+		GainPower 4000
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck. If that card is a <Music> character, this card gains +4000 power until end of turn.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Climax: IAS/S61-124
+Name Eternal Harmony
+*GateClimax
+EndCard
+
+Character: IAS/S61-P01
+Name Ritsuko Akizuki & Yukiho Hagiwara & Sayoko Takayama
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Music
+*OnPlayScry
+Auto: OnPlay
+{
+	OpponentChooseNumber 0 2 Choose a number between 0 and 2
+	Mill 1
+	If Compare TargetCardsLevel Answer Exactly
+	{
+		AddToXValue 1
+		Repeat X
+		{
+			*OptionalDraw
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, your opponent declares a number between 0, 1, or 2. Put the top card of your deck into your waiting room and if that card is the same level as the number declared by your opponent, draw up to X cards. X is equal to the opponent's declared number + 1.
+EndCard
+
+Character: IAS/S61-P03
+Name Haruka Amami & Shizuka Mogami & Konomi Baba
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Music
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		TargetSelf
+		GainSoul 2
+	}
+}
+Text Auto: When this card is placed on stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax card among those cards, this card gains +2 soul until end of turn.
+Auto: OnDamageCancel
+{
+	PayCost 1
+	{
+		DrawCard
+	}	
+}
+Text Auto: [(1)] When damage dealt by this card is cancelled, you may pay the cost. If you do, draw a card.
+EndCard

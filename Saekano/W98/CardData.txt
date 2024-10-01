@@ -1,0 +1,2812 @@
+Character: SHS/W98-001
+Name Going Out Together, Eriri
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Game
+Trait2 Manga
+Auto: OnSentFromStageToWaitingRoom
+{
+	RevealUpTo Deck 3
+	ChooseCardsFromTargets 0 1 IsClimax
+	If HasTarget
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed into your waiting room from your stage, look at up to 3 cards from the top of your deck and choose up to 1 climax from among them, reveal it and add it to your hand. If you put a card in your hand by this effect, discard a card.
+EndCard
+
+Character: SHS/W98-002
+Name Going Out Together, Izumi
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Manga
+Combo Dream-chasing Sketch
+Cont: GiveSelf
+{
+	If MyTurn &&& Compare CardsInMemory 1 OrMore
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: MEMORY During your turn, if there is a card in your memory, this card gains +1 level and +2500 power.
+Auto: OnAttack
+{
+	If Climax Dream-chasing Sketch &&& StageContains 2 Other && HasTrait Game
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 HasTrait Game && IsCharacter ||| NameEquals Little Love Rhapsody
+		RevealTargets
+		MoveCard Hand
+		IfTarget Compare ThatCardsLevel 3 OrMore && IsCharacter
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to gain +1 soul
+			GainSoul 1
+		}
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Dream-chasing Sketch" is in your climax area and you have 2 or more other <Game> characters, look at up to 4 cards from the top of your deck, choose up to 1 <Game> character or "Little Love Rhapsody" from among them, add it to your hand and put the rest into your waiting room. If you chose a level 3 or higher character by this effect, choose 1 of your characters and that character gains +1 soul until end of turn.
+EndCard
+
+Character: SHS/W98-003
+Name The Happiest Illustrator in the World, Eriri
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Manga
+Combo Did You Like Me 10 Years Ago?
+Auto: OnSpecificClimaxPlay Did You Like Me 10 Years Ago?
+{
+	If InLocation CenterStage &&& StageContains 1 Other && HasTrait Game
+	{
+		If LocationContains WaitingRoom 1 NameEquals The Happiest Illustrator in the World, Eriri | Dressed Up, Utaha
+		{
+			Message Choose up to 1 "The Happiest Illustrator in the World, Eriri" or "Dressed Up, Utaha" to play on stage
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals The Happiest Illustrator in the World, Eriri | Dressed Up, Utaha
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo When "Did You Like Me 10 Years Ago?" Is placed into your climax area, if this card is in your center stage and you have another <Game> character, you may choose a card named "The Happiest Illustrator, Eriri" or "Dressed Up, Utaha" in your waiting room and place it on any position on your stage.
+Auto: StartAttackPhase
+{
+	SetXValue CardsInHand
+	PayCost 0
+	{
+		TargetLocation Hand
+		MoveCard WaitingRoom
+		AddToXValue CardsInStock
+		TargetLocation Stock
+		MoveCard WaitingRoom
+		If Compare X 5 OrMore
+		{
+			Message Choose a "The Happiest Illustrator in the World, Eriri" to place on stage
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals The Happiest Illustrator in the World, Eriri
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: At the start of your attack phase, you may discard your entire hand and put all cards in your stock into your waiting room. If 5 or more cards are put into your waiting room by this effect, choose a "The Happiest Illustrator in the World, Eriri" in your waiting room and place it on any position on your stage.
+Auto: OnAttack
+{
+	Question_Obvious Put the top card of your deck into your waiting room?
+	If Yes
+	{
+		Mill 1
+		IfTarget HasTrait Game
+		{
+			SetXValue TargetCardsLevel
+			Burn X
+		}
+	}
+}
+Text Auto: When this card attacks, you may put the top card of your deck into your waiting room. If that card is a <Game> character, deal X damage to your opponent. X is equal to the level of the sent character.
+EndCard
+
+Character: SHS/W98-004
+Name Dressed Up, Eriri
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Manga
+*ClimaxExchange
+Auto: StartClimaxPhase
+{
+	*OptionalDrawDiscard
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, at the start of your climax phase you may draw a card. If you do, discard a card.
+EndCard
+
+Character: SHS/W98-005
+Name Earnest Feelings, Eriri
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Manga
+Cont: GiveSelf
+{
+	CanSendMarkersToPayForActEffect NameEquals Unwavering Feelings, Utaha
+}
+Text Cont: When you pay for the cost of an <b> ACT </b> ability of your "Unwavering Feelings, Utaha", you may put a marker from underneath this card into your waiting room instead of stock.
+Auto: OnOtherReversed
+{
+	IfOther InLocation MiddleCenterStage && NameContains Eriri | Utaha
+	{
+		If Compare MarkersUnderThis 2 OrLess
+		{
+			Question Put the top card of your deck face-up under this card as a marker?
+			If Yes
+			{
+				TargetTop Deck 1
+				Marker_FaceUp
+			}
+		}
+	}
+}
+Text Auto: When your other character with "Eriri" or "Utaha" in it's card name in the middle position of your center stage is reversed in battle, if there are 2 or less markers underneath this card, you may put the top card of your deck face-up underneath this card as a marker.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SHS/W98-006
+Name Reunited, Eriri
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Manga
+Combo Some Things Never Change
+*GainPowerWithEnoughCharacters(2000,2,Game)
+Auto: OnAttack
+{
+	If Climax Some Things Never Change &&& StageContains 2 Other && HasTrait Game
+	{
+		TargetTop Deck 3
+		RevealTargets
+		OpponentChooseCardsFromTargets 1 1 IsCharacter || IsEvent
+		MoveCard Hand
+		TargetLocation ScryArea
+		Message Choose a card to go back on top of your deck
+		ChooseCardsFromTargets 1 1 Any
+		MoveCard Deck
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Some Things Never Change" is in your climax area and you have 2 or more other <Game> characters, reveal the top 3 cards of your deck, your opponent chooses a character or event card from among them to put into your hand, you choose up to 1 card from the remaining cards to be put back on top of your deck and put the rest into your waiting room.
+EndCard
+
+Character: SHS/W98-007
+Name Devoted Feelings, Izumi
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Game
+Trait2 Manga
+Auto: StartClimaxPhase
+{
+	Question Put up to 2 <Game> characters from your waiting room to the bottom of your clock?
+	If Yes
+	{
+		Message Choose up to 2 <Game> characters to put on the bottom of your clock
+		SearchLocationForTargets WaitingRoom 0 2 HasTrait Game
+		SetXValue TargetCount
+		If HasTarget
+		{
+			MoveCardToBottom Clock
+			ScheduleEffectForTargets EndOfTurn
+			{
+				Effect:
+				{
+					MoveCard WaitingRoom
+				}
+				Quick
+				Text Put up to X cards from the bottom card of your clock into your waiting room
+			}
+		}
+	}
+}
+Text Auto: At the start of your climax phase, choose up to 2 <Game> characters in your waiting room and put them on the bottom of your clock in any order. At the end of your turn, put the bottom X cards of your clock into your waiting room. X is equal to the number of cards put into your clock by this effect.
+Auto: StartAttackPhase
+{
+	TargetLocation Clock
+	SetXValue TargetCount
+	If Compare X 2 OrMore
+	{
+		*GiveOtherCharacterPower(2000,Game)
+	}
+	If Compare X 4 OrMore
+	{
+		*GiveOtherCharacterPower(2000,Game)
+	}
+	If Compare X 6 OrMore
+	{
+		*GiveOtherCharacterPower(2000,Game)
+	}
+}
+Text Auto: At the start of your attack phase, for every 2 cards in your clock, perform the following ability. "Choose 1 of your other <Game> characters, and that character gains +2000 power until end of turn."
+EndCard
+
+Character: SHS/W98-008
+Name No Sugar Coating Words, Eriri
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 6500
+Soul 2
+Trait1 Game
+Trait2 Manga
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 HasTrait Game && IsCharacter
+	{
+		GainPower 4000
+	}
+}
+Text Cont: MEMORY If there are 2 or more <Game> characters in your memory, this card gains +4000 power.
+Auto: OnAttack
+{
+	*Scry
+}
+Text Auto: When this card attacks, look at the top card of your deck and put it either on top of your deck or into your waiting room.
+EndCard
+
+Character: SHS/W98-009
+Name Unfaded Youth Graffiti, Izumi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Game
+Trait2 Manga
+Combo Dream-chasing Sketch
+Auto: OnPlay
+{
+	PayCost SendFromWaitingRoom 1 Clock HasTrait Game && IsCharacter
+	{
+		ScheduleEffect EndOfTurn
+		{
+			Effect:
+			{
+				TargetBottom Clock 2
+				Message Choose up to 2 cards to put into your waiting room
+				ChooseCardsFromTargets 0 2 Any
+				MoveCard WaitingRoom
+			}
+			Text Put up to two cards from the bottom of your clock into your waiting room.
+		}
+	}
+}
+Text Auto: [Put a <Game> character from your waiting room on the bottom of your clock] When this card is placed on stage from your hand, you may pay the cost. If you do, put up to 2 cards from the bottom of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax Dream-chasing Sketch &&& StageContains 4 Other && HasTrait Game
+	{
+		If Compare CardsInClock 5 OrLess
+		{
+			*OptionalBurn(1)
+		}
+		If Compare CardsInClock 6 Exactly
+		{
+			*OptionalBurn(3)
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Dream-chasing Sketch" is in your climax area and you have 4 or more other <Game> characters, if your clock has 5 or less cards, you may deal 1 damage to your opponent. If your clock has exactly 6 cards, you may deal 3 damage to your opponent.
+EndCard
+
+Character: SHS/W98-010
+Name Last Spurt, Izumi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Manga
+Act: 1
+{
+	Brainstorm 4
+	PerClimax
+	{
+		*CheckAndAdd(3)
+		Discard 1 Any
+	}
+}
+Text Act: BRAINSTORM [(1)] Flip over the top 4 cards of your deck and put them into your waiting room. For each climax you reveal, perform the following effect. "Look at up to 3 cards from the top of your deck, choose up to 1 to put into your hand, put the rest into your waiting room and discard a card."
+EndCard
+
+Character: SHS/W98-011
+Name Being Like Mother-in-Law, Eriri
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Manga
+Auto: OnAttack
+{
+	PayCost Clock
+	{
+		GainSpecialEffect DoubleTrigger
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card attacks, you may pay the cost. If you do, perform the trigger check twice during this attack's trigger step.
+EndCard
+
+Character: SHS/W98-012
+Name Unfaded Youth Graffiti, Tomoya
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Otaku
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1
+	{
+		MoveCard Memory
+	}
+}
+Text Auto: [(1)] When this card is placed into your waiting room from your stage, you may pay the cost. If you do, put this card into your memory.
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 Any FlipSelfFaceDown
+	{
+		SearchDeck HasTrait Game && IsCharacter
+	}
+}
+InMemory
+Text Auto: MEMORY [Discard a card and flip this card face-down] If this card is in your memory, at the start of your climax phase you may pay the cost. If you do, search your deck for up to 1 <Game> character and add it to your hand.
+EndCard
+
+Character: SHS/W98-013
+Name Unfaded Youth Graffiti, Iori
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Otaku
+Auto: StartClimaxPhase
+{
+	PayCost Discard 1 IsCharacter && HasTrait Game
+	{
+		Message Choose a <Game> character to add to your hand
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Game
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Alarm
+Text Auto: ALARM [Discard a <Game> character] If this card is the top card of your clock, at the start of your climax phase, you may pay the cost. If you do, choose a <Game> character in your waiting room and return it to your hand.
+EndCard
+
+Character: SHS/W98-014
+Name Unfaded Youth Graffiti, Eriri
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Game
+Trait2 Manga
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInMemory 1 OrMore
+	{
+		GainPower 1500
+	}
+}
+Text Cont: MEMORY During your turn, if there is at least 1 card in your memory, this card gains +1500 power.
+Auto: OnOpponentReverse|OnReversed
+{
+	TargetBattleOpponent
+	IfTarget CardPosition Reverse
+	{
+		GainSpecialEffect CannotEncoreThis
+	}
+	TargetSelf
+	IfTarget CardPosition Reverse
+	{
+		GainSpecialEffect CannotEncoreThis
+	}
+}
+Text Auto: When this card or this card's battle opponent battle opponent becomes reversed, that character cannot use "Auto: ENCORE" until end of turn.
+EndCard
+
+Character: SHS/W98-015
+Name Full of Fighting Spirit, Eriri
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Game
+Trait2 Manga
+*Level3Assist
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: SHS/W98-016
+Name Reunited, Izumi
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Game
+Trait2 Manga
+*GainPowerWithEnoughCharacters(4000,2,Game)
+Auto: OnAttack
+{
+	If StageContains 1 NameEquals Reunited, Tomoya
+	{
+		PayCost 1
+		{
+			GainSpecialEffect DoubleTrigger
+		}
+	}
+}
+Text Auto: [(1)] When this card attacks, if you have another "Reunited, Tomoya", you may pay the cost. If you do, perform the trigger check twice during this attack's trigger step.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: SHS/W98-017
+Name Watching Live Concert, Eriri
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 4000
+Soul 2
+Trait1 Game
+Trait2 Manga
+*2000Assist
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+	If LocationContains OpponentStage 1 CanBeChosen
+	{
+		Question Bounce an opponent's character to their hand?
+		If Yes
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand
+			Bounce
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, draw a card, discard a card, and choose up to 1 of your opponent's characters and return it to their hand.
+Act: 1
+{
+	MoveCardToBottom Stock
+	*CheckAndAdd(3)
+}
+Text Act: [(1)] Put this card on the bottom of your stock. Look at up to 3 cards from the top of your deck, choose up to 1 of them, put it into your hand and put the rest into your waiting room.
+EndCard
+
+Character: SHS/W98-018
+Name Sharp Maiden's Sixth Sense, Izumi
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Game
+Trait2 Manga
+Auto: OnAttack
+{
+	If PlayedThisTurn
+	{
+		PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Game && IsCharacter
+		{
+			GainEffect
+			{
+				Auto: OnDamageCancel
+				{
+					Burn 3
+				}
+				TimesPerTurn 1
+				Text Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, deal 3 damage to your opponent.
+			}
+		}
+	}
+}
+Text Auto: [Put a <Game> character from your waiting room on the bottom of your clock] This ability activates up to once per turn. During the turn that this card is placed on stage from your hand, when this card attacks, you may pay the cost. If you do, this card gains the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is cancelled, deal 3 damage to your opponent."
+EndCard
+
+Character: SHS/W98-019
+Name Correcting, Izumi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Manga
+*OnAttackGivePowerForEachOther(500,Game)
+*YellowLevel0Bomb
+EndCard
+
+Character: SHS/W98-020
+Name Solo Panicking, Izumi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Manga
+Cont: GiveFacing
+{
+	GainSpecialEffect CannotMove
+}
+Text Cont: The character facing this card cannot move to another position.
+*OnAttackGivePower(1500,Game)
+EndCard
+
+Character: SHS/W98-021
+Name Heating Up, Akane
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Manga
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	IfOther HasTrait Game
+	{
+		If InLocation Backstage
+		{
+			PayCost 1 SendSelf WaitingRoom
+			{
+				TargetOther
+				Revive
+				If OpponentsTurn
+				{
+					GainEffectUntil EndOfMyTurn
+					{
+						Cont: GiveSelf
+						{
+							GainPower 3000
+						}
+					}
+				}
+				Else
+				{
+					GainPower 3000
+				}
+			}
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other <Game> character is placed into your waiting room from your stage, if this card is in your backstage, you may pay the cost. If you do, put that character rested in the position it was in, and until the end of the turn after the current turn, that character gains +3000 power.
+*RestGivePower(1000,Game)
+EndCard
+
+Character: SHS/W98-022
+Name Together Someday, Eriri
+Color Y
+Level 1
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Manga
+Auto: OnPlay
+{
+	PayCost SendFromWaitingRoomToBottom 1 Clock HasTrait Game && IsCharacter
+	{
+		Message Choose a "Qualities of a Maiden, Eriri" to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Qualities of a Maiden, Eriri
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: Auto: BOND/ <b>"Qualities of a Maiden, Eriri"</b> [Put a <Game> character from your waiting room on the bottom of your clock] (<i>When this card is played and placed on the stage, you may pay the cost, choose 1 "Qualities of a Maiden, Eriri" in your waiting room, and return it to your hand</i>)
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameEquals Qualities of a Maiden, Eriri
+	ChooseCharacterFromTargets Choose a character to gain +2500 power and +1 soul
+	GainPower 2500
+	GainSoul 1
+}
+Text Act: [Rest this card] Choose 1 of your "Qualities of a Maiden, Eriri", and that character gains +2500 power and +1 soul until end of turn.
+EndCard
+
+Character: SHS/W98-023
+Name Deep Thoughs, Izumi
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Manga
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInMemory 1 OrMore
+	{
+		GainPower 500
+		GainSpecialEffect NoBackupOnAttack
+	}
+}
+Text Cont: MEMORY During your turn, if there is at least 1 card in your memory, this card gains +500 power and the following ability. "Cont: During battles involving this card, your opponent cannot play <b> BACKUP </b> from their hand."
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: SHS/W98-024
+Name Reunited, Iori
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Game
+Trait2 Otaku
+*YellowEarlyPlayBomb
+EndCard
+
+Character: SHS/W98-025
+Name Strong Helper, Eriri
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Game
+Trait2 MAnga
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1
+	{
+		Message Choose a "Strong Helper, Eriri" to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Strong Helper, Eriri
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [(1)] When you use this card's <b> BACKUP </b>, you may pay the cost. If you do, choose a "Strong Helper, Eriri" in your waiting room and return it to your hand.
+Backup 2500
+EndCard
+
+Character: SHS/W98-026
+Name Wrap-Up Party After Live Concert, Izumi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Game
+Trait2 Manga
+Cont: GiveAll
+{
+	If NameEquals Tomoya's Beloved Disciple, Izumi && Other
+	{
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				PayCost 1 SendFromMemoryToWaitingRoom 1 NameEquals Little Love Rhapsody
+				{
+					Heal
+				}
+			}
+			Text Auto: [(1) Put a "Little Love Rhapsody" from your memory into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+		}
+	}
+}
+Text Cont: All of your other "Tomoya's Beloved Disciple, Izumi" gain the following ability. "Auto: [(1) Put a "Little Love Rhapsody" from your memory into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, put the top card of your clock into your waiting room."
+Cont: Assist
+{
+	If NameContains Izumi
+	{
+		GainPower 1500
+	}
+}
+Text Cont: ASSIST All of your characters in front of this card with "Izumi" in it's card name gain +1500 power.
+EndCard
+
+Event: SHS/W98-027
+Name All Night Work in Desperation
+Color Y
+Level 3
+Cost 0
+Effect:
+{
+	MultipleChoiceQuestion Choose an effect \n1. Look at up to 4 cards from the top of your deck, choose up to 1 of them and put it into your hand, then put the rest into your waiting room. \n2. If there are exactly 6 cards in your clock, search your deck for up to 1 card and add it to your hand. |1|2
+	If Answer 0
+	{
+		*CheckAndAdd(4)
+	}
+	If Answer 1
+	{
+		If Compare CardsInClock 6 Exactly
+		{
+			SearchDeck Any
+		}
+	}
+}
+ActivationRequirement StageContains 1 HasTrait Game &&& Not CardNamePlayedThisTurn All Night Work in Desperation
+Text If you do not have a <Game> character, you cannot play this card from your hand.
+Text Choose 1 of the following 2 effects and perform that effect.
+Text "Look at up to 4 cards from the top of your deck, choose up to 1 of them and put it into your hand, then put the rest into your waiting room."
+Text "If there are exactly 6 cards in your clock, search your deck for up to 1 card and add it to your hand."
+Text You cannot play "All Night Work in Desperation" from your hand for the rest of this turn.
+EndCard
+
+Climax: SHS/W98-028
+Name Did You Like Me 10 Years Ago?
+*ChoiceClimax
+EndCard
+
+Climax: SHS/W98-029
+Name Some Things Never Change
+*ChoiceClimax
+EndCard
+
+Climax: SHS/W98-030
+Name Dream-chasing Sketch
+*ChoiceClimax
+EndCard
+
+Character: SHS/W98-031
+Name The Happiest Main Heroine in the World, Megumi
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check3Add1(Game)
+		If Not LocationContains Memory 1 IsColor Green
+		{
+			TargetSelf
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: [Discard a card] When this card is placed into your waiting room from your stage, you may pay the cost. If you do, look at the top 3 cards of your deck, choose up to 1 <Game> character from among them, add it to your hand and put the rest into your waiting room and if there are no <b> GREEN </b> cards in your memory, put this card in your memory.
+EndCard
+
+Character: SHS/W98-032
+Name Going Out Together, Megumi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Game
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Game
+	{
+		Question_Obvious Put the top card of your clock into your stock?
+		If Yes
+		{
+			TargetTop Clock 1
+			MoveCard Stock
+		}
+		Else
+		{
+			*OptionalHeal
+		}
+	}
+	Else
+	{
+		*OptionalHeal
+	}
+}
+Text Auto: When this card is placed on stage from your hand, put up to 1 card from the top of your clock into your waiting room. If you have 4 or more other <Game> characters, you may put it into your stock instead of your waiting room.
+Auto: OnAttack
+{
+	If Climax Main Heroine Just For You && LocationContains Memory 2 HasTrait Game
+	{
+		PayCost 1 Discard 2 Any
+		{
+			TargetLocation OpponentWaitingRoom
+			SaveTargets
+			Burn 3
+			If LastDamageCanceled
+			{
+				TargetNthCardFromTop OpponentWaitingRoom 3
+				IfTarget Not InSavedTargets && Compare ThatCardsLevel 1 OrMore
+				{
+					MoveCard OpponentClock
+				}
+				TargetNthCardFromTop OpponentWaitingRoom 2
+				IfTarget Not InSavedTargets && Compare ThatCardsLevel 1 OrMore
+				{
+					MoveCard OpponentClock
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [(1) Discard 2 cards] When this card attacks, if "Main Heroine Just For You" is in your climax area and there are 2 or more <Game> characters in your memory, you may pay the cost. If you do, deal 3 damage to your opponent. Put all level 1 or higher cards revealed due to damage dealt by this effect into your opponent's clock in the order they are revealed even if the damage is cancelled.
+EndCard
+
+Character: SHS/W98-033
+Name The Future I Drew, Eriri
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Manga
+Combo He Will Keep Chasing After Us Even From Now On
+Auto: OnTriggerCheck
+{
+	IfOther HasTrigger Soul
+	{
+		*GiveCharacterPower(1500,Game)
+	}
+}
+Text Auto: When your character's trigger check reveals a card with a soul trigger icon, choose 1 of your <Game> characters and that character gains +1500 power until end of turn.
+Auto: OnSpecificClimaxPlay He Will Keep Chasing After Us Even From Now On
+{
+	If StageContains 2 Other && HasTrait Game
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gain the ability
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				GainSpecialEffect DoubleTrigger
+			}
+			Text Auto: When this card attacks, perform the trigger check twice during this attack.
+		}
+	}
+}
+Text Auto: CxCombo When "He Will Keep Chasing After Us Even From Now On" is placed into your climax area, if you have 2 or more other <Game> characters, choose 1 of your characters and that character gains the following ability until end of turn. "Auto: When this card attacks, perform the trigger check twice during this attack."
+EndCard
+
+Character: SHS/W98-034
+Name Maiden's Melancholy, Megumi
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+*GreenLevel0Bomb
+Requirement CardPosition Stand
+Act: 1 SendSelf Memory
+{
+	SearchWaitingRoom NameEquals Path Taken By You, Megumi
+}
+Text Act: [(1) Send this standing card to your memory] Choose up to 1 "Path Taken By You, Megumi" in your waiting room and return it to your hand.
+EndCard
+
+Character: SHS/W98-035
+Name Unfaded Youth Graffiti, Megumi
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+*OnAttackCheck2ChooseTrigger
+Auto: OnEndOfAttack
+{
+	PayCost Send 1 WaitingRoom HasTrait Game
+	{
+		TargetLocation Backstage
+		If Compare TargetCount 1 OrLess
+		{
+			Question_Obvious Move this card to an empty position in your backstage?
+			If Yes
+			{
+				TargetSelf
+				MoveToOpenPosition False True
+			}
+		}
+	}
+}
+Text Auto: [Put 1 of your other <Game> characters from stage to your waiting room] At the end of this card's attack, you may pay the cost. If you do, you may move this card to an empty position on your backstage.
+EndCard
+
+Character: SHS/W98-036
+Name Day of Graduation, Megumi
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+*OnPlayGainPower(1500)
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	IfThatCard Compare ThatCardsLevel 1 OrLess && OnStage
+	{
+		PayCost SendFromMemoryToWaitingRoom 1 NameContains Megumi
+		{
+			TargetLocation OpponentClock
+			If HasTarget
+			{
+				Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+				If Yes
+				{
+					TargetTop OpponentClock 1
+					MoveCard OpponentWaitingRoom
+					TargetBattleOpponent
+					MoveCard OpponentClock
+				}
+			}
+		}
+	}
+}
+Quick
+Text Auto: [Put a character with "Megumi" in it's card name from your memory into your waiting room] When this card becomes reversed, if this card's battle opponent is level 1 or lower, you may pay the cost. If you do, you may put the top card of your opponent's clock into the waiting room, and if you do, put that character into your opponent's clock. 
+EndCard
+
+Character: SHS/W98-037
+Name Connected Future, Utaha
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Novel
+Combo Best Future
+*GainPowerWithEnoughCharacters(1000,2,Game)
+Auto: OnEndOfAttack
+{
+	If Climax Best Future &&& StageContains 2 Other && HasTrait Game
+	{
+		PayCost SendClimax WaitingRoom
+		{
+			RevealUpTo Deck 4
+			ChooseCardsFromTargets 0 2 HasTrait Game && IsCharacter
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Put a "Best Future" from your climax area into your waiting room] At the end of this card's attack, if you have 2 or more other <Game> characters, you may pay the cost. If you do, look at up to 4 cards from the top of your deck and choose up to 2 <Game> characters, reveal them and add them to your hand, then put the rest into your waiting room.
+EndCard
+
+Character: SHS/W98-038
+Name Straightforward Feelings, Megumi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Cont: InHand
+{
+	If Compare CardsInMemory 2 OrMore &&& Not LocationContains Memory 1 Not NameContains Megumi
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: MEMORY If there are 2 or more cards in your memory and if all of the cards in your memory have "Megumi" in it's card name, this card gets -1 level while in your hand.
+Auto: OnPlay
+{
+	*OptionalBlindStock
+	Question Level down one of your opponent's characters?
+	If Yes
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets_Optional Choose a character to level-down
+		*Downgrade
+	}
+}
+Text Auto: When this card is placed on stage from your hand, put up to 1 card from the top of your deck into your stock and perform the following action. "You may choose 1 of your opponent's level 1 or higher characters, and if you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose by this effect -1."
+EndCard
+
+Character: SHS/W98-039
+Name Day of Graduation, Eriri
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Manga
+Combo Because We're Best Friends
+Auto: OnPlay|PlacedBy Cherry-colored Wind, Megumi
+{
+	*CheckAndAdd(3)
+}
+Text Auto: When this card is placed on stage from your hand or by the AUTO ability of "Cherry-colored Wind, Megumi", look at up to 3 cards from the top of your deck, choose up to 1 of them and put it in your hand, and put the rest into your waiting room.
+Auto: StartAttackPhase
+{
+	If Climax Because We're Best Friends && InLocation CenterStage &&& StageContains 4 Other && HasTrait Game
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLess
+			ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+			MoveCard OpponentWaitingRoom
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Game && IsCharacter
+			{
+				TargetLocation OpponentBackstage
+				NarrowTargets Compare ThatCardsLevel 2 OrLess
+				ChooseCharacterFromTargets Choose a character to put into your opponent's waiting room
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] At the start of your attack phase, if "Because We're Best Friends" is in your climax area, if this card is in your center stage and you have 4 or more other <Game> characters, you may pay the cost. If you do, choose a level 3 or lower character in your opponent's center stage and put it into their waiting room, then reveal the top card of your deck. If that card is a <Game> character, choose a level 2 or lower character in your opponent's backstage and put it into your opponent's waiting room.
+EndCard
+
+Character: SHS/W98-040
+Name Meeting Up for a Date, Megumi
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Combo How to Raise a Boring Girlfriend
+Cont: GiveSelfEverywhere
+{
+	If InLocation WaitingRoom
+	{
+		If Not LocationContains Memory 1 NameEquals Meeting Up for a Date, Megumi
+		{
+			GainName Ideal Girl, Megumi
+		}
+	}
+}
+Text Cont: If this card is in your waiting room and there is no "Meeting Up for a Date, Megumi" in your memory, this card is also considered to have "Ideal Girl, Megumi" in it's name.
+*OnPlayCheckTopAddDiscard(Game)
+Auto: OnOtherAttacks
+{
+	IfOther DirectAttacking && NameEquals Ideal Girl, Megumi
+	{
+		If Not LocationContains Memory 1 Other && NameEquals Meeting Up for a Date, Megumi
+		{
+			If Climax How to Raise a Boring Girlfriend
+			{
+				*OptionalBurn(1)
+			}
+		}
+	}
+}
+InMemory
+Quick
+Text Auto: CxCombo MEMORY If this card is in your memory and there isn't another "Meeting Up for a Date, Megumi" in your memory, when your other "Ideal Girl, Megumi" direct attacks, if "How to Raise a Boring Girlfriend" is in your climax area, you may deal 1 damage to your opponent.
+EndCard
+
+Character: SHS/W98-041
+Name Wrap-Up Party After Live Concert, Utaha
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Novel
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if there is a marker underneath this card, this card gains +2000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Game && IsCharacter
+	{
+		Question Marker this card?
+		If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, reveal the top card of your deck. If that card is a <Game> character, you may put it face-down underneath this card as a marker.
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, you may put the top card of your deck into your stock.
+EndCard
+
+Character: SHS/W98-042
+Name To the Second Battle, Megumi
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Auto: StartClimaxPhase
+{
+	If PlayedThisTurn
+	{
+		Question Put up to 2 <Game> characters from your waiting room to the bottom of your clock?
+		If Yes
+		{
+			Message Choose up to 2 <Game> characters to put on the bottom of your clock
+			SearchLocationForTargets WaitingRoom 0 2 HasTrait Game
+			SetXValue TargetCount
+			If HasTarget
+			{
+				MoveCardToBottom Clock
+				ScheduleEffectForTargets EndOfTurn
+				{
+					Effect:
+					{
+						MoveCard WaitingRoom
+					}
+					Quick
+					Text Put up to X cards from the bottom card of your clock into your waiting room
+				}
+			}
+		}
+	}
+}
+Text Auto: At the start of your climax phase, if this card was played this turn, choose up to 2 <Game> characters in your waiting room and put them on the bottom of your clock in any order. At the end of your turn, put the bottom X cards of your clock into your waiting room. X is equal to the number of cards put into your clock by this effect.
+Auto: OnAttack
+{
+	If Compare CardsInClock 6 Exactly
+	{
+		GainPower 8000
+	}
+}
+Text Auto: When this card attacks, if there are exactly 6 cards in your clock, this card gains +8000 power until end of turn.
+EndCard
+
+Character: SHS/W98-043
+Name Cherry-colored Wind, Megumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Game
+Combo Because We're Best Friends
+*LevelAssist
+Auto: OnSpecificClimaxPlay Because We're Best Friends
+{
+	PayCost 1 Discard 2 Any
+	{
+		Message Choose up to 1 "Day of Graduation, Eriri" to place on stage
+		SearchLocationForTargets Deck 0 1 NameEquals Day of Graduation, Eriri
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: CxCombo [(1) Discard 2 cards] When "Because We're Best Friends" is placed into your climax area, you may pay the cost. If you do, search your deck for up to 1 "Day of Graduation, Eriri" and place it on any position on your stage then shuffle your deck.
+Act: RestSelf
+{
+	Message Choose a "Day of Graduation, Eriri" to put on the bottom of your deck
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Day of Graduation, Eriri
+	MoveCardToBottom Deck
+}
+Text Act: [Rest this card] Choose an "Day of Graduation, Eriri" in your waiting room and put it on the bottom of your deck.
+EndCard
+
+Character: SHS/W98-044
+Name Talking About Breaking Up, Megumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Game
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 HasTrait Game
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Game)
+		}
+	}
+}
+Text Cont: MEMORY If there are 2 or more <Game> characters in your memory, this card gains +1500 power and the following ability. "Auto: ENCORE [Discard a <Game> character]"
+*GainPowerWhenAttackingLevel3(6000)
+EndCard
+
+Character: SHS/W98-045
+Name Reunited, Megumi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Game
+Cont: GiveSelf
+{
+	If StageContains 2 Other && NameContains Reunited
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 2 or more other characters with "Reunited" in it's card name, this card gains +2000 power.
+*Healer
+Auto: OnDirectAttack
+{
+	If StageContains 2 Other && HasTrait Game
+	{
+		PayCost Discard 1 IsCharacter && NameContains Reunited
+		{
+			Heal
+		}
+	}
+}
+Text Auto: [Discard a character with "Reunited" in it's card name from your hand] When this card direct attacks, if you have 2 or more other <Game> characters, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+EndCard
+
+Character: SHS/W98-046
+Name Can't Pretend to Not Have Heard That, Eriri
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Manga
+*GiveMiddlePower(1000,Any)
+Auto: OnOpponentClimaxPlay
+{
+	Question Put "Can't Pretend to Not Have Heard That, Eriri" into your stock?
+	If Yes
+	{
+		TargetSelf
+		MoveCard Stock
+	}
+}
+Text Auto: When a climax is placed on your opponent's climax area, you may put this card into your stock.
+EndCard
+
+Character: SHS/W98-047
+Name Bothersome Heroine, Megumi
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+*OnPlayMill2GainPowerForEachCharacter(1000,Game)
+*GreenLevel0Bomb
+EndCard
+
+Character: SHS/W98-048
+Name Wrap-Up Party After Live Concert, Megumi
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Auto: OnPlay
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets CanBeChosen
+	If HasTarget
+	{
+		ChooseCharacterFromTargets Choose a character to get -1000 power
+		LosePower 1000
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose a character in your opponent's center stage and that character gets -1000 power until end of turn.
+*OnAttackGiveOtherPower(1000,Game)
+EndCard
+
+Character: SHS/W98-049
+Name Believe And Keep Running, Utaha
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Novel
+*GlobalPower(500,Game)
+Requirement Not HasMarker
+Act: RestSelf
+{
+	Message Choose a <Game> character to become a marker
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Game
+	Marker_FaceUp
+}
+Text Act: [Rest this card] If this card does not have a marker, choose a <Game> character in your waiting room and put it face-up underneath this card as a marker.
+Act: 1 RestSelf SendMarker WaitingRoom
+{
+	*Check4Add1(Game)
+}
+Text Act: [(1) Put a marker from underneath this card in your waiting room and rest this card] Look at up to 4 cards from the top of your deck and choose up to 1 <Game> character, add it to your hand and put the rest into your waiting room.
+EndCard
+
+Character: SHS/W98-050
+Name Wrap-Up Party After Live Concert, Eriri
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Manga
+*OpponentMayPay2ToPreventFrontalAttack
+EndCard
+
+Character: SHS/W98-051
+Name Best Work, Eriri
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Game
+Trait2 Manga
+Auto: OnUseThisCardsBackup
+{
+	If AllYourCharacters HasTrait Game
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's BACKUP, if all of your characters are <Game>, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: SHS/W98-052
+Name The Future of the Chosen Path, Tomoya
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Game
+Trait2 Otaku
+Cont: Assist
+{
+	If NameContains Megumi
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST ALl of your characters in front of this card with "Megumi" in it's card name gain +X power. X is equal to 500 times the level of that character.
+Act: RestSelf
+{
+	If Compare CardsInMemory 4 OrLess &&& Compare CardsInMemory 1 OrMore
+	{
+		Message Choose a character with "Megumi" in name to swap with a card in memory
+		SearchLocationForTargets WaitingRoom 1 1 NameContains Megumi && IsCharacter
+		SaveTargets
+		SearchLocationForTargets Memory 1 1 Any
+		AddCurrentToSavedTargets
+		LoadTargets
+		Exchange
+	}
+}
+Text Act: [Rest this card] If there are 4 or less cards in your memory, choose a character in your waiting room with "Megumi" in it's card name and a card in your memory and exchange them.
+EndCard
+
+Character: SHS/W98-053
+Name Watching Live Concert, Utaha
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Game
+Trait2 Novel
+*OnActGivePower(1000,1)
+Act: 1 RestSelf
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to not stand
+	UntilEndOfOpponentsTurn
+	DontStand
+}
+Text Act: [(1) Rest this card] Choose 1 of your opponent's characters. That character cannot stand during your opponent's next stand phase.
+EndCard
+
+Character: SHS/W98-054
+Name Strong Helper, Utaha
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Game
+Trait2 Novel
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains Memory 3 HasTrait Game
+	{
+		TargetMyCharacterInBattle
+		GainEffect
+		{
+			Auto: OnOpponentReverse
+			{
+				PayCost 1
+				{
+					TargetBattleOpponent
+					IfTarget OnStage
+					{
+						MoveCard OpponentClock
+					}
+				}
+			}
+			TimesPerTurn 1
+			Text Auto: [(1)] This ability activates up to once per turn. When this card's battle opponent becomes reversed, you may pay the cost. If you do, put that character in your opponent's clock.
+		}
+	}
+}
+Text Auto: MEMORY When you use this card's <b> BACKUP </b>, if there are 3 or more <Game> characters in your memory, choose 1 of your characters in battle and that character gains the following ability until end of turn. "Auto: [(1)] This ability activates up to once per turn. When this card's battle opponent becomes reversed, you may pay the cost. If you do, put that character in your opponent's clock."
+Backup 2500
+EndCard
+
+Event: SHS/W98-055
+Name Carefree Scenario
+Color G
+Level 1
+Cost 1
+Effect:
+{
+	PayCost Rest 1 NameContains Megumi && CardPosition Stand
+	{
+		ResolveInAnyOrder Look at up to 4 cards from the top of your deck and choose up to 1 character with "Megumi" in it's card name, reveal it and put it into your hand, then put the rest into your waiting room.|Choose a character in your waiting room with "Megumi" in it's card name and return it to your hand and discard a card.|Choose 1 of your characters with "Megumi" in it's card name and that character gains +4000 power until end of turn.
+		{
+			Option
+			{
+				RevealUpTo Deck 4
+				AIChoice AddToHand
+				ChooseCardsFromTargets 0 1 NameContains Megumi && IsCharacter 
+				RevealTargets
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+			}
+			Option
+			{
+				Message Choose a character with "Megumi" in it's card name to return to your hand
+				SearchLocationForTargets WaitingRoom 1 1 NameContains Megumi && IsCharacter
+				RevealTargets
+				MoveCard Hand
+				Discard 1 Any
+			}
+			Option
+			{
+				TargetLocation Stage
+				NarrowTargets NameContains Megumi
+				ChooseCharacterFromTargets Choose a character to gain +4000 power
+				GainPower 4000
+			}
+		}
+	}
+}
+Text Rest 1 of your standing characters with "Megumi" in it's card name. If you do, perform each of the following 3 effects in any order.
+Text "Look at up to 4 cards from the top of your deck and choose up to 1 character with "Megumi" in it's card name, reveal it and put it into your hand, then put the rest into your waiting room."
+Text "Choose a character in your waiting room with "Megumi" in it's card name and return it to your hand and discard a card."
+Text "Choose 1 of your characters with "Megumi" in it's card name and that character gains +4000 power until end of turn."
+EndCard
+
+Event: SHS/W98-056
+Name Happy Birthday MEGUMI
+Color G
+Level 2
+Cost 2
+Effect:
+{
+	MillOpponent 24
+}
+Text Your opponent puts the top 24 cards of their deck into their waiting room.
+EndCard
+
+Climax: SHS/W98-057
+Name Main Heroine Just For You
+*BarClimax
+EndCard
+
+Climax: SHS/W98-058
+Name He Will Keep Chasing After Us Even From Now On
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom IsCharacter && HasTrigger Soul
+	RevealTargets
+	MoveCard Hand
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 characters to gain +1 soul
+	GainSoul 1
+}
+Text Auto: When this card is placed into your climax area from your hand, choose up to 1 character with a <b> SOUL </b> trigger icon in your waiting room and return it to your hand, choose up to 2 of your characters and those characters gain +1 soul until end of turn.
+EndCard
+
+Climax: SHS/W98-059
+Name Because We're Best Friends
+*BarClimax
+EndCard
+
+Climax: SHS/W98-060
+Name Best Future
+*BarClimax
+EndCard
+
+Character: SHS/W98-061
+Name Physical Education Block, Megumi
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation Facing
+	If HasTarget
+	{
+		If LocationContainsOrLess CenterStage 1 Other
+		{
+			Question Move this card to an empty position on your center stage?
+			If Yes
+			{
+				TargetSelf
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, if there is a character facing this card, you may move this card to an empty position in your center stage.
+Auto: OnReversed
+{
+	If Not LocationContains Memory 1 IsColor Red
+	{
+		Question_Obvious Send this card to your memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card is reversed in battle, if there is not a <b> RED </b> card in your memory, you may send this card to your memory.
+Auto: StartMainPhase
+{
+	PayCost 1 Discard 1 Any
+	{
+		Message Choose up to 1 climax to reveal
+		SearchLocationForTargets Hand 0 1 IsClimax
+		If HasTarget
+		{
+			Reveal
+			SaveTargets
+			Message Choose a climax with a different color than the one you revealed
+			SearchLocationForTargets WaitingRoom 1 1 Not SameColorAsSavedTarget && IsClimax
+			AddCurrentToSavedTargets
+			Reveal
+			LoadTargets
+			Exchange
+		}
+	}
+}
+InMemory
+Text Auto: [(1) Discard a card] If this card is in your memory, at the start of your main phase, you may pay the cost. If you do, reveal up to 1 climax in your hand and choose a climax card in your waiting room with a different color than the card revealed this way and exchange them.
+EndCard
+
+Character: SHS/W98-062
+Name Path Taken by You, Megumi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Combo This Is How I Wanted It, You Know?
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Game
+	MultiplyXValue 500
+	GainPower X
+}
+Text Cont: This card gains +500 power for each <Game> character in your backstage.
+Auto: OnAttack
+{
+	If Climax This Is How I Wanted It, You Know? &&& StageContains 2 Other && HasTrait Game
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Game && Compare ThatCardsLevel X OrLess
+		RevealTargets
+		MoveCard Hand
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			Question Bounce an opponent's character?
+			If Yes
+			{
+				TargetLocation OpponentStage
+				ChooseCharacterFromTargets_Optional Choose up to 1 character to return to your opponent's hand
+				Bounce
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "This Is How I Wanted It, You Know?" is in your climax area and you have 2 or more other <Game> characters, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower <Game> character in your waiting room and return it to your hand. If you chose a level 3 or higher character by this effect, you may choose 1 of your opponent's characters and return it to their hand.
+EndCard
+
+Character: SHS/W98-063
+Name The Happiest Author in the World, Utaha
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Game
+Trait2 Novel
+Combo There Is No Doubt He Loved Us
+*GainPowerWithEnoughCharacters(1000,2,Game)
+Auto: OnOpponentReverse
+{
+	If Climax There Is No Doubt He Loved Us
+	{
+		SearchDeck HasTrait Game
+	}
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if "There Is No Doubt He Loved Us" is in your climax area, search your deck for up to 1 <Game> character and add it to your hand.
+EndCard
+
+Character: SHS/W98-064
+Name Going Out Together, Utaha
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Game
+Trait2 Novel
+*EarlyPlay4OrMore(Game)
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Game
+	{
+		GainPower 1500
+		GainEffect
+		{
+			*HandEncoreTrait(Game)
+		}
+	}
+}
+Text Cont: If all of your characters are <Game>, this card gains +1500 power and the following ability. "Auto: ENCORE [Discard a <Game> character]"
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a climax in your waiting room and return it to your hand.
+EndCard
+
+Character: SHS/W98-065
+Name Unfaded Youth Graffiti, Utaha
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Novel
+*GainPowerForEachOther(500,Game)
+Auto: OnAttack
+{
+	If Compare CardsInMemory 2 OrMore
+	{
+		Peek Deck 2
+		If HasTarget
+		{
+			Message Choose a card to put back on top. 
+			AIChoice If Not IsClimax
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Deck
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: MEMORY When this card attacks, if there are 2 or more cards in your memory, look at up to 2 cards from the top of your deck, choose 1 of them to put back on top of your deck and put the rest into the waiting room.
+EndCard
+
+Character: SHS/W98-066
+Name Unwavering Feelings, Utaha
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Game
+Trait2 Novel
+*GlobalPower(1000,Game)
+Act: 4 RestSelf
+{
+	Message Choose up to 1 "The Happiest Illustrator in the World, Eriri" to place on stage
+	SearchLocationForTargets Hand 0 1 NameEquals The Happiest Illustrator in the World, Eriri
+	PlaceOnStage False True True False
+}
+Text Act: [(4) Rest this card] Choose up to 1 "The Happiest Illustrator in the World, Eriri" in your hand and place it on any position on your stage.
+EndCard
+
+Character: SHS/W98-067
+Name Overlapping Heartbeats, Megumi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Game
+Combo Shrinking Distance to You
+*GainPowerWithEnoughCharacters(2000,2,Game)
+Auto: OnAttack
+{
+	If Climax Shrinking Distance to You
+	{
+		PayCost 1
+		{
+			Peek OpponentDeck 5
+			Message Choose up to 5 cards to put into your opponent's waiting room
+			ChooseCardsFromTargets 0 5 Any
+			MoveCard OpponentWaitingRoom
+			EndPeek
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Shrinking Distance to You" is in your climax area, you may pay the cost. If you do, look at up to 5 cards from the top of your opponent's deck, choose up to 5 of them and put them into your opponent's waiting room, return the rest to their deck and shuffle your opponent's deck.
+EndCard
+
+Character: SHS/W98-068
+Name Dressed Up, Megumi
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+*OnPlayCheckX(Game)
+Auto: OnAttack
+{
+	PayCost 1 Discard 2 Any
+	{
+		Burn 1
+		Message Choose up to 1 card to put on top of your opponent's deck
+		SearchLocationForTargets OpponentWaitingRoom 0 1 Any
+		MoveCard OpponentDeck
+	}
+}
+Text Auto: [(1) Discard 2 cards] When this card attacks, you may pay the cost. If you do, deal 1 damage to your opponent and choose up to 1 card in your opponent's waiting room and place it on top of your opponent's deck.
+EndCard
+
+Character: SHS/W98-069
+Name Dressed Up, Utaha
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Novel
+Auto: OnPlay|PlacedBy The Happiest Illustrator in the World, Eriri
+{
+	*OptionalHeal
+}
+Text Auto: When this card is placed on stage from your hand or by the <b> AUTO </b> ability of "The Happiest Illustrator in the World, Eriri", you may put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If StageContains 2 Other && HasTrait Game
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+}
+Text Auto: When this card attacks, if you have 2 or more other <Game> characters, look at up to 2 cards from the top of your deck and return them in any order.
+EndCard
+
+Character: SHS/W98-070
+Name Reunited, Utaha
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Novel
+Combo How to Raise a Boring Girlfriend -Final Chapter-
+*GlobalPower(1500,Game)
+Auto: OnAttack
+{
+	PayCost Discard 1 NameEquals Reunited, Utaha
+	{
+		Heal
+	}
+}
+Text Auto: [Discard a "Reunited, Utaha" from your hand] When this card attacks, if you have 2 or more other <Game> characters, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+Auto: OnAttack
+{
+	If Climax How to Raise a Boring Girlfriend -Final Chapter-
+	{
+		PayCost 2
+		{
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo [(2)] When this card attacks, if "How to Raise a Boring Girlfriend -Final Chapter-" is in your climax area, you may pay the cost. If you do, deal 2 damage to your opponent.
+EndCard
+
+Character: SHS/W98-071
+Name Reunited, Tomoya
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Otaku
+Cont: GiveHand
+{
+	If IsClimax ||| NameContains Reunited && IsCharacter
+	{
+		GainSpecialEffect IgnoreColorRequirement
+	}
+}
+Text Cont: You may play characters with "Reunited" in it's card name and climaxes from your hand without meeting the color requirement.
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other && NameContains Reunited
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Auto: OnEndOfAttack
+		{
+			*OptionalDrawDiscard
+		}
+		Text Auto: At the end of this card's attack, you may draw a card and discard a card.
+	}
+}
+Text Auto: When a climax is placed into your climax area, choose 1 of your other characters with "Reunited" in it's card name and that character gains the following ability until end of turn. "Auto: At the end of this card's attack, you may draw a card and discard a card."
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: SHS/W98-072
+Name Horror Calls, Utaha
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Game
+Trait2 Novel
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Game
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*MillRunner(Game)
+	}
+}
+Text Auto: At the start of your climax phase, choose 1 of your <Game> characters and that character gains the following ability until the end of your opponent's turn. "Auto: At the beginning of your opponent's attack phase, you may put the top card of your deck into the waiting room, if it is a <Game> character, you may move this card to an open position of your center stage."
+EndCard
+
+Character: SHS/W98-073
+Name Meeting With Just The Two of Us, Megumi
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Game
+Auto: StartDrawPhase
+{
+	If Not LocationContains Memory 1 NameEquals Meeting With Just The Two of Us, Megumi && Other
+	{
+		*ScryToBottom
+	}
+}
+InMemory
+Text Auto: MEMORY If this card in your memory and there isn't another "Meeting With Just the Two Of Us" in your memory, at the start of your draw phase, look at the top card of your deck and put it either on top or bottom of your deck.
+Auto: OnReversed
+{
+	If Compare CardsInMemory 2 OrLess
+	{
+		Question_Obvious Send this card to your memory?
+		If Yes
+		{
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if there are 2 of less cards in your memory, you may put this card into your memory.
+Auto: OnReversed
+{
+	TargetBattleOpponent
+	SetXValue OpponentsLevel
+	AddToXValue 1
+	If Compare TargetCardsLevel X OrMore
+	{
+		Question Send the battle opponent to memory?
+		If Yes
+		{
+			TargetBattleOpponent
+			MoveCard Memory
+		}
+	}
+}
+Text Auto: When this card becomes reversed, if the level of this card's battle opponent is higher than your opponent's level, you may put that character into your opponent's memory.
+EndCard
+
+Character: SHS/W98-074
+Name Insolence, Utaha
+Color R
+Level 1
+Cost 1
+Power 5000
+Trait1 Game
+Trait2 Novel
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Game
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gains +1000 power for each <Game> character in your backstage.
+*GlobalPower(500,Game)
+EndCard
+
+Character: SHS/W98-075
+Name What She Really Should Do, Utaha
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Novel
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Game
+	{
+		*CheckAndAdd(4)
+	}
+}
+Text Auto: [(1) Discard a <Game> character] When this a placed on stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from them, add it to your hand and put the rest into your waiting room.
+Auto: OnPlay
+{
+	PayCost SendFromWaitingRoom 2 Deck IsCharacter
+	{
+		ShuffleLocation Deck
+		TargetSelf
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Auto: [Return 2 characters from your waiting room into your deck and shuffle your deck] When this card is placed on stage from your hand, you may pay the cost. If you do, this card may side attack without soul penalty until end of turn.
+EndCard
+
+Character: SHS/W98-076
+Name Smile of Relief, Utaha
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Game
+Trait2 Novel
+*GiveAllOpponentsEncore2
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Game
+		*GiveOtherCharacterPower(1000,Game)
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Game> character in your waiting room, return it to your hand, choose 1 of your other <Game> characters, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: SHS/W98-077
+Name Trust And Expectation, Sonoko
+Color R
+Level 1
+Cost 0
+Power 500
+Trait1 Novel
+Cont: GiveHand
+{
+	If NameEquals Sudden Hospitalization, Akane
+	{
+		ChangeCost -1
+	}
+}
+Text Cont: "Sudden Hospitalization, Akane" in your hand gets -1 cost.
+Act: Discard 1 NameEquals Sudden Hospitalization, Akane
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to return to your opponent's hand
+	Bounce
+}
+Text Act: [Discard a "Sudden Hospitalization, Akane" from your hand] Choose 1 of your opponent's characters and return it to their hand.
+*RestGivePower(2500,Game|Novel)
+EndCard
+
+Character: SHS/W98-078
+Name Troubled Notification, Utaha
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Game
+Trait2 Novel
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Game && IsCharacter
+	{
+		SearchDeck NameEquals A New Everyday, Utaha & Eriri
+	}
+}
+Text Auto: [Discard a <Game> character] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "A New Everyday, Utaha & Eriri" and add it to your hand.
+*RedLevel1Bomb
+EndCard
+
+Character: SHS/W98-079
+Name Sudden Hospitalization, Akane
+Color R
+Level 1
+Cost 1
+Power 7000
+Trait1 Game
+Trait2 Manga
+EndCard
+
+Character: SHS/W98-080
+Name Eyes of Loneliness, Utaha
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Game
+Trait2 Novel
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnCancel
+{
+	If InBattle
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			Bounce
+		}
+	}
+}
+Text Auto: During battles involving this card, when damage taken by you is cancelled, you may return this card to your hand.
+EndCard
+
+Event: SHS/W98-081
+Name End of Negotiation
+Color R
+Level 2
+Cost 2
+Counter
+Effect:
+{	
+	TargetTop Clock 2
+	MoveCard WaitingRoom
+	If OpponentsTurn
+	{
+		ScheduleEffect EndOfMyTurn
+		{
+			Effect:
+			{
+				TargetTop Deck 2
+				MoveCard Clock
+			}
+			Quick
+			Text Put the top 2 cards of your deck into your clock
+		}
+	}
+	Else
+	{
+		ScheduleEffect EndOfOpponentsTurn
+		{
+			Effect:
+			{
+				TargetTop Deck 2
+				MoveCard Clock
+			}
+			Quick
+			Text Put the top 2 cards of your deck into your clock
+		}
+	}
+}
+Text COUNTER Put up to 2 cards from the top of your clock into your waiting room. At the end of the after the current turn, put the top 2 cards of your deck into your clock.
+EndCard
+
+Climax: SHS/W98-082
+Name This Is How I Wanted It, You Know?
+*DoorClimax
+EndCard
+
+Climax: SHS/W98-083
+Name There Is No Doubt He Loved Us
+*StandbyClimax
+EndCard
+
+Climax: SHS/W98-084
+Name Shrinking Distance to You
+*DoorClimax
+EndCard
+
+Climax: SHS/W98-085
+Name How to Raise a Boring Girlfriend -Final Chapter-
+*StandbyClimax
+EndCard
+
+Character: SHS/W98-086
+Name Going Out Together, Michiru
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Music
+Auto: OnClimaxPlay
+{
+	PeekTop Deck 1
+	MultipleChoiceQuestion Put this card on the top of your deck, bottom of your deck, or into the waiting room?|Top of deck|Bottom of deck|Waiting room
+	If Answer 0
+	{
+		EndPeek
+	}
+	If Answer 1
+	{
+		MoveCardToBottom Deck
+	}
+	If Answer 2
+	{
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When a climax is placed into your climax area, look at the top card of your deck and put on the top or bottom of your deck, or put it into the waiting room.
+*Act1RestSelfSearchBrainstorm(Game)
+EndCard
+
+Character: SHS/W98-087
+Name Feelings Riding on Music, Michiru
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Music
+Combo First One Band Show
+Auto: StartAttackPhase
+{
+	If StageContains 1 Other && HasTrait Game &&& Climax First One Band Show
+	{
+		Question Exchange your climax with a climax in your waiting room?
+		If Yes
+		{
+			TargetLocation Climax
+			SaveTargets
+			Message Choose a climax to exchange with
+			SearchLocationForTargets WaitingRoom 0 1 IsClimax
+			If HasTarget
+			{
+				AddCurrentToSavedTargets
+				LoadTargets
+				Exchange
+			}
+		}
+	}
+}
+Text Auto: CxCombo At the start of your attack phase, if you have another <Game> character, you may choose a "First One Band Show" in your climax area and a climax in your waiting room and exchange them.
+Act: 1 Rest 2 Any
+{
+	*Check4Add1Level1OrHigher
+}
+Text Act: [(1) Rest 2 characters] Look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SHS/W98-088
+Name Songwriting Deep Into the Night, Michiru
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Game
+Trait2 Music
+Text Cont: The CxCombo of your other "icy tail, Michiru" puts 1 additional card from the bottom of your opponent's deck into their waiting room.
+*LevelAssist
+Act: RestSelf
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Act: [Rest this card] Draw a card and discard a card.
+EndCard
+
+Character: SHS/W98-089
+Name Unfaded Youth Graffiti, Michiru
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Game
+Trait2 Music
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+	{
+		Peek OpponentDeck 2
+		Message Choose up to 2 cards to put on the bottom of your opponent's deck
+		ChooseCardsFromTargets 0 2 Any
+		MoveCardToBottom OpponentDeck
+		EndPeek
+		TargetSelf
+		GainSpecialEffect NoBackupOnAttack
+		GainSpecialEffect NoEventsOnAttack
+	}
+}
+Text Auto: [Discard 2 cards] When this card attacks, you may pay the cost. If you do, look at up to 2 cards from the top of your opponent's deck, choose up to 2 of them and put them on top of the deck in any order, put the rest on the bottom of their deck in any order and this card gains the following ability until end of turn. "Cont: During battles involving this card, your opponent cannot play events or <b> BACKUP </b> from their hand."
+EndCard
+
+Character: SHS/W98-090
+Name Wrap-Up Party After Live Concert, Tokino
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Music
+Cont: GiveSelf
+{
+	If LocationContainsOrLess OpponentStage 3 Any
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If your opponent has 3 or less characters, this card gains +3000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Music
+	{
+		*CheckAndAddAll(2,HasTrait Music)
+	}
+}		
+Text Auto: [(1) Put 1 《Music》 character from your waiting room at the bottom of your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 《Music》 characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: SHS/W98-091
+Name Reunited, Michiru
+Color B
+Level 1
+Cost 0
+Trigger Soul
+Power 1500
+Trait1 Game
+Trait2 Music
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Reunited, Tomoya
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If you have another "Reunited, Tomoya", this card gains +4000 power.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: SHS/W98-092
+Name Wrap-Up Party After Live Concert, Ranko
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Game
+Trait2 Music
+Cont: GiveSelf
+{
+	If Compare MyLevel 2 OrMore
+	{
+		GainEffect
+		{
+			Act: 1 SendSelf WaitingRoom
+			{
+				Message Choose a "Songwriting Deep Into the Night, Michiru" to place on stage
+				SearchLocationForTargets WaitingRoom 1 1 NameEquals Songwriting Deep Into the Night, Michiru
+				Change
+			}
+			Text Act: [(1) Put this card into your waiting room] Choose a "Songwriting Deep Into the Night, Michiru" in your waiting room and place it on the stage position this card was in.
+		}
+	}
+}
+Text Cont: If you are level 2 or higher, this card gains the following ability. "Act: [(1) Put this card into your waiting room] Choose a "Songwriting Deep Into the Night, Michiru" in your waiting room and place it on the stage position this card was in."
+Auto: OnClimaxPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsColor Blue
+	{
+		TargetLocation Stage
+		ChooseCharactersFromTargets 0 2 Choose up to 2 characters to gain +1000 power
+		GainPower 1000
+	}
+}
+Text Auto: When a climax is placed into your climax area, reveal the top card of your deck. If that card is <b> BLUE </b>, choose up to 2 of your characters and those characters gain +1000 power until end of turn.
+Auto: OnTriggerCheckClimax
+{
+	IfOther IsColor Blue
+	{
+		PayCost 1
+		{
+			BlindStock
+			TargetLocation Stage
+			NarrowTargets IsColor Blue
+			ChooseCharacterFromTargets Choose a character to gain +2000 power
+			GainPower 2000
+		}
+	}
+}
+Text Auto: [(1)] When your character's trigger check reveals a <b> BLUE </b> climax card, you may pay the cost. If you do, put the top card of your deck into your stock, choose 1 of your <b> BLUE </b> characters and that character gains +2000 power until end of turn.
+EndCard
+
+Character: SHS/W98-093
+Name Wrap-Up Party After Live Concert, Echika
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Game
+Trait2 Music
+*EarlyPlay4OrMore(Music)
+*OnPlayGainPowerAndNoBackups(4500)
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		Message Choose an "icy tail, Michiru" to return to your hand
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals icy tail, Michiru
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, choose an "icy tail, Michiru" in your waiting room and return it to your hand.
+EndCard
+
+Character: SHS/W98-094
+Name Last Chase, Michiru
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Music
+*OnAttackGivePower(1500,Game)
+Auto: StartAttackPhase
+{
+	If LocationContains OpponentCenterStage 1 Any &&& LocationContainsOrLess OpponentCenterStage 2 Any
+	{
+		Question Move a character in your opponent's center stage to an empty position?
+		If Yes
+		{
+			TargetLocation OpponentCenterStage
+			ChooseCharacterFromTargets Choose a character to move
+			MoveToOpenPosition True False
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, you may choose a character in your opponent's center stage and move it to another empty position on their center stage.
+EndCard
+
+Character: SHS/W98-095
+Name Ambush, Michiru
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Music
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck in your waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may put the top 3 cards of your deck into your waiting room.
+*GainPowerWhenOtherAttacks(1500,Game)
+EndCard
+
+Character: SHS/W98-096
+Name Disheveled Look, Michiru
+Color B
+Level 1
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Music
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchDeck HasTrait Game
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on stage from your hand, you may pay the cost. If you do, search your deck for up to 1 <Game> character and add it to your hand.
+*BlueCost0Bomb
+EndCard
+
+Character: SHS/W98-097
+Name Wrap-Up Party After Live Concert, Michiru
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Game
+Trait2 Music
+*ScryBackup(Game)
+Backup 2000
+EndCard
+
+Character: SHS/W98-098
+Name Innocent Impulse, Michiru
+Color B
+Level 2
+Cost 1 
+Trigger Soul
+Power 6500
+Trait1 Game
+Trait2 Music
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Game
+	{
+		Message Choose a <Game> character to add to hand
+		SearchLocationForTargets WaitingRoom 1 1 HasTrait Game
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a <Game> character] When this card is placed on stage from your hand, you may pay the cost. If you do, choose a <Game> character in your waiting room and return it to your hand.
+EndCard
+
+Event: SHS/W98-099
+Name Hast Setup
+Color B
+Level 3
+Cost 2
+Effect:
+{
+	Message Choose 2 climaxes to stay out of your refresh
+	OpponentSearchLocationForTargets WaitingRoom 2 2 IsClimax
+	ReverseTargets OpponentWaitingRoom
+	MoveCard OpponentDeck
+	ShuffleLocation OpponentDeck
+	*GiveCharacterPower(5000,Any)
+}
+Text Your opponent chooses 2 climaxes in their waiting room, return all other cards in their waiting room to their deck and shuffles their deck, then you choose 1 of your characters and that character gains +5000 power until end of turn.
+EndCard
+
+Climax: SHS/W98-100
+Name First One Band Show
+*GateClimax
+EndCard
+
+Character: SHS/W98-101
+Name Happy Life, Eriri
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Manga
+*OnAttackGivePowerTimesSoul
+Act: 1
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Game
+	ChooseCharacterFromTargets Choose a character to gain +1 soul
+	GainSoul 1
+}
+Text Act: [(1) Choose 1 of your <Game> characters and that character gains +1 soul until end of turn.
+EndCard
+
+Character: SHS/W98-102
+Name Happy Life, Izumi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Game
+Trait2 Manga
+Auto: OnDamageNotCanceled
+{
+	GainPower 6000
+}
+Text Auto: When damage dealt by this card is not canceled, this card gains +6000 power until end of turn.
+EndCard
+
+Character: SHS/W98-103
+Name Happy Life, Megumi
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Game
+Cont: InHand
+{
+	If StageContainsOrLess 2 HasTrait Game
+	{
+		GainSpecialEffect CannotBePlayed
+	}
+}
+Text Cont: If you have 2 or less <Game> characters, you cannot play this card from your hand.
+Auto: OnOpponentReverse
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax area, you may put the top card of your deck into your stock.
+EndCard
+
+Character: SHS/W98-104
+Name Happy Life, Utaha
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Game
+Trait2 Novel
+Cont: GiveSelf
+{
+	TargetLocation Facing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If the level of the character facing this card is 3 or more, this card gains +3000 power.
+*OnPlayGainPowerForEach(500,Game)
+EndCard
+
+Character: SHS/W98-105
+Name Happy Life, Michiru
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Game
+Trait2 Music
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Game
+	{
+		Question_Obvious Put a <Game> character from your waiting room into your stock?
+		If Yes
+		{
+			Message Choose a <Game> character to put into your stock
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Game && IsCharacter
+			RevealTargets
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if you have 4 or more other <Game> characters, you may choose a <Game> character in your waiting room and put it into your stock.
+Backup 3000
+EndCard
+
+Character: SHS/W98-P01
+Name Adult Woman, Megumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Game
+Auto: OnUseThisCardsBackup
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When you use this card's "BACKUP", you may pay the cost. If you do, return all cards from your waiting room to your deck and shuffle your deck.
+Backup 2500
+EndCard
+
+Character: SHS/W98-P02
+Name Adult Womam, Eriri
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Game
+Trait2 Manga
+Cont: GiveSelf
+{
+}
+Text Cont: You can put up to 4 cards with the same card name as this card and "Nostalgic Memories Eriri" in your deck.
+Auto: OnPlay
+{
+	*GiveOtherCharacterPower(2000,Game)
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Game> characters. It gets +2000 power until end of turn.
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any &&& SendSelf Memory
+	{
+		SearchDeck HasTrait Game
+	}
+}
+Text Auto: [(1) Discard a card & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Game> character, and put it into your hand.
+EndCard
+
+Character: SHS/W98-P03
+Name Adult Woman, Utaha
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+Trait2 Novel
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInMemory 1 OrMore
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: MEMORY During your turn, if you have a card in your memory, this card gets +2500 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn.
+EndCard
+
+Character: SHS/W98-P04
+Name Cat-Eared Girl, Megumi
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Game
+*OnPlayGainPowerForEach(500,Game)
+Act: Rest 2 Any
+{
+	*GiveCharacterPower(2000,Game)
+}
+Text Act: [Rest 2 of your characters] Choose 1 of your <Game> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: SHS/W98-P05
+Name Cat-Eared Girl, Eriri
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Game
+Trait2 Manga
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +1500 power.
+Act: Discard 1 Any &&& SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Game
+}
+Text Act: [Put 1 card from your hand into the waiting room & Put this card into your waiting room] Choose 1 <Game> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: SHS/W98-P06
+Name Diary With You, Megumi
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Game
+*EarlyPlay4OrMore(Game)
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 HasTrait Game
+	{
+		GainPower 1000
+	}
+}
+Text Cont: MEMORY If there are 2 or more <Game> characters in your memory, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		RevealUpTo Deck 4
+		Message Choose up to 2 cards to put into your hand.
+		ChooseCardsFromTargets 0 2 HasTrait Game
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: During the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, look at up to 4 cards from the top of your deck, choose up to 2 <Game> characters from among them, put them into your hand, and put the rest into the waiting room.
+EndCard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

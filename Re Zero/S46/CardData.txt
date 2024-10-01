@@ -1,0 +1,3174 @@
+﻿Character: RZ/S46-E001
+Name Royal Election Candidate, Felt
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Weapon
+Trait2 Fang Teeth
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other <Magic> or <Weapon> characters you have is 3 or more, this card gets +2000 power.
+Auto: OnAttack
+{
+	Message Choose a card in your deck to put into your stock.
+	SearchLocationForTargets Deck 0 1 HasTrait Magic|Weapon
+	RevealTargets
+	MoveCard Stock
+	ShuffleLocation Deck
+}
+Text Auto: When this card attacks, search your deck for up to 1 <Magic> or <Weapon> character and put it into your stock.
+Auto: OnAttack
+{
+	PayCost 2
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the ability to.
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				*OptionalBurn(1)
+			}
+			TimesPerTurn 1
+			Text Auto: Once per turn, when damage dealt by this card is canceled, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: [(2)] When this card attacks, you may pay the cost, choose 1 of your characters, it gets the following ability until end of turn. ""Auto: Once per turn, when damage dealt by this card is canceled, deal 1 damage to your opponent."
+EndCard
+
+Character: RZ/S46-E002
+Name Former Sword Saint, Theresia
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Flower
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && NameEquals Young Swordsman, Wilhelm
+	{
+		GainLevel 1
+		GainPower 500
+	}
+}
+Text Cont: Your other "Young Swordsman, Wilhelm" get +1 level and +500 power.
+Auto: OnLevelUp
+{
+	PayCost 1 SendSelf Memory
+	{
+		*Check4Add1(Weapon)
+	}
+}
+Text Auto: [(1) Put this card into your memory] When you level up, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 <Weapon> character among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: RZ/S46-E003
+Name Head of House Karsten, Crusch
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, your other character in the middle position of your center stage gets +1000 power.
+Act: 2 RestSelf
+{
+	SearchDeck HasTrait Magic|Weapon
+}
+Text Act: [(2) Rest this card] Search your deck for up to 1 <Magic> or <Weapon> character and add it to your hand.
+*Act1SearchBrainstorm(Magic|Weapon)
+EndCard
+
+
+Character: RZ/S46-E004
+Name Young Swordsman, Wilhelm
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Weapon
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && InLocation CenterStage
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you do not have any other characters on your center stage, this card gets +1500 power.
+*RunToCenter
+EndCard
+
+Character: RZ/S46-E005
+Name Declaration of War, Felt
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Weapon
+Trait2 Fang Teeth
+*MillRunner(Magic|Weapon)
+EndCard
+
+Character: RZ/S46-E006
+Name The Greatest Knight, Julius
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Trait2 Knight
+Cont: GiveSelf
+{
+	If MyTurn && StageContainsOrLess 0 Not HasTrait Magic|Weapon|Merchant
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Magic> or <Weapon> or <Merchant>, this card gets +2000 power.
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Magic|Weapon|Merchant
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If the number of <Magic> or <Weapon> or <Merchant> charaacters you have is 3 or more, this card gets +500 power and "Auto: Encore [Discard a character]".
+EndCard
+
+
+Character: RZ/S46-E007
+Name Sword Saint, Reinhard
+Color Y
+Level 3
+Cost 3
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Weapon
+Trait2 Knight
+Cont: GiveSelf
+{
+	GainSpecialEffect GreatPerformance
+}
+Text Cont: GREAT PERFORMANCE
+Cont: GiveSelf
+{
+	If Compare Experience 6 OrMore && Not StageContains 1 Other
+	{
+		GainPower 10000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotBeChosen
+				GainSpecialEffect CannotBeReversedByAutoEffects
+			}
+			Text Cont: This card cannot be chosen by your opponent's effects, and cannot be reversed by your opponent's character's AUTO effects.
+		}
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect NoEventsOnAttack
+				GainSpecialEffect NoBackupOnAttack
+			}
+			Text Cont: During this card's battle, your opponent cannot play event cards or "<b>Backup</b>" from hand.
+		}
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				Question Put the battle opponent into your opponent's memory?
+				If Yes
+				{
+					TargetOther
+					MoveCard Memory
+				}
+			}
+			Quick
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+		}
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				PayCost Discard 1 Any
+				{
+					Burn 1
+				}
+			}
+			Text Auto: [Discard a card] When this card's battle opponent becomes reversed, you may pay the cost, deal 1 damage to your opponent.
+		}
+		GainEffect
+		{
+			*FreeRunner
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 6 or higher, and you do not have any other characters, this card gets +10000 power and the following five abilities. "Cont: This card cannot be chosen by your opponent's effects, and cannot be reversed by your opponent's character's AUTO effects." "Cont: During this card's battle, your opponent cannot play event cards or "<b>Backup</b>" from hand." "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory." "Auto: [Discard a card] When this card's battle opponent becomes reversed, you may pay the cost, deal 1 damage to your opponent." "Auto: At the beginning of your opponent's attack phase, you may move this card to an open position of your center stage."
+EndCard
+
+Character: RZ/S46-E008
+Name Expert Negotiator, Anastasia
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Merchant
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1(Merchant|Beast Man|Knight)
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 <Merchant> or <Beast Man> or <Knight> character, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: RZ/S46-E009
+Name Healer, Felix
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Knight
+Cont: GiveAll
+{
+	If InLocation MiddleCenterStage && NameContains Crusch
+	{
+		GainPower 1500
+	}
+}
+Text Cont: Your other character in the middle position of your center stage with "Crusch" in its name gets +1500 power.
+*500Assist
+Act: 2 RestSelf
+{
+	Heal
+}
+Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+EndCard
+
+Character: RZ/S46-E010
+Name White Whale Hunt, Crusch
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Weapon
+Combo Hundred Man Sword Strike
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Not HasTrait Magic|Weapon
+	{
+		GainPower 4000
+	}
+}
+Text Cont: If all of your characters are <Magic> or <Weapon>, this card gets +4000 power.
+Auto: OnAttack
+{
+	If StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		Peek Deck 2
+		Message Choose a card to return to the top of your deck.
+		ChooseCardsFromTargets 1 1 Any
+		MoveCard Deck
+		PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: When this card attacks, if the number of other <Magic> or <Weapon> characters you have is 3 or more, look at up to 2 cards from the top of your deck, choose one to return to the top of your deck, and put the rest into the waiting room.
+Auto: OnAttack
+{
+	If Climax Hundred Man Sword Strike
+	{
+		PayCost Discard 1 Any
+		{
+			BlindStock
+			SetXValue 2
+			*CheckX
+		}
+	}
+}
+Text Auto: CxCombo [Discard a card] When this card attacks, if "Hundred Man Sword Strike" is in your climax area, you may pay the cost, put the top card of your deck into your stock, look at up to 2 cards from the top of your deck, choose up to 1 to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: RZ/S46-E011
+Name Felt's Knight, Reinhard
+Color Y
+Level 1
+Cost 0
+Power 2000
+Trait1 Weapon
+Trait2 Knight
+*BackupBonus1000(Magic|Weapon)
+Backup 1000
+EndCard
+
+Character: RZ/S46-E012
+Name Old Man Rom
+Color Y
+Level 1
+Cost 0
+Power 5000
+Trait1 Weapon
+Trait2 Titan
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && NameContains Felt
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another character with "Felt" in its card name, this card cannot stand during your stand phase.
+Auto: OnPlay
+{
+	If StageContains 1 Other && NameContains Felt
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, if you have another character with "Felt" in its name, this card gets +2000 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther NameContains Felt
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			GainPower 2500
+		}
+	}
+}
+Text Auto: [(1) Put this card into the waiting room] When your other character with "Felt" in its name is frontal attacked, you may pay the cost, your character in battle gets +2500 power until end of turn.
+EndCard
+
+Character: RZ/S46-E013
+Name Pride of the Slums, Felt
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Weapon
+Trait2 Fang Teeth
+Combo Mistral Maiden
+Auto: OnPlay
+{
+	If Compare CardsInDeck 5 OrLess
+	{
+		PayCost SendSelf WaitingRoom Discard 1 NameEquals Mistral Maiden
+		{
+			TargetLocation WaitingRoom
+			MoveCard Deck
+			SearchDeck NameContains Felt|Old Man Rom|Reinhard
+			SearchLocationForTargets Deck 0 1 NameEquals Royal Election Candidate, Felt
+			Change
+			GainPower 1000
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [Discard a "Mistral Maiden" & Put this card into the waiting room] When this card is placed on the stage from your hand, if the number of cards in your deck is five or less, you may pay the cost. If you do, return all cards in your waiting room to your deck, search your deck for up to one character with "Felt" or "Old Man Rom" or "Reinhard" in its card name, reveal it to your opponent, put it into your hand, search your deck for up to one card named "Royal Election Candidate, Felt", and put it on the stage position that this card was on, and that character gets +1000 power until end of turn.
+EndCard
+
+Character: RZ/S46-E014
+Name Wilhelm van Astrea
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 5000
+Soul 2
+Trait1 Weapon
+Cont: InHand
+{
+	If LocationContains WaitingRoom 2 NameEquals Wilhelm van Astrea
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If the number of cards name "Wilhelm van Astrea" in your waiting room is 2 or more, this card gets -1 level in your hand.
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Not HasTrait Magic|Weapon
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If all of your characters are <Magic> or <Weapon>, this card gets +3000 power.
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 NameEquals Former Sword Saint, Theresia
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBlindStock
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+		}
+	}
+}
+Text Cont: MEMORY If the number of cards named "Former Sword Saint, Theresia" in your memory is 2 or more, this card gets +2000 power and the following ability, "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
+EndCard
+
+Character: RZ/S46-E015
+Name Unseen Hand, Petelgeuse
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Witch Cult
+Trait2 Magic
+Cont: GiveSelf
+{
+	GainTrait Sloth
+	GainTrait Diligence
+}
+Cont: GiveFacing
+{
+	GainTrait Sloth
+}
+Text Cont: If this card is on the stage, this card gets <Sloth> and <Diligence> and the character facing this gets <Sloth>.
+Auto: OnReversed
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		PayCost Clock Discard 1 HasTrait Magic|Weapon
+		{
+			Rest
+			Burn 1
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock and discard a <Magic> or <Weapon> character] When this card becomes reversed in battle, if the number of cards in your hand is 5 or more, you may pay the cost, rest this card, and deal 1 damage to your opponent.
+Auto: StartMyEncoreStep
+{
+	If Not StageContains 1 NameContains Subaru
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: At the beginning of your encore step, if you do not have another character with "Subaru" in its name, choose 1 of your characters and put it into the waiting room.
+EndCard
+
+Character: RZ/S46-E016
+Name Sloth Sin Archbishop, Petelgeuse
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Witch Cult
+Trait2 Magic
+Cont: GiveSelf
+{
+	GainTrait Sloth
+	GainTrait Diligence
+}
+Cont: GiveFacing
+{
+	GainTrait Sloth
+}
+Text Cont: If this card is on the stage, this card gets <Sloth> and <Diligence> and the character facing this gets <Sloth>.
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotDirectAttack
+}	
+Text Cont: This card cannot direct attack.
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each marker underneath this card.
+Auto: OnReversed
+{
+	If Compare MarkersUnderThis 10 OrLess && OnStage
+	{
+		TargetTop Stock 1
+		If HasTarget
+		{
+			Marker_FaceDown
+			TargetSelf
+			Rest
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, if the number of markers underneath this card is 10 or less, put the top card of your stock underneath this card as a marker, if you do, rest this card.
+EndCard
+
+Character: RZ/S46-E017
+Name Thankful Feelings, Felt
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Weapon
+Trait2 Fang Teeth
+Auto: OnPlay
+{
+	OpponentQuestion Reveal your hand? If you reveal a climax this character will rest.
+	If Yes
+	{
+		RevealOpponentHand
+		TargetLocation OpponentHand
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			TargetSelf
+			Rest
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent may reveal their hand, if your opponent does, if there is a climax revealed among those cards, rest this card.
+EndCard
+
+Character: RZ/S46-E018
+Name Fang of Iron Vice-Captain, Mimi
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Beast Man
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+*Bond1(Fang of Iron Vice-Captain\, Hetaro)
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Fang of Iron Vice-Captain, Hetaro
+	{
+		GainPower 6000
+	}
+}
+Text Auto: RESONATE [Reveal a card named "Fang of Iron Vice-Captain, Hetaro" from your hand] At the beginning of your climax phase, you may pay the cost, this card gets +6000 power until end of turn.
+EndCard
+
+Character: RZ/S46-E019
+Name Fang of Iron Vice-Captain, Hetaro
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Beast Man
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotBeReversedByAutoEffects
+}
+Text Cont: This card cannot be reversed by your opponent's character's AUTO effects.
+*BondDiscard(Fang of Iron Vice-Captain\, Mimi)
+Auto: StartClimaxPhase
+{
+	PayCost Resonate Fang of Iron Vice-Captain, Mimi
+	{
+		GainPower 4000
+		GainSoul 1
+	}
+}
+Text Auto: RESONATE [Reveal a card named "Fang of Iron Vice-Captain, Mimi" from your hand] At the beginning of your climax phase, you may pay the cost, this card gets +4000 power and +1 soul until end of turn.
+EndCard
+
+Character: RZ/S46-E020
+Name Priscilla's Knight, Aldebaran
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Weapon
+Trait2 Knight
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Royal Election Candidate, Priscilla
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another card named "Royal Election Candidate, Priscilla" this card gets +3000 power.
+Cont: GiveAll
+{
+	IfOwner InLocation CenterStage
+	{
+		If NameEquals Royal Election Candidate, Priscilla
+		{
+			GainPower 1500
+			GainLevel 1
+		}
+	}
+}
+Text Cont: If this card is on your center stage, all of your other "Royal Election Candidate, Priscilla" get +1 level and +1500 power.
+EndCard
+
+Character: RZ/S46-E021
+Name Royal Election Candidate, Anastasia
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Merchant
+EndCard
+
+Character: RZ/S46-E022
+Name Royal Election Candidate, Priscilla
+Color Y
+Level 1
+Cost 1
+Power 5000
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If InBattle
+	{
+		TargetFacing
+		SetXValue ThisCardsLevel
+		AddToXValue -1
+		IfTarget Compare ThatCardsLevel X OrLower
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During this card's battle, if the level of this card's battle opponent is lower than the level of this card, this card gets +2000 power.
+Cont: GiveFacing
+{
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			TargetFacing
+			SetXValue ThisCardsLevel
+			AddToXValue 1
+			IfTarget Compare ThatCardsLevel X OrHigher
+			{
+				GainSpecialEffect CannotFrontalAttack
+			}
+		}
+		Text Cont: If the character facing this card is a higher level than this card, this card cannot frontal attack.
+	}
+}
+Text Cont: The character facing this card gets the following ability, "Cont: If the character facing this card is a higher level than this card, this card cannot frontal attack."
+EndCard
+
+Character: RZ/S46-E023
+Name Negotiating An Alliance, Crusch
+Color Y
+Level 1
+Cost 1
+Power 5000
+Trait1 Magic
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other <Magic> or <Weapon> characters you have is 3 or more, this card gets +2000 power.
+Act: Discard 2 Any
+{
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CanAttackBackstage
+		}
+		Text Cont: If this card would attack, you may instead choose a character on your opponent's backstage, and have this card frontal attack with the chosen character as the defending character.
+	}
+}
+Text Act: [Discard 2 cards] This card gets the following effect until end of turn. "Cont: If this card would attack, you may instead choose a character on your opponent's backstage, and have this card frontal attack with the chosen character as the defending character."
+EndCard
+
+Character: RZ/S46-E024
+Name Airs of a Queen, Priscilla
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Magic
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost 4 Discard 1 HasTrait Magic|Weapon
+	{
+		TargetLocation OpponentStage
+		AIChoice Rest
+		ChooseCharacterFromTargets Choose a character to rest
+		Rest
+	}
+}
+Text Auto: [(4) Discard a <Magic> or <Weapon> character] When you use this card's "<b>Backup</b>", you may pay the cost, choose 1 of your opponent's characters, and rest it.
+Backup 2500
+EndCard
+
+Character: RZ/S46-E025
+Name Bowel Hunter, Elsa
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Weapon
+Auto: OnAttack
+{
+	TargetFacing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		TargetSelf
+		GainPower 4000
+		GainSoul 1
+	}
+}
+Quick
+Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +4000 power and +1 soul until end of turn.
+Auto: OnReverseOpponent
+{
+	Peek OpponentDeck 2
+	EndPeek
+	Reorder
+}
+Text Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your opponent's deck, and return them in any order.
+EndCard
+
+Character: RZ/S46-E026
+Name Fang of Iron Captain, Ricardo
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Weapon
+Trait2 Beast Man
+Auto: OnAttack
+{
+	If StageContainsOrLess 0 InLocation CenterStage && Other && Not CardPosition Stand
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if all of your other characters on the center stage are standing, this card gets +2000 power until end of turn.
+EndCard
+
+
+
+Event: RZ/S46-E027
+Image RZ_S46_E027a
+Name Royal Election
+Color Y
+Level 1
+Cost 1
+Effect
+{
+	Discard 1 Any
+	MultipleChoiceQuestion Choose a combination.|Crusch & Felix or Ferris|Priscilla & Al|Anastasia & Julius|Emilia & Roswaal or Puck or Subaru|Felt & Reinhard
+	If Answer 0
+	{
+		Message Search for character with Crusch in its name.
+		SearchDeck IsCharacter && NameContains Crusch
+		Message Search for character with Felix or Ferris in its name.
+		SearchDeck IsCharacter && NameContains Felix|Ferris
+	}
+	If Answer 1
+	{
+		Message Search for character with Priscilla in its name.
+		SearchDeck IsCharacter && NameContains Priscilla
+		Message Search for character with Al in its name.
+		SearchDeck IsCharacter && NameContains Al|Aldebaran
+	}
+	If Answer 2
+	{
+		Message Search for character with Anastasia in its name.
+		SearchDeck IsCharacter && NameContains Anastasia
+		Message Search for character with Julius in its name.
+		SearchDeck IsCharacter && NameContains Julius
+	}
+	If Answer 3
+	{
+		Message Search for character with Emilia in its name.
+		SearchDeck IsCharacter && NameContains Emilia
+		Message Search for character with Roswaal, Puck, or Subaru in its name.
+		SearchDeck IsCharacter && NameContains Roswaal|Puck|Subaru
+	}
+	If Answer 4
+	{
+		Message Search for character with Felt in its name.
+		SearchDeck IsCharacter && NameContains Felt
+		Message Search for a character with Reinhard in its name.
+		SearchDeck IsCharacter && NameContains Reinhard
+	}
+}
+Text Discard a card.\nDeclare one of the following combinations.\n"A character with "Crusch in its card name and a character with "Felix" or "Ferris" in its card name"\n"A character with "Priscilla" in its card name and a character with "Al" in its card name"\n"A character with "Anastasia" in its card name and a character with "Julius" in its card name"\n"A character with "Emilia" in its card name and a character with "Roswaal" or "Puck" or "Subaru" in its card name"\n"A character with "Felt" in its card name and a character with "Reinhard" in its card name"\nSearch your deck for one of each character in the combination you declared and add them to your hand.
+EndCard
+
+
+Climax: RZ/S46-E028
+Name Mistral Maiden
+*YellowStockSoul
+EndCard
+
+Climax: RZ/S46-E029
+Name Hundred Man Sword Strike
+*WindClimax
+EndCard
+
+
+
+
+Character: RZ/S46-E030
+Name Pink-Haired Maid, Ram
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Magic
+Trait2 Maid
+Combo Subaru Natsuki's Decoy Tactic
+*OnPlayCheck3
+Auto: OnSpecificClimaxPlay Subaru Natsuki's Decoy Tactic
+{
+	If InLocation CenterStage
+	{
+		Message Choose up to 2 cards to shuffle into your opponent's deck
+		SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+		TargetSelf
+		GainPower 3000
+	}
+}
+Text Auto: CxCombo When "Subaru Natsuki's Decoy Tactic" is placed in your climax area, if this card is on your center stage, choose up to 2 cards in your opponent's waiting room, shuffle them into your opponent's deck, and this card gets +3000 power until end of turn.
+Auto: OnAttack
+{
+	PayCost 2 Discard 1 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2) Discard a card] When this card attacks, you may pay the cost, deal 1 damage to your opponent.
+EndCard
+
+
+Character: RZ/S46-E031
+Name Cute Girl, Beatrice
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Magic
+Trait2 Book
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Not HasTrait Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Magic> or <Weapon>, this card gets +2000 power.
+*Healer
+Auto: StartOpponentAttackPhase
+{
+	If LocationContains Memory 1 NameEquals Forbidden Library
+	{
+		PayCost 1
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Magic|Weapon
+			ChooseCharacterFromTargets Choose a character to exchange this card with.
+			AddSelfToTargets
+			Exchange
+			Stand
+			TargetSelf
+			GainPower 1000
+		}
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, if you have a "Forbidden Library" in your memory, you may pay the cost, choose 1 of your other <Magic> or <Weapon> characters, and this card, exchange them as standing, and this card gets +1000 power until end of turn.
+EndCard
+
+
+
+
+Character: RZ/S46-E032
+Name Roswaal Mansion Maid, Ram
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Magic
+Trait2 Maid
+Combo As the Older Sister
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Not NameContains Roswaal|Ram|Rem
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters have "Roswaal" "Ram" or "Rem" in its name, this card gets +1000 power.
+Auto: OnReverseOpponent
+{
+	If Climax As the Older Sister && StageContainsOrLess 0 Not NameContains Roswaal|Ram|Rem
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets WaitingRoom 0 2 IsCharacter && NameContains Roswaal|Ram|Rem
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card's battle opponent becomes reversed, if "As the Older Sister" is in your climax area, and all of your characters have "Roswaal" "Ram" or "Rem" in its name, you may pay the cost, choose up to 2 characters in your waiting room with "Roswaal" "Ram" or "Rem" in its name, and return them to your hand.
+EndCard
+
+Character: RZ/S46-E033
+Name Clairvoyance, Ram
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Maid
+Cont: GiveAll
+{
+	If Other && NameContains Rem|Ram|Roswaal
+	{
+		GainPower 500
+	}
+}
+Text Cont: Your other characters with "Roswaal" "Rem" or "Ram" in its name get +500 power.
+Auto: OnPlay|OnOtherPlacedOnStageFromHand
+{
+	IfOther NameContains Rem|Ram|Roswaal
+	{
+		TargetTop Deck 1
+		View
+	}
+}
+Text Auto: When your other character with "Roswall" "Rem" or "Ram" in its name is placed on the stage from your hand, you may look at the top card of your deck.
+Act: 1 Discard 1 IsClimax
+{
+	SearchWaitingRoom IsCharacter && NameContains Rem|Ram|Roswaal
+}
+Text Act: [(1) Discard a climax] Choose a character with "Roswall" "Rem" or "Ram" in its name in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/S46-E034
+Name The Maid Saw! Ram
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveAll
+{
+	If NameContains Subaru
+	{
+		GainName Barusu
+	}
+}
+Text Cont: The card names of all of your other characters with "Subaru" in its card name are also regarded as "Barusu"
+*BondDiscard(Dim Light Seen With Those Eyes\, Rem)
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+
+Character: RZ/S46-E035
+Name Canopy Piercing Sunlight, Rem & Ram
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Maid
+*RedLevel0Bomb
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Magic|Weapon
+}
+Text Act: [Discard a card, put this card into the waiting room] Choose a <Magic> or <Weapon> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/S46-E036
+Name Sunset Knoll, Beatrice
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Book
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, this card gets +1000 power.
+*RedLevel1Bomb
+EndCard
+
+Character: RZ/S46-E037
+Name Forbidden Library Warden, Beatrice
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Book
+Combo Breaking the Curse
+Auto: OnAttack
+{
+	If Climax Breaking the Curse
+	{
+		Mill 1
+		IfTarget HasTrait Magic|Weapon
+		{
+			SearchWaitingRoom HasTrait Magic|Weapon
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Breaking the Curse" is in your climax area, put the top card of your deck into the waiting room, if it is a <Magic> or <Weapon> character, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+
+Character: RZ/S46-E038
+Name Bathtime! Rem & Ram
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Not NameContains Roswaal|Rem|Ram
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all your characters have "Roswaal" "Rem" or "Ram" in its name, this card gets +1000 power.
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsCharacter && NameContains Roswaal|Rem|Ram
+	{
+		SetXValue TargetCardsLevel
+		Burn X
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck, if it is a character with "Roswaal" "Rem" or "Ram" in its name, deal X damage to your opponent, X is that card's level.
+Auto: OnReverseOpponent
+{
+	PayCost 1
+	{
+		Message Choose a card to put on top of the opponent's deck.
+		SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+		MoveCard OpponentDeck
+	}
+}
+Text Auto: [(1)] When this card's battle opponent becomes reversed, you may pay the cost, choose a card in your opponent's waiting room, and put it on top of his or her deck.
+EndCard
+
+Character: RZ/S46-E039
+Name With Puck, Subaru
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Death
+Trait2 Magic
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Forbidden Library
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a "Forbidden Library" in your waiting room, and return it to your hand.
+Auto: OnReversed
+{
+	PayCost 1 SendSelf Memory Discard 1 Any
+	{
+		SearchWaitingRoom HasTrait Magic|Weapon
+	}
+}
+Text Auto: [(1) Discard a card, put this card into your memory] When this card becomes reversed in battle, you may pay the cost, choose a <Magic> or <Weapon> character in your waiting room, and return it to your hand.
+EndCard
+
+
+
+Character: RZ/S46-E040
+Name Court Sorcerer, Roswaal
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Magic
+Trait2 Odd Eye
+*HexProof
+*LevelAssistTrait(Magic|Weapon)
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+*GivePowerOnAct(500,1)
+Act: 2 RestSelf
+{
+	DrawCard
+}
+Text Act: [(2) Rest this card] Draw a card.
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLower
+	ChooseCharacterFromTargets Choose a character to send to the waiting room.
+	MoveCard OpponentWaitingRoom
+}
+Text Act: [(1)] Choose a level 0 or lower character on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: RZ/S46-E041
+Name Forbidden Library Librarian, Beatrice
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Magic
+Trait2 Book
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of other <Magic> or <Weapon> characters you have is 3 or more, this card gets +2000 power.
+*HandEncore
+EndCard
+
+Character: RZ/S46-E042
+Name Oni Prodigy, Ram
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 NameContains Roswaal
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have a character with "Roswaal" in its name, this card cannot stand during your stand phase.
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Roswaal
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If you have another character with "Roswaal" in its name, this card gets +1 level and +2500 power.
+EndCard
+
+Character: RZ/S46-E043
+Name With Puck, Beatrice
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Magic
+Trait2 Book
+Combo Mana Drain
+*ContForEachOtherTrait(1000,Magic|Weapon)
+Auto: OnAttack
+{
+	If Climax Mana Drain && StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		PayCost 1
+		{
+			Burn 1
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					Question Put the battle opponent on top of your opponent's deck?
+					If Yes
+					{
+						TargetOther
+						MoveCard OpponentDeck
+					}
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Mana Drain" is in your climax area, and you have 3 or more other <Magic> or <Weapon> characters, you may pay the cost, deal 1 damage to your opponent, and this card gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on top of your opponent's deck."
+EndCard
+
+Character: RZ/S46-E044
+Name Self-Praise, Ram
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	TargetFacing
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		GainPower 4500
+	}
+}
+Text Cont: If the character facing this card is level 3 or higher, this card gets +4500 power.
+Auto: OnPlay
+{
+	If StageContains 4 Other && HasTrait Magic|Weapon
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of other <Magic> or <Weapon> characters you have is 4 or more, you may put the top card of your deck into your stock.
+EndCard
+
+Character: RZ/S46-E045
+Name Sticking with Bubby, Beatrice
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Book
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 IsClimax
+	{
+		TargetLocation OpponentStage
+		NarrowTargets CanBeChosen
+		OpponentChooseCharactersFromTargets 1 1 Choose a character to put into the waiting room
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: [(1) Discard a climax] Whent his card is placed on the stage from your hand, you may pay the cost, your opponent chooses one of your opponent's characters, and puts it into the waiting room.
+*BondDiscard(Great Spirit\, Puck)
+EndCard
+
+Character: RZ/S46-E046
+Name Innocent Child, Petra
+Color R
+Level 0
+Cost 0
+Power 500
+*500Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Weapon
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Act: [Rest this card] Choose 1 of your <Magic> or <Weapon> characters, it gets +500 power until end of turn.
+EndCard
+
+
+Character: RZ/S46-E047
+Name Door Crossing, Beatrice
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Book
+Auto: OnPlay
+{
+	Mill 2
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		SearchWaitingRoom HasTrait Magic|Weapon
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into the waiting room, if there is a climax among those cards, you may choose a <Magic> or <Weapon> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/S46-E048
+Name Sulking Beatrice
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Book
+Auto: OnPlay
+{
+	If LocationContains OpponentWaitingRoom 3 IsClimax
+	{
+		Rest
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if the number of climax in your opponent's waiting room is 3 or more, rest this card.
+EndCard
+
+
+Character: RZ/S46-E049
+Name A Flower in Each Arm, Ram
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveAll
+{
+	If NameEquals A Flower in Each Arm, Rem
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other "A Flower in Each Arm, Rem" get +1000 power.
+Auto: OnPlay
+{
+	Peek Deck 2
+	ChooseCardsFromTargets 0 1 NameEquals A Flower in Each Arm, Rem
+	If HasTarget
+	{
+		PlaceOnStage False True True False
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, choose up to 1 "A Flower in Each Arm, Rem" among them, put in on any position of your stage, and put the rest into the waiting room.
+Auto: OnAttack
+{
+	If StageContains 1 NameEquals A Flower in Each Arm, Rem
+	{
+		GainPower 2000
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another "A Flower in Each Arm, Rem", this card gets +2000 power until end of turn.
+EndCard
+
+Character: RZ/S46-E050
+Name Challenging Another World, Subaru
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Death
+Trait2 Magic
+EndCard
+
+Character: RZ/S46-E051
+Name Sister's Avenger, Ram
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Magic
+Trait2 Maid
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not NameContains Roswaal|Ram|Rem
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "<b>Backup</b>", if all of your characters have "Roswaal" "Ram" or "Rem" in its name, you may put the top card of your deck into your stock.
+Backup 2500
+EndCard
+
+Character: RZ/S46-E052
+Name Margrave Roswaal
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Magic
+Trait2 Odd Eye
+EndCard
+
+Event: RZ/S46-E053
+Name Forbidden Library
+Color R
+Level 2
+Cost 2
+Effect:
+{
+	SearchLocationForTargets Hand 0 1 NameEquals Cute Girl, Beatrice
+	PlaceOnStage False True True False
+	TargetSelf
+	MoveCard Memory
+}
+Text Choose up to one card named "Cute Girl, Beatrice" in your hand, and put it on any position of your stage. Put this card into your memory.
+EndCard
+
+
+Climax: RZ/S46-E054
+Name Subaru Natsuki's Decoy Tactic
+*DoorClimax
+EndCard
+
+Climax: RZ/S46-E055
+Name As the Older Sister
+Color R
+*DrawClimax
+EndCard
+
+Climax: RZ/S46-E056
+Name Mana Drain
+*RedStockSoul
+EndCard
+
+Climax: RZ/S46-E057
+Name Breaking the Curse
+*DoorClimax
+EndCard
+
+
+Character: RZ/S46-E058
+Name Peaceful Life, Rem
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Maid
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLower
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 1 level 1 or lower character, and add it to your hand.
+Auto: OnAttack
+{
+	Mill 1
+	IfTarget IsClimax
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, put the top card of your deck into the waiting room, if that card is a climax, draw a card, then discard a card.
+EndCard
+
+Character: RZ/S46-E059
+Name Silver-Haired Beauty, Emilia
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Celestial Spirit
+Combo Starting Life in Another World
+Auto: OnAttack
+{
+	If Climax Starting Life in Another World && StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		*Check4Add1(Magic|Weapon)
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Starting Life in Another World" is in your climax area, and the number of other <Magic> or <Weapon> characters you have is 3 or more, look at up to 4 cards from the top of your deck, choose up to 1 <Magic> or <Weapon> character, add it to your hand, put the rest into the waiting room, and this card gets +1000 power until end of turn.
+EndCard
+
+Character: RZ/S46-E060
+Name Blue-Haired Maid, Rem
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Magic
+Trait2 Maid
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	SetXValue MarkersUnderThis
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each marker underneath this card.
+*Healer
+Auto: OnReverseOpponent
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait Magic|Weapon
+	If HasTarget
+	{
+		Marker_FaceDown
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may choose a <Magic> or <Weapon> character in your waiting room, and put it face-down underneath this card as a marker.
+EndCard
+
+Character: RZ/S46-E061
+Name Half-Elf Maiden, Emilia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				IfOther OnStage
+				{
+					Question Put the battle oppponent into memory?
+					If Yes
+					{
+						TargetOther
+						MoveCard OpponentMemory
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+		}
+	}
+}
+Text Cont: If you have 3 or more other <Magic> or <Weapon> characters, this card gets +1500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory."
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 2 Discard 1 Any Send 1 WaitingRoom Other
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Great Spirit, Puck
+			PlaceOnStage False True True False
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: [(2) Put a card from your hand into the waiting room, put another character from your stage into the waiting room] Once per turn, during the turn this card is placed on the stage from your hand, when this card's battle opponent becomes reversed, you may pay the cost, choose 1 "Great Spirit, Puck" in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: RZ/S46-E062
+Name Angel's Smile, Emilia
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveAll
+{
+	If OpponentsTurn && Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: During your opponent's turn, all of your characters get +500 power.
+*Act1RestSelfReviveBrainstorm
+EndCard
+
+Character: RZ/S46-E063
+Name Happy Daydream, Rem
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveAll
+{
+	If HasTrait Magic|Weapon && Other
+	{
+		GainPower 500
+	}
+}
+Text Cont: All of your other <Magic> or <Weapon> characters get +500 power.
+*OnPlayMill2RestIfClimax
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainPower 500
+}
+Text Auto: When a climax is placed in your climax area, choose one of your characters, it gets +500 power until the end of your opponent's next turn.
+EndCard
+
+Character: RZ/S46-E064
+Name Pure Maiden, Emilia
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Celestial Spirit
+*OnPlayCheckTopAddDiscard(Magic|Weapon)
+*OnAttackMill1PutLevel0OnField
+EndCard
+
+Character: RZ/S46-E065
+Name Unconditional Trust, Rem
+Color B
+Level 1
+Cost 0
+Power 6500
+Trait1 Magic
+Trait2 Maid
+*CannotAttackHigherLevel
+EndCard
+
+Character: RZ/S46-E066
+Name Bathtime! Emilia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+*Level3Assist
+Auto: OnPlay
+{
+	DrawCard
+	Discard 1 Any
+}
+Text Auto: When this card is placed on the stage from your hand, draw a card, then discard a card.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	SetXValue BrainstormedClimax
+	Message Choose character(s) to make unable to stand next turn.
+	ChooseMultipleCharacters 1 X InLocation OpponentStage
+	DontStand
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into the waiting room, for each climax revealed, choose 1 of your opponent's characters, those characters cannot stand during your opponent's stand phase.
+EndCard
+
+Character: RZ/S46-E067
+Name Demon's Demeanor, Rem
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 14000
+Soul 2
+Trait1 Magic
+Trait2 Maid
+Combo Oni's Smile
+Cont: GiveSelf
+{
+	If OnStage
+	{
+		GainTrait Oni
+	}
+}
+Text Cont: If this card is on the stage, it gains <Oni>.
+Auto: OnAttack
+{
+	If Climax Oni's Smile
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsCharacter && NameContains Subaru|Rem|Ram
+		{
+			TargetLocation OpponentBackstage
+			NarrowTargets Compare ThatCardsLevel 3 OrLower
+			ChooseCharacterFromTargets_Optional Choose a character to place on the bottom of the opponent's deck.
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Oni's Smile" is in your climax area, reveal the top card of your deck, if it is a character with "Ram" "Rem" or "Subaru" in its name, choose up to 1 level 3 or lower character on your opponent's backstage, and put it on the bottom of your opponent's deck.
+Auto: StartEncoreStep
+{
+	MoveCard WaitingRoom
+}
+Text Auto: At the start of your encore step, put this card into your waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	If StageContains 1 NameContains Ram|Subaru
+	{
+		PayCost Clock Discard 1 Any
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Modest Request, Rem
+			PlaceOnStage False True True True
+		}
+	}
+}
+Text Auto: [Put the top card of your deck into your clock & discard a card] When this card is put into the waiting room from the stage, if you have a character with "Ram" or "Subaru" in its name, you may pay the cost, choose a "Modest Request, Rem" in your waiting room, and put it on any position of your stage rested.
+EndCard
+
+Character: RZ/S46-E068
+Name Subaru Natsuki
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 3000
+Soul 3
+Trait1 Death
+Trait2 Magic
+Combo Like a Demon
+Cont: GiveSelf
+{
+	GainSpecialEffect GreatPerformance
+}
+Text Cont: GREAT PERFORMANCE
+Auto: StartClimaxPhase
+{
+	If LocationContains Memory 1 NameEquals Subaru Natsuki
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Magic|Weapon
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				*OptionalBurn(1)
+			}
+			Text Auto: When this card attacks, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: MEMORY At the beginning of your climax phase, if "Subaru Natsuki" is in your memory, choose 1 of your <Magic> or <Weapon> characters, it gets the following ability until end of turn. "Auto: When this card attacks, you may deal 1 damage to your opponent."
+Auto: StartEncoreStep
+{
+	If CardPosition Reverse && Compare CardsInHand 5 OrMore && LocationContains Memory 1 NameEquals Return by Death
+	{
+		PayCost 7 Discard 1 NameEquals Like A Demon &&& Discard 4 Any SendSelf Memory
+		{
+			TargetLocation Clock
+			MoveCard WaitingRoom
+			TargetLocation Stage
+			MoveCard Hand
+			TargetLocation OpponentStage
+			MoveCard OpponentHand
+			TargetLocation WaitingRoom
+			MoveCard Deck
+			TargetLocation OpponentWaitingRoom
+			MoveCard OpponentDeck
+			SearchLocationForTargets Deck 0 1 NameEquals Subaru Natsuki
+			Change
+			ShuffleLocation Deck
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: CxCombo MEMORY [(7) Discard 4 cards & Discard 1 "Like a Demon" & Put this card into your memory] At the beginning of the encore step, if you have a card named "Return by Death" in your memory, and this card is reversed, you may pay the cost. If you do, put all cards from your clock into your waiting room, all players return all their characters to their hand, and return all cards in their waiting room to their deck. Search your deck afterwards for up to one card named "Subaru Natsuki", put it on the stage position that this card was on, and all players shuffle their decks.
+EndCard
+
+Character: RZ/S46-E069
+Name Modest Request, Rem
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 5500
+Soul 2
+Trait1 Magic
+Trait2 Maid
+Combo Oni's Smile
+Cont: Assist
+{
+	If NameContains Ram|Rem|Subaru
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotBeChosen
+			}
+			Text Cont: This card cannot be chosen by your opponent's effects.
+		}
+	}
+}
+Text Cont: ASSIST Your characters in front of this card with "Ram" "Rem" or "Subaru" in its name get +2000 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects."
+Auto: OnPlay|PlacedBy Demon's Demeanor, Rem
+{
+	*OptionalDraw
+	*OptionalDraw
+	Discard 2 Any
+	*OptionalBlindStock
+}
+Text Auto: When this card is placed on the stage from your hand or by the effect of "Demon's Demeanor, Rem", draw up to 2 cards, discard 2 cards, and put up to 1 card from the top of your deck into your stock.
+Auto: EndOfTurn
+{
+	If Climax Oni's Smile
+	{
+		PayCost Discard 1 Any SendClimax WaitingRoom
+		{
+			TargetTop Clock 1
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo [Discard a character, send "Oni's Smile" from your climax area to the waiting room] At the end of your turn, you may pay the cost, return the top card of your clock to your hand.
+EndCard
+
+Character: RZ/S46-E070
+Name In Uniforms, Rem & Ram
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Weapon
+*GivePowerOnPlay(1000,Magic|Weapon)
+*Bond1(Self-Praise\, Ram)
+EndCard
+
+Character: RZ/S46-E071
+Name Stunned, Emilia
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Celestial Spirit
+*BlueLevel0Bomb
+Act: SendSelf Clock
+{
+	TargetLocation Stage
+	GainPower 1000
+}
+Text Act: [Put this card into your clock] All of your characters get +1000 power until end of turn.
+EndCard
+
+Character: RZ/S46-E072
+Name Talking About the Future Smiling, Rem
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Maid
+Combo Wishing
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Talking About the Future Smiling, Subaru
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another "Talking About the Future Smiling, Subaru", this card gets +3000 power.
+Auto: OnAttack
+{
+	If Climax Wishing
+	{
+		PayCost 1
+		{
+			*Check5Add1(Magic|Weapon)
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if a card named "Wishing" is in your climax area, you may pay the cost. If you do, look at up to five cards from the top of your deck, choose up to one <Magic> or <Weapon> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: RZ/S46-E073
+Name Talking About the Future Smiling, Subaru
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Death
+Trait2 Magic
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Rem
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other characters with "Rem" in its name, it gets +1000 power until end of turn.
+Auto: OnOtherFrontalAttacked
+{
+	IfOther NameContains Rem
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetOther
+			IfTarget OnStage
+			{
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When one of your other characters with "Rem" in its name is frontal attacked, you may pay the cost, return that character to your hand.
+EndCard
+
+Character: RZ/S46-E074
+Name Gaze of Admiration, Rem
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotUseBackup
+	GainSpecialEffect CannotUseEvents
+}
+Text Cont: You cannot play event cards or backup from your hand.
+EndCard
+
+Character: RZ/S46-E075
+Name Great Spirit, Puck
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Emilia
+	{
+		GainPower 2500
+		GainLevel 1
+	}
+}
+Text Cont: If you have another character with "Emilia" in its name, this card gets +1 level and +2500 power.
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card on the bottom of your deck.
+EndCard
+
+Character: RZ/S46-E076
+Name Midnight Visit, Rem
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Magic
+Trait2 Maid
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	SetXToNumberOfCharacters NameContains Ram|Rem|Subaru
+	MultiplyXValue 500
+	GainPower X
+}
+Quick
+Text Auto: When you use this card's "<b>Backup</b>" your character in battle gets +X power until end of turn, X is 500 times the number of characters you have with "Ram" "Rem" or "Subaru" in its name.
+Backup 500
+EndCard
+
+Character: RZ/S46-E077
+Name Peaceful Life, Emilia
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 1 NameEquals Great Spirit, Puck
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have another "Great Spirit, Puck" this card gets +2500 power and "Auto: ENCORE [Discard a character]"
+EndCard
+
+
+Character: RZ/S46-E078
+Name Smug Look, Emilia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 1 HasTrait Magic &&& Send 1 WaitingRoom Any
+	{
+		*BottomDeckEarlyPlay
+	}
+}
+Text Auto: [(1) Put a <Magic> or <Weapon> character from your hand into your waiting room & Put a character from your stage into the waiting room] When you use this card's "<b>Backup</b>" you may pay the cost, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it on the bottom of the deck.
+Backup 2500
+EndCard
+
+Character: RZ/S46-E079
+Name Dim Light Seen With Those Eyes, Rem
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Combo Demon's True Form
+Trait1 Magic
+Trait2 Maid
+*BlueEarlyPlayBomb
+Auto: OnPlay
+{
+	PayCost Discard 1 NameEquals Demon's True Form
+	{
+		SearchLocationForTargets Deck 0 2 HasTrait Magic|Weapon
+		RevealTargets
+		MoveCard Hand
+		ShuffleLocation Deck
+	}
+}
+Text Auto: CxCombo [Discard a "Demon's True Form"] When this card is placed on the stage from your hand, you may pay the cost, search your deck for up to 2 <Magic> or <Weapon> characters, and add them to your hand.
+EndCard
+
+Character: RZ/S46-E080
+Name Intense Ire, Puck
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other
+	{
+		GainPower 10000
+	}
+}
+Text Cont: If you do not have any other characters, this card gets +10000 power.
+Auto: OnPlay|OnAttack
+{
+	TargetTop Deck 1
+	Marker_FaceUp
+}
+Text Auto: When this card is placed on the stage from your hand or attacks, put the top card of your deck underneath this card as a marker.
+Auto: EndOfTurn
+{
+	If OpponentsTurn
+	{
+		If Compare MarkersUnderThis 3 OrMore
+		{
+			Discard 1 Any
+			TargetLocation Marker
+			MoveCard WaitingRoom
+			TargetLocation Stage
+			NarrowTargets Other
+			MoveCard WaitingRoom
+			TargetLocation OpponentStage
+			MoveCard OpponentWaitingRoom
+			TargetLocation WaitingRoom
+			MoveCard Deck
+			TargetLocation OpponentWaitingRoom
+			MoveCard OpponentDeck
+			ShuffleLocation Deck
+			ShuffleLocation OpponentDeck
+		}
+	}
+}
+Text Auto: At the end of your opponent's turn, if the number of markers underneath this card is 3 or more, choose a carrd in your hand, put it into the waiting room, put all markers underneath this card and all of both players characters except this card into their waiting room, and all players return all cards in their waiting room to their deck. All players shuffle their decks afterwards.
+EndCard
+
+Character: RZ/S46-E081
+Name Capital's Fruit Seller, Kadomon
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Merchant
+Cont: GiveAll
+{
+	If Other && StageContainsOrLess 1 Other
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If the number of other characters you have is 1 or less, your other character gets +1500 power.
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom NameEquals Return by Death
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, choose a "Return by Death" in your waiting room, and return it to your hand.
+EndCard
+
+Character: RZ/S46-E082
+Name Fated Encounter, Subaru
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Death
+Trait2 Magic
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	If InLocation Backstage
+	{
+		Sacrifice NameContains Emilia
+	}
+}
+Text Auto: [Put this card into the waiting room] When your other character with "Emilia" in its name is put into the waiting room from the stage, if this card is on your backstage, you may pay the cost, return that character to its previous position as rested.
+Act: RestSelf
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Emilia
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose 1 of your characters with "Emilia" in its name, it gets +1500 power until end of turn.
+EndCard
+
+Character: RZ/S46-E083
+Name Ground Dragon, Patrasche
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Dragon
+Trait2 Magic
+Auto: OnOtherReversed
+{
+	If InLocation Backstage
+	{
+		IfOther OnStage
+		{
+			PayCost 2 SendSelf Hand
+			{
+				TargetOther
+				MoveCard Hand
+			}
+		}
+	}
+}
+Text Auto: [(2) Return this card to your hand] When your other character becomes reversed in battle, if this card is on your backstage, you may pay the cost, return that character to your hand.
+*BondDiscard(Subaru Natsuki)
+EndCard
+
+Character: RZ/S46-E084
+Name In My Hero's Arms, Rem
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Maid
+EndCard
+
+Character: RZ/S46-E085
+Name In a Corner of This Dark World, Emilia
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget IsClimax
+	{
+		TargetSelf
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is a climax, put this card into your waiting room.
+Auto: OnDirectAttack
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLower
+	ChooseCharacterFromTargets_Optional Choose a character to make unable to stand.
+	DontStand
+}
+Text Auto: When this card direct attacks, choose up to 1 level 0 or lower character on your opponent's center stage, it cannot stand during your opponent's next stand phase.
+EndCard
+
+Character: RZ/S46-E086
+Name Fire Spirit, Puck
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+*OthersCannotSideAttack
+Auto: OnLevelUp
+{
+	If OnStage
+	{
+		MoveCard WaitingRoom
+	}
+}
+Text Auto: When you level up, put this card into your waiting room.
+EndCard
+
+Character: RZ/S46-E087
+Name A Morning Moment, Emilia
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	Peek Deck 2
+	ChooseCardsFromTargets 0 1 Any
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	Discard 1 Any
+	
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, choose up to 1 card among them, add it to your hand, and discard a card.
+Auto: OnReversed
+{
+	PayCost 1 Clock Send 2 WaitingRoom Other
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Intense Ire, Puck
+		PlaceOnStage True True True True
+		SaveTargets
+		TargetSelf
+		MarkerTargetsUnderSavedTarget_FaceDown
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock & put 2 of your other characters from your stage into the waiting room]  When this card becomes reversed in battle, you may pay the cost, choose a card named "Intense Ire, Puck" in your waiting room, put it on any position of your stage rested, and put this card face-down underneath that card as a marker.
+EndCard
+
+
+Character: RZ/S46-E088
+Name A Flower in Each Arm, Rem
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	If OpponentsTurn && StageContains 1 NameEquals A Flower in Each Arm, Ram
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your opponent's turn, if you have another card named "A Flower in Each Arm, Ram" this card gets +2000 power.
+Cont: GiveAll
+{
+	If NameEquals A Flower in Each Arm, Ram
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other "A Flower in Each Arm, Ram" get +1000 power.
+Auto: StartOpponentAttackPhase
+{
+	If StageContains 1 NameEquals A Flower in Each Arm, Ram
+	{
+		Question Exchange this with "A Flower in Each Arm, Ram"?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets NameEquals A Flower in Each Arm, Ram
+			ChooseCharacterFromTargets Choose a card to exchange this with.
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose one of your "A Flower in Each Arm, Ram" and this card and exchange them as standing.
+EndCard
+
+Character: RZ/S46-E089
+Name Masterly Maid, Rem
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Maid
+Combo Oni's Smile
+Auto: OnPlay
+{
+	If StageContains 2 Other && NameContains Ram|Rem
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is placed on the stage from your hand if you have 2 or more other characters with "Ram" or "Rem" in its name, draw a card, then discard 1 card.
+Auto: OnSpecificClimaxPlay Oni's Smile
+{
+	PayCost 3 SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Demon's Demeanor, Rem
+		Change
+	}
+}
+Text Auto: CxCombo [(3) Put this card into the waiting room] When "Oni's Smile" is placed in your climax area, you may pay the cost, choose a "Demon's Demeanor, Rem" in your waiting room, and put it on the stage position this card was on.
+EndCard
+
+Character: RZ/S46-E090
+Name Two Riding A Ground Dragon, Rem
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Magic
+Trait2 Maid
+EndCard
+
+Character: RZ/S46-E091
+Name Merchant, Otto
+Color B
+Level 1
+Cost 1
+Power 7000
+Trait1 Merchant
+EndCard
+
+Character: RZ/S46-E092
+Name Gentle Disparagement, Emilia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Magic
+Trait2 Celestial Spirit
+Combo A Boy's Fantasy
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Magic|Weapon
+	{
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When your other <Magic> or <Weapon> character attacks, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax A Boy's Fantasy
+	{
+		GainPower 3500
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetOther
+				IfTarget OnStage
+				{
+					Question Put the battle opponent on the bottom of your opponent's deck?
+					If Yes
+					{
+						MoveCardToBottom OpponentDeck
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck.
+		}
+	}
+}
+Quick
+Text Auto: CxCombo When this card attacks, if "A Boy's Fantasy" is in your climax area, this card gets +3500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck."
+EndCard
+
+Character: RZ/S46-E093
+Name Anxious Emilia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8500
+Trait1 Magic
+Trait2 Celestial Spirit
+EndCard
+
+
+
+Event: RZ/S46-E094
+Name Return by Death
+Color B
+Level 1
+Cost 1
+Effect:
+{
+	Brainstorm 3
+	TargetBrainstormed
+	NarrowTargets HasTrait Magic|Weapon
+	SetXValue TargetCount
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	TargetLocation Stage
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+	TargetSelf
+	MoveCard Memory
+}
+Text BRAINSTORM Flip over 3 cards from the top of your deck, and put them into the waiting room. Choose a level X or lower <Magic> or <Weapon> character, in your waiting room, and return it to your hand. X is the number of <Magic> or <Weapon> characters revealed. Choose 1 of your characters, it gets +2000 power until end of turn. Put this card into your memory.
+EndCard
+
+Climax: RZ/S46-E095
+Name Oni's Smile
+*GateClimax
+EndCard
+
+Climax: RZ/S46-E096
+Name Starting Life in Another World
+*BookClimax
+EndCard
+
+Climax: RZ/S46-E097
+Name A Boy's Fantasy
+*BlueStockSoul
+EndCard
+
+Climax: RZ/S46-E098
+Name Demon's True Form
+*BlueStockSoul
+EndCard
+
+Climax: RZ/S46-E099
+Name Wishing
+*BookClimax
+EndCard
+
+Climax: RZ/S46-E100
+Name Like A Demon
+*GateClimax
+EndCard
+
+Character: RZ/S46-E101
+Name Petit Felt
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Weapon
+Trait2 Fang Teeth
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Not HasTrait Magic|Weapon
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Magic> or <Weapon> this card gets +1000 power.
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Not HasTrait Magic|Weapon
+	{
+		TargetSelf
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotFrontalAttack
+			}
+			Text Cont: This card cannot frontal attack.
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is not a <Magic> or <Weapon> character, this card gets the following ability until end of turn. "Cont: This card cannot frontal attack."
+EndCard
+
+Character: RZ/S46-E102
+Name Petit Beatrice
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Book
+*500Assist
+*RevengeTrait(500,Magic|Weapon)
+EndCard
+
+Character: RZ/S46-E103
+Name Petit Ram
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Magic
+Trait2 Maid
+*LevelAssist
+Auto: OnClimaxPlay
+{
+	*Scry
+	TargetLocation Stage
+	AIChoice GainPower 500
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: When a climax is placed in your climax area, look at the top card of your deck, you may put it into the waiting room, choose 1 of your characters, it gets +500 power until end of turn.
+EndCard
+
+Character: RZ/S46-E104
+Name Petit Emilia
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnUseThisCardsBackup
+{
+	Mill 3
+}
+Text Auto: When you use this card's "<b>Backup</b>", put the top 3 cards of your deck into the waiting room.
+Backup 2000
+EndCard
+
+Character: RZ/S46-E105
+Name Petit Rem
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+*ContForEachOtherTrait(500,Magic|Weapon)
+EndCard
+
+Character: RZ/S46-P01
+Name Embarassed Look, Emilia
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+*OnPlayMill2RestIfClimax
+EndCard
+
+Character: RZ/S46-PE02
+Name Roscchi's Library Librarian, Beatrice
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Book
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Magic|Weapon
+	{
+		*OptionalBurn(1)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck, if it is a <Magic> or <Weapon> character, you may deal 1 damage to your opponent.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Weapon
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your <Magic> or <Weapon> characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: RZ/S46-PE03
+Name Wanting to Repay the Favor, Emilia
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until the end of your opponent's turn.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets CardPosition Stand
+	Rest
+}
+Text Auto: When this card attacks, rest all of your other standing characters.
+EndCard
+
+Character: RZ/S46-P04
+Name Hidden Feelings, Rem
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Magic
+Trait2 Maid
+Auto: OnUseThisCardsBackup
+{
+	TargetBattleOpponent
+	If Compare TargetCardsLevel 3 OrMore
+	{
+		TargetMyCharacterInBattle
+		GainPower 1000
+	}
+}
+Text Auto: When you use this card's "<b>Backup</b>" if the level of your opponent's character in battle is 3 or higher, your character in battle gets +1000 power until end of turn.
+Backup 2500
+EndCard
+
+Character: RZ/S46-P05
+Name Tea So Expensive She Would Easily Go Berzerk Over, Ram
+Color R
+Level 1
+Cost 0 
+Power 5000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	If MyTurn && StageContainsOrLess 0 Not HasTrait Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if all of your characters are <Magic> or <Weapon>, this card gets +2000 power.
+EndCard
+
+Character: RZ/S46-P06
+Name Happy Birthday! Rem
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	If StageContains 1 Other && NameContains Rem|Ram|Subaru
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another character with "Rem" "Ram" or "Subaru" in its name, this card gets +1500 power.
+EndCard
+
+Character: RZ/S46-P07
+Name Strike of Anger, Rem
+Color B
+Level 1
+Cost 1
+Power 6000
+Trait1 Magic
+Trait2 Maid
+*ContForEachOtherTrait(500,Magic|Weapon)
+EndCard
+
+Character: RZ/S46-P08
+Name Lonely Night, Rem
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Magic
+Trait2 Maid
+Auto: OnUseThisCardsBackup
+{
+	*CheckTopAddDiscard(Magic|Weapon)
+}
+Text Auto: When you use this card's "<b>Backup</b>", reveal the top card of your deck, if it is a <Magic> or <Weapon> character, add it to your hand, and discard a card.
+Backup 2500
+EndCard
+
+Character: RZ/S46-P09
+Name Eversummer Life in Another World ♪
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Magic
+Trait2 Swimsuit
+*OnPlayMill2GainPowerForEachCharacter(1000,Magic|Weapon)
+EndCard
+
+Character: RZ/S46-P10
+Name Going Out♪ Rem
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Maid
+*Healer
+Auto: OnOtherCharacterAttacks
+{
+	IfOther HasTrait Magic|Weapon
+	{
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: When your other <Magic> or <Weapon> character attacks, this card gets +1000 power until end of turn.
+EndCard
+
+Character: RZ/S46-TE23
+Name Sweetly Smiling Ram
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Maid
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from stage, you may pay the cost. If you do, choose a character in your waiting room, and return it to your hand.
+*BondDiscard(The Younger Twin\, Rem)
+EndCard
+
+Character: RZ/S46-TE24
+Name Sharp-Tongued Maid, Ram
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Maid
+Auto: OnAttack
+{
+	*GiveOtherCharacterPower(1500,Any)
+}
+Text Auto: When this card attacks, choose one of your other characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: RZ/S46-TE25
+Name Determined Look Beatrice
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Book
+EndCard
+
+Character: RZ/S46-TE26
+Name Dumbfounded Subaru
+Color R
+Level 0
+Cost 0
+Power 3500
+Trait1 Death
+Trait2 Magic
+Auto: OnReversed
+{
+	If OnStage
+	{
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card becomes reversed in battle, put this card at the bottom of your deck.
+EndCard
+
+Character: RZ/S46-TE27
+Name Obstinate, Beatrice
+Color R
+Level 1
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Book
+Backup 1500
+EndCard
+
+Character: RZ/S46-TE28
+Name The Older Twin, Ram
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters NameEquals The Younger Twin, Rem
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other cards named "The Younger Twin, Rem".
+EndCard
+
+Climax: RZ/S46-TE29
+Name High, High, So Very High
+Color R
+*DrawClimax
+EndCard
+
+Character: RZ/S46-TE30
+Name Morning Greeting, Puck
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Celestial Spirit
+*500Assist
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets NameContains Emilia
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your other characters with "Emilia(エミリア)" in its card name, it gets +1000 power until end of turn.
+EndCard
+
+Character: RZ/S46-TE31
+Name Roswaal Mansion Maid, Rem
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+Trait2 Maid
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top three cards of your deck into your waiting room.
+*BondClock(The Older Twin\, Ram)
+EndCard
+
+Character: RZ/S46-TE32
+Name Bride in Pure White, Rem
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+Trait2 Maid
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Magic|Weapon
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When this card is placed on the stage from your hand, choose one of your <Magic> or <Weapon> characters, it gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Magic|Weapon
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, reveal the top card of your deck, if it is a <Magic> or <Weapon> character, add it to your hand, and discard a card.
+EndCard
+
+Character: RZ/S46-TE33
+Name Lap Pillow Emilia
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Magic
+Trait2 Celestial Spirit
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Magic|Weapon
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have 3 or more other <Magic> or <Weapon> characters, this card gets +2000 power.
+Auto: OnAttack
+{
+	If LocationContains Climax 1 ColorIs Blue
+	{
+		DrawCard
+		Discard 1 Any
+	}
+}
+Text Auto: When this card attacks, if a blue climax is in your climax area, draw a card, then discard a card.
+EndCard
+
+Character: RZ/S46-TE34
+Name The Younger Twin, Rem
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	SetXToNumberOfCharacters Other && NameEquals The Older Twin, Ram
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Cont: This card gets +1000 power for each of your other cards named "The Older Twin, Ram".
+EndCard
+
+Character: RZ/S46-TE35
+Name Welcome to This World! Emilia & Rem
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Magic
+Trait2 Celestial Spirit
+*1000Assist
+Act: RestSelf
+{
+	TargetLocation Stage
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Act: [Rest this card] Choose one of your characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: RZ/S46-TE36
+Image RZ_S46_TE36a
+Name Death Stare, Rem
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Magic
+Trait2 Maid
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+*OnAttackGainPowerForEachOther(1000,Magic|Weapon)
+EndCard
+
+Character: RZ/S46-TE37
+Name Refreshing Smile, Subaru
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Death
+Trait2 Magic
+Cont: GiveSelf
+{
+	If StageContains 1 NameContains Emilia
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If you have another character with "Emilia" in its card name, this card gets +1500 power.
+*HandEncore
+EndCard
+
+Character: RZ/S46-TE38
+Name Spirit User, Emilia
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Celestial Spirit
+Combo Speaking to the Spirit
+*Healer
+Auto: OnSpecificClimaxPlay Speaking to the Spirit
+{
+	If InLocation CenterStage
+	{
+		If AllYourCharacters HasTrait Magic|Weapon
+		{
+			SearchDeck HasTrait Magic|Weapon
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 2500
+		}
+	}
+}
+Text Auto: CxCombo When a card named "Speaking to the Spirit" is placed on your climax area, if this card is on your center stage, and all of your characters are 《Magic》 or 《Weapon》, search your deck for up to one 《Magic》 or 《Weapon》 character, reveal it to your opponent, and put it into your hand. Shuffle your deck afterwards, and this card gets +2500 power until the end of your opponent's next turn.
+EndCard
+
+Event: RZ/S46-TE39
+Image RZ_S46_TE39a
+Name Subaru's Choice
+Color B
+Level 2
+Cost 1
+Effect:
+{
+	SearchLocationForTargets Deck 0 2 HasTrait Magic|Weapon
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Deck
+	Discard 1 Any
+}
+Text Search your deck for up to 2 <Magic> or <Weapon> characters, reveal them to your opponent, add them to your hand, and discard a card.
+EndCard
+
+Climax: RZ/S46-TE40
+Name Speaking to the Spirit
+*GateClimax
+EndCard
+
+Climax: RZ/S46-TE41
+Name Parting Passions
+Color B
+*2SoulClimax
+EndCard
+
+Character: RZ/S46-TE42
+Name A Short Snooze, Emilia
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+Trait2 Celestial Spirit
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When a climax is placed in your climax area, choose 1 of  your characters it gets +1000 power until end of turn.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: RZ/S46-TE43
+Name Light of Love, Rem
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Maid
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		Mill 5
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [(1) Discard a card] When this card attacks, you may pay the cost, put the top 5 cards of your deck into the waiting room, and deal X damage to your opponent, X is the number of climax revealed among those cards.
+EndCard

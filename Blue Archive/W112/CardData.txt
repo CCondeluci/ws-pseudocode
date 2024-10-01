@@ -1,0 +1,4021 @@
+﻿
+Character: BAV/W112-001
+Name Hanako Urawa (Swimsuit)
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+Auto: OnPlay
+{
+	Peek Deck 2
+	Message Choose up to 2 cards to put into your waiting room
+	ChooseCardsFromTargets 0 2 Any
+	MoveCard WaitingRoom
+	TargetLocation ScryArea
+	SetXValue TargetCount
+	MoveCard Deck
+	TargetTop Deck X
+	Message Select order to return cards, (first on top)
+	Reorder
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, choose up to 2 of them, put them on the top of your deck in any order, and put rest into your waiting room.
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchDeck HasTrait Kivotos
+	}
+}
+Text Auto: [(1) Put a card from your hand into the waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to a <Kivotos> character, and add it to your hand.
+EndCard
+
+Character: BAV/W112-002
+Name Azusa Shirasu
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+Combo et omnia vanitas
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Kivotos
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Kivotos>, this card gets +2000 power.
+Auto: OnSpecificClimaxPlay et omnia vanitas
+{
+	If StageContains 2 Other HasTrait Kivotos
+	{
+		MultipleChoiceQuestion Choose an ability :\n1: Cont: During your opponent's turn, this card cannot become Reversed.\n2: Auto: When this card attacks, choose a Level 2 or higher <Kivotos> characters in your waiting room, and return them to your hand.|1|2
+		If Answer 0 
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					If OpponentsTurn
+					{
+						GainSpecialEffect CannotBeReversed
+					}
+				}
+				Text Cont: During your opponent's turn, this card cannot become Reversed.
+			}
+		}
+		Else
+		{
+			UntilEndOfOpponentsTurn
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 2 OrMore && HasTrait Kivotos
+					RevealTargets
+					MoveCard Hand
+				}
+				Text Auto: When this card attacks, choose a Level 2 or higher <Kivotos> characters in your waiting room, and return them to your hand.
+			}
+		}
+	}
+}
+Text Auto: CxCombo When "et omnia vanitas" is placed on your climax area, if you have 2 or more other <Kivotos> characters, choose 1 of the following 2 abilities and this card gets that ability until the end of your opponent's turn. "Cont: During your opponent's turn, this card cannot become Reversed." "Auto: When this card attacks, choose a Level 2 or higher <Kivotos> characters in your waiting room, and return them to your hand."
+EndCard
+
+Character: BAV/W112-003
+Name Mika Misono
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Tea Party
+*OnPlayCheckX(Kivotos)
+Auto: OnAttack
+{
+	If Compare Experience 6 OrMore
+	{
+		PayCost Discard 2 Any
+		{
+			TargetSelf
+			GainPower 1000
+			MillOpponentBottom 4
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			If HasTarget
+			{
+				Repeat X
+				{
+					Burn 1
+				}
+			}
+		}
+	}			
+}
+Text Auto: EXPERIENCE [Discard 2 cards] When this card attacks, if the sum of levels of cards in your level zone is 6 or more, you may pay cost. If you do, this card get +1000 power until end of turn, put the bottom 4 cards of your opponent's deck into their waiting room then deal 1 damage to your opponent X times. X is equal to the number of climax cards put into the waiting room by this effect.
+EndCard
+
+Character: BAV/W112-004
+Name Hifumi Ajitani (Swimsuit)
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+Combo Summer Sky's Wishlist
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 IsCharacter && NameEquals Hifumi Ajitani (Swimsuit)
+	If HasTarget
+	{
+		PlaceOnStage
+	}
+	TargetSelf
+	GainPower 3000
+}
+Text Auto: When this is placed on stage from hand, choose up to 1 "Hifumi Ajitani (Swimsuit)" from your hand, place it on stage in any slot, and this turn, this card gets +3000 power until end of turn.
+Auto: OnSpecificClimaxPlay Summer Sky's Wishlist
+{
+	If InLocation CenterStage && Compare Experience 4 OrMore
+	{
+		AIChoice AddToHand
+		SearchLocationForTargets Deck 0 2 HasTrait Kivotos
+		RevealTargets
+		Message Choose 1 cards to return to hand, the rest will go to stock
+		ChooseCardsFromTargets 1 1 Any
+		MoveCard Hand
+		TargetLocation Revealed
+		MoveCard Stock
+		ShuffleLocation Deck
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: CxCombo EXPERIENCE When "Summer Sky's Wishlist" is placed on your climax area, if this card is in your center stage, and this card is in your center stage, and the total level of the cards in your level is 4 or higher, choose up to 2 <Kivotos> characters in your deck, return 1 cards from among them to your hand, and put the rest into your stock, shuffle your deck, this card gets +1000 power until end of turn.
+EndCard
+
+Character: BAV/W112-005
+Name Nagisa Kirifuji 
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Tea Party
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Choice
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Kivotos
+		ChooseCharacterFromTargets
+		GainSoul 1
+	}
+}
+Quick
+Text Auto: When your climax with Choice in its trigger icon is placed on your climax area, choose 1 of your <Kivotos> characters, it gets +1 soul until end of turn.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: BAV/W112-006
+Name Ui Kozeki
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Library Committee
+Combo The Busy Sister and the Magician of the Old Bookstore
+Auto: OnSpecificClimaxPlay The Busy Sister and the Magician of the Old Bookstore
+{
+	If StageContains 1 Other && HasTrait Kivotos
+	{
+		SearchLocationForTargets WaitingRoom 0 1 HasTrait Kivotos
+		RevealTargets
+		MoveCard Stock
+	}
+} 
+Text Auto: CxCombo When "The Busy Sister and the Magician of the Old Bookstore" is placed in your climax area, and you have another <Kivotos> character, you may choose 1 <Kivotos> character in your waiting room, send it to stock.
+*RestGivePower(1500,Kivotos)
+EndCard
+
+Character: BAV/W112-007
+Name Mari Iochi (Gym)
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Kivotos
+Trait2 Sisterhood
+Combo Sisterhood
+Auto: OnUseAct
+{
+	GainPower 3000
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an Act, this card gets +3000 power until end of turn.
+*MoveOtherToBackstageOnReverse
+EndCard
+
+Character: BAV/W112-008
+Name Mashiro Shizuyama (Swimsuit)
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Kivotos
+Trait2 Justice Realization Committee
+*GainPowerForEachOther(500,Kivotos)
+Auto: OnPlay
+{
+	If Compare Experience 6 OrMore
+	{
+		PayCost Discard 1 Any
+		{
+			*CheckAndAdd(3)
+		}
+	}
+}
+Text Auto: EXPERIENCE [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if the total level of the cards in your level is 6 or higher, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BAV/W112-009
+Name Hinata Wakaba
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Sisterhood
+Auto: OnUseAct
+{
+	GainPower 1500
+	GainEffect
+	{
+		Auto: OnAttack
+		{
+			TargetTop Deck 1
+			Reveal
+			If Compare TargetCardsLevel 1 OrMore
+			{
+				MoveCard Stock
+			}
+		}
+		Text Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+	}
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an Act, this card gets +1500 power and the following ability until end of turn. "Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock."
+EndCard
+
+Character: BAV/W112-010
+Name Koharu Shimoe
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+Auto: OnUseThisCardsBackup
+{
+	PayCost Discard 2 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AIChoice RemoveCard
+		ChooseCharacterFromTargets Choose a character to send to the bottom of your opponent's stock.
+		MoveCardToBottom OpponentStock
+		TargetTop OpponentStock
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's "Backup", you may pay the cost. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it at the bottom of their stock, put the top card of your opponent's stock into the waiting room.
+Backup 2500
+EndCard
+
+Character: BAV/W112-011
+Name Sakurako Utazumi
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Kivotos
+Trait2 Sisterhood
+Combo Sisterhood
+Auto: OnUseAct
+{
+	GainPower 5000
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an Act, this card gets +5000 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Sisterhood && Compare Experience 5 OrMore
+	{		
+		Peek OpponentDeck 2
+		Message Choose the cards to put back on top.
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard OpponentDeck
+		Reorder
+                PutTheRestIntoTheWaitingRoom
+		Peek Deck 2
+		Message Choose the cards to put back on top.
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard Deck
+		Reorder
+                PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Sisterhood" is in your climax area, and the total level of the cards in your level is 5 or higher, look at up to 2 cards from the top of your opponent's deck, choose up to 2 cards from among them, put them on top of your opponent's deck in any order, and send the rest to waiting room, look at up to 2 cards from the top of your deck, choose up to 2 cards from among them, put them on top of your opponent's deck in any order, and send the rest to waiting room.
+EndCard
+
+Character: BAV/W112-012
+Name Mashiro Shizuyama
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Justice Realization Committee
+*OnAttackCheck2ChooseTrigger
+Auto: OnOtherFrontalAttacked
+{
+	TargetOther
+	PayCost 1 SendSelf WaitingRoom
+	{
+		Bounce
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: BAV/W112-013
+Name Serina Sumi (Christmas)
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Knights Hospitaller
+*GivePowerOnPlay(1500,Kivotos)
+*OnAttackGivePower(1500,Kivotos)
+EndCard
+
+Character: BAV/W112-014
+Name Hasumi Hanekawa
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Justice Realization Committee
+*OnPlayCheckTopAddDiscard(Kivotos)
+*GainPowerWhenOtherAttacks(1500,Kivotos)
+EndCard
+
+Character: BAV/W112-015
+Name Suzumi Morizuki
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Kivotos
+Trait2 Trinity Vigilante Crew
+*PowerOnMyTurn(1000)
+Auto: OnReversed 
+{
+	RevealUpTo Deck 3
+	If HasTarget
+	{
+		ChooseCardsFromTargets 0 1 HasTrait Kivotos
+		RevealTargets
+		MoveCard Hand 
+		PutTheRestIntoTheWaitingRoom 
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from top of your deck. If you reveal at least 1 card this way, choose up to 1 <Kivotos> character among them, put it into your hand, put the rest in the waiting room, and discard a card from your hand to the waiting room.
+EndCard 
+
+Character: BAV/W112-016
+Name Kazusa Kyouyama
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Kivotos
+Trait2 After-School Sweets Club
+Auto: OnOtherPlacedOnStageFromHand
+{
+	IfOther HasTrait Kivotos
+	{
+		GainPower 1000
+		GainTrait Sweets
+	}
+	Else
+	{
+		RefundTimesPerTurn
+	}
+}
+TimesPerTurn 2
+Quick
+Text Auto: This ability activates up to 2 times per turn. When your other <Kivotos> character is placed on the stage from your hand, this card gets +1000 power and a trait <Sweets> until end of turn.
+*GainPowerWhenAttackingLevel2(6000)
+EndCard
+
+Character: BAV/W112-017
+Name Shimiko Endo
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Kivotos
+Trait2 Library Committee
+Auto: OnUseThisCardsBackup
+{
+	If Not StageContains 1 Not HasTrait Kivotos
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When you use this card's "BACKUP", if all of your characters are <Kivotos>, you may put the top card of your deck into your stock.
+Backup 2000
+EndCard
+
+Character: BAV/W112-018
+Name Azusa Shirasu (Swimsuit)
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+*Level3Assist
+Act: 3 RestSelf
+{
+	SearchLocationForTargets Hand 0 1 NameEquals Hifumi Ajitani (Swimsuit)
+	PlaceOnStage False True True False
+}
+Text Act: [(3) Rest this card] Choose up to 1 "Hifumi Ajitani (Swimsuit)" in your hand, and put it on position of your stage.
+EndCard
+
+Character: BAV/W112-019
+Name Hinata Wakaba (Swimsuit)
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Kivotos
+Trait2 Sisterhood
+Cont: InHand
+{
+	If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+*StockHealer
+Auto: OnUseAct
+{
+	GainPower 2000
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an Act, this card gets +2000 power until end of turn.
+EndCard
+
+Character: BAV/W112-020
+Name Tsurugi Kenzaki
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Justice Realization Committee
+Cont: GiveSelf
+{
+	If Compare Experience 4 OrMore
+	{
+		GainPower 1000
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If InBattle
+				{
+					GainSpecialEffect NoBackupInBattle
+					GainSpecialEffect OpponentCannotUseEvents
+				}
+			}
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 4 or higher, this card gets +1000 power and the following ability. "Cont: During battles involving this card, your opponent cannot play events or BACKUP from hand."
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, if you do, choose a climax in your waiting room, and return it to your hand.
+EndCard
+
+Character: BAV/W112-021
+Name Ui Kozeki (Swimsuit)
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Sisterhood
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLess
+	If HasTarget
+	{
+		PlaceOnStage
+		GainPower 2000
+		GainTrait Coffee
+	}
+}
+Text Auto: When this is placed on stage from hand, choose up to 1 character from your hand whose level is equal or lower than your level, place it on stage in any slot, and this turn, it gets +2000 power and a Trait <Coffee>.
+Act: 2 Rest 1 Other && HasTrait Kivotos && CardPosition Stand
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets
+	MoveCard OpponentHand
+}
+Text Act: [(2) rest one of your other <Kivotos> characters] Choose 1 of your opponent's center stage characters, return it to hand.
+EndCard
+
+Character: BAV/W112-022
+Name Mari Iochi
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Sisterhood
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Kivotos
+	{
+		*CheckAndAdd(4)
+	}
+}
+Text Auto: [(1) Put 1 <Kivotos> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnUseAct
+{
+	GainSoul 1
+}
+Quick
+TimesPerTurn 1
+Text Auto: Once per turn, when you use an Act, this card gets +1 soul until end of turn.
+EndCard
+
+Character: BAV/W112-023
+Name Serina Sumi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Knights Hospitaller
+*GlobalPower(500,Kivotos)
+Act: RestSelf
+{
+	If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+	{
+		*ExchangeCardInLevelWithWaitingRoom(Any,HasTrait Kivotos)
+	}
+}
+Text Act: [RestSelf] Choose a card in your level and a <Kivotos> characters in your waiting room, and exchange them.
+EndCard
+
+Character: BAV/W112-024
+Name Hanako Urawa
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+*GlobalPower(500,Kivotos)
+*RestGivePower(1500,Kivotos)
+EndCard
+
+Character: BAV/W112-025
+Name Yoshimi Ibaragi
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 After-School Sweets Club
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets Other
+	ChooseCharacterFromTargets Choose a character to give 1000 times level power to.
+	SetXValue TargetCardsLevel
+	MultiplyXValue 1000
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other characters, it gets +X power until end of turn. X is equal to that character's level ×1000.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Kivotos)
+}
+Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Kivotos> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BAV/W112-026
+Name Reisa Uzawa
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 Kivotos
+Trait2 Trinity Vigilante Crew
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	If StageContains 1 Other && HasTrait Kivotos
+	{
+		TargetLocation OpponentStage
+		AIChoice Move
+		ChooseCharacterFromTargets Choose a character to move.
+		MoveToOpenPosition True True
+	}
+}
+Text Act: [Discard 1 card, put this card into your waiting room] If you have other <Kivotos> characters, choose 1 of your opponent's characters, and move it to another open position of their stage.
+EndCard
+
+Character: BAV/W112-027
+Name Hifumi Ajitani
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+Auto: OnAttack
+{
+	ChooseMultipleCharacters 0 2 InLocation Stage && HasTrait Kivotos
+	GainPower 1500
+}
+Text Auto: When this card attacks, choose up to 2 of your <Kivotos> characters, and those characters get +1500 power until end of turn.
+EndCard
+
+Character: BAV/W112-028
+Name Hanae Asagao (Christmas)
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Kivotos
+Trait2 Knights Hospitaller
+Auto: OnOpponentReverse|OnOtherOpponentReversed
+{
+	If OpponentsTurn
+	{
+		Peek Deck 1
+		MultipleChoiceQuestion Put on top or bottom of deck? |Top|Bottom
+		If Answer 0
+		{
+			MoveCard Deck
+		}
+		Else
+		{	
+			MoveCardToBottom Deck
+		}
+	}
+}
+Text Auto: During your opponent's turn, when your opponent's character becomes reversed, look at the top card of your deck, and put it on the top or at the bottom of your deck.
+Act: RestSelf
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets
+	UntilEndOfOpponentsTurn
+	GainPower 2000
+}
+Text Act: [RestSelf] Choose 1 of your characters, it gets +2000 power until the end of your opponent's next turn.
+EndCard
+
+Character: BAV/W112-029
+Name Airi Kurimura
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 2000
+Trait1 Kivotos
+Trait2 After-School Sweets Club
+*LevelAssistTrait(Kivotos)
+Auto: OnUseAct
+{
+	If MyTurn
+	{
+		TargetLocation OpponentStage
+		AIChoice Flicker
+		ChooseCharacterFromTargets_Optional Choose a character to send to memory, then it returns to the stage.
+		Flicker
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn. During your turn, when you use an Act, choose up to one of your opponent's characters, put it into your opponent's memory, then your opponent places that character on any position of his or her stage.
+Act: RestSelf
+{
+	TargetLocation AnyStage
+	AIChoice GainLevel 1
+	ChooseCharacterFromTargets Choose a character to give +1 level
+	UntilEndOfOpponentsTurn
+	GainLevel 1
+	UntilEndOfOpponentsTurn
+	GainTrait Chocolate Mint
+}
+Text Act: [Rest this card] Choose another character, it gets +1 level and a trait <Chocolate Mint> until the end of your opponent's turn.
+EndCard
+
+Character: BAV/W112-030
+Name Natsu Yutori
+Color Y
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Kivotos
+Trait2 After-School Sweets Club
+*YellowEarlyPlayBomb
+Act: 1
+{
+	GainSoul 1
+	GainTrait Sweets
+}
+Text Act: [(1)] This card gets +1 soul and a trait <Sweets> until the end of turn.
+EndCard
+
+Character: BAV/W112-031
+Name Hanae Asagao
+Color Y
+Level 2
+Cost 1
+Power 2000
+Trigger Soul
+Trait1 Kivotos
+Trait2 Knights Hospitaller
+Auto: OnUseThisCardsBackup
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Kivotos
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When you use this card's "<b>Backup</b>", reveal the top card of your deck. If that card is a <Kivotos> character, put it into your hand, choose 1 card in your hand, and put it into your waiting room.
+Backup 2500
+EndCard
+
+Character: BAV/W112-032
+Name Mine Aomori
+Color Y
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Kivotos
+Trait2 Knights Hospitaller
+Cont: GiveSelf
+{
+	If Compare Experience 4 OrMore
+	{
+		GainPower 5000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 4 or higher, this card gets +5000 power.
+*RunInFrontOfCharacter
+EndCard
+
+Event: BAV/W112-033
+Name Tea Party
+Color Y
+Level 2
+Cost 1
+Effect:
+{
+	SearchLocationForTargets Deck 0 2 HasTrait Kivotos
+	RevealTargets
+	MoveCard Hand
+	ShuffleLocation Deck
+	Discard 1 Any
+	If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+	{
+		Question Exchange a card in your waiting room with a card in your level?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+		}
+	}
+}
+Text Search your deck for up to 2 <Kivotos> characters, reveal them to your opponent, add them to your hand, and discard a card. You may choose a card in your level and a card in your waiting room, and exchange them.
+EndCard
+
+Climax: BAV/W112-034
+Name et omnia vanitas
+*ChoiceClimax
+EndCard
+
+Climax: BAV/W112-035
+Name Summer Sky's Wishlist
+*ChoiceClimax
+EndCard
+
+Climax: BAV/W112-036
+Name The Busy Sister and the Magician of the Old Bookstore
+Color Y
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	SearchWaitingRoom HasTrigger Soul && IsCharacter
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 character with in its trigger icon in your waiting room, return it to your hand, choose up to 2 of your characters, and those characters get +1 soul until end of turn.
+EndCard
+
+Climax: BAV/W112-037
+Name Sisterhood
+*ChoiceClimax
+EndCard
+
+Character: BAV/W112-038
+Name Miyako Tsukiyuki (Swimsuit)
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 RABBIT Squad
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Kivotos
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If all of your characters are <Kivotos>, this card gets +2000 power.
+Auto: OnPlay
+{
+	TargetLocation Stage
+	AIChoice CanReverseOpponent
+	ChooseCharacterFromTargets Choose a character to give the effect to.
+	GainEffect
+	{
+		*MoveOtherToBackstageOnReverse
+	}
+}
+Text Auto: When this card is placed on stage from your hand, choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, choose one of your other characters, rest it, and move it to an open position of your backstage."
+EndCard
+
+Character: BAV/W112-039
+Name Mimori Mizuha (Swimsuit)
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Inner Discipline Club
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Peek Deck 3
+		If HasTarget
+		{
+			ChooseCardsFromTargets 1 1 Any
+			MoveCard Clock
+			PutTheRestIntoTheWaitingRoom
+			SearchWaitingRoom HasTrait Kivotos
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 of them and put it into your clock, then put the rest into your waiting room. If you put a card into your clock by this effect, choose a <Kivotos> character in your waiting room and return it to your hand.
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Put this card in stock?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, you may put this card into your stock.
+EndCard
+
+Character: BAV/W112-040
+Name Izuna Kuda
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Ninjutsu Research Club
+Combo Cherry Blossom Festival!
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Kivotos
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if the number of other <Kivotos> characters you have is 2 or more, this card gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Cherry Blossom Festival! && Compare Experience 2 OrMore
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 5
+			ChooseCardsFromTargets 0 2 HasTrait Kivotos
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE [Put 1 card from your hand into your waiting room] When this card attacks, if "Cherry Blossom Festival!" is in your climax area, and the total level of the cards in your level is 2 or higher, you may pay the cost. If you do, look at up to 5 cards from the top of your deck, choose up to 2 <Kivotos> characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BAV/W112-041
+Name Wakamo Kosaka
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Combo Fox of Calamity
+*Healer
+Auto: OnSpecificClimaxPlay Fox of Calamity
+{
+	MultipleChoiceQuestion Choose an ability :\n1: Auto: At the beginning of your attack phase, if this card is in your center stage, put all players' characters except this card into their waiting rooms, deal 1 damage to your opponent, deal 2 damage to your opponent.\n2: Auto: [(1) Put 1 hand from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 2 damage to your opponent.|1|2
+	If Answer 0 
+	{
+		GainEffect
+		{
+			Auto: StartAttackPhase
+			{
+				If InLocation CenterStage
+				{
+					TargetLocation Stage
+					NarrowTargets Other
+					MoveCard WaitingRoom
+					TargetLocation OpponentStage
+					MoveCard OpponentWaitingRoom
+					Burn 1
+					Burn 2
+				}
+			}
+			Text Auto: At the beginning of your attack phase, if this card is in your center stage, put all players' characters except this card into their waiting rooms, deal 1 damage to your opponent, deal 2 damage to your opponent.
+		}
+	}
+	Else
+	{
+		GainEffect
+		{
+			Auto: OnAttack 
+			{
+				PayCost 1 Discard 1 Any
+				{
+					Burn 2
+				}
+			}
+			Text Auto: [(1) Put 1 hand from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 2 damage to your opponent.
+		}
+		
+	}
+}
+Text Auto: CxCombo When "Fox of Calamity" is placed into your Climax Area, choose 1 of the following 2 abilities and this card gets that ability until the end of turn. "Auto: At the beginning of your attack phase, if this card is in your center stage, put all players' characters except this card into their waiting rooms, deal 1 damage to your opponent, deal 2 damage to your opponent." "Auto: [(1) Put 1 hand from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 2 damage to your opponent."
+EndCard
+
+Character: BAV/W112-042
+Name Chise Waraku (Swimsuit)
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Yin-Yang Club
+Auto: OnPlay
+{
+	SearchLocationForTargets Clock 0 1 Any
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		SearchLocationForTargets Hand 1 1 Any
+		MoveCard Clock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your clock and return it to your hand. If you do, put a card from your hand into your clock.
+*OnAttackGivePowerForEachOther(500,Kivotos)
+EndCard
+
+Character: BAV/W112-043
+Name Kanna Ogata
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Public Security Bureau
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			GainSpecialEffect CannotMove
+		}
+		Text Cont: This card cannot move to another position of the stage.
+	}
+}
+Slow
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+	SearchWaitingRoom HasTrait Kivotos
+}
+Text Act: [Discard 1 card, send this to waiting room] Choose 1 <Kivotos> character in your waiting room, add it to hand.
+EndCard
+
+Character: BAV/W112-044
+Name Kaho Kuwakami
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Kivotos
+Trait2 Yin-Yang Club
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +2000 power.
+*ClimaxExchange
+EndCard
+
+Character: BAV/W112-045
+Name Kokona Sunohara
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Plum Blossom Garden
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 2 OrMore
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 2 or higher, this card gets +2000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+EndCard
+
+Character: BAV/W112-046
+Name Saki Sorai (Swimsuit)
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 RABBIT Squad
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, put the top card of your clock into your hand.
+Auto: OnDirectAttack
+{
+	PayCost 1 Discard 2 HasTrait Kivotos
+	{
+		Burn 2
+	}
+}
+Text Auto: [(1) Put 2 <Kivotos> characters from your hand into your waiting room] When this card direct attacks, you may pay the cost. If you do, deal 2 damage to your opponent. 
+EndCard
+
+Character: BAV/W112-047
+Name Shun Sunohara
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Plum Blossom Garden
+Auto: OnPlay
+{
+	Repeat 2
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to downgrade.
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		Message Choose a character in waiting room to exchange.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, perform the following action 2 times. "You may choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1."
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf Hand
+	{
+		Message Choose up to 1 "Shun Sunohara (Young)" in your hand to place on stage
+		SearchLocationForTargets Hand 0 1 NameEquals Shun Sunohara (Young)
+		Change
+	}
+}
+Text Auto: CHANGE [Return this card to your hand] At the start of your climax phase, you may pay the cost. If you do, choose up to 1 "Shun Sunohara (Young)" in your hand and place it on the stage position this card was on.
+EndCard
+
+Character: BAV/W112-048
+Name Saori Joumae
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Arius Squad
+Combo Arius Squad
+*OnPlayDraw2Discard1
+Auto: OnAttack
+{
+	If Climax Arius Squad && Compare Experience 4 OrMore
+	{
+		PayCost 3 Discard 2 Any
+		{
+			GainPower 1000
+			If StageContains 2 && HasTrait Arius Squad
+			{
+				Burn 2
+				If StageContains 4 && HasTrait Arius Squad
+				{
+					Burn 2
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(3) Put 2 cards from your hand into your waiting room] When this card attacks, if "Arius Squad" is in your climax area, and the total level of the cards in your level is 4 or higher, you may pay the cost. If you do, this card gets +1000 power until end of turn, and for each 2 <Arius Squad> characters you have, perform the following action. "Deal 2 damage to your opponent."
+EndCard
+
+Character: BAV/W112-049
+Name Hiyori Tsuchinaga
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Arius Squad
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +1000 power
+	GainPower 1000
+}
+Text Auto: At the beginning of your climax phase, choose one of your characters, and that character gains +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost 1
+	{
+		*Check4Add1(Kivotos)
+	}
+}
+Text Auto: [(1)] When a climax is placed in your climax area, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 <Kivotos> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: BAV/W112-050
+Name Tsukuyo Oono
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Ninjutsu Research Club
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		If CanMove
+		{
+			MoveToOpenPosition False True
+		}
+	}	
+}	
+Text Auto: [(1)] At the start of your Opponent's Attack Phase, you may pay cost. If so, move this card to an open position of your back stage.
+*SacrificeToSave(Any)
+Text Auto: [Put this card into your waiting room] When your other character is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, return that character to its previous stage position as resting.
+EndCard
+
+Character: BAV/W112-051
+Name Moe Kazekura
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 RABBIT Squad
+*GiveMiddlePower(500,Any)
+*Act1RestSelfSearchBrainstorm(Kivotos)
+EndCard
+
+Character: BAV/W112-052
+Name Izuna Kuda (Swimsuit)
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Ninjutsu Research Club
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		Refresh
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all of the cards in your waiting room to your deck and shuffle your deck.
+EndCard
+
+Character: BAV/W112-053
+Name Kaede Isami
+Color G
+Level 1
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Inner Discipline Club
+*GiveMiddlePower(1500,Any)
+Act: 1 Discard 1 Any RestSelf
+{
+	*CheckAndAdd(3)
+}
+Text Act: [(1) Discard a card, rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BAV/W112-054
+Name Rumi Akeshiro
+Color G
+Level 1
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Xuanwu Merchant Association
+Auto: OnUseThisCardsBackup
+{
+	PayCost 3
+	{
+		TargetTop OpponentClock 1
+		If HasTarget
+		{
+			MoveCard OpponentWaitingRoom
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel OpponentsLevel GreaterThan && CanBeChosen
+			ChooseCharacterFromTargets Choose a character to put into your opponent's clock.
+			MoveCard OpponentClock
+		}
+	}
+ }
+Text Auto: [(3)] When you use this card's "BACKUP", you may pay the cost, if you do, put the top card of your opponent's clock into the waiting room, if you do, choose 1 of your opponent's characters with level greater than your opponent's level, and put it into your opponent's clock.
+Backup 1000
+EndCard
+
+Character: BAV/W112-055
+Name Saya Yakushi (Casual)
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Kivotos
+Trait2 Chinese Alchemy Study Club
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Kivotos
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost, choose 1 <Kivotos> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: BAV/W112-056
+Name Tsubaki Kasuga
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Kivotos
+Trait2 Inner Discipline Club
+Cont: InHand
+{
+	If LocationContains OpponentWaitingRoom 5 IsClimax
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If there are 5 or more climax cards in your opponent's waiting room, this card gets -1 level in your hand.
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		Cont: GiveSelf
+		{
+			If OpponentsTurn
+			{
+				GainPower 2000
+			}
+		}
+		Text Cont: During your opponent's turn, this card gains +2000 power.
+	}
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*GreatPerformance
+	}
+}
+Text Auto: When this card is placed on stage from your hand, this card gains the following 2 abilities until the end of your opponent's turn. "Cont: During your opponent's turn, this card gains +2000 power." "Cont: GREAT PERFORMANCE"
+EndCard
+
+Character: BAV/W112-057
+Name Mimori Mizuha
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Kivotos
+Trait2 Inner Discipline Club
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentRevealed
+		OpponentRefresh
+		TargetLocation OpponentRevealed
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [(1) Discard a card] When this card is placed on stage from your hand, you may pay the cost. If you do, your opponent chooses a climax from their waiting room and returns every card except the chosen climax back into their deck and shuffles their deck.
+Auto: StartOpponentAttackPhase
+{
+	TargetLocation CenterStage
+	If Compare TargetCount 2 OrLess
+	{
+		Question Choose 1 of your <Kivotos> characters move to an open position of your center stage with a character facing it?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Kivotos
+			MoveToOpenPositionWithOpponent
+		}
+	}
+}
+Text Auto: At the start of your opponent's attack phase, you may choose 1 of your <Kivotos> characters and move it to an open position of your center stage with a character facing it.
+EndCard
+
+Character: BAV/W112-058
+Name Atsuko Hakari
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Arius Squad
+Cont: InHand
+{
+	If StageContains 1 NameEquals Hiyori Tsuchinaga && StageContains 1 NameEquals Misaki Imashino
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If you have another "Hiyori Tsuchinaga" and "Misaki Imashino", this gets -1 level while in your hand.
+Auto: OnPlay
+{
+	SearchLocationForTargets Clock 0 1 HasTrait Kivotos
+	If HasTarget
+	{
+		RevealTargets
+		MoveCardToBottom Deck
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a <Kivotos> characters in your clock and put it on the bottom of your deck.
+Auto: OnReversed
+{
+	If OpponentsTurn
+	{
+		PayCost Discard 1 Any
+		{
+			If OnStage
+			{
+				Rest
+				ScheduleEffectForTargets StartMyEncorePhase
+				{
+					Effect:
+					{
+						TargetSelf
+						MoveCard WaitingRoom
+					}
+				}
+			}
+		}
+	}
+}
+Text Auto: [Discard a card] During your opponent's turn, when this card becomes reversed in battle, you may pay the cost. If you do, rest this card, and at the beginning of your next encore step, put this card into your waitingroom.
+EndCard
+
+Character: BAV/W112-059
+Name Shun Sunohara (Young)
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Plum Blossom Garden
+*StockHealer
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf Hand
+	{
+		Message Choose up to 1 "Shun Sunohara" in your hand to place on stage
+		SearchLocationForTargets Hand 0 1 NameEquals Shun Sunohara
+		Change
+	}
+}
+Text Auto: CHANGE [Return this card to your hand] At the start of your climax phase, you may pay the cost. If you do, choose up to 1 "Shun Sunohara" in your hand and place it on the stage position this card was on.
+EndCard
+
+Character: BAV/W112-060
+Name Chise Waraku
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Yin-Yang Club
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Kivotos
+	ChooseCharacterFromTargets Choose a character to give +1500 power and "Auto: Encore [Discard a character]"
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*HandEncore
+	}
+}
+Text Auto: When this card attacks, choose 1 of your other <Kivotos> characters, it gets +1500 power and "Auto: ENCORE [Put 1 character from your hand into your waiting room]" until the end of your opponent's next turn.
+EndCard
+
+Character: BAV/W112-061
+Name Wakamo Kosaka (Swimsuit)
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Cont: GiveSelf
+{
+	If StageContainsOrLess 0 Other && InLocation CenterStage
+	{
+		GainLevel 1
+		GainPower 4000
+	}
+}
+Text Cont: If your center stage have no other characters, this gets +1 level and +4000 power.
+EndCard
+
+Character: BAV/W112-062
+Name Saya Yakushi
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Chinese Alchemy Study Club
+Auto: OnPlay
+{
+	RevealUpTo Deck 3
+	AIChoice AddToHand
+	ChooseCardsFromTargets 0 1 IsEvent
+	If HasTarget
+	{
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		CheckForEmptyDeck
+		Discard 1 Any
+	}
+	PutTheRestIntoTheWaitingRoom
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+*OnPlayFlicker
+EndCard
+
+Character: BAV/W112-063
+Name Fubuki Nemugaki
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Community Safety Bureau
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue 1000
+	MultiplyXValue TargetCount
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on stage from your hand, this card gets +X power until end of turn. X is 1000 times the number of characters your opponent has.
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets	
+	GainSpecialEffect CannotReturnToHand
+	GainSpecialEffect CannotGoToMemory
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets the following ability until end of turn. "Cont: This card cannot return to hand and cannot be sent to memory."
+EndCard
+
+Character: BAV/W112-064
+Name Mina Konoe
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Kivotos
+Trait2 Genryumon
+Auto: OnPlay
+{
+	If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+	{
+		Question Exchange a card in your waiting room with a card in your level?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(HasTrait Kivotos,HasTrait Kivotos)
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a <Kivotos> character in your level and a <Kivotos> character in your waiting room, and exchange them.
+*DropSearch(Kivotos)
+EndCard
+
+Character: BAV/W112-065
+Name Misaki Imashino
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Kivotos
+Trait2 Arius Squad
+Cont: GiveAll
+{
+	If MyTurn && Other && HasTrait Kivotos
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Kivotos> characters get +1000 power.
+*Act1SalvageBrainstorm(Any)
+EndCard
+
+Character: BAV/W112-066
+Name Miyu Kasumizawa
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Kivotos
+Trait2 RABBIT Squad
+Cont: GiveSelf
+{
+	If StageContains 2 Other && HasTrait Kivotos
+	{
+		GainSpecialEffect FreeSideAttack
+	}
+}
+Text Cont: If the number of other <Kivotos> characters you have is 2 or more, this card's soul does not decrease when doing a side attack.
+*OnAttackGivePowerForEachOther(500,Kivotos)
+EndCard
+
+Character: BAV/W112-067
+Name Michiru Chidori
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Kivotos
+Trait2 Ninjutsu Research Club
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +2000 power.
+Auto: OnPlay|OnPlacedOnStageFromDeck
+{
+	If MyTurn && Phase Main
+	{
+		PayCost Discard 1 Any
+		{
+			*SearchDeckToPlaceOnStage(NameEquals THIS_CARDS_NAME, False)
+		}
+	}
+}
+Text Auto: [Discard a card] In your main phase, when this card is placed on the stage from your hand or deck, you may pay the cost. If you do, search your deck for up to 1 "Michiru Chidori", put it in any position of your stage, and shuffle your deck.
+EndCard
+
+Character: BAV/W112-068
+Name Kirino Nakatsukasa
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Community Safety Bureau
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 2 or higher, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+	If PlayedThisTurn
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom HasTrait Kivotos
+		}
+	}
+}
+Text Auto: [(1)] During the turn this card is placed on the stage, when this card's battle opponent becomes reversed, you may pay the cost. If you do, choose 1 <Kivotos> character from your waiting room to your hand.
+EndCard
+
+Character: BAV/W112-069
+Name Saki Sorai
+Color G
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Kivotos
+Trait2 RABBIT Squad
+*LevelAssistTrait(Kivotos)
+Act: Discard 1 Any RestSelf
+{
+	SearchWaitingRoom NameEquals Miyako Tsukiyuki|Miyu Kasumizawa|Moe Kazekura
+}
+Text Act: [Put a card from your hand into your waiting room & Rest this card] Choose 1 "Miyako Tsukiyuki" or "Miyu Kasumizawa" or "Moe Kazekura" in your waiting room, and return it to your hand.
+EndCard
+
+Character: BAV/W112-070
+Name Shizuko Kawawa
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Kivotos
+Trait2 Festival Management Committee
+*LevelAssist
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Pina Asahina
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Pina Asahina" in your waiting room and put it in any position of your stage.
+EndCard
+
+Character: BAV/W112-071
+Name Miyako Tsukiyuki
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Kivotos
+Trait2 RABBIT Squad
+Cont: GiveSelf
+{
+	If LocationContains Stage 1 Other && NameEquals Saki Sorai
+	{
+		GainPower 3000
+	}
+}
+Text Cont: If you have another "Saki Sorai" on your stage, this card gets +3000 power.
+Cont: GiveSelf
+{
+	If LocationContains Stage 1 Other && NameEquals Moe Kazekura
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another "Moe Kazekura" on your stage, this card gets +2000 power.
+EndCard
+
+Character: BAV/W112-072
+Name Pina Asahina
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Kivotos
+Trait2 Festival Management Committee
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	IfOther Compare ThatCardsLevel 2 OrHigher
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom IsCharacter
+		}
+	}
+}
+Text Auto: [(1)] When this card's level 2 or higher battle opponent becomes reversed, you may pay the cost, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Event: BAV/W112-073
+Name Catch in Neverland
+Color G
+Level 1
+Cost 0
+Effect: 
+{
+	MultipleChoiceQuestion Choose one \n1.Look at up to 4 cards from the top of your deck, choose up to 1 <Kivotos> character to add to your hand, and put the rest into the waiting room.\n2.Choose 1 of your opponent's level 1 or higher characters, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.|Choice 1|Choice 2
+	If Answer 0
+	{
+		*Check4Add1(Kivotos)
+	}
+	If Answer 1
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets Choose up to 1 character to downgrade.
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		Message Choose a character in waiting room to exchange.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+	}
+	TargetSelf
+	MoveCardToBottom Deck
+}
+Text Choose 1 of the following 2 effects and perform it, and put this card at the bottom of your deck. "Look at up to 4 cards from the top of your deck, choose up to 1 <Kivotos> character to add to your hand, and put the rest into the waiting room." "Choose 1 of your opponent's level 1 or higher characters, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1."
+EndCard
+
+Climax: BAV/W112-074
+Name Cherry Blossom Festival!
+*BarClimax
+EndCard
+
+Climax: BAV/W112-075
+Name Fox of Calamity
+*BarClimax
+EndCard
+
+Climax: BAV/W112-076
+Name Arius Squad
+Color G
+Trigger DoubleSoul
+Auto: OnPlay
+{
+	Message Choose a character to put into your stock.
+	SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 1 OrLower
+	RevealTargets
+	MoveCard Stock
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+EndCard
+
+Character: BAV/W112-077
+Name Cherino Renkawa 
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Red Winter Office
+Auto: OnPlay
+{
+	*Scry
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top of your deck or into your waiting room.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 Any
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. 
+EndCard
+
+Character: BAV/W112-078
+Name Aru Rikuhachima
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Combo Problem Solver 68
+*GainPowerWithEnoughCharacters(2000,2,Kivotos)
+Auto: PlacedByIf NameEquals Problem Solver 68
+{
+	PayCost 1 Discard 1 Any
+	{
+		Stand
+	}
+}
+Text Auto: CxCombo [(1) Discard 1 cards] When this card is placed on the stage by the effect of "Problem Solver 68", you may pay the cost, if you do, stand this card.
+EndCard
+
+Character: BAV/W112-079
+Name Hina Sorasaki (Swimsuit)
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Kivotos
+Trait2 Disciplinary Committee
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+	If Compare Experience 4 OrMore
+	{
+		GainPower 1500
+		GainEffect
+		{
+			Auto: OnReverseOpponent 
+			{
+				PayCost 1 Discard 1 Any
+				{
+					Burn 1
+				}
+			}
+			Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent. 
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 4 or higher, this card gets +1500 power and the following ability. ""
+*Healer
+EndCard
+
+Character: BAV/W112-080
+Name Kayoko Onikata (New Year)
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard a card] When this is placed from hand to stage, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+EndCard
+
+Character: BAV/W112-081
+Name Iori Shiromi (Swimsuit)
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Disciplinary Committee
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Kivotos
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If it is a <Kivotos> character, choose 1 of your characters, it gets +2000 power until end of turn.
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: Once per turn, when this card becomes reversed in battle, reveal the top card of your deck, if it is level 2 or higher, you may return this card to hand.
+EndCard
+
+Character: BAV/W112-082
+Name Minori Yasumori
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Public Works Department
+Auto: OnPlay
+{
+	{
+		Question Search your deck for up to 1 <Kivotos> characters?
+		If Yes
+		{
+			SearchLocationForTargets Deck 0 1 HasTrait Kivotos
+			RevealTargets
+			MoveCards WaitingRoom
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may perform the following action. "Search your deck for up to 1 <Kivotos> characters, reveal them to your opponent, put them into your waiting room, and shuffle your deck."
+EndCard
+
+Character: BAV/W112-083
+Name Mutsuki Asagi (New Year)
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Kivotos && Other
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your another <Kivotos> characters, it gets +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost SendSelf Hand
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, look at up to 2 cards from the top of your deck and return them in any order, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: BAV/W112-084
+Name Fuuka Aikiyo (New Year)
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Kivotos
+Trait2 School Lunch Club
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom HasTrait Kivotos && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay cost. If so, reveal the top card of your Library, choose 1 <Kivotos> character of Level X or lower in Waiting Room and return it to hand.  X = the Level of the revealed card. (Climax cards are considered Level 0. Put the revealed card back where it was) 
+Auto: OnAttack
+{
+	If Compare Experience 2 OrMore
+	{
+		TargetLocation Stage
+		AIChoice GainPower 1000
+		ChooseCharacterFromTargets Choose a character to give +1000 power.
+		GainPower 1000
+	}
+}
+Quick
+Text Auto: EXPERIENCE When this card attacks, if the total level of the cards in your level is 2 or higher, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: BAV/W112-085
+Name Haruna Kurodate
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Gourmet Research Society
+Combo Haruna! I don't need the car anymore, can you let me off!?
+Auto: OnAttack
+{
+	If StageContains 1 Other && HasTrait Kivotos
+	{
+		TargetSelf
+		GainPower 1500
+	}
+}
+Quick
+Text Auto: When this card attacks, if you have another <Kivotos> character, this card gets +1500 power until end of turn.
+Auto: OnAttack
+{
+	If Climax Haruna! I don't need the car anymore, can you let me off!? && Compare Experience 2 OrMore
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess && HasTrait Kivotos
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto:CxCombo EXPERIENCE When this card attacks, if "Haruna! I don't need the car anymore, can you let me off!?" is in your climax area and the sum of levels of the cards in your level is 2 or greater, put the top 2 cards of your deck into the waiting room, choose up to 1 level X or lower <Kivotos> character in your waiting room, return it to your hand, and this card gets +1000 power until end of turn. X equals the sum of the levels of the cards placed into the waiting room by this card effect.
+EndCard
+
+Character: BAV/W112-086
+Name Iroha Natsume
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Kivotos
+Trait2 Pandemonium Society
+*LevelAssistTrait(Kivotos)
+Auto: StartMyEncorePhase
+{
+	PayCost Discard 2 Any
+	{
+		Burn 1
+	}
+}
+Text Auto: [Put 2 card from your hand into your waiting room] At the start of your encore step, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: BAV/W112-087
+Name Ako Amau
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Kivotos
+Trait2 Disciplinary Committee
+*Level3Assist
+*RestGivePower(1500,Any)
+EndCard
+
+Character: BAV/W112-088
+Name Haruka Igusa (New Year)
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 3000
+Soul 2
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Combo Problem Solver 68
+*1500Assist
+Act: RestSelf
+{
+	Message Choose up to 1 climax in your deck.
+	SearchLocationForTargets Deck 0 1 IsClimax
+	If HasTarget
+	{
+		RevealTargets
+		If LocationContains Waitingroom 1 NameEquals Problem Solver 68
+		{
+			MoveCard WaitingRoom
+			SearchLocationForTargets WaitingRoom 1 1 IsClimax && NameEquals Problem Solver 68
+			Reveal
+			MoveCard Deck
+		}
+		ShuffleLocation Deck
+	}
+	*GiveCharacterPower(1000,Any)
+}
+Text Act: CxCombo [RestSelf] Search your deck for up to 1 climax card, reveal it to your opponent, and put it to your waiting room, then reveal a "Problem Solver 68" from your waiting room and put it into your deck then shuffle your deck, choose 1 of your characters, it gets +1000 power until end of turn. 
+EndCard
+
+Character: BAV/W112-089
+Name Chinatsu Hinomiya (Hot Spring)
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Disciplinary Committee
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget Compare ThatCardsLevel 2 OrMore
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsLevel 0 OrLess
+		ChooseCharacterFromTargets
+		Question Move the card to the waiting room?
+		If Yes
+		{
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 2 or higher, choose 1 of your opponent's center stage level 0 or lower character, you may send it to waiting room.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: BAV/W112-090
+Name Nodoka Amami (Hot Spring)
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Kivotos
+Trait2 No. 227 Special Class
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Kivotos
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a <Kivotos> character in your waiting room, and return it to your hand.
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Kivotos)
+}
+Text Act: [(1) Put this card in the waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Kivotos> character among them, reveal it, put it in your hand, and put the rest into your waiting room.
+EndCard
+
+Character: BAV/W112-091
+Name Marina Ikekura
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Kivotos
+Trait2 Red Winter Office
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	Message Choose up to 1 climax to add to your hand.
+	ChooseCardsFromTargets 0 1 IsClimax
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, look at up to 3 cards from the top of your deck, choose up to 1 climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: BAV/W112-092
+Name Shigure Mayoi
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Kivotos
+Trait2 No. 227 Special Class
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+Auto: OnAttack
+{
+	PayCost Clock
+	{
+		*Check4Add1(Kivotos)
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card attacks, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Kivotos> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: BAV/W112-093
+Name Aru Rikuhachima (New Year)
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 2 Any
+	{
+		Question Choose your opponent's character in battle to gain +6 soul? (Press no will choose yours)
+		If Yes
+		{
+			TargetBattleOpponent
+			GainSoul 6
+		}
+		If No
+		{
+			TargetMyCharacterInBattle
+			GainSoul 6
+		}
+	}
+}
+Text Auto: [(1) Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 character in battle, it gets +6 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: BAV/W112-094
+Name Haruna Kurodate (New Year)
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Gourmet Research Society
+*EarlyPlay2OrLessClimax
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	*CheckAndAdd(X)
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to X cards from the top of your deck, choose up to 1 from among them, show it to your opponent, add it to hand, and send the rest to waiting room. X equals the number of your opponent's characters.
+EndCard
+
+Character: BAV/W112-095
+Name Sena Himuro
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Emergency Medicine Club
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +500 power.
+	GainPower 500
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your characters, it gets +500 power until end of turn.
+Auto: OnOtherSentFromStageToWaitingRoom
+{
+	If InLocation Backstage
+	{
+		PayCost 1 Sendself WaitingRoom
+		{
+			TargetOther
+			Revive
+			GainPower 3000
+			RememberTargets
+			If MyTurn
+			{
+				ScheduleEffect StartOpponentDrawPhase
+				{
+					Effect:
+					{
+						TargetRemembered
+						GainPower 3000
+					}
+				}
+			}
+			Else
+			{
+				ScheduleEffect StartDrawPhase
+				{
+					Effect:
+					{
+						TargetRemembered
+						GainPower 3000
+					}
+                		}
+			}
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other character is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, return that character to its previous stage position as rest, and that character gets +3000 power until the end of the next turn.
+EndCard
+
+Character: BAV/W112-096
+Name Izumi Shishidou
+Color R
+Level 1
+Cost 0
+Power 2500
+Trait1 Kivotos
+Trait2 Gourmet Research Society
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or put into your waiting room from the stage, you may put the top 3 cards of your deck into the waiting room.
+*RedLevel1Bomb
+EndCard
+
+Character: BAV/W112-097
+Name Tomoe Sashiro
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Kivotos
+Trait2 Red Winter Office
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +3000 power.
+*OnOtherAttackedSacrificeToGivePower(1500,Any)
+EndCard
+
+Character: BAV/W112-098
+Name Iori Shiromi
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Disciplinary Committee
+*GainPowerWhenOtherAttacks(1000,Kivotos)
+Auto: OnReversed
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 2 OrMore
+	{
+		Question Rest this card?
+		If Yes
+		{
+			Rest
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to one time per turn. When this card becomes reversed in battle, reveal the top card of your deck, if it is level 2 or higher, you may rest this card.
+EndCard
+
+Character: BAV/W112-099
+Name Kayoko Onikata
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Kivotos
+Trait2 Problem Solver 68
+*GainPowerWithEnoughCharacters(2000,2,Kivotos)
+*HandEncore
+EndCard
+
+Character: BAV/W112-100
+Name Cherino Renkawa (Hot Spring)
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Kivotos
+Trait2 Red Winter Office
+Combo Operation Record of No. 227 Hot Spring Resort!
+*HandEncore
+Auto: OnAttack
+{
+	If Climax Operation Record of No. 227 Hot Spring Resort! && Compare Experience 1 OrMore
+	{
+		
+		TargetTop Deck 1
+		Reveal
+		IfThatCard IsEvent || HasTrait Kivotos
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE When this card attacks, if "Operation Record of No. 227 Hot Spring Resort!" is in your climax area, if the total level of the cards in your level is 1 or higher, reveal the top card of your deck. If that card is a <Kivotos> character or event, put it into your hand.
+EndCard
+
+Character: BAV/W112-101
+Name Fuuka Aikiyo
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Kivotos
+Trait2 School Lunch Club
+*GiveOtherPowerOnAttack(3000,Any)
+*EarlyPlayMemoryBomb
+EndCard
+
+Character: BAV/W112-102
+Name Megu Shimokura
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Kivotos
+Trait2 Hot Spring Development Department
+*GainPowerForEachOther(1000,Kivotos)
+*HandEncore
+EndCard
+
+Event: BAV/W112-103
+Name Disciplinary Committee
+Color R
+Level 2
+Cost 1
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may choose a character in your waiting room and return it to your hand.
+	}
+	TargetLocation OpponentStage
+	AIChoice Move
+	ChooseCharacterFromTargets Choose a character to move.
+	MoveToOpenPosition True True
+}
+ActivationRequirement StageContains 1 HasTrait Kivotos
+Text If you don't have <Kivotos> character, this card cannot be played from hand.
+Text Choose 1 of your characters, and that character gains the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose a <Kivotos> character in your waiting room and return it to your hand." Choose 1 of your opponent's characters, and move it to another open position of their stage.
+EndCard
+
+Climax: BAV/W112-104
+Name Problem Solver 68
+*StandbyClimax
+EndCard
+
+Climax: BAV/W112-105
+Name Haruna! I don't need the car anymore, can you let me off!?
+*DoorClimax
+EndCard
+
+Climax: BAV/W112-106
+Name Operation Record of No. 227 Hot Spring Resort!
+*StandbyClimax
+EndCard
+
+Character: BAV/W112-107
+Name Himari Akeboshi
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Paranormal Affairs Department
+*Act1RestSelfSalvageBrainstorm(Any)
+Act: RestSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+}
+Text Act: [Rest this card] If the total level of the cards in your level is 3 or higher, choose 1 of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Character: BAV/W112-108
+Name Toki Asuma
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+Cont: GiveSelf
+{
+	If HasMarker
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*FreeRunner
+		}
+	}
+}
+Text Cont: If this card has a marker underneath it, this card gains +2000 power and the following ability. "Auto: At the beginning of your opponent's attack phase, you may move this card to an open position of your center stage."
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Kivotos || IsEvent
+	{
+		Question Put this card underneath this as a marker?
+        	If Yes
+		{
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When this card is placed on stage from your hand, you may reveal the top card of your deck. If that card is a <Kivotos> character or event, you may put it underneath this card face down as a marker.
+EndCard
+
+Character: BAV/W112-109
+Name Yuuka Hayase (Gym)
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Kivotos
+Trait2 Seminar
+*EarlyPlay4OrMore(Kivotos)
+*PowerOnMyTurn(2000)
+Auto: OnPlay
+{
+	If Compare Experience 6 OrMore
+	{
+		PayCost Discard 1 Any
+		{
+			Question_Obvious Put the top card of your clock into the waiting room?
+			If Yes
+			{
+				Heal
+			}
+			SearchWaitingRoom IsCharacter && HasTrait Kivotos
+		}
+	}
+}
+Text Auto: EXPERIENCE [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, if the total level of the cards in your level is 6 or higher, you may pay the cost. If you do, you may put the top card of your clock into the waiting room, choose up to a <Kivotos> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: BAV/W112-110
+Name Hoshino Takanashi (Swimsuit)
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Combo Abydos Resort Restoration Committee
+Cont: GiveAll
+{
+	If Compare Experience 6 OrMore
+	{
+		If HasTrait Kivotos
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 6 or higher, all of your <Kivotos> characters get +1000 power.
+*Healer
+Auto: OnAttack
+{
+	If Climax Abydos Resort Restoration Committee
+	{
+		GainPower 2000
+		MultipleChoiceQuestion Choose an effect.\n1. Deal 1 damage to your opponent.\n2. [Discard 2 cards] You may pay the cost. If you do, deal 3 damage to your opponent.|1|2
+		If Compare Answer 0 Exactly
+		{
+			Burn 1
+		}
+		Else
+		{
+			PayCost Discard 2 Any
+			{
+				Burn 3
+			}
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Abydos Resort Restoration Committee" is in your climax area, this card gets +2000 power until end of turn, choose 1 of the following effects, and perform it. "Deal 1 damage to your opponent." "[Discard 2 cards] You may pay the cost. If you do, deal 3 damage to your opponent."
+EndCard
+
+Character: BAV/W112-111
+Name Noa Ushio
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Seminar
+Combo Kivotos Halo Festival
+Auto: StartMyEncoreStep
+{
+	If Climax Kivotos Halo Festival
+	{
+		PayCost Discard 1 Any SendClimax WaitingRoom
+		{
+			RevealUpTo Deck 3
+			Message Choose up to 3 <Kivotos> characters
+			ChooseCardsFromTargets 0 3 HasTrait Kivotos
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room, send "Kivotos Halo Festival" from your climax area to waiting room] At the start of your encore step, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 3 <Kivotos> characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+Act: 1 RestSelf
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Kivotos
+	{
+		MoveCard Hand
+	}
+}
+Text Act: [(1) Rest this card] Reveal the top card of your deck. If that card is a <Kivotos> character, put it into your hand. 
+EndCard
+
+Character: BAV/W112-112
+Name Momoi Saiba
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Game Development Department
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 Other && NameEquals Midori Saiba
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another "Midori Saiba" on your center stage, this card gets +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals Midori Saiba
+		PlaceOnStage False True True False
+		ShuffleLocation Deck		
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Midori Saiba" in your deck and put it in any position of your stage.
+EndCard
+
+Character: BAV/W112-113
+Name Midori Saiba
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Kivotos
+Trait2 Game Development Department
+Cont: GiveSelf
+{
+	If LocationContains CenterStage 1 Other && NameEquals Momoi Saiba
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another "Momoi Saiba" on your center stage, this card gets +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals Momoi Saiba
+		PlaceOnStage False True True False
+		ShuffleLocation Deck		
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Momoi Saiba" in your deck and put it in any position of your stage.
+EndCard
+
+Character: BAV/W112-114
+Name Shiroko Sunaookami (Swimsuit)
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Cont: Assist
+{
+	If HasTrait Kivotos
+	{
+		SetXValue ThatCardsLevel
+		MultiplyXValue 500
+		GainPower X
+	}
+}
+Text Cont: ASSIST All of your <Kivotos> characters in front of this card get +X power. X is equal to that character's level ×500.
+Auto: OnTriggerCheckClimax
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [Discard a climax] When your trigger check reveals a climax, you may pay the cost. If you do, choose a character in your waiting room, and return it to your hand.
+EndCard
+
+Character: BAV/W112-115
+Name Asuna Ichinose (Bunny Girl)
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: BAV/W112-116
+Name Neru Mikamo
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+Combo Cleaning & Clearing
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainPower 5000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 3 or higher, this card gets +5000 power.
+Auto: StartMyEncoreStep
+{
+	If Climax Cleaning & Clearing && InLocation CenterStage && Compare Experience 5 OrMore
+	{
+		*OptionalBlindStock
+		Message Choose a character to put in hand.
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE At the start of your encore step, if "Cleaning & Clearing" is in your climax area, this card is in your center stage, and the total level of the cards in your level is 5 or higher, you may put the top card of your deck into stock, choose up to 1 character in your waiting room, return it to your hand.
+EndCard
+
+Character: BAV/W112-117
+Name Alice Tendou
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Game Development Department
+Combo The Romance of Friendship, Courage, and Light
+*OnPlayCheck3
+Auto: OnAttack
+{
+	If Climax The Romance of Friendship, Courage, and Light
+	{
+		PayCost 5 Discard 3 Any
+		{
+			GainPower 4000
+			Repeat 2
+			{
+				MillOpponentBottom 8
+				NarrowTargets IsClimax
+				SetXValue TargetCount
+				Burn X
+			}
+		}
+	}
+}
+Text Auto: CxCombo [(5) Put 3 cards from your hand into your waiting room] When this card attacks, if "The Romance of Friendship, Courage, and Light" is in your climax area, you may pay the cost. If you do, this card gets +4000 power until end of turn, and perform the following action 2 times. "Put the bottom 8 cards of your opponent's deck into their waiting room, and deal X damage to your opponent. X is equal to the number of climax among those cards. "
+EndCard
+
+Character: BAV/W112-118
+Name Serika Kuromi (New Year)
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or put into your waiting room from the stage, you may choose 1 card in your hand, and put it into your stock.
+Auto: OnAttack
+{
+	*GiveCharacterPower(1500,Any)
+}
+Text Auto: When this card attacks, choose one of your characters, and that character gets +1500 power until end of turn.
+EndCard
+
+Character: BAV/W112-119
+Name Yuzu Hanaoka
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Game Development Department
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Kivotos
+	{
+		*CheckAndAdd(4)
+	}
+}
+Text Auto: [Put 1 <Kivotos> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+Auto: OnOpponentClimaxPlay
+{
+	Question Put this card into your stock?
+	If Yes && OnStage
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When a climax is placed in your opponent's climax area, you may put this card into your stock.
+EndCard
+
+Character: BAV/W112-120
+Name Akane Murokasa (Bunny Girl)
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+Auto: OnPlay
+{
+	If LocationContainsOrLess OpponentCenterStage 1 IsCharacter
+	{
+		TargetLocation OpponentCenterStage
+		NarrowTargets Compare ThatCardsCost 0 OrLess
+		ChooseCharacterFromTargets Choose a character to put onto the bottom of your opponent's deck
+		MoveCardToBottom OpponentDeck
+	}
+}
+Text Auto: When this card is placed on stage from your hand, if there is 1 or less characters in your opponent's center stage, choose a cost 0 or lower character in your opponent's center stage and put it on the bottom of your opponent's deck.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck IsCharacter && HasTrait Kivotos
+	}
+}
+Text Auto: [(2)] When this card is sent from your stage to your waiting room, you may pay the cost. If you do, search your deck for up to 1 <Kivotos> character and add it to your hand.
+EndCard
+
+Character: BAV/W112-121
+Name Shiroko Sunaookami (Riding)
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Kivotos
+	}
+}
+Text Auto: [Discard a climax] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a <Kivotos> character in your waiting room and return it to your hand.
+*FreeRunner
+EndCard
+
+Character: BAV/W112-122
+Name Toki Asuma (Bunny Girl)
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+*GainPowerWithEnoughCharacters(2000,2,Kivotos)
+Auto: OnReverseOpponent
+{
+	TargetBattleOpponent
+	IfTarget OnStage && Compare CardsInStock 4 OrLess
+	{
+		Question Put the battle opponent on the bottom of the deck?
+		If Yes
+		{
+			MoveCardToBottom OpponentDeck
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if cards in your stock is 4 or lower, you may put that character on the bottom of your opponent's deck.
+EndCard
+
+Character: BAV/W112-123
+Name Hibiki Nekozuka
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Kivotos
+Trait2 Engineering Department
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +3000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: BAV/W112-124
+Name Koyuki Kurosaki
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Kivotos
+Trait2 Seminar
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +2000 power.
+Auto: OnAttack
+{
+	Mill 1
+	SetXValue TargetCardsLevel
+	MillOpponent 1
+	If Compare X TargetCardsLevel GreaterThan
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card attacks, all players put the top card of their deck into their waiting room. If the level of the card put into your waiting room by this effect is higher than your opponent's, you may put the top card of your deck into your stock.
+EndCard
+
+Character: BAV/W112-125
+Name Chihiro Kagami
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Kivotos
+Trait2 Veritas
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 5 OrMore
+	{
+		GainPower 6000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 5 or higher, this card gets +6000 power.
+Auto: OnDamageCancel
+{
+	PayCost 1
+	{
+		SearchDeck HasTrait Kivotos
+	}
+}
+Text Auto: [(1)] When damage dealt by this card is canceled, you may pay the cost. If you do, search your deck for up to 1 <Kivotos> character, and add it to your hand.
+EndCard
+
+Character: BAV/W112-126
+Name Neru Mikamo (Bunny Girl)
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 6 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 6 or higher, this card gets +3000 power.
+Auto: OnEndOfAttack
+{
+	If MyTurn
+	{
+		Question Put 3 cards from the bottom of your opponent's deck into his or her waiting room?
+		If Yes
+		{
+			MillOpponentBottom 3
+			NarrowTargets IsClimax
+			If Not HasTarget
+			{
+				TargetSelf
+				Stand
+			}
+		}
+	}
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to 1 time per turn. During the turn that this card is placed on the stage from your hand, at the end of this card's attack, you may put 3 cards from the bottom of your opponent's deck into his or her waiting room. If there are no climax among those cards, Stand this card.
+EndCard
+
+Character: BAV/W112-127
+Name Utaha Shiraishi
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Engineering Department
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Kivotos
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if you have other <Kivotos> characters 2 or more, this card gets +2000 power until end of turn.
+Act: 1 Rest 2 Any
+{
+	Brainstorm 5
+	PerClimax
+	{
+		SearchDeck HasTrait Kivotos
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 characters] Flip over 5 cards from the top of your deck and put them into the waiting room. For each climax revealed, search your deck for up to 1 <Kivotos> character, and add it to your hand.
+EndCard
+
+Character: BAV/W112-128
+Name Hare Omagari
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Veritas
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 HasTrait Kivotos
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [(1) Put 1 <Kivotos> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+*StockOnCancel
+EndCard
+
+Character: BAV/W112-129
+Name Eimi Izumimoto
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Paranormal Affairs Department
+Auto: OnPlay
+{
+	*ScryToBottom
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, put it on the top or bottom of your deck.
+*OnPlayCheckTopTraitOrEventAddDiscard(Kivotos)
+EndCard
+
+Character: BAV/W112-130
+Name Sumire Otohana
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Gym Training Department
+Cont: GiveSelf
+{
+	If Compare CardsInStock 2 OrLess
+	{
+		GainPower 1500
+	}
+}
+Text Cont: If your stock has 2 or less cards, this card gets +1500 power.
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		Message Choose a character that is equal or lower to your level and has 0 cost
+		SearchLocationForTargets Deck 0 1 HasTrait Kivotos && Compare ThatCardsCost 0 OrLess && Compare ThatCardsLevel MyLevel OrLess
+		RevealTargets
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 <Kivotos> character that is equal or lower to your level and has 0 cost, and put it in any position of your stage then shuffle your deck.
+EndCard
+
+Character: BAV/W112-131
+Name Alice Tendou (Maid)
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Kivotos
+Trait2 Game Development Department
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		Message Choose up to 1 climax in your deck and return it to your hand
+		SearchLocationForTargets Deck 0 1 IsClimax
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			SearchLocationForTargets Hand 1 1 IsClimax
+			Reveal
+			MoveCard Deck
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: [(1)] When this card is placed on stage from hand, you may pay the cost. If you do, search your deck for up to 1 climax card, reveal it to your opponent, and add it to your hand, then reveal a climax card from your hand and put it into your deck then shuffle your deck.
+EndCard
+
+Character: BAV/W112-132
+Name Utaha Shiraishi (Cheerleader)
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 Kivotos
+Trait2 Engineering Department
+Act: Discard 1 Any SendSelf BottomOfDeck
+{
+	SearchDeck HasTrait Kivotos
+}
+Text Act: [Put a card from your hand into your waiting room and put this card on the bottom of your deck] Search your deck for up to 1 <Kivotos> character, reveal it, put it into your hand.
+EndCard
+
+Character: BAV/W112-133
+Name Nonomi Izayoi (Swimsuit)
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 2 OrMore
+	{
+		GainPower 4000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 2 or higher, this card gets +4000 power.
+Auto: OnPlay
+{
+	If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+	{
+		Question Exchange a card in your waiting room with a card in your level?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(Any, Any)
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a card in your level and a card in your waiting room, and exchange them.
+EndCard
+
+Character: BAV/W112-134
+Name Maki Konuri
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Kivotos
+Trait2 Veritas
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 2 OrMore
+	{
+		GainPower 4000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 2 or higher, this card gets +4000 power.
+Auto: OnDamageCancel
+{
+	Question Return this card to your hand?
+	If Yes
+	{
+		MoveCard Hand
+	}
+}
+Text Auto: When damage dealt by this card is canceled, you may return this card to your hand.
+EndCard
+
+Character: BAV/W112-135
+Name Akane Murokasa
+Color B
+Level 1
+Cost 1
+Power 4500
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+Auto: OnClimaxPlay
+{
+	GainPower 3000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				Question put that Character to the bottom of the deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+		}
+		Text Auto: When the Battle Opponent of this becomes Reversed, you may put that character on the bottom of the deck.
+	}
+}
+Text Auto: When a climax is placed in you climax area, this gains +3000 Power and the following ability for the turn. "Auto: When the Battle Opponent of this becomes reversed, you may put that character on the bottom of the deck."
+*HandEncore
+EndCard
+
+Character: BAV/W112-136
+Name Karin Kakudate
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+*LevelAssist
+Auto: OnClimaxPlay
+{	
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +1000 power and the following ability.
+	GainPower 1000
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				Question put that Character to the bottom of the deck?
+				If Yes
+				{
+					MoveCardToBottom OpponentDeck
+				}
+			}
+		}
+		Text Auto: When the Battle Opponent of this becomes Reversed, you may put that character on the bottom of the deck.
+	}
+}
+Text Auto: When a climax is placed in you climax area, choose one of your characters, it gets +1000 power and the following ability until end of turn. "Auto: When the Battle Opponent of this becomes reversed, you may put that character on the bottom of the deck."
+EndCard
+
+Character: BAV/W112-137
+Name Karin Kakudate (Bunny Girl)
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+*GainPowerWithEnoughCharacters(2000,2,Kivotos)
+Auto: OnAttack
+{
+	TargetFacing
+	If HasTarget && Compare TargetCardsLevel 3 OrMore
+	{
+		TargetSelf
+		GainPower 4500
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question put that Character to the bottom of the deck?
+					If Yes
+					{
+						MoveCardToBottom OpponentDeck
+					}
+				}
+			}
+			Text Auto: When the Battle Opponent of this becomes reversed, you may put that character on the bottom of the deck.
+		}
+	}
+}
+Text Auto: When this attacks, if the Level of the Character Opposite this is 3 or higher, this gains +4500 Power and the following ability for the turn. "Auto: When the Battle Opponent of this becomes reversed, you may put that character on the bottom of the deck."
+EndCard
+
+Event: BAV/W112-138
+Name Game Development Department
+Color B
+Level 2
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain the ability
+	GainEffect
+	{
+		Auto: OnOpponentReverse
+		{
+			SearchWaitingRoom HasTrait Kivotos && IsCharacter
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may choose a <Kivotos> character in your waiting room and return it to your hand.
+	}
+	TargetSelf
+	MoveCard Stock
+}
+Text Choose 1 of your characters, and that character gains the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose a <Kivotos> character in your waiting room and return it to your hand." Put this card into your stock.
+EndCard
+
+Climax: BAV/W112-139
+Name Abydos Resort Restoration Committee
+*GateClimax
+EndCard
+
+Climax: BAV/W112-140
+Name Kivotos Halo Festival
+*BookClimax
+EndCard
+
+Climax: BAV/W112-141
+Name Cleaning & Clearing
+*GateClimax
+EndCard
+
+Climax: BAV/W112-142
+Name The Romance of Friendship, Courage, and Light
+*BookClimax
+EndCard
+
+Character: BAV/W112-P01
+Name Koharu Shimoe (Swimsuit)
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Make-Up Work Club
+*CharacterFacingThisCannotMove
+*YellowLevel0Bomb
+EndCard
+
+Character: BAV/W112-P02
+Name Problem Solver 68 Business Diary, Problem Solver 68
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 2 Any
+	{
+		Question Choose your opponent's character in battle to gain +6 soul? (Press no will choose yours)
+		If Yes
+		{
+			TargetBattleOpponent
+			GainSoul 6
+		}
+		If No
+		{
+			TargetMyCharacterInBattle
+			GainSoul 6
+		}
+	}
+}
+Text Auto: [(1) Put 2 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 character in battle, it gets +6 soul until end of turn.
+Backup 2500
+EndCard
+
+Character: BAV/W112-P03
+Name Problem Solver 68 Business Diary, Mutsuki & Kayoko
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	Message Choose up to 1 climax to add to your hand.
+	ChooseCardsFromTargets 0 1 IsClimax
+	MoveCard Hand
+	PutTheRestIntoTheWaitingRoom
+	If HasTarget
+	{
+		Discard 1 Any
+	}
+}
+Text Auto: When this card becomes reversed in battle, look at up to 3 cards from the top of your deck, choose up to 1 climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+EndCard
+
+Character: BAV/W112-P04
+Name Problem Solver 68 Business Diary, Aru & Haruka
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Cont: GiveSelf
+{
+	GainSpecialEffect CannotSideAttack
+}
+Text Cont: This card cannot side attack.
+Auto: OnAttack
+{
+	PayCost Clock
+	{
+		*Check4Add1(Kivotos)
+	}
+}
+Text Auto: [Put the top card of your deck into your clock] When this card attacks, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 <Kivotos> character to add to your hand, and put the rest into the waiting room.
+EndCard
+
+Character: BAV/W112-P06
+Name In a Break, Problem Solver 68
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				*OptionalBurn(1)
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent.
+		}
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent." 
+*Give4000PowerAtStartOfOpponentsTurn
+EndCard
+
+Character: BAV/W112-T01
+Name Haruka Igusa
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Cont: GiveSelf
+{
+	If StageContains 1 Other && HasTrait Kivotos
+	{
+		GainLevel 1
+		GainPower 2500
+	}
+}
+Text Cont: If you have another <Kivotos> characters, this card gets +1 level and +2500 power.
+EndCard
+
+Character: BAV/W112-T02
+Name Juri Ushimaki
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Kivotos
+Trait2 School Lunch Club
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Kivotos
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 <Kivotos> character in your waiting room, return it to your hand.
+EndCard
+
+Character: BAV/W112-T03
+Name Junko Akashi
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Kivotos
+Trait2 Gourmet Research Society
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 2 OrMore
+	{
+		GainPower 4000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 2 or higher, this card gets +4000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: BAV/W112-T04
+Name Akari Wanibuchi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Kivotos
+Trait2 Gourmet Research Society
+Backup 3500
+EndCard
+
+Character: BAV/W112-T05
+Name Mutsuki Asagi
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Kivotos
+Trait2 Problem Solver 68
+Cont: GiveSelf
+{
+	If MyTurn && Compare Experience 3 OrMore
+	{
+		GainPower 6000
+	}
+}
+Text Cont: EXPERIENCE During your turn, if the total level of the cards in your level is 3 or higher, this card gets +6000 power.
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: BAV/W112-T06
+Name Chinatsu Hinomiya
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 4500
+Soul 2
+Trait1 Kivotos
+Trait2 Disciplinary Committee
+*2000Assist
+*Healer
+EndCard
+
+Character: BAV/W112-T07
+Name Hina Sorasaki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Kivotos
+Trait2 Disciplinary Committee
+Combo Chairwoman of Gehenna's Disciplinary Committee
+*OnPlayDraw2Discard2BlindStock
+Auto: OnReverseOpponent
+{
+	If Climax Chairwoman of Gehenna's Disciplinary Committee && Compare Experience 4 OrMore
+	{
+		PayCost 3 Discard 1 Any
+		{
+			TargetFacing
+			MoveCard OpponentClock
+			Burn 2
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE [(3) Put 1 card from your hand into your waiting room] When this card's battle opponent becomes reversed, if "Chairwoman of Gehenna's Disciplinary Committee" is in your climax area, and the total level of the cards in your level is 4 or higher, you may pay the cost. If you do, put that character into your opponent's clock, and deal 2 damage to your opponent. 
+EndCard
+
+Climax: BAV/W112-T08
+Name Chairwoman of Gehenna's Disciplinary Committee
+*DoorClimax
+EndCard
+
+Climax: BAV/W112-T09
+Name Turning school daily life into a Small Miracle
+Color R
+*2SoulClimax
+EndCard
+
+Character: BAV/W112-T10
+Name Ayane Okusora
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage && HasTrait Kivotos
+	{
+			GainEffect
+			{
+				*HandEncore
+			}
+	}
+}
+Text Cont: Your other <Kivotos> character in the middle position of your center stage gets "Auto: ENCORE [Discard a character]".
+*Act1RestSelfDrawBrainstorm5
+EndCard
+
+Character: BAV/W112-T11
+Name Asuna Ichinose
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Cleaning & Clearing
+Auto: OnFrontalAttack
+{
+	PayCost 1
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to get -1 level
+		LoseLevel 1
+	}
+}
+Text Auto: [(1)] When this card frontal attacks, you may pay the cost. If you do, choose one of your opponent's characters and that character gets -1 level until end of turn.
+*BlueLevel0Bomb
+EndCard
+
+Character: BAV/W112-T12
+Name Kotama Otose
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Kivotos
+Trait2 Veritas
+*500Assist
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainSoul 1
+	ChooseCharacterFromTargets Choose a character to give +1 soul.
+	GainSoul 1
+}
+Text Auto: When a climax is placed in you climax area, choose one of your characters, it gets +1 soul until end of turn.
+EndCard
+
+Character: BAV/W112-T13
+Name Serika Kuromi
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If the number of cards in your hand is 5 or more, this card gets +2000 power.
+*DropSearch(Kivotos)
+EndCard
+
+Character: BAV/W112-T14
+Name Yuuka Hayase
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Kivotos
+Trait2 Seminar
+Auto: OnPlay
+{
+	If Compare CardsInHand 1 OrMore
+	{
+		Question Put a card from your hand into your stock?
+		If Yes
+		{
+			SearchLocationForTargets Hand 0 1 Any
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+*OnAttackPay1ToDoubleTrigger
+EndCard
+
+Character: BAV/W112-T15
+Name Shiroko Sunaookami
+Color B
+Level 1
+Cost 0
+Power 3500
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Combo Welcome to The Countermeasures Committee!
+*PowerOnMyTurn(3000)
+Auto: OnAttack
+{
+	If Climax Welcome to The Countermeasures Committee! && Compare Experience 2 OrMore
+	{
+		SearchWaitingRoom HasTrait Kivotos
+	}
+}
+Text Auto: CxCombo EXPERIENCE When this card attacks, if "Welcome to The Countermeasures Committee!" is in your climax area, and the total level of the cards in your level is 2 or higher, you may choose 1 <Kivotos> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: BAV/W112-T16
+Name Kotori Toyomi
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Kivotos
+Trait2 Engineering Department
+Cont: GiveSelf
+{
+	If Compare Experience 2 OrMore
+	{
+		GainPower 3000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 2 or higher, this card gets +3000 power.
+EndCard
+
+Character: BAV/W112-T17
+Name Nonomi Izayoi
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Cont: GiveSelf
+{
+	If Compare Experience 3 OrMore
+	{
+		GainPower 5000
+	}
+}
+Text Cont: EXPERIENCE If the total level of the cards in your level is 3 or higher, this card gets +5000 power.
+Auto: OnReverseOpponent
+{
+	TargetTop Deck 2
+	Message Reorder the top 2 card of your deck.
+	Reorder
+}
+Text Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+EndCard
+
+Character: BAV/W112-T18
+Name Hoshino Takanashi
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Kivotos
+Trait2 Countermeasures Committee
+Auto: OnPlay
+{
+	PayCost Rest 1 CardPosition Stand
+	{
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentRevealed
+		OpponentRefresh
+		TargetLocation OpponentRevealed
+		MoveCard OpponentWaitingRoom
+	}
+}
+Text Auto: [Rest 1 of your characters] When this card is placed on stage from your hand, you may pay the cost. If you do, your opponent chooses a climax from their waiting room and returns every card except the chosen climax back into their deck and shuffles their deck.
+Auto: OnAttack
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetAll
+		GainPower 500
+		GainSoul 1
+	}
+}
+Text Auto: [(1) Discard 1 card] When this card attacks, you may pay the cost. If you do, all of your characters get +500 power and +1 soul until end of turn.
+EndCard
+
+Event: BAV/W112-T19
+Name Arona
+Color B
+Level 2
+Cost 3
+Counter
+Effect
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to give -3 soul.
+	LoseSoul 3
+}
+Text Counter: Choose 1 of your opponent's characters, it gets -3 soul until end of turn.
+EndCard
+
+Climax: BAV/W112-T20
+Name Welcome to The Countermeasures Committee!
+*GateClimax
+EndCard

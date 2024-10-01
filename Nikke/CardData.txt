@@ -1,0 +1,894 @@
+Character: NIK/S117-031
+Name "Showtime" Blanc
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 NIKKE
+Trait2 777
+Cont: GiveSelf
+{
+	If StageContains 1 Other NameEquals "Finale" Noir
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If you have another {3/2 Noir Below}, this gets +2000 power.
+Auto: OnPlay
+{
+	*OptionalDraw 
+	TargetSelf
+	GainPower 2000
+}
+Text Auto: When this is placed on stage from hand, draw up to 1 card, and this turn, this gets +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 2 Any
+	{
+		Message Choose up to 3 cards to return to your opponent's deck
+		AIChoice If Not IsClimax
+		SearchLocationForTargets OpponentWaitingRoom 0 3 Any
+		RevealTargets
+		MoveCard OpponentDeck
+		ShuffleLocation OpponentDeck
+	}
+}
+Text Auto: [Discard 2 cards] When this is placed on stage from hand, you may pay cost. If you do, choose up to 3 cards in your opponent’s Waiting Room, your opponent Shuffles them into their deck.
+EndCard
+
+Character: NIK/S117-032
+Name "Finale" Noir
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 NIKKE
+Trait2 777
+Auto: OnPlay
+{
+	TargetLocation Stage
+	GainSoul 1
+}
+Text Auto: When this is placed on stage from hand, this turn, all of your characters currently on stage gets +1 Soul.
+Auto: OnSpecificClimaxPlay Bunny X 777
+{
+	If StageContains 1 Other && NameEquals "Showtime" Blanc
+	{
+		// CX Replacement Effect
+		TargetSelf
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				OverrideTriggerIconEffect Shot
+				{
+					Effect: 
+					{	
+						// Determine base repeat for support
+						TargetLocation Stage
+						NarrowTargets NameEquals Noir: Black Rabbit
+						SetXValue TargetCount
+
+						Question_Obvious Did you trigger a SHOT? (Original trigger, not an added trigger)
+						If Yes
+						{
+							AddToXValue 1
+						}
+						If No
+						{
+							TargetMyCharacterInBattle
+							GainSoul -1
+						}
+
+						// Burn block
+						MultipleChoiceQuestion Choose the amount for the SHOT burn. (SIM WORKAROUND) \n1. Burn 2 \n2. Burn 3 \n3. Burn 4 |Burn 2|Burn 3|Burn 4
+						If Answer 0
+						{
+							TargetMyCharacterInBattle
+							GainEffect
+							{
+								Auto: OnDamageCancel
+								{
+									Repeat X
+									{
+										Burn 2
+									}
+								}
+								TimesPerTurn 1
+							}
+						}
+						If Answer 1
+						{
+							TargetMyCharacterInBattle
+							GainEffect
+							{
+								Auto: OnDamageCancel
+								{
+									Repeat X
+									{
+										Burn 3
+									}
+								}
+								TimesPerTurn 1
+							}
+						}
+						If Answer 2
+						{
+							TargetMyCharacterInBattle
+							GainEffect
+							{
+								Auto: OnDamageCancel
+								{
+									Repeat X
+									{
+										Burn 4
+									}
+								}
+								TimesPerTurn 1
+							}
+						}
+					}
+				}
+			}
+			Text Cont: Increase the damage dealt by your Shot Trigger effects by 1.
+		}
+
+		// Moca effect
+		TargetLocation Stage
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				Peek Deck 2
+				If HasTarget
+				{
+					Message Choose the cards to put back on top. 
+					AIChoice If Not IsClimax
+					ChooseCardsFromTargets 0 2 Any
+					MoveCard Deck
+					Reorder
+					PutTheRestIntoTheWaitingRoom
+				}
+			}
+			Text Auto: When this attacks, look at up to 2 cards from the top of your deck, choose up to 2 cards from among them, place them on top of your deck in any order, and send the rest to Waiting Room.
+		}
+	}
+}
+Text Auto: {CX Combo} When the Bar CX is placed in your CX Area, if you have another {3/2 Blanc Above}, this turn, this gains the following ability, "CONT - Increase the damage dealt by your Shot Trigger effects by 1." This turn, all of your characters currently on stage gains the following ability, "AUTO - When this attacks, look at up to 2 cards from the top of your deck, choose up to 2 cards from among them, place them on top of your deck in any order, and send the rest to Waiting Room."
+EndCard
+
+Character: NIK/S117-060
+Name "Mysterious World" Alice
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 NIKKE
+Trait2 Unlimited
+*EarlyPlay4OrMore(NIKKE)
+Cont: GiveSelf
+{
+	If Not StageContains 1 Not HasTrait NIKKE
+	{
+		GainPower 2000
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				Question Put the reversed battle opponent on top of your opponent's deck?
+				If Yes
+				{
+					TargetBattleOpponent
+					MoveCard OpponentDeck
+				}
+			}
+			Text Auto: When this card's battle opponent is reversed, you may send that character to the top of your opponent's deck.
+		}
+	}
+}
+Text Cont: If all of your characters are <NIKKE>, this gets +2000 power and the following ability, "AUTO - When this card's battle opponent is Reversed, you may send that character to the top of your opponent's deck."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock
+		MoveCard Hand
+	}
+}
+Text Auto: [Discard 1 card] When this is placed on stage from hand, you may pay cost. If you do, return the top card of your Clock to your hand.
+EndCard
+
+Character: NIK/S117-063
+Name Ludmilla: Winter Owner
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Soul 1
+Trait1 NIKKE
+Trait2 Unlimited
+Auto: OnPlay
+{
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 of your characters.
+	GainPower 1500
+}
+Text Auto: When this is placed on stage from hand, choose up to 2 of your characters, this turn, they get +1500 power.
+Act: 
+{
+	PayCost SendSelf Stock 
+	{
+		TargetBottom Stock 1
+		MoveCard WaitingRoom
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to return to your opponent's hand.
+		Bounce
+	}
+}
+Text Act: [Send this to Stock, Send the bottom card of your Stock to Waiting Room] Choose 1 of your opponent's characters, return it to hand.
+EndCard
+
+Character: NIK/S117-087
+Name "Lost Paradise" Dorothy
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 NIKKE
+Trait2 Inherit
+*Healer
+Auto: OnSpecificClimaxPlay OVER ZONE
+{
+	PayCost 1
+	{
+		GainEffect
+		{
+			Cont: GiveAllYourCards
+			{
+				If HasTrigger Soul
+				{
+					GainTriggerIcon LoneShot
+				}
+			}
+			Text Cont: All of your other cards with Soul Trigger in any area gains Shot Trigger.
+		}
+
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				Peek Deck 2
+				If HasTarget
+				{
+					Message Choose the cards to put back on top. 
+					ChooseCardsFromTargets 0 2 Any
+					MoveCard Deck
+					Reorder
+					PutTheRestIntoTheWaitingRoom
+				}
+			}
+			Text Auto: When this attacks, look at up to 2 cards from the top of your deck, choose up to 2 cards from among them, place them on top of your deck in any order, and send the rest to Waiting Room.
+		}
+	}
+}
+Text Auto: {CX Combo} (1) When the Pants CX is placed on your CX Area, if this is in your front row, you may pay cost. If you do, this turn, this gets +3000 power and the following 2 abilities, "CONT - All of your other cards with Soul Trigger in any area gains Shot Trigger." "AUTO - When this attacks, look at up to 2 cards from the top of your deck, choose 1 card among them, put it back on top of your deck, and send the rest to Waiting Room."
+EndCard
+
+Character: NIK/S117-P01
+Name Pursuit of Firepower, Neon
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 NIKKE
+Trait2 Counters
+ConditionalTrigger LoneShot LocationContains Climax 1 HasTrigger Shot
+Text Cont: If there is a climax card with a Shot trigger icon in your climax area, this card in all of your zones get the Shot trigger icon.
+Act: Discard 1 Any SendSelf BottomOfDeck
+{
+	SearchDeck HasTrait NIKKE
+}
+Text Act: [Discard 1 card, send this to the bottom of your deck] Search your deck for up to 1 <NIKKE> character, show it to your opponent, add it to hand, and shuffle your deck afterwards.
+EndCard
+
+Character: NIK/S117-P02
+Name "Snakebite" Viper
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 NIKKE
+Trait2 Exotic
+Auto: OnPlay
+{
+	SearchLocationForTargets WaitingRoom 0 1 HasTrait NIKKE
+	Marker_FaceUp
+	
+}
+Text Auto: When this is placed on stage from hand, you may choose 1 <NIKKE> character from your Waiting Room, and place it underneath this card face-up as a Marker.
+Auto: OnSpecificClimaxPlay D-OUTSIDERS
+{
+	If StageContains 2 Other && HasTrait NIKKE
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait NIKKE
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: {CX Combo} When the Shot CX is placed on your CX Area, if you have 2 or more other characters, reveal the top card of your deck. If that card is a <NIKKE> character, add it to hand.
+Cont: GiveSelf
+{
+	If MyTurn && HasMarker
+	{
+		GainEffect
+		{
+			Auto: OnSentFromStageToWaitingRoom
+			{
+				If StageContains 1 Other && HasTrait NIKKE
+				{
+					Question Return this card to its former slot?
+					If Yes
+					{
+						Revive
+					}
+				}
+			}
+		}
+	}
+}
+Text Cont: During your turn, when this card with a marker underneath is sent from stage to waiting room, if you have another <NIKKE> character, you may place this card in this card's former slot rested.
+EndCard
+
+Character: NIK/S117-P04
+Name Mood Maker, Anis
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 NIKKE
+Trait2 Counters
+Auto: OnPlay
+{
+	TargetLocation Stage
+    NarrowTargets HasTrait NIKKE
+    SetXValue TargetCount
+    MultiplyXValue 1000
+    TargetSelf
+    GainPower X
+}
+Text Auto: When this is placed on stage from hand, this turn, this gets +X power. X equals the number of your <NIKKE> characters times 1000.
+Auto: OnOpponentReverse
+{
+	PayCost 2 Discard 2 Any
+	{
+		Burn 5
+	}
+}
+Text Auto: [(2) Discard 2 cards] When this card's battle opponent is Reversed, you may pay cost. If you do, deal 5 damage to your opponent.
+EndCard
+
+Character: NIK/S117-P05
+Name Blanc: White Rabbit
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 NIKKE
+Trait2 777
+Cont: GiveSelf
+{
+	If MyTurn
+	{
+		If StageContains 2 Other && HasTrait NIKKE
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <NIKKE> characters, this gets +2000 power.
+Auto: OnAttack
+{
+	If Climax Bunny X 777
+	{
+		If StageContains 1 Other && HasTrait NIKKE
+		{
+			Mill 2
+			SetXValue TotalLevel
+			SearchWaitingRoom HasTrait NIKKE && Compare ThatCardsLevel X OrLower
+		}
+	}
+}
+Text Auto: {CX COMBO} When this attacks, if you have the Bar CX in the CX Area, and you have another <NIKKE> character, mill 2, then choose up to 1 Level X or lower <NIKKE> character from your Waiting Room, and add it to hand. X equals the sum of Levels of cards milled by this effect.
+EndCard
+
+Character: NIK/S117-P06
+Name Noir: Black Rabbit
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 NIKKE
+Trait2 777
+Cont: GiveAllYourCards
+{
+	If IsClimax &&& Not InLocation Climax
+	{
+		TargetLocation Climax
+		IfTarget HasTrigger Bar
+		{
+			GainTriggerIcon Shot
+		}
+	}
+}
+Text Cont: If a CX with a Bar Trigger is in your CX Area, all of your other CXes in any area gains Shot Trigger.
+*1500Assist
+EndCard
+
+Character: NIK/S117-P07
+Name Noise: Classic Diva
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 NIKKE
+Trait2 Prima Donna
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		GainPower 1000
+		UntilEndOfOpponentsTurn
+		BlockOpponentEvents
+	}
+}
+Text Auto: (1) When this is placed on stage from hand, you may pay cost. If you do, this turn, this gets +1000 power, and until the end of your opponent's next turn, your opponent cannot play Events from hand.
+Auto: OnAttack
+{
+	If StageContains 4 Other && HasTrait NIKKE
+	{
+		UntilEndOfOpponentsTurn
+		GainPower 4000
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotSideAttack
+			}
+			Text Cont: The character facing this card cannot side attack.
+		}
+	}
+}
+Text Auto: When this attacks, if you have 4 or more other <NIKKE> characters, until the end of your opponent's next turn, this gets +4000 power and the following ability, "AUTO - The character across from this cannot Side Attack."
+EndCard
+
+Character: NIK/S117-P08
+Name "Cleaning Maid" Soda
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+Trait2 Maid For You
+Auto: OnPlay
+{
+	PayCost Discard 1 IsClimax && HasTrigger Gate
+	{
+		RevealUpTo Deck 6
+        ChooseCardsFromTargets 0 1 HasTrait NIKKE
+		RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+	}
+}
+Text Auto: [Discard 1 CX with a Pants Trigger] When this is placed on stage from hand, you may pay cost. If you do, look at up to 6 cards from the top of your deck, choose up to 1 <NIKKE> character from among them, show it to your opponent, add it to hand, send the rest to Waiting Room.
+EndCard
+
+Character: NIK/S117-P09
+Name "AZX" Brid
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 NIKKE
+Trait2 Infinity Rail
+Auto: OnPlay
+{
+	If StageContains 1 Other HasTrait NIKKE
+	{
+		GainPower 2000
+	}
+}
+Text Auto: When this is placed on stage from hand, if you have another <NIKKE> character, this turn, this gets +2000 power.
+Auto: OnAttack
+{
+	If LocationContains Climax 1 HasTrigger Gate && IsClimax
+	{
+		Message Choose a character to return to your hand
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When this attacks, if you have a CX with a Pants Trigger in your CX Area, choose up to 1 character in your Waiting Room, add it to hand, then discard 1 card.
+EndCard
+
+Character: NIK/S117-P10
+Name Dorothy: Nostalgia
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 NIKKE
+Trait2 Inherit
+*MemoryBackup
+Backup 3000
+EndCard
+
+Character: NIK/S117-T02
+Name "Pinpoint Missle" Anis
+Color Y
+Level 0
+Cost 0
+Trigger Soul
+Power 500
+Trait1 NIKKE
+Trait2 Counters
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other && HasTrait NIKKE
+	{
+		GainSpecialEffect CannotStand
+	}
+}
+Text Cont: If you do not have another <NIKKE> character, this does not Stand during your Stand Phase.
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+	}
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+EndCard
+
+Character: NIK/S117-T14
+Name Honed Sword Technique, Scarlet
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 NIKKE
+Trait2 Pioneer
+Auto: OnPlay
+{
+	TargetLocation Clock
+	SetXValue TargetCount
+	MultiplyXValue 500
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this is placed on stage from hand, this turn, this gets +X power. X equals the number of cards in your Clock times 500.
+Auto: OnPlay
+{
+	PayCost StockClock
+    {
+        RevealUpTo Deck 6
+        ChooseCardsFromTargets 0 1 HasTrait NIKKE
+		RevealTargets
+        MoveCard Hand
+        PutTheRestIntoTheWaitingRoom
+		TargetTop Deck 2
+		Message Rearrange the top 2 cards of your deck.
+		Reorder
+    }
+}
+Text Auto: [Put the top card of your Stock into Clock] When this is placed on stage from hand, you may pay cost. If you do, look at up to 6 cards from the top of your deck, choose up to 1 <NIKKE> character from among them, show it to your opponent, add it to hand, send the rest to Waiting Room, then look at up to 2 cards from the top of your deck, and put them back on top in any order. 
+EndCard
+
+Character: NIK/S117-T16
+Name "Self-Sacrifice" Emma
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 NIKKE
+Trait2 Absolute
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue TargetCount
+	MultiplyXValue 1000
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this is placed on stage from hand, this turn, this gets +X power. X equals the number of your opponent's characters times 1000.
+Auto: OnAttack
+{
+	SearchLocationForTargets Climax 0 1 IsClimax
+	MoveCard Stock
+}
+Text Auto: When this attacks, choose 1 CX in your CX Area, you may send it to Stock.
+EndCard
+
+Character: NIK/S117-T21
+Name "New World" Modernia
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 NIKKE
+Trait2 Heretic
+Auto: OnPlay
+{
+	SearchLocationForTargets Hand 0 1 Compare ThatCardsLevel MyLevel OrLess && IsCharacter
+	If HasTarget
+	{
+		RevealTargets
+		PlaceOnStage False True True False
+		GainPower 2000
+	}
+}
+Text Auto: When this is placed on stage from hand, choose up to 1 character from your hand whose level is equal or lower than your level, place it on stage in any slot, and this turn, that character gets +2000 power.
+Auto: OnAttack
+{
+	PayCost Discard 2 Any
+	{
+		MillOpponentBottom 4
+		NarrowTargets IsClimax
+		SetXValue TargetCount
+		Burn X
+	}
+}
+Text Auto: [Discard 2 cards] When this attacks, you may pay cost. If you do, send the bottom 4 cards of your opponent's deck to Waiting Room, then deal X damage to your opponent. X equals the number of CXes sent to Waiting Room by this effect.
+EndCard
+
+Character: NIK/S117-X01
+Name Placeholder CX Swap
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*ClimaxExchange
+EndCard
+
+Character: NIK/S117-X05
+Name Placeholder CX Swap
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*ClimaxExchange
+EndCard
+
+Character: NIK/S117-X09
+Name Placeholder CX Swap
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*ClimaxExchange
+EndCard
+
+Character: NIK/S117-X13
+Name Placeholder CX Swap
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*ClimaxExchange
+EndCard
+
+Character: NIK/S117-X02
+Name Placeholder Salvage Brainstorm
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: NIK/S117-X06
+Name Placeholder Salvage Brainstorm
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: NIK/S117-X10
+Name Placeholder Salvage Brainstorm
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: NIK/S117-X14
+Name Placeholder Salvage Brainstorm
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: NIK/S117-X03
+Name Placeholder Search Brainstorm
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSearchBrainstorm(NIKKE)
+EndCard
+
+Character: NIK/S117-X07
+Name Placeholder Search Brainstorm
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSearchBrainstorm(NIKKE)
+EndCard
+
+Character: NIK/S117-X11
+Name Placeholder Search Brainstorm
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSearchBrainstorm(NIKKE)
+EndCard
+
+Character: NIK/S117-X15
+Name Placeholder Search Brainstorm
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 NIKKE
+*Act1RestSelfSearchBrainstorm(NIKKE)
+EndCard
+
+Character: NIK/S117-X04
+Name Placeholder 4K
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 NIKKE
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: Encore [(2)]".
+EndCard
+
+Character: NIK/S117-X08
+Name Placeholder 4K
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 NIKKE
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: Encore [(2)]".
+EndCard
+
+Character: NIK/S117-X12
+Name Placeholder 4K
+Color R
+Level 0
+Cost 0
+Power 4000
+Trait1 NIKKE
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: Encore [(2)]".
+EndCard
+
+Character: NIK/S117-X16
+Name Placeholder 4K
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 NIKKE
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: Encore [(2)]".
+EndCard
+
+Climax: NIK/S117-X17
+Name D-OUTSIDERS
+*ShotClimax
+EndCard
+
+Climax: NIK/S117-X18
+Name Bunny X 777
+*BarClimax
+EndCard
+
+Climax: NIK/S117-X19
+Name OVER ZONE
+*GateClimax
+EndCard

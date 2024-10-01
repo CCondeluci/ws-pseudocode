@@ -1,0 +1,861 @@
+Character: DD/WE12-01
+Name Leonmitchelli Galette des Rois
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Animal
+Trait2 Royalty
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		*GiveCharacterPower(2000,Animal)
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 of your <Animal> characters, it gets +2000 power until end of turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+	PayCost 2
+	{
+		SearchDeck HasTrait Animal
+	}
+}
+Text Auto: [(2)] When this card is put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 <Animal> character, and put it into your hand.
+EndCard
+
+Character: DD/WE12-02
+Name Prince of Galette, Gaul
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Animal
+Trait2 Royalty
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 1500
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +1500 power until the end of your opponent's turn.
+EndCard
+
+Character: DD/WE12-03
+Name Fair and Square, Leo
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Animal
+Trait2 Royalty
+Auto: OnOpponentCardSentFromWaitingRoomToHand
+{
+	IfOther IsCharacter
+	{
+		*GiveOtherCharacterPower(2000,Any)
+	}
+}
+Text Auto: When a character is returned from your opponent's waiting room to his or her hand, choose 1 of your characters. It gets +2000 power until end of turn.
+Act: RestSelf
+{
+	*GiveCharacterPower(1500,Animal)
+}
+Text Act: [Rest this card] Choose 1 of your <Animal> characters. It gets +1500 power until end of turn.
+EndCard
+
+Character: DD/WE12-04
+Name Unrivaled Battle, Leo
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Animal
+Trait2 Royalty
+Combo Lion King Explosion
+Auto: OnAttack
+{
+	If Climax Lion King Explosion
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			RevealTargets
+			MoveCard Hand
+			TargetTop Deck 1
+			MoveCard Clock
+		}
+	}
+}
+Text Auto: CxCombo [(1)] When this card attacks, if "Lion King Explosion" is in your climax area, you may pay the cost. If you do, choose a card in your clock, return it to your hand, and put the top card of your deck into your clock.
+*HandEncore
+EndCard
+
+Character: DD/WE12-05
+Name "Lion King" Leo
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Animal
+Trait2 Royalty
+*GreatPerformance
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchWaitingRoom NameEquals Grandvert, Magic Battleaxe
+	}
+}
+Text Auto: [Discard  a card] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Grandvert, Magic Battleaxe" in your waiting room, and return it to your hand.
+EndCard
+
+Character: DD/WE12-06
+Name Solitary Charge, Leo
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Animal
+Trait2 Royalty
+Cont: GiveSelf
+{
+	If Not StageContains 1 Other
+	{
+		GainPower 1500
+		GainSpecialEffect CannotBeReversedByAutoEffects
+	}
+}
+Text Cont: If you have no other characters, this card gets +1500 power and cannot be reversed by your opponent's auto effects.
+EndCard
+
+Character: DD/WE12-07
+Name "Genoise" Jaune
+Color G
+Level 0
+Cost 0
+Power 3000
+Trait1 Animal
+Trait2 Weapon
+EndCard
+
+Character: DD/WE12-08
+Name "Genoise" Vert
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Animal
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 1000
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +1000 power.
+EndCard
+
+Character: DD/WE12-09
+Name Gaul Galette des Rois
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Animal
+Trait2 Royalty
+*GainPowerForEachOther(500,Animal)
+EndCard
+
+Character: DD/WE12-10
+Name Silent Determination, Leo
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Animal
+Trait2 Royalty
+Backup 3000
+EndCard
+
+Character: DD/WE12-11
+Name Personal Attendant, Violet
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Animal
+Cont: GiveAll
+{
+	If Other && InLocation MiddleCenterStage
+	{
+		GainPower 2000
+	}
+}
+Text Cont: Your other character in the middle position of your center stage gets +2000 power.
+*ClockShift(2,green)
+EndCard
+
+Character: DD/WE12-12
+Name Sudden Declaration of War, Leo
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Animal
+Trait2 Royalty
+Combo Magic God Optical Flash
+Auto: OnPlay
+{
+	If LocationContains OpponentWaitingRoom 1 IsCharacter
+	{
+		OpponentMessage You may return a character from your waiting room to your hand.
+		AIChoice AddToHand
+		OpponentSearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, your opponent may choose a character in their waiting room and return it to their hand.
+Auto: OnSpecificClimaxPlay Magic God Optical Flash
+{
+	If InLocation CenterStage
+	{
+		PayCost 2 Discard 1 Any
+		{
+			SearchLocationForTargets Clock 1 1 HasTrait Animal && Compare ThatCardsLevel MyLevel OrLower
+			PlaceOnStage False True True False
+		}
+	}
+}
+Text Auto: CxCombo [(2) Discard a card] When "Magic God Optical Flash" is placed on your climax area, if this card is on your center stage, you may pay the cost. If you do, choose 1 <Animal> character in your clock, and put it on any position of your stage.
+EndCard
+
+Event: DD/WE12-13
+Name Grandvert, Magic Battleaxe
+Color G
+Level 1
+Cost 0
+Effect:
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to give +2000 power until end of opponent's turn.
+	UntilEndOfOpponentsTurn
+	GainPower 2000
+}
+Text Choose 1 of your characters. It gets +2000 power until the end of your opponent's turn.
+EndCard
+
+Climax: DD/WE12-14
+Name Lion King Explosion
+Color G
+*DrawClimax
+EndCard
+
+Climax: DD/WE12-15
+Name Magic God Optical Flash
+*BarClimax
+EndCard
+
+Character: DD/WE12-16
+Name "Hero Express" Cinque
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Hero
+Trait2 Sports
+Auto: OnFrontalAttacked
+{
+	PayCost 2 Clock
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Animal
+		ChooseCharacterFromTargets Choose another <Animal> character to return to your hand.
+		AddSelfToTargets
+		Bounce
+	}
+}
+Text Auto: [(2) Put the top card of your deck into your clock] When this card is frontal attacked, you may pay the cost. If you do, choose one of your other <Animal> characters and this card, and return them to your hand.
+EndCard
+
+Character: DD/WE12-17
+Name Summon Lord, Millhi
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Animal
+Trait2 Music
+*GlobalPower(500,Animal|Hero)
+Auto: OnOtherReversed
+{
+	IfOther NameEquals Cinque Izumi
+	{
+		TargetOther
+		PayCost 1
+		{
+			IfTarget OnStage
+			{
+				MoveCard Memory
+			}
+		}
+	}
+}
+Text Auto: [(1)] When your other "Cinque Izumi" becomes reversed, you may pay the cost. If you do, put that character into your memory.
+Act: 3 RestSelf Discard 1 NameEquals Hero's Arrival!
+{
+	SearchLocationForTargets WaitingRoom 1 1 NameEquals Cinque Izumi
+	PlaceOnStage False True True False
+}
+Text Act: [(3) Discard 1 "Hero's Arrival!" and rest this card] Choose 1 "Cinque Izumi" in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: DD/WE12-18
+Name Freedom Knight, Dalkian
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Animal
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	If StageContains 3 HasTrait Animal|Hero
+	{
+		SetXValue MyLevel
+		MultiplyXValue 500
+		TargetMyCharacterInBattle
+		GainPower X
+	}
+}
+Quick
+Text Auto: When you use this card's "BACKUP" if the number of <Animal> or <Hero> characters you have is 3 or more, your character in battle gets +X power until end of turn. X is 500 times the number of cards in your level.
+Backup 1500
+EndCard
+
+Character: DD/WE12-19
+Name Lord's Determination, Millhi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Animal
+Trait2 Music
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Animal
+	{
+		GainEffect
+		{
+			Act: 2 RestSelf
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals Cinque Izumi
+				FirstTarget
+				PlaceOnStage False True True False
+			}
+			Text Act: [(2) Rest this card] Choose 1 "Cinque Izumi" in your memory, and place it on any position of your stage.
+		}
+	}
+}
+Text Cont: If you have 3 or more other <Animal> characters, this card gets the following ability. "Auto: [(2) Rest this card] Choose 1 "Cinque Izumi" in your memory, and place it on any position of your stage."
+*1000Assist
+EndCard
+
+Character: DD/WE12-20
+Name Ricotta Elmar
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Animal
+Trait2 Science
+Combo Rico's Support
+Auto: OnSpecificClimaxPlay Rico's Support
+{
+	If InLocation CenterStage
+	{
+		PayCost 1
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 1 OrLower
+			ChooseCharacterFromTargets Choose a character to put into the waiting room.
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo When "Rico's Support" is placed on your climax area, if this card is on your center stage, you may pay the cost. If you do, choose 1 of your opponent's level 1 or lower characters, and put it into the waiting room.
+Act: Rest 2 HasTrait Animal
+{
+	*GiveCharacterPower(1500,Any)
+}
+Text Act: [Rest 2 of your <Animal> characters] Choose 1 of your characters, it gets +1500 power until end of turn.
+EndCard
+
+Character: DD/WE12-21
+Name Eclair Martinozzi
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Animal
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If StageContains 3 Other && HasTrait Animal
+	{
+		GainEffect
+		{
+			*HandEncore
+		}
+	}
+}
+Text Cont: If you have 3 or more other <Animal> characters, this card gets "Auto: ENCORE [Discard a character]".
+*OnPlayGainPowerForEach(500,Animal)
+EndCard
+
+Character: DD/WE12-22
+Name Millhiore Firianno Biscotti
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Animal
+Trait2 Music
+*Healer
+Auto: OnReverseOpponent
+{
+	PayCost 2
+	{
+		Burn 1
+	}
+}
+Text Auto: [(2)] When this card's battle opponent becomes reversed, you may pay the cost. If you do, deal 1 damage to your opponent.
+EndCard
+
+Character: DD/WE12-23
+Name Lord of Biscotti, Millhi
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Animal
+Trait2 Music
+*500Assist
+Auto: OnPlay
+{
+	PayCost 2
+	{
+		SearchWaitingRoom HasTrait Hero
+	}
+}
+Text Auto: [(2)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Hero> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: DD/WE12-24
+Name Head of the Secret Squad, Yukikaze
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Animal
+Trait2 God
+*RedLevel0Bomb
+Auto: StartOpponentAttackPhase
+{
+	PayCost 1
+	{
+		*GiveOtherCharacterPower(1500,Hero)
+	}
+}
+Text Auto: [(1)] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your other <Hero> characters. It gets +1500 power until end of turn.
+EndCard
+
+Character: DD/WE12-25
+Name Captain of the Lop-Eared Squad, Ecle
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Animal
+Trait2 Weapon
+Auto: OnAttack
+{
+	*GiveOtherCharacterPower(1000,Hero)
+}
+Text Auto: When this card attacks, choose 1 of your other <Hero> characters. It gets +1000 power until end of turn.
+Act: SendSelf WaitingRoom
+{
+	*GiveCharacterPower(2000,Hero)
+}
+Text Act: [Put this card into the waiting room] Choose 1 of your <Hero> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: DD/WE12-26
+Name Loves Machines! Rico
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Animal
+Trait2 Science
+*ClockShift(0,red)
+Act: 1
+{
+	TargetLocation OpponentCenterStage
+	NarrowTargets Compare ThatCardsLevel 0 OrLower
+	ChooseCharacterFromTargets Choose a character to put into the waiting room.
+	MoveCard OpponentWaitingRoom
+}
+Text Act: [(1)] Choose a level 0 or lower character on your opponent's center stage, and put it into the waiting room.
+EndCard
+
+Character: DD/WE12-27
+Name Proxy Operation, Millhi
+Color R
+Level 0
+Cost 0
+Power 2500
+Trait1 Animal
+Trait2 Music
+Cont: GiveSelf
+{
+	If LocationContains Clock 1 NameEquals Ricotta Elmar
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If "Ricotta Elmar" is in your clock, this card gets +2000 power.
+EndCard
+
+Character: DD/WE12-28
+Name Looking On, Millhi
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Animal
+Trait2 Music
+EndCard
+
+Character: DD/WE12-29
+Name Chief Researcher, Rico
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Animal
+Trait2 Science
+Auto: StartOpponentAttackPhase
+{
+	If StageContains 1 Other && NameContains Millhi
+	{
+		Question Exchange "Rico, Chielf Researcher" with a character with "Millhi" in its name?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets Other && NameContains Millhi
+			ChooseCharacterFromTargets Choose a charaacter to exchange this with.
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 of your other characters with "Millhi" in its name and this card, and exchange them as standing.
+EndCard
+
+Character: DD/WE12-30
+Name Summon Hero, Cinque
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Hero
+Trait2 Sports
+Auto: OnFrontalAttacked
+{
+	Question Put the top card of your deck into the waiting room.
+	If Yes
+	{
+		Mill 1
+		IfTarget IsClimax
+		{
+			TargetSelf
+			TargetFacing
+			IfTarget CanBeChosen
+			{
+				LoseSoul 1
+			}
+		}
+	}
+}
+Text Auto: When this card is frontal attacked, you may put the top card of your deck into the waiting room. If it is a climax, choose a character facing this card, it gets -1 soul until end of turn.
+EndCard
+
+Character: DD/WE12-31
+Name Praetorian Guard Captain, Ecle
+Color R
+Level 1
+Cost 0
+Power 5500
+Trait1 Animal
+Trait2 Weapon
+EndCard
+
+Character: DD/WE12-32
+Name Encounter at the Bath! Millhi
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Animal
+Trait2 Music
+Cont: GiveSelf
+{
+	If Compare CardsInStock 3 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If there are 3 or fewer cards in your stock, this card gets +1000 power.
+EndCard
+
+Character: DD/WE12-33
+Name Cinque Izumi
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Animal
+Trait2 Sports
+Auto: OnSentFromStageToWaitingRoom
+{
+	TargetTop Deck 1
+	MoveCard Clock
+}
+Text Auto: When this card is put into your waiting room from the stage, put the top card of your deck into your clock.
+EndCard
+
+Event: DD/WE12-34
+Name Monster Ball
+Color R
+Level 1
+Cost 2
+Counter
+Effect:
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Animal
+	ChooseCharactersFromTargets 1 2 Choose up to 2 characters to give the ability to.
+	GainEffect
+	{
+		*FreeEncore
+	}
+}
+Text Counter: Choose up to 2 of your <Animal> characters. They get the following ability until end of turn. "Auto: When this card is put into your waiting room from the stage, you may return this card to it's previous stage position rested."
+EndCard
+
+Climax: DD/WE12-35
+Name Hero's Arrival!
+*DoorClimax
+EndCard
+
+Climax: DD/WE12-36
+Name Rico's Support
+Color R
+*DrawClimax
+EndCard
+
+
+Character: DD/WE12-T01
+Name Talented With Weapons, Leo
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Animal
+Trait2 Royalty
+Act: Rest 2 Any
+{
+	GainPower 2000
+}
+Text Act: [Rest 2 of your characters] This card gets +2000 power until end of turn.
+EndCard
+
+Character: DD/WE12-T02
+Name "Genoise" Noir
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Animal
+Trait2 Book
+EndCard
+
+Character: DD/WE12-T03
+Name Guard Maid, Rouge
+Color G
+Level 1
+Cost 1
+Power 6500
+Trait1 Animal
+Trait2 Maid
+Auto: Encore 2
+{
+}
+Text Auto: ENCORE [(2)]
+EndCard
+
+Character: DD/WE12-T04
+Name Knight of the King of Beasts, Leo
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Animal
+Trait2 Royalty
+*OnPlayDraw2Discard1
+Act: 1
+{
+	GainPower 2000
+}
+Text Act: [(1)] Thus card gets +2000 power until end of turn.
+EndCard
+
+Character: DD/WE12-T05
+Name Secretary to the Princess, Amelita
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Animal
+Trait2 Glasses
+*500Assist
+EndCard
+
+Character: DD/WE12-T06
+Name Head of the Maids, Rizel
+Color R
+Level 0
+Cost 0
+Power 3000
+Trait1 Animal
+Trait2 Maid
+EndCard
+
+Character: DD/WE12-T07
+Name Millhi's Hero, Cinque
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7500
+Soul 2
+Trait1 Hero
+Trait2 Sports
+Combo Holy Sabre
+Auto: OnAttack
+{
+	If Climax Holy Sabre
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom IsCharacter
+			TargetSelf
+			GainPower 3000
+		}
+	}
+}
+Text: Auto: CxCombo [(1)] When this card attacks, if "Holy Sabre" is in your climax area, you may pay the cost. IF you do, choose a character in your waiting room, return it to your hand, and this card gets +3000 power until end of turn.
+*HandEncore
+EndCard
+
+Climax: DD/WE12-T08
+Name Holy Sabre
+Color R
+*OldStockSoul
+EndCard
+
+Climax: DD/WE12-T09
+Name Definitely In Love
+Color R
+*2SoulClimax
+EndCard
+
+
+Character: DD/WE12-53
+Name Princess Lord, Millhi
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Animal
+Trait2 Music
+Cont: GiveSelf
+{
+	If Compare CardsInClock 4 OrLess
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If the number of cards in your stock is 4 or less, this card gets +1000 power.
+EndCard
+
+Character: DD/WE12-54
+Name Riko in Maid Outfit
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Animal
+Trait2 Maid
+*Revenge(1000)
+*HandEncore
+EndCard
+
+Character: DD/WE12-55
+Name Biscotti's Songstress, Millhi
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 8000
+Trait1 Animal
+Trait2 Music
+Act: Rest 1 HasTrait Music
+{
+	GainPower 1000
+}
+Text Act: [Rest 1 of your <Music> characters] This card gets +1000 power until end of turn.
+EndCard
+
+
+
+
+
+
+
+
+
+
+
